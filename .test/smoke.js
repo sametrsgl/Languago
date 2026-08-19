@@ -8,11 +8,19 @@ const { JSDOM } = require("jsdom");
 const ASSETS = "C:/Users/Samet Tıraşoğlu.DESKTOP-V1NEC06/synth-app/english-word-coach/android/app/src/main/assets";
 const html = fs.readFileSync(path.join(ASSETS, "index.html"), "utf8");
 const wordsJs = fs.readFileSync(path.join(ASSETS, "words.js"), "utf8");
+const gA1 = fs.readFileSync(path.join(ASSETS, "grammar_a1.js"), "utf8");
+const gA2 = fs.readFileSync(path.join(ASSETS, "grammar_a2.js"), "utf8");
+const gB1 = fs.readFileSync(path.join(ASSETS, "grammar_b1.js"), "utf8");
+const gB2 = fs.readFileSync(path.join(ASSETS, "grammar_b2.js"), "utf8");
 const appJs = fs.readFileSync(path.join(ASSETS, "app.js"), "utf8")
   .replace(/\$\$/g, "_qq").replace(/\$/g, "_q");
 
 const injected = html
   .replace('<script src="words.js"></script>', "<script>" + wordsJs + "</script>")
+  .replace('<script src="grammar_a1.js"></script>', "<script>" + gA1 + "</script>")
+  .replace('<script src="grammar_a2.js"></script>', "<script>" + gA2 + "</script>")
+  .replace('<script src="grammar_b1.js"></script>', "<script>" + gB1 + "</script>")
+  .replace('<script src="grammar_b2.js"></script>', "<script>" + gB2 + "</script>")
   .replace('<script src="app.js"></script>', "<script>" + appJs + "</script>");
 
 const dom = new JSDOM(injected, {
@@ -51,7 +59,7 @@ ok(!!d.querySelector(".hero h2"), "home hero rendered");
 ok(!!d.querySelector(".wod-word"), "word-of-the-day rendered");
 ok(!!d.querySelector(".wod-tr"), "word-of-the-day shows Turkish translation");
 ok(!!d.querySelector(".wod-def"), "word-of-the-day shows English definition");
-ok(d.querySelectorAll(".tab").length === 5, "5 tabs present (incl. Tekrar)");
+ok(d.querySelectorAll(".tab").length === 6, "6 tabs present (incl. Dilbilgisi)");
 
 console.log("== sets list ==");
 click('.tab[data-tab="sets"]');
@@ -152,16 +160,106 @@ ok(!!d.querySelector(".wod-tr"), "Turkish visible after toggle on");
 console.log("== spelling game ==");
 click('.tab[data-tab="sets"]');
 Array.from(d.querySelectorAll(".set-card")).find((c) => c.getAttribute("data-open") === "a1").click();
-click("#startNew"); // study one more new word to ensure >=3 learned
-click("#fc");
-click("#fcKnow");
-click('.mode-tab[data-tabmode="game"]');
-ok(!!d.querySelector("#gameStart"), "game menu shows start button (>=3 learned)");
+// Study new words until >=3 are usable for the spelling game. The game only uses
+// learned words whose English + Turkish forms fit the tile board, so a random word
+// can occasionally not qualify — loop a few times to make this deterministic.
+let sGuard = 0;
+while (sGuard < 60) {
+  if (d.querySelector("#startNew")) click("#startNew");
+  if (!d.querySelector("#fc")) break;
+  click("#fc");
+  click("#fcKnow");
+  click('.mode-tab[data-tabmode="game"]');
+  if (d.querySelector("#gameStart")) break;
+  click('.mode-tab[data-tabmode="cards"]');
+  sGuard++;
+}
+ok(!!d.querySelector("#gameStart"), "game menu shows start button (>=3 usable learned)");
 click("#gameStart");
 ok(!!d.querySelector("#gt"), "puzzle blanks render");
 ok(d.querySelectorAll("#tiles .tile").length >= 1, "letter tiles render");
 click("#tiles .tile"); // tap a tile (correct or wrong — must not throw)
 ok(true, "tile tap handled without error");
+
+console.log("== grammar: data integrity ==");
+ok(!!w.GRAMMAR_A1 && !!w.GRAMMAR_A2 && !!w.GRAMMAR_B1 && !!w.GRAMMAR_B2, "4 grammar level files loaded");
+const gLevels = [w.GRAMMAR_A1, w.GRAMMAR_A2, w.GRAMMAR_B1, w.GRAMMAR_B2];
+const gTotalUnits = gLevels.reduce((n, l) => n + l.units.length, 0);
+ok(gTotalUnits === 36, "36 total units (" + gTotalUnits + ")");
+let gShapeOk = true, gShapeMsg = "";
+gLevels.forEach((l) => l.units.forEach((u) => {
+  if (!u.slides || !u.slides.length) { gShapeOk = false; gShapeMsg = u.id + " missing slides"; }
+  if (!u.mistakes || !u.mistakes.length) { gShapeOk = false; gShapeMsg = u.id + " missing mistakes"; }
+  if (!u.practice || !u.practice.length) { gShapeOk = false; gShapeMsg = u.id + " missing practice"; }
+}));
+ok(gShapeOk, "all units have slides, mistakes, practice" + (gShapeOk ? "" : " (" + gShapeMsg + ")"));
+
+console.log("== grammar: levels & units ==");
+click('.tab[data-tab="grammar"]');
+ok(text("#titleText") === "Dilbilgisi", "grammar view title");
+ok(d.querySelectorAll("[data-glevel]").length === 4, "4 level cards");
+Array.from(d.querySelectorAll("[data-glevel]")).find((c) => c.getAttribute("data-glevel") === "a1").click();
+ok((text("#titleText") || "").indexOf("A1") === 0, "A1 level title (" + text("#titleText") + ")");
+ok(d.querySelectorAll("[data-gunit]").length === 8, "A1 has 8 units (" + d.querySelectorAll("[data-gunit]").length + ")");
+
+console.log("== grammar: slides ==");
+Array.from(d.querySelectorAll("[data-gunit]")).find((c) => c.getAttribute("data-gunit") === "a1-01").click();
+ok(!!d.querySelector(".g-slide-h"), "slide heading rendered");
+ok(!!d.querySelector(".g-slide-b"), "slide body rendered");
+ok(d.querySelectorAll(".g-slide-b .g-example, .g-slide-b .g-bullets, .g-slide-b .g-p").length > 0, "slide body uses formatted blocks");
+ok(d.querySelectorAll(".g-dot").length === 3, "3 slide dots");
+ok(d.querySelector("#gPrev").disabled, "prev disabled on first slide");
+click("#gNext");
+ok(!d.querySelector("#gPrev").disabled, "prev enabled after advancing");
+click("#gNext");
+ok(!!d.querySelector("#gToMistakes"), "Hatalar button on last slide");
+click("#gToMistakes");
+
+console.log("== grammar: mistakes ==");
+ok(d.querySelectorAll(".g-mistake").length >= 3, "mistake comparisons render");
+ok(d.querySelectorAll(".g-mis-wrong").length >= 3, "wrong usages render");
+ok(d.querySelectorAll(".g-mis-right").length >= 3, "correct usages render");
+ok(d.querySelectorAll(".g-mis-note").length >= 3, "notes render");
+click("#gToPractice");
+
+console.log("== grammar: practice (type the form) ==");
+ok(!!d.querySelector("#gStartPractice"), "practice intro shown");
+click("#gStartPractice");
+ok(!!d.querySelector(".g-prompt") && !!d.querySelector(".g-blank"), "prompt with blank rendered");
+ok(!!d.querySelector("#gInput"), "answer input present");
+
+// answer the first question wrong
+d.querySelector("#gInput").value = "wronganswer";
+click("#gCheck");
+ok(!!d.querySelector(".g-fb.no"), "wrong answer shows red feedback");
+ok(!!d.querySelector(".g-input.wrong"), "input turns red on wrong");
+
+// answer the rest correctly straight from the data
+const a1u1 = w.GRAMMAR_A1.units[0];
+const correctAnswers = a1u1.practice.slice(1).map((q) => q.a[0]);
+let ai = 0, gGuard = 0, sawGreen = false;
+while (gGuard < 30) {
+  const nxt = d.querySelector("#gNextQ");
+  if (!nxt) break;
+  nxt.click();
+  gGuard++;
+  const inp = d.querySelector("#gInput");
+  if (!inp) break; // done screen
+  inp.value = correctAnswers[ai];
+  d.querySelector("#gCheck").click();
+  if (d.querySelector(".g-fb.ok")) sawGreen = true;
+  ai++;
+}
+ok(sawGreen, "correct answer shows green feedback");
+ok(ai === a1u1.practice.length - 1, "answered all questions (" + ai + " correct)");
+ok(!!d.querySelector("#gRedo"), "completion screen shown");
+
+console.log("== grammar: completion tracked ==");
+click("#gBackLevel");
+ok(d.querySelectorAll("[data-gunit]").length === 8, "back to A1 unit list");
+const u1card = Array.from(d.querySelectorAll("[data-gunit]")).find((c) => c.getAttribute("data-gunit") === "a1-01");
+ok(u1card && !!u1card.querySelector(".g-unit-num.done"), "completed unit shows checkmark");
+ok(u1card && (u1card.textContent || "").indexOf("En iyi") >= 0, "unit shows best score");
 
 console.log("\n== runtime errors ==");
 const errs = w.__errs || [];

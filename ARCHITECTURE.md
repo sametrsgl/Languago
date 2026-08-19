@@ -20,7 +20,8 @@ english-word-coach/
             ├── index.html
             ├── style.css
             ├── app.js          # SPA logic
-            └── words.js        # window.WORD_DATA = {meta, words, sets}
+            ├── words.js        # window.WORD_DATA = {meta, words, sets}
+            └── grammar_a1.js … grammar_b2.js  # window.GRAMMAR_A1..B2 (36 units)
 ```
 
 ## Data model (`words.js`)
@@ -54,7 +55,7 @@ Single-page app, no framework. State: `progress` (localStorage), `currentView`,
 `currentSet`, `currentSetMode` (`cards|quiz|list`), `session` (flashcard queue),
 `quiz` (question list).
 
-- **Views** rendered into `#content` by `render(view)`; bottom tab bar (Ana Sayfa / Kelimeler / Tekrar / Ara / İlerleme) + top back button.
+- **Views** rendered into `#content` by `render(view)`; bottom tab bar (Ana Sayfa / Kelimeler / Dilbilgisi / Tekrar / Ara / İlerleme) + top back button. Grammar is a nested view — `grammar` (level list) → `glevel` (unit list) → `gunit` (slides → mistakes → practice → done) — with its own step + practice state.
 - **Spaced repetition (Leitner)** — each studied word has `{ box: 1..6, due: "YYYY-MM-DD", reps }`;
   intervals are `[1,2,4,7,15,30]` days. "know" advances a box and schedules the next review;
   "again" resets to box 1 due today. Words with `due <= today` form the review queue
@@ -83,11 +84,11 @@ Single-page app, no framework. State: `progress` (localStorage), `currentView`,
 ## Testing
 
 `.test/smoke.js` boots the SPA headlessly with jsdom and exercises the full user flow
-(boot → sets → flashcards → quiz → list → modal → search → stats → back navigation),
+(boot → sets → flashcards → quiz → list → modal → search → stats → game → grammar → back),
 asserting on rendered DOM and collecting any runtime errors. Run it with:
 
 ```bash
-cd .test && npm install && node smoke.js   # expect "47 passed, 0 failed"
+cd .test && npm install && node smoke.js   # expect "76 passed, 0 failed"
 ```
 
 Note: the harness renames the `$`/`$$` helpers to `_q`/`_qq` because jsdom mishandles

@@ -14,6 +14,11 @@
   var SETS = DATA.sets;
   var ALL_KEYS = Object.keys(WORDS).sort();
 
+  // Grammar curriculum (A1–B2), loaded from grammar_*.js
+  var GRAMMAR = [window.GRAMMAR_A1, window.GRAMMAR_A2, window.GRAMMAR_B1, window.GRAMMAR_B2].filter(Boolean);
+  var GRAMMAR_BY_ID = {};
+  GRAMMAR.forEach(function (g) { GRAMMAR_BY_ID[g.id] = g; });
+
   var SET_META = {
     a1:     { badge: "A1", name: "A1 · Başlangıç",    desc: "Temel günlük kelimeler",          color: "#10B981", group: "CEFR Seviyeleri" },
     a2:     { badge: "A2", name: "A2 · Temel",        desc: "Günlük hayat kelimeleri",        color: "#22C55E", group: "CEFR Seviyeleri" },
@@ -29,7 +34,7 @@
   };
 
   // ---------------------------------------------------------------- branding
-  var APP_VERSION = "1.3.0";
+  var APP_VERSION = "1.4.0";
   var DEV_NAME = "Samet Tıraşoğlu";
   var DEV_EMAIL = "tirasoglusamet@gmail.com";
 
@@ -51,6 +56,11 @@
   var quiz = null;    // active quiz
   var game = null;    // active spelling game
   var listOffset = 0;
+  var currentGrammarLevel = null;   // grammar level id (a1/a2/b1/b2)
+  var currentGrammarUnit = null;    // active grammar unit object
+  var grammarStep = "slides";       // slides | mistakes | practice | done
+  var grammarSlide = 0;             // slide index within a unit
+  var gPractice = null;             // { unitId, index, correct, answered }
 
   var $ = function (s) { return document.querySelector(s); };
   var $$ = function (s) { return Array.prototype.slice.call(document.querySelectorAll(s)); };
@@ -203,11 +213,22 @@
   function updateChrome() {
     var meta = null;
     if (currentView === "set" && currentSet) meta = SET_META[currentSet];
-    var inSession = !!(session && (currentView === "set" || currentView === "review"));
-    $("#backBtn").classList.toggle("hidden", currentView !== "set" && !(session && currentView === "review"));
-    $("#titleText").textContent = meta ? meta.name : (currentView === "review" ? "Tekrar" : "English Word Coach");
+    var showBack = currentView === "set"
+      || (session && currentView === "review")
+      || currentView === "glevel"
+      || currentView === "gunit";
+    $("#backBtn").classList.toggle("hidden", !showBack);
+
+    var title = "English Word Coach";
+    if (meta) title = meta.name;
+    else if (currentView === "review") title = "Tekrar";
+    else if (currentView === "grammar") title = "Dilbilgisi";
+    else if (currentView === "glevel" && currentGrammarLevel && GRAMMAR_BY_ID[currentGrammarLevel]) title = GRAMMAR_BY_ID[currentGrammarLevel].title;
+    else if (currentView === "gunit" && currentGrammarUnit) title = currentGrammarUnit.title;
+    $("#titleText").textContent = title;
 
     var tab = currentView === "set" ? "sets" : currentView;
+    if (currentView === "glevel" || currentView === "gunit") tab = "grammar";
     $$(".tab").forEach(function (t) { t.classList.toggle("active", t.getAttribute("data-tab") === tab); });
   }
 
@@ -229,6 +250,15 @@
       quiz = null;
       game = null;
       navigate(setReturnTo);
+    } else if (currentView === "gunit") {
+      currentGrammarUnit = null;
+      grammarStep = "slides";
+      grammarSlide = 0;
+      gPractice = null;
+      navigate("glevel");
+    } else if (currentView === "glevel") {
+      currentGrammarLevel = null;
+      navigate("grammar");
     } else if (currentView === "review" && session) {
       session = null;
       render("review");
@@ -253,6 +283,9 @@
     else if (view === "review") renderReview(c);
     else if (view === "search") renderSearch(c);
     else if (view === "stats") renderStats(c);
+    else if (view === "grammar") renderGrammar(c);
+    else if (view === "glevel") renderGrammarLevel(c);
+    else if (view === "gunit") renderGrammarUnit(c);
   }
 
   // ---------------------------------------------------------------- home
@@ -302,6 +335,11 @@
       '  <button class="speaker" data-speak="' + esc(wod.w) + '">🔊 Dinle</button>' +
       "</div>" +
       lastSetHtml +
+      '<div class="set-card" data-goto="grammar" style="margin-top:14px">' +
+      '  <div class="set-badge" style="background:#7C3AED">📖</div>' +
+      '  <div class="set-info"><div class="set-name">Dilbilgisi Koçu</div>' +
+      '  <div class="set-count">A1–B2 · 36 ünite · anlatım, hata ve pratik</div></div>' +
+      '  <div class="set-chevron">›</div></div>' +
       '<div class="section-title">Kategoriler</div>' +
       '<div class="card" style="padding:6px 14px"><button class="btn btn-primary" style="margin:10px 0" data-goto="sets">Tüm kelime setlerine git ›</button></div>';
     bindDelegates(c);
@@ -946,6 +984,311 @@
     });
   }
 
+  // ---------------------------------------------------------------- grammar (A1–B2)
+  function grammarUnitDone(id) {
+    return !!(progress.grammar && progress.grammar[id] && progress.grammar[id] >= 60);
+  }
+  function grammarBest(id) {
+    return (progress.grammar && progress.grammar[id]) ? progress.grammar[id] : 0;
+  }
+  function grammarLevelStats(level) {
+    var done = level.units.filter(function (u) { return grammarUnitDone(u.id); }).length;
+    return { total: level.units.length, done: done, pct: level.units.length ? Math.round(done / level.units.length * 100) : 0 };
+  }
+  function grammarTotal() {
+    var total = 0, done = 0;
+    GRAMMAR.forEach(function (l) { l.units.forEach(function (u) { total++; if (grammarUnitDone(u.id)) done++; }); });
+    return { total: total, done: done };
+  }
+
+  function openGrammarLevel(id) {
+    currentGrammarLevel = id;
+    currentGrammarUnit = null;
+    grammarStep = "slides";
+    grammarSlide = 0;
+    gPractice = null;
+    navigate("glevel");
+  }
+  function openGrammarUnit(id) {
+    var l = GRAMMAR_BY_ID[currentGrammarLevel];
+    var unit = null;
+    if (l) { l.units.forEach(function (u) { if (u.id === id) unit = u; }); }
+    if (!unit) return;
+    currentGrammarUnit = unit;
+    grammarStep = "slides";
+    grammarSlide = 0;
+    gPractice = null;
+    navigate("gunit");
+  }
+
+  function renderGrammar(c) {
+    var t = grammarTotal();
+    var html =
+      '<div class="hero" style="background:linear-gradient(135deg,#7C3AED,#2563EB)">' +
+      '  <div class="kicker">Dilbilgisi</div>' +
+      '  <h2>Dilbilgisi Koçu</h2>' +
+      '  <p>' + t.done + ' / ' + t.total + ' ünite tamamlandı · 4 seviye (A1–B2)</p>' +
+      '</div>';
+    GRAMMAR.forEach(function (l) {
+      var st = grammarLevelStats(l);
+      html +=
+        '<div class="set-card" data-glevel="' + l.id + '">' +
+        '  <div class="set-badge" style="background:' + l.color + '">' + esc(l.id.toUpperCase()) + '</div>' +
+        '  <div class="set-info"><div class="set-name">' + esc(l.title) + '</div>' +
+        '    <div class="set-desc">' + esc(l.subtitle) + '</div>' +
+        '    <div class="set-count">' + st.total + ' ünite · ' + st.done + ' tamamlandı</div>' +
+        '    <div class="set-progress"><span style="width:' + st.pct + '%"></span></div></div>' +
+        '  <div class="set-chevron">›</div></div>';
+    });
+    c.innerHTML = html;
+    bindDelegates(c);
+  }
+
+  function renderGrammarLevel(c) {
+    var l = GRAMMAR_BY_ID[currentGrammarLevel];
+    if (!l) { navigate("grammar"); return; }
+    var st = grammarLevelStats(l);
+    var html =
+      '<div class="set-head"><div class="set-badge" style="background:' + l.color + '">' + esc(l.id.toUpperCase()) + '</div>' +
+      '<h2>' + esc(l.title) + '</h2>' +
+      '<div class="sub">' + esc(l.subtitle) + ' · ' + st.done + '/' + st.total + ' ünite tamamlandı</div></div>';
+    l.units.forEach(function (u) {
+      var done = grammarUnitDone(u.id);
+      var num = (u.id.split("-")[1] || "·");
+      html +=
+        '<div class="set-card" data-gunit="' + u.id + '">' +
+        '  <div class="g-unit-num' + (done ? ' done' : '') + '">' + (done ? '✓' : esc(num)) + '</div>' +
+        '  <div class="set-info"><div class="set-name">' + esc(u.title) + '</div>' +
+        '    <div class="set-desc">' + esc(u.short) + '</div>' +
+        '    <div class="set-count">' + (done ? ('En iyi: %' + grammarBest(u.id)) : 'Başlanmadı') + '</div></div>' +
+        '  <div class="set-chevron">›</div></div>';
+    });
+    c.innerHTML = html;
+    bindDelegates(c);
+  }
+
+  function renderGrammarUnit(c) {
+    var u = currentGrammarUnit;
+    if (!u) { navigate("glevel"); return; }
+    var l = GRAMMAR_BY_ID[currentGrammarLevel];
+    var color = l ? l.color : "#4338CA";
+    var html =
+      '<div class="set-head"><div class="set-badge" style="background:' + color + '">' + esc(l ? l.id.toUpperCase() : "") + '</div>' +
+      '<h2>' + esc(u.title) + '</h2><div class="sub">' + esc(u.short) + '</div></div>';
+
+    if (grammarStep === "slides") html += renderGrammarSlides(u);
+    else if (grammarStep === "mistakes") html += renderGrammarMistakes(u);
+    else if (grammarStep === "practice") html += renderGrammarPractice(u);
+    else html += renderGrammarDone(u);
+
+    c.innerHTML = html;
+    bindDelegates(c);
+    bindGrammar(c, u);
+  }
+
+  function stepBar(activeStep) {
+    var steps = ["Anlatım", "Hatalar", "Pratik"];
+    var order = { slides: 0, mistakes: 1, practice: 2, done: 2 };
+    var cur = order[activeStep];
+    return '<div class="g-stepbar">' + steps.map(function (s, i) {
+      return '<span class="g-step' + (i <= cur ? ' on' : '') + '">' + s + '</span>';
+    }).join("") + '</div>';
+  }
+
+  function renderGrammarSlides(u) {
+    var s = u.slides[grammarSlide];
+    var total = u.slides.length;
+    var dots = "";
+    for (var i = 0; i < total; i++) dots += '<span class="g-dot' + (i === grammarSlide ? ' on' : '') + '" data-dot="' + i + '"></span>';
+    var html =
+      stepBar("slides") +
+      '<div class="card g-slide">' +
+      '  <div class="g-slide-h">' + esc(s.h) + '</div>' +
+      '  <div class="g-slide-b">' + renderSlideBody(s.b) + '</div>' +
+      '  <div class="g-dots">' + dots + '</div>' +
+      '</div>' +
+      '<div class="g-nav">' +
+      '  <button class="btn btn-ghost" id="gPrev"' + (grammarSlide === 0 ? ' disabled' : '') + '>‹ Geri</button>' +
+      (grammarSlide < total - 1
+        ? '<button class="btn btn-primary" id="gNext">İleri ›</button>'
+        : '<button class="btn btn-primary" id="gToMistakes">Hatalar ›</button>') +
+      '</div>';
+    return html;
+  }
+
+  function renderGrammarMistakes(u) {
+    var pairs = u.mistakes.map(function (m) {
+      return '<div class="g-mistake">' +
+        '<div class="g-mis-wrong"><span class="g-mis-tag">✗</span><div>' + esc(m.w) + '</div></div>' +
+        '<div class="g-mis-right"><span class="g-mis-tag">✓</span><div>' + esc(m.r) + '</div></div>' +
+        '<div class="g-mis-note">' + esc(m.n) + '</div>' +
+        '</div>';
+    }).join("");
+    var html =
+      stepBar("mistakes") +
+      '<div class="card">' +
+      '  <div class="g-slide-h">Sık Yapılan Hatalar</div>' +
+      '  <div class="muted" style="font-size:13px;margin-bottom:14px">Yanlış kullanım ile doğrusunu karşılaştır.</div>' +
+      pairs +
+      '</div>' +
+      '<div class="g-nav">' +
+      '  <button class="btn btn-ghost" id="gBackSlides">‹ Anlatım</button>' +
+      '  <button class="btn btn-primary" id="gToPractice">Pratik ›</button>' +
+      '</div>';
+    return html;
+  }
+
+  function renderGrammarPractice(u) {
+    if (!gPractice || gPractice.unitId !== u.id) return renderGrammarPracticeIntro(u);
+    var q = u.practice[gPractice.index];
+    var pos = gPractice.index + 1;
+    var total = u.practice.length;
+    var promptHtml = esc(q.q).replace(/___/g, '<span class="g-blank">___</span>');
+    return stepBar("practice") +
+      '<div class="stage-meta"><span>' + pos + ' / ' + total + '</span><span>' + gPractice.correct + ' doğru</span></div>' +
+      '<div class="card">' +
+      '  <div class="g-prompt">' + promptHtml + '</div>' +
+      (q.hint ? '<div class="g-hint">İpucu: ' + esc(q.hint) + '</div>' : '') +
+      '  <div class="g-input-wrap"><input id="gInput" class="g-input" type="text" placeholder="Cevabını yaz…" autocomplete="off" autocapitalize="off" autocorrect="off" spellcheck="false"></div>' +
+      '  <div id="gFeedback"></div>' +
+      '  <button class="btn btn-primary" id="gCheck" style="margin-top:10px">Kontrol Et</button>' +
+      '  <button class="btn btn-primary" id="gNextQ" style="margin-top:10px;display:none">Sonraki ›</button>' +
+      '</div>';
+  }
+
+  function renderGrammarPracticeIntro(u) {
+    return stepBar("practice") +
+      '<div class="card center" style="padding:26px 18px">' +
+      '  <div style="font-size:44px">✍️</div>' +
+      '  <h3 style="margin:8px 0 4px">Pratik Zamanı</h3>' +
+      '  <div class="muted" style="font-size:13.5px;line-height:1.6">' + u.practice.length + ' soru. Boşluğa doğru formu yaz.</div>' +
+      '  <button class="btn btn-primary" id="gStartPractice" style="margin-top:18px">Başla</button>' +
+      '</div>' +
+      '<button class="btn btn-ghost" id="gBackMistakes" style="margin-top:4px">‹ Hatalar</button>';
+  }
+
+  function renderGrammarDone(u) {
+    var best = grammarBest(u.id);
+    var done = best >= 60;
+    return stepBar("done") +
+      '<div class="card center" style="padding:26px 18px">' +
+      '  <div style="font-size:44px">' + (done ? '🎉' : '💪') + '</div>' +
+      '  <h3 style="margin:8px 0 4px">' + (done ? 'Ünite Tamamlandı!' : 'Ünite Tekrarı') + '</h3>' +
+      '  <div class="muted" style="font-size:14px">En iyi skor: %' + best + '</div>' +
+      '  <button class="btn btn-primary" id="gRedo" style="margin-top:16px">Tekrar Çalış</button>' +
+      '</div>' +
+      '<button class="btn btn-ghost" id="gBackLevel" style="margin-top:4px">‹ Ünite listesi</button>';
+  }
+
+  // ---- slide body micro-format: "\n\n" blocks; "- " bullets; "> " examples; "! " tips
+  function renderSlideBody(b) {
+    var lines = String(b || "").split("\n");
+    var html = "";
+    var i = 0;
+    while (i < lines.length) {
+      var line = lines[i];
+      if (line.trim() === "") { i++; continue; }
+      if (line.indexOf("- ") === 0) {
+        var items = [];
+        while (i < lines.length && lines[i].indexOf("- ") === 0) { items.push(esc(lines[i].slice(2))); i++; }
+        html += '<ul class="g-bullets">' + items.map(function (x) { return "<li>" + x + "</li>"; }).join("") + "</ul>";
+      } else if (line.indexOf("> ") === 0) {
+        var ex = [];
+        while (i < lines.length && lines[i].indexOf("> ") === 0) { ex.push(renderExampleLine(lines[i].slice(2))); i++; }
+        html += '<div class="g-example">' + ex.join("") + "</div>";
+      } else if (line.indexOf("! ") === 0) {
+        var tips = [];
+        while (i < lines.length && lines[i].indexOf("! ") === 0) { tips.push(esc(lines[i].slice(2))); i++; }
+        html += '<div class="g-tip">' + tips.join("<br>") + "</div>";
+      } else {
+        var para = [];
+        while (i < lines.length && lines[i].trim() !== "" && lines[i].indexOf("- ") !== 0 && lines[i].indexOf("> ") !== 0 && lines[i].indexOf("! ") !== 0) { para.push(lines[i]); i++; }
+        html += '<p class="g-p">' + para.map(esc).join("<br>") + "</p>";
+      }
+    }
+    return html;
+  }
+  function renderExampleLine(s) {
+    var idx = s.indexOf("→");
+    if (idx >= 0) {
+      return '<div class="g-ex-line"><span class="g-ex-en">' + esc(s.slice(0, idx).trim()) + '</span><span class="g-ex-tr">' + esc(s.slice(idx + 1).trim()) + "</span></div>";
+    }
+    return '<div class="g-ex-line"><span class="g-ex-en">' + esc(s.trim()) + "</span></div>";
+  }
+
+  // ---- practice: type the correct form
+  function normalizeAnswer(s) {
+    return String(s == null ? "" : s).toLowerCase().replace(/[’‘`´]/g, "'").replace(/\s+/g, " ").trim();
+  }
+  function checkPracticeAnswer() {
+    if (!gPractice || gPractice.answered) return;
+    var u = currentGrammarUnit;
+    var q = u.practice[gPractice.index];
+    var input = $("#gInput");
+    if (!input) return;
+    var val = normalizeAnswer(input.value);
+    if (!val) { input.focus(); return; }
+    gPractice.answered = true;
+    var correct = q.a.some(function (a) { return normalizeAnswer(a) === val; });
+    var fb = $("#gFeedback");
+    if (correct) {
+      gPractice.correct++;
+      input.classList.add("correct");
+      if (fb) fb.innerHTML = '<div class="g-fb ok">Doğru! ✓</div>';
+    } else {
+      input.classList.add("wrong");
+      if (fb) fb.innerHTML = '<div class="g-fb no">Yanlış. Doğrusu: <b>' + esc(q.a[0]) + '</b></div>';
+    }
+    input.disabled = true;
+    var check = $("#gCheck"); if (check) check.style.display = "none";
+    var next = $("#gNextQ"); if (next) next.style.display = "block";
+  }
+  function nextPracticeQ() {
+    gPractice.answered = false;
+    gPractice.index++;
+    if (gPractice.index >= currentGrammarUnit.practice.length) { finishPractice(); return; }
+    renderGrammarUnit($("#content"));
+  }
+  function finishPractice() {
+    var u = currentGrammarUnit;
+    var total = u.practice.length;
+    var pct = total ? Math.round(gPractice.correct / total * 100) : 0;
+    progress.grammar = progress.grammar || {};
+    if (!progress.grammar[u.id] || pct > progress.grammar[u.id]) progress.grammar[u.id] = pct;
+    touchStudy();
+    saveProgress();
+    var done = pct >= 60;
+    grammarStep = "done";
+    gPractice = null;
+    renderGrammarUnit($("#content"));
+    toast((done ? "Tebrikler! 🎉 " : "Tekrar dene 💪 ") + "%" + pct + " doğru");
+  }
+
+  function bindGrammar(c, u) {
+    $$(".g-dot").forEach(function (d) {
+      d.addEventListener("click", function () {
+        grammarSlide = parseInt(d.getAttribute("data-dot"), 10);
+        renderGrammarUnit($("#content"));
+      });
+    });
+    var prev = $("#gPrev"); if (prev) prev.addEventListener("click", function () { grammarSlide = Math.max(0, grammarSlide - 1); renderGrammarUnit($("#content")); });
+    var next = $("#gNext"); if (next) next.addEventListener("click", function () { grammarSlide = Math.min(u.slides.length - 1, grammarSlide + 1); renderGrammarUnit($("#content")); });
+    var toM = $("#gToMistakes"); if (toM) toM.addEventListener("click", function () { grammarStep = "mistakes"; renderGrammarUnit($("#content")); });
+    var toP = $("#gToPractice"); if (toP) toP.addEventListener("click", function () { grammarStep = "practice"; gPractice = null; renderGrammarUnit($("#content")); });
+    var backSlides = $("#gBackSlides"); if (backSlides) backSlides.addEventListener("click", function () { grammarStep = "slides"; renderGrammarUnit($("#content")); });
+    var backMistakes = $("#gBackMistakes"); if (backMistakes) backMistakes.addEventListener("click", function () { grammarStep = "mistakes"; renderGrammarUnit($("#content")); });
+    var startP = $("#gStartPractice"); if (startP) startP.addEventListener("click", function () { gPractice = { unitId: u.id, index: 0, correct: 0, answered: false }; renderGrammarUnit($("#content")); });
+    var check = $("#gCheck"); if (check) check.addEventListener("click", checkPracticeAnswer);
+    var input = $("#gInput");
+    if (input) {
+      input.addEventListener("keydown", function (e) { if (e.key === "Enter") checkPracticeAnswer(); });
+      setTimeout(function () { try { input.focus(); } catch (e) {} }, 60);
+    }
+    var nextQ = $("#gNextQ"); if (nextQ) nextQ.addEventListener("click", nextPracticeQ);
+    var redo = $("#gRedo"); if (redo) redo.addEventListener("click", function () { grammarStep = "slides"; grammarSlide = 0; gPractice = null; renderGrammarUnit($("#content")); });
+    var backLevel = $("#gBackLevel"); if (backLevel) backLevel.addEventListener("click", function () { goBack(); });
+  }
+
   // ---------------------------------------------------------------- modal
   function openWordModal(key) {
     var w = WORDS[key];
@@ -1039,6 +1382,12 @@
     $$("[data-tabmode]", root).forEach(function (el) {
       el.addEventListener("click", function () { setMode(el.getAttribute("data-tabmode")); });
     });
+    $$("[data-glevel]", root).forEach(function (el) {
+      el.addEventListener("click", function () { openGrammarLevel(el.getAttribute("data-glevel")); });
+    });
+    $$("[data-gunit]", root).forEach(function (el) {
+      el.addEventListener("click", function () { openGrammarUnit(el.getAttribute("data-gunit")); });
+    });
   }
 
   // ---------------------------------------------------------------- boot
@@ -1048,8 +1397,10 @@
     t.addEventListener("click", function () {
       var v = t.getAttribute("data-tab");
       session = null; quiz = null; game = null; listOffset = 0; currentSetMode = "cards";
+      currentGrammarLevel = null; currentGrammarUnit = null; grammarStep = "slides"; grammarSlide = 0; gPractice = null;
       if (v === "home") navigate("home");
       else if (v === "sets") navigate("sets");
+      else if (v === "grammar") navigate("grammar");
       else if (v === "review") navigate("review");
       else if (v === "search") navigate("search");
       else if (v === "stats") navigate("stats");

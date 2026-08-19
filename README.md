@@ -1,8 +1,8 @@
 # English Word Coach (Android APK)
 
-Offline English vocabulary coach for Android — a self-contained, dependency-free
-`WebView` app that ships word sets from **CEFR A1–C2** plus exam-prep sets for
-**IELTS, TOEFL, YDS, YÖKDİL and GRE**.
+Offline English vocabulary + grammar coach for Android — a self-contained,
+dependency-free `WebView` app that ships word sets from **CEFR A1–C2** plus exam-prep
+sets for **IELTS, TOEFL, YDS, YÖKDİL and GRE**, and a full **A1–B2 grammar course**.
 
 Built for Kingfish (Turkish-first brand): the UI is Turkish, definitions are in
 English (Oxford/Wiktionary-sourced) with example sentences, IPA phonetics and
@@ -11,6 +11,9 @@ native text-to-speech pronunciation.
 ## Features
 
 - **11 word sets** — A1–C2 (CEFR) + IELTS, TOEFL, YDS, YÖKDİL, GRE (~6,000 unique words)
+- **Grammar course (Dilbilgisi)** — A1–B2 in 36 units; each unit teaches with explanation
+  slides, shows a *common mistake vs correct* comparison, then drills you with a
+  *type-the-correct-form* exercise (instant feedback, best-score + completion tracking)
 - **Turkish translations** — every word shows its Turkish meaning (free 1.46M-entry
   EN→TR dictionary, 100% coverage), toggleable on/off from the ⚙️ settings
 - **Spelling game** — a missing-letters game on the words you've studied, EN→TR and
