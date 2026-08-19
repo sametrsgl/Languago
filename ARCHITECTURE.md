@@ -43,9 +43,9 @@ so exam sets that share vocabulary (IELTS ⊂ TOEFL ⊂ YDS, etc.) cost almost n
 | a1–c1 | Oxford 3000/5000 by CEFR level |
 | c2 | Octanove C2 words |
 | ielts | AWL 570 headwords |
-| toefl | AWL + Octanove C1 |
-| yokdil | AWL + Octanove C1 + C2 |
-| yds | Oxford C1 + B2 + Octanove C1/C2 + AWL (broad advanced) |
+| toefl | AWL + Oxford C1 (academic + advanced general) |
+| yokdil | AWL + Oxford C1 + C2 (academic reading) |
+| yds | Oxford B2 + C1 + C2 + AWL (broad advanced) |
 | gre | Octanove C2 + AWL sublists 9–10 (hardest) |
 
 ## Client architecture (`app.js`)

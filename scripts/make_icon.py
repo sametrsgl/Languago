@@ -4,7 +4,8 @@ import os
 from PIL import Image, ImageDraw, ImageFont
 
 HERE = os.path.dirname(os.path.abspath(__file__))
-RES = os.path.join(HERE, "app", "src", "main", "res")
+ROOT = os.path.dirname(HERE)
+RES = os.path.join(ROOT, "android", "app", "src", "main", "res")
 
 FONT = "C:/Windows/Fonts/arialbd.ttf"
 

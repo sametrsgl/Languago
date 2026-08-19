@@ -147,19 +147,16 @@ def main():
         }
         ox_words[key]["_cefr"] = v["cefr"]
 
-    # ---- Octanove C1/C2 ----
+    # ---- Octanove C2 ----
     oct_rows = list(csv.DictReader(open(os.path.join(DATA, "octanove_c1c2.csv"), encoding="utf-8")))
-    oct_c1, oct_c2 = [], []
+    oct_c2 = []
     for r in oct_rows:
         hw = (r["headword"] or "").strip()
         if not hw:
             continue
         lvl = (r["CEFR"] or "").strip().upper()
-        rec = {"w": hw, "p": norm_pos(r.get("pos", "")), "_cefr": lvl.lower()}
         if lvl == "C2":
-            oct_c2.append(rec)
-        elif lvl == "C1":
-            oct_c1.append(rec)
+            oct_c2.append({"w": hw, "p": norm_pos(r.get("pos", "")), "_cefr": "c2"})
 
     # ---- AWL ----
     awl = load_json("AWL.json")
@@ -224,32 +221,27 @@ def main():
             awl_keys.append(k)
     sets["ielts"] = awl_keys
 
-    # ---- TOEFL = AWL + octanove C1 ----
+    # ---- exam sets (reuse Oxford definitions; no extra C1 fetches) ----
+    oxford_c1 = sets["c1"]
+    oxford_b2 = [k for k in ox_words if ox_words[k]["_cefr"] == "b2"]
+
+    # TOEFL = AWL + Oxford C1 (academic + advanced general)
     toefl = list(awl_keys)
-    for rec in oct_c1:
-        k = add_word(rec)
+    for k in oxford_c1:
         if k not in toefl:
             toefl.append(k)
     sets["toefl"] = toefl
 
-    # ---- YOKDIL = AWL + C1 + C2 ----
+    # YOKDIL = AWL + Oxford C1 + C2 (academic reading)
     yokdil = list(awl_keys)
-    for rec in oct_c1 + oct_c2:
-        k = add_word(rec)
+    for k in oxford_c1 + c2_keys:
         if k not in yokdil:
             yokdil.append(k)
     sets["yokdil"] = yokdil
 
-    # ---- YDS = Oxford C1 + octanove C1 + C2 + AWL ----
+    # YDS = Oxford B2 + C1 + C2 + AWL (broad advanced)
     yds = []
-    for k in sets["c1"] + [k for k in ox_words if ox_words[k]["_cefr"] == "b2"]:
-        if k not in yds:
-            yds.append(k)
-    for rec in oct_c1 + oct_c2:
-        k = add_word(rec)
-        if k not in yds:
-            yds.append(k)
-    for k in awl_keys:
+    for k in oxford_b2 + oxford_c1 + c2_keys + awl_keys:
         if k not in yds:
             yds.append(k)
     sets["yds"] = yds

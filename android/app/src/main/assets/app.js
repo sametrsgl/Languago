@@ -130,7 +130,7 @@
     var meta = null;
     if (currentView === "set" && currentSet) meta = SET_META[currentSet];
     $("#backBtn").classList.toggle("hidden", currentView !== "set");
-    $("#titleText").textContent = meta ? (meta.badge + " · " + meta.name.split(" · ")[0]) : "English Word Coach";
+    $("#titleText").textContent = meta ? meta.name : "English Word Coach";
 
     var tab = currentView === "set" ? "sets" : currentView;
     $$(".tab").forEach(function (t) { t.classList.toggle("active", t.getAttribute("data-tab") === tab); });
@@ -546,7 +546,7 @@
   // ---------------------------------------------------------------- search
   function renderSearch(c) {
     c.innerHTML =
-      '<div class="search-box"><span class="mag">⌕</span>' +
+      '<div class="search-box"><span class="mag">🔍</span>' +
       '<input id="searchInput" type="search" placeholder="Kelime veya anlam ara…" autocomplete="off"></div>' +
       '<div id="searchResults"><div class="search-empty">Bir kelime yazmaya başlayın.</div></div>';
 
