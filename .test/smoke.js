@@ -138,6 +138,31 @@ ok(d.querySelector("#backBtn") && !d.querySelector("#backBtn").classList.contain
 click("#backBtn");
 ok(text("#titleText") === "English Word Coach", "back returns to top level");
 
+console.log("== settings: translation toggle ==");
+click('.tab[data-tab="home"]');
+ok(!!d.querySelector(".wod-tr"), "Turkish visible on home (default on)");
+click("#settingsBtn");
+ok(!!d.querySelector("#trToggle"), "settings modal opens with toggle");
+click("#trToggle"); // turn off
+ok(!d.querySelector(".wod-tr"), "Turkish hidden after toggle off");
+click("#settingsBtn");
+click("#trToggle"); // turn back on
+ok(!!d.querySelector(".wod-tr"), "Turkish visible after toggle on");
+
+console.log("== spelling game ==");
+click('.tab[data-tab="sets"]');
+Array.from(d.querySelectorAll(".set-card")).find((c) => c.getAttribute("data-open") === "a1").click();
+click("#startNew"); // study one more new word to ensure >=3 learned
+click("#fc");
+click("#fcKnow");
+click('.mode-tab[data-tabmode="game"]');
+ok(!!d.querySelector("#gameStart"), "game menu shows start button (>=3 learned)");
+click("#gameStart");
+ok(!!d.querySelector("#gt"), "puzzle blanks render");
+ok(d.querySelectorAll("#tiles .tile").length >= 1, "letter tiles render");
+click("#tiles .tile"); // tap a tile (correct or wrong — must not throw)
+ok(true, "tile tap handled without error");
+
 console.log("\n== runtime errors ==");
 const errs = w.__errs || [];
 const rej = w.__unhandled || [];

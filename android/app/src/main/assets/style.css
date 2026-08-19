@@ -227,3 +227,25 @@ body.searchable, body.searchable * { user-select: text; -webkit-user-select: tex
 .splash-mail { opacity: .85; font-size: 13px; margin-top: 3px; word-break: break-all; }
 .splash-tap { position: absolute; bottom: calc(30px + env(safe-area-inset-bottom)); opacity: .7; font-size: 12px; animation: fade 1.2s ease infinite alternate; }
 a.support-mail { color: var(--primary); text-decoration: none; font-weight: 700; }
+
+/* ---- settings toggle ---- */
+.toggle { display: flex; align-items: center; gap: 12px; padding: 16px 4px; cursor: pointer; }
+.toggle .track { width: 50px; height: 30px; border-radius: 999px; background: var(--line); position: relative; transition: background .2s; flex: 0 0 auto; }
+.toggle .thumb { position: absolute; top: 3px; left: 3px; width: 24px; height: 24px; border-radius: 50%; background: #fff; box-shadow: 0 1px 3px rgba(0,0,0,.25); transition: left .2s; }
+.toggle.on .track { background: var(--green); }
+.toggle.on .thumb { left: 23px; }
+
+/* ---- spelling game ---- */
+.game-clue { text-align: center; color: var(--muted); font-size: 14px; margin-bottom: 8px; }
+.game-clue .big { display: block; font-size: 24px; font-weight: 800; color: var(--ink); margin-top: 6px; }
+.game-target { text-align: center; font-size: 30px; font-weight: 800; letter-spacing: 5px; margin: 20px 0 6px; line-height: 1.5; word-break: break-word; min-height: 48px; }
+.game-target .blank { color: var(--primary); border-bottom: 3px solid var(--primary); display: inline-block; min-width: 22px; margin: 0 2px; }
+.game-target .blank.filled { color: var(--green); border-bottom-color: var(--green); }
+.game-target .gt-letter { display: inline-block; margin: 0 1px; }
+.game-target .gt-space { display: inline-block; width: 12px; }
+.tiles { display: flex; flex-wrap: wrap; gap: 8px; justify-content: center; margin-top: 22px; min-height: 44px; }
+.tile { width: 46px; height: 46px; border-radius: 13px; border: none; background: var(--card); box-shadow: var(--shadow); font-size: 18px; font-weight: 800; color: var(--ink); cursor: pointer; }
+.tile:active { transform: scale(.9); }
+.tile.used { opacity: .22; pointer-events: none; }
+.tile.wrong { animation: shake .3s; background: #FDE8E8; color: var(--red); }
+@keyframes shake { 0%,100%{transform:translateX(0)} 25%{transform:translateX(-4px)} 75%{transform:translateX(4px)} }

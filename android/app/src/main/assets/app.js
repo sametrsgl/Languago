@@ -29,7 +29,7 @@
   };
 
   // ---------------------------------------------------------------- branding
-  var APP_VERSION = "1.2.0";
+  var APP_VERSION = "1.3.0";
   var DEV_NAME = "Samet Tıraşoğlu";
   var DEV_EMAIL = "tirasoglusamet@gmail.com";
 
@@ -49,6 +49,7 @@
   var currentSetMode = "cards"; // cards | quiz | list
   var session = null; // active study/review session
   var quiz = null;    // active quiz
+  var game = null;    // active spelling game
   var listOffset = 0;
 
   var $ = function (s) { return document.querySelector(s); };
@@ -171,6 +172,10 @@
     saveProgress();
   }
 
+  // ---- settings: show/hide Turkish translations ----
+  function showTr() { return !progress.settings || progress.settings.showTranslations !== false; }
+  function trText(w) { return showTr() ? (w.t || "") : ""; }
+
   function speak(text) {
     if (typeof window.AndroidBridge !== "undefined" && window.AndroidBridge.speak) {
       try { window.AndroidBridge.speak(text); } catch (e) {}
@@ -212,6 +217,7 @@
     currentSetMode = "cards";
     session = null;
     quiz = null;
+    game = null;
     listOffset = 0;
     navigate("set");
   }
@@ -221,6 +227,7 @@
       currentSet = null;
       session = null;
       quiz = null;
+      game = null;
       navigate(setReturnTo);
     } else if (currentView === "review" && session) {
       session = null;
@@ -289,7 +296,7 @@
       '  <div class="kicker" style="color:#6B7280;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.08em">Günün Kelimesi</div>' +
       '  <div class="wod-word">' + esc(wod.w) + "</div>" +
       '  <div><span class="wod-pos">' + esc(wod.p || "word") + "</span>" + (wod.i ? '<span class="wod-ipa">' + esc(wod.i) + "</span>" : "") + "</div>" +
-      (wod.t ? '<div class="wod-tr">' + esc(wod.t) + "</div>" : "") +
+      (trText(wod) ? '<div class="wod-tr">' + esc(trText(wod)) + "</div>" : "") +
       (wod.d ? '<div class="wod-def">' + esc(wod.d) + "</div>" : "") +
       (wod.e ? '<div class="wod-ex">"' + esc(wod.e) + '"</div>' : "") +
       '  <button class="speaker" data-speak="' + esc(wod.w) + '">🔊 Dinle</button>' +
@@ -352,6 +359,7 @@
       '<button class="mode-tab' + (currentSetMode === "cards" ? " active" : "") + '" data-tabmode="cards">Kartlar</button>' +
       '<button class="mode-tab' + (currentSetMode === "quiz" ? " active" : "") + '" data-tabmode="quiz">Test</button>' +
       '<button class="mode-tab' + (currentSetMode === "list" ? " active" : "") + '" data-tabmode="list">Liste</button>' +
+      '<button class="mode-tab' + (currentSetMode === "game" ? " active" : "") + '" data-tabmode="game">Oyun</button>' +
       "</div>";
 
     c.innerHTML =
@@ -366,6 +374,8 @@
       if (session) renderFlashcard(body); else renderCardsMenu(body);
     } else if (currentSetMode === "quiz") {
       renderQuiz(body);
+    } else if (currentSetMode === "game") {
+      renderGame(body);
     } else {
       renderListBody(body);
     }
@@ -375,6 +385,7 @@
   function setMode(mode) {
     session = null;
     quiz = null;
+    game = null;
     listOffset = 0;
     currentSetMode = mode;
     renderSet($("#content"));
@@ -431,7 +442,7 @@
       '      <div class="fc-hint">Kartı çevirmek için dokun</div>' +
       "    </div>" +
       '    <div class="fc-face fc-back">' +
-      (w.t ? '<div class="fc-tr">' + esc(w.t) + "</div>" : "") +
+      (trText(w) ? '<div class="fc-tr">' + esc(trText(w)) + "</div>" : "") +
       '      <div class="fc-def">' + esc(w.d || "—") + "</div>" +
       (w.e ? '<div class="fc-ex"><span class="lbl">Örnek</span>"' + esc(w.e) + '"</div>' : "") +
       "    </div>" +
@@ -603,6 +614,157 @@
     toast(msg + " %" + pct + " doğru");
   }
 
+  // ----- spelling game (missing letters, EN <-> TR) -----
+  function firstTr(w) { return (w.t || "").split(",")[0].trim(); }
+
+  function usableGameWords(keys) {
+    return keys.filter(function (k) {
+      var w = WORDS[k];
+      var tr = firstTr(w);
+      return tr && tr.length >= 3 && tr.length <= 24 && w.w.length <= 20;
+    });
+  }
+
+  function renderGame(el) {
+    if (!game) {
+      var usable = usableGameWords(learnedWords(currentSet));
+      el.innerHTML = renderGameMenu(usable.length);
+      var btn = $("#gameStart");
+      if (btn) btn.addEventListener("click", startGame);
+      return;
+    }
+    renderPuzzle(el);
+  }
+
+  function renderGameMenu(count) {
+    if (count < 3) {
+      return '<div class="card center" style="padding:30px 16px">' +
+        '<div style="font-size:44px">🎮</div>' +
+        '<div class="muted" style="margin-top:10px;font-size:14px;line-height:1.7">Oyun için önce bu setten birkaç kelime öğrenmelisin.<br>Kartlarla çalış, sonra buraya dön.</div>' +
+        "</div>";
+    }
+    return '<div class="card">' +
+      '<div class="center" style="padding:6px 0 14px">' +
+      '  <div style="font-size:44px">🎮</div>' +
+      '  <h3 style="margin:8px 0 4px">Kelime Tamamlama</h3>' +
+      '  <div class="muted" style="font-size:13px">Eksik harfleri bul — İngilizce ↔ Türkçe karışık</div>' +
+      "</div>" +
+      '<div class="cfg-row"><span>Öğrenilen kelime</span><span class="v">' + count + "</span></div>" +
+      '<button class="btn btn-primary" id="gameStart" style="margin-top:16px">Oyuna Başla</button>' +
+      "</div>";
+  }
+
+  function startGame() {
+    var usable = shuffle(usableGameWords(learnedWords(currentSet)));
+    var n = Math.min(10, usable.length);
+    if (n < 1) { toast("Önce kelime öğren"); return; }
+    game = { pool: usable.slice(0, n), index: 0, score: 0 };
+    renderSet($("#content"));
+  }
+
+  function makePuzzle(target) {
+    var chars = target.split("");
+    var idx = [];
+    for (var i = 0; i < chars.length; i++) if (chars[i] !== " ") idx.push(i);
+    var nHide = Math.max(1, Math.min(idx.length - 1, Math.round(idx.length * 0.4)));
+    var hidden = shuffle(idx).slice(0, nHide).sort(function (a, b) { return a - b; });
+    var letters = hidden.map(function (i) { return chars[i]; });
+    var alphabet = "abcçdefgğhıijklmnoöprsştuüvyz";
+    var used = {};
+    target.toLowerCase().split("").forEach(function (c) { used[c] = 1; });
+    var dist = shuffle(alphabet.split("").filter(function (c) { return !used[c]; })).slice(0, 2);
+    var tiles = shuffle(letters.concat(dist)).map(function (l) { return { letter: l, used: false }; });
+    return { chars: chars, hidden: hidden, tiles: tiles };
+  }
+
+  function renderPuzzle(el) {
+    var key = game.pool[game.index];
+    var w = WORDS[key];
+    var dir = Math.random() < 0.5 ? "en2tr" : "tr2en";
+    var clue = dir === "en2tr" ? w.w : firstTr(w);
+    var target = dir === "en2tr" ? firstTr(w) : w.w;
+    var puzzle = makePuzzle(target);
+    game.current = { dir: dir, clue: clue, target: target, puzzle: puzzle, filled: [], blankIdx: 0 };
+
+    el.innerHTML =
+      '<div class="stage-meta"><span>' + (game.index + 1) + " / " + game.pool.length + "</span><span>" + game.score + " doğru</span></div>" +
+      '<div class="game-clue">' + (dir === "en2tr" ? "Bu kelimenin Türkçesi:" : "Bu kelimenin İngilizcesi:") +
+      '  <span class="big">' + esc(clue) + "</span></div>" +
+      '<div class="game-target" id="gt">' + renderBlanks(game.current) + "</div>" +
+      '<div class="tiles" id="tiles">' + renderTiles(game.current) + "</div>" +
+      '<div id="gameNext" style="display:none;margin-top:14px"><button class="btn btn-primary" id="gNextBtn">Sonraki ›</button></div>';
+
+    $("#tiles").addEventListener("click", onTileClick);
+  }
+
+  function renderBlanks(cur) {
+    var p = cur.puzzle;
+    var html = "";
+    for (var i = 0; i < p.chars.length; i++) {
+      var c = p.chars[i];
+      var hidx = p.hidden.indexOf(i);
+      if (c === " ") { html += '<span class="gt-space">&nbsp;</span>'; continue; }
+      if (hidx >= 0) {
+        var f = cur.filled[hidx];
+        html += '<span class="blank' + (f ? " filled" : "") + '">' + (f ? esc(f) : "_") + "</span>";
+      } else {
+        html += '<span class="gt-letter">' + esc(c) + "</span>";
+      }
+    }
+    return html;
+  }
+
+  function renderTiles(cur) {
+    return cur.puzzle.tiles.map(function (t, i) {
+      return '<button class="tile' + (t.used ? " used" : "") + '" data-ti="' + i + '">' + esc(t.letter) + "</button>";
+    }).join("");
+  }
+
+  function onTileClick(e) {
+    var btn = e.target;
+    if (btn && btn.classList && !btn.classList.contains("tile")) btn = btn.closest(".tile");
+    if (!btn || btn.classList.contains("used")) return;
+    var i = parseInt(btn.getAttribute("data-ti"), 10);
+    var cur = game.current;
+    var t = cur.puzzle.tiles[i];
+    var blankPos = cur.puzzle.hidden[cur.blankIdx];
+    if (t.letter === cur.puzzle.chars[blankPos]) {
+      t.used = true;
+      cur.filled.push(t.letter);
+      cur.blankIdx++;
+      if (cur.blankIdx >= cur.puzzle.hidden.length) {
+        game.score++;
+        $("#gt").innerHTML = renderBlanks(cur);
+        $("#tiles").innerHTML = "";
+        $("#gameNext").style.display = "block";
+        $("#gNextBtn").addEventListener("click", nextGame);
+      } else {
+        $("#gt").innerHTML = renderBlanks(cur);
+        $("#tiles").innerHTML = renderTiles(cur);
+      }
+    } else {
+      btn.classList.add("wrong");
+      setTimeout(function () { btn.classList.remove("wrong"); }, 300);
+    }
+  }
+
+  function nextGame() {
+    game.index++;
+    if (game.index >= game.pool.length) { finishGame(); return; }
+    renderPuzzle($("#modeBody"));
+  }
+
+  function finishGame() {
+    var total = game.pool.length;
+    var pct = Math.round(game.score / total * 100);
+    touchStudy();
+    saveProgress();
+    var msg = pct >= 80 ? "Harika! 🎯" : pct >= 50 ? "Güzel! 👍" : "Tekrar dene 💪";
+    game = null;
+    renderSet($("#content"));
+    toast(msg + " %" + pct + " doğru");
+  }
+
   // ----- word list -----
   function renderListBody(el) {
     var keys = SETS[currentSet].slice().sort(function (a, b) {
@@ -617,7 +779,7 @@
         '<div class="wl-row" data-word="' + esc(k) + '">' +
         '  <div class="wl-level lvl-' + Math.min(box, 6) + '">' + (box || "•") + "</div>" +
         '  <div style="min-width:0;flex:1"><div class="wl-word">' + esc(w.w) + "</div>" +
-        '    <div class="wl-def">' + esc(w.t || w.d || "") + "</div></div>" +
+        '    <div class="wl-def">' + esc(trText(w) || w.d || "") + "</div></div>" +
         "</div>";
     });
     if (chunk.length < keys.length) {
@@ -677,7 +839,7 @@
         '<div class="wl-row" data-word="' + esc(k) + '">' +
         '  <div class="wl-level lvl-' + Math.min(box, 6) + '">' + box + "</div>" +
         '  <div style="min-width:0;flex:1"><div class="wl-word">' + esc(w.w) + "</div>" +
-        '    <div class="wl-def">' + esc(w.t || "") + (e ? (" · tekrar " + fmtDate(e.due)) : "") + "</div></div>" +
+        '    <div class="wl-def">' + esc(trText(w) || "") + (e ? (" · tekrar " + fmtDate(e.due)) : "") + "</div></div>" +
         "</div>";
     });
     if (!chunk.length) html = '<div class="search-empty" style="padding:24px">Henüz öğrenilmiş kelime yok.<br>Bir setten kartlarla çalışmaya başla 👇</div>';
@@ -724,7 +886,7 @@
       html +=
         '<div class="wl-row" data-word="' + esc(k) + '">' +
         '  <div style="min-width:0;flex:1"><div class="wl-word">' + esc(w.w) + ' <span class="muted" style="font-size:11px;font-weight:600">' + esc(w.p || "") + "</span></div>" +
-        '    <div class="wl-def">' + esc(w.t || w.d || "") + "</div></div>" +
+        '    <div class="wl-def">' + esc(trText(w) || w.d || "") + "</div></div>" +
         '  <span class="set-badge" style="width:auto;height:auto;padding:3px 7px;font-size:10px;border-radius:7px;background:' + color + '">' + esc(badge) + "</span>" +
         "</div>";
     });
@@ -796,7 +958,7 @@
       '<div class="modal-card">' +
       '  <div class="modal-word">' + esc(w.w) + "</div>" +
       '  <div style="margin:6px 0 2px"><span class="wod-pos">' + esc(w.p || "word") + "</span>" + (w.i ? '<span class="wod-ipa">' + esc(w.i) + "</span>" : "") + "</div>" +
-      (w.t ? '<div class="wod-tr">' + esc(w.t) + "</div>" : "") +
+      (trText(w) ? '<div class="wod-tr">' + esc(trText(w)) + "</div>" : "") +
       (w.d ? '<div class="wod-def">' + esc(w.d) + "</div>" : "") +
       (w.e ? '<div class="wod-ex">"' + esc(w.e) + '"</div>' : "") +
       '  <div class="muted" style="margin-top:12px;font-size:12px">Setler: ' + esc(sets) + " · " + esc(srsTxt) + "</div>" +
@@ -833,6 +995,31 @@
     modal.addEventListener("click", function (e) { if (e.target === modal) closeModal(); });
   }
 
+  function openSettings() {
+    var on = showTr();
+    var modal = $("#modal");
+    modal.innerHTML =
+      '<div class="modal-card">' +
+      '  <div class="modal-word" style="font-size:20px">Ayarlar</div>' +
+      '  <div class="toggle' + (on ? " on" : "") + '" id="trToggle">' +
+      '    <div class="track"><div class="thumb"></div></div>' +
+      '    <span style="flex:1;font-size:15px;font-weight:600">Türkçe çevirileri göster</span>' +
+      "  </div>" +
+      '  <div class="muted" style="font-size:12.5px;margin-top:6px;line-height:1.5">Kart, liste ve arama sonuçlarında Türkçe karşılıkların görünmesini açıp kapatır.</div>' +
+      '  <button class="modal-close" id="mClose">Kapat</button>' +
+      "</div>";
+    modal.classList.remove("hidden");
+    $("#trToggle").addEventListener("click", function () {
+      progress.settings = progress.settings || {};
+      progress.settings.showTranslations = !showTr();
+      saveProgress();
+      closeModal();
+      render(currentView);
+    });
+    $("#mClose").addEventListener("click", closeModal);
+    modal.addEventListener("click", function (e) { if (e.target === modal) closeModal(); });
+  }
+
   // ---------------------------------------------------------------- event delegation
   function bindDelegates(root) {
     $$("[data-open]", root).forEach(function (el) {
@@ -856,10 +1043,11 @@
 
   // ---------------------------------------------------------------- boot
   $("#backBtn").addEventListener("click", goBack);
+  $("#settingsBtn").addEventListener("click", openSettings);
   $$(".tab").forEach(function (t) {
     t.addEventListener("click", function () {
       var v = t.getAttribute("data-tab");
-      session = null; quiz = null; listOffset = 0; currentSetMode = "cards";
+      session = null; quiz = null; game = null; listOffset = 0; currentSetMode = "cards";
       if (v === "home") navigate("home");
       else if (v === "sets") navigate("sets");
       else if (v === "review") navigate("review");

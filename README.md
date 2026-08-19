@@ -12,7 +12,9 @@ native text-to-speech pronunciation.
 
 - **11 word sets** — A1–C2 (CEFR) + IELTS, TOEFL, YDS, YÖKDİL, GRE (~6,000 unique words)
 - **Turkish translations** — every word shows its Turkish meaning (free 1.46M-entry
-  EN→TR dictionary, 100% coverage), displayed on flashcards, lists, search and word-of-the-day
+  EN→TR dictionary, 100% coverage), toggleable on/off from the ⚙️ settings
+- **Spelling game** — a missing-letters game on the words you've studied, EN→TR and
+  TR→EN mixed, with letter tiles to fill the blanks
 - **Spaced repetition (SRS)** — Leitner-style boxes (1–6) with growing intervals (1→30 days);
   every "know / again" answer schedules the next review date and progress persists
   across app restarts (SharedPreferences-backed)

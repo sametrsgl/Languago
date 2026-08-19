@@ -87,7 +87,7 @@ Single-page app, no framework. State: `progress` (localStorage), `currentView`,
 asserting on rendered DOM and collecting any runtime errors. Run it with:
 
 ```bash
-cd .test && npm install && node smoke.js   # expect "39 passed, 0 failed"
+cd .test && npm install && node smoke.js   # expect "47 passed, 0 failed"
 ```
 
 Note: the harness renames the `$`/`$$` helpers to `_q`/`_qq` because jsdom mishandles
