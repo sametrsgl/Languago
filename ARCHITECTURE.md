@@ -71,3 +71,16 @@ Single-page app, no framework. State: `progress` (localStorage), `currentView`,
 2. `make_words_js.py` — wraps the JSON as `window.WORD_DATA = {...}` in `assets/words.js`.
 3. `build_apk.sh` — runs the above, then `gradle assembleRelease`, then verifies the
    signature and prints the APK path.
+
+## Testing
+
+`.test/smoke.js` boots the SPA headlessly with jsdom and exercises the full user flow
+(boot → sets → flashcards → quiz → list → modal → search → stats → back navigation),
+asserting on rendered DOM and collecting any runtime errors. Run it with:
+
+```bash
+cd .test && npm install && node smoke.js   # expect "34 passed, 0 failed"
+```
+
+Note: the harness renames the `$`/`$$` helpers to `_q`/`_qq` because jsdom mishandles
+those identifiers (verified in native V8 that the identifiers are distinct and correct).

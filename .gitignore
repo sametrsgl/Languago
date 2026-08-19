@@ -7,9 +7,16 @@ android/local.properties
 # Signing secret — regenerate, do not commit
 android/keystore/
 
+# Built APKs (reproducible via scripts/build_apk.sh)
+/*.apk
+
 # Python
 __pycache__/
 *.pyc
 
 # Word-list data (third-party, git-ignored; rebuilt by scripts/build_data.py)
 data/
+
+# Headless test deps
+.test/node_modules/
+.test/package-lock.json
