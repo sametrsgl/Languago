@@ -49,6 +49,8 @@ ok((d.querySelector("#splash").textContent || "").indexOf("tirasoglusamet@gmail.
 ok(text("#titleText") === "English Word Coach", "default title");
 ok(!!d.querySelector(".hero h2"), "home hero rendered");
 ok(!!d.querySelector(".wod-word"), "word-of-the-day rendered");
+ok(!!d.querySelector(".wod-tr"), "word-of-the-day shows Turkish translation");
+ok(!!d.querySelector(".wod-def"), "word-of-the-day shows English definition");
 ok(d.querySelectorAll(".tab").length === 5, "5 tabs present (incl. Tekrar)");
 
 console.log("== sets list ==");
@@ -65,6 +67,7 @@ ok(!!d.querySelector("#fc"), "flashcard rendered (new session)");
 const w1 = text(".fc-word");
 click("#fc");
 ok(d.querySelector("#fc").classList.contains("flipped"), "card flips");
+ok(!!d.querySelector(".fc-tr") && (d.querySelector(".fc-tr").textContent || "").trim().length > 0, "flashcard back shows Turkish translation");
 click("#fcKnow"); // mark w1 known -> box 1, due tomorrow
 ok(!!d.querySelector("#fc"), "advanced to next card");
 const w2 = text(".fc-word");

@@ -28,7 +28,7 @@ english-word-coach/
 ```js
 window.WORD_DATA = {
   meta: { app, version, sources, note },
-  words: { "<key>": { w, p, d, e, i } },   // word, POS, definition, example, IPA
+  words: { "<key>": { w, p, d, e, i, t } },  // word, POS, definition, example, IPA, Turkish
   sets:  { "a1": [ "<key>", ... ], ... }    // set -> ordered word keys
 };
 ```
@@ -74,8 +74,10 @@ Single-page app, no framework. State: `progress` (localStorage), `currentView`,
 1. `build_data.py` — downloads Oxford 3000/5000, Octanove C1/C2, AWL; merges into the
    master word dict; enriches missing definitions from the Free Dictionary API (cached,
    resumable); writes `data/final/words.json`.
-2. `make_words_js.py` — wraps the JSON as `window.WORD_DATA = {...}` in `assets/words.js`.
-3. `build_apk.sh` — runs the above, then `gradle assembleRelease`, then verifies the
+2. `add_turkish.py` — adds the Turkish `t` field from the free `firatkaya1/dictionary`
+   EN→TR dataset (Common Usage category, POS-matched) plus a hand-curated fallback.
+3. `make_words_js.py` — wraps the JSON as `window.WORD_DATA = {...}` in `assets/words.js`.
+4. `build_apk.sh` — runs the above, then `gradle assembleRelease`, then verifies the
    signature and prints the APK path.
 
 ## Testing
@@ -85,7 +87,7 @@ Single-page app, no framework. State: `progress` (localStorage), `currentView`,
 asserting on rendered DOM and collecting any runtime errors. Run it with:
 
 ```bash
-cd .test && npm install && node smoke.js   # expect "31 passed, 0 failed"
+cd .test && npm install && node smoke.js   # expect "39 passed, 0 failed"
 ```
 
 Note: the harness renames the `$`/`$$` helpers to `_q`/`_qq` because jsdom mishandles

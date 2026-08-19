@@ -28,12 +28,14 @@ research-backed lists for exactly this purpose; re-curating frequency-graded voc
 from scratch would be strictly worse and slower. Repos above were chosen for being
 machine-readable JSON/CSV with CEFR + definition fields.
 
-## 3. Turkish UI, English definitions
+## 3. Turkish UI + Turkish translations
 
-The brand is Turkish-first, so all chrome/labels are Turkish. Definitions stay in English
-(Ozford/Wiktionary) because they are authoritative and unambiguous; English definitions
-also mirror how IELTS/TOEFL/GRE actually test vocabulary. **Turkish glosses are a planned
-follow-up** (needs a reliable EN→TR gloss source; not blocking v1).
+The brand is Turkish-first, so all chrome/labels are Turkish. Word **translations are in
+Turkish** (added alongside the English definition): sourced from the free
+`firatkaya1/dictionary` EN→TR dataset (~1.46M entries), prioritizing its "Common Usage"
+category and matching by part of speech; a small hand-curated fallback covers the last
+few words absent from that dictionary (100% coverage). English definitions stay because
+they mirror how IELTS/TOEFL/GRE actually test vocabulary.
 
 ## 4. JavaScript bridge
 

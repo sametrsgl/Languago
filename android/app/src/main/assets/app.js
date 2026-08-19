@@ -29,7 +29,7 @@
   };
 
   // ---------------------------------------------------------------- branding
-  var APP_VERSION = "1.1.1";
+  var APP_VERSION = "1.2.0";
   var DEV_NAME = "Samet Tıraşoğlu";
   var DEV_EMAIL = "tirasoglusamet@gmail.com";
 
@@ -289,6 +289,7 @@
       '  <div class="kicker" style="color:#6B7280;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.08em">Günün Kelimesi</div>' +
       '  <div class="wod-word">' + esc(wod.w) + "</div>" +
       '  <div><span class="wod-pos">' + esc(wod.p || "word") + "</span>" + (wod.i ? '<span class="wod-ipa">' + esc(wod.i) + "</span>" : "") + "</div>" +
+      (wod.t ? '<div class="wod-tr">' + esc(wod.t) + "</div>" : "") +
       (wod.d ? '<div class="wod-def">' + esc(wod.d) + "</div>" : "") +
       (wod.e ? '<div class="wod-ex">"' + esc(wod.e) + '"</div>' : "") +
       '  <button class="speaker" data-speak="' + esc(wod.w) + '">🔊 Dinle</button>' +
@@ -430,6 +431,7 @@
       '      <div class="fc-hint">Kartı çevirmek için dokun</div>' +
       "    </div>" +
       '    <div class="fc-face fc-back">' +
+      (w.t ? '<div class="fc-tr">' + esc(w.t) + "</div>" : "") +
       '      <div class="fc-def">' + esc(w.d || "—") + "</div>" +
       (w.e ? '<div class="fc-ex"><span class="lbl">Örnek</span>"' + esc(w.e) + '"</div>' : "") +
       "    </div>" +
@@ -615,7 +617,7 @@
         '<div class="wl-row" data-word="' + esc(k) + '">' +
         '  <div class="wl-level lvl-' + Math.min(box, 6) + '">' + (box || "•") + "</div>" +
         '  <div style="min-width:0;flex:1"><div class="wl-word">' + esc(w.w) + "</div>" +
-        '    <div class="wl-def">' + esc(w.d || "") + "</div></div>" +
+        '    <div class="wl-def">' + esc(w.t || w.d || "") + "</div></div>" +
         "</div>";
     });
     if (chunk.length < keys.length) {
@@ -675,7 +677,7 @@
         '<div class="wl-row" data-word="' + esc(k) + '">' +
         '  <div class="wl-level lvl-' + Math.min(box, 6) + '">' + box + "</div>" +
         '  <div style="min-width:0;flex:1"><div class="wl-word">' + esc(w.w) + "</div>" +
-        '    <div class="wl-def">' + (e ? ("tekrar " + fmtDate(e.due)) : "") + "</div></div>" +
+        '    <div class="wl-def">' + esc(w.t || "") + (e ? (" · tekrar " + fmtDate(e.due)) : "") + "</div></div>" +
         "</div>";
     });
     if (!chunk.length) html = '<div class="search-empty" style="padding:24px">Henüz öğrenilmiş kelime yok.<br>Bir setten kartlarla çalışmaya başla 👇</div>';
@@ -722,7 +724,7 @@
       html +=
         '<div class="wl-row" data-word="' + esc(k) + '">' +
         '  <div style="min-width:0;flex:1"><div class="wl-word">' + esc(w.w) + ' <span class="muted" style="font-size:11px;font-weight:600">' + esc(w.p || "") + "</span></div>" +
-        '    <div class="wl-def">' + esc(w.d || "") + "</div></div>" +
+        '    <div class="wl-def">' + esc(w.t || w.d || "") + "</div></div>" +
         '  <span class="set-badge" style="width:auto;height:auto;padding:3px 7px;font-size:10px;border-radius:7px;background:' + color + '">' + esc(badge) + "</span>" +
         "</div>";
     });
@@ -794,6 +796,7 @@
       '<div class="modal-card">' +
       '  <div class="modal-word">' + esc(w.w) + "</div>" +
       '  <div style="margin:6px 0 2px"><span class="wod-pos">' + esc(w.p || "word") + "</span>" + (w.i ? '<span class="wod-ipa">' + esc(w.i) + "</span>" : "") + "</div>" +
+      (w.t ? '<div class="wod-tr">' + esc(w.t) + "</div>" : "") +
       (w.d ? '<div class="wod-def">' + esc(w.d) + "</div>" : "") +
       (w.e ? '<div class="wod-ex">"' + esc(w.e) + '"</div>' : "") +
       '  <div class="muted" style="margin-top:12px;font-size:12px">Setler: ' + esc(sets) + " · " + esc(srsTxt) + "</div>" +
