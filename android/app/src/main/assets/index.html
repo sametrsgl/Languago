@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
+  <meta name="theme-color" content="#4338CA">
+  <title>English Word Coach</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div id="app">
+    <header id="topbar">
+      <button id="backBtn" class="icon-btn hidden" aria-label="Geri">‹</button>
+      <div id="topTitle">
+        <span class="logo-dot"></span>
+        <h1 id="titleText">English Word Coach</h1>
+      </div>
+      <div id="topSpacer"></div>
+    </header>
+
+    <main id="content"></main>
+
+    <nav id="tabbar">
+      <button class="tab" data-tab="home">
+        <span class="tab-ico">⌂</span><span class="tab-label">Ana Sayfa</span>
+      </button>
+      <button class="tab" data-tab="sets">
+        <span class="tab-ico">▤</span><span class="tab-label">Kelimeler</span>
+      </button>
+      <button class="tab" data-tab="search">
+        <span class="tab-ico">⌕</span><span class="tab-label">Ara</span>
+      </button>
+      <button class="tab" data-tab="stats">
+        <span class="tab-ico">◔</span><span class="tab-label">İlerleme</span>
+      </button>
+    </nav>
+  </div>
+
+  <div id="modal" class="hidden"></div>
+  <div id="toast" class="hidden"></div>
+
+  <script src="words.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
