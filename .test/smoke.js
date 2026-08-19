@@ -44,6 +44,8 @@ function click(sel) {
 
 console.log("== boot ==");
 ok(!!w.WORD_DATA && Object.keys(w.WORD_DATA.words).length > 5000, "WORD_DATA loaded (" + Object.keys(w.WORD_DATA.words).length + " words)");
+ok(!!d.querySelector("#splash"), "splash screen present");
+ok((d.querySelector("#splash").textContent || "").indexOf("tirasoglusamet@gmail.com") >= 0, "splash shows developer email");
 ok(text("#titleText") === "English Word Coach", "default title");
 ok(!!d.querySelector(".hero h2"), "home hero rendered");
 ok(!!d.querySelector(".wod-word"), "word-of-the-day rendered");
@@ -121,6 +123,10 @@ console.log("== stats ==");
 click('.tab[data-tab="stats"]');
 ok(d.querySelectorAll(".stat-box").length === 6, "6 stat boxes");
 ok(!!d.querySelector("#resetBtn"), "reset button present");
+const statsTxt = d.querySelector("#content").textContent;
+ok(statsTxt.indexOf("Samet Tıraşoğlu") >= 0, "support shows developer name");
+ok(statsTxt.indexOf("tirasoglusamet@gmail.com") >= 0, "support shows email");
+ok(!!d.querySelector("a.support-mail"), "email is a tappable mailto link");
 
 console.log("== back navigation ==");
 click('.tab[data-tab="sets"]');

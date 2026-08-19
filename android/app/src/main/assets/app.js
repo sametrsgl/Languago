@@ -28,6 +28,11 @@
     gre:    { badge: "GRE", name: "GRE",              desc: "En zorlu kelimeler",             color: "#8B5CF6", group: "Sınav Hazırlığı" }
   };
 
+  // ---------------------------------------------------------------- branding
+  var APP_VERSION = "1.1.1";
+  var DEV_NAME = "Samet Tıraşoğlu";
+  var DEV_EMAIL = "tirasoglusamet@gmail.com";
+
   // ---------------------------------------------------------------- SRS (Leitner-style)
   // box 1..6 with growing review intervals in days. A word is "learned" once it
   // has an srs entry; it becomes "due" when its review date arrives.
@@ -759,6 +764,12 @@
       "</div>" +
       '<div class="section-title">Set bazında ilerleme</div>' +
       '<div class="card" style="padding:4px 16px">' + rows + "</div>" +
+      '<div class="section-title">Destek / Hakkında</div>' +
+      '<div class="card" style="padding:4px 16px">' +
+      '  <div class="stat-row"><span>Geliştirici</span><span class="v">' + esc(DEV_NAME) + "</span></div>" +
+      '  <div class="stat-row"><span>E-posta</span><span class="v"><a class="support-mail" href="mailto:' + esc(DEV_EMAIL) + '">' + esc(DEV_EMAIL) + "</a></span></div>" +
+      '  <div class="stat-row"><span>Sürüm</span><span class="v">' + esc(APP_VERSION) + "</span></div>" +
+      "</div>" +
       '<div class="center" style="margin-top:14px"><button class="btn btn-ghost" id="resetBtn" style="flex:none;padding:12px 18px">İlerlemeyi sıfırla</button></div>';
 
     $("#resetBtn").addEventListener("click", function () {
@@ -853,6 +864,18 @@
       else if (v === "stats") navigate("stats");
     });
   });
+
+  // splash screen: auto-dismiss after a moment, or tap to skip
+  var splash = $("#splash");
+  function hideSplash() {
+    if (!splash) return;
+    splash.classList.add("gone");
+    setTimeout(function () { if (splash.parentNode) splash.parentNode.removeChild(splash); }, 450);
+  }
+  if (splash) {
+    splash.addEventListener("click", hideSplash);
+    setTimeout(hideSplash, 2200);
+  }
 
   navigate("home");
 })();

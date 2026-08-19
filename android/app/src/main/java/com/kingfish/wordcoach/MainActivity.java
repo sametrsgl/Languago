@@ -2,6 +2,8 @@ package com.kingfish.wordcoach;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.speech.tts.TextToSpeech;
 import android.view.View;
@@ -64,7 +66,21 @@ public class MainActivity extends Activity {
         s.setAllowFileAccess(true);
         s.setLoadsImagesAutomatically(true);
         s.setMediaPlaybackRequiresUserGesture(true);
-        webView.setWebViewClient(new WebViewClient());
+        webView.setWebViewClient(new WebViewClient() {
+            @Override
+            public boolean shouldOverrideUrlLoading(WebView view, String url) {
+                // The app loads only local assets; open any mailto:/external http(s)
+                // links (e.g. the support email) in the system's mail/browser app.
+                if (url != null && (url.startsWith("mailto:") || url.startsWith("http://") || url.startsWith("https://"))) {
+                    try {
+                        startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(url)));
+                    } catch (Exception ignored) {
+                    }
+                    return true;
+                }
+                return false;
+            }
+        });
         webView.setBackgroundColor(0xFFF7F5F0); // match app background -> no white flash
         webView.setOverScrollMode(View.OVER_SCROLL_NEVER);
         webView.addJavascriptInterface(new Bridge(), "AndroidBridge");

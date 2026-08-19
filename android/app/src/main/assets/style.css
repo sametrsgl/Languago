@@ -204,3 +204,24 @@ body.searchable, body.searchable * { user-select: text; -webkit-user-select: tex
 .hidden { display: none !important; }
 .muted { color: var(--muted); }
 .center { text-align: center; }
+
+/* ---- splash screen ---- */
+#splash {
+  position: fixed; inset: 0; z-index: 100;
+  background: linear-gradient(160deg, #4338CA 0%, #3B4BDB 55%, #2563EB 100%);
+  color: #fff; display: flex; flex-direction: column; align-items: center; justify-content: center;
+  text-align: center; padding: 24px; transition: opacity .4s ease;
+}
+#splash.gone { opacity: 0; pointer-events: none; }
+.splash-logo {
+  width: 84px; height: 84px; border-radius: 24px; background: rgba(255,255,255,.16);
+  display: flex; align-items: center; justify-content: center; font-size: 44px; font-weight: 800;
+  margin-bottom: 20px; box-shadow: 0 10px 30px rgba(0,0,0,.18);
+}
+.splash-title { font-size: 26px; font-weight: 800; margin: 0 0 6px; letter-spacing: -0.5px; }
+.splash-sub { margin: 0 0 28px; opacity: .85; font-size: 14px; }
+.splash-dev { background: rgba(255,255,255,.12); border-radius: 16px; padding: 14px 24px; }
+.splash-name { font-weight: 700; font-size: 15px; }
+.splash-mail { opacity: .85; font-size: 13px; margin-top: 3px; word-break: break-all; }
+.splash-tap { position: absolute; bottom: calc(30px + env(safe-area-inset-bottom)); opacity: .7; font-size: 12px; animation: fade 1.2s ease infinite alternate; }
+a.support-mail { color: var(--primary); text-decoration: none; font-weight: 700; }
