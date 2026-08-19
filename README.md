@@ -11,7 +11,12 @@ native text-to-speech pronunciation.
 ## Features
 
 - **11 word sets** — A1–C2 (CEFR) + IELTS, TOEFL, YDS, YÖKDİL, GRE (~6,000 unique words)
-- **Flashcards** — tap to flip, "know / again" spaced-repetition tracking (1–5 mastery levels)
+- **Spaced repetition (SRS)** — Leitner-style boxes (1–6) with growing intervals (1→30 days);
+  every "know / again" answer schedules the next review date and progress persists
+  across app restarts (SharedPreferences-backed)
+- **"Tekrar" (review) tab** — see every learned word + its next review date, and a one-tap
+  global review of everything due today
+- **Flashcards** — tap to flip, "know / again" SRS grading
 - **Quizzes** — multiple-choice, 10/20/30 questions, word→meaning or meaning→word
 - **Word list** — searchable per-set list, tap any word for a detail card
 - **Word of the day**, daily streak, per-set and global progress, quiz accuracy stats

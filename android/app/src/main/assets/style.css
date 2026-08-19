@@ -153,6 +153,11 @@ body.searchable, body.searchable * { user-select: text; -webkit-user-select: tex
 .lvl-3 { background: #DBEAFE; color: var(--primary-2); }
 .lvl-4 { background: #ECFDF3; color: var(--green); }
 .lvl-5 { background: #D1FAE5; color: #065F46; }
+.lvl-6 { background: #0F766E; color: #ECFDF5; }
+
+/* disabled buttons */
+.btn:disabled { opacity: .45; cursor: default; }
+.btn:disabled:active { transform: none; }
 
 /* search */
 .search-box { position: relative; margin-bottom: 14px; }

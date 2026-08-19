@@ -54,9 +54,15 @@ Single-page app, no framework. State: `progress` (localStorage), `currentView`,
 `currentSet`, `currentSetMode` (`cards|quiz|list`), `session` (flashcard queue),
 `quiz` (question list).
 
-- **Views** rendered into `#content` by `render(view)`; bottom tab bar + top back button.
-- **Spaced repetition** — each word has a mastery level 0–5; "know" +1, "again" −1
-  (min 1); mastered = level ≥ 4. Flashcard queue prioritizes unseen words.
+- **Views** rendered into `#content` by `render(view)`; bottom tab bar (Ana Sayfa / Kelimeler / Tekrar / Ara / İlerleme) + top back button.
+- **Spaced repetition (Leitner)** — each studied word has `{ box: 1..6, due: "YYYY-MM-DD", reps }`;
+  intervals are `[1,2,4,7,15,30]` days. "know" advances a box and schedules the next review;
+  "again" resets to box 1 due today. Words with `due <= today` form the review queue
+  (per-set via the "Kartlar" tab, or globally via the "Tekrar" tab).
+- **Persistence** — `AndroidBridge.saveProgress/loadProgress` mirror progress into
+  Android `SharedPreferences` (reliable on `file://` origins where localStorage may not
+  persist); localStorage is kept as a fallback. Migration converts the old `levels`
+  map into `srs` on first run.
 - **Quiz** — distractors drawn from the same set (fallback: whole vocab), 4 options,
   both directions (word→meaning, meaning→word).
 - **Streak** — `lastStudy` date compared against yesterday/today.
@@ -79,7 +85,7 @@ Single-page app, no framework. State: `progress` (localStorage), `currentView`,
 asserting on rendered DOM and collecting any runtime errors. Run it with:
 
 ```bash
-cd .test && npm install && node smoke.js   # expect "34 passed, 0 failed"
+cd .test && npm install && node smoke.js   # expect "31 passed, 0 failed"
 ```
 
 Note: the harness renames the `$`/`$$` helpers to `_q`/`_qq` because jsdom mishandles

@@ -28,14 +28,21 @@
     gre:    { badge: "GRE", name: "GRE",              desc: "En zorlu kelimeler",             color: "#8B5CF6", group: "Sınav Hazırlığı" }
   };
 
+  // ---------------------------------------------------------------- SRS (Leitner-style)
+  // box 1..6 with growing review intervals in days. A word is "learned" once it
+  // has an srs entry; it becomes "due" when its review date arrives.
+  var INTERVALS = [1, 2, 4, 7, 15, 30]; // days for box 1..6
+  var MAX_BOX = 6;
+
   // ---------------------------------------------------------------- state
-  var STORE_KEY = "ewc_progress_v1";
+  var STORE_KEY = "ewc_progress_v2";
   var progress = loadProgress();
+  migrate();
   var currentView = "home";
   var currentSet = null;
   var setReturnTo = "sets";
   var currentSetMode = "cards"; // cards | quiz | list
-  var session = null; // active study session
+  var session = null; // active study/review session
   var quiz = null;    // active quiz
   var listOffset = 0;
 
@@ -55,27 +62,99 @@
     }
     return a;
   }
+  function pad(n) { return String(n).padStart(2, "0"); }
   function todayStr() {
     var d = new Date();
-    return d.getFullYear() + "-" + String(d.getMonth() + 1).padStart(2, "0") + "-" + String(d.getDate()).padStart(2, "0");
+    return d.getFullYear() + "-" + pad(d.getMonth() + 1) + "-" + pad(d.getDate());
   }
   function yesterdayStr() {
     var d = new Date(Date.now() - 86400000);
-    return d.getFullYear() + "-" + String(d.getMonth() + 1).padStart(2, "0") + "-" + String(d.getDate()).padStart(2, "0");
+    return d.getFullYear() + "-" + pad(d.getMonth() + 1) + "-" + pad(d.getDate());
   }
+  function addDays(dateStr, n) {
+    var d = new Date(dateStr + "T00:00:00");
+    d.setDate(d.getDate() + n);
+    return d.getFullYear() + "-" + pad(d.getMonth() + 1) + "-" + pad(d.getDate());
+  }
+  function fmtDate(dateStr) {
+    var parts = dateStr.split("-");
+    return parts[2] + "." + parts[1] + "." + parts[0];
+  }
+
+  // ---- persistence: Android SharedPreferences (reliable) + localStorage fallback ----
   function loadProgress() {
+    try {
+      if (typeof window.AndroidBridge !== "undefined" && window.AndroidBridge.loadProgress) {
+        var s = window.AndroidBridge.loadProgress();
+        if (s) return JSON.parse(s);
+      }
+    } catch (e) {}
     try { return JSON.parse(localStorage.getItem(STORE_KEY)) || {}; } catch (e) { return {}; }
   }
   function saveProgress() {
-    try { localStorage.setItem(STORE_KEY, JSON.stringify(progress)); } catch (e) {}
+    var json = JSON.stringify(progress);
+    try {
+      if (typeof window.AndroidBridge !== "undefined" && window.AndroidBridge.saveProgress) {
+        window.AndroidBridge.saveProgress(json);
+      }
+    } catch (e) {}
+    try { localStorage.setItem(STORE_KEY, json); } catch (e) {}
   }
-  function level(key) { return progress.levels && progress.levels[key] ? progress.levels[key] : 0; }
-  function isMastered(key) { return level(key) >= 4; }
+  function migrate() {
+    if (progress.levels && !progress.srs) {
+      progress.srs = {};
+      Object.keys(progress.levels).forEach(function (k) {
+        var l = progress.levels[k];
+        progress.srs[k] = { box: Math.max(1, Math.min(5, l)), reps: l || 1, due: todayStr() };
+      });
+      delete progress.levels;
+      saveProgress();
+    }
+  }
+
+  // ---- SRS accessors ----
+  function srsEntry(key) { return progress.srs && progress.srs[key] ? progress.srs[key] : null; }
+  function srsBox(key) { var e = srsEntry(key); return e ? e.box : 0; }
+  function isLearned(key) { return srsBox(key) >= 1; }
+  function isMastered(key) { return srsBox(key) >= 5; }
+  function isDue(key) { var e = srsEntry(key); return !!e && e.due <= todayStr(); }
+
+  function markKnown(key) {
+    var e = srsEntry(key) || { box: 0, reps: 0 };
+    e.box = Math.min(MAX_BOX, e.box + 1);
+    e.reps++;
+    e.due = addDays(todayStr(), INTERVALS[e.box - 1]);
+    progress.srs = progress.srs || {};
+    progress.srs[key] = e;
+    if (currentSet) progress.lastSet = currentSet;
+    touchStudy();
+    saveProgress();
+  }
+  function markAgain(key) {
+    var e = srsEntry(key) || { box: 0, reps: 0 };
+    e.box = 1;
+    e.reps++;
+    e.due = todayStr(); // comes back for review today
+    progress.srs = progress.srs || {};
+    progress.srs[key] = e;
+    if (currentSet) progress.lastSet = currentSet;
+    touchStudy();
+    saveProgress();
+  }
+
+  function newWords(setName) { return (SETS[setName] || []).filter(function (k) { return srsBox(k) === 0; }); }
+  function dueWords(setName) { return (SETS[setName] || []).filter(isDue); }
+  function learnedWords(setName) { return (SETS[setName] || []).filter(isLearned); }
 
   function setStats(name) {
     var keys = SETS[name] || [];
-    var mastered = keys.filter(isMastered).length;
-    return { total: keys.length, mastered: mastered, pct: keys.length ? Math.round(mastered / keys.length * 100) : 0 };
+    var learned = keys.filter(isLearned).length;
+    var due = keys.filter(isDue).length;
+    return {
+      total: keys.length, learned: learned, due: due,
+      newn: keys.length - learned,
+      pct: keys.length ? Math.round(learned / keys.length * 100) : 0
+    };
   }
 
   function touchStudy() {
@@ -84,21 +163,6 @@
     var yest = yesterdayStr();
     progress.streak = (progress.lastStudy === yest) ? ((progress.streak || 0) + 1) : 1;
     progress.lastStudy = today;
-    saveProgress();
-  }
-
-  function markKnown(key) {
-    progress.levels = progress.levels || {};
-    progress.levels[key] = Math.min(5, level(key) + 1);
-    progress.lastSet = currentSet || progress.lastSet;
-    touchStudy();
-    saveProgress();
-  }
-  function markAgain(key) {
-    progress.levels = progress.levels || {};
-    progress.levels[key] = Math.max(1, level(key) - 1);
-    progress.lastSet = currentSet || progress.lastSet;
-    touchStudy();
     saveProgress();
   }
 
@@ -129,8 +193,9 @@
   function updateChrome() {
     var meta = null;
     if (currentView === "set" && currentSet) meta = SET_META[currentSet];
-    $("#backBtn").classList.toggle("hidden", currentView !== "set");
-    $("#titleText").textContent = meta ? meta.name : "English Word Coach";
+    var inSession = !!(session && (currentView === "set" || currentView === "review"));
+    $("#backBtn").classList.toggle("hidden", currentView !== "set" && !(session && currentView === "review"));
+    $("#titleText").textContent = meta ? meta.name : (currentView === "review" ? "Tekrar" : "English Word Coach");
 
     var tab = currentView === "set" ? "sets" : currentView;
     $$(".tab").forEach(function (t) { t.classList.toggle("active", t.getAttribute("data-tab") === tab); });
@@ -152,6 +217,10 @@
       session = null;
       quiz = null;
       navigate(setReturnTo);
+    } else if (currentView === "review" && session) {
+      session = null;
+      render("review");
+      updateChrome();
     } else {
       navigate("home");
     }
@@ -169,6 +238,7 @@
     if (view === "home") renderHome(c);
     else if (view === "sets") renderSets(c);
     else if (view === "set") renderSet(c);
+    else if (view === "review") renderReview(c);
     else if (view === "search") renderSearch(c);
     else if (view === "stats") renderStats(c);
   }
@@ -177,8 +247,19 @@
   function renderHome(c) {
     var hour = new Date().getHours();
     var greet = hour < 5 ? "İyi geceler" : hour < 12 ? "Günaydın" : hour < 18 ? "İyi günler" : "İyi akşamlar";
-    var totalMastered = ALL_KEYS.filter(isMastered).length;
+    var totalLearned = ALL_KEYS.filter(isLearned).length;
+    var totalDue = ALL_KEYS.filter(isDue).length;
     var wod = wordOfDay();
+
+    var dueCard = "";
+    if (totalDue > 0) {
+      dueCard =
+        '<div class="set-card" data-goto="review" style="border:1px solid var(--primary-soft)">' +
+        '  <div class="set-badge" style="background:#4338CA">🔁</div>' +
+        '  <div class="set-info"><div class="set-name">Tekrar zamanı</div>' +
+        '  <div class="set-count">' + totalDue + " kelime tekrar bekliyor</div></div>" +
+        '  <div class="set-chevron">›</div></div>';
+    }
 
     var lastSetHtml = "";
     if (progress.lastSet && SET_META[progress.lastSet]) {
@@ -187,7 +268,7 @@
         '<div class="set-card" data-open="' + progress.lastSet + '" data-ret="home">' +
         '  <div class="set-badge" style="background:' + SET_META[progress.lastSet].color + '">' + badgeHtml(progress.lastSet) + "</div>" +
         '  <div class="set-info"><div class="set-name">Devam et: ' + esc(SET_META[progress.lastSet].name) + "</div>" +
-        '  <div class="set-count">%' + st.pct + " tamamlandı · " + st.mastered + "/" + st.total + " kelime</div>" +
+        '  <div class="set-count">%' + st.pct + " tamamlandı · " + st.learned + "/" + st.total + " kelime</div>" +
         '  <div class="set-progress"><span style="width:' + st.pct + '%"></span></div></div>' +
         '  <div class="set-chevron">›</div></div>';
     }
@@ -196,8 +277,9 @@
       '<div class="hero">' +
       '  <div class="kicker">' + greet + "</div>" +
       "  <h2>Bugün kaç kelime öğreneceksin?</h2>" +
-      "  <p>" + (progress.streak || 0) + " günlük seri 🔥 · " + totalMastered + " kelime öğrenildi</p>" +
+      "  <p>" + (progress.streak || 0) + " günlük seri 🔥 · " + totalLearned + " kelime öğrenildi</p>" +
       "</div>" +
+      dueCard +
       '<div class="card">' +
       '  <div class="kicker" style="color:#6B7280;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.08em">Günün Kelimesi</div>' +
       '  <div class="wod-word">' + esc(wod.w) + "</div>" +
@@ -245,7 +327,7 @@
           '  <div class="set-badge" style="background:' + m.color + '">' + badgeHtml(k) + "</div>" +
           '  <div class="set-info"><div class="set-name">' + esc(m.name) + "</div>" +
           '    <div class="set-desc">' + esc(m.desc) + "</div>" +
-          '    <div class="set-count">' + st.total + " kelime · %" + st.pct + " öğrenildi</div>" +
+          '    <div class="set-count">' + st.total + " kelime · " + st.learned + " öğrenildi" + (st.due ? " · " + st.due + " tekrar" : "") + "</div>" +
           '    <div class="set-progress"><span style="width:' + st.pct + '%"></span></div></div>' +
           '  <div class="set-chevron">›</div></div>';
       });
@@ -269,7 +351,7 @@
     c.innerHTML =
       '<div class="set-head"><div class="set-badge" style="background:' + m.color + '">' + badgeHtml(currentSet) + "</div>" +
       "<h2>" + esc(m.name) + "</h2>" +
-      '<div class="sub">' + esc(m.desc) + " · " + st.total + " kelime · %" + st.pct + " öğrenildi</div></div>" +
+      '<div class="sub">' + esc(m.desc) + " · " + st.total + " kelime · " + st.learned + " öğrenildi</div></div>" +
       tabs +
       '<div id="modeBody"></div>';
 
@@ -294,33 +376,33 @@
 
   function renderCardsMenu(el) {
     var st = setStats(currentSet);
-    var remain = st.total - st.mastered;
+    var due = dueWords(currentSet).length;
     el.innerHTML =
       '<div class="card">' +
       '  <div class="center" style="padding:10px 0">' +
       '    <div style="background:var(--bg);border-radius:14px;padding:22px 16px">' +
-      '      <div class="num" style="font-size:40px">' + st.mastered + '<span class="muted" style="font-size:20px">/' + st.total + "</span></div>" +
-      '      <div class="lbl">kelime öğrenildi</div>' +
+      '      <div class="num" style="font-size:40px">' + st.learned + '<span class="muted" style="font-size:20px">/' + st.total + "</span></div>" +
+      '      <div class="lbl">kelime öğrenildi · ' + st.due + " tekrar bekliyor</div>" +
       "    </div>" +
       "  </div>" +
-      '  <button class="btn btn-primary" style="margin-top:8px" id="startCards">Kartlarla Çalış' + (remain ? " (" + remain + " kalan)" : "") + "</button>" +
+      '  <button class="btn btn-primary" style="margin-top:8px" id="startNew"' + (st.newn ? "" : " disabled") + ">Yeni Kelimeler (" + st.newn + ")</button>" +
+      '  <button class="btn btn-ghost" style="margin-top:10px" id="startReview"' + (due ? "" : " disabled") + ">Tekrar Et (" + due + ")</button>" +
       "</div>";
-    $("#startCards").addEventListener("click", startStudy);
+    var nb = $("#startNew");
+    var rb = $("#startReview");
+    if (nb) nb.addEventListener("click", function () { startStudy("new"); });
+    if (rb) rb.addEventListener("click", function () { startStudy("review"); });
   }
 
   // ----- flashcard -----
-  function buildQueue() {
-    var keys = SETS[currentSet].slice();
-    var unseen = keys.filter(function (k) { return level(k) === 0; });
-    var seen = keys.filter(function (k) { return level(k) > 0; });
-    var queue = shuffle(unseen).concat(shuffle(seen));
-    return queue.slice(0, 40);
-  }
-
-  function startStudy() {
-    var q = buildQueue();
-    if (!q.length) { toast("Bu sette kelime yok."); return; }
-    session = { queue: q, index: 0, flipped: false };
+  function startStudy(kind) {
+    var keys = kind === "review" ? dueWords(currentSet) : newWords(currentSet);
+    var queue = shuffle(keys).slice(0, 40);
+    if (!queue.length) {
+      toast(kind === "review" ? "Tekrar edilecek kelime yok 🎉" : "Bu setteki tüm kelimeleri öğrendin 🎉");
+      return;
+    }
+    session = { kind: kind, global: false, queue: queue, index: 0, flipped: false };
     renderSet($("#content"));
   }
 
@@ -329,9 +411,10 @@
     var w = WORDS[key];
     var pos = session.index + 1;
     var total = session.queue.length;
+    var box = srsBox(key);
 
     el.innerHTML =
-      '<div class="stage-meta"><span>' + pos + " / " + total + "</span><span>" + esc(w.p || "word") + "</span></div>" +
+      '<div class="stage-meta"><span>' + pos + " / " + total + "</span><span>" + (session.kind === "review" ? "Tekrar" : "Yeni") + (box ? " · kutu " + box : "") + "</span></div>" +
       '<div class="stage">' +
       '  <div class="flashcard" id="fc">' +
       '    <div class="fc-face fc-front">' +
@@ -373,7 +456,8 @@
     if (session.index >= session.queue.length) {
       session = null;
       toast("Harika! 👏 Bu tur bitti.");
-      renderSet($("#content"));
+      if (currentView === "review") { render("review"); updateChrome(); }
+      else renderSet($("#content"));
       return;
     }
     renderFlashcard($("#modeBody"));
@@ -382,8 +466,8 @@
   // ----- quiz -----
   function buildQuizSet() {
     var keys = SETS[currentSet].slice();
-    var unseen = keys.filter(function (k) { return level(k) === 0; });
-    var seen = keys.filter(function (k) { return level(k) > 0; });
+    var unseen = keys.filter(function (k) { return srsBox(k) === 0; });
+    var seen = keys.filter(function (k) { return srsBox(k) > 0; });
     return shuffle(unseen).concat(shuffle(seen));
   }
 
@@ -402,15 +486,9 @@
     var word = WORDS[key];
     var distractors = pickDistractors(key, 3);
     if (dir === "w2d") {
-      return {
-        type: "w2d", key: key, prompt: word.w,
-        options: shuffle([key].concat(distractors)), correctKey: key
-      };
+      return { type: "w2d", key: key, prompt: word.w, options: shuffle([key].concat(distractors)), correctKey: key };
     }
-    return {
-      type: "d2w", key: key, prompt: word.d,
-      options: shuffle([key].concat(distractors)), correctKey: key
-    };
+    return { type: "d2w", key: key, prompt: word.d, options: shuffle([key].concat(distractors)), correctKey: key };
   }
 
   function pickDistractors(correctKey, n) {
@@ -527,10 +605,10 @@
     var html = "";
     chunk.forEach(function (k) {
       var w = WORDS[k];
-      var l = level(k);
+      var box = srsBox(k);
       html +=
         '<div class="wl-row" data-word="' + esc(k) + '">' +
-        '  <div class="wl-level lvl-' + l + '">' + (l || "•") + "</div>" +
+        '  <div class="wl-level lvl-' + Math.min(box, 6) + '">' + (box || "•") + "</div>" +
         '  <div style="min-width:0;flex:1"><div class="wl-word">' + esc(w.w) + "</div>" +
         '    <div class="wl-def">' + esc(w.d || "") + "</div></div>" +
         "</div>";
@@ -541,6 +619,67 @@
     el.innerHTML = '<div class="card">' + html + "</div>";
     var lm = $("#loadMore");
     if (lm) lm.addEventListener("click", function () { listOffset += 150; renderListBody(el); });
+  }
+
+  // ---------------------------------------------------------------- review tab
+  function renderReview(c) {
+    if (session && session.global) {
+      c.innerHTML = '<div id="modeBody"></div>';
+      renderFlashcard($("#modeBody"));
+      bindDelegates(c);
+      return;
+    }
+    var due = shuffle(ALL_KEYS.filter(isDue));
+    var learned = ALL_KEYS.filter(isLearned);
+
+    c.innerHTML =
+      '<div class="card"><div class="center" style="padding:8px 0">' +
+      '  <div class="num" style="font-size:42px">' + due.length + "</div>" +
+      '  <div class="lbl">bugün tekrar edilecek kelime</div>' +
+      '  <button class="btn btn-primary" style="margin-top:16px" id="startGlobalReview"' + (due.length ? "" : " disabled") + ">Tekrara Başla</button>" +
+      "</div></div>" +
+      '<div class="section-title">Öğrenilen kelimeler (' + learned.length + ")</div>" +
+      '<div class="card" id="learnedList" style="padding:4px 16px"></div>';
+
+    renderLearnedList($("#learnedList"), learned);
+    var gb = $("#startGlobalReview");
+    if (gb) gb.addEventListener("click", startGlobalReview);
+    bindDelegates(c);
+  }
+
+  function startGlobalReview() {
+    var due = shuffle(ALL_KEYS.filter(isDue));
+    if (!due.length) { toast("Tekrar edilecek kelime yok 🎉"); return; }
+    session = { kind: "review", global: true, queue: due.slice(0, 40), index: 0, flipped: false };
+    render("review");
+    updateChrome();
+  }
+
+  function renderLearnedList(el, keys) {
+    keys = keys.slice().sort(function (a, b) {
+      var ea = srsEntry(a), eb = srsEntry(b);
+      return (eb.due || "").localeCompare(ea.due || "");
+    });
+    var chunk = keys.slice(0, listOffset + 150);
+    var html = "";
+    chunk.forEach(function (k) {
+      var w = WORDS[k];
+      var box = srsBox(k);
+      var e = srsEntry(k);
+      html +=
+        '<div class="wl-row" data-word="' + esc(k) + '">' +
+        '  <div class="wl-level lvl-' + Math.min(box, 6) + '">' + box + "</div>" +
+        '  <div style="min-width:0;flex:1"><div class="wl-word">' + esc(w.w) + "</div>" +
+        '    <div class="wl-def">' + (e ? ("tekrar " + fmtDate(e.due)) : "") + "</div></div>" +
+        "</div>";
+    });
+    if (!chunk.length) html = '<div class="search-empty" style="padding:24px">Henüz öğrenilmiş kelime yok.<br>Bir setten kartlarla çalışmaya başla 👇</div>';
+    if (chunk.length < keys.length) {
+      html += '<div class="center" style="padding:14px"><button class="btn btn-ghost" id="loadMoreLearned">Daha fazla (' + (keys.length - chunk.length) + ")</button></div>";
+    }
+    el.innerHTML = html;
+    var lm = $("#loadMoreLearned");
+    if (lm) lm.addEventListener("click", function () { listOffset += 150; renderLearnedList(el, keys); });
   }
 
   // ---------------------------------------------------------------- search
@@ -594,8 +733,9 @@
 
   // ---------------------------------------------------------------- stats
   function renderStats(c) {
-    var totalMastered = ALL_KEYS.filter(isMastered).length;
-    var totalWords = ALL_KEYS.length;
+    var totalLearned = ALL_KEYS.filter(isLearned).length;
+    var totalDue = ALL_KEYS.filter(isDue).length;
+    var totalNew = ALL_KEYS.length - totalLearned;
     var acc = progress.totalQuiz ? Math.round(progress.totalQuizCorrect / progress.totalQuiz * 100) : 0;
 
     var rows = "";
@@ -605,14 +745,16 @@
       var m = SET_META[k];
       rows +=
         '<div class="stat-row"><span><span class="set-badge" style="display:inline-flex;width:22px;height:22px;border-radius:6px;font-size:9px;background:' + m.color + ';vertical-align:middle;margin-right:8px">' + badgeHtml(k) + "</span>" + esc(m.name) + "</span>" +
-        '<span class="v muted">' + st.mastered + "/" + st.total + "</span></div>";
+        '<span class="v muted">' + st.learned + "/" + st.total + "</span></div>";
     });
 
     c.innerHTML =
       '<div class="stat-grid">' +
-      '  <div class="stat-box"><div class="num">' + totalMastered + '</div><div class="lbl">Öğrenilen kelime</div></div>' +
+      '  <div class="stat-box"><div class="num">' + totalLearned + '</div><div class="lbl">Öğrenilen kelime</div></div>' +
+      '  <div class="stat-box"><div class="num">' + totalDue + '</div><div class="lbl">Tekrar bekleyen</div></div>' +
+      '  <div class="stat-box"><div class="num">' + totalNew + '</div><div class="lbl">Yeni kelime</div></div>' +
       '  <div class="stat-box"><div class="num">' + (progress.streak || 0) + '</div><div class="lbl">Günlük seri 🔥</div></div>' +
-      '  <div class="stat-box"><div class="num">' + totalWords + '</div><div class="lbl">Toplam kelime</div></div>' +
+      '  <div class="stat-box"><div class="num">' + ALL_KEYS.length + '</div><div class="lbl">Toplam kelime</div></div>' +
       '  <div class="stat-box"><div class="num">%' + acc + '</div><div class="lbl">Test doğruluğu</div></div>' +
       "</div>" +
       '<div class="section-title">Set bazında ilerleme</div>' +
@@ -632,8 +774,10 @@
   // ---------------------------------------------------------------- modal
   function openWordModal(key) {
     var w = WORDS[key];
-    var l = level(key);
+    var box = srsBox(key);
+    var e = srsEntry(key);
     var sets = whichSets(key).map(function (s) { return SET_META[s].badge; }).join(", ");
+    var srsTxt = box ? ("Kutu " + box + "/" + MAX_BOX + " · sonraki tekrar " + fmtDate(e.due)) : "Henüz çalışılmadı";
     var modal = $("#modal");
     modal.innerHTML =
       '<div class="modal-card">' +
@@ -641,7 +785,7 @@
       '  <div style="margin:6px 0 2px"><span class="wod-pos">' + esc(w.p || "word") + "</span>" + (w.i ? '<span class="wod-ipa">' + esc(w.i) + "</span>" : "") + "</div>" +
       (w.d ? '<div class="wod-def">' + esc(w.d) + "</div>" : "") +
       (w.e ? '<div class="wod-ex">"' + esc(w.e) + '"</div>' : "") +
-      '  <div class="muted" style="margin-top:12px;font-size:12px">Setler: ' + esc(sets) + " · Seviye: " + l + "/5</div>" +
+      '  <div class="muted" style="margin-top:12px;font-size:12px">Setler: ' + esc(sets) + " · " + esc(srsTxt) + "</div>" +
       '  <button class="speaker" id="mSpeak">🔊 Dinle</button>' +
       '  <div class="quiz-actions" style="margin-top:16px">' +
       '    <button class="btn btn-again" id="mAgain">Tekrar</button>' +
@@ -704,6 +848,7 @@
       session = null; quiz = null; listOffset = 0; currentSetMode = "cards";
       if (v === "home") navigate("home");
       else if (v === "sets") navigate("sets");
+      else if (v === "review") navigate("review");
       else if (v === "search") navigate("search");
       else if (v === "stats") navigate("stats");
     });

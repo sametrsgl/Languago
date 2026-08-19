@@ -29,6 +29,28 @@ public class MainActivity extends Activity {
         public void exit() {
             finish();
         }
+
+        // Reliable progress persistence. localStorage on file:// origins is not
+        // guaranteed to survive app restarts on all WebView builds, so we mirror
+        // the SRS progress into SharedPreferences.
+        @JavascriptInterface
+        public void saveProgress(String json) {
+            try {
+                getSharedPreferences("wordcoach", MODE_PRIVATE)
+                        .edit().putString("progress", json).apply();
+            } catch (Exception ignored) {
+            }
+        }
+
+        @JavascriptInterface
+        public String loadProgress() {
+            try {
+                return getSharedPreferences("wordcoach", MODE_PRIVATE)
+                        .getString("progress", null);
+            } catch (Exception e) {
+                return null;
+            }
+        }
     }
 
     @SuppressLint({"SetJavaScriptEnabled", "JavascriptInterface", "AddJavascriptInterface"})
