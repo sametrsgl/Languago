@@ -1,4 +1,4 @@
-# English Word Coach (Android APK)
+# Lingo Branch (Android APK)
 
 Offline English vocabulary, grammar and reading coach for Android — a self-contained,
 dependency-free `WebView` app that ships word sets from **CEFR A1–C2** plus exam-prep
@@ -65,5 +65,5 @@ See `ARCHITECTURE.md` for structure, `DECISIONS.md` for source/licensing rationa
   ```bash
   keytool -genkeypair -keystore android/keystore/wordcoach.keystore -alias wordcoach \
     -keyalg RSA -keysize 2048 -validity 10000 -storepass kingfish2026 -keypass kingfish2026 \
-    -dname "CN=Kingfish,OU=English Word Coach,O=Kingfish,C=TR"
+    -dname "CN=Kingfish,OU=Lingo Branch,O=Kingfish,C=TR"
   ```

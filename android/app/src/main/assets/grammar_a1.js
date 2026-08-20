@@ -1,4 +1,4 @@
-/* English Word Coach — Dilbilgisi A1 (Başlangıç) */
+/* Lingo Branch — Dilbilgisi A1 (Başlangıç) */
 window.GRAMMAR_A1 = {
   id: "a1",
   title: "A1 · Başlangıç",

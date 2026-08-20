@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Build the English Word Coach APK end-to-end and verify the result.
+# Build the Lingo Branch APK end-to-end and verify the result.
 set -euo pipefail
 
 ROOT="$(cd "$(dirname "$0")/.." && pwd)"

@@ -1,4 +1,4 @@
-/* English Word Coach — Dilbilgisi B1 (Orta) */
+/* Lingo Branch — Dilbilgisi B1 (Orta) */
 window.GRAMMAR_B1 = {
   id: "b1",
   title: "B1 · Orta",

@@ -1,4 +1,4 @@
-/* English Word Coach — application logic (local-assets WebView SPA) */
+/* Lingo Branch — application logic (local-assets WebView SPA) */
 (function () {
   "use strict";
 
@@ -291,7 +291,7 @@
       || currentView === "gunit";
     $("#backBtn").classList.toggle("hidden", !showBack);
 
-    var title = "English Word Coach";
+    var title = "Lingo Branch";
     if (meta) title = meta.name;
     else if (currentView === "review") title = "Tekrar";
     else if (currentView === "grammar") title = "Dilbilgisi";
@@ -431,7 +431,7 @@
 
     c.innerHTML =
       '<div class="hero">' +
-      '  <div class="kicker">' + greet + "</div>" +
+      '  <div class="kicker">🌿 ' + greet + "</div>" +
       "  <h2>Bugün kaç kelime öğreneceksin?</h2>" +
       "  <p>" + (progress.streak || 0) + " günlük seri 🔥 · " + totalLearned + " kelime öğrenildi</p>" +
       "</div>" +

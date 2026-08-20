@@ -1,4 +1,4 @@
-/* English Word Coach — Dilbilgisi A2 (Temel) */
+/* Lingo Branch — Dilbilgisi A2 (Temel) */
 window.GRAMMAR_A2 = {
   id: "a2",
   title: "A2 · Temel",
