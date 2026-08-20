@@ -69,9 +69,10 @@ ok(d.querySelectorAll(".set-card").length >= 11, "11 set cards (" + d.querySelec
 console.log("== SRS: study new words ==");
 const a1card = Array.from(d.querySelectorAll(".set-card")).find((c) => c.getAttribute("data-open") === "a1");
 a1card.click();
-ok(!!d.querySelector("#startNew"), "Yeni Kelimeler button present");
+ok(d.querySelectorAll(".part-row").length >= 2, "parts list renders (>=2 parts)");
 ok(!!d.querySelector("#startReview"), "Tekrar Et button present");
-click("#startNew");
+ok(!!d.querySelector(".part-row.locked"), "a later part is locked initially");
+click('.part-row[data-part="0"]');
 ok(!!d.querySelector("#fc"), "flashcard rendered (new session)");
 const w1 = text(".fc-word");
 click("#fc");
@@ -140,6 +141,12 @@ ok(statsTxt.indexOf("Samet Tıraşoğlu") >= 0, "support shows developer name");
 ok(statsTxt.indexOf("tirasoglusamet@gmail.com") >= 0, "support shows email");
 ok(!!d.querySelector("a.support-mail"), "email is a tappable mailto link");
 
+console.log("== achievements ==");
+ok(d.querySelectorAll(".ach-badge").length === w.ACHIEVEMENTS.length, "achievements grid renders " + w.ACHIEVEMENTS.length + " badges (" + d.querySelectorAll(".ach-badge").length + ")");
+ok(d.querySelectorAll(".ach-badge.got").length >= 1, "at least one achievement unlocked (" + d.querySelectorAll(".ach-badge.got").length + ")");
+ok(d.querySelectorAll(".ach-badge.locked").length >= 1, "locked badges show dimmed state");
+ok((d.querySelector("#content").textContent || "").indexOf("kazanıldı") >= 0, "achievements show X/Y kazanıldı");
+
 console.log("== back navigation ==");
 click('.tab[data-tab="sets"]');
 Array.from(d.querySelectorAll(".set-card")).find((c) => c.getAttribute("data-open") === "a1").click();
@@ -166,7 +173,8 @@ Array.from(d.querySelectorAll(".set-card")).find((c) => c.getAttribute("data-ope
 // can occasionally not qualify — loop a few times to make this deterministic.
 let sGuard = 0;
 while (sGuard < 60) {
-  if (d.querySelector("#startNew")) click("#startNew");
+  const part = d.querySelector('.part-row[data-part]:not(.done)');
+  if (part) part.click();
   if (!d.querySelector("#fc")) break;
   click("#fc");
   click("#fcKnow");
@@ -224,12 +232,19 @@ click("#gNext");
 ok(!!d.querySelector("#gToCheck"), "Kontrol button on last slide");
 click("#gToCheck");
 
-console.log("== grammar: comprehension check (MCQ) ==");
+console.log("== grammar: comprehension check (MCQ, sequential lock) ==");
 ok(d.querySelectorAll(".gmcq-opt").length >= 4, "MCQ options render (" + d.querySelectorAll(".gmcq-opt").length + ")");
 const a1mcq = w.GRAMMAR_MCQ_A1["a1-01"];
-const copt = d.querySelector('.gmcq-opt[data-mi="0"][data-qi="' + a1mcq[0].a + '"]');
-copt.click();
-ok(!!d.querySelector(".gmcq-opt.correct"), "correct MCQ answer shows green");
+ok(d.querySelector('.gmcq-opt[data-mi="0"]') && !d.querySelector('.gmcq-opt[data-mi="0"]').disabled, "Q1 option enabled");
+ok(d.querySelector('.gmcq-opt[data-mi="1"]') && d.querySelector('.gmcq-opt[data-mi="1"]').disabled === true, "Q2 option disabled before Q1 answered (sequential lock)");
+for (let mi = 0; mi < a1mcq.length; mi++) {
+  const q = a1mcq[mi];
+  const cbtn = d.querySelector('.gmcq-opt[data-mi="' + mi + '"][data-qi="' + q.a + '"]');
+  ok(!!cbtn && !cbtn.disabled, "Q" + (mi + 1) + " option enabled in order");
+  cbtn.click();
+  ok(!!d.querySelector('.gmcq-opt[data-mi="' + mi + '"].correct'), "Q" + (mi + 1) + " correct answer shows green");
+}
+ok((d.querySelector("#gToMistakes2").textContent || "").indexOf("✓") >= 0, "Hatalar button marked ready after all MCQs answered");
 click("#gToMistakes2");
 
 console.log("== grammar: mistakes ==");
@@ -277,6 +292,28 @@ ok(d.querySelectorAll("[data-gunit]").length === 8, "back to A1 unit list");
 const u1card = Array.from(d.querySelectorAll("[data-gunit]")).find((c) => c.getAttribute("data-gunit") === "a1-01");
 ok(u1card && !!u1card.querySelector(".g-unit-num.done"), "completed unit shows checkmark");
 ok(u1card && (u1card.textContent || "").indexOf("En iyi") >= 0, "unit shows best score");
+
+console.log("== grammar: dedicated MCQ test (Grammatik Testi) ==");
+click('.tab[data-tab="grammar"]');
+ok(!!d.querySelector("[data-gtest]"), "Grammatik Testi entry card present");
+click("[data-gtest]");
+ok(d.querySelectorAll("[data-gtestlevel]").length === 4, "level picker shows 4 levels");
+click('[data-gtestlevel="a1"]');
+ok(d.querySelectorAll(".gtest-opt").length === 4, "test question renders exactly 4 options");
+let tGuard = 0;
+while (d.querySelector(".gtest-opt") && tGuard < 20) {
+  d.querySelector(".gtest-opt").click();
+  ok(d.querySelectorAll(".gtest-opt.correct, .gtest-opt.wrong").length > 0, "instant feedback shown");
+  const nb = d.querySelector("#gtestNextBtn");
+  if (nb) nb.click();
+  tGuard++;
+}
+ok(!!d.querySelector("#gtestRetry"), "test end screen shows Tekrar dene");
+ok(!!d.querySelector("#gtestLevels"), "test end screen shows Seviye seç");
+ok((d.querySelector("#content").textContent || "").indexOf("En iyi") >= 0, "end screen shows best score");
+ok((w.localStorage.getItem("ewc_progress_v2") || "").indexOf("grammarTest") >= 0, "grammar test best persisted");
+d.querySelector("#gtestLevels").click();
+ok(d.querySelectorAll("[data-gtestlevel]").length === 4, "Seviye seç returns to level picker");
 
 console.log("== daily tasks: tracking ==");
 click('.tab[data-tab="home"]');

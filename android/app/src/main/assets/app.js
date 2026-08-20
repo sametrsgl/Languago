@@ -92,6 +92,10 @@
   var grammarSlide = 0;             // slide index within a unit
   var grammarSlideDir = null;       // "right" | "left" | null — slide-in animation direction
   var gPractice = null;             // { unitId, index, correct, answered }
+  var gCheck = null;                // grammar comprehension-check state { unitId, next }
+  var gTest = null;                 // grammar MCQ test session { level, questions, index, correct, answered }
+  var gTestPicker = false;          // show grammar test level picker
+  var gTestDone = null;             // grammar test result { level, correct, total, pct }
   var readingState = null;          // { passage, step: "text"|"questions", qIndex, correct, answered }
 
   var $ = function (s) { return document.querySelector(s); };
@@ -179,6 +183,7 @@
     touchStudy();
     if (wasNew) bumpDaily("new", 1);
     saveProgress();
+    checkAchievements();
   }
   function markAgain(key) {
     var e = srsEntry(key) || { box: 0, reps: 0 };
@@ -190,6 +195,7 @@
     if (currentSet) progress.lastSet = currentSet;
     touchStudy();
     saveProgress();
+    checkAchievements();
   }
 
   function newWords(setName) { return (SETS[setName] || []).filter(function (k) { return srsBox(k) === 0; }); }
@@ -288,12 +294,14 @@
     var showBack = currentView === "set"
       || (session && currentView === "review")
       || currentView === "glevel"
-      || currentView === "gunit";
+      || currentView === "gunit"
+      || (currentView === "grammar" && (gTest || gTestPicker || gTestDone));
     $("#backBtn").classList.toggle("hidden", !showBack);
 
     var title = "Lingo Branch";
     if (meta) title = meta.name;
     else if (currentView === "review") title = "Tekrar";
+    else if (currentView === "grammar" && (gTest || gTestPicker || gTestDone)) title = "Grammatik Testi";
     else if (currentView === "grammar") title = "Dilbilgisi";
     else if (currentView === "glevel" && currentGrammarLevel && GRAMMAR_BY_ID[currentGrammarLevel]) title = GRAMMAR_BY_ID[currentGrammarLevel].title;
     else if (currentView === "gunit" && currentGrammarUnit) title = currentGrammarUnit.title;
@@ -332,6 +340,11 @@
       navigate("glevel");
     } else if (currentView === "glevel") {
       currentGrammarLevel = null;
+      navigate("grammar");
+    } else if (currentView === "grammar" && (gTest || gTestPicker || gTestDone)) {
+      gTest = null;
+      gTestPicker = false;
+      gTestDone = null;
       navigate("grammar");
     } else if (currentView === "review" && session) {
       session = null;
@@ -435,6 +448,7 @@
       "  <h2>Bugün kaç kelime öğreneceksin?</h2>" +
       "  <p>" + (progress.streak || 0) + " günlük seri 🔥 · " + totalLearned + " kelime öğrenildi</p>" +
       "</div>" +
+      achievementsLineHtml() +
       dailyTasksHtml() +
       dueCard +
       '<div class="card">' +
@@ -551,24 +565,71 @@
     renderSet($("#content"));
   }
 
+  var PART_SIZE = 50;
+  function partsOf(setName) {
+    var keys = SETS[setName] || [];
+    var out = [];
+    for (var i = 0; i < keys.length; i += PART_SIZE) out.push(keys.slice(i, i + PART_SIZE));
+    return out;
+  }
+  function partLearned(setName, i) {
+    var p = partsOf(setName)[i];
+    return p ? p.every(isLearned) : false;
+  }
+  function partUnlocked(setName, i) {
+    return i === 0 || partLearned(setName, i - 1);
+  }
+  function startStudyPart(partIndex) {
+    var part = partsOf(currentSet)[partIndex];
+    if (!part) return;
+    var keys = part.filter(function (k) { return !isLearned(k); });
+    if (!keys.length) {
+      toast("Bu bölümdeki tüm kelimeleri öğrendin 🎉");
+      return;
+    }
+    session = { kind: "new", global: false, part: partIndex, queue: shuffle(keys), index: 0, flipped: false };
+    renderSet($("#content"));
+  }
+
   function renderCardsMenu(el) {
     var st = setStats(currentSet);
     var due = dueWords(currentSet).length;
+    var parts = partsOf(currentSet);
+    var rows = "";
+    for (var i = 0; i < parts.length; i++) {
+      var p = parts[i];
+      var learned = p.filter(isLearned).length;
+      var unlocked = partUnlocked(currentSet, i);
+      var done = learned === p.length;
+      rows +=
+        '<div class="part-row' + (done ? " done" : "") + (unlocked ? "" : " locked") + '"' +
+        (unlocked ? ' data-part="' + i + '"' : "") + ">" +
+        '  <div class="part-ico">' + (done ? "✓" : (unlocked ? "📖" : "🔒")) + "</div>" +
+        '  <div class="part-info"><div class="part-name">Bölüm ' + (i + 1) + "</div>" +
+        '    <div class="part-meta">' + (i * PART_SIZE + 1) + "–" + (i * PART_SIZE + p.length) + " · " + learned + "/" + p.length + " öğrenildi</div></div>" +
+        '  <div class="part-prog"><span style="width:' + Math.round(learned / p.length * 100) + '%"></span></div>' +
+        "</div>";
+    }
     el.innerHTML =
       '<div class="card">' +
-      '  <div class="center" style="padding:10px 0">' +
-      '    <div style="background:var(--bg);border-radius:14px;padding:22px 16px">' +
-      '      <div class="num" style="font-size:40px">' + st.learned + '<span class="muted" style="font-size:20px">/' + st.total + "</span></div>" +
+      '  <div class="center" style="padding:8px 0 14px">' +
+      '    <div style="background:var(--bg);border-radius:14px;padding:18px 16px">' +
+      '      <div class="num" style="font-size:34px">' + st.learned + '<span class="muted" style="font-size:20px">/' + st.total + "</span></div>" +
       '      <div class="lbl">kelime öğrenildi · ' + st.due + " tekrar bekliyor</div>" +
       "    </div>" +
       "  </div>" +
-      '  <button class="btn btn-primary" style="margin-top:8px" id="startNew"' + (st.newn ? "" : " disabled") + ">Yeni Kelimeler (" + st.newn + ")</button>" +
-      '  <button class="btn btn-ghost" style="margin-top:10px" id="startReview"' + (due ? "" : " disabled") + ">Tekrar Et (" + due + ")</button>" +
+      '  <div class="section-title" style="margin-top:6px">Bölümler</div>' +
+      rows +
+      '  <button class="btn btn-ghost" style="margin-top:14px" id="startReview"' + (due ? "" : " disabled") + ">Tekrar Et (" + due + ")</button>" +
       "</div>";
-    var nb = $("#startNew");
     var rb = $("#startReview");
-    if (nb) nb.addEventListener("click", function () { startStudy("new"); });
     if (rb) rb.addEventListener("click", function () { startStudy("review"); });
+    $$(".part-row[data-part]").forEach(function (row) {
+      row.addEventListener("click", function () { startStudyPart(parseInt(row.getAttribute("data-part"), 10)); });
+    });
+    $$(".part-row.locked").forEach(function (row) {
+      row.addEventListener("click", function () { toast("Önceki bölümü bitir."); });
+    });
   }
 
   // ----- flashcard -----
@@ -767,9 +828,12 @@
     if (!progress.quizBest[currentSet] || pct > progress.quizBest[currentSet]) progress.quizBest[currentSet] = pct;
     progress.totalQuiz = (progress.totalQuiz || 0) + total;
     progress.totalQuizCorrect = (progress.totalQuizCorrect || 0) + quiz.correct;
+    progress.stats = progress.stats || { quizzes: 0, games: 0 };
+    progress.stats.quizzes = (progress.stats.quizzes || 0) + 1;
     touchStudy();
     bumpDaily("quiz", 1);
     saveProgress();
+    checkAchievements();
     var msg = pct >= 90 ? "Mükemmel! 🏆" : pct >= 70 ? "Çok iyi! 👏" : pct >= 50 ? "Fena değil 👍" : "Tekrar deneyelim 💪";
     quiz = null;
     renderSet($("#content"));
@@ -919,9 +983,12 @@
   function finishGame() {
     var total = game.pool.length;
     var pct = Math.round(game.score / total * 100);
+    progress.stats = progress.stats || { quizzes: 0, games: 0 };
+    progress.stats.games = (progress.stats.games || 0) + 1;
     touchStudy();
     bumpDaily("game", 1);
     saveProgress();
+    checkAchievements();
     var msg = pct >= 80 ? "Harika! 🎯" : pct >= 50 ? "Güzel! 👍" : "Tekrar dene 💪";
     game = null;
     renderSet($("#content"));
@@ -1093,6 +1160,8 @@
       "</div>" +
       '<div class="section-title">Set bazında ilerleme</div>' +
       '<div class="card" style="padding:4px 16px">' + rows + "</div>" +
+      '<div class="section-title">Başarılar <span class="ach-count">' + achievementsUnlocked().length + "/" + (window.ACHIEVEMENTS || []).length + ' kazanıldı</span></div>' +
+      '<div class="card" style="padding:14px"><div class="ach-grid">' + achievementsGridHtml() + "</div></div>" +
       '<div class="section-title">Destek / Hakkında</div>' +
       '<div class="card" style="padding:4px 16px">' +
       '  <div class="stat-row"><span>Geliştirici</span><span class="v">' + esc(DEV_NAME) + "</span></div>" +
@@ -1147,17 +1216,30 @@
     grammarSlide = 0;
     grammarSlideDir = null;
     gPractice = null;
+    gCheck = null;
     navigate("gunit");
   }
 
   function renderGrammar(c) {
+    if (gTest) { renderGrammarTest(c); return; }
+    if (gTestDone) { renderGrammarTestEnd(c); return; }
+    if (gTestPicker) { renderGrammarTestPicker(c); return; }
+    renderGrammarList(c);
+  }
+
+  function renderGrammarList(c) {
     var t = grammarTotal();
     var html =
       '<div class="hero" style="background:linear-gradient(135deg,#7C3AED,#2563EB)">' +
       '  <div class="kicker">Dilbilgisi</div>' +
       '  <h2>Dilbilgisi Koçu</h2>' +
       '  <p>' + t.done + ' / ' + t.total + ' ünite tamamlandı · 4 seviye (A1–B2)</p>' +
-      '</div>';
+      '</div>' +
+      '<div class="set-card" data-gtest>' +
+      '  <div class="set-badge" style="background:#7C3AED">📝</div>' +
+      '  <div class="set-info"><div class="set-name">Grammatik Testi</div>' +
+      '  <div class="set-desc">çoktan seçmeli sorular</div></div>' +
+      '  <div class="set-chevron">›</div></div>';
     GRAMMAR.forEach(function (l) {
       var st = grammarLevelStats(l);
       html +=
@@ -1171,6 +1253,115 @@
     });
     c.innerHTML = html;
     bindDelegates(c);
+  }
+
+  function grammarMcqPool(level) {
+    var map = window["GRAMMAR_MCQ_" + String(level).toUpperCase()];
+    if (!map) return [];
+    var pool = [];
+    Object.keys(map).forEach(function (k) { pool = pool.concat(map[k]); });
+    return pool;
+  }
+
+  function startGrammarTest(level) {
+    var pool = shuffle(grammarMcqPool(level));
+    if (!pool.length) { toast("Bu seviye için soru bulunamadı."); return; }
+    var n = Math.min(10, pool.length);
+    gTest = { level: level, questions: pool.slice(0, n), index: 0, correct: 0, answered: false };
+    gTestPicker = false;
+    gTestDone = null;
+    render("grammar");
+    updateChrome();
+  }
+
+  function renderGrammarTest(c) {
+    var q = gTest.questions[gTest.index];
+    var opts = q.options.map(function (o, i) {
+      return '<button class="option gtest-opt" data-qi="' + i + '">' + esc(o) + "</button>";
+    }).join("");
+    c.innerHTML =
+      '<div class="set-head"><div class="set-badge" style="background:#7C3AED">📝</div>' +
+      '<h2>Grammatik Testi</h2>' +
+      '<div class="sub">' + esc(gTest.level.toUpperCase()) + " · " + (gTest.index + 1) + "/" + gTest.questions.length + " soru</div></div>" +
+      '<div class="stage-meta"><span>' + (gTest.index + 1) + " / " + gTest.questions.length + "</span><span>" + gTest.correct + " doğru</span></div>" +
+      '<div class="quiz-q" style="font-size:16px;font-weight:700;text-align:left">' + esc(q.q) + "</div>" +
+      '<div id="gtestOpts">' + opts + "</div>" +
+      '<div id="gtestNext" style="display:none;margin-top:4px"><button class="btn btn-primary" id="gtestNextBtn">Sonraki ›</button></div>';
+    bindDelegates(c);
+    $$("#gtestOpts .gtest-opt").forEach(function (btn) {
+      btn.addEventListener("click", function () { answerGrammarTest(btn); });
+    });
+  }
+
+  function answerGrammarTest(btn) {
+    if (!gTest || gTest.answered) return;
+    gTest.answered = true;
+    var q = gTest.questions[gTest.index];
+    var i = parseInt(btn.getAttribute("data-qi"), 10);
+    if (i === q.a) { gTest.correct++; btn.classList.add("correct"); }
+    else {
+      btn.classList.add("wrong");
+      $$("#gtestOpts .gtest-opt").forEach(function (o) { if (parseInt(o.getAttribute("data-qi"), 10) === q.a) o.classList.add("correct"); });
+    }
+    $$("#gtestOpts .gtest-opt").forEach(function (o) { o.disabled = true; });
+    $("#gtestNext").style.display = "block";
+    $("#gtestNextBtn").addEventListener("click", nextGrammarTest);
+  }
+
+  function nextGrammarTest() {
+    gTest.answered = false;
+    gTest.index++;
+    if (gTest.index >= gTest.questions.length) { finishGrammarTest(); return; }
+    render("grammar");
+  }
+
+  function finishGrammarTest() {
+    var total = gTest.questions.length;
+    var pct = total ? Math.round(gTest.correct / total * 100) : 0;
+    var level = gTest.level;
+    progress.grammarTest = progress.grammarTest || {};
+    var rec = progress.grammarTest[level] || { best: 0, total: 0 };
+    if (pct > rec.best) rec.best = pct;
+    rec.total = total;
+    progress.grammarTest[level] = rec;
+    saveProgress();
+    gTestDone = { level: level, correct: gTest.correct, total: total, pct: pct };
+    gTest = null;
+    render("grammar");
+    updateChrome();
+  }
+
+  function renderGrammarTestPicker(c) {
+    var html =
+      '<div class="set-head"><div class="set-badge" style="background:#7C3AED">📝</div>' +
+      '<h2>Grammatik Testi</h2><div class="sub">Bir seviye seç</div></div>' +
+      '<div class="card"><div class="muted center" style="font-size:13.5px;padding:4px 0 12px">10 çoktan seçmeli soru · seviyene göre</div>';
+    GRAMMAR.forEach(function (l) {
+      html += '<button class="btn btn-primary" style="display:block;width:100%;margin-bottom:10px" data-gtestlevel="' + l.id + '">' + esc(l.title) + "</button>";
+    });
+    html += '<button class="btn btn-ghost" id="gtestBack" style="display:block;width:100%;margin-top:4px">‹ Geri</button></div>';
+    c.innerHTML = html;
+    bindDelegates(c);
+    $$("[data-gtestlevel]").forEach(function (b) {
+      b.addEventListener("click", function () { startGrammarTest(b.getAttribute("data-gtestlevel")); });
+    });
+    $("#gtestBack").addEventListener("click", function () { gTestPicker = false; render("grammar"); updateChrome(); });
+  }
+
+  function renderGrammarTestEnd(c) {
+    var r = gTestDone;
+    var rec = (progress.grammarTest && progress.grammarTest[r.level]) || { best: r.pct, total: r.total };
+    c.innerHTML =
+      '<div class="card center" style="padding:26px 18px">' +
+      '  <div style="font-size:44px">📝</div>' +
+      '  <div class="quiz-score"><div class="big">' + r.correct + "/" + r.total + '</div><div class="cap">%' + r.pct + " doğru</div></div>" +
+      '  <div class="muted" style="font-size:13px;margin-top:2px">En iyi skor: %' + rec.best + "</div>" +
+      '  <button class="btn btn-primary" id="gtestRetry" style="margin-top:18px">Tekrar dene</button>' +
+      '  <button class="btn btn-ghost" id="gtestLevels" style="margin-top:10px">Seviye seç</button>' +
+      "</div>";
+    bindDelegates(c);
+    $("#gtestRetry").addEventListener("click", function () { var lvl = r.level; gTestDone = null; startGrammarTest(lvl); });
+    $("#gtestLevels").addEventListener("click", function () { gTestDone = null; gTestPicker = true; render("grammar"); updateChrome(); });
   }
 
   function renderGrammarLevel(c) {
@@ -1250,22 +1441,28 @@
   }
 
   function renderGrammarCheck(u) {
-    var mcqs = (u.mcq || []).map(function (m, mi) {
+    var mcqs = u.mcq || [];
+    if (!gCheck || gCheck.unitId !== u.id) gCheck = { unitId: u.id, next: 0 };
+    var allDone = gCheck.next >= mcqs.length;
+    var mcqsHtml = mcqs.map(function (m, mi) {
+      var locked = mi > gCheck.next;
       var opts = m.options.map(function (o, i) {
-        return '<button class="option gmcq-opt" data-mi="' + mi + '" data-qi="' + i + '">' + esc(o) + "</button>";
+        return '<button class="option gmcq-opt" data-mi="' + mi + '" data-qi="' + i + '"' + (locked ? ' disabled' : '') + '>' + esc(o) + "</button>";
       }).join("");
-      return '<div class="g-mcq"><div class="g-mcq-q">' + (mi + 1) + ". " + esc(m.q) + '</div><div class="g-mcq-opts">' + opts + "</div></div>";
+      return '<div class="g-mcq' + (locked ? ' locked' : '') + '" data-mi="' + mi + '"><div class="g-mcq-q">' + (mi + 1) + ". " + esc(m.q) + '</div><div class="g-mcq-opts">' + opts + "</div></div>";
     }).join("");
     var html =
       stepBar("check") +
       '<div class="card">' +
       '  <div class="g-slide-h">Anlama Kontrolü</div>' +
-      '  <div class="muted" style="font-size:13px;margin-bottom:14px">Doğru cevabı seç, hemen kontrol et.</div>' +
-      (mcqs || '<div class="muted">Bu ünite için kontrol sorusu yok.</div>') +
+      '  <div class="muted" style="font-size:13px;margin-bottom:14px">Soruları sırayla cevapla, hemen kontrol et.</div>' +
+      (mcqsHtml || '<div class="muted">Bu ünite için kontrol sorusu yok.</div>') +
       "</div>" +
       '<div class="g-nav">' +
       '  <button class="btn btn-ghost" id="gBackSlides2">‹ Anlatım</button>' +
-      '  <button class="btn btn-primary" id="gToMistakes2">Hatalar ›</button>' +
+      (allDone
+        ? '<button class="btn btn-primary" id="gToMistakes2">Hatalar ✓</button>'
+        : '<button class="btn btn-primary" id="gToMistakes2">Hatalar ›</button>') +
       "</div>";
     return html;
   }
@@ -1412,6 +1609,7 @@
     touchStudy();
     bumpDaily("grammar", 1);
     saveProgress();
+    checkAchievements();
     var done = pct >= 60;
     grammarStep = "done";
     gPractice = null;
@@ -1468,24 +1666,33 @@
     });
     var prev = $("#gPrev"); if (prev) prev.addEventListener("click", function () { goGrammarPrev(u); });
     var next = $("#gNext"); if (next) next.addEventListener("click", function () { goGrammarNext(u); });
-    var toCheck = $("#gToCheck"); if (toCheck) toCheck.addEventListener("click", function () { grammarStep = "check"; renderGrammarUnit($("#content")); });
+    var toCheck = $("#gToCheck"); if (toCheck) toCheck.addEventListener("click", function () { grammarStep = "check"; gCheck = null; renderGrammarUnit($("#content")); });
     var toM2 = $("#gToMistakes2"); if (toM2) toM2.addEventListener("click", function () { grammarStep = "mistakes"; renderGrammarUnit($("#content")); });
     var toP = $("#gToPractice"); if (toP) toP.addEventListener("click", function () { grammarStep = "practice"; gPractice = null; renderGrammarUnit($("#content")); });
     var backSlides2 = $("#gBackSlides2"); if (backSlides2) backSlides2.addEventListener("click", function () { grammarStep = "slides"; renderGrammarUnit($("#content")); });
-    var backCheck = $("#gBackCheck"); if (backCheck) backCheck.addEventListener("click", function () { grammarStep = "check"; renderGrammarUnit($("#content")); });
+    var backCheck = $("#gBackCheck"); if (backCheck) backCheck.addEventListener("click", function () { grammarStep = "check"; gCheck = null; renderGrammarUnit($("#content")); });
     bindSlideSwipe(u);
     $$(".gmcq-opt").forEach(function (btn) {
       btn.addEventListener("click", function () {
         var mi = parseInt(btn.getAttribute("data-mi"), 10);
         var qi = parseInt(btn.getAttribute("data-qi"), 10);
+        if (!gCheck || mi !== gCheck.next) return;
         var m = (u.mcq || [])[mi];
         if (!m) return;
-        $$('[data-mi="' + mi + '"]').forEach(function (o) {
+        $$('.gmcq-opt[data-mi="' + mi + '"]').forEach(function (o) {
           o.disabled = true;
           var oqi = parseInt(o.getAttribute("data-qi"), 10);
           if (oqi === m.a) o.classList.add("correct");
           else if (oqi === qi) o.classList.add("wrong");
         });
+        gCheck.next++;
+        var nextBox = $('.g-mcq[data-mi="' + gCheck.next + '"]');
+        if (nextBox) {
+          nextBox.classList.remove("locked");
+          $$('.gmcq-opt[data-mi="' + gCheck.next + '"]').forEach(function (o) { o.disabled = false; });
+        }
+        var toM = $("#gToMistakes2");
+        if (toM && gCheck.next >= (u.mcq || []).length) toM.textContent = "Hatalar ✓";
       });
     });
     var backMistakes = $("#gBackMistakes"); if (backMistakes) backMistakes.addEventListener("click", function () { grammarStep = "mistakes"; renderGrammarUnit($("#content")); });
@@ -1497,7 +1704,7 @@
       setTimeout(function () { try { input.focus(); } catch (e) {} }, 60);
     }
     var nextQ = $("#gNextQ"); if (nextQ) nextQ.addEventListener("click", nextPracticeQ);
-    var redo = $("#gRedo"); if (redo) redo.addEventListener("click", function () { grammarSlideDir = null; grammarStep = "slides"; grammarSlide = 0; gPractice = null; renderGrammarUnit($("#content")); });
+    var redo = $("#gRedo"); if (redo) redo.addEventListener("click", function () { grammarSlideDir = null; grammarStep = "slides"; grammarSlide = 0; gPractice = null; gCheck = null; renderGrammarUnit($("#content")); });
     var backLevel = $("#gBackLevel"); if (backLevel) backLevel.addEventListener("click", function () { goBack(); });
   }
 
@@ -1661,6 +1868,7 @@
     if (!progress.readings[p.id] || pct > progress.readings[p.id]) progress.readings[p.id] = pct;
     touchStudy();
     saveProgress();
+    checkAchievements();
     var done = pct >= 60;
     readingState = null;
     renderSet($("#content"));
@@ -1872,12 +2080,97 @@
     $$("[data-gunit]", root).forEach(function (el) {
       el.addEventListener("click", function () { openGrammarUnit(el.getAttribute("data-gunit")); });
     });
+    $$("[data-gtest]", root).forEach(function (el) {
+      el.addEventListener("click", function () { gTest = null; gTestDone = null; gTestPicker = true; render("grammar"); updateChrome(); });
+    });
     $$("[data-reading]", root).forEach(function (el) {
       el.addEventListener("click", function () { openReading(el.getAttribute("data-reading")); });
     });
     $$("[data-unknown-del]", root).forEach(function (el) {
       el.addEventListener("click", function (e) { e.stopPropagation(); removeUnknown(el.getAttribute("data-unknown-del")); });
     });
+  }
+
+  // ---------------------------------------------------------------- achievements
+  function achievementMetric(a) {
+    switch (a.metric) {
+      case "learned": return ALL_KEYS.filter(isLearned).length;
+      case "streak": return progress.streak || 0;
+      case "sets": return Object.keys(SET_META).filter(function (k) { return SETS[k] && SETS[k].length && setStats(k).pct === 100; }).length;
+      case "grammar": return grammarTotal().done;
+      case "readings": {
+        var n = 0;
+        Object.keys(READINGS).forEach(function (k) { READINGS[k].forEach(function (p) { if (readingDone(p.id)) n++; }); });
+        return n;
+      }
+      case "quizzes": return (progress.stats && progress.stats.quizzes) || 0;
+      case "games": return (progress.stats && progress.stats.games) || 0;
+      case "parts": return 0;
+      default: return 0;
+    }
+  }
+
+  function achievementsUnlocked() {
+    var out = [];
+    (window.ACHIEVEMENTS || []).forEach(function (a) {
+      if (achievementMetric(a) >= a.threshold) out.push(a.id);
+    });
+    return out;
+  }
+
+  function checkAchievements() {
+    var unlocked = achievementsUnlocked();
+    if (!unlocked.length) return;
+    var seen = progress.achievementsSeen || (progress.achievementsSeen = []);
+    var fresh = unlocked.filter(function (id) { return seen.indexOf(id) < 0; });
+    if (!fresh.length) return;
+    var byId = {};
+    (window.ACHIEVEMENTS || []).forEach(function (a) { byId[a.id] = a; });
+    fresh.forEach(function (id) { seen.push(id); });
+    saveProgress();
+    fresh.forEach(function (id, i) {
+      var a = byId[id];
+      if (!a) return;
+      var msg = "🏆 Başarı: " + a.title;
+      if (i === 0) toast(msg);
+      else setTimeout(function () { toast(msg); }, i * 2000);
+    });
+  }
+
+  function achievementsGridHtml() {
+    var unlocked = achievementsUnlocked();
+    var got = {};
+    unlocked.forEach(function (id) { got[id] = true; });
+    return (window.ACHIEVEMENTS || []).map(function (a) {
+      var isGot = !!got[a.id];
+      return '<div class="ach-badge' + (isGot ? ' got' : ' locked') + '">' +
+        '<div class="ach-ico">' + (isGot ? a.icon : '🔒') + '</div>' +
+        '<div class="ach-title">' + esc(a.title) + '</div>' +
+        '<div class="ach-desc">' + esc(a.desc) + '</div>' +
+        '</div>';
+    }).join("");
+  }
+
+  function achievementsLineHtml() {
+    var total = (window.ACHIEVEMENTS || []).length;
+    var unlocked = achievementsUnlocked();
+    if (!unlocked.length) {
+      return '<div class="card ach-line"><span class="ach-line-ico">🏆</span>' +
+        '<span class="ach-line-txt">0/' + total + ' başarı</span>' +
+        '<span class="muted" style="font-size:12px">Henüz başarı yok</span></div>';
+    }
+    var seen = progress.achievementsSeen || [];
+    var lastId = seen.length ? seen[seen.length - 1] : unlocked[unlocked.length - 1];
+    var lastA = null;
+    (window.ACHIEVEMENTS || []).forEach(function (a) { if (a.id === lastId) lastA = a; });
+    if (!lastA) {
+      (window.ACHIEVEMENTS || []).forEach(function (a) { if (a.id === unlocked[unlocked.length - 1]) lastA = a; });
+    }
+    var recent = lastA ? (lastA.icon + ' ' + esc(lastA.title)) : '';
+    return '<div class="card ach-line"><span class="ach-line-ico">🏆</span>' +
+      '<span class="ach-line-txt">' + unlocked.length + '/' + total + ' başarı</span>' +
+      (recent ? '<span class="ach-line-recent">' + recent + '</span>' : '') +
+      '</div>';
   }
 
   // ---------------------------------------------------------------- boot
@@ -1888,6 +2181,7 @@
       var v = t.getAttribute("data-tab");
       session = null; quiz = null; game = null; listOffset = 0; currentSetMode = "cards"; readingState = null;
       currentGrammarLevel = null; currentGrammarUnit = null; grammarStep = "slides"; grammarSlide = 0; grammarSlideDir = null; gPractice = null;
+      gCheck = null; gTest = null; gTestPicker = false; gTestDone = null;
       if (v === "home") navigate("home");
       else if (v === "sets") navigate("sets");
       else if (v === "grammar") navigate("grammar");
@@ -1922,4 +2216,5 @@
   }
 
   navigate("home");
+  checkAchievements();
 })();
