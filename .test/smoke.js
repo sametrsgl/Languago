@@ -7,25 +7,14 @@ const { JSDOM } = require("jsdom");
 
 const ASSETS = "C:/Users/Samet Tıraşoğlu.DESKTOP-V1NEC06/synth-app/english-word-coach/android/app/src/main/assets";
 const html = fs.readFileSync(path.join(ASSETS, "index.html"), "utf8");
-const wordsJs = fs.readFileSync(path.join(ASSETS, "words.js"), "utf8");
-const gA1 = fs.readFileSync(path.join(ASSETS, "grammar_a1.js"), "utf8");
-const gA2 = fs.readFileSync(path.join(ASSETS, "grammar_a2.js"), "utf8");
-const gB1 = fs.readFileSync(path.join(ASSETS, "grammar_b1.js"), "utf8");
-const gB2 = fs.readFileSync(path.join(ASSETS, "grammar_b2.js"), "utf8");
-const rCefr = fs.readFileSync(path.join(ASSETS, "readings_cefr.js"), "utf8");
-const rExams = fs.readFileSync(path.join(ASSETS, "readings_exams.js"), "utf8");
 const appJs = fs.readFileSync(path.join(ASSETS, "app.js"), "utf8")
   .replace(/\$\$/g, "_qq").replace(/\$/g, "_q");
 
-const injected = html
-  .replace('<script src="words.js"></script>', "<script>" + wordsJs + "</script>")
-  .replace('<script src="grammar_a1.js"></script>', "<script>" + gA1 + "</script>")
-  .replace('<script src="grammar_a2.js"></script>', "<script>" + gA2 + "</script>")
-  .replace('<script src="grammar_b1.js"></script>', "<script>" + gB1 + "</script>")
-  .replace('<script src="grammar_b2.js"></script>', "<script>" + gB2 + "</script>")
-  .replace('<script src="readings_cefr.js"></script>', "<script>" + rCefr + "</script>")
-  .replace('<script src="readings_exams.js"></script>', "<script>" + rExams + "</script>")
-  .replace('<script src="app.js"></script>', "<script>" + appJs + "</script>");
+// Inline every local <script src="..."> asset; use the $/$$-renamed app.js copy.
+const injected = html.replace(/<script src="([^"]+)"><\/script>/g, function (m, file) {
+  const code = (file === "app.js") ? appJs : fs.readFileSync(path.join(ASSETS, file), "utf8");
+  return "<script>" + code + "</script>";
+});
 
 const dom = new JSDOM(injected, {
   runScripts: "dangerously",
@@ -63,6 +52,7 @@ ok(!!d.querySelector(".hero h2"), "home hero rendered");
 ok(!!d.querySelector(".wod-word"), "word-of-the-day rendered");
 ok(!!d.querySelector(".wod-tr"), "word-of-the-day shows Turkish translation");
 ok(!!d.querySelector(".wod-def"), "word-of-the-day shows English definition");
+ok((d.querySelector("#content").textContent || "").indexOf("Günün Deyimi") >= 0, "daily idiom card rendered");
 ok(d.querySelectorAll(".tab").length === 6, "6 tabs present (incl. Dilbilgisi)");
 
 console.log("== daily tasks (initial) ==");
@@ -204,6 +194,14 @@ gLevels.forEach((l) => l.units.forEach((u) => {
   if (!u.practice || !u.practice.length) { gShapeOk = false; gShapeMsg = u.id + " missing practice"; }
 }));
 ok(gShapeOk, "all units have slides, mistakes, practice" + (gShapeOk ? "" : " (" + gShapeMsg + ")"));
+const mcqMaps = [w.GRAMMAR_MCQ_A1, w.GRAMMAR_MCQ_A2, w.GRAMMAR_MCQ_B1, w.GRAMMAR_MCQ_B2];
+let gMcqOk = true, gMcqMsg = "";
+gLevels.forEach((l) => l.units.forEach((u) => {
+  let found = false;
+  mcqMaps.forEach((m) => { if (m && m[u.id] && m[u.id].length >= 3) found = true; });
+  if (!found) { gMcqOk = false; gMcqMsg = u.id + " missing >=3 MCQs"; }
+}));
+ok(gMcqOk, "all units have >=3 comprehension MCQs" + (gMcqOk ? "" : " (" + gMcqMsg + ")"));
 
 console.log("== grammar: levels & units ==");
 click('.tab[data-tab="grammar"]');
@@ -223,8 +221,16 @@ ok(d.querySelector("#gPrev").disabled, "prev disabled on first slide");
 click("#gNext");
 ok(!d.querySelector("#gPrev").disabled, "prev enabled after advancing");
 click("#gNext");
-ok(!!d.querySelector("#gToMistakes"), "Hatalar button on last slide");
-click("#gToMistakes");
+ok(!!d.querySelector("#gToCheck"), "Kontrol button on last slide");
+click("#gToCheck");
+
+console.log("== grammar: comprehension check (MCQ) ==");
+ok(d.querySelectorAll(".gmcq-opt").length >= 4, "MCQ options render (" + d.querySelectorAll(".gmcq-opt").length + ")");
+const a1mcq = w.GRAMMAR_MCQ_A1["a1-01"];
+const copt = d.querySelector('.gmcq-opt[data-mi="0"][data-qi="' + a1mcq[0].a + '"]');
+copt.click();
+ok(!!d.querySelector(".gmcq-opt.correct"), "correct MCQ answer shows green");
+click("#gToMistakes2");
 
 console.log("== grammar: mistakes ==");
 ok(d.querySelectorAll(".g-mistake").length >= 3, "mistake comparisons render");
@@ -294,23 +300,27 @@ click('.tab[data-tab="home"]');
 ok(!!d.querySelector('.daily-row[data-daily="quiz"].done'), "quiz task done after completing a quiz");
 
 console.log("== reading: data ==");
-ok(!!w.READINGS_CEFR && !!w.READINGS_EXAMS, "reading files loaded");
-ok(Object.keys(w.READINGS_CEFR).length === 6, "6 CEFR reading levels");
-ok(Object.keys(w.READINGS_EXAMS).length === 5, "5 exam reading sets");
-let rTotal = 0, rOk = true;
-Object.keys(w.READINGS_CEFR).concat(Object.keys(w.READINGS_EXAMS)).forEach(function (k) {
-  const arr = w.READINGS_CEFR[k] || w.READINGS_EXAMS[k];
-  arr.forEach(function (p) { rTotal++; if (!p.text || !p.questions || !p.questions.length) rOk = false; });
+const rSets = ["A1", "A2", "B1", "B2", "C1", "C2", "IELTS", "TOEFL", "YDS", "YOKDIL", "GRE"];
+let rTotal = 0, rOk = true, rMinOk = true;
+rSets.forEach(function (n) {
+  const arr = w["READINGS_" + n] || [];
+  rTotal += arr.length;
+  if (arr.length < 30) rMinOk = false;
+  arr.forEach(function (p) {
+    if (!p.topic || !p.title || !p.text || !p.questions || p.questions.length !== 3) rOk = false;
+  });
 });
-ok(rTotal >= 22, ">=22 passages (" + rTotal + ")");
-ok(rOk, "all passages have text + questions");
+ok(rTotal >= 330, ">=330 total passages (" + rTotal + ")");
+ok(rMinOk, "every set has >=30 passages");
+ok(rOk, "all passages have topic/title/text + 3 questions");
 
 console.log("== reading: list & passage ==");
 click('.tab[data-tab="sets"]');
 Array.from(d.querySelectorAll(".set-card")).find((c) => c.getAttribute("data-open") === "a1").click();
 click('.mode-tab[data-tabmode="reading"]');
 ok(!!d.querySelector("#uwListBtn"), "unknown-list button present");
-ok(d.querySelectorAll("[data-reading]").length === 2, "2 passages for a1");
+ok(d.querySelectorAll("[data-reading]").length >= 30, ">=30 passages for a1 (" + d.querySelectorAll("[data-reading]").length + ")");
+ok(d.querySelectorAll(".section-title").length >= 2, "passages grouped by topic headlines");
 Array.from(d.querySelectorAll("[data-reading]"))[0].click();
 ok(!!d.querySelector(".rd-passage"), "passage text rendered");
 ok(d.querySelectorAll(".rd-word").length > 20, "words wrapped in spans (" + d.querySelectorAll(".rd-word").length + ")");
@@ -337,7 +347,7 @@ click('.mode-tab[data-tabmode="reading"]');
 Array.from(d.querySelectorAll("[data-reading]"))[0].click();
 click("#rdStartQ");
 ok(!!d.querySelector("#rOpts .option"), "first question rendered");
-const a1r = w.READINGS_CEFR.a1[0];
+const a1r = w.READINGS_A1[0];
 let ri = 0, rGuard = 0;
 while (d.querySelector("#rOpts .option") && rGuard < 20) {
   const cq = d.querySelector('#rOpts .option[data-qi="' + a1r.questions[ri].a + '"]');

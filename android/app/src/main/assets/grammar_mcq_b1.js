@@ -1,0 +1,72 @@
+window.GRAMMAR_MCQ_B1 = {
+  "b1-01": [
+    { "q": "She ___ in this city since 2015.", "options": ["has lived", "have lived", "lives", "is living"], "a": 0 },
+    { "q": "We have known each other ___ ten years.", "options": ["since", "for", "ago", "during"], "a": 1 },
+    { "q": "Choose the correct sentence:", "options": ["I have went to Paris.", "I have gone to Paris.", "I has gone to Paris.", "I have go to Paris."], "a": 1 },
+    { "q": "He ___ for two hours already.", "options": ["has been waiting", "have been waiting", "waits", "is waiting"], "a": 0 },
+    { "q": "They have lived here ___ last March.", "options": ["for", "since", "from", "until"], "a": 1 }
+  ],
+  "b1-02": [
+    { "q": "I ___ him yesterday at the station.", "options": ["have seen", "saw", "have saw", "seen"], "a": 1 },
+    { "q": "She ___ her keys, so she cannot open the door now.", "options": ["lost", "has lost", "loses", "was losing"], "a": 1 },
+    { "q": "Select the correct sentence:", "options": ["I have seen him yesterday.", "I saw him before.", "I have never been to London.", "They have finished it last week."], "a": 2 },
+    { "q": "We ___ to Italy last summer.", "options": ["have gone", "went", "go", "have went"], "a": 1 },
+    { "q": "___ you ever eaten sushi?", "options": ["Did", "Have", "Do", "Was"], "a": 1 }
+  ],
+  "b1-03": [
+    { "q": "Look at those black clouds! It ___ rain soon.", "options": ["will", "is going to", "goes to", "has"], "a": 1 },
+    { "q": "The phone is ringing. I ___ answer it.", "options": ["am going to", "will", "do", "am"], "a": 1 },
+    { "q": "We ___ visit grandma next weekend; we already booked the tickets.", "options": ["will", "are going to", "go to", "shall"], "a": 1 },
+    { "q": "I think our team ___ win the match.", "options": ["will", "is going to", "was", "be"], "a": 0 },
+    { "q": "Select the correct sentence:", "options": ["I am going to help you.", "I will going to help you.", "I going to help you.", "I will to help you."], "a": 0 }
+  ],
+  "b1-04": [
+    { "q": "At 8 pm last night, I ___ dinner with my family.", "options": ["ate", "was eating", "have eaten", "eat"], "a": 1 },
+    { "q": "They ___ football when it started to rain.", "options": ["played", "were playing", "play", "have played"], "a": 1 },
+    { "q": "She ___ her homework when I called her.", "options": ["was doing", "did", "does", "has done"], "a": 0 },
+    { "q": "While we ___ home, we saw a deer.", "options": ["walked", "were walking", "walk", "have walked"], "a": 1 },
+    { "q": "Select the correct sentence:", "options": ["I was watch TV.", "They was playing.", "He were sleeping.", "We were eating."], "a": 3 }
+  ],
+  "b1-05": [
+    { "q": "If it ___ tomorrow, we will stay at home.", "options": ["rains", "will rain", "rained", "rain"], "a": 0 },
+    { "q": "You will pass the exam if you ___ hard.", "options": ["will study", "study", "studied", "would study"], "a": 1 },
+    { "q": "If she ___ me, I will call her back.", "options": ["will call", "calls", "called", "would call"], "a": 1 },
+    { "q": "I will buy the car if I ___ enough money.", "options": ["have", "will have", "had", "would have"], "a": 0 },
+    { "q": "What ___ you do if the weather is bad?", "options": ["will", "would", "did", "are"], "a": 0 }
+  ],
+  "b1-06": [
+    { "q": "If I ___ rich, I would travel the world.", "options": ["am", "were", "will be", "have been"], "a": 1 },
+    { "q": "If she had a car, she ___ to work by herself.", "options": ["drives", "would drive", "will drive", "drove"], "a": 1 },
+    { "q": "If I were you, I ___ that job.", "options": ["took", "would take", "take", "will take"], "a": 1 },
+    { "q": "He would come to the party if he ___ enough time.", "options": ["has", "had", "will have", "would have"], "a": 1 },
+    { "q": "If they ___ more careful, they would not make so many mistakes.", "options": ["were", "are", "will be", "have been"], "a": 0 }
+  ],
+  "b1-07": [
+    { "q": "The woman ___ lives next door is my aunt.", "options": ["which", "who", "whose", "where"], "a": 1 },
+    { "q": "This is the book ___ I read last week.", "options": ["who", "which", "whose", "whom"], "a": 1 },
+    { "q": "He is the doctor ___ helped me when I was sick.", "options": ["which", "who", "whose", "where"], "a": 1 },
+    { "q": "I have a friend ___ mother is a famous singer.", "options": ["which", "who", "whose", "where"], "a": 2 },
+    { "q": "The house ___ we live in is very old.", "options": ["who", "which", "whose", "whom"], "a": 1 }
+  ],
+  "b1-08": [
+    { "q": "The letter ___ yesterday morning.", "options": ["was sent", "was send", "is sent", "sent"], "a": 0 },
+    { "q": "English ___ in many countries around the world.", "options": ["is spoken", "is spoke", "speaks", "was spoken"], "a": 0 },
+    { "q": "This bridge ___ over a hundred years ago.", "options": ["is built", "was built", "builds", "was build"], "a": 1 },
+    { "q": "These cars ___ in Germany every year.", "options": ["are made", "were made", "are make", "make"], "a": 0 },
+    { "q": "The window ___ by the children yesterday.", "options": ["is broken", "was broken", "breaks", "was break"], "a": 1 }
+  ],
+  "b1-09": [
+    { "q": "You look tired. You ___ go to bed early tonight.", "options": ["must go to sleep", "should", "have to does", "musts"], "a": 1 },
+    { "q": "She ___ wear a uniform at her school.", "options": ["have to", "has to", "must to", "should to"], "a": 1 },
+    { "q": "You ___ smoke here; it is forbidden.", "options": ["must not", "don't have to", "should not to", "musts not"], "a": 0 },
+    { "q": "It is a rule that every student ___ bring an ID card.", "options": ["must", "should", "has to does", "musts"], "a": 0 },
+    { "q": "Select the correct sentence:", "options": ["You should to study.", "He musts go.", "She has to work.", "I must to call."], "a": 2 }
+  ],
+  "b1-10": [
+    { "q": "I only have ___ money, so I cannot buy the jacket.", "options": ["a few", "a little", "many", "few"], "a": 1 },
+    { "q": "She has ___ good friends, about five of them.", "options": ["a few", "a little", "much", "little"], "a": 0 },
+    { "q": "There are ___ people waiting outside the gate.", "options": ["a lot of", "much", "a little", "is a lot"], "a": 0 },
+    { "q": "Do you have ___ sugar for the tea?", "options": ["some", "any", "much many", "few"], "a": 1 },
+    { "q": "I bought ___ apples at the market.", "options": ["some", "any", "little", "much"], "a": 0 }
+  ]
+};

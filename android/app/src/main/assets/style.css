@@ -322,3 +322,9 @@ a.support-mail { color: var(--primary); text-decoration: none; font-weight: 700;
 .rd-word { -webkit-touch-callout: none; }
 .uw-remove { width: 30px; height: 30px; border-radius: 9px; border: none; background: var(--bg); color: var(--muted); font-size: 15px; flex: 0 0 auto; cursor: pointer; }
 .uw-remove:active { background: #FDE8E8; color: var(--red); }
+
+/* ---- grammar comprehension check (MCQ) ---- */
+.g-mcq { margin-bottom: 18px; }
+.g-mcq:last-child { margin-bottom: 4px; }
+.g-mcq-q { font-weight: 700; font-size: 15px; margin-bottom: 10px; line-height: 1.5; }
+.g-mcq-opts .option { margin-bottom: 8px; }

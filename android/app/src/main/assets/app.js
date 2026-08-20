@@ -21,9 +21,23 @@
 
   // Reading passages (per level/exam), loaded from readings_*.js
   var READINGS = {};
-  [window.READINGS_CEFR, window.READINGS_EXAMS].forEach(function (g) {
-    if (g) Object.keys(g).forEach(function (k) { READINGS[k] = g[k]; });
+  ["a1", "a2", "b1", "b2", "c1", "c2", "ielts", "toefl", "yds", "yokdil", "gre"].forEach(function (s) {
+    var g = window["READINGS_" + s.toUpperCase()];
+    if (g) READINGS[s] = g;
   });
+  [window.READINGS_CEFR, window.READINGS_EXAMS].forEach(function (g) {
+    if (g) Object.keys(g).forEach(function (k) {
+      if (!READINGS[k] || !READINGS[k].length) READINGS[k] = g[k];
+    });
+  });
+  // Grammar comprehension-check MCQs, keyed by unit id, merged into units below.
+  [window.GRAMMAR_MCQ_A1, window.GRAMMAR_MCQ_A2, window.GRAMMAR_MCQ_B1, window.GRAMMAR_MCQ_B2].forEach(function (m) {
+    if (!m) return;
+    GRAMMAR.forEach(function (lvl) {
+      lvl.units.forEach(function (u) { if (m[u.id]) u.mcq = m[u.id]; });
+    });
+  });
+  var IDIOMS = window.IDIOMS || [];
 
   var SET_META = {
     a1:     { badge: "A1", name: "A1 · Başlangıç",    desc: "Temel günlük kelimeler",          color: "#10B981", group: "CEFR Seviyeleri" },
@@ -49,7 +63,7 @@
   ];
 
   // ---------------------------------------------------------------- branding
-  var APP_VERSION = "1.6.0";
+  var APP_VERSION = "1.7.0";
   var DEV_NAME = "Samet Tıraşoğlu";
   var DEV_EMAIL = "tirasoglusamet@gmail.com";
 
@@ -361,6 +375,16 @@
     var totalLearned = ALL_KEYS.filter(isLearned).length;
     var totalDue = ALL_KEYS.filter(isDue).length;
     var wod = wordOfDay();
+    var idiom = dailyIdiom();
+    var idiomHtml = idiom
+      ? '<div class="card">' +
+        '  <div class="kicker" style="color:#6B7280;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.08em">Günün Deyimi</div>' +
+        '  <div class="wod-word" style="font-size:24px">' + esc(idiom.w) + "</div>" +
+        (showTr() && idiom.t ? '<div class="wod-tr">' + esc(idiom.t) + "</div>" : "") +
+        (idiom.ex ? '<div class="wod-ex">"' + esc(idiom.ex) + '"</div>' : "") +
+        (showTr() && idiom.lit ? '<div class="muted" style="margin-top:8px;font-size:12px">Kelimesi kelimesine: ' + esc(idiom.lit) + "</div>" : "") +
+        "</div>"
+      : "";
 
     var dueCard = "";
     if (totalDue > 0) {
@@ -401,6 +425,7 @@
       (wod.e ? '<div class="wod-ex">"' + esc(wod.e) + '"</div>' : "") +
       '  <button class="speaker" data-speak="' + esc(wod.w) + '">🔊 Dinle</button>' +
       "</div>" +
+      idiomHtml +
       lastSetHtml +
       '<div class="set-card" data-goto="grammar" style="margin-top:14px">' +
       '  <div class="set-badge" style="background:#7C3AED">📖</div>' +
@@ -415,6 +440,11 @@
   function wordOfDay() {
     var dayNum = Math.floor(Date.now() / 86400000);
     return WORDS[ALL_KEYS[dayNum % ALL_KEYS.length]] || WORDS[ALL_KEYS[0]];
+  }
+  function dailyIdiom() {
+    if (!IDIOMS.length) return null;
+    var dayNum = Math.floor(Date.now() / 86400000);
+    return IDIOMS[dayNum % IDIOMS.length];
   }
 
   function badgeHtml(name) {
@@ -1153,6 +1183,7 @@
       '<h2>' + esc(u.title) + '</h2><div class="sub">' + esc(u.short) + '</div></div>';
 
     if (grammarStep === "slides") html += renderGrammarSlides(u);
+    else if (grammarStep === "check") html += renderGrammarCheck(u);
     else if (grammarStep === "mistakes") html += renderGrammarMistakes(u);
     else if (grammarStep === "practice") html += renderGrammarPractice(u);
     else html += renderGrammarDone(u);
@@ -1163,8 +1194,8 @@
   }
 
   function stepBar(activeStep) {
-    var steps = ["Anlatım", "Hatalar", "Pratik"];
-    var order = { slides: 0, mistakes: 1, practice: 2, done: 2 };
+    var steps = ["Anlatım", "Kontrol", "Hatalar", "Pratik"];
+    var order = { slides: 0, check: 1, mistakes: 2, practice: 3, done: 3 };
     var cur = order[activeStep];
     return '<div class="g-stepbar">' + steps.map(function (s, i) {
       return '<span class="g-step' + (i <= cur ? ' on' : '') + '">' + s + '</span>';
@@ -1187,8 +1218,29 @@
       '  <button class="btn btn-ghost" id="gPrev"' + (grammarSlide === 0 ? ' disabled' : '') + '>‹ Geri</button>' +
       (grammarSlide < total - 1
         ? '<button class="btn btn-primary" id="gNext">İleri ›</button>'
-        : '<button class="btn btn-primary" id="gToMistakes">Hatalar ›</button>') +
+        : '<button class="btn btn-primary" id="gToCheck">Kontrol ›</button>') +
       '</div>';
+    return html;
+  }
+
+  function renderGrammarCheck(u) {
+    var mcqs = (u.mcq || []).map(function (m, mi) {
+      var opts = m.options.map(function (o, i) {
+        return '<button class="option gmcq-opt" data-mi="' + mi + '" data-qi="' + i + '">' + esc(o) + "</button>";
+      }).join("");
+      return '<div class="g-mcq"><div class="g-mcq-q">' + (mi + 1) + ". " + esc(m.q) + '</div><div class="g-mcq-opts">' + opts + "</div></div>";
+    }).join("");
+    var html =
+      stepBar("check") +
+      '<div class="card">' +
+      '  <div class="g-slide-h">Anlama Kontrolü</div>' +
+      '  <div class="muted" style="font-size:13px;margin-bottom:14px">Doğru cevabı seç, hemen kontrol et.</div>' +
+      (mcqs || '<div class="muted">Bu ünite için kontrol sorusu yok.</div>') +
+      "</div>" +
+      '<div class="g-nav">' +
+      '  <button class="btn btn-ghost" id="gBackSlides2">‹ Anlatım</button>' +
+      '  <button class="btn btn-primary" id="gToMistakes2">Hatalar ›</button>' +
+      "</div>";
     return html;
   }
 
@@ -1208,7 +1260,7 @@
       pairs +
       '</div>' +
       '<div class="g-nav">' +
-      '  <button class="btn btn-ghost" id="gBackSlides">‹ Anlatım</button>' +
+      '  <button class="btn btn-ghost" id="gBackCheck">‹ Kontrol</button>' +
       '  <button class="btn btn-primary" id="gToPractice">Pratik ›</button>' +
       '</div>';
     return html;
@@ -1350,9 +1402,25 @@
     });
     var prev = $("#gPrev"); if (prev) prev.addEventListener("click", function () { grammarSlide = Math.max(0, grammarSlide - 1); renderGrammarUnit($("#content")); });
     var next = $("#gNext"); if (next) next.addEventListener("click", function () { grammarSlide = Math.min(u.slides.length - 1, grammarSlide + 1); renderGrammarUnit($("#content")); });
-    var toM = $("#gToMistakes"); if (toM) toM.addEventListener("click", function () { grammarStep = "mistakes"; renderGrammarUnit($("#content")); });
+    var toCheck = $("#gToCheck"); if (toCheck) toCheck.addEventListener("click", function () { grammarStep = "check"; renderGrammarUnit($("#content")); });
+    var toM2 = $("#gToMistakes2"); if (toM2) toM2.addEventListener("click", function () { grammarStep = "mistakes"; renderGrammarUnit($("#content")); });
     var toP = $("#gToPractice"); if (toP) toP.addEventListener("click", function () { grammarStep = "practice"; gPractice = null; renderGrammarUnit($("#content")); });
-    var backSlides = $("#gBackSlides"); if (backSlides) backSlides.addEventListener("click", function () { grammarStep = "slides"; renderGrammarUnit($("#content")); });
+    var backSlides2 = $("#gBackSlides2"); if (backSlides2) backSlides2.addEventListener("click", function () { grammarStep = "slides"; renderGrammarUnit($("#content")); });
+    var backCheck = $("#gBackCheck"); if (backCheck) backCheck.addEventListener("click", function () { grammarStep = "check"; renderGrammarUnit($("#content")); });
+    $$(".gmcq-opt").forEach(function (btn) {
+      btn.addEventListener("click", function () {
+        var mi = parseInt(btn.getAttribute("data-mi"), 10);
+        var qi = parseInt(btn.getAttribute("data-qi"), 10);
+        var m = (u.mcq || [])[mi];
+        if (!m) return;
+        $$('[data-mi="' + mi + '"]').forEach(function (o) {
+          o.disabled = true;
+          var oqi = parseInt(o.getAttribute("data-qi"), 10);
+          if (oqi === m.a) o.classList.add("correct");
+          else if (oqi === qi) o.classList.add("wrong");
+        });
+      });
+    });
     var backMistakes = $("#gBackMistakes"); if (backMistakes) backMistakes.addEventListener("click", function () { grammarStep = "mistakes"; renderGrammarUnit($("#content")); });
     var startP = $("#gStartPractice"); if (startP) startP.addEventListener("click", function () { gPractice = { unitId: u.id, index: 0, correct: 0, answered: false }; renderGrammarUnit($("#content")); });
     var check = $("#gCheck"); if (check) check.addEventListener("click", checkPracticeAnswer);
@@ -1391,15 +1459,24 @@
       html += '<div class="card center" style="padding:30px 16px"><div style="font-size:40px">📖</div>' +
         '<div class="muted" style="margin-top:8px;font-size:13.5px">Bu set için okuma parçası eklenmedi.</div></div>';
     } else {
+      var byTopic = {};
       passages.forEach(function (p) {
-        var done = readingDone(p.id);
-        var wc = (p.text || "").split(/\s+/).length;
-        html +=
-          '<div class="set-card" data-reading="' + p.id + '">' +
-          '  <div class="g-unit-num' + (done ? ' done' : '') + '">' + (done ? '✓' : '📖') + '</div>' +
-          '  <div class="set-info"><div class="set-name">' + esc(p.title) + '</div>' +
-          '    <div class="set-count">' + wc + ' kelime · ' + (p.questions || []).length + ' soru</div></div>' +
-          '  <div class="set-chevron">›</div></div>';
+        var t = p.topic || "Genel Okuma";
+        (byTopic[t] = byTopic[t] || []).push(p);
+      });
+      Object.keys(byTopic).forEach(function (t) {
+        var list = byTopic[t];
+        html += '<div class="section-title">' + esc(t) + ' <span class="muted" style="text-transform:none;font-weight:600;letter-spacing:0">(' + list.length + ")</span></div>";
+        list.forEach(function (p) {
+          var done = readingDone(p.id);
+          var wc = (p.text || "").split(/\s+/).length;
+          html +=
+            '<div class="set-card" data-reading="' + p.id + '">' +
+            '  <div class="g-unit-num' + (done ? ' done' : '') + '">' + (done ? '✓' : '📖') + '</div>' +
+            '  <div class="set-info"><div class="set-name">' + esc(p.title) + '</div>' +
+            '    <div class="set-count">' + wc + ' kelime · ' + (p.questions || []).length + ' soru</div></div>' +
+            '  <div class="set-chevron">›</div></div>';
+        });
       });
     }
     el.innerHTML = html;

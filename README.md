@@ -13,13 +13,16 @@ native text-to-speech pronunciation.
 
 - **11 word sets** — A1–C2 (CEFR) + IELTS, TOEFL, YDS, YÖKDİL, GRE (~6,000 unique words)
 - **Grammar course (Dilbilgisi)** — A1–B2 in 36 units; each unit teaches with explanation
-  slides, shows a *common mistake vs correct* comparison, then drills you with a
-  *type-the-correct-form* exercise (instant feedback, best-score + completion tracking)
+  slides, then a multiple-choice *comprehension check*, a *common mistake vs correct*
+  comparison, and a *type-the-correct-form* drill (instant feedback, best-score + completion)
 - **Daily tasks (Günlük Görevler)** — an ordered daily routine on the home screen
   (review → new words → grammar → quiz → game) with a progress bar and automatic
   per-day completion tracking
-- **Reading (Okuma)** — level/exam-matched passages with multiple-choice comprehension
-  questions; **long-press any word** to save it to your unknown-words list (📕)
+- **Reading (Okuma)** — 30+ passages per level/exam (~330 total), organised by topic
+  headline so you can pick what to read; multiple-choice comprehension questions; and
+  **long-press any word** to save it to your unknown-words list (📕)
+- **Idiom of the day** — a rotating daily idiom on the home screen, with Turkish meaning,
+  an example sentence and its literal meaning
 - **Turkish translations** — every word shows its Turkish meaning (free 1.46M-entry
   EN→TR dictionary, 100% coverage), toggleable on/off from the ⚙️ settings
 - **Spelling game** — a missing-letters game on the words you've studied, EN→TR and
