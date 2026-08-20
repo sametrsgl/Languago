@@ -67,6 +67,10 @@ Single-page app, no framework. State: `progress` (localStorage), `currentView`,
 - **Quiz** — distractors drawn from the same set (fallback: whole vocab), 4 options,
   both directions (word→meaning, meaning→word).
 - **Streak** — `lastStudy` date compared against yesterday/today.
+- **Daily tasks** — `progress.daily` holds per-day counters (`review`/`new`/`grammar`/`quiz`/`game`)
+  that auto-reset when the date changes; a `DAILY_TASKS` config drives an ordered checklist
+  on the home screen, and `bumpDaily(field)` is wired into `markKnown` (new words),
+  `answerCard` (review), `finishPractice`, `finishQuiz` and `finishGame`.
 - **Native bridge** — `AndroidBridge.speak(word)` (TTS) and `AndroidBridge.exit()`;
   hardware back is routed to the SPA via `window.__handleBack()`.
 
@@ -88,7 +92,7 @@ Single-page app, no framework. State: `progress` (localStorage), `currentView`,
 asserting on rendered DOM and collecting any runtime errors. Run it with:
 
 ```bash
-cd .test && npm install && node smoke.js   # expect "76 passed, 0 failed"
+cd .test && npm install && node smoke.js   # expect "86 passed, 0 failed"
 ```
 
 Note: the harness renames the `$`/`$$` helpers to `_q`/`_qq` because jsdom mishandles

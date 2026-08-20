@@ -33,8 +33,17 @@
     gre:    { badge: "GRE", name: "GRE",              desc: "En zorlu kelimeler",             color: "#8B5CF6", group: "Sınav Hazırlığı" }
   };
 
+  // Ordered daily routine — the app's "plan" for every day (done top-to-bottom).
+  var DAILY_TASKS = [
+    { id: "review",  icon: "🔁", title: "Tekrar",         desc: "Tekrarı gereken kelimeleri çalış", nav: "review",  goal: 1 },
+    { id: "new",     icon: "🆕", title: "Yeni Kelimeler", desc: "10 yeni kelime öğren",             nav: "sets",    goal: 10 },
+    { id: "grammar", icon: "📖", title: "Gramer",         desc: "1 ünite pratiği tamamla",          nav: "grammar", goal: 1 },
+    { id: "quiz",    icon: "✅", title: "Test",            desc: "1 test çöz",                       nav: "sets",    goal: 1 },
+    { id: "game",    icon: "🎮", title: "Oyun",            desc: "Kelime tamamlama oyunu oyna",      nav: "sets",    goal: 1 }
+  ];
+
   // ---------------------------------------------------------------- branding
-  var APP_VERSION = "1.4.0";
+  var APP_VERSION = "1.5.0";
   var DEV_NAME = "Samet Tıraşoğlu";
   var DEV_EMAIL = "tirasoglusamet@gmail.com";
 
@@ -136,6 +145,7 @@
   function isDue(key) { var e = srsEntry(key); return !!e && e.due <= todayStr(); }
 
   function markKnown(key) {
+    var wasNew = srsBox(key) === 0;
     var e = srsEntry(key) || { box: 0, reps: 0 };
     e.box = Math.min(MAX_BOX, e.box + 1);
     e.reps++;
@@ -144,6 +154,7 @@
     progress.srs[key] = e;
     if (currentSet) progress.lastSet = currentSet;
     touchStudy();
+    if (wasNew) bumpDaily("new", 1);
     saveProgress();
   }
   function markAgain(key) {
@@ -180,6 +191,25 @@
     progress.streak = (progress.lastStudy === yest) ? ((progress.streak || 0) + 1) : 1;
     progress.lastStudy = today;
     saveProgress();
+  }
+
+  // ---- daily tasks (per-day counters, auto-reset on date change) ----
+  function dailyToday() {
+    var t = todayStr();
+    if (!progress.daily || progress.daily.date !== t) {
+      progress.daily = { date: t, review: 0, new: 0, grammar: 0, quiz: 0, game: 0 };
+    }
+    return progress.daily;
+  }
+  function bumpDaily(field, n) {
+    var d = dailyToday();
+    d[field] = (d[field] || 0) + (n || 1);
+    saveProgress();
+  }
+  function dailyTaskDone(id, daily, totalDue) {
+    if (id === "review") return daily.review >= 1 || totalDue === 0;
+    if (id === "new") return daily.new >= 10;
+    return daily[id] >= 1;
   }
 
   // ---- settings: show/hide Turkish translations ----
@@ -288,6 +318,33 @@
     else if (view === "gunit") renderGrammarUnit(c);
   }
 
+  // ---------------------------------------------------------------- daily tasks
+  function dailyTasksHtml() {
+    var daily = dailyToday();
+    var totalDue = ALL_KEYS.filter(isDue).length;
+    var doneCount = 0;
+    var rows = DAILY_TASKS.map(function (t) {
+      var done = dailyTaskDone(t.id, daily, totalDue);
+      if (done) doneCount++;
+      var prog = "";
+      if (t.id === "new") prog = " · " + Math.min(daily.new, t.goal) + "/" + t.goal;
+      return '<div class="daily-row' + (done ? " done" : "") + '" data-daily="' + t.id + '" data-goto="' + t.nav + '">' +
+        '  <span class="daily-check">' + (done ? "✓" : "") + "</span>" +
+        '  <span class="daily-ico">' + t.icon + "</span>" +
+        '  <div class="daily-info"><div class="daily-title">' + t.title + "</div>" +
+        '    <div class="daily-desc">' + t.desc + prog + "</div></div>" +
+        '  <span class="daily-chevron">›</span></div>';
+    }).join("");
+    var pct = Math.round(doneCount / DAILY_TASKS.length * 100);
+    return '<div class="card daily-card">' +
+      '<div class="daily-head"><span class="daily-title-big">📅 Günlük Görevler</span>' +
+      '<span class="daily-count">' + doneCount + "/" + DAILY_TASKS.length + "</span></div>" +
+      '<div class="daily-hint">Her gün sırayla tamamla 👇</div>' +
+      '<div class="daily-bar"><span style="width:' + pct + '%"></span></div>' +
+      rows +
+      "</div>";
+  }
+
   // ---------------------------------------------------------------- home
   function renderHome(c) {
     var hour = new Date().getHours();
@@ -324,6 +381,7 @@
       "  <h2>Bugün kaç kelime öğreneceksin?</h2>" +
       "  <p>" + (progress.streak || 0) + " günlük seri 🔥 · " + totalLearned + " kelime öğrenildi</p>" +
       "</div>" +
+      dailyTasksHtml() +
       dueCard +
       '<div class="card">' +
       '  <div class="kicker" style="color:#6B7280;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.08em">Günün Kelimesi</div>' +
@@ -506,6 +564,7 @@
 
   function answerCard(know) {
     var key = session.queue[session.index];
+    if (session.kind === "review") bumpDaily("review", 1);
     if (know) markKnown(key); else markAgain(key);
     session.flipped = false;
     session.index++;
@@ -645,6 +704,7 @@
     progress.totalQuiz = (progress.totalQuiz || 0) + total;
     progress.totalQuizCorrect = (progress.totalQuizCorrect || 0) + quiz.correct;
     touchStudy();
+    bumpDaily("quiz", 1);
     saveProgress();
     var msg = pct >= 90 ? "Mükemmel! 🏆" : pct >= 70 ? "Çok iyi! 👏" : pct >= 50 ? "Fena değil 👍" : "Tekrar deneyelim 💪";
     quiz = null;
@@ -796,6 +856,7 @@
     var total = game.pool.length;
     var pct = Math.round(game.score / total * 100);
     touchStudy();
+    bumpDaily("game", 1);
     saveProgress();
     var msg = pct >= 80 ? "Harika! 🎯" : pct >= 50 ? "Güzel! 👍" : "Tekrar dene 💪";
     game = null;
@@ -1256,6 +1317,7 @@
     progress.grammar = progress.grammar || {};
     if (!progress.grammar[u.id] || pct > progress.grammar[u.id]) progress.grammar[u.id] = pct;
     touchStudy();
+    bumpDaily("grammar", 1);
     saveProgress();
     var done = pct >= 60;
     grammarStep = "done";

@@ -61,6 +61,13 @@ ok(!!d.querySelector(".wod-tr"), "word-of-the-day shows Turkish translation");
 ok(!!d.querySelector(".wod-def"), "word-of-the-day shows English definition");
 ok(d.querySelectorAll(".tab").length === 6, "6 tabs present (incl. Dilbilgisi)");
 
+console.log("== daily tasks (initial) ==");
+ok(d.querySelectorAll(".daily-row").length === 5, "5 daily task rows");
+ok(!!d.querySelector('.daily-row[data-daily="review"].done'), "review task auto-done (0 due at boot)");
+ok(d.querySelectorAll(".daily-row.done").length === 1, "only review done initially");
+ok((d.querySelector(".daily-count").textContent || "").indexOf("1/5") >= 0, "daily header shows 1/5");
+ok((d.querySelector('.daily-row[data-daily="new"]').textContent || "").indexOf("0/10") >= 0, "new-words task starts 0/10");
+
 console.log("== sets list ==");
 click('.tab[data-tab="sets"]');
 ok(d.querySelectorAll(".set-card").length >= 11, "11 set cards (" + d.querySelectorAll(".set-card").length + ")");
@@ -260,6 +267,27 @@ ok(d.querySelectorAll("[data-gunit]").length === 8, "back to A1 unit list");
 const u1card = Array.from(d.querySelectorAll("[data-gunit]")).find((c) => c.getAttribute("data-gunit") === "a1-01");
 ok(u1card && !!u1card.querySelector(".g-unit-num.done"), "completed unit shows checkmark");
 ok(u1card && (u1card.textContent || "").indexOf("En iyi") >= 0, "unit shows best score");
+
+console.log("== daily tasks: tracking ==");
+click('.tab[data-tab="home"]');
+ok(!!d.querySelector('.daily-row[data-daily="review"].done'), "review task done after review session");
+ok(!!d.querySelector('.daily-row[data-daily="grammar"].done'), "grammar task done after practice");
+ok((d.querySelector('.daily-row[data-daily="new"]').textContent || "").indexOf("/10") >= 0, "new-words task shows progress");
+
+// complete a full quiz to exercise the quiz daily-task hook
+click('.tab[data-tab="sets"]');
+Array.from(d.querySelectorAll(".set-card")).find((c) => c.getAttribute("data-open") === "a1").click();
+click('.mode-tab[data-tabmode="quiz"]');
+click("#quizStart");
+let qGuard = 0;
+while (d.querySelector("#opts .option") && qGuard < 40) {
+  click("#opts .option");
+  click("#nextBtn");
+  qGuard++;
+}
+ok(qGuard >= 20, "completed a full quiz (" + qGuard + " questions)");
+click('.tab[data-tab="home"]');
+ok(!!d.querySelector('.daily-row[data-daily="quiz"].done'), "quiz task done after completing a quiz");
 
 console.log("\n== runtime errors ==");
 const errs = w.__errs || [];
