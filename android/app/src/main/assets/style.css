@@ -313,3 +313,12 @@ a.support-mail { color: var(--primary); text-decoration: none; font-weight: 700;
 .daily-row.done .daily-title { text-decoration: line-through; }
 .daily-desc { font-size: 12px; color: var(--muted); margin-top: 1px; }
 .daily-chevron { color: var(--faint); font-size: 18px; flex: 0 0 auto; }
+
+/* ---- reading ---- */
+.rd-title { font-size: 20px; font-weight: 800; letter-spacing: -0.3px; margin: 4px 0 14px; }
+.rd-passage { font-size: 16.5px; line-height: 1.85; }
+.rd-passage p { margin: 0 0 14px; }
+.rd-passage p:last-child { margin-bottom: 0; }
+.rd-word { -webkit-touch-callout: none; }
+.uw-remove { width: 30px; height: 30px; border-radius: 9px; border: none; background: var(--bg); color: var(--muted); font-size: 15px; flex: 0 0 auto; cursor: pointer; }
+.uw-remove:active { background: #FDE8E8; color: var(--red); }

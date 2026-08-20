@@ -19,6 +19,12 @@
   var GRAMMAR_BY_ID = {};
   GRAMMAR.forEach(function (g) { GRAMMAR_BY_ID[g.id] = g; });
 
+  // Reading passages (per level/exam), loaded from readings_*.js
+  var READINGS = {};
+  [window.READINGS_CEFR, window.READINGS_EXAMS].forEach(function (g) {
+    if (g) Object.keys(g).forEach(function (k) { READINGS[k] = g[k]; });
+  });
+
   var SET_META = {
     a1:     { badge: "A1", name: "A1 · Başlangıç",    desc: "Temel günlük kelimeler",          color: "#10B981", group: "CEFR Seviyeleri" },
     a2:     { badge: "A2", name: "A2 · Temel",        desc: "Günlük hayat kelimeleri",        color: "#22C55E", group: "CEFR Seviyeleri" },
@@ -43,7 +49,7 @@
   ];
 
   // ---------------------------------------------------------------- branding
-  var APP_VERSION = "1.5.0";
+  var APP_VERSION = "1.6.0";
   var DEV_NAME = "Samet Tıraşoğlu";
   var DEV_EMAIL = "tirasoglusamet@gmail.com";
 
@@ -70,6 +76,7 @@
   var grammarStep = "slides";       // slides | mistakes | practice | done
   var grammarSlide = 0;             // slide index within a unit
   var gPractice = null;             // { unitId, index, correct, answered }
+  var readingState = null;          // { passage, step: "text"|"questions", qIndex, correct, answered }
 
   var $ = function (s) { return document.querySelector(s); };
   var $$ = function (s) { return Array.prototype.slice.call(document.querySelectorAll(s)); };
@@ -269,6 +276,7 @@
     session = null;
     quiz = null;
     game = null;
+    readingState = null;
     listOffset = 0;
     navigate("set");
   }
@@ -279,6 +287,7 @@
       session = null;
       quiz = null;
       game = null;
+      readingState = null;
       navigate(setReturnTo);
     } else if (currentView === "gunit") {
       currentGrammarUnit = null;
@@ -456,6 +465,7 @@
       '<button class="mode-tab' + (currentSetMode === "quiz" ? " active" : "") + '" data-tabmode="quiz">Test</button>' +
       '<button class="mode-tab' + (currentSetMode === "list" ? " active" : "") + '" data-tabmode="list">Liste</button>' +
       '<button class="mode-tab' + (currentSetMode === "game" ? " active" : "") + '" data-tabmode="game">Oyun</button>' +
+      '<button class="mode-tab' + (currentSetMode === "reading" ? " active" : "") + '" data-tabmode="reading">Okuma</button>' +
       "</div>";
 
     c.innerHTML =
@@ -472,6 +482,8 @@
       renderQuiz(body);
     } else if (currentSetMode === "game") {
       renderGame(body);
+    } else if (currentSetMode === "reading") {
+      renderReading(body);
     } else {
       renderListBody(body);
     }
@@ -482,6 +494,7 @@
     session = null;
     quiz = null;
     game = null;
+    readingState = null;
     listOffset = 0;
     currentSetMode = mode;
     renderSet($("#content"));
@@ -907,7 +920,9 @@
       '  <button class="btn btn-primary" style="margin-top:16px" id="startGlobalReview"' + (due.length ? "" : " disabled") + ">Tekrara Başla</button>" +
       "</div></div>" +
       '<div class="section-title">Öğrenilen kelimeler (' + learned.length + ")</div>" +
-      '<div class="card" id="learnedList" style="padding:4px 16px"></div>';
+      '<div class="card" id="learnedList" style="padding:4px 16px"></div>' +
+      '<div class="section-title">📕 Bilinmeyen Kelimeler (' + Object.keys(progress.unknown || {}).length + ")</div>" +
+      '<div class="card" style="padding:4px 16px">' + unknownListHtml() + "</div>";
 
     renderLearnedList($("#learnedList"), learned);
     var gb = $("#startGlobalReview");
@@ -1351,6 +1366,256 @@
     var backLevel = $("#gBackLevel"); if (backLevel) backLevel.addEventListener("click", function () { goBack(); });
   }
 
+  // ---------------------------------------------------------------- reading
+  function readingList(name) { return READINGS[name] || []; }
+  function readingDone(id) { return !!(progress.readings && progress.readings[id] && progress.readings[id] >= 60); }
+
+  function renderReading(el) {
+    if (!readingState) { renderReadingList(el); return; }
+    if (readingState.step === "text") renderPassage(el);
+    else renderReadingQuestion(el);
+  }
+
+  function renderReadingList(el) {
+    var passages = readingList(currentSet);
+    var unknownCount = Object.keys(progress.unknown || {}).length;
+    var html =
+      '<div class="card">' +
+      '  <div style="display:flex;align-items:center;gap:12px">' +
+      '    <div style="flex:1;min-width:0"><div class="set-name">Okuma Alıştırmaları</div>' +
+      '    <div class="muted" style="font-size:12.5px">Paragrafı oku, soruları cevapla</div></div>' +
+      '    <button class="btn btn-ghost" id="uwListBtn" style="flex:none;padding:11px 14px">📕 ' + unknownCount + "</button>" +
+      "  </div>" +
+      "</div>";
+    if (!passages.length) {
+      html += '<div class="card center" style="padding:30px 16px"><div style="font-size:40px">📖</div>' +
+        '<div class="muted" style="margin-top:8px;font-size:13.5px">Bu set için okuma parçası eklenmedi.</div></div>';
+    } else {
+      passages.forEach(function (p) {
+        var done = readingDone(p.id);
+        var wc = (p.text || "").split(/\s+/).length;
+        html +=
+          '<div class="set-card" data-reading="' + p.id + '">' +
+          '  <div class="g-unit-num' + (done ? ' done' : '') + '">' + (done ? '✓' : '📖') + '</div>' +
+          '  <div class="set-info"><div class="set-name">' + esc(p.title) + '</div>' +
+          '    <div class="set-count">' + wc + ' kelime · ' + (p.questions || []).length + ' soru</div></div>' +
+          '  <div class="set-chevron">›</div></div>';
+      });
+    }
+    el.innerHTML = html;
+    bindDelegates(el);
+    var ub = $("#uwListBtn");
+    if (ub) ub.addEventListener("click", openUnknownListModal);
+  }
+
+  function openReading(id) {
+    var p = null;
+    readingList(currentSet).forEach(function (x) { if (x.id === id) p = x; });
+    if (!p) return;
+    readingState = { passage: p, step: "text", qIndex: 0, correct: 0, answered: false };
+    renderSet($("#content"));
+  }
+
+  function renderPassage(el) {
+    var p = readingState.passage;
+    el.innerHTML =
+      '<div class="rd-title">' + esc(p.title) + "</div>" +
+      '<div class="card rd-passage" id="rdPassage">' + renderPassageText(p.text) + "</div>" +
+      '<div class="muted center" style="font-size:12px;margin:-4px 0 12px">Bir kelimeye basılı tut → bilinmeyenlere ekle</div>' +
+      '<div class="g-nav">' +
+      '  <button class="btn btn-ghost" id="rdBack">‹ Liste</button>' +
+      '  <button class="btn btn-primary" id="rdStartQ">Sorulara Geç ›</button>' +
+      "</div>";
+    $("#rdBack").addEventListener("click", function () { readingState = null; renderSet($("#content")); });
+    $("#rdStartQ").addEventListener("click", function () { readingState.step = "questions"; readingState.qIndex = 0; readingState.correct = 0; readingState.answered = false; renderSet($("#content")); });
+    bindPassageInteraction($("#rdPassage"));
+  }
+
+  function renderPassageText(text) {
+    return String(text || "").split(/\n\n+/).map(function (para) {
+      if (!para.trim()) return "";
+      var parts = para.split(/(\s+)/);
+      var html = parts.map(function (tok) {
+        if (!tok) return "";
+        if (/^\s+$/.test(tok)) return tok;
+        var clean = tok.replace(/^[^A-Za-zÀ-ÖØ-öø-ÿ0-9]+|[^A-Za-zÀ-ÖØ-öø-ÿ0-9]+$/g, "");
+        if (!clean) return esc(tok);
+        return '<span class="rd-word" data-w="' + esc(clean) + '">' + esc(tok) + "</span>";
+      }).join("");
+      return "<p>" + html + "</p>";
+    }).join("");
+  }
+
+  function bindPassageInteraction(container) {
+    if (!container) return;
+    var timer = null;
+    container.addEventListener("touchstart", function (e) {
+      var w = e.target && e.target.closest ? e.target.closest(".rd-word") : null;
+      if (!w) return;
+      var word = w.getAttribute("data-w");
+      clearTimeout(timer);
+      timer = setTimeout(function () { openUnknownWordModal(word); }, 480);
+    });
+    container.addEventListener("touchend", function () { clearTimeout(timer); });
+    container.addEventListener("touchmove", function () { clearTimeout(timer); });
+    container.addEventListener("contextmenu", function (e) {
+      var w = e.target && e.target.closest ? e.target.closest(".rd-word") : null;
+      if (!w) return;
+      e.preventDefault();
+      openUnknownWordModal(w.getAttribute("data-w"));
+    });
+  }
+
+  function renderReadingQuestion(el) {
+    var rs = readingState;
+    var p = rs.passage;
+    var q = p.questions[rs.qIndex];
+    var pos = rs.qIndex + 1;
+    var total = p.questions.length;
+    var opts = q.options.map(function (o, i) {
+      return '<button class="option" data-qi="' + i + '">' + esc(o) + "</button>";
+    }).join("");
+    el.innerHTML =
+      '<div class="stage-meta"><span>Soru ' + pos + " / " + total + "</span><span>" + rs.correct + " doğru</span></div>" +
+      '<div class="quiz-q" style="font-size:16px;text-align:left;font-weight:700">' + esc(q.q) + "</div>" +
+      '<div id="rOpts">' + opts + "</div>" +
+      '<div id="rNext" style="display:none"><button class="btn btn-primary" id="rNextBtn">Sonraki ›</button></div>';
+    $$("#rOpts .option").forEach(function (btn) {
+      btn.addEventListener("click", function () { answerReading(btn); });
+    });
+  }
+
+  function answerReading(btn) {
+    if (readingState.answered) return;
+    readingState.answered = true;
+    var q = readingState.passage.questions[readingState.qIndex];
+    var i = parseInt(btn.getAttribute("data-qi"), 10);
+    if (i === q.a) {
+      readingState.correct++;
+      btn.classList.add("correct");
+    } else {
+      btn.classList.add("wrong");
+      $$("#rOpts .option").forEach(function (o) { if (parseInt(o.getAttribute("data-qi"), 10) === q.a) o.classList.add("correct"); });
+    }
+    $$("#rOpts .option").forEach(function (o) { o.disabled = true; });
+    $("#rNext").style.display = "block";
+    $("#rNextBtn").addEventListener("click", nextReadingQ);
+  }
+
+  function nextReadingQ() {
+    readingState.answered = false;
+    readingState.qIndex++;
+    if (readingState.qIndex >= readingState.passage.questions.length) { finishReading(); return; }
+    renderSet($("#content"));
+  }
+
+  function finishReading() {
+    var p = readingState.passage;
+    var total = p.questions.length;
+    var pct = total ? Math.round(readingState.correct / total * 100) : 0;
+    progress.readings = progress.readings || {};
+    if (!progress.readings[p.id] || pct > progress.readings[p.id]) progress.readings[p.id] = pct;
+    touchStudy();
+    saveProgress();
+    var done = pct >= 60;
+    readingState = null;
+    renderSet($("#content"));
+    toast((done ? "Harika! 📖 " : "Tekrar dene 💪 ") + "%" + pct + " doğru");
+  }
+
+  // ---- unknown words (long-press in a passage) ----
+  function openUnknownWordModal(rawWord) {
+    var key = String(rawWord || "").toLowerCase();
+    var entry = WORDS[key];
+    var meaning = entry ? (entry.t || entry.d || "") : "";
+    var pos = entry ? (entry.p || "") : "";
+    var isSaved = !!(progress.unknown && progress.unknown[key]);
+    var modal = $("#modal");
+    modal.innerHTML =
+      '<div class="modal-card">' +
+      '  <div class="modal-word">' + esc(rawWord) + "</div>" +
+      (pos ? '<div style="margin:6px 0 2px"><span class="wod-pos">' + esc(pos) + "</span></div>" : "") +
+      (meaning ? '<div class="wod-tr">' + esc(meaning) + "</div>" : '<div class="muted" style="margin-top:10px;font-size:14px">Bu kelime sözlükte yok — yine de listene ekleyebilirsin.</div>') +
+      '  <div class="quiz-actions" style="margin-top:16px">' +
+      '    <button class="btn btn-ghost" id="uwSpeak">🔊</button>' +
+      '    <button class="btn ' + (isSaved ? "btn-again" : "btn-know") + '" id="uwAdd">' + (isSaved ? "✓ Eklendi" : "➕ Bilinmeyenlere Ekle") + "</button>" +
+      "  </div>" +
+      '  <button class="modal-close" id="uwClose">Kapat</button>' +
+      "</div>";
+    modal.classList.remove("hidden");
+    $("#uwSpeak").addEventListener("click", function () { speak(rawWord); });
+    $("#uwAdd").addEventListener("click", function () { toggleUnknown(key, rawWord, meaning); });
+    $("#uwClose").addEventListener("click", closeModal);
+    modal.addEventListener("click", function (e) { if (e.target === modal) closeModal(); });
+  }
+
+  function toggleUnknown(key, rawWord, meaning) {
+    progress.unknown = progress.unknown || {};
+    if (progress.unknown[key]) {
+      delete progress.unknown[key];
+      toast("Listeden çıkarıldı");
+    } else {
+      progress.unknown[key] = { w: rawWord, t: meaning, d: todayStr() };
+      toast("Bilinmeyenlere eklendi ✓");
+    }
+    saveProgress();
+    closeModal();
+    refreshUnknownLists();
+  }
+
+  function unknownListHtml() {
+    var keys = Object.keys(progress.unknown || {}).sort();
+    if (!keys.length) return '<div class="search-empty" style="padding:24px 12px">Henüz bilinmeyen kelime yok.<br>Okuma sırasında bir kelimeye basılı tut.</div>';
+    return keys.map(function (k) {
+      var u = progress.unknown[k];
+      return '<div class="wl-row" style="cursor:default">' +
+        '  <div style="min-width:0;flex:1"><div class="wl-word">' + esc(u.w || k) + '</div>' +
+        '    <div class="wl-def">' + esc(u.t || "") + '</div></div>' +
+        '  <button class="uw-remove" data-unknown-del="' + esc(k) + '" aria-label="Kaldır">✕</button>' +
+        "</div>";
+    }).join("");
+  }
+
+  function removeUnknown(k) {
+    if (progress.unknown) delete progress.unknown[k];
+    saveProgress();
+    refreshUnknownLists();
+    toast("Çıkarıldı");
+  }
+
+  function refreshUnknownLists() {
+    var m = $("#unknownModalList");
+    if (m) {
+      m.innerHTML = unknownListHtml();
+      bindUnknownRemove(m);
+    }
+    if (currentView === "review") render("review");
+  }
+
+  function bindUnknownRemove(root) {
+    $$("[data-unknown-del]", root).forEach(function (btn) {
+      btn.addEventListener("click", function (e) {
+        e.stopPropagation();
+        removeUnknown(btn.getAttribute("data-unknown-del"));
+      });
+    });
+  }
+
+  function openUnknownListModal() {
+    var modal = $("#modal");
+    modal.innerHTML =
+      '<div class="modal-card">' +
+      '  <div class="modal-word" style="font-size:20px">📕 Bilinmeyen Kelimeler</div>' +
+      '  <div class="muted" style="font-size:12.5px;margin-top:4px">' + Object.keys(progress.unknown || {}).length + " kelime</div>" +
+      '  <div id="unknownModalList" class="card" style="padding:4px 16px;margin-top:14px;box-shadow:none;border:1px solid var(--line)">' + unknownListHtml() + "</div>" +
+      '  <button class="modal-close" id="uwListClose">Kapat</button>' +
+      "</div>";
+    modal.classList.remove("hidden");
+    $("#uwListClose").addEventListener("click", closeModal);
+    modal.addEventListener("click", function (e) { if (e.target === modal) closeModal(); });
+    bindUnknownRemove($("#unknownModalList"));
+  }
+
   // ---------------------------------------------------------------- modal
   function openWordModal(key) {
     var w = WORDS[key];
@@ -1450,6 +1715,12 @@
     $$("[data-gunit]", root).forEach(function (el) {
       el.addEventListener("click", function () { openGrammarUnit(el.getAttribute("data-gunit")); });
     });
+    $$("[data-reading]", root).forEach(function (el) {
+      el.addEventListener("click", function () { openReading(el.getAttribute("data-reading")); });
+    });
+    $$("[data-unknown-del]", root).forEach(function (el) {
+      el.addEventListener("click", function (e) { e.stopPropagation(); removeUnknown(el.getAttribute("data-unknown-del")); });
+    });
   }
 
   // ---------------------------------------------------------------- boot
@@ -1458,7 +1729,7 @@
   $$(".tab").forEach(function (t) {
     t.addEventListener("click", function () {
       var v = t.getAttribute("data-tab");
-      session = null; quiz = null; game = null; listOffset = 0; currentSetMode = "cards";
+      session = null; quiz = null; game = null; listOffset = 0; currentSetMode = "cards"; readingState = null;
       currentGrammarLevel = null; currentGrammarUnit = null; grammarStep = "slides"; grammarSlide = 0; gPractice = null;
       if (v === "home") navigate("home");
       else if (v === "sets") navigate("sets");

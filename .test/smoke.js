@@ -12,6 +12,8 @@ const gA1 = fs.readFileSync(path.join(ASSETS, "grammar_a1.js"), "utf8");
 const gA2 = fs.readFileSync(path.join(ASSETS, "grammar_a2.js"), "utf8");
 const gB1 = fs.readFileSync(path.join(ASSETS, "grammar_b1.js"), "utf8");
 const gB2 = fs.readFileSync(path.join(ASSETS, "grammar_b2.js"), "utf8");
+const rCefr = fs.readFileSync(path.join(ASSETS, "readings_cefr.js"), "utf8");
+const rExams = fs.readFileSync(path.join(ASSETS, "readings_exams.js"), "utf8");
 const appJs = fs.readFileSync(path.join(ASSETS, "app.js"), "utf8")
   .replace(/\$\$/g, "_qq").replace(/\$/g, "_q");
 
@@ -21,6 +23,8 @@ const injected = html
   .replace('<script src="grammar_a2.js"></script>', "<script>" + gA2 + "</script>")
   .replace('<script src="grammar_b1.js"></script>', "<script>" + gB1 + "</script>")
   .replace('<script src="grammar_b2.js"></script>', "<script>" + gB2 + "</script>")
+  .replace('<script src="readings_cefr.js"></script>', "<script>" + rCefr + "</script>")
+  .replace('<script src="readings_exams.js"></script>', "<script>" + rExams + "</script>")
   .replace('<script src="app.js"></script>', "<script>" + appJs + "</script>");
 
 const dom = new JSDOM(injected, {
@@ -288,6 +292,63 @@ while (d.querySelector("#opts .option") && qGuard < 40) {
 ok(qGuard >= 20, "completed a full quiz (" + qGuard + " questions)");
 click('.tab[data-tab="home"]');
 ok(!!d.querySelector('.daily-row[data-daily="quiz"].done'), "quiz task done after completing a quiz");
+
+console.log("== reading: data ==");
+ok(!!w.READINGS_CEFR && !!w.READINGS_EXAMS, "reading files loaded");
+ok(Object.keys(w.READINGS_CEFR).length === 6, "6 CEFR reading levels");
+ok(Object.keys(w.READINGS_EXAMS).length === 5, "5 exam reading sets");
+let rTotal = 0, rOk = true;
+Object.keys(w.READINGS_CEFR).concat(Object.keys(w.READINGS_EXAMS)).forEach(function (k) {
+  const arr = w.READINGS_CEFR[k] || w.READINGS_EXAMS[k];
+  arr.forEach(function (p) { rTotal++; if (!p.text || !p.questions || !p.questions.length) rOk = false; });
+});
+ok(rTotal >= 22, ">=22 passages (" + rTotal + ")");
+ok(rOk, "all passages have text + questions");
+
+console.log("== reading: list & passage ==");
+click('.tab[data-tab="sets"]');
+Array.from(d.querySelectorAll(".set-card")).find((c) => c.getAttribute("data-open") === "a1").click();
+click('.mode-tab[data-tabmode="reading"]');
+ok(!!d.querySelector("#uwListBtn"), "unknown-list button present");
+ok(d.querySelectorAll("[data-reading]").length === 2, "2 passages for a1");
+Array.from(d.querySelectorAll("[data-reading]"))[0].click();
+ok(!!d.querySelector(".rd-passage"), "passage text rendered");
+ok(d.querySelectorAll(".rd-word").length > 20, "words wrapped in spans (" + d.querySelectorAll(".rd-word").length + ")");
+
+console.log("== reading: long-press saves unknown word ==");
+const firstWord = d.querySelector(".rd-word");
+const wordText = firstWord.getAttribute("data-w");
+firstWord.dispatchEvent(new w.Event("contextmenu", { bubbles: true, cancelable: true }));
+ok(!!d.querySelector("#uwAdd"), "unknown-word modal opens on long-press");
+ok((d.querySelector("#modal .modal-word").textContent || "") === wordText, "modal shows the word");
+click("#uwAdd");
+ok(d.querySelector("#modal").classList.contains("hidden"), "modal closes after add");
+
+console.log("== reading: unknown words list ==");
+click('.tab[data-tab="review"]');
+ok(!!d.querySelector(".uw-remove"), "unknown word listed with remove button");
+click(".uw-remove");
+ok(!d.querySelector(".uw-remove"), "unknown word removed");
+
+console.log("== reading: comprehension questions ==");
+click('.tab[data-tab="sets"]');
+Array.from(d.querySelectorAll(".set-card")).find((c) => c.getAttribute("data-open") === "a1").click();
+click('.mode-tab[data-tabmode="reading"]');
+Array.from(d.querySelectorAll("[data-reading]"))[0].click();
+click("#rdStartQ");
+ok(!!d.querySelector("#rOpts .option"), "first question rendered");
+const a1r = w.READINGS_CEFR.a1[0];
+let ri = 0, rGuard = 0;
+while (d.querySelector("#rOpts .option") && rGuard < 20) {
+  const cq = d.querySelector('#rOpts .option[data-qi="' + a1r.questions[ri].a + '"]');
+  if (cq) cq.click();
+  ri++; rGuard++;
+  const nxt = d.querySelector("#rNextBtn");
+  if (nxt) nxt.click();
+}
+ok(ri === a1r.questions.length, "answered all questions");
+ok(!!d.querySelector("[data-reading]"), "back to reading list");
+ok(!!d.querySelector("[data-reading] .g-unit-num.done"), "completed passage shows checkmark");
 
 console.log("\n== runtime errors ==");
 const errs = w.__errs || [];

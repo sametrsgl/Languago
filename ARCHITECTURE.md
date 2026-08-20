@@ -21,7 +21,8 @@ english-word-coach/
             ├── style.css
             ├── app.js          # SPA logic
             ├── words.js        # window.WORD_DATA = {meta, words, sets}
-            └── grammar_a1.js … grammar_b2.js  # window.GRAMMAR_A1..B2 (36 units)
+            ├── grammar_a1.js … grammar_b2.js  # window.GRAMMAR_A1..B2 (36 units)
+            └── readings_cefr.js / readings_exams.js  # window.READINGS_* (passages + questions)
 ```
 
 ## Data model (`words.js`)
@@ -71,6 +72,9 @@ Single-page app, no framework. State: `progress` (localStorage), `currentView`,
   that auto-reset when the date changes; a `DAILY_TASKS` config drives an ordered checklist
   on the home screen, and `bumpDaily(field)` is wired into `markKnown` (new words),
   `answerCard` (review), `finishPractice`, `finishQuiz` and `finishGame`.
+- **Reading** — a 5th set mode (`reading`); passages render each word as a `.rd-word` span so a
+  long-press (`touchstart` timer + `contextmenu` fallback) opens an "add to unknown words" modal.
+  Unknown words live in `progress.unknown` and are shown in the review tab and a reading-list modal.
 - **Native bridge** — `AndroidBridge.speak(word)` (TTS) and `AndroidBridge.exit()`;
   hardware back is routed to the SPA via `window.__handleBack()`.
 
@@ -92,7 +96,7 @@ Single-page app, no framework. State: `progress` (localStorage), `currentView`,
 asserting on rendered DOM and collecting any runtime errors. Run it with:
 
 ```bash
-cd .test && npm install && node smoke.js   # expect "86 passed, 0 failed"
+cd .test && npm install && node smoke.js   # expect "104 passed, 0 failed"
 ```
 
 Note: the harness renames the `$`/`$$` helpers to `_q`/`_qq` because jsdom mishandles
