@@ -77,6 +77,7 @@
   var STORE_KEY = "ewc_progress_v2";
   var progress = loadProgress();
   migrate();
+  applyTheme();
   var currentView = "home";
   var currentSet = null;
   var setReturnTo = "sets";
@@ -89,6 +90,7 @@
   var currentGrammarUnit = null;    // active grammar unit object
   var grammarStep = "slides";       // slides | mistakes | practice | done
   var grammarSlide = 0;             // slide index within a unit
+  var grammarSlideDir = null;       // "right" | "left" | null — slide-in animation direction
   var gPractice = null;             // { unitId, index, correct, answered }
   var readingState = null;          // { passage, step: "text"|"questions", qIndex, correct, answered }
 
@@ -237,6 +239,21 @@
   function showTr() { return !progress.settings || progress.settings.showTranslations !== false; }
   function trText(w) { return showTr() ? (w.t || "") : ""; }
 
+  // ---- settings: dark mode ----
+  function darkMode() {
+    if (progress.settings && typeof progress.settings.darkMode === "boolean") return progress.settings.darkMode;
+    if (typeof window.matchMedia === "function") {
+      try { return window.matchMedia("(prefers-color-scheme: dark)").matches; } catch (e) {}
+    }
+    return false;
+  }
+  function applyTheme() {
+    var dark = darkMode();
+    document.documentElement.setAttribute("data-theme", dark ? "dark" : "light");
+    var meta = document.querySelector('meta[name="theme-color"]');
+    if (meta) meta.setAttribute("content", dark ? "#0E1016" : "#4338CA");
+  }
+
   function speak(text) {
     if (typeof window.AndroidBridge !== "undefined" && window.AndroidBridge.speak) {
       try { window.AndroidBridge.speak(text); } catch (e) {}
@@ -258,7 +275,11 @@
     $$(".view").forEach(function (v) { v.classList.remove("active"); });
     render(view);
     updateChrome();
-    $("#content").scrollTop = 0;
+    var c = $("#content");
+    c.scrollTop = 0;
+    c.classList.remove("view-anim");
+    void c.offsetWidth;
+    c.classList.add("view-anim");
   }
 
   function updateChrome() {
@@ -378,7 +399,7 @@
     var idiom = dailyIdiom();
     var idiomHtml = idiom
       ? '<div class="card">' +
-        '  <div class="kicker" style="color:#6B7280;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.08em">Günün Deyimi</div>' +
+        '  <div class="kicker" style="color:var(--muted);font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.08em">Günün Deyimi</div>' +
         '  <div class="wod-word" style="font-size:24px">' + esc(idiom.w) + "</div>" +
         (showTr() && idiom.t ? '<div class="wod-tr">' + esc(idiom.t) + "</div>" : "") +
         (idiom.ex ? '<div class="wod-ex">"' + esc(idiom.ex) + '"</div>' : "") +
@@ -390,7 +411,7 @@
     if (totalDue > 0) {
       dueCard =
         '<div class="set-card" data-goto="review" style="border:1px solid var(--primary-soft)">' +
-        '  <div class="set-badge" style="background:#4338CA">🔁</div>' +
+        '  <div class="set-badge" style="background:var(--primary)">🔁</div>' +
         '  <div class="set-info"><div class="set-name">Tekrar zamanı</div>' +
         '  <div class="set-count">' + totalDue + " kelime tekrar bekliyor</div></div>" +
         '  <div class="set-chevron">›</div></div>';
@@ -417,7 +438,7 @@
       dailyTasksHtml() +
       dueCard +
       '<div class="card">' +
-      '  <div class="kicker" style="color:#6B7280;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.08em">Günün Kelimesi</div>' +
+      '  <div class="kicker" style="color:var(--muted);font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.08em">Günün Kelimesi</div>' +
       '  <div class="wod-word">' + esc(wod.w) + "</div>" +
       '  <div><span class="wod-pos">' + esc(wod.p || "word") + "</span>" + (wod.i ? '<span class="wod-ipa">' + esc(wod.i) + "</span>" : "") + "</div>" +
       (trText(wod) ? '<div class="wod-tr">' + esc(trText(wod)) + "</div>" : "") +
@@ -1112,6 +1133,7 @@
     currentGrammarUnit = null;
     grammarStep = "slides";
     grammarSlide = 0;
+    grammarSlideDir = null;
     gPractice = null;
     navigate("glevel");
   }
@@ -1123,6 +1145,7 @@
     currentGrammarUnit = unit;
     grammarStep = "slides";
     grammarSlide = 0;
+    grammarSlideDir = null;
     gPractice = null;
     navigate("gunit");
   }
@@ -1205,11 +1228,14 @@
   function renderGrammarSlides(u) {
     var s = u.slides[grammarSlide];
     var total = u.slides.length;
+    var dir = grammarSlideDir;
+    grammarSlideDir = null;
+    var anim = dir ? " slide-in-" + dir : "";
     var dots = "";
     for (var i = 0; i < total; i++) dots += '<span class="g-dot' + (i === grammarSlide ? ' on' : '') + '" data-dot="' + i + '"></span>';
     var html =
       stepBar("slides") +
-      '<div class="card g-slide">' +
+      '<div class="card g-slide' + anim + '">' +
       '  <div class="g-slide-h">' + esc(s.h) + '</div>' +
       '  <div class="g-slide-b">' + renderSlideBody(s.b) + '</div>' +
       '  <div class="g-dots">' + dots + '</div>' +
@@ -1393,20 +1419,61 @@
     toast((done ? "Tebrikler! 🎉 " : "Tekrar dene 💪 ") + "%" + pct + " doğru");
   }
 
+  function goGrammarPrev(u) {
+    grammarSlideDir = "left";
+    grammarSlide = Math.max(0, grammarSlide - 1);
+    renderGrammarUnit($("#content"));
+  }
+  function goGrammarNext(u) {
+    grammarSlideDir = "right";
+    grammarSlide = Math.min(u.slides.length - 1, grammarSlide + 1);
+    renderGrammarUnit($("#content"));
+  }
+  function bindSlideSwipe(u) {
+    var slide = $(".g-slide");
+    if (!slide) return;
+    var startX = null, startY = null, tracking = false;
+    slide.addEventListener("touchstart", function (e) {
+      if (e.target && e.target.closest && e.target.closest(".g-dot, button, a, .speaker")) return;
+      var t = e.touches && e.touches[0];
+      if (!t) return;
+      startX = t.clientX; startY = t.clientY; tracking = true;
+    }, { passive: true });
+    slide.addEventListener("touchmove", function (e) {
+      if (!tracking) return;
+      var t = e.touches && e.touches[0];
+      if (t && Math.abs(t.clientY - startY) > Math.abs(t.clientX - startX)) tracking = false;
+    }, { passive: true });
+    slide.addEventListener("touchend", function (e) {
+      if (!tracking) { tracking = false; return; }
+      tracking = false;
+      var t = e.changedTouches && e.changedTouches[0];
+      if (!t) return;
+      var dx = t.clientX - startX;
+      if (Math.abs(dx) >= 40) {
+        if (dx < 0) goGrammarNext(u);
+        else goGrammarPrev(u);
+      }
+    });
+  }
+
   function bindGrammar(c, u) {
     $$(".g-dot").forEach(function (d) {
       d.addEventListener("click", function () {
-        grammarSlide = parseInt(d.getAttribute("data-dot"), 10);
+        var target = parseInt(d.getAttribute("data-dot"), 10);
+        grammarSlideDir = target > grammarSlide ? "right" : "left";
+        grammarSlide = target;
         renderGrammarUnit($("#content"));
       });
     });
-    var prev = $("#gPrev"); if (prev) prev.addEventListener("click", function () { grammarSlide = Math.max(0, grammarSlide - 1); renderGrammarUnit($("#content")); });
-    var next = $("#gNext"); if (next) next.addEventListener("click", function () { grammarSlide = Math.min(u.slides.length - 1, grammarSlide + 1); renderGrammarUnit($("#content")); });
+    var prev = $("#gPrev"); if (prev) prev.addEventListener("click", function () { goGrammarPrev(u); });
+    var next = $("#gNext"); if (next) next.addEventListener("click", function () { goGrammarNext(u); });
     var toCheck = $("#gToCheck"); if (toCheck) toCheck.addEventListener("click", function () { grammarStep = "check"; renderGrammarUnit($("#content")); });
     var toM2 = $("#gToMistakes2"); if (toM2) toM2.addEventListener("click", function () { grammarStep = "mistakes"; renderGrammarUnit($("#content")); });
     var toP = $("#gToPractice"); if (toP) toP.addEventListener("click", function () { grammarStep = "practice"; gPractice = null; renderGrammarUnit($("#content")); });
     var backSlides2 = $("#gBackSlides2"); if (backSlides2) backSlides2.addEventListener("click", function () { grammarStep = "slides"; renderGrammarUnit($("#content")); });
     var backCheck = $("#gBackCheck"); if (backCheck) backCheck.addEventListener("click", function () { grammarStep = "check"; renderGrammarUnit($("#content")); });
+    bindSlideSwipe(u);
     $$(".gmcq-opt").forEach(function (btn) {
       btn.addEventListener("click", function () {
         var mi = parseInt(btn.getAttribute("data-mi"), 10);
@@ -1430,7 +1497,7 @@
       setTimeout(function () { try { input.focus(); } catch (e) {} }, 60);
     }
     var nextQ = $("#gNextQ"); if (nextQ) nextQ.addEventListener("click", nextPracticeQ);
-    var redo = $("#gRedo"); if (redo) redo.addEventListener("click", function () { grammarStep = "slides"; grammarSlide = 0; gPractice = null; renderGrammarUnit($("#content")); });
+    var redo = $("#gRedo"); if (redo) redo.addEventListener("click", function () { grammarSlideDir = null; grammarStep = "slides"; grammarSlide = 0; gPractice = null; renderGrammarUnit($("#content")); });
     var backLevel = $("#gBackLevel"); if (backLevel) backLevel.addEventListener("click", function () { goBack(); });
   }
 
@@ -1744,6 +1811,7 @@
 
   function openSettings() {
     var on = showTr();
+    var dark = darkMode();
     var modal = $("#modal");
     modal.innerHTML =
       '<div class="modal-card">' +
@@ -1753,6 +1821,11 @@
       '    <span style="flex:1;font-size:15px;font-weight:600">Türkçe çevirileri göster</span>' +
       "  </div>" +
       '  <div class="muted" style="font-size:12.5px;margin-top:6px;line-height:1.5">Kart, liste ve arama sonuçlarında Türkçe karşılıkların görünmesini açıp kapatır.</div>' +
+      '  <div class="toggle' + (dark ? " on" : "") + '" id="darkToggle">' +
+      '    <div class="track"><div class="thumb"></div></div>' +
+      '    <span style="flex:1;font-size:15px;font-weight:600">Karanlık Mod</span>' +
+      "  </div>" +
+      '  <div class="muted" style="font-size:12.5px;margin-top:6px;line-height:1.5">Uygulamayı koyu temada göster.</div>' +
       '  <button class="modal-close" id="mClose">Kapat</button>' +
       "</div>";
     modal.classList.remove("hidden");
@@ -1761,6 +1834,13 @@
       progress.settings.showTranslations = !showTr();
       saveProgress();
       closeModal();
+      render(currentView);
+    });
+    $("#darkToggle").addEventListener("click", function () {
+      progress.settings = progress.settings || {};
+      progress.settings.darkMode = !darkMode();
+      saveProgress();
+      applyTheme();
       render(currentView);
     });
     $("#mClose").addEventListener("click", closeModal);
@@ -1807,7 +1887,7 @@
     t.addEventListener("click", function () {
       var v = t.getAttribute("data-tab");
       session = null; quiz = null; game = null; listOffset = 0; currentSetMode = "cards"; readingState = null;
-      currentGrammarLevel = null; currentGrammarUnit = null; grammarStep = "slides"; grammarSlide = 0; gPractice = null;
+      currentGrammarLevel = null; currentGrammarUnit = null; grammarStep = "slides"; grammarSlide = 0; grammarSlideDir = null; gPractice = null;
       if (v === "home") navigate("home");
       else if (v === "sets") navigate("sets");
       else if (v === "grammar") navigate("grammar");
@@ -1827,6 +1907,18 @@
   if (splash) {
     splash.addEventListener("click", hideSplash);
     setTimeout(hideSplash, 2200);
+  }
+
+  // follow system light/dark changes unless the user has explicitly chosen
+  if (typeof window.matchMedia === "function") {
+    try {
+      var mq = window.matchMedia("(prefers-color-scheme: dark)");
+      var mqHandler = function () {
+        if (!(progress.settings && typeof progress.settings.darkMode === "boolean")) applyTheme();
+      };
+      if (mq.addEventListener) mq.addEventListener("change", mqHandler);
+      else if (mq.addListener) mq.addListener(mqHandler);
+    } catch (e) {}
   }
 
   navigate("home");

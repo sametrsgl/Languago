@@ -48,3 +48,17 @@ justifying comment.
 
 No `INTERNET` permission is declared. The app is fully offline; the only network use is the
 one-time *build-time* data fetch. No ads, no analytics, no tracking.
+
+## 6. Slide-swipe animations & dark mode — built in-house (no library)
+
+**Decision:** implement the grammar-slide swipe/transition animations and dark mode with
+hand-written vanilla JS + CSS only — no animation/framework/icon library.
+
+**Why:** the app is a zero-dependency offline WebView (`android.webkit.WebView`, local
+`file:///android_asset` only, no `INTERNET` permission). Pulling in a library would add a
+build step, a dependency surface, and an offline-shipping burden for two features that are
+a few dozen lines each. The slide transition uses re-triggered CSS `@keyframes`
+(`.g-slide.slide-in-left/right`) and native `touchstart/touchmove/touchend` events; dark
+mode is a `data-theme="dark"` override of the existing `:root` custom properties plus a
+`prefers-color-scheme` fallback via `matchMedia`. Both are dependency-free and fully
+offline.
