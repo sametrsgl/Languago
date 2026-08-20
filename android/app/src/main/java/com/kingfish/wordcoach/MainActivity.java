@@ -2,8 +2,16 @@ package com.kingfish.wordcoach;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.app.AlarmManager;
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.speech.tts.TextToSpeech;
 import android.view.View;
@@ -12,9 +20,15 @@ import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 
+import java.util.Calendar;
 import java.util.Locale;
 
 public class MainActivity extends Activity {
+    private static final String CHANNEL_ID = "reminders";
+    private static final String PREFS = "wordcoach";
+    private static final int ALARM_REQUEST = 100;
+    private static final int NOTIFY_ID = 1;
+
     private WebView webView;
     private TextToSpeech tts;
 
@@ -38,7 +52,7 @@ public class MainActivity extends Activity {
         @JavascriptInterface
         public void saveProgress(String json) {
             try {
-                getSharedPreferences("wordcoach", MODE_PRIVATE)
+                getSharedPreferences(PREFS, MODE_PRIVATE)
                         .edit().putString("progress", json).apply();
             } catch (Exception ignored) {
             }
@@ -47,11 +61,25 @@ public class MainActivity extends Activity {
         @JavascriptInterface
         public String loadProgress() {
             try {
-                return getSharedPreferences("wordcoach", MODE_PRIVATE)
+                return getSharedPreferences(PREFS, MODE_PRIVATE)
                         .getString("progress", null);
             } catch (Exception e) {
                 return null;
             }
+        }
+
+        // ---- notifications ----
+        // Schedule/cancel the daily reminder. hour/minute = 24h local time.
+        // title/body are built by the JS (body reflects today's incomplete tasks).
+        @JavascriptInterface
+        public void setReminder(boolean enabled, int hour, int minute, String title, String body) {
+            scheduleReminder(enabled, hour, minute, title, body);
+        }
+
+        // Ask for POST_NOTIFICATIONS on Android 13+ when the user enables reminders.
+        @JavascriptInterface
+        public void requestNotifications() {
+            requestNotificationPermission();
         }
     }
 
@@ -88,6 +116,7 @@ public class MainActivity extends Activity {
         setContentView(webView);
 
         initTts();
+        ensureNotificationChannel();
     }
 
     private void initTts() {
@@ -109,6 +138,66 @@ public class MainActivity extends Activity {
         if (tts == null || text == null || text.isEmpty()) return;
         try {
             tts.speak(text, TextToSpeech.QUEUE_FLUSH, null, "wordcoach_" + text.hashCode());
+        } catch (Exception ignored) {
+        }
+    }
+
+    // ---- notifications ----
+    private void ensureNotificationChannel() {
+        if (Build.VERSION.SDK_INT >= 26) {
+            try {
+                NotificationChannel ch = new NotificationChannel(
+                        CHANNEL_ID, "Hatırlatmalar", NotificationManager.IMPORTANCE_DEFAULT);
+                ch.setDescription("Günlük çalışma ve görev hatırlatmaları");
+                NotificationManager nm = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+                if (nm != null) nm.createNotificationChannel(ch);
+            } catch (Exception ignored) {
+            }
+        }
+    }
+
+    private void requestNotificationPermission() {
+        if (Build.VERSION.SDK_INT >= 33) {
+            try {
+                if (checkSelfPermission(android.Manifest.permission.POST_NOTIFICATIONS)
+                        != PackageManager.PERMISSION_GRANTED) {
+                    requestPermissions(
+                            new String[]{android.Manifest.permission.POST_NOTIFICATIONS}, 42);
+                }
+            } catch (Exception ignored) {
+            }
+        }
+    }
+
+    private void scheduleReminder(boolean enabled, int hour, int minute, String title, String body) {
+        SharedPreferences sp = getSharedPreferences(PREFS, MODE_PRIVATE);
+        sp.edit()
+                .putBoolean("reminder_enabled", enabled)
+                .putInt("reminder_hour", hour)
+                .putInt("reminder_minute", minute)
+                .putString("reminder_title", (title == null || title.isEmpty()) ? "Lingo Branch" : title)
+                .putString("reminder_body", (body == null || body.isEmpty()) ? "Dil öğrenme zamanı! 🌿" : body)
+                .apply();
+
+        AlarmManager am = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
+        Intent intent = new Intent(this, ReminderReceiver.class);
+        PendingIntent pi = PendingIntent.getBroadcast(
+                this, ALARM_REQUEST, intent,
+                PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_IMMUTABLE);
+        if (am != null) am.cancel(pi);
+        if (!enabled || am == null) return;
+
+        Calendar cal = Calendar.getInstance();
+        cal.set(Calendar.HOUR_OF_DAY, hour);
+        cal.set(Calendar.MINUTE, minute);
+        cal.set(Calendar.SECOND, 0);
+        cal.set(Calendar.MILLISECOND, 0);
+        if (cal.getTimeInMillis() <= System.currentTimeMillis()) {
+            cal.add(Calendar.DAY_OF_YEAR, 1);
+        }
+        try {
+            am.setInexactRepeating(AlarmManager.RTC_WAKEUP, cal.getTimeInMillis(),
+                    AlarmManager.INTERVAL_DAY, pi);
         } catch (Exception ignored) {
         }
     }

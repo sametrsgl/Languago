@@ -78,6 +78,7 @@
   var progress = loadProgress();
   migrate();
   applyTheme();
+  syncReminders();
   var currentView = "home";
   var currentSet = null;
   var setReturnTo = "sets";
@@ -258,6 +259,36 @@
     document.documentElement.setAttribute("data-theme", dark ? "dark" : "light");
     var meta = document.querySelector('meta[name="theme-color"]');
     if (meta) meta.setAttribute("content", dark ? "#0E1016" : "#4338CA");
+  }
+
+  // ---- settings: notifications ----
+  function notifSettings() {
+    progress.settings = progress.settings || {};
+    progress.settings.notifications = progress.settings.notifications || { enabled: false, time: "19:00", tasks: true };
+    return progress.settings.notifications;
+  }
+  function dailyIncompleteCount() {
+    var daily = dailyToday();
+    var totalDue = ALL_KEYS.filter(isDue).length;
+    var n = 0;
+    DAILY_TASKS.forEach(function (t) { if (!dailyTaskDone(t.id, daily, totalDue)) n++; });
+    return n;
+  }
+  function buildReminderBody(n) {
+    if (n.tasks) {
+      var left = dailyIncompleteCount();
+      if (left > 0) return "Bugün " + left + " görevin tamamlanmadı — devam etmek için dokun. 🌿";
+    }
+    return "Dil öğrenme zamanı! Günlük hedefini tamamla. 🌿";
+  }
+  function syncReminders() {
+    var n = notifSettings();
+    var parts = (n.time || "19:00").split(":");
+    var hour = parseInt(parts[0], 10); if (isNaN(hour)) hour = 19;
+    var minute = parseInt(parts[1], 10); if (isNaN(minute)) minute = 0;
+    if (window.AndroidBridge && window.AndroidBridge.setReminder) {
+      try { window.AndroidBridge.setReminder(!!n.enabled, hour, minute, "Lingo Branch 🌿", buildReminderBody(n)); } catch (e) {}
+    }
   }
 
   function speak(text) {
@@ -2020,6 +2051,7 @@
   function openSettings() {
     var on = showTr();
     var dark = darkMode();
+    var notif = notifSettings();
     var modal = $("#modal");
     modal.innerHTML =
       '<div class="modal-card">' +
@@ -2034,6 +2066,17 @@
       '    <span style="flex:1;font-size:15px;font-weight:600">Karanlık Mod</span>' +
       "  </div>" +
       '  <div class="muted" style="font-size:12.5px;margin-top:6px;line-height:1.5">Uygulamayı koyu temada göster.</div>' +
+      '  <div class="section-title" style="margin:18px 0 10px;text-transform:none;letter-spacing:0">Bildirimler</div>' +
+      '  <div class="toggle' + (notif.enabled ? " on" : "") + '" id="notifToggle">' +
+      '    <div class="track"><div class="thumb"></div></div>' +
+      '    <span style="flex:1;font-size:15px;font-weight:600">Günlük hatırlatma</span>' +
+      "  </div>" +
+      '  <div class="cfg-row" style="margin-top:12px"><span style="font-weight:600;font-size:14.5px">Hatırlatma saati</span><input type="time" id="notifTime" value="' + notif.time + '" style="background:var(--bg);border:1px solid var(--line);border-radius:8px;padding:6px 8px;color:var(--ink);font-size:14px"></div>' +
+      '  <div class="toggle' + (notif.tasks ? " on" : "") + '" id="notifTasksToggle" style="margin-top:10px">' +
+      '    <div class="track"><div class="thumb"></div></div>' +
+      '    <span style="flex:1;font-size:15px;font-weight:600">Bitmemiş görevleri hatırlat</span>' +
+      "  </div>" +
+      '  <div class="muted" style="font-size:12.5px;margin-top:6px;line-height:1.5">Hatırlatmalar Android bildirimi olarak gelir; ilk açışta izin istenir.</div>' +
       '  <button class="modal-close" id="mClose">Kapat</button>' +
       "</div>";
     modal.classList.remove("hidden");
@@ -2050,6 +2093,29 @@
       saveProgress();
       applyTheme();
       render(currentView);
+    });
+    $("#notifToggle").addEventListener("click", function () {
+      var n = notifSettings();
+      n.enabled = !n.enabled;
+      saveProgress();
+      if (n.enabled && window.AndroidBridge && window.AndroidBridge.requestNotifications) {
+        try { window.AndroidBridge.requestNotifications(); } catch (e) {}
+      }
+      syncReminders();
+      openSettings();
+    });
+    $("#notifTime").addEventListener("change", function () {
+      var n = notifSettings();
+      n.time = this.value || "19:00";
+      saveProgress();
+      syncReminders();
+    });
+    $("#notifTasksToggle").addEventListener("click", function () {
+      var n = notifSettings();
+      n.tasks = !n.tasks;
+      saveProgress();
+      syncReminders();
+      openSettings();
     });
     $("#mClose").addEventListener("click", closeModal);
     modal.addEventListener("click", function (e) { if (e.target === modal) closeModal(); });

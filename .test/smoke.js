@@ -165,6 +165,13 @@ click("#settingsBtn");
 click("#trToggle"); // turn back on
 ok(!!d.querySelector(".wod-tr"), "Turkish visible after toggle on");
 
+console.log("== settings: notifications ==");
+click("#settingsBtn");
+ok(!!d.querySelector("#notifToggle"), "notifications toggle present");
+ok(!!d.querySelector("#notifTime"), "reminder time input present");
+ok(!!d.querySelector("#notifTasksToggle"), "incomplete-tasks reminder toggle present");
+click("#mClose");
+
 console.log("== spelling game ==");
 click('.tab[data-tab="sets"]');
 Array.from(d.querySelectorAll(".set-card")).find((c) => c.getAttribute("data-open") === "a1").click();
