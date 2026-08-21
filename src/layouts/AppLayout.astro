@@ -136,7 +136,11 @@ const initial = displayName ? displayName.trim().charAt(0).toUpperCase() : 'H';
         btn.disabled = true;
         btn.textContent = 'Çıkılıyor…';
       }
-      fetch('/api/auth/signout', { method: 'POST' })
+      fetch('/api/auth/signout', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: '{}',
+      })
         .then(function () {
           window.location.href = '/';
         })
