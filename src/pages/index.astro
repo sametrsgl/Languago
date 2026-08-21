@@ -38,7 +38,11 @@ import Layout from '../layouts/Layout.astro';
 })} /></script>
 
   <section class="hero container">
-    <span class="eyebrow">📚 Languago dersleri — online & yüz yüze</span>
+    <div class="deco d1">📚</div>
+    <div class="deco d2">💬</div>
+    <div class="deco d3">🎓</div>
+    <div class="deco d4">✏️</div>
+    <span class="eyebrow">🎉 İngilizce öğrenmenin en eğlenceli yolu</span>
     <h1>İngilizce öğrenmenin eğlenceli yolu</h1>
     <p class="lead">
       Languago; kelime dağarcığı, dil bilgisi, okuma ve sınıf içi oyunlarla
@@ -46,40 +50,44 @@ import Layout from '../layouts/Layout.astro';
       kendi hızında çalış, oyunlarla pekiştir.
     </p>
     <div class="btn-row">
-      <a class="btn primary" href="/signup">Hemen Kayıt Ol</a>
-      <a class="btn ghost" href="/signin">Giriş Yap</a>
+      <a class="btn primary" href="/signup">Ücretsiz Kayıt Ol</a>
+      <a class="btn ghost" href="/dashboard">Göz At</a>
     </div>
   </section>
 
   <section class="section container">
-    <h2>Nasıl öğreniyoruz?</h2>
-    <div class="grid">
-      <div class="card">
-        <div class="emoji">📚</div>
+    <div class="section-head">
+      <span class="kicker">Nasıl çalışır?</span>
+      <h2>Nasıl öğreniyorsun?</h2>
+      <p>Sana özel dört temel adımla İngilizceyi kalıcı, oyun gibi öğren.</p>
+    </div>
+    <div class="feat-grid">
+      <div class="feat">
+        <div class="feat-emoji">📚</div>
         <h3>Kelime &amp; Dil Bilgisi</h3>
         <p>
           Aralıklı tekrar (SRS) ile kalıcı kelime öğrenimi ve adım adım dil
           bilgisi konuları. Seviyene göre özelleşir (A1–C2).
         </p>
       </div>
-      <div class="card">
-        <div class="emoji">📖</div>
+      <div class="feat">
+        <div class="feat-emoji">📖</div>
         <h3>Okuma Becerileri</h3>
         <p>
           Gerçek hayattan okuma parçaları ve anlama sorularıyla okuma hızını ve
           kelime dağarcığını geliştir.
         </p>
       </div>
-      <div class="card">
-        <div class="emoji">🎮</div>
+      <div class="feat">
+        <div class="feat-emoji">🎮</div>
         <h3>Sınıf İçi Oyunlar</h3>
         <p>
           Yazım, kelime ve bilgi yarışması oyunlarıyla öğrendiklerini eğlenerek
           pekiştir — tek başına veya arkadaşlarınla.
         </p>
       </div>
-      <div class="card">
-        <div class="emoji">💻</div>
+      <div class="feat">
+        <div class="feat-emoji">💻</div>
         <h3>Online Canlı Dersler</h3>
         <p>
           Öğretmeninle kendi içinde barındırılan görüntülü sınıfta (ekran paylaşımı
@@ -89,15 +97,38 @@ import Layout from '../layouts/Layout.astro';
     </div>
   </section>
 
-  <section class="section container">
-    <h2>Kimler için?</h2>
-    <p class="lead">
-      İngilizceyi gerçekten öğrenmek isteyen herkes: sınavlara hazırlanan
-      öğrenciler, kelimede takılanlar, konuşma pratiği arayanlar ve eğlenceli
-      yöntemle ilerlemek isteyenler. Kayıt olması 1 dakika sürer.
-    </p>
-    <div class="btn-row">
-      <a class="btn primary" href="/signup">Ücretsiz Kayıt Ol</a>
+  <section class="split-wrap">
+    <div class="container split">
+      <div class="split__panel">
+        <div class="big">📚 🗣️ 🧠 🏆</div>
+        <p>Sınavdan önce mi? Yoksa sıfırdan mı başlıyorsun?</p>
+        <p>Her seviyeye, her hedefe uygun bir yol var.</p>
+      </div>
+      <div class="split__body">
+        <span class="kicker">Kimler için?</span>
+        <h2>İngilizceyi gerçekten öğrenmek isteyen herkes için</h2>
+        <ul>
+          <li>
+            <strong>Sınavlara hazırlanan öğrenciler:</strong> LGS, YDS, YKS ve
+            uluslararası sınavlara yönelik hedefe odaklı çalışma.
+          </li>
+          <li>
+            <strong>Kelimede takılanlar:</strong> SRS tekrar sistemiyle unutmadan,
+            kalıcı kelime öğrenimi.
+          </li>
+          <li>
+            <strong>Konuşma pratiği arayanlar:</strong> Canlı derslerde öğretmeninle
+            birebir ve grupla pratik şansı.
+          </li>
+          <li>
+            <strong>Eğlenceli yöntem isteyenler:</strong> Oyunlu ve adım adım
+            ilerleyen bir İngilizce deneyimi.
+          </li>
+        </ul>
+        <div class="btn-row">
+          <a class="btn primary" href="/signup">Ücretsiz Kayıt Ol</a>
+        </div>
+      </div>
     </div>
   </section>
 </Layout>
