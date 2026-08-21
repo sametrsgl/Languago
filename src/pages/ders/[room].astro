@@ -1,0 +1,271 @@
+---
+import '../../styles/global.css';
+import { createSupabaseClient, pageCookieSource } from '../../lib/supabase';
+import { getSessionUser } from '../../lib/auth';
+
+// Protected live-room page. Any signed-in user who may join (teacher owner OR
+// roster member of the lesson's class) can enter; access is enforced by RLS on
+// public.lessons (lesson_owner_all / lesson_student_read). Nobody ever sees
+// room-only or foreign lessons.
+const roomToken = Astro.params.room ?? '';
+
+const supabase = createSupabaseClient(pageCookieSource(Astro));
+if (!supabase) {
+  return Astro.redirect('/signin');
+}
+const user = await getSessionUser(pageCookieSource(Astro));
+if (!user) {
+  return Astro.redirect('/signin');
+}
+
+// Jitsi domain is fully configurable at build/deploy time (default meet.jit.si)
+// so Languago can later self-host Jitsi on a VPS with zero code change.
+const jitsiDomain: string =
+  (import.meta.env.JITSI_DOMAIN as string | undefined) || 'meet.jit.si';
+
+let lesson:
+  | { id: string; title: string; starts_at: string; room_token: string; teacher_id: string }
+  | null = null;
+let canJoin = false;
+let isTeacher = false;
+let displayName = user.email || '';
+
+try {
+  // RLS returns the row only if the caller is the owning teacher OR a roster
+  // member of the lesson's class — this is the access-control gate.
+  const { data } = await supabase
+    .from('lessons')
+    .select('id, title, starts_at, room_token, teacher_id')
+    .eq('room_token', roomToken)
+    .maybeSingle();
+  lesson = data ? (data as typeof lesson) : null;
+
+  const { data: profile } = await supabase
+    .from('profiles')
+    .select('full_name, role')
+    .eq('id', user.id)
+    .maybeSingle();
+  const role = (profile?.role as string | undefined) ?? 'student';
+  isTeacher = role === 'teacher' || role === 'admin';
+  const fullName = (profile?.full_name as string | null | undefined) || null;
+  if (fullName) displayName = fullName;
+
+  canJoin = !!lesson;
+} catch {
+  canJoin = false;
+  lesson = null;
+}
+
+const backHref = isTeacher ? '/teacher/dersler' : '/dashboard';
+const backLabel = '← Panele Dön';
+
+const pageTitle = lesson ? `${lesson.title} · Languago` : 'Canlı Ders · Languago';
+const pageDescription = lesson
+  ? `${lesson.title} — Languago canlı video dersi.`
+  : 'Languago canlı video dersi.';
+const siteUrl = Astro.site?.origin || 'https://www.languago.site';
+const canonical = `${siteUrl}/ders/${roomToken}`;
+---
+<!doctype html>
+<html lang="tr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>{pageTitle}</title>
+    <meta name="description" content={pageDescription} />
+    <meta name="robots" content="noindex, nofollow" />
+    <link rel="canonical" href={canonical} />
+    <meta name="theme-color" content="#f59e0b" />
+    <meta
+      rel="icon"
+      href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🐟</text></svg>"
+    />
+  </head>
+  <body>
+    {canJoin ? (
+      <>
+        <div class="live-bar">
+          <a class="live-back" href={backHref}>{backLabel}</a>
+          <div class="live-title">
+            <strong>{lesson?.title}</strong>
+            <span class="live-sub">Languago Canlı Ders · ekran paylaşımı ve kameralar açık</span>
+          </div>
+        </div>
+        <div id="jitsi-container" class="live-room"></div>
+        <script is:inline>
+          (function () {
+            var domain = {JSON.stringify(jitsiDomain)};
+            var roomName = {JSON.stringify(roomToken)};
+            var roomTitle = {JSON.stringify(lesson?.title ?? '')};
+            var displayName = {JSON.stringify(displayName)};
+            var email = {JSON.stringify(user.email ?? '')};
+            var parent = document.getElementById('jitsi-container');
+            if (!parent) return;
+
+            function boot() {
+              if (typeof window.JitsiMeetExternalAPI !== 'function') {
+                var el = document.createElement('div');
+                el.className = 'live-error';
+                el.innerHTML =
+                  '<strong>Odada bağlantı kurulamadı.</strong><br/>Jitsi yüklenemedi. Lütfen sayfayı yenile.';
+                parent.appendChild(el);
+                return;
+              }
+              document.title = roomTitle + ' · Languago';
+              try {
+                var api = new window.JitsiMeetExternalAPI(domain, {
+                  roomName: roomName,
+                  parentNode: parent,
+                  width: '100%',
+                  height: '100%',
+                  userInfo: { displayName: displayName, email: email },
+                  configOverwrite: {
+                    disableInviteFunctions: false,
+                    startWithAudioMuted: false,
+                    startWithVideoMuted: false,
+                  },
+                  interfaceConfigOverwrite: {
+                    SHOW_JITSI_WATERMARK: true,
+                    SHOW_WATERMARK_FOR_GUESTS: true,
+                    DEFAULT_REMOTE_DISPLAY_NAME: 'Öğrenci',
+                    DEFAULT_LOCAL_DISPLAY_NAME: 'Öğretmen',
+                    TOOLBAR_BUTTONS: [
+                      'microphone',
+                      'camera',
+                      'desktop',
+                      'fullscreen',
+                      'fodeviceselection',
+                      'profile',
+                      'recording',
+                      'sharedvideo',
+                      'raisehand',
+                      'chat',
+                      'closedcaptions',
+                      'tileview',
+                      'settings',
+                      'videoquality',
+                      'hangup',
+                    ],
+                  },
+                });
+                window.__languagoJitsi = api;
+              } catch (e) {
+                var el = document.createElement('div');
+                el.className = 'live-error';
+                el.textContent = 'Oda oluşturulamadı: ' + (e && e.message ? e.message : 'bilinmeyen hata');
+                parent.appendChild(el);
+              }
+            }
+
+            var script = document.createElement('script');
+            script.src = 'https://' + domain + '/external_api.js';
+            script.async = true;
+            script.onload = boot;
+            script.onerror = function () {
+              var el = document.createElement('div');
+              el.className = 'live-error';
+              el.innerHTML =
+                '<strong>Jitsi yüklenemedi.</strong><br/>Yükleyiciye ({JSON.stringify(jitsiDomain)}) ulaşılamadı. İnternet bağlantısını kontrol et.';
+              parent.appendChild(el);
+            };
+            document.head.appendChild(script);
+          })();
+        </script>
+      </>
+    ) : (
+      <main class="study">
+        <div class="panel" style="text-align:center;padding:40px 24px;">
+          <div style="font-size:2.4rem;">🔒</div>
+          <h1>Bu Derse Erişimin Yok</h1>
+          <p class="muted">
+            Bu canlı ders, yalnızca dersin sahibi olan öğretmen veya ilgili sınıfa kayıtlı
+            öğrenciler tarafından görülebilir. Bu odaya katılmak için derse kaydolduğu
+            sınıfın üyesi olman gerekir.
+          </p>
+          <div class="btn-row" style="justify-content:center;">
+            <a class="btn" href={backHref}>Paneye Dön</a>
+          </div>
+        </div>
+      </main>
+    )}
+  </body>
+</html>
+
+<style is:global>
+  :root {
+    --brand: #f59e0b;
+    --brand-dark: #b45309;
+    --bg: #fbfaf7;
+    --line: #e8e4da;
+    --radius: 14px;
+    --maxw: 1120px;
+  }
+  * {
+    box-sizing: border-box;
+  }
+  html,
+  body {
+    margin: 0;
+    height: 100%;
+  }
+  body {
+    background: var(--bg);
+    font-family: system-ui, -apple-system, 'Segoe UI', sans-serif;
+    color: #191c1e;
+    display: flex;
+    flex-direction: column;
+  }
+  .live-bar {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding: 10px 16px;
+    background: #111827;
+    color: #fff;
+    border-bottom: 1px solid #1f2937;
+    flex: 0 0 auto;
+  }
+  .live-back {
+    color: #fbbf24;
+    text-decoration: none;
+    font-weight: 600;
+    white-space: nowrap;
+    padding: 6px 12px;
+    border: 1px solid #374151;
+    border-radius: 8px;
+    font-size: 0.9rem;
+  }
+  .live-back:hover {
+    background: #1f2937;
+  }
+  .live-title {
+    display: flex;
+    flex-direction: column;
+    line-height: 1.2;
+    overflow: hidden;
+  }
+  .live-title strong {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+  .live-sub {
+    font-size: 0.78rem;
+    color: #9ca3af;
+  }
+  .live-room {
+    flex: 1 1 auto;
+    min-height: 0;
+  }
+  .live-error {
+    margin: 40px auto;
+    max-width: 480px;
+    padding: 24px;
+    background: #fef2f2;
+    border: 1px solid #fecaca;
+    border-radius: var(--radius);
+    color: #7f1d1d;
+    text-align: center;
+    line-height: 1.6;
+  }
+</style>

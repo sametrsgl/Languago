@@ -30,6 +30,29 @@ try {
   isTeacher = false;
 }
 
+// Lessons the signed-in student may join (RLS `lesson_student_read` returns
+// only lessons from their own class rosters). Shown as a Canlı Dersler entry.
+type StudentLesson = {
+  id: string;
+  title: string;
+  starts_at: string;
+  room_token: string;
+};
+let studentLessons: StudentLesson[] = [];
+try {
+  if (!isTeacher) {
+    const { data } = supabase
+      ? await supabase
+          .from('lessons')
+          .select('id, title, starts_at, room_token')
+          .order('starts_at', { ascending: false })
+      : { data: null };
+    studentLessons = (data ?? []) as StudentLesson[];
+  }
+} catch {
+  studentLessons = [];
+}
+
 const studyLinks = [
   {
     href: '/dashboard/kelimeler',
@@ -80,6 +103,43 @@ const studyLinks = [
         ))
       }
     </div>
+
+    {
+      !isTeacher && studentLessons.length > 0 && (
+        <div class="live-lessons">
+          <h2 style="margin-top:32px;">Canlı Dersler 🎥</h2>
+          <p class="muted">
+            Öğretmeninin senin için planladığı çevrimiçi derslere aşağıdan katıl.
+          </p>
+          <div class="wrap-table">
+            <table class="tbl">
+              <thead>
+                <tr>
+                  <th>Ders</th>
+                  <th>Zaman</th>
+                  <th></th>
+                </tr>
+              </thead>
+              <tbody>
+                {studentLessons.map((l) => (
+                  <tr>
+                    <td>
+                      <strong>{l.title}</strong>
+                    </td>
+                    <td>{new Date(l.starts_at).toLocaleString('tr-TR', { dateStyle: 'medium', timeStyle: 'short' })}</td>
+                    <td>
+                      <a class="btn primary sm" href={`/ders/${l.room_token}`}>
+                        Derse Katıl →
+                      </a>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        </div>
+      )
+    }
 
     {
       isTeacher && (
