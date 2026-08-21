@@ -3,6 +3,7 @@ import AppLayout from '../../../layouts/AppLayout.astro';
 import { getSessionUser } from '../../../lib/auth';
 import { pageCookieSource } from '../../../lib/supabase';
 import { GRAMMAR_LEVELS, loadGrammar, exportSuffix } from '../../../lib/study';
+import { readProgress, payloadStr } from '../../../lib/progress';
 
 const user = await getSessionUser(pageCookieSource(Astro));
 if (!user) return Astro.redirect('/signin');
@@ -15,11 +16,23 @@ const mod = await loadGrammar(level);
 const grammar = mod ? mod[`GRAMMAR_${exportSuffix(level)}`] : null;
 if (!grammar) return Astro.redirect('/dashboard/dilbilgisi');
 const units = grammar.units as { id: string; title: string; short: string; slides: unknown[] }[];
+
+// Best-effort "where you left off": mark units the student has done, drawn from
+// their latest grammar progress row. Guarded — never crashes when absent.
+const grammarProgress = await readProgress(pageCookieSource(Astro), 'grammar');
+const doneUnit = payloadStr(grammarProgress, 'unit', 'lastUnit');
+const doneSet = new Set<string>(doneUnit ? [doneUnit] : []);
 ---
 
 <AppLayout title={`${meta.label} · Dilbilgisi — Languago`} description={meta.subtitle}>
   <main class="study">
-    <a class="back" href="/dashboard/dilbilgisi">← Seviye Seç</a>
+    <nav class="crumb">
+      <a class="back" href="/dashboard">Öğrenci Paneli</a>
+      <span class="sep">›</span>
+      <a class="lnk" href="/dashboard/dilbilgisi">Dilbilgisi</a>
+      <span class="sep">›</span>
+      <span class="cur">{meta.label}</span>
+    </nav>
     <h1 style={`color:${meta.color};`}>{meta.label} Dilbilgisi</h1>
     <p class="muted">{meta.subtitle} · {units.length} konu</p>
     <div class="barline"></div>
@@ -27,7 +40,8 @@ const units = grammar.units as { id: string; title: string; short: string; slide
     <div class="tiles">
       {
         units.map((u) => (
-          <a class="tile" style={`border-top:4px solid ${meta.color};`} href={`/dashboard/dilbilgisi/${level}/${u.id}`}>
+          <a class:list={['tile', { done: doneSet.has(u.id) }]} style={`border-top:4px solid ${meta.color};`} href={`/dashboard/dilbilgisi/${level}/${u.id}`}>
+            {doneSet.has(u.id) && <span class="done-mark">✓</span>}
             <div class="tt">{u.title}</div>
             <div class="bb">{u.short} · {u.slides.length} slayt</div>
           </a>

@@ -3,6 +3,7 @@ import AppLayout from '../../layouts/AppLayout.astro';
 import { getSessionUser } from '../../lib/auth';
 import { pageCookieSource } from '../../lib/supabase';
 import { VOCAB_SETS } from '../../lib/study';
+import { readProgress, payloadStr } from '../../lib/progress';
 
 // Protected route.
 const user = await getSessionUser(pageCookieSource(Astro));
@@ -37,17 +38,40 @@ const items = Object.values(WORD_DATA.words).map((w: any) => ({
 // Escape "<" so the JSON can never break out of its <script> tag.
 const vocabJson = JSON.stringify(items).replace(/</g, '\\u003c');
 const setMetaJson = JSON.stringify(sets).replace(/</g, '\\u003c');
+
+// Best-effort "where you left off": latest vocab progress row for the signed-in
+// student. Never crashes — `payloadStr`/`readProgress` are guarded.
+const vocabProgress = await readProgress(pageCookieSource(Astro), 'vocab');
+const resumeWord = payloadStr(vocabProgress, 'lastWord');
+const resumeSet = payloadStr(vocabProgress, 'set', 'lastSet');
+// Only auto-select a set if it's a real, known set key.
+const resumeSetKey = sets.some((s) => s.key === resumeSet) ? resumeSet : '';
 ---
 
 <AppLayout title="Kelime Çalışması — Languago" description="Kelime kartlarına göz at, ara ve detaylı tanımları incele.">
   <main class="study">
-    <a class="back" href="/dashboard">← Öğrenci Paneli</a>
+    <nav class="crumb">
+      <a class="back" href="/dashboard">← Öğrenci Paneli</a>
+      <span class="sep">›</span>
+      <span class="cur">Kelime</span>
+    </nav>
     <h1>Kelime Kartları 🪪</h1>
     <p class="muted">
       {items.length.toLocaleString('tr-TR')} kelime · İngilizce kelime veya Türkçe anlamıyla ara,
       sete göre filtrele, bir kelimeye dokununca detayı gör.
     </p>
     <div class="barline"></div>
+
+    {resumeWord && (
+      <div class="resume" id="resume" data-word={resumeWord}>
+        <span class="resume-ico">🗂️</span>
+        <span class="resume-txt">
+          Kaldığın yer: <span class="resume-word">{resumeWord}</span> —
+          öğrenmeye devam et!
+        </span>
+        <button type="button" class="go" data-go>Devam et →</button>
+      </div>
+    )}
 
     <!-- server-rendered set overview (counts computed here, no JS needed) -->
     <div class="tiles">
@@ -79,7 +103,7 @@ const setMetaJson = JSON.stringify(sets).replace(/</g, '\\u003c');
     <script is:inline id="vocab-meta" type="application/json" set:html={setMetaJson}></script>
     <script is:inline id="vocab-data" type="application/json" set:html={vocabJson}></script>
 
-    <script>
+    <script define:vars={{ resumeWord, resumeSetKey }}>
       (function () {
         var getJson = function (id) {
           var el = document.getElementById(id);
@@ -160,15 +184,18 @@ const setMetaJson = JSON.stringify(sets).replace(/</g, '\\u003c');
         var showDetail = function (w) {
           var posMap = { noun: 'isim', verb: 'fiil', adjective: 'sıfat', adverb: 'zarf', preposition: 'edat', conjunction: 'bağlaç', pronoun: 'zamir', interjection: 'ünlem', determiner: 'belirteç', modal: 'kip fiili', article: 'artikel', phrase: 'ifade' };
           var pos = posMap[w.p] || w.p || '';
-          var lv = (w.lv || []).map(function (l) { return badgeLabels[l] || l; }).join(', ');
+          var lv = (w.lv || []).map(function (l) { return badgeLabels[l] || l; });
+          var lvHtml = lv.length ? '<span class="lv-tag">' + esc(lv.join(' · ')) + '</span>' : '';
           detailEl.innerHTML =
             '<button type="button" class="close" aria-label="Kapat">✕</button>' +
-            '<h2>' + esc(w.w) + '</h2>' +
-            '<span class="ipa">' + esc(w.i) + '</span>' +
-            '<div><span class="pos">' + esc(pos) + (lv ? ' · ' + esc(lv) : '') + '</span></div>' +
-            '<p>' + esc(w.d) + '</p>' +
-            '<div class="ex">' + esc(w.e) + '</div>' +
-            '<div class="tr">🇹🇷 ' + esc(w.t) + '</div>';
+            '<div class="w-head">' +
+              '<h2>' + esc(w.w) + '</h2>' +
+              (w.i ? '<span class="ipa">' + esc(w.i) + '</span>' : '') +
+            '</div>' +
+            (pos || lvHtml ? '<div>' + (pos ? '<span class="pos">' + esc(pos) + '</span>' : '') + lvHtml + '</div>' : '') +
+            '<div class="w-sec"><div class="w-sec-label">Tanım</div><p class="w-def">' + esc(w.d) + '</p></div>' +
+            (w.e ? '<div class="w-sec"><div class="w-sec-label">Örnek Cümle</div><div class="ex">' + esc(w.e) + '</div></div>' : '') +
+            '<div class="w-sec"><div class="w-sec-label">Türkçe</div><div class="tr">🇹🇷 ' + esc(w.t) + '</div></div>';
           detailEl.hidden = false;
           detailEl.classList.add('show');
           detailEl.scrollIntoView({ behavior: 'smooth', block: 'center' });
@@ -213,6 +240,27 @@ const setMetaJson = JSON.stringify(sets).replace(/</g, '\\u003c');
             detailEl.classList.remove('show');
           }
         });
+
+        // Auto-select the last studied set (best-effort), if provided.
+        if (resumeSetKey) {
+          activeSet = resumeSetKey;
+          lastSet = resumeSetKey;
+          chipsWrap.querySelectorAll('.chip').forEach(function (c) {
+            c.classList.toggle('on', c.getAttribute('data-set-key') === resumeSetKey);
+          });
+        }
+
+        // "Kaldığın yerden devam et" banner → reopen last viewed word.
+        var resumeEl = document.getElementById('resume');
+        if (resumeEl && resumeWord) {
+          resumeEl.addEventListener('click', function (e) {
+            var go = e.target.closest('[data-go]');
+            if (!go) return;
+            for (var i = 0; i < words.length; i++) {
+              if (words[i].w === resumeWord) { showDetail(words[i]); break; }
+            }
+          });
+        }
 
         render();
       })();

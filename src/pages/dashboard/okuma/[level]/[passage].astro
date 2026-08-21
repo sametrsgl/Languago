@@ -23,7 +23,15 @@ const total = questions.length;
 
 <AppLayout title={`${passage.title} — ${levelTitle(level)} · Languago`} description={`${levelTitle(level)} okuma metni`}>
   <main class="study">
-    <a class="back" href={`/dashboard/okuma/${level}`}>← {levelTitle(level)} Metinleri</a>
+    <nav class="crumb">
+      <a class="back" href="/dashboard">Öğrenci Paneli</a>
+      <span class="sep">›</span>
+      <a class="lnk" href="/dashboard/okuma">Okuma</a>
+      <span class="sep">›</span>
+      <a class="lnk" href={`/dashboard/okuma/${level}`}>{levelTitle(level)}</a>
+      <span class="sep">›</span>
+      <span class="cur">{passage.title}</span>
+    </nav>
     <h1>{passage.title}</h1>
     <p class="muted">
       <span class="badge" style="background:var(--teal-dark);">{passage.topic}</span>{' '}
@@ -34,6 +42,10 @@ const total = questions.length;
     <div class="passage">{passage.text}</div>
 
     <h2 style="font-size:1.2rem;margin-top:34px;">❓ Anlama Soruları</h2>
+    <div class="pbar">
+      <div class="pbar-track"><div class="pbar-fill" id="readFill" data-total={total}></div></div>
+      <span class="pbar-label" id="readPbar">0 / {total} soru</span>
+    </div>
     <div class="score-line" id="readScore">
       Skor: <span id="readScoreNum">0</span> / {total} — seçince cevap anında belli olur.
     </div>
@@ -61,6 +73,14 @@ const total = questions.length;
         var total = quiz.querySelectorAll('.quiz-q').length;
         var scoreNum = document.getElementById('readScoreNum');
         var scoreLine = document.getElementById('readScore');
+        var fillEl = document.getElementById('readFill');
+        var pbarEl = document.getElementById('readPbar');
+
+        function updatePbar(answered) {
+          var pct = Math.round((answered / total) * 100);
+          if (fillEl) fillEl.style.width = pct + '%';
+          if (pbarEl) pbarEl.textContent = answered + ' / ' + total + ' soru';
+        }
 
         quiz.addEventListener('click', function (e) {
           var btn = e.target.closest('.option');
@@ -75,17 +95,17 @@ const total = questions.length;
           });
           if (isCorrect) {
             correct++;
-            if (reveal) reveal.textContent = '✓ Doğru!';
-            reveal && reveal.classList.add('correct');
+            if (reveal) { reveal.textContent = '✓ Doğru! Harikasın! 🎉'; reveal.className = 'reveal ok'; }
           } else {
             btn.classList.add('wrong');
-            if (reveal) reveal.textContent = '✗ Yanlış. Doğru cevap yukarıda yeşil gösteriliyor.';
+            if (reveal) { reveal.textContent = 'Tekrar deneyebilirsin 💪 — doğru cevap yukarıda yeşil gösterildi.'; reveal.className = 'reveal try'; }
           }
           answered++;
           if (scoreNum) scoreNum.textContent = String(correct);
+          updatePbar(answered);
           if (answered >= total && scoreLine) {
             scoreLine.textContent = 'Test tamamlandı! Skor: ' + correct + ' / ' + total +
-              (correct === total ? ' — Mükemmel! 🎉' : correct >= Math.ceil(total / 2) ? ' — İyi iş! 💪' : ' — Metni tekrar okuyup dene. 📖');
+              (correct === total ? ' — Mükemmel! 🎉 Sen çok iyi bir okursun!' : correct >= Math.ceil(total / 2) ? ' — İyi iş! 💪 Harika gidiyorsun.' : ' — Olsun, metni tekrar okuyunca daha da iyi olacaksın 📖💪');
             saveProgress();
           }
         });

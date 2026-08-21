@@ -28,7 +28,15 @@ const total = quiz.length;
 
 <AppLayout title={`${unit.title} — ${levelTitle(level)} · Languago`} description={meta.subtitle}>
   <main class="study">
-    <a class="back" href={`/dashboard/dilbilgisi/${level}`}>← {levelTitle(level)} Konuları</a>
+    <nav class="crumb">
+      <a class="back" href="/dashboard">Öğrenci Paneli</a>
+      <span class="sep">›</span>
+      <a class="lnk" href="/dashboard/dilbilgisi">Dilbilgisi</a>
+      <span class="sep">›</span>
+      <a class="lnk" href={`/dashboard/dilbilgisi/${level}`}>{levelTitle(level)}</a>
+      <span class="sep">›</span>
+      <span class="cur">{unit.title}</span>
+    </nav>
     <h1 style={`color:${meta.color};`}>{unit.title}</h1>
     <p class="muted">{unit.short} · {slides.length} slayt{total ? ` · ${total} soru` : ''}</p>
     <div class="barline"></div>
@@ -54,6 +62,10 @@ const total = quiz.length;
     {total > 0 && (
       <>
         <h2 style="font-size:1.2rem;margin-top:34px;">✅ Pekiştirme Testi</h2>
+        <div class="pbar">
+          <div class="pbar-track"><div class="pbar-fill" id="gramFill" data-total={total}></div></div>
+          <span class="pbar-label" id="gramPbar">0 / {total} soru</span>
+        </div>
         <div class="score-line" id="scoreLine">
           Skor: <span id="scoreNum">0</span> / {total} — bir seçenek seçince cevabın anında belli olur.
         </div>
@@ -70,6 +82,7 @@ const total = quiz.length;
                   {String.fromCharCode(65 + oi)}) {opt}
                 </button>
               ))}
+              <div class="reveal" data-reveal></div>
             </div>
           ))}
         </div>
@@ -104,12 +117,21 @@ const total = quiz.length;
             quizBox.querySelectorAll('.quiz-q').length;
           var scoreNum = document.getElementById('scoreNum');
           var scoreLine = document.getElementById('scoreLine');
+          var fillEl = document.getElementById('gramFill');
+          var pbarEl = document.getElementById('gramPbar');
+
+          function updatePbar(answeredCount) {
+            var pct = Math.round((answeredCount / total) * 100);
+            if (fillEl) fillEl.style.width = pct + '%';
+            if (pbarEl) pbarEl.textContent = answeredCount + ' / ' + total + ' soru';
+          }
 
           quizBox.addEventListener('click', function (e) {
             var btn = e.target.closest('.option');
             if (!btn || btn.disabled) return;
             var q = btn.closest('.quiz-q');
             if (!q) return;
+            var reveal = q.querySelector('[data-reveal]');
             var opts = q.querySelectorAll('.option');
             var isCorrect = btn.getAttribute('data-correct') === '1';
             opts.forEach(function (o) { o.disabled = true; });
@@ -118,14 +140,17 @@ const total = quiz.length;
             });
             if (isCorrect) {
               correctCount++;
+              if (reveal) { reveal.textContent = '✓ Doğru! Harikasın! 🎉'; reveal.className = 'reveal ok'; }
             } else {
               btn.classList.add('wrong');
+              if (reveal) { reveal.textContent = 'Tekrar deneyebilirsin 💪 — doğru cevap yukarıda yeşil gösterildi.'; reveal.className = 'reveal try'; }
             }
             answeredCount++;
             if (scoreNum) scoreNum.textContent = String(correctCount);
+            updatePbar(answeredCount);
             if (answeredCount >= total && scoreNum) {
               scoreLine.textContent = 'Test tamamlandı! Skor: ' + correctCount + ' / ' + total +
-                (correctCount === total ? ' — Mükemmel! 🎉' : correctCount >= Math.ceil(total / 2) ? ' — İyi iş! 💪' : ' — Tekrar çalışıp dene. 📚');
+                (correctCount === total ? ' — Mükemmel! 🎉 Sen çok iyisin!' : correctCount >= Math.ceil(total / 2) ? ' — İyi iş! 💪 Harika gidiyorsun.' : ' — Olsun, tekrar çalışınca daha da iyi olacaksın 📚💪');
               saveProgress();
             }
           });

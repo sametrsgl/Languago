@@ -10,7 +10,11 @@ if (!user) return Astro.redirect('/signin');
 
 <AppLayout title="Okuma — Languago" description="Seviyene uygun okuma metinleri ve anlama soruları.">
   <main class="study">
-    <a class="back" href="/dashboard">← Öğrenci Paneli</a>
+    <nav class="crumb">
+      <a class="back" href="/dashboard">← Öğrenci Paneli</a>
+      <span class="sep">›</span>
+      <span class="cur">Okuma</span>
+    </nav>
     <h1>Okuma 📖</h1>
     <p class="muted">Bir seviye veya sınav tipi seç, metin seç, oku ve anlama sorularını çöz.</p>
     <div class="barline"></div>

@@ -3,6 +3,7 @@ import AppLayout from '../../../layouts/AppLayout.astro';
 import { getSessionUser } from '../../../lib/auth';
 import { pageCookieSource } from '../../../lib/supabase';
 import { READING_LEVELS, loadReading, exportSuffix, levelTitle } from '../../../lib/study';
+import { readProgress, payloadStr } from '../../../lib/progress';
 
 const user = await getSessionUser(pageCookieSource(Astro));
 if (!user) return Astro.redirect('/signin');
@@ -17,6 +18,12 @@ if (!readings) return Astro.redirect('/dashboard/okuma');
 
 const passages = (readings as { id: string; topic: string; title: string; questions: unknown[] }[]) || [];
 
+// Best-effort "where you left off": mark passages the student has read, drawn
+// from their latest reading progress row. Guarded — never crashes when absent.
+const readingProgress = await readProgress(pageCookieSource(Astro), 'reading');
+const donePassage = payloadStr(readingProgress, 'passage', 'lastPassage');
+const doneSet = new Set<string>(donePassage ? [donePassage] : []);
+
 // group by topic for a friendlier browse structure
 const topics = new Map<string, typeof passages>();
 for (const p of passages) {
@@ -28,7 +35,13 @@ for (const p of passages) {
 
 <AppLayout title={`${levelTitle(level)} · Okuma — Languago`} description="Okuma metinleri ve anlama soruları.">
   <main class="study">
-    <a class="back" href="/dashboard/okuma">← Okuma Seviyeleri</a>
+    <nav class="crumb">
+      <a class="back" href="/dashboard">Öğrenci Paneli</a>
+      <span class="sep">›</span>
+      <a class="lnk" href="/dashboard/okuma">Okuma</a>
+      <span class="sep">›</span>
+      <span class="cur">{levelTitle(level)}</span>
+    </nav>
     <h1>{levelTitle(level)} Okuma</h1>
     <p class="muted">{passages.length} metin · temaya göre gruplanmış</p>
     <div class="barline"></div>
@@ -41,7 +54,8 @@ for (const p of passages) {
           </h2>
           <div class="tiles">
             {list.map((p) => (
-              <a class="tile" style="border-top:4px solid var(--brand);" href={`/dashboard/okuma/${level}/${p.id}`}>
+              <a class:list={['tile', { done: doneSet.has(p.id) }]} style="border-top:4px solid var(--brand);" href={`/dashboard/okuma/${level}/${p.id}`}>
+                {doneSet.has(p.id) && <span class="done-mark">✓</span>}
                 <div class="tt">{p.title}</div>
                 <div class="bb">{p.questions.length} soru</div>
               </a>
