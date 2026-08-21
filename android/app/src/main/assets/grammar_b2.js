@@ -1,4 +1,4 @@
-/* Lingo Branch — Dilbilgisi B2 (Orta Üstü) */
+/* Languago — Dilbilgisi B2 (Orta Üstü) */
 window.GRAMMAR_B2 = {
   id: "b2",
   title: "B2 · Orta Üstü",

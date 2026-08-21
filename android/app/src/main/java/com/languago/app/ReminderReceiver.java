@@ -1,4 +1,4 @@
-package com.kingfish.wordcoach;
+package com.languago.app;
 
 import android.app.Notification;
 import android.app.NotificationManager;
@@ -15,7 +15,7 @@ public class ReminderReceiver extends BroadcastReceiver {
         SharedPreferences sp = context.getSharedPreferences("wordcoach", Context.MODE_PRIVATE);
         if (!sp.getBoolean("reminder_enabled", false)) return;
 
-        String title = sp.getString("reminder_title", "Lingo Branch");
+        String title = sp.getString("reminder_title", "Languago");
         String body = sp.getString("reminder_body", "Dil öğrenme zamanı! 🌿");
 
         NotificationManager nm = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);

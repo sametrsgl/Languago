@@ -1,4 +1,4 @@
-package com.kingfish.wordcoach;
+package com.languago.app;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
@@ -175,7 +175,7 @@ public class MainActivity extends Activity {
                 .putBoolean("reminder_enabled", enabled)
                 .putInt("reminder_hour", hour)
                 .putInt("reminder_minute", minute)
-                .putString("reminder_title", (title == null || title.isEmpty()) ? "Lingo Branch" : title)
+                .putString("reminder_title", (title == null || title.isEmpty()) ? "Languago" : title)
                 .putString("reminder_body", (body == null || body.isEmpty()) ? "Dil öğrenme zamanı! 🌿" : body)
                 .apply();
 

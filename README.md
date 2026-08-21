@@ -1,11 +1,11 @@
-# Lingo Branch (Android APK)
+# Languago (Android APK)
 
 Offline English vocabulary, grammar and reading coach for Android — a self-contained,
 dependency-free `WebView` app that ships word sets from **CEFR A1–C2** plus exam-prep
 sets for **IELTS, TOEFL, YDS, YÖKDİL and GRE**, a full **A1–B2 grammar course**, and
 level-matched **reading passages** with comprehension questions.
 
-Built for Kingfish (Turkish-first brand): the UI is Turkish, definitions are in
+Built for Languago (Turkish-first brand): the UI is Turkish, definitions are in
 English (Oxford/Wiktionary-sourced) with example sentences, IPA phonetics and
 native text-to-speech pronunciation.
 
@@ -63,7 +63,7 @@ See `ARCHITECTURE.md` for structure, `DECISIONS.md` for source/licensing rationa
 - `local.properties` and `android/keystore/` are git-ignored (machine paths + signing secret).
   Regenerate the keystore with:
   ```bash
-  keytool -genkeypair -keystore android/keystore/wordcoach.keystore -alias wordcoach \
-    -keyalg RSA -keysize 2048 -validity 10000 -storepass kingfish2026 -keypass kingfish2026 \
-    -dname "CN=Kingfish,OU=Lingo Branch,O=Kingfish,C=TR"
+  keytool -genkeypair -keystore android/keystore/languago.keystore -alias languago \
+    -keyalg RSA -keysize 2048 -validity 10000 -storepass languago2026 -keypass languago2026 \
+    -dname "CN=Languago,OU=Languago,O=Languago,C=TR"
   ```

@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Build the Lingo Branch vocabulary dataset.
+"""Build the Languago vocabulary dataset.
 
 Sources:
   - Oxford 3000/5000 (winterdl/oxford-5000-vocabulary-audio-definition) -> A1-C1,
@@ -273,7 +273,7 @@ def main():
 
     # ---- write output ----
     meta = {
-        "app": "Lingo Branch",
+        "app": "Languago",
         "version": 1,
         "sources": [
             "Oxford 3000/5000 (A1-C1)",

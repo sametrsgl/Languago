@@ -1,4 +1,4 @@
-/* Lingo Branch — Başarılar (achievements) */
+/* Languago — Başarılar (achievements) */
 window.ACHIEVEMENTS = [
   { id: "learned_1",    icon: "🌱", title: "İlk Kelime",       desc: "İlk kelimeni öğren.",        metric: "learned",  threshold: 1 },
   { id: "learned_10",   icon: "🌿", title: "İyi Başlangıç",    desc: "10 kelime öğren.",           metric: "learned",  threshold: 10 },

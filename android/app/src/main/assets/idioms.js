@@ -1,4 +1,4 @@
-/* Lingo Branch — Deyimler (idioms). Günün deyimi bunlardan döner. */
+/* Languago — Deyimler (idioms). Günün deyimi bunlardan döner. */
 window.IDIOMS = [
   { w: "Break the ice", t: "buzları kırmak, ortamı yumuşatmak", ex: "He told a joke to break the ice.", lit: "Buzu kırmak" },
   { w: "A piece of cake", t: "çok kolay, çocuk oyuncağı", ex: "The exam was a piece of cake.", lit: "Bir dilim kek" },

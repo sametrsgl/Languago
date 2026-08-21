@@ -1,4 +1,4 @@
-/* Lingo Branch — Dilbilgisi B1 (Orta) */
+/* Languago — Dilbilgisi B1 (Orta) */
 window.GRAMMAR_B1 = {
   id: "b1",
   title: "B1 · Orta",

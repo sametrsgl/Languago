@@ -14,7 +14,7 @@ english-word-coach/
 └── android/                    # Gradle project (AGP 8.5.2, compileSdk 34, minSdk 24)
     └── app/src/main/
         ├── AndroidManifest.xml
-        ├── java/com/kingfish/wordcoach/MainActivity.java   # WebView host + TTS + bridge
+        ├── java/com/languago/app/MainActivity.java   # WebView host + TTS + bridge
         ├── res/mipmap-*/ic_launcher.png
         └── assets/             # the actual app (bundled, offline)
             ├── index.html

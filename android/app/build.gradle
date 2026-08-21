@@ -3,23 +3,23 @@ plugins {
 }
 
 android {
-    namespace 'com.kingfish.wordcoach'
+    namespace 'com.languago.app'
     compileSdk 34
 
     defaultConfig {
-        applicationId "com.kingfish.wordcoach"
+        applicationId "com.languago.app"
         minSdk 24
         targetSdk 34
-        versionCode 13
-        versionName "2.1.0"
+        versionCode 14
+        versionName "2.2.0"
     }
 
     signingConfigs {
         release {
-            storeFile file("../keystore/wordcoach.keystore")
-            storePassword "kingfish2026"
-            keyAlias "wordcoach"
-            keyPassword "kingfish2026"
+            storeFile file("../keystore/languago.keystore")
+            storePassword "languago2026"
+            keyAlias "languago"
+            keyPassword "languago2026"
         }
     }
 

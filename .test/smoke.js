@@ -1,4 +1,4 @@
-// Headless smoke test for the Lingo Branch SPA (jsdom).
+// Headless smoke test for the Languago SPA (jsdom).
 // Uses a copy of app.js with $/$$ renamed to _q/_qq to avoid a jsdom-specific
 // quirk with `$` identifiers — logic is identical (verified in native V8).
 const fs = require("fs");
@@ -47,7 +47,7 @@ console.log("== boot ==");
 ok(!!w.WORD_DATA && Object.keys(w.WORD_DATA.words).length > 5000, "WORD_DATA loaded (" + Object.keys(w.WORD_DATA.words).length + " words)");
 ok(!!d.querySelector("#splash"), "splash screen present");
 ok((d.querySelector("#splash").textContent || "").indexOf("tirasoglusamet@gmail.com") >= 0, "splash shows developer email");
-ok(text("#titleText") === "Lingo Branch", "default title");
+ok(text("#titleText") === "Languago", "default title");
 ok(!!d.querySelector(".hero h2"), "home hero rendered");
 ok(!!d.querySelector(".wod-word"), "word-of-the-day rendered");
 ok(!!d.querySelector(".wod-tr"), "word-of-the-day shows Turkish translation");
@@ -152,7 +152,7 @@ click('.tab[data-tab="sets"]');
 Array.from(d.querySelectorAll(".set-card")).find((c) => c.getAttribute("data-open") === "a1").click();
 ok(d.querySelector("#backBtn") && !d.querySelector("#backBtn").classList.contains("hidden"), "back button visible in set");
 click("#backBtn");
-ok(text("#titleText") === "Lingo Branch", "back returns to top level");
+ok(text("#titleText") === "Languago", "back returns to top level");
 
 console.log("== settings: translation toggle ==");
 click('.tab[data-tab="home"]');

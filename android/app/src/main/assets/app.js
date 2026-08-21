@@ -1,4 +1,4 @@
-/* Lingo Branch — application logic (local-assets WebView SPA) */
+/* Languago — application logic (local-assets WebView SPA) */
 (function () {
   "use strict";
 
@@ -287,7 +287,7 @@
     var hour = parseInt(parts[0], 10); if (isNaN(hour)) hour = 19;
     var minute = parseInt(parts[1], 10); if (isNaN(minute)) minute = 0;
     if (window.AndroidBridge && window.AndroidBridge.setReminder) {
-      try { window.AndroidBridge.setReminder(!!n.enabled, hour, minute, "Lingo Branch 🌿", buildReminderBody(n)); } catch (e) {}
+      try { window.AndroidBridge.setReminder(!!n.enabled, hour, minute, "Languago 🌿", buildReminderBody(n)); } catch (e) {}
     }
   }
 
@@ -329,7 +329,7 @@
       || (currentView === "grammar" && (gTest || gTestPicker || gTestDone));
     $("#backBtn").classList.toggle("hidden", !showBack);
 
-    var title = "Lingo Branch";
+    var title = "Languago";
     if (meta) title = meta.name;
     else if (currentView === "review") title = "Tekrar";
     else if (currentView === "grammar" && (gTest || gTestPicker || gTestDone)) title = "Grammatik Testi";

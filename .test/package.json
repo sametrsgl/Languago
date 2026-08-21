@@ -2,7 +2,7 @@
   "name": "english-word-coach-tests",
   "private": true,
   "version": "1.0.0",
-  "description": "Headless smoke tests for the Lingo Branch WebView SPA (jsdom).",
+  "description": "Headless smoke tests for the Languago WebView SPA (jsdom).",
   "scripts": {
     "test": "node smoke.js"
   },
