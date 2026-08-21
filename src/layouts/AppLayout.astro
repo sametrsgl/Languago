@@ -62,7 +62,7 @@ const initial = displayName ? displayName.trim().charAt(0).toUpperCase() : 'H';
     <meta name="description" content={description} />
     <meta name="robots" content="index, follow" />
     <link rel="canonical" href={pageUrl} />
-    <meta name="theme-color" content="#f59e0b" />
+    <meta name="theme-color" content="#0d9488" />
     <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🐟</text></svg>" />
 
     <!-- Open Graph -->
@@ -157,6 +157,7 @@ const initial = displayName ? displayName.trim().charAt(0).toUpperCase() : 'H';
   .app-header {
     background: var(--bg);
     border-bottom: 1px solid var(--line);
+    border-top: 4px solid var(--teal);
     position: sticky;
     top: 0;
     z-index: 10;
@@ -171,6 +172,17 @@ const initial = displayName ? displayName.trim().charAt(0).toUpperCase() : 'H';
   .app-header .brand small {
     font-size: 0.75rem;
   }
+  .app-header .brand .fish {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 34px;
+    height: 34px;
+    border-radius: 10px;
+    background: var(--teal-soft);
+    font-size: 1.15rem;
+    color: var(--teal);
+  }
   .user-menu {
     display: flex;
     align-items: center;
@@ -181,8 +193,8 @@ const initial = displayName ? displayName.trim().charAt(0).toUpperCase() : 'H';
     align-items: center;
     gap: 10px;
     padding: 8px 12px;
-    background: var(--bg-soft);
-    border: 1px solid var(--line);
+    background: var(--teal-soft);
+    border: 1px solid var(--teal-soft);
     border-radius: 999px;
     max-width: 100%;
   }
@@ -191,7 +203,7 @@ const initial = displayName ? displayName.trim().charAt(0).toUpperCase() : 'H';
     height: 28px;
     flex: 0 0 28px;
     border-radius: 50%;
-    background: var(--brand);
+    background: var(--teal);
     color: #fff;
     font-weight: 800;
     font-size: 0.9rem;
