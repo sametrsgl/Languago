@@ -8,15 +8,33 @@ import Layout from '../layouts/Layout.astro';
 >
   <script is:inline type="application/ld+json" set:html={JSON.stringify({
   "@context": "https://schema.org",
-  "@type": "EducationalOrganization",
-  name: "Languago",
-  alternateName: "Languago İngilizce",
-  description:
-    "İngilizce öğrenci, kelime, dil bilgisi, okuma ve sınıf içi oyunlarla. Temel öğretmen Samet Tıraşoğlu  tarafından verilen özel dersler.",
-  founder: { "@type": "Person", name: "Samet Tıraşoğlu" },
-  teaches: "English",
-  inLanguage: ["tr", "en"],
-  url: "https://www.languago.site/",
+  "@graph": [
+    {
+      "@type": "WebSite",
+      "@id": "https://www.languago.site/#website",
+      url: "https://www.languago.site/",
+      name: "Languago",
+      description:
+        "İngilizce öğrenmenin oyunlu yolu: kelime dağarcığı, dil bilgisi, okuma becerileri ve sınıf içi oyunlar.",
+      inLanguage: "tr-TR",
+      publisher: { "@id": "https://www.languago.site/#organization" },
+    },
+    {
+      "@type": "EducationalOrganization",
+      "@id": "https://www.languago.site/#organization",
+      name: "Languago",
+      alternateName: "Languago İngilizce",
+      description:
+        "İngilizce öğrenme: kelime, dil bilgisi, okuma ve sınıf içi oyunlarla. Özel dersler temel öğretmen Samet Tıraşoğlu tarafından verilir.",
+      url: "https://www.languago.site/",
+      logo: "https://www.languago.site/og-cover.png",
+      email: "samettrol1@gmail.com",
+      founder: { "@type": "Person", name: "Samet Tıraşoğlu" },
+      teaches: "English",
+      inLanguage: ["tr", "en"],
+      areaServed: { "@type": "Place", name: "Türkiye" },
+    },
+  ],
 })} /></script>
 
   <section class="hero container">
