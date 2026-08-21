@@ -9,13 +9,22 @@
     "build": "astro build",
     "preview": "astro preview",
     "start": "node ./dist/server/entry.mjs",
+    "postinstall": "patch-package",
     "port:content": "node scripts/port_content.mjs"
   },
   "dependencies": {
-    "@astrojs/node": "^9.5.5",
     "@astrojs/sitemap": "^3.4.0",
+    "@astrojs/vercel": "^8.2.11",
     "@supabase/ssr": "^0.12.4",
     "@supabase/supabase-js": "^2.112.3",
     "astro": "^5.18.2"
+  },
+  "devDependencies": {
+    "patch-package": "^8.0.1"
+  },
+  "allowScripts": {
+    "esbuild@0.25.12": true,
+    "esbuild@0.27.7": true,
+    "sharp@0.34.5": true
   }
 }
