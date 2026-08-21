@@ -2,7 +2,7 @@
 interface Props {
   title: string;
   description?: string;
-  /** Fully-qualified page URL (e.g. "https://languago.com/..."). */
+  /** Fully-qualified page URL (e.g. "https://www.languago.site/..."). */
   canonical?: string;
   image?: string;
 }
@@ -16,7 +16,7 @@ const {
   image,
 } = Astro.props;
 
-const siteUrl = Astro.site?.origin || 'https://languago.com';
+const siteUrl = Astro.site?.origin || 'https://www.languago.site';
 const path = Astro.url.pathname;
 const pageUrl = canonical || `${siteUrl}${path}`;
 const ogImage = image || `${siteUrl}/og-cover.png`;

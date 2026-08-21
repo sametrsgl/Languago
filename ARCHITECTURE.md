@@ -4,9 +4,9 @@
 
 ```
 
-<domain>  →  Caddy (HTTPS / reverse proxy, auto-certs)
-                 ├── Astro SSR (Node)   →  site, auth, dashboard, games, SEO pages
-                 └── Jitsi Meet         →  video classroom (same VPS)
+<domain>  →  Vercel (free tier, auto-HTTPS)
+                 ├── Astro SSR (Vercel) →  site, auth, dashboard, games, SEO pages
+                 └── [Phase 4] Jitsi Meet →  video classroom (VPS, later)
 
 student browser
   ├── Supabase Auth (email/password)
@@ -18,7 +18,7 @@ student browser
 ```
 languago-platform/
 ├── README.md / DECISIONS.md / ARCHITECTURE.md / PLAN.md
-├── package.json                # Astro SSR (node adapter)
+├── package.json                # Astro SSR (vercel adapter)
 ├── astro.config.mjs            # SSR + output, site URL, sitemap
 ├── .env.example                # SUPABASE_URL, SUPABASE_ANON_KEY
 ├── supabase/

@@ -62,7 +62,9 @@ alter table public.roster_members enable row level security;
 create policy "roster_owner_create" on public.class_roster for insert to authenticated with check (auth.uid() = teacher_id);
 create policy "roster_owner_select" on public.class_roster for select using (auth.uid() = teacher_id);
 create policy "roster_member_read"  on public.roster_members for select using (
-  auth.uid() = student_id or auth.uid() = teacher_id
+  auth.uid() = student_id or exists (
+    select 1 from public.class_roster cr where cr.id = roster_members.class_id and cr.teacher_id = auth.uid()
+  )
 );
 create policy "roster_member_join"  on public.roster_members for insert to authenticated with check (auth.uid() = student_id);
 

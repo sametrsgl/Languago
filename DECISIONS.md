@@ -1,8 +1,8 @@
 # Decisions
 
-## 1. Framework — Astro (SSR) with `@astrojs/node`
+## 1. Framework — Astro (SSR) with `@astrojs/vercel`
 
-**Decision:** build the web app on **Astro 5** in SSR mode (Node adapter), not a client-side
+**Decision:** build the web app on **Astro 5** in SSR mode (Vercel adapter), not a client-side
 SPA (React/Vue/Svelte-only).
 
 **Why:** every content page (game library, articles, level guides, home) must be **real HTML**
@@ -16,9 +16,9 @@ server-rendered HTML by default, is fast, free, MIT, and lets us drop in interac
 roster, and per-student progress.
 
 **Why (research-first):** this is the canonical, documented path. Official Astro+Supabase
-docs (`docs.astro.build/guides/backend/supabase` and
+Supabase docs (`docs.astro.build/guides/backend/supabase` and
 `supabase.com/docs/guides/auth/quickstarts/astrojs`) show cookie-based SSR auth with
-`@supabase/ssr` + `@astrojs/node`. Free for small use, no DB server to run, managed. Referenced
+`@supabase/ssr` + `@astrojs/vercel`. Free for small use, no DB server to run, managed. Referenced
 open-source starter: `netlify-templates/astro-supabase-starter` (MIT) — we follow the docs
 pattern rather than forking a stale template.
 
@@ -26,20 +26,21 @@ pattern rather than forking a stale template.
 
 ## 3. Video classes — self-hosted Jitsi
 
-**Decision:** run **Jitsi Meet** on the same VPS as the site; the student dashboard's
+**Decision:** run **Jitsi Meet** on its own VPS (Phase 4); the student dashboard's
 "Join class" opens a branded in-site room (screen share + all cameras).
 
 **Why:** user can self-host and wants to **replace Google Meet**. Jitsi is the mature
 open-source (Apache 2.0) video platform doing multi-party + screen share + cameras. Self-hosting
 keeps the whole thing on our hardware/data and removes third-party dependency.
 
-## 4. Hosting — one cheap VPS + Caddy
+## 4. Hosting — Vercel free tier (site) + VPS (Jitsi, later)
 
-**Decision:** a single VPS (e.g. Hetzner ~€4/mo) runs the Astro SSR site (Node/Docker) and Jitsi,
-fronted by **Caddy** for automatic HTTPS and reverse proxying.
+**Decision:** the web app is hosted on the **Vercel free tier** (auto-deploy from GitHub `main`,
+auto-HTTPS). A dedicated VPS is deferred to Phase 4 only for the self-hosted Jitsi video server.
 
-**Why:** cheap (~$5–7/mo all-in including domain), fully active 24/7, full control. Caddy
-auto-provisions Let's Encrypt certs — no cert management.
+**Why:** Vercel's free tier handles SSR Astro, custom domain, and HTTPS with zero ops and zero
+cost. Jitsi self-hosting isn't needed until video classes ship (Phase 4), so the VPS cost
+(~€4–6/mo) is deferred until then.
 
 ## 5. SEO as a first-class goal
 

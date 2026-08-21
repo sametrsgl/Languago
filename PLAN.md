@@ -10,9 +10,9 @@ Google Meet with a self-hosted branded video classroom. Purpose-built to be
 | # | Decision | Rationale |
 |---|----------|-----------|
 | 1 | **Astro** (static-first framework) | Renders real HTML → **indexed by Google instantly**; fast; free |
-| 2 | **Self-host on one cheap VPS** (~€4/mo, e.g. Hetzner) via Docker + Caddy (auto-HTTPS) | User **can self-host**; one box runs site + video; fully active 24/7 |
+| 2 | **Deploy on Vercel free tier** (auto-deploy from GitHub, auto-HTTPS) | Web app needs no VPS; Jitsi video can be added later with its own host |
 | 3 | **Supabase free tier** for auth + database | Simple; no DB server to run; free for small use |
-| 4 | **Self-hosted Jitsi** on the same VPS for video classes | Screen share + all cameras; own URL; replaces Google Meet |
+| 4 | **Self-hosted Jitsi** (Phase 4, own VPS) for video classes | Screen share + all cameras; own URL; replaces Google Meet |
 | 5 | **Custom domain** (user pays ~$10–15/yr) | Branded, and needed for Google ranking |
 | 6 | **SEO baked in** — sitemap.xml, robots.txt, meta/OG tags, structured data (JSON-LD), fast load, semantic HTML | Goal: students find site when searching Google |
 | 7 | **Reuse Languago content** for self-study | ~6k words + SRS + 36 grammar units + 330 reading passages already built |
@@ -26,11 +26,11 @@ student  →  https://<domain>   (Astro site, server-rendered HTML → SEO-frien
                 ├── Supabase Postgres                → profiles, roster, progress
                 ├── Self-study modules               → vocab/grammar/reading (Lingo)
                 ├── In-class games                   → hand-built JS games
-                └── Jitsi Meet (SELF-HOSTED, same VPS) → video classroom
+                └── [Phase 4] Jitsi Meet (SELF-HOSTED, own VPS) → video classroom
 ```
 
-**One VPS** runs: the Astro site (Docker) + Caddy (HTTPS/reverse proxy) + Jitsi.
-Supabase stays hosted (free tier) — more reliable than self-hosting DB.
+**Hosting split:** the web app runs on **Vercel free tier**; Jitsi (Phase 4) will run on its
+own VPS. Supabase stays hosted (free tier) — no DB server to run.
 
 ## SEO plan (why people find it on Google)
 - Every content page is **static HTML** (Astro) — Google reads it fully.
