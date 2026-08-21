@@ -58,8 +58,14 @@ if (auth.ok && id) {
       <main class="study teacher">
         <TeacherNav path={Astro.url.pathname} />
         <a class="back" href="/teacher/ogrenciler">← Öğrenciler</a>
-        <h1>Öğrenci Profili 🧑‍🎓</h1>
-        <div class="barline"></div>
+        <div class="page-head">
+          <span class="page-eyebrow">Öğretmen Paneli</span>
+          <h1>Öğrenci Profili 🧑‍🎓</h1>
+          <p class="page-sub">
+            Bu öğrencinin genel bilgileri ve modül bazında çalışma ilerlemesi tek sayfada.
+          </p>
+          <div class="barline"></div>
+        </div>
 
         {
           student ? (
@@ -118,11 +124,11 @@ if (auth.ok && id) {
               </div>
             </div>
           ) : (
-            <div class="panel" style="text-align:center;padding:40px 24px;">
-              <div style="font-size:2.4rem;">🤷</div>
-              <h1>Öğrenci Bulunamadı</h1>
-              <p class="muted">Bu öğrencinin kaydı bulunamadı ya da erişim yetkin yok.</p>
-              <div class="btn-row" style="justify-content:center;">
+            <div class="empty-state">
+              <div class="es-ico">🤷</div>
+              <h3>Öğrenci Bulunamadı</h3>
+              <p>Bu öğrencinin kaydı bulunamadı ya da erişim yetkin yok.</p>
+              <div class="btn-row">
                 <a class="btn" href="/teacher/ogrenciler">Öğrencilere Dön</a>
               </div>
             </div>

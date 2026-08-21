@@ -74,22 +74,29 @@ if (auth.ok) {
       <main class="study teacher">
         <TeacherNav path={Astro.url.pathname} />
 
-        <h1>{teacherName ? `${teacherName}:` : ''} Genel Bakış 👋</h1>
-        <p class="muted">
-          Sınıflarını, öğrencilerini ve çalışma ilerlemelerini bu panelden takip edebilirsin.
-        </p>
-        <div class="barline"></div>
+        <div class="page-head">
+          <span class="page-eyebrow">Öğretmen Paneli</span>
+          <h1>Genel Bakış 👋</h1>
+          <p class="page-sub">
+            {teacherName ? `Hoş geldin, ${teacherName}! ` : ''}Sınıflarını, öğrencilerini ve
+            çalışma ilerlemelerini tek yerden takip edebilirsin.
+          </p>
+          <div class="barline"></div>
+        </div>
 
         <div class="tstat">
           <div class="tstat__card">
+            <div class="tstat__icon">🧑‍🎓</div>
             <div class="tstat__num">{stats.students}</div>
             <div class="tstat__label">Kayıtlı Öğrenci</div>
           </div>
           <div class="tstat__card">
+            <div class="tstat__icon">🏫</div>
             <div class="tstat__num">{stats.classes}</div>
             <div class="tstat__label">Sınıf</div>
           </div>
           <div class="tstat__card">
+            <div class="tstat__icon">🎉</div>
             <div class="tstat__num">{stats.monthNew}</div>
             <div class="tstat__label">Son 30 Gün Yeni</div>
           </div>
@@ -122,6 +129,7 @@ if (auth.ok) {
                     <th>Öğrenci</th>
                     <th>Seviye</th>
                     <th>Kayıt</th>
+                    <th class="actions">İşlem</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -134,17 +142,35 @@ if (auth.ok) {
                         >
                           {s.full_name || s.email}
                         </a>
-                        <div class="muted small">{s.email}</div>
+                        <span class="email">{s.email}</span>
                       </td>
                       <td>{s.level ? s.level.toUpperCase() : 'A1'}</td>
                       <td>{shortDate(s.created_at)}</td>
+                      <td class="actions">
+                        <a
+                          class="btn teal-ghost sm"
+                          href={`/teacher/ogrenci/${s.student_id}`}
+                        >
+                          Profili Gör
+                        </a>
+                      </td>
                     </tr>
                   ))}
                 </tbody>
               </table>
             </div>
           ) : (
-            <p class="empty">Henüz kayıtlı öğrenci yok.</p>
+            <div class="empty-state">
+              <div class="es-ico">🧑‍🎓</div>
+              <h3>Henüz kayıtlı öğrenci yok</h3>
+              <p>
+                Öğrencilerin hesap açtıkça burada görünür. Onları davet etmek için{' '}
+                <a href="/teacher/siniflar">katılım kodunu sınıflarından</a> paylaşabilirsin.
+              </p>
+              <div class="btn-row">
+                <a class="btn" href="/teacher/ogrenciler">Öğrencilere Git</a>
+              </div>
+            </div>
           )
         }
 

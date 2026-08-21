@@ -68,14 +68,17 @@ if (auth.ok) {
       <main class="study teacher">
         <TeacherNav path={Astro.url.pathname} />
 
-        <h1>Sınıflar 🏫</h1>
-        <p class="muted">
-          Yeni bir sınıf oluştur ve kendiliğinden üretilen katılım kodunu öğrencilerinle
-          paylaş. Öğrenciler bu kodla sınıfına katılır.
-        </p>
-        <div class="barline"></div>
+        <div class="page-head">
+          <span class="page-eyebrow">Öğretmen Paneli</span>
+          <h1>Sınıflar 🏫</h1>
+          <p class="page-sub">
+            Yeni bir sınıf oluştur ve kendiliğinden üretilen katılım kodunu öğrencilerinle paylaş.
+            Öğrenciler bu kodla sınıfına katılır.
+          </p>
+          <div class="barline"></div>
+        </div>
 
-        <div class="panel" style="background:var(--bg-soft);">
+        <div id="create-class" class="panel" style="background:var(--bg-soft);">
           <h2 style="font-size:1.15rem;">Yeni Sınıf Oluştur</h2>
           <form id="class-form" class="class-form">
             <input
@@ -127,10 +130,16 @@ if (auth.ok) {
               );
             })
           ) : (
-            <div class="panel" style="background:var(--bg-soft);">
-              <p class="empty" style="margin:0;">
-                Henüz oluşturulmuş bir sınıf yok. Yukarıdaki formla ilk sınıfını kur.
+            <div class="empty-state">
+              <div class="es-ico">🏫</div>
+              <h3>Henüz sınıfın yok</h3>
+              <p>
+                İlk sınıfını oluştur, katılım kodunu öğrencilerinle paylaş ve onlar bu kodla
+                sınıfına katılsın.
               </p>
+              <div class="btn-row">
+                <a class="btn" href="#create-class">Sınıf Oluştur</a>
+              </div>
             </div>
           )
         }

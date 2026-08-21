@@ -23,6 +23,7 @@ function isActive(href: string, exact: boolean): boolean {
 <div class="teacher-nav">
   <div class="teacher-nav__inner">
     <div class="teacher-nav__home">
+      <span class="tn-brand" aria-hidden="true">🧑‍🏫<span>Öğretmen Paneli</span></span>
       <a class="btn ghost sm" href="/dashboard">← Öğrenci Paneli</a>
     </div>
     <nav class="study-subnav teacher-nav__links" aria-label="Öğretmen menüsü">
@@ -55,6 +56,24 @@ function isActive(href: string, exact: boolean): boolean {
     justify-content: space-between;
     gap: 16px;
     flex-wrap: wrap;
+  }
+  .teacher-nav__home {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  .tn-brand {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-weight: 800;
+    font-size: 0.98rem;
+    color: var(--teal-dark);
+    white-space: nowrap;
+  }
+  .tn-brand span {
+    font-size: 0.82rem;
+    letter-spacing: 0.04em;
   }
   .teacher-nav__links {
     margin: 0;

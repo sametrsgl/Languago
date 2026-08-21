@@ -53,11 +53,14 @@ if (auth.ok) {
       <main class="study teacher">
         <TeacherNav path={Astro.url.pathname} />
 
-        <h1>Öğrenciler 🧑‍🎓</h1>
-        <p class="muted">
-          Rolü öğrenci olan tüm hesaplar ve her modüldeki son çalışma durumları burada listelenir.
-        </p>
-        <div class="barline"></div>
+        <div class="page-head">
+          <span class="page-eyebrow">Öğretmen Paneli</span>
+          <h1>Öğrenciler 🧑‍🎓</h1>
+          <p class="page-sub">
+            Rolü öğrenci olan tüm hesaplar ve her modüldeki son çalışma durumları burada listelenir.
+          </p>
+          <div class="barline"></div>
+        </div>
 
         {
           students.length ? (
@@ -69,6 +72,7 @@ if (auth.ok) {
                     <th>Seviye</th>
                     <th>İlerleme</th>
                     <th>Kayıt</th>
+                    <th class="actions">İşlem</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -82,7 +86,7 @@ if (auth.ok) {
                           >
                             {s.full_name || '—'}
                           </a>
-                          <div class="muted small">{s.email}</div>
+                          <span class="email">{s.email}</span>
                         </td>
                         <td>
                           <span class="badge" style="background:var(--teal-dark);">
@@ -118,6 +122,14 @@ if (auth.ok) {
                           </div>
                         </td>
                         <td class="muted">{shortDate(s.created_at)}</td>
+                        <td class="actions">
+                          <a
+                            class="btn teal-ghost sm"
+                            href={`/teacher/ogrenci/${s.student_id}`}
+                          >
+                            Profili Gör
+                          </a>
+                        </td>
                       </tr>
                     ))
                   }
@@ -125,11 +137,17 @@ if (auth.ok) {
               </table>
             </div>
           ) : (
-            <div class="panel" style="background:var(--bg-soft);">
-              <p class="empty" style="margin:0;">
-                Henüz rolü öğrenci olan bir hesap bulunmuyor. Öğrenciler{' '}
-                <a href="/signup">kayıt formu</a> ile geldikçe burada görünmeye başlar.
+            <div class="empty-state">
+              <div class="es-ico">🧑‍🎓</div>
+              <h3>Henüz öğrencin yok</h3>
+              <p>
+                Öğrenciler <a href="/signup">kayıt formu</a> ile geldikçe burada listelenir.
+                Onları davet etmek için{' '}
+                <a href="/teacher/siniflar">katılım kodunu sınıflarından</a> paylaş.
               </p>
+              <div class="btn-row">
+                <a class="btn" href="/teacher/siniflar">Sınıflara Git</a>
+              </div>
             </div>
           )
         }
