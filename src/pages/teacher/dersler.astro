@@ -1,5 +1,5 @@
 ---
-import Layout from '../../layouts/Layout.astro';
+import AppLayout from '../../layouts/AppLayout.astro';
 import TeacherNav from '../../components/TeacherNav.astro';
 import { createSupabaseClient, pageCookieSource } from '../../lib/supabase';
 import { authorizeTeacher, shortDate } from '../../lib/teacher';
@@ -45,7 +45,7 @@ if (auth.ok) {
 }
 ---
 
-<Layout
+<AppLayout
   title="Canlı Dersler — Öğretmen Paneli · Languago"
   description="Languago canlı video derslerini oluştur ve yönet; öğrencilerinle birebir görüşme odasına bağlan."
 >
@@ -145,7 +145,7 @@ if (auth.ok) {
       </main>
     )
   }
-</Layout>
+</AppLayout>
 
 <style>
   .field-label {

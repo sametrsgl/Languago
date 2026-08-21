@@ -1,5 +1,5 @@
 ---
-import Layout from '../../layouts/Layout.astro';
+import AppLayout from '../../layouts/AppLayout.astro';
 import TeacherNav from '../../components/TeacherNav.astro';
 import { createSupabaseClient, pageCookieSource } from '../../lib/supabase';
 import { authorizeTeacher } from '../../lib/teacher';
@@ -59,7 +59,7 @@ if (auth.ok) {
 }
 ---
 
-<Layout
+<AppLayout
   title="Sınıflar — Öğretmen Paneli · Languago"
   description="Languago sınıf listelerini oluştur ve yönet; katılım kodunu öğrencilerinle paylaş."
 >
@@ -150,7 +150,7 @@ if (auth.ok) {
       </main>
     )
   }
-</Layout>
+</AppLayout>
 
 <script is:inline>
   (function () {

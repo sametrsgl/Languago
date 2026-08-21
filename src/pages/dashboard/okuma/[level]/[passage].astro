@@ -1,5 +1,5 @@
 ---
-import Layout from '../../../../layouts/Layout.astro';
+import AppLayout from '../../../../layouts/AppLayout.astro';
 import { getSessionUser } from '../../../../lib/auth';
 import { pageCookieSource } from '../../../../lib/supabase';
 import { READING_LEVELS, loadReading, exportSuffix, levelTitle } from '../../../../lib/study';
@@ -21,7 +21,7 @@ const questions = passage.questions || [];
 const total = questions.length;
 ---
 
-<Layout title={`${passage.title} — ${levelTitle(level)} · Languago`} description={`${levelTitle(level)} okuma metni`}>
+<AppLayout title={`${passage.title} — ${levelTitle(level)} · Languago`} description={`${levelTitle(level)} okuma metni`}>
   <main class="study">
     <a class="back" href={`/dashboard/okuma/${level}`}>← {levelTitle(level)} Metinleri</a>
     <h1>{passage.title}</h1>
@@ -105,4 +105,4 @@ const total = questions.length;
       })();
     </script>
   </main>
-</Layout>
+</AppLayout>

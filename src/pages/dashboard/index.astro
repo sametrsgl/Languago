@@ -1,5 +1,5 @@
 ---
-import Layout from '../../layouts/Layout.astro';
+import AppLayout from '../../layouts/AppLayout.astro';
 import { createSupabaseClient, pageCookieSource } from '../../lib/supabase';
 
 // Protected route: read the session server-side and redirect if not signed in.
@@ -81,7 +81,7 @@ const studyLinks = [
 ];
 ---
 
-<Layout
+<AppLayout
   title="Öğrenci Paneli — Languago"
   description="Derslerine, ilerlemene ve sınıf içi oyunlarına buradan eriş."
 >
@@ -168,7 +168,7 @@ const studyLinks = [
       </form>
     </div>
   </main>
-</Layout>
+</AppLayout>
 
 <script is:inline>
   (function () {

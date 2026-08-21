@@ -1,5 +1,5 @@
 ---
-import Layout from '../../layouts/Layout.astro';
+import AppLayout from '../../layouts/AppLayout.astro';
 import { getSessionUser } from '../../lib/auth';
 import { pageCookieSource } from '../../lib/supabase';
 import { GRAMMAR_LEVELS } from '../../lib/study';
@@ -8,7 +8,7 @@ const user = await getSessionUser(pageCookieSource(Astro));
 if (!user) return Astro.redirect('/signin');
 ---
 
-<Layout title="Dilbilgisi — Languago" description="A1–B2 seviyesinde dilbilgisi konuları ve alıştırmalar.">
+<AppLayout title="Dilbilgisi — Languago" description="A1–B2 seviyesinde dilbilgisi konuları ve alıştırmalar.">
   <main class="study">
     <a class="back" href="/dashboard">← Öğrenci Paneli</a>
     <h1>Dilbilgisi 🧩</h1>
@@ -26,4 +26,4 @@ if (!user) return Astro.redirect('/signin');
       }
     </div>
   </main>
-</Layout>
+</AppLayout>

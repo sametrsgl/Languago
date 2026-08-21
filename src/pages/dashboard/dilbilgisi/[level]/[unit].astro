@@ -1,5 +1,5 @@
 ---
-import Layout from '../../../../layouts/Layout.astro';
+import AppLayout from '../../../../layouts/AppLayout.astro';
 import { getSessionUser } from '../../../../lib/auth';
 import { pageCookieSource } from '../../../../lib/supabase';
 import { GRAMMAR_LEVELS, loadGrammar, loadGrammarMcq, exportSuffix, levelTitle } from '../../../../lib/study';
@@ -26,7 +26,7 @@ const quiz: { q: string; options: string[]; a: number }[] = (mcqGroups && mcqGro
 const total = quiz.length;
 ---
 
-<Layout title={`${unit.title} — ${levelTitle(level)} · Languago`} description={meta.subtitle}>
+<AppLayout title={`${unit.title} — ${levelTitle(level)} · Languago`} description={meta.subtitle}>
   <main class="study">
     <a class="back" href={`/dashboard/dilbilgisi/${level}`}>← {levelTitle(level)} Konuları</a>
     <h1 style={`color:${meta.color};`}>{unit.title}</h1>
@@ -146,4 +146,4 @@ const total = quiz.length;
       })();
     </script>
   </main>
-</Layout>
+</AppLayout>

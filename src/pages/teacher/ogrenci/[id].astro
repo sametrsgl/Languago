@@ -1,5 +1,5 @@
 ---
-import Layout from '../../../layouts/Layout.astro';
+import AppLayout from '../../../layouts/AppLayout.astro';
 import TeacherNav from '../../../components/TeacherNav.astro';
 import { createSupabaseClient, pageCookieSource } from '../../../lib/supabase';
 import {
@@ -45,7 +45,7 @@ if (auth.ok && id) {
 }
 ---
 
-<Layout
+<AppLayout
   title={
     student
       ? `${student.full_name || student.email} — Öğrenci Profili · Languago`
@@ -142,4 +142,4 @@ if (auth.ok && id) {
       </main>
     )
   }
-</Layout>
+</AppLayout>

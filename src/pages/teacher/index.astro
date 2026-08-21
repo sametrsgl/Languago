@@ -1,5 +1,5 @@
 ---
-import Layout from '../../layouts/Layout.astro';
+import AppLayout from '../../layouts/AppLayout.astro';
 import TeacherNav from '../../components/TeacherNav.astro';
 import { createSupabaseClient, pageCookieSource } from '../../lib/supabase';
 import { authorizeTeacher, MODULES, shortDate } from '../../lib/teacher';
@@ -65,7 +65,7 @@ if (auth.ok) {
 }
 ---
 
-<Layout
+<AppLayout
   title="Öğretmen Paneli — Genel Bakış · Languago"
   description="Languago öğretmen paneli: sınıflarını, öğrencilerini ve ilerlemelerini tek yerden yönet."
 >
@@ -189,4 +189,4 @@ if (auth.ok) {
       </main>
     )
   }
-</Layout>
+</AppLayout>

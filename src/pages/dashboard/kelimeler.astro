@@ -1,5 +1,5 @@
 ---
-import Layout from '../../layouts/Layout.astro';
+import AppLayout from '../../layouts/AppLayout.astro';
 import { getSessionUser } from '../../lib/auth';
 import { pageCookieSource } from '../../lib/supabase';
 import { VOCAB_SETS } from '../../lib/study';
@@ -39,7 +39,7 @@ const vocabJson = JSON.stringify(items).replace(/</g, '\\u003c');
 const setMetaJson = JSON.stringify(sets).replace(/</g, '\\u003c');
 ---
 
-<Layout title="Kelime Çalışması — Languago" description="Kelime kartlarına göz at, ara ve detaylı tanımları incele.">
+<AppLayout title="Kelime Çalışması — Languago" description="Kelime kartlarına göz at, ara ve detaylı tanımları incele.">
   <main class="study">
     <a class="back" href="/dashboard">← Öğrenci Paneli</a>
     <h1>Kelime Kartları 🪪</h1>
@@ -218,4 +218,4 @@ const setMetaJson = JSON.stringify(sets).replace(/</g, '\\u003c');
       })();
     </script>
   </main>
-</Layout>
+</AppLayout>

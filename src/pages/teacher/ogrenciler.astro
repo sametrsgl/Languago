@@ -1,5 +1,5 @@
 ---
-import Layout from '../../layouts/Layout.astro';
+import AppLayout from '../../layouts/AppLayout.astro';
 import TeacherNav from '../../components/TeacherNav.astro';
 import { createSupabaseClient, pageCookieSource } from '../../lib/supabase';
 import {
@@ -44,7 +44,7 @@ if (auth.ok) {
 }
 ---
 
-<Layout
+<AppLayout
   title="Öğrenciler + İlerleme — Öğretmen Paneli · Languago"
   description="Languago öğrenci listesi ve modül bazında çalışma ilerlemeleri."
 >
@@ -149,4 +149,4 @@ if (auth.ok) {
       </main>
     )
   }
-</Layout>
+</AppLayout>

@@ -1,5 +1,5 @@
 ---
-import Layout from '../../../layouts/Layout.astro';
+import AppLayout from '../../../layouts/AppLayout.astro';
 import { getSessionUser } from '../../../lib/auth';
 import { pageCookieSource } from '../../../lib/supabase';
 import { GRAMMAR_LEVELS, loadGrammar, exportSuffix } from '../../../lib/study';
@@ -17,7 +17,7 @@ if (!grammar) return Astro.redirect('/dashboard/dilbilgisi');
 const units = grammar.units as { id: string; title: string; short: string; slides: unknown[] }[];
 ---
 
-<Layout title={`${meta.label} · Dilbilgisi — Languago`} description={meta.subtitle}>
+<AppLayout title={`${meta.label} · Dilbilgisi — Languago`} description={meta.subtitle}>
   <main class="study">
     <a class="back" href="/dashboard/dilbilgisi">← Seviye Seç</a>
     <h1 style={`color:${meta.color};`}>{meta.label} Dilbilgisi</h1>
@@ -35,4 +35,4 @@ const units = grammar.units as { id: string; title: string; short: string; slide
       }
     </div>
   </main>
-</Layout>
+</AppLayout>
