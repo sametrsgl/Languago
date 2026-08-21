@@ -12,8 +12,9 @@ if (!data.user) {
   return Astro.redirect('/signin');
 }
 const user = data.user;
-const fullName =
-  (user.user_metadata?.full_name as string | undefined) || undefined;
+const fullName = (user.user_metadata?.full_name as string | undefined) ?? undefined;
+// Greet by first name only — friendlier.
+const firstName = fullName ? fullName.trim().split(/\s+/)[0] : undefined;
 
 // Teacher/admin get an extra admin entry point — role read server-side from
 // profiles.role (RLS returns only the caller's own row).
@@ -53,30 +54,122 @@ try {
   studentLessons = [];
 }
 
+// ---- Best-effort progress drawn from the signed-in student's OWN
+// student_progress rows. Every read is guarded: if Supabase is missing, the
+// table is empty, or payloads vary, the dashboard degrades gracefully instead
+// of crashing (build/prerender safe too).
+type ProgressRow = {
+  module: string;
+  payload?: Record<string, unknown> | null;
+  updated_at?: string;
+};
+let progress: ProgressRow[] = [];
+try {
+  const { data: rows } = await supabase
+    .from('student_progress')
+    .select('module, payload, updated_at')
+    .eq('student_id', user.id);
+  progress = (rows ?? []) as ProgressRow[];
+} catch {
+  progress = [];
+}
+
+// 🔥 Streak: count consecutive study days (from student_progress.updated_at),
+// counting backwards from today when today is active, else from the most
+// recent logged day. Falls back to 0 when there is no data.
+let streak = 0;
+try {
+  const dayVals = new Set<number>();
+  let latest = new Date(0);
+  for (const r of progress) {
+    if (!r.updated_at) continue;
+    const d = new Date(r.updated_at);
+    if (Number.isNaN(d.getTime())) continue;
+    if (d > latest) latest = d;
+    dayVals.add(d.getFullYear() * 10000 + (d.getMonth() + 1) * 100 + d.getDate());
+  }
+  const dayOf = (d: Date) => new Date(d.getFullYear(), d.getMonth(), d.getDate());
+  const today = dayOf(new Date());
+  const todayK = today.getFullYear() * 10000 + (today.getMonth() + 1) * 100 + today.getDate();
+  const start = dayVals.has(todayK)
+    ? today
+    : latest.getTime() > 0
+      ? dayOf(latest)
+      : null;
+  if (start) {
+    let cur = start;
+    while (
+      dayVals.has(cur.getFullYear() * 10000 + (cur.getMonth() + 1) * 100 + cur.getDate()) &&
+      streak <= 365
+    ) {
+      streak++;
+      cur = new Date(cur.getFullYear(), cur.getMonth(), cur.getDate() - 1);
+    }
+  }
+} catch {
+  streak = 0;
+}
+
+// 📚 Modül count: distinct modules the student has touched.
+let moduleCount = 0;
+try {
+  moduleCount = new Set(progress.map((r) => r.module).filter(Boolean)).size;
+} catch {
+  moduleCount = 0;
+}
+
+// 🎯 Kelime (best-effort): for each row, sum the first plausible numeric
+// field found in the payload (wordsLearned / learned / count / viewedCount /
+// best / lastScore / correct). Handles absent or oddly-shaped payloads.
+let wordsCount = 0;
+try {
+  const NUMBER_KEYS = ['wordsLearned', 'learned', 'count', 'viewedCount', 'best', 'lastScore', 'correct'];
+  for (const r of progress) {
+    const p = r.payload;
+    if (!p || typeof p !== 'object') continue;
+    for (const k of NUMBER_KEYS) {
+      const v = (p as Record<string, unknown>)[k];
+      const n = typeof v === 'number' ? v : typeof v === 'string' ? Number(v) : NaN;
+      if (Number.isFinite(n) && n >= 0) {
+        wordsCount += n;
+        break; // first numeric-looking field per row
+      }
+    }
+  }
+} catch {
+  wordsCount = 0;
+}
+
+const hasProgress = progress.length > 0;
+
 const studyLinks = [
   {
     href: '/dashboard/kelimeler',
     emoji: '🪪',
     title: 'Kelime',
     desc: 'Kelime setlerine göz at, İngilizce ↔ Türkçe ara ve detaylı kartları incele.',
+    cta: 'Başla →',
   },
   {
     href: '/dashboard/dilbilgisi',
     emoji: '🧩',
     title: 'Dilbilgisi',
     desc: 'A1–B2 seviyesindeki konu slaytları ve çoktan seçmeli pekiştirme testleri.',
+    cta: 'Başla →',
   },
   {
     href: '/dashboard/okuma',
     emoji: '📖',
     title: 'Okuma',
     desc: 'Seviyene uygun okuma metinleri ve anlama soruları ile pratik yap.',
+    cta: 'Başla →',
   },
   {
     href: '/dashboard/oyunlar',
     emoji: '🎮',
     title: 'Oyunlar',
     desc: 'Sınıf içi kelime oyunları: eksik harfleri tamamla, zamanlı yarışmada kelime bul.',
+    cta: 'Oyna →',
   },
 ];
 ---
@@ -86,19 +179,55 @@ const studyLinks = [
   description="Derslerine, ilerlemene ve sınıf içi oyunlarına buradan eriş."
 >
   <main class="study">
-    <h1>Hoş geldin{fullName ? `, ${fullName}` : ''}! 👋</h1>
-    <p class="muted">Languago öğrenci panelindesin. Kendi kendine çalışma modüllerin aşağıda.</p>
+    <h1>Hoş geldin{firstName ? `, ${firstName}` : ''}! 👋</h1>
+    <p class="muted">
+      Bugün öğrenmeye hazır mısın? Kendi kendine çalışma modüllerinin hepsi aşağıda.
+    </p>
+
+    <!-- Bugünkü heyecan: streak / modül / kelime stat chips (best-effort) -->
+    <div class="excite">
+      {
+        hasProgress ? (
+          <div class="stat-grid">
+            <div class="stat-chip">
+              <span class="stat-ico">🔥</span>
+              <span class="stat-num">{streak}</span>
+              <span class="stat-label">Gün serisi</span>
+            </div>
+            <div class="stat-chip">
+              <span class="stat-ico">📚</span>
+              <span class="stat-num">{moduleCount}</span>
+              <span class="stat-label">Modül</span>
+            </div>
+            <div class="stat-chip">
+              <span class="stat-ico">🎯</span>
+              <span class="stat-num">{wordsCount}</span>
+              <span class="stat-label">Kelime / Puan</span>
+            </div>
+          </div>
+        ) : (
+          <div class="start-path">
+            <div class="start-path__head">Bugün nasıl başlarsın? 🌅</div>
+            <p class="start-path__body">
+              Yeni başlıyorsun — bu harika! 🎉 İlk adım olarak
+              <a href="/dashboard/kelimeler">Kelime modülüyle</a> birkaç kelime öğrenmeyi dene.
+              Serini burada görmeye başlayacaksın 🔥
+            </p>
+          </div>
+        )
+      }
+    </div>
+
     <div class="barline"></div>
 
     <div class="dash-nav">
       {
         studyLinks.map((l) => (
-          <a class="card tile card-link" href={l.href}>
-            <div>
-              <div style="font-size:1.8rem;">{l.emoji}</div>
-              <div class="tt">{l.title}</div>
-              <div class="bb">{l.desc}</div>
-            </div>
+          <a class="card tile card-link feat-card" href={l.href}>
+            <span class="feat-emoji">{l.emoji}</span>
+            <span class="tt">{l.title}</span>
+            <span class="bb">{l.desc}</span>
+            <span class="start-pill">{l.cta}</span>
           </a>
         ))
       }
@@ -156,44 +285,14 @@ const studyLinks = [
       )
     }
 
-    <div class="panel" style="margin-top:24px;background:var(--bg-soft);border:1px solid var(--line);border-radius:var(--radius);padding:20px;">
-      <p style="margin:0 0 10px;">
-        <strong>Giriş yapan hesap:</strong> <span class="email">{user.email}</span>
-      </p>
-      <a class="btn ghost" href="/dashboard/dilbilgisi">Dilbilgisi</a>{' '}
-      <a class="btn ghost" href="/dashboard/okuma">Okuma</a>{' '}
-      <a class="btn ghost" href="/dashboard/kelimeler">Kelime</a>
-      <form id="signout-form" style="display:inline;">
-        <button class="btn ghost" type="submit" style="margin-left:8px;">Çıkış Yap</button>
-      </form>
+    <!-- Sign-out lives in the app header user menu (AppLayout); no duplicate
+         panel needed here. A quiet quick-link row keeps the bottom tidy. -->
+    <div class="panel quick-row">
+      <span class="quick-row__label">Devam etmek için:</span>
+      <a class="btn ghost sm" href="/dashboard/kelimeler">Kelime</a>
+      <a class="btn ghost sm" href="/dashboard/dilbilgisi">Dilbilgisi</a>
+      <a class="btn ghost sm" href="/dashboard/okuma">Okuma</a>
+      <a class="btn ghost sm" href="/dashboard/oyunlar">Oyunlar</a>
     </div>
   </main>
 </AppLayout>
-
-<script is:inline>
-  (function () {
-    var form = document.getElementById('signout-form');
-    if (!form) return;
-    form.addEventListener('submit', function (e) {
-      e.preventDefault();
-      var btn = form.querySelector('button');
-      if (btn) {
-        btn.disabled = true;
-        btn.textContent = 'Çıkılıyor…';
-      }
-      fetch('/api/auth/signout', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: '{}',
-      })
-        .then(function () {
-          window.location.href = '/';
-        })
-        .catch(function () {
-          // Endpoint failure: still leave the dashboard so the user is not
-          // left stuck.
-          window.location.href = '/';
-        });
-    });
-  })();
-</script>
