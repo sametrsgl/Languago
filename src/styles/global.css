@@ -180,6 +180,15 @@ footer.site .brand {
 footer.site .brand .fish {
   color: #fff;
 }
+/* footer brand mascot — small Languago mark on the teal footer */
+footer.site .brand .footer-mascot {
+  width: 30px;
+  height: 30px;
+  object-fit: contain;
+  border-radius: 8px;
+  filter: drop-shadow(0 6px 10px rgba(15, 118, 110, 0.6));
+  flex: none;
+}
 .footer-grid {
   display: grid;
   grid-template-columns: 2fr 1fr 1fr 1fr;
@@ -287,6 +296,24 @@ footer.site .brand .fish {
 @keyframes floaty {
   0%, 100% { transform: translateY(0) rotate(-4deg); }
   50% { transform: translateY(-12px) rotate(4deg); }
+}
+
+/* hero mascot — Languago Komodo dragon companion */
+.hero .mascot {
+  position: absolute;
+  right: 44px;
+  top: 50%;
+  width: 220px;
+  height: 220px;
+  object-fit: contain;
+  filter: drop-shadow(0 22px 28px rgba(15, 118, 110, 0.55));
+  animation: heroFloat 5.5s ease-in-out infinite;
+  pointer-events: none;
+  user-select: none;
+}
+@keyframes heroFloat {
+  0%, 100% { transform: translateY(-50%) translateY(-6px); }
+  50% { transform: translateY(-50%) translateY(10px); }
 }
 
 /* ---------- buttons ---------- */
@@ -1083,6 +1110,9 @@ footer.site .brand .fish {
 
 /* ---------- responsive ---------- */
 @media (max-width: 900px) {
+  .hero .mascot {
+    display: none;
+  }
   .split {
     grid-template-columns: 1fr;
   }
