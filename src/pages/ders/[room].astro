@@ -92,13 +92,21 @@ const canonical = `${siteUrl}/ders/${roomToken}`;
           </div>
         </div>
         <div id="jitsi-container" class="live-room"></div>
-        <script is:inline>
+        <script
+          is:inline
+          data-domain={jitsiDomain}
+          data-room={roomToken}
+          data-title={lesson?.title ?? ''}
+          data-name={displayName}
+          data-email={user.email ?? ''}
+        >
           (function () {
-            var domain = {JSON.stringify(jitsiDomain)};
-            var roomName = {JSON.stringify(roomToken)};
-            var roomTitle = {JSON.stringify(lesson?.title ?? '')};
-            var displayName = {JSON.stringify(displayName)};
-            var email = {JSON.stringify(user.email ?? '')};
+            var el = document.currentScript;
+            var domain = el.getAttribute('data-domain') || 'meet.jit.si';
+            var roomName = el.getAttribute('data-room') || '';
+            var roomTitle = el.getAttribute('data-title') || '';
+            var displayName = el.getAttribute('data-name') || '';
+            var email = el.getAttribute('data-email') || '';
             var parent = document.getElementById('jitsi-container');
             if (!parent) return;
 
@@ -165,7 +173,9 @@ const canonical = `${siteUrl}/ders/${roomToken}`;
               var el = document.createElement('div');
               el.className = 'live-error';
               el.innerHTML =
-                '<strong>Jitsi yüklenemedi.</strong><br/>Yükleyiciye ({JSON.stringify(jitsiDomain)}) ulaşılamadı. İnternet bağlantısını kontrol et.';
+                '<strong>Jitsi yüklenemedi.</strong><br/>Yükleyiciye (' +
+                  domain +
+                  ') ulaşılamadı. İnternet bağlantısını kontrol et.';
               parent.appendChild(el);
             };
             document.head.appendChild(script);
