@@ -1,9 +1,10 @@
 ---
 import Layout from '../../../layouts/Layout.astro';
 import { getSessionUser } from '../../../lib/auth';
+import { pageCookieSource } from '../../../lib/supabase';
 import { READING_LEVELS, loadReading, exportSuffix, levelTitle } from '../../../lib/study';
 
-const user = await getSessionUser(Astro.cookies);
+const user = await getSessionUser(pageCookieSource(Astro));
 if (!user) return Astro.redirect('/signin');
 
 const level = Astro.params.level ?? '';

@@ -1,12 +1,12 @@
 ---
 import Layout from '../layouts/Layout.astro';
 import { actions } from 'astro:actions';
-import { createSupabaseClient } from '../lib/supabase';
+import { createSupabaseClient, pageCookieSource } from '../lib/supabase';
 
 let error: string | undefined;
 
 // Already authenticated? Send straight to the dashboard.
-const supabase = createSupabaseClient(Astro.cookies);
+const supabase = createSupabaseClient(pageCookieSource(Astro));
 if (supabase) {
   const { data } = await supabase.auth.getUser();
   if (data.user) {

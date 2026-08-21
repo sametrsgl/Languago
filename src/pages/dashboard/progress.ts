@@ -1,5 +1,6 @@
 import type { APIRoute } from 'astro';
 import { saveProgress } from '../../lib/auth';
+import { pageCookieSource } from '../../lib/supabase';
 
 /**
  * Best-effort student progress persistence.
@@ -31,7 +32,11 @@ export const POST: APIRoute = async ({ request, cookies }) => {
     return respond(400, { ok: false, error: 'invalid_module' });
   }
 
-  const result = await saveProgress(cookies, module, payload);
+  const result = await saveProgress(
+    pageCookieSource({ request, cookies }),
+    module,
+    payload
+  );
   if (!result.ok && result.error === 'unauthenticated') {
     return respond(401, result);
   }

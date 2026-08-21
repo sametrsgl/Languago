@@ -1,7 +1,7 @@
 ---
 import Layout from '../../layouts/Layout.astro';
 import { actions } from 'astro:actions';
-import { createSupabaseClient } from '../../lib/supabase';
+import { createSupabaseClient, pageCookieSource } from '../../lib/supabase';
 
 // Sign-out is a normal POST to this page — handle it before the guard so an
 // authenticated logout still works.
@@ -11,7 +11,7 @@ if (Astro.request.method === 'POST') {
 }
 
 // Protected route: read the session server-side and redirect if not signed in.
-const supabase = createSupabaseClient(Astro.cookies);
+const supabase = createSupabaseClient(pageCookieSource(Astro));
 if (!supabase) {
   return Astro.redirect('/signin');
 }

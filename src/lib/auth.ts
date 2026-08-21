@@ -1,12 +1,12 @@
-import { createSupabaseClient, type CookieStore } from './supabase';
+import { createSupabaseClient, type SupabaseSource } from './supabase';
 
 /**
  * Resolve the signed-in user for a request, or `null` when either Supabase is
  * not configured or the visitor has no valid session. Every protected page
  * calls this and redirects to `/signin` when the result is null.
  */
-export async function getSessionUser(cookies: CookieStore) {
-  const supabase = createSupabaseClient(cookies);
+export async function getSessionUser(source: SupabaseSource) {
+  const supabase = createSupabaseClient(source);
   if (!supabase) return null;
   const { data } = await supabase.auth.getUser();
   return data.user ?? null;
@@ -15,11 +15,11 @@ export async function getSessionUser(cookies: CookieStore) {
 /** Best-effort progress upsert. Never throws; degrades gracefully when
  * Supabase is not configured or the session is missing. */
 export async function saveProgress(
-  cookies: CookieStore,
+  source: SupabaseSource,
   module: string,
   payload: Record<string, unknown>
 ) {
-  const supabase = createSupabaseClient(cookies);
+  const supabase = createSupabaseClient(source);
   if (!supabase) return { ok: false as const, error: 'not_configured' };
   const { data } = await supabase.auth.getUser();
   if (!data.user) return { ok: false as const, error: 'unauthenticated' };
