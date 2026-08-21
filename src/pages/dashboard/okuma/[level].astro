@@ -1,0 +1,53 @@
+---
+import Layout from '../../../layouts/Layout.astro';
+import { getSessionUser } from '../../../lib/auth';
+import { READING_LEVELS, loadReading, exportSuffix, levelTitle } from '../../../lib/study';
+
+const user = await getSessionUser(Astro.cookies);
+if (!user) return Astro.redirect('/signin');
+
+const level = Astro.params.level ?? '';
+const found = READING_LEVELS.some((l) => l.key === level);
+if (!found) return Astro.redirect('/dashboard/okuma');
+
+const mod = await loadReading(level);
+const readings = mod ? mod[`READINGS_${exportSuffix(level)}`] : null;
+if (!readings) return Astro.redirect('/dashboard/okuma');
+
+const passages = (readings as { id: string; topic: string; title: string; questions: unknown[] }[]) || [];
+
+// group by topic for a friendlier browse structure
+const topics = new Map<string, typeof passages>();
+for (const p of passages) {
+  const arr = topics.get(p.topic) || [];
+  arr.push(p);
+  topics.set(p.topic, arr);
+}
+---
+
+<Layout title={`${levelTitle(level)} · Okuma — Languago`} description="Okuma metinleri ve anlama soruları.">
+  <main class="study">
+    <a class="back" href="/dashboard/okuma">← Okuma Seviyeleri</a>
+    <h1>{levelTitle(level)} Okuma</h1>
+    <p class="muted">{passages.length} metin · temaya göre gruplanmış</p>
+    <div class="barline"></div>
+
+    {
+      [...topics.entries()].map(([topic, list]) => (
+        <section style="margin-bottom:26px;">
+          <h2 style="font-size:1.05rem;color:var(--ink-soft);">
+            <span class="badge" style="background:var(--brand-dark);">{topic}</span>
+          </h2>
+          <div class="tiles">
+            {list.map((p) => (
+              <a class="tile" style="border-top:4px solid var(--brand);" href={`/dashboard/okuma/${level}/${p.id}`}>
+                <div class="tt">{p.title}</div>
+                <div class="bb">{p.questions.length} soru</div>
+              </a>
+            ))}
+          </div>
+        </section>
+      ))
+    }
+  </main>
+</Layout>

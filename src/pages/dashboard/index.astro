@@ -22,32 +22,61 @@ if (!data.user) {
 const user = data.user;
 const fullName =
   (user.user_metadata?.full_name as string | undefined) || undefined;
+
+const studyLinks = [
+  {
+    href: '/dashboard/kelimeler',
+    emoji: '🪪',
+    title: 'Kelime',
+    desc: 'Kelime setlerine göz at, İngilizce ↔ Türkçe ara ve detaylı kartları incele.',
+  },
+  {
+    href: '/dashboard/dilbilgisi',
+    emoji: '🧩',
+    title: 'Dilbilgisi',
+    desc: 'A1–B2 seviyesindeki konu slaytları ve çoktan seçmeli pekiştirme testleri.',
+  },
+  {
+    href: '/dashboard/okuma',
+    emoji: '📖',
+    title: 'Okuma',
+    desc: 'Seviyene uygun okuma metinleri ve anlama soruları ile pratik yap.',
+  },
+];
 ---
 
 <Layout
   title="Öğrenci Paneli — Languago"
   description="Derslerine, ilerlemene ve sınıf içi oyunlarına buradan eriş."
 >
-  <main class="dash">
+  <main class="study">
     <h1>Hoş geldin{fullName ? `, ${fullName}` : ''}! 👋</h1>
-    <p style="color: var(--ink-soft);">
-      Languago öğrenci panelindesin.
-    </p>
+    <p class="muted">Languago öğrenci panelindesin. Kendi kendine çalışma modüllerin aşağıda.</p>
+    <div class="barline"></div>
 
-    <div class="panel">
-      <p>
+    <div class="dash-nav">
+      {
+        studyLinks.map((l) => (
+          <a class="card tile card-link" href={l.href}>
+            <div>
+              <div style="font-size:1.8rem;">{l.emoji}</div>
+              <div class="tt">{l.title}</div>
+              <div class="bb">{l.desc}</div>
+            </div>
+          </a>
+        ))
+      }
+    </div>
+
+    <div class="panel" style="margin-top:24px;background:var(--bg-soft);border:1px solid var(--line);border-radius:var(--radius);padding:20px;">
+      <p style="margin:0 0 10px;">
         <strong>Giriş yapan hesap:</strong> <span class="email">{user.email}</span>
       </p>
-
-      <ul>
-        <li>✍️ Kelime &amp; dil bilgisi modülleri yakında.</li>
-        <li>📖 Okuma becerileri yakında.</li>
-        <li>🎮 Sınıf içi oyunlar yakında.</li>
-        <li>💻 Online canlı dersler yakında.</li>
-      </ul>
-
-      <form method="POST">
-        <button class="btn ghost" type="submit">Çıkış Yap</button>
+      <a class="btn ghost" href="/dashboard/dilbilgisi">Dilbilgisi</a>{' '}
+      <a class="btn ghost" href="/dashboard/okuma">Okuma</a>{' '}
+      <a class="btn ghost" href="/dashboard/kelimeler">Kelime</a>
+      <form method="POST" style="display:inline;">
+        <button class="btn ghost" type="submit" style="margin-left:8px;">Çıkış Yap</button>
       </form>
     </div>
   </main>

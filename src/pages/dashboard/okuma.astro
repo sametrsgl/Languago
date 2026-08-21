@@ -1,0 +1,28 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import { getSessionUser } from '../../lib/auth';
+import { READING_LEVELS } from '../../lib/study';
+
+const user = await getSessionUser(Astro.cookies);
+if (!user) return Astro.redirect('/signin');
+---
+
+<Layout title="Okuma — Languago" description="Seviyene uygun okuma metinleri ve anlama soruları.">
+  <main class="study">
+    <a class="back" href="/dashboard">← Öğrenci Paneli</a>
+    <h1>Okuma 📖</h1>
+    <p class="muted">Bir seviye veya sınav tipi seç, metin seç, oku ve anlama sorularını çöz.</p>
+    <div class="barline"></div>
+
+    <div class="tiles">
+      {
+        READING_LEVELS.map((lvl) => (
+          <a class="tile" style="border-top:4px solid var(--brand);" href={`/dashboard/okuma/${lvl.key}`}>
+            <div class="tt">{lvl.label}</div>
+            <div class="bb">Okuma metinleri</div>
+          </a>
+        ))
+      }
+    </div>
+  </main>
+</Layout>

@@ -1,0 +1,220 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import { getSessionUser } from '../../lib/auth';
+import { VOCAB_SETS } from '../../lib/study';
+
+// Protected route.
+const user = await getSessionUser(Astro.cookies);
+if (!user) return Astro.redirect('/signin');
+
+// Lazy-load the ~1.3 MB vocabulary module only on this page, keeping it out
+// of the initial client bundle and the other routes' server chunks.
+const { WORD_DATA } = await import('../../data/words.js');
+
+const sets = VOCAB_SETS.map((s) => ({
+  ...s,
+  count: (WORD_DATA.sets as Record<string, string[]>)[s.key]?.length ?? 0,
+}));
+
+// index word -> the set(s) it belongs to (a word can appear in several sets).
+const byLevel: Record<string, string[]> = {};
+for (const [lvl, keys] of Object.entries(WORD_DATA.sets as Record<string, string[]>)) {
+  for (const k of keys) {
+    (byLevel[k] ||= []).push(lvl);
+  }
+}
+
+const items = Object.values(WORD_DATA.words).map((w: any) => ({
+  w: w.w,
+  p: w.p,
+  d: w.d,
+  e: w.e,
+  i: w.i,
+  t: w.t,
+  lv: byLevel[w.w] || [],
+}));
+// Escape "<" so the JSON can never break out of its <script> tag.
+const vocabJson = JSON.stringify(items).replace(/</g, '\\u003c');
+const setMetaJson = JSON.stringify(sets).replace(/</g, '\\u003c');
+---
+
+<Layout title="Kelime Çalışması — Languago" description="Kelime kartlarına göz at, ara ve detaylı tanımları incele.">
+  <main class="study">
+    <a class="back" href="/dashboard">← Öğrenci Paneli</a>
+    <h1>Kelime Kartları 🪪</h1>
+    <p class="muted">
+      {items.length.toLocaleString('tr-TR')} kelime · İngilizce kelime veya Türkçe anlamıyla ara,
+      sete göre filtrele, bir kelimeye dokununca detayı gör.
+    </p>
+    <div class="barline"></div>
+
+    <!-- server-rendered set overview (counts computed here, no JS needed) -->
+    <div class="tiles">
+      {sets.map((s) => (
+        <button type="button" class="tile" style="border-top:4px solid var(--brand);text-align:left;"
+          data-set-key={s.key}>
+          <div class="tt">{s.label}</div>
+          <div class="bb">{s.count.toLocaleString('tr-TR')} kelime</div>
+        </button>
+      ))}
+    </div>
+
+    <div style="height:26px;"></div>
+
+    <!-- client browse + search + detail -->
+    <div class="chips" id="chips">
+      <button type="button" class="chip on" data-set-key="all">Tümü</button>
+      {sets.map((s) => (
+        <button type="button" class="chip" data-set-key={s.key}>{s.label}</button>
+      ))}
+    </div>
+    <input class="vsearch" id="search" type="search" placeholder="Kelime veya Türkçe anlam ara…" autocomplete="off" />
+    <div class="wcount" id="count"></div>
+
+    <div class="wdetail" id="detail" hidden></div>
+    <ul class="wlist" id="list"></ul>
+    <div class="empty" id="empty" hidden>Sonuç bulunamadı. Farklı bir kelime dene.</div>
+
+    <script is:inline id="vocab-meta" type="application/json" set:html={setMetaJson}></script>
+    <script is:inline id="vocab-data" type="application/json" set:html={vocabJson}></script>
+
+    <script>
+      (function () {
+        var getJson = function (id) {
+          var el = document.getElementById(id);
+          if (!el || !el.textContent) return null;
+          try { return JSON.parse(el.textContent); } catch (e) { return null; }
+        };
+        var words = getJson('vocab-data') || [];
+        var sets = getJson('vocab-meta') || [];
+
+        var listEl = document.getElementById('list');
+        var countEl = document.getElementById('count');
+        var emptyEl = document.getElementById('empty');
+        var detailEl = document.getElementById('detail');
+        var searchEl = document.getElementById('search');
+        var chipsWrap = document.getElementById('chips');
+
+        var activeSet = 'all';
+        var query = '';
+        var viewed = {};
+        var lastSet = 'all';
+
+        var badgeLabels = {};
+        sets.forEach(function (s) { badgeLabels[s.key] = s.label; });
+
+        var esc = function (s) {
+          var d = document.createElement('div');
+          d.textContent = s == null ? '' : String(s);
+          return d.innerHTML;
+        };
+
+        var render = function () {
+          var q = query.trim().toLowerCase();
+          var filtered = [];
+          for (var i = 0; i < words.length; i++) {
+            var w = words[i];
+            if (activeSet !== 'all' && w.lv.indexOf(activeSet) === -1) continue;
+            if (q) {
+              var hit =
+                (w.w && w.w.toLowerCase().indexOf(q) !== -1) ||
+                (w.t && w.t.toLowerCase().indexOf(q) !== -1);
+              if (!hit) continue;
+            }
+            filtered.push(w);
+            if (filtered.length >= 120) break;
+          }
+          countEl.textContent = filtered.length >= 120
+            ? 'İlk 120 sonuç gösteriliyor…'
+            : filtered.length + ' sonuç';
+          emptyEl.hidden = filtered.length !== 0;
+          listEl.textContent = '';
+          var frag = document.createDocumentFragment();
+          filtered.forEach(function (w) {
+            var li = document.createElement('li');
+            var left = document.createElement('span');
+            left.className = 'wt';
+            left.textContent = w.w;
+            var mid = document.createElement('span');
+            var badges = (w.lv || []).slice(0, 3).map(function (lv) {
+              var b = document.createElement('span');
+              b.className = 'wtlvl';
+              b.textContent = badgeLabels[lv] || lv;
+              return b;
+            });
+            badges.forEach(function (b) { mid.appendChild(b); });
+            var right = document.createElement('span');
+            right.className = 'wtr';
+            right.textContent = w.t;
+            var wrap = document.createElement('span');
+            wrap.style.textAlign = 'right';
+            wrap.append(mid, document.createElement('br'), right);
+            li.append(left, wrap);
+            li.addEventListener('click', function () { showDetail(w); });
+            frag.appendChild(li);
+          });
+          listEl.appendChild(frag);
+        };
+
+        var showDetail = function (w) {
+          var posMap = { noun: 'isim', verb: 'fiil', adjective: 'sıfat', adverb: 'zarf', preposition: 'edat', conjunction: 'bağlaç', pronoun: 'zamir', interjection: 'ünlem', determiner: 'belirteç', modal: 'kip fiili', article: 'artikel', phrase: 'ifade' };
+          var pos = posMap[w.p] || w.p || '';
+          var lv = (w.lv || []).map(function (l) { return badgeLabels[l] || l; }).join(', ');
+          detailEl.innerHTML =
+            '<button type="button" class="close" aria-label="Kapat">✕</button>' +
+            '<h2>' + esc(w.w) + '</h2>' +
+            '<span class="ipa">' + esc(w.i) + '</span>' +
+            '<div><span class="pos">' + esc(pos) + (lv ? ' · ' + esc(lv) : '') + '</span></div>' +
+            '<p>' + esc(w.d) + '</p>' +
+            '<div class="ex">' + esc(w.e) + '</div>' +
+            '<div class="tr">🇹🇷 ' + esc(w.t) + '</div>';
+          detailEl.hidden = false;
+          detailEl.classList.add('show');
+          detailEl.scrollIntoView({ behavior: 'smooth', block: 'center' });
+          viewed[w.w] = (viewed[w.w] || 0) + 1;
+          saveProgress(w);
+        };
+
+        var saveProgress = function (w) {
+          try {
+            fetch('/dashboard/progress', {
+              method: 'POST',
+              headers: { 'content-type': 'application/json' },
+              body: JSON.stringify({
+                module: 'vocab',
+                payload: {
+                  set: lastSet,
+                  lastWord: w.w,
+                  viewedWords: Object.keys(viewed),
+                  viewedCount: Object.keys(viewed).length,
+                },
+              }),
+            }).catch(function () {});
+          } catch (e) {}
+        };
+
+        chipsWrap.addEventListener('click', function (e) {
+          var b = e.target.closest('.chip');
+          if (!b) return;
+          activeSet = b.getAttribute('data-set-key');
+          lastSet = activeSet === 'all' ? 'all' : activeSet;
+          chipsWrap.querySelectorAll('.chip').forEach(function (c) {
+            c.classList.toggle('on', c === b);
+          });
+          render();
+        });
+
+        searchEl.addEventListener('input', function () { query = searchEl.value; render(); });
+
+        detailEl.addEventListener('click', function (e) {
+          if (e.target && e.target.classList && e.target.classList.contains('close')) {
+            detailEl.hidden = true;
+            detailEl.classList.remove('show');
+          }
+        });
+
+        render();
+      })();
+    </script>
+  </main>
+</Layout>

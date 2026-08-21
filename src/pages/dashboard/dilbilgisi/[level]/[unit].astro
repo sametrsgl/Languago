@@ -1,0 +1,148 @@
+---
+import Layout from '../../../../layouts/Layout.astro';
+import { getSessionUser } from '../../../../lib/auth';
+import { GRAMMAR_LEVELS, loadGrammar, loadGrammarMcq, exportSuffix, levelTitle } from '../../../../lib/study';
+
+const user = await getSessionUser(Astro.cookies);
+if (!user) return Astro.redirect('/signin');
+
+const level = Astro.params.level ?? '';
+const unitId = Astro.params.unit ?? '';
+const meta = GRAMMAR_LEVELS[level as keyof typeof GRAMMAR_LEVELS];
+if (!meta) return Astro.redirect('/dashboard/dilbilgisi');
+
+const mod = await loadGrammar(level);
+const grammar = mod ? mod[`GRAMMAR_${exportSuffix(level)}`] : null;
+const mcqMod = await loadGrammarMcq(level);
+const mcqGroups: Record<string, { q: string; options: string[]; a: number }[]> =
+  mcqMod ? mcqMod[`GRAMMAR_MCQ_${exportSuffix(level)}`] : null;
+
+const unit = grammar?.units?.find((u: any) => u.id === unitId);
+if (!unit) return Astro.redirect(`/dashboard/dilbilgisi/${level}`);
+
+const slides: { h: string; b: string }[] = unit.slides ?? [];
+const quiz: { q: string; options: string[]; a: number }[] = (mcqGroups && mcqGroups[unitId]) || [];
+const total = quiz.length;
+---
+
+<Layout title={`${unit.title} — ${levelTitle(level)} · Languago`} description={meta.subtitle}>
+  <main class="study">
+    <a class="back" href={`/dashboard/dilbilgisi/${level}`}>← {levelTitle(level)} Konuları</a>
+    <h1 style={`color:${meta.color};`}>{unit.title}</h1>
+    <p class="muted">{unit.short} · {slides.length} slayt{total ? ` · ${total} soru` : ''}</p>
+    <div class="barline"></div>
+
+    <h2 style="font-size:1.2rem;">📘 Konu Anlatımı</h2>
+
+    <div class="slide-box" id="slideBox">
+      <div id="slideItems" data-count={slides.length}>
+        {slides.map((s, i) => (
+          <div data-slide={i} style={i === 0 ? '' : 'display:none;'}>
+            <h3>{s.h}</h3>
+            <div class="body">{s.b}</div>
+          </div>
+        ))}
+      </div>
+      <div class="slidebox-nav">
+        <button type="button" id="prevSlide" class="btn ghost">← Önceki</button>
+        <span id="slidePos" class="muted">1 / {slides.length}</span>
+        <button type="button" id="nextSlide" class="btn primary">Sonraki →</button>
+      </div>
+    </div>
+
+    {total > 0 && (
+      <>
+        <h2 style="font-size:1.2rem;margin-top:34px;">✅ Pekiştirme Testi</h2>
+        <div class="score-line" id="scoreLine">
+          Skor: <span id="scoreNum">0</span> / {total} — bir seçenek seçince cevabın anında belli olur.
+        </div>
+        <div id="quizBox">
+          {quiz.map((qq, i) => (
+            <div class="quiz-q" data-idx={i} data-total={total}>
+              <div class="qq">{i + 1}. {qq.q}</div>
+              {qq.options.map((opt, oi) => (
+                <button
+                  type="button"
+                  class="option"
+                  data-correct={oi === qq.a ? '1' : '0'}
+                >
+                  {String.fromCharCode(65 + oi)}) {opt}
+                </button>
+              ))}
+            </div>
+          ))}
+        </div>
+      </>
+    )}
+
+    <script define:vars={{ level, unitId, unitTitle: unit.title }}>
+      (function () {
+        // level, unitId, unitTitle available via define:vars
+
+        // ---- slides navigation ----
+        var items = Array.prototype.slice.call(document.querySelectorAll('#slideItems [data-slide]'));
+        var posEl = document.getElementById('slidePos');
+        var cur = 0;
+        function show(i) {
+          if (i < 0 || i >= items.length) return;
+          cur = i;
+          items.forEach(function (it, idx) { it.style.display = idx === cur ? '' : 'none'; });
+          if (posEl) posEl.textContent = (cur + 1) + ' / ' + items.length;
+        }
+        var prev = document.getElementById('prevSlide');
+        var next = document.getElementById('nextSlide');
+        if (prev) prev.addEventListener('click', function () { show(cur - 1); });
+        if (next) next.addEventListener('click', function () { show(cur + 1); });
+
+        // ---- MCQ instant feedback ----
+        var quizBox = document.getElementById('quizBox');
+        if (quizBox) {
+          var correctCount = 0;
+          var answeredCount = 0;
+          var total = parseInt(quizBox.getAttribute('data-total') || '0', 10) ||
+            quizBox.querySelectorAll('.quiz-q').length;
+          var scoreNum = document.getElementById('scoreNum');
+          var scoreLine = document.getElementById('scoreLine');
+
+          quizBox.addEventListener('click', function (e) {
+            var btn = e.target.closest('.option');
+            if (!btn || btn.disabled) return;
+            var q = btn.closest('.quiz-q');
+            if (!q) return;
+            var opts = q.querySelectorAll('.option');
+            var isCorrect = btn.getAttribute('data-correct') === '1';
+            opts.forEach(function (o) { o.disabled = true; });
+            q.querySelectorAll('.option[data-correct="1"]').forEach(function (o) {
+              o.classList.add('correct');
+            });
+            if (isCorrect) {
+              correctCount++;
+            } else {
+              btn.classList.add('wrong');
+            }
+            answeredCount++;
+            if (scoreNum) scoreNum.textContent = String(correctCount);
+            if (answeredCount >= total && scoreNum) {
+              scoreLine.textContent = 'Test tamamlandı! Skor: ' + correctCount + ' / ' + total +
+                (correctCount === total ? ' — Mükemmel! 🎉' : correctCount >= Math.ceil(total / 2) ? ' — İyi iş! 💪' : ' — Tekrar çalışıp dene. 📚');
+              saveProgress();
+            }
+          });
+        }
+
+        function saveProgress() {
+          try {
+            fetch('/dashboard/progress', {
+              method: 'POST',
+              headers: { 'content-type': 'application/json' },
+              body: JSON.stringify({
+                module: 'grammar',
+                payload: { level: level, unit: unitId, title: unitTitle, correct: correctCount, total: total },
+              }),
+            }).catch(function () {});
+          } catch (e) {}
+        }
+      })();
+    </script>
+  </main>
+</Layout>

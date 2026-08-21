@@ -1,0 +1,107 @@
+---
+import Layout from '../../../../layouts/Layout.astro';
+import { getSessionUser } from '../../../../lib/auth';
+import { READING_LEVELS, loadReading, exportSuffix, levelTitle } from '../../../../lib/study';
+
+const user = await getSessionUser(Astro.cookies);
+if (!user) return Astro.redirect('/signin');
+
+const level = Astro.params.level ?? '';
+const passageId = Astro.params.passage ?? '';
+if (!READING_LEVELS.some((l) => l.key === level)) return Astro.redirect('/dashboard/okuma');
+
+const mod = await loadReading(level);
+const readings = mod ? mod[`READINGS_${exportSuffix(level)}`] : null;
+const passage = (readings as { id: string; topic: string; title: string; text: string; questions: { q: string; options: string[]; a: number }[] }[])
+  ?.find((p) => p.id === passageId);
+if (!passage) return Astro.redirect(`/dashboard/okuma/${level}`);
+
+const questions = passage.questions || [];
+const total = questions.length;
+---
+
+<Layout title={`${passage.title} — ${levelTitle(level)} · Languago`} description={`${levelTitle(level)} okuma metni`}>
+  <main class="study">
+    <a class="back" href={`/dashboard/okuma/${level}`}>← {levelTitle(level)} Metinleri</a>
+    <h1>{passage.title}</h1>
+    <p class="muted">
+      <span class="badge" style="background:var(--brand-dark);">{passage.topic}</span>{' '}
+      {levelTitle(level)} · Metni oku, ardından {total} soruyu çöz.
+    </p>
+    <div class="barline"></div>
+
+    <div class="passage">{passage.text}</div>
+
+    <h2 style="font-size:1.2rem;margin-top:34px;">❓ Anlama Soruları</h2>
+    <div class="score-line" id="readScore">
+      Skor: <span id="readScoreNum">0</span> / {total} — seçince cevap anında belli olur.
+    </div>
+    <div id="readQuiz">
+      {questions.map((qq, i) => (
+        <div class="quiz-q" data-idx={i}>
+          <div class="qq">{i + 1}. {qq.q}</div>
+          {qq.options.map((opt, oi) => (
+            <button type="button" class="option" data-correct={oi === qq.a ? '1' : '0'}>
+              {String.fromCharCode(65 + oi)}) {opt}
+            </button>
+          ))}
+          <div class="reveal" data-reveal></div>
+        </div>
+      ))}
+    </div>
+
+    <script define:vars={{ level, passageId, passageTitle: passage.title }}>
+      (function () {
+        // level, passageId, passageTitle available via define:vars
+        var quiz = document.getElementById('readQuiz');
+        if (!quiz) return;
+        var correct = 0;
+        var answered = 0;
+        var total = quiz.querySelectorAll('.quiz-q').length;
+        var scoreNum = document.getElementById('readScoreNum');
+        var scoreLine = document.getElementById('readScore');
+
+        quiz.addEventListener('click', function (e) {
+          var btn = e.target.closest('.option');
+          if (!btn || btn.disabled) return;
+          var q = btn.closest('.quiz-q');
+          if (!q) return;
+          var reveal = q.querySelector('[data-reveal]');
+          var isCorrect = btn.getAttribute('data-correct') === '1';
+          q.querySelectorAll('.option').forEach(function (o) { o.disabled = true; });
+          q.querySelectorAll('.option[data-correct="1"]').forEach(function (o) {
+            o.classList.add('correct');
+          });
+          if (isCorrect) {
+            correct++;
+            if (reveal) reveal.textContent = '✓ Doğru!';
+            reveal && reveal.classList.add('correct');
+          } else {
+            btn.classList.add('wrong');
+            if (reveal) reveal.textContent = '✗ Yanlış. Doğru cevap yukarıda yeşil gösteriliyor.';
+          }
+          answered++;
+          if (scoreNum) scoreNum.textContent = String(correct);
+          if (answered >= total && scoreLine) {
+            scoreLine.textContent = 'Test tamamlandı! Skor: ' + correct + ' / ' + total +
+              (correct === total ? ' — Mükemmel! 🎉' : correct >= Math.ceil(total / 2) ? ' — İyi iş! 💪' : ' — Metni tekrar okuyup dene. 📖');
+            saveProgress();
+          }
+        });
+
+        function saveProgress() {
+          try {
+            fetch('/dashboard/progress', {
+              method: 'POST',
+              headers: { 'content-type': 'application/json' },
+              body: JSON.stringify({
+                module: 'reading',
+                payload: { level: level, passage: passageId, title: passageTitle, correct: correct, total: total },
+              }),
+            }).catch(function () {});
+          } catch (e) {}
+        }
+      })();
+    </script>
+  </main>
+</Layout>

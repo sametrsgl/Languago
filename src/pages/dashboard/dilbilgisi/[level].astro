@@ -1,0 +1,37 @@
+---
+import Layout from '../../../layouts/Layout.astro';
+import { getSessionUser } from '../../../lib/auth';
+import { GRAMMAR_LEVELS, loadGrammar, exportSuffix } from '../../../lib/study';
+
+const user = await getSessionUser(Astro.cookies);
+if (!user) return Astro.redirect('/signin');
+
+const level = Astro.params.level ?? '';
+const meta = GRAMMAR_LEVELS[level as keyof typeof GRAMMAR_LEVELS];
+if (!meta) return Astro.redirect('/dashboard/dilbilgisi');
+
+const mod = await loadGrammar(level);
+const grammar = mod ? mod[`GRAMMAR_${exportSuffix(level)}`] : null;
+if (!grammar) return Astro.redirect('/dashboard/dilbilgisi');
+const units = grammar.units as { id: string; title: string; short: string; slides: unknown[] }[];
+---
+
+<Layout title={`${meta.label} · Dilbilgisi — Languago`} description={meta.subtitle}>
+  <main class="study">
+    <a class="back" href="/dashboard/dilbilgisi">← Seviye Seç</a>
+    <h1 style={`color:${meta.color};`}>{meta.label} Dilbilgisi</h1>
+    <p class="muted">{meta.subtitle} · {units.length} konu</p>
+    <div class="barline"></div>
+
+    <div class="tiles">
+      {
+        units.map((u) => (
+          <a class="tile" style={`border-top:4px solid ${meta.color};`} href={`/dashboard/dilbilgisi/${level}/${u.id}`}>
+            <div class="tt">{u.title}</div>
+            <div class="bb">{u.short} · {u.slides.length} slayt</div>
+          </a>
+        ))
+      }
+    </div>
+  </main>
+</Layout>
