@@ -25,18 +25,23 @@ const setMetaJson = JSON.stringify(setMeta).replace(/</g, '\\u003c');
     <div id="app">
       <!-- Start screen -->
       <section id="start" class="game-screen">
-        <h2 class="section-h">Set Seç</h2>
-        <div class="chips" id="setChips"><span class="loading">Yükleniyor…</span></div>
+        <div class="game-intro">
+          <h2 class="section-h">Set Seç</h2>
+          <div class="chips" id="setChips"><span class="loading">Yükleniyor…</span></div>
 
-        <h2 class="section-h" style="margin-top:20px;">Yön</h2>
-        <div class="chips" id="dirChips">
-          <button type="button" class="chip on" data-dir="both">Karışık</button>
-          <button type="button" class="chip" data-dir="en2tr">İngilizce → Türkçe</button>
-          <button type="button" class="chip" data-dir="tr2en">Türkçe → İngilizce</button>
-        </div>
+          <h2 class="section-h">Yön</h2>
+          <div class="chips" id="dirChips">
+            <button type="button" class="chip on" data-dir="both">Karışık</button>
+            <button type="button" class="chip" data-dir="en2tr">İngilizce → Türkçe</button>
+            <button type="button" class="chip" data-dir="tr2en">Türkçe → İngilizce</button>
+          </div>
 
-        <div class="btn-row" style="margin-top:28px;">
-          <button type="button" class="btn primary" id="startBtn" disabled>Başla</button>
+          <p class="howto">📖 <strong>Nasıl oynanır:</strong> İpucundaki kelimenin karşılığını zihninde tamamla, aşağıdaki harflerden eksik olanları sırasıyla seç. 12 kelimeyi bitirdiğinde skorun kaydedilir.</p>
+
+          <div class="btn-row start-row">
+            <button type="button" class="btn primary btn-cta" id="startBtn" disabled>Başla 🚀</button>
+          </div>
+          <p class="start-hint">Hazır olduğunda başla!</p>
         </div>
       </section>
 
@@ -183,7 +188,7 @@ const setMetaJson = JSON.stringify(setMeta).replace(/</g, '\\u003c');
         }
 
         function renderPlay() {
-          $('qcount').textContent = (game.index + 1) + ' / ' + game.pool.length;
+          $('qcount').textContent = (game.index + 1) + ' / ' + game.pool.length + ' kelime';
           $('score').textContent = String(game.score);
           $('clue').innerHTML =
             '<div class="clue-label">' + esc(game.current.dir === 'en2tr' ? 'Bu kelimenin Türkçesi' : 'Bu kelimenin İngilizcesi') + '</div>' +
@@ -237,7 +242,7 @@ const setMetaJson = JSON.stringify(setMeta).replace(/</g, '\\u003c');
               cur.done = true;
               game.score++;
               renderTarget();
-              $('tiles').innerHTML = '<span class="correct-flash">✓ Doğru!</span>';
+              $('tiles').innerHTML = '<span class="correct-flash">Süper, doğru! ✓</span>';
               $('nextRow').hidden = false;
             } else {
               renderTarget();
@@ -252,7 +257,7 @@ const setMetaJson = JSON.stringify(setMeta).replace(/</g, '\\u003c');
         function finish() {
           var total = game.pool.length;
           var pct = Math.round((game.score / total) * 100);
-          var msg = pct >= 80 ? 'Harika! 🎯' : pct >= 50 ? 'Güzel! 👍' : 'Tekrar dene 💪';
+          var msg = pct >= 80 ? 'Harika! 🎯' : pct >= 50 ? 'İyi iş 👏' : 'Tekrar dene 💪';
           saveProgress(pct);
           $('endBox').innerHTML =
             '<h2>' + msg + '</h2>' +
@@ -330,7 +335,7 @@ const setMetaJson = JSON.stringify(setMeta).replace(/</g, '\\u003c');
 <style>
   .game-screen { min-height: 180px; }
   .section-h { font-size: 1.05rem; margin: 8px 0 8px; }
-  .stage-meta { display: flex; justify-content: space-between; font-weight: 700; margin-bottom: 16px; color: var(--ink-soft); }
+  .stage-meta { display: flex; justify-content: space-between; font-weight: 700; margin-bottom: 16px; color: var(--ink-soft); flex-wrap: wrap; gap: 6px; }
   .game-clue { margin: 8px 0 20px; text-align: center; }
   .clue-label { color: var(--ink-soft); font-size: 0.9rem; margin-bottom: 6px; }
   .clue-big { font-size: clamp(1.4rem, 5vw, 2rem); font-weight: 800; }
@@ -350,11 +355,18 @@ const setMetaJson = JSON.stringify(setMeta).replace(/</g, '\\u003c');
     width: 46px; height: 46px; border-radius: 10px; border: 1px solid var(--line);
     background: var(--bg); box-shadow: var(--shadow); font-size: 1.2rem; font-weight: 700;
     cursor: pointer; color: var(--ink); font-family: inherit;
+    transition: transform .12s, border-color .12s, background .12s;
   }
-  .gtile:hover:not(.used):not(:disabled) { transform: translateY(-2px); }
+  .gtile:hover:not(.used):not(:disabled) { transform: translateY(-2px); border-color: var(--teal); }
+  .gtile:focus-visible { outline: 2px solid var(--teal); outline-offset: 1px; }
   .gtile.used { opacity: 0; pointer-events: none; }
   .gtile.wrong { background: #ffe3e3; border-color: #ffa8a8; }
   .correct-flash { color: var(--success); font-weight: 800; font-size: 1.2rem; padding: 10px; }
   .big-score { font-size: 3rem; font-weight: 800; color: var(--brand-dark); margin: 8px 0; }
   .loading { color: var(--ink-soft); }
+  .game-intro { background: var(--bg-soft); border: 1px solid var(--line); border-radius: var(--radius); padding: 22px; }
+  .howto { background: #fff7e6; border: 1px solid #fde9bf; border-left: 4px solid var(--brand); border-radius: 10px; padding: 12px 14px; font-size: 0.95rem; color: var(--ink-soft); margin: 4px 0 0; }
+  .btn-cta { padding: 14px 36px; font-size: 1.15rem; box-shadow: 0 12px 24px -12px rgba(245, 158, 11, 0.85); }
+  .start-row { justify-content: center; margin-top: 22px; }
+  .start-hint { text-align: center; color: var(--ink-soft); font-size: 0.9rem; margin: 4px 0 0; }
 </style>
