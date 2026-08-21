@@ -1,19 +1,11 @@
 import { defineAction, ActionError } from 'astro:actions';
 import { z } from 'astro/zod';
-import { createSupabaseClient, type CookieStore } from '../lib/supabase';
+import { createSupabaseClient, pageCookieSource } from '../lib/supabase';
 
 const credentials = z.object({
   email: z.string().trim().email('Geçerli bir e-posta adresi girin.'),
   password: z.string().min(6, 'Şifre en az 6 karakter olmalı.'),
 });
-
-/**
- * Convert an Action context's `cookies` into our cookie store shape.
- * Both `Astro.cookies` and action handler `ctx.cookies` support this API.
- */
-function storeFrom(ctx: { cookies: CookieStore }): CookieStore {
-  return ctx.cookies;
-}
 
 export const server = {
   /**
@@ -28,7 +20,7 @@ export const server = {
       fullName: z.string().trim().max(120).optional(),
     }),
     handler: async (input, ctx) => {
-      const supabase = createSupabaseClient(storeFrom(ctx));
+      const supabase = createSupabaseClient(pageCookieSource(ctx));
       if (!supabase) {
         throw new ActionError({
           code: 'BAD_REQUEST',
@@ -60,7 +52,7 @@ export const server = {
     accept: 'json',
     input: credentials,
     handler: async (input, ctx) => {
-      const supabase = createSupabaseClient(storeFrom(ctx));
+      const supabase = createSupabaseClient(pageCookieSource(ctx));
       if (!supabase) {
         throw new ActionError({
           code: 'BAD_REQUEST',
@@ -85,7 +77,7 @@ export const server = {
   /** Sign the current user out and clear the auth cookies. */
   signout: defineAction({
     handler: async (_input, ctx) => {
-      const supabase = createSupabaseClient(storeFrom(ctx));
+      const supabase = createSupabaseClient(pageCookieSource(ctx));
       if (supabase) {
         await supabase.auth.signOut();
       }
