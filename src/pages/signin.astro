@@ -1,23 +1,6 @@
 ---
 import Layout from '../layouts/Layout.astro';
-import { actions, isInputError } from 'astro:actions';
 import { createSupabaseClient, pageCookieSource } from '../lib/supabase';
-
-let error: string | undefined;
-
-// Native form submission (accept:'form') — Astro runs the action in the
-// middleware and exposes the result here via getActionResult.
-const result = Astro.getActionResult(actions.signin);
-
-if (result?.error) {
-  if (isInputError(result.error)) {
-    error = Object.values(result.error.fields).flat().join(' ');
-  } else {
-    error = result.error.message ?? 'Giriş başarısız. Bilgilerini kontrol et.';
-  }
-} else if (result?.data?.ok) {
-  return Astro.redirect('/dashboard');
-}
 
 // Already authenticated (e.g. visiting logged-in from another page)?
 // Send straight to the dashboard.
@@ -40,9 +23,9 @@ if (supabase) {
       Hesabınla devam et.
     </p>
 
-    {error && <div class="alert error" role="alert">{error}</div>}
+    <div id="signin-feedback" aria-live="polite"></div>
 
-    <form method="POST" action={actions.signin}>
+    <form id="signin-form" novalidate>
       <div class="field">
         <label for="email">E-posta</label>
         <input type="email" id="email" name="email" required autocomplete="email" />
@@ -53,7 +36,7 @@ if (supabase) {
         <input type="password" id="password" name="password" required autocomplete="current-password" />
       </div>
 
-      <button class="btn primary" type="submit" style="width: 100%;">Giriş Yap</button>
+      <button class="btn primary" type="submit" style="width: 100%;" id="signin-submit">Giriş Yap</button>
     </form>
 
     <p class="alt">
@@ -61,3 +44,67 @@ if (supabase) {
     </p>
   </main>
 </Layout>
+
+<script is:inline>
+  (function () {
+    var form = document.getElementById('signin-form');
+    if (!form) return;
+    var feedback = document.getElementById('signin-feedback');
+    var submitBtn = document.getElementById('signin-submit');
+
+    form.addEventListener('submit', function (e) {
+      e.preventDefault();
+
+      var email = document.getElementById('email').value;
+      var password = document.getElementById('password').value;
+
+      submitBtn.disabled = true;
+      submitBtn.textContent = 'Giriş yapılıyor…';
+
+      fetch(location.pathname + '?_action=signin', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email: email, password: password }),
+      })
+        .then(function (res) {
+          return res.json().catch(function () {
+            return null;
+          });
+        })
+        .then(function (result) {
+          if (result && result.data && result.data.ok) {
+            window.location.href = '/dashboard';
+            return;
+          }
+
+          submitBtn.disabled = false;
+          submitBtn.textContent = 'Giriş Yap';
+
+          var message = 'Giriş başarısız. Bilgilerini kontrol et.';
+          if (result && result.error) {
+            if (result.error.fields) {
+              var fieldErrors = [];
+              Object.keys(result.error.fields).forEach(function (key) {
+                fieldErrors = fieldErrors.concat(result.error.fields[key]);
+              });
+              if (fieldErrors.length) {
+                message = fieldErrors.join(' ');
+              } else {
+                message = result.error.message || message;
+              }
+            } else {
+              message = result.error.message || message;
+            }
+          }
+          feedback.innerHTML =
+            '<div class="alert error" role="alert">' + message.replace(/[<>&"]/g, '') + '</div>';
+        })
+        .catch(function () {
+          submitBtn.disabled = false;
+          submitBtn.textContent = 'Giriş Yap';
+          feedback.innerHTML =
+            '<div class="alert error" role="alert">Giriş sırasında bir hata oluştu. Lütfen tekrar dene.</div>';
+        });
+    });
+  })();
+</script>

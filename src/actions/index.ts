@@ -23,7 +23,7 @@ export const server = {
    * SSR client.
    */
   signup: defineAction({
-    accept: 'form',
+    accept: 'json',
     input: credentials.extend({
       fullName: z.string().trim().max(120).optional(),
     }),
@@ -57,7 +57,7 @@ export const server = {
 
   /** Sign an existing user in and store the session in cookies via the SSR client. */
   signin: defineAction({
-    accept: 'form',
+    accept: 'json',
     input: credentials,
     handler: async (input, ctx) => {
       const supabase = createSupabaseClient(storeFrom(ctx));

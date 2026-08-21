@@ -1,27 +1,8 @@
 ---
 import Layout from '../layouts/Layout.astro';
-import { actions, isInputError } from 'astro:actions';
 
-let error: string | undefined;
-let success: string | undefined;
-
-// Native form submission (accept:'form') — Astro runs the action in the
-// middleware and exposes the result here via getActionResult.
-const result = Astro.getActionResult(actions.signup);
-
-if (result?.error) {
-  if (isInputError(result.error)) {
-    error = Object.values(result.error.fields).flat().join(' ');
-  } else {
-    error = result.error.message ?? 'Kayıt sırasında bir hata oluştu.';
-  }
-} else if (result?.data?.hasSession) {
-  // Email confirmation disabled in Supabase → already signed in.
-  return Astro.redirect('/dashboard');
-} else if (result?.data) {
-  success =
-    'Hesabın oluşturuldu! E-postana gönderilen doğrulama bağlantısını kullan ve giriş yap.';
-}
+// Signup is submitted client-side via fetch (accept:'json') to bypass Astro's
+// origin-check middleware on the live custom domain.
 ---
 
 <Layout
@@ -34,10 +15,9 @@ if (result?.error) {
       Languago'e başlamak için hesap oluştur.
     </p>
 
-    {error && <div class="alert error" role="alert">{error}</div>}
-    {success && <div class="alert success" role="status">{success}</div>}
+    <div id="signup-feedback" aria-live="polite"></div>
 
-    <form method="POST" action={actions.signup}>
+    <form id="signup-form" novalidate>
       <div class="field">
         <label for="fullName">Ad Soyad <span style="color: var(--ink-soft);">(isteğe bağlı)</span></label>
         <input type="text" id="fullName" name="fullName" maxlength="120" autocomplete="name" />
@@ -50,11 +30,11 @@ if (result?.error) {
 
       <div class="field">
         <label for="password">Şifre</label>
-        <input type="password" id="password" name="password" required minlength="6" autocomplete="new-password" />
+        <input type="password" id="password" name="password" required autocomplete="new-password" />
         <div class="hint">En az 6 karakter.</div>
       </div>
 
-      <button class="btn primary" type="submit" style="width: 100%;">Kayıt Ol</button>
+      <button class="btn primary" type="submit" style="width: 100%;" id="signup-submit">Kayıt Ol</button>
     </form>
 
     <p class="alt">
@@ -62,3 +42,76 @@ if (result?.error) {
     </p>
   </main>
 </Layout>
+
+<script is:inline>
+  (function () {
+    var form = document.getElementById('signup-form');
+    if (!form) return;
+    var feedback = document.getElementById('signup-feedback');
+    var submitBtn = document.getElementById('signup-submit');
+
+    form.addEventListener('submit', function (e) {
+      e.preventDefault();
+
+      var fullName = document.getElementById('fullName').value;
+      var email = document.getElementById('email').value;
+      var password = document.getElementById('password').value;
+
+      // Disable the button while the request is in flight.
+      submitBtn.disabled = true;
+      submitBtn.textContent = 'Kaydediliyor…';
+
+      fetch(location.pathname + '?_action=signup', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ fullName: fullName || null, email: email, password: password }),
+      })
+        .then(function (res) {
+          return res.json().catch(function () {
+            return null;
+          });
+        })
+        .then(function (result) {
+          submitBtn.disabled = false;
+          submitBtn.textContent = 'Kayıt Ol';
+
+          if (result && result.data) {
+            // Email confirmation disabled in Supabase → session exists → auto-login.
+            if (result.data.hasSession) {
+              window.location.href = '/dashboard';
+              return;
+            }
+            feedback.innerHTML =
+              '<div class="alert success" role="status">Hesabın oluşturuldu! E-postana gönderilen doğrulama bağlantısını kullan ve giriş yap.</div>';
+            return;
+          }
+
+          // Error path: result.error may be an ActionError or an input error.
+          var message = 'Kayıt sırasında bir hata oluştu.';
+          if (result && result.error) {
+            if (result.error.fields) {
+              var fieldErrors = [];
+              Object.keys(result.error.fields).forEach(function (key) {
+                fieldErrors = fieldErrors.concat(result.error.fields[key]);
+              });
+              if (fieldErrors.length) {
+                message = fieldErrors.join(' ');
+              } else {
+                message = result.error.message || message;
+              }
+            } else {
+              message = result.error.message || message;
+            }
+          }
+          feedback.innerHTML =
+            '<div class="alert error" role="alert">' + message.replace(/[<>&"]/g, '') + '</div>';
+        })
+        .catch(function () {
+          submitBtn.disabled = false;
+          submitBtn.textContent = 'Kayıt Ol';
+          feedback.innerHTML =
+            '<div class="alert error" role="alert">Kayıt sırasında bir hata oluştu. Lütfen tekrar dene.</div>';
+        });
+    });
+  })();
+</script>
