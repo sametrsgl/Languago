@@ -183,12 +183,12 @@ const studyLinks = [
       }
       fetch('/api/auth/signout', { method: 'POST' })
         .then(function () {
-          window.location.href = '/signin';
+          window.location.href = '/';
         })
         .catch(function () {
           // Endpoint failure: still leave the dashboard so the user is not
           // left stuck.
-          window.location.href = '/signin';
+          window.location.href = '/';
         });
     });
   })();

@@ -138,12 +138,12 @@ const initial = displayName ? displayName.trim().charAt(0).toUpperCase() : 'H';
       }
       fetch('/api/auth/signout', { method: 'POST' })
         .then(function () {
-          window.location.href = '/signin';
+          window.location.href = '/';
         })
         .catch(function () {
           // Endpoint failure: still leave the app so the user is not left
           // stuck on a dashboard they can't use.
-          window.location.href = '/signin';
+          window.location.href = '/';
         });
     });
   })();
