@@ -1,14 +1,6 @@
 ---
 import Layout from '../../layouts/Layout.astro';
-import { actions } from 'astro:actions';
 import { createSupabaseClient, pageCookieSource } from '../../lib/supabase';
-
-// Sign-out is a normal POST to this page — handle it before the guard so an
-// authenticated logout still works.
-if (Astro.request.method === 'POST') {
-  await Astro.callAction(actions.signout);
-  return Astro.redirect('/signin');
-}
 
 // Protected route: read the session server-side and redirect if not signed in.
 const supabase = createSupabaseClient(pageCookieSource(Astro));
@@ -81,9 +73,33 @@ const studyLinks = [
       <a class="btn ghost" href="/dashboard/dilbilgisi">Dilbilgisi</a>{' '}
       <a class="btn ghost" href="/dashboard/okuma">Okuma</a>{' '}
       <a class="btn ghost" href="/dashboard/kelimeler">Kelime</a>
-      <form method="POST" style="display:inline;">
+      <form id="signout-form" style="display:inline;">
         <button class="btn ghost" type="submit" style="margin-left:8px;">Çıkış Yap</button>
       </form>
     </div>
   </main>
 </Layout>
+
+<script is:inline>
+  (function () {
+    var form = document.getElementById('signout-form');
+    if (!form) return;
+    form.addEventListener('submit', function (e) {
+      e.preventDefault();
+      var btn = form.querySelector('button');
+      if (btn) {
+        btn.disabled = true;
+        btn.textContent = 'Çıkılıyor…';
+      }
+      fetch('/api/auth/signout', { method: 'POST' })
+        .then(function () {
+          window.location.href = '/signin';
+        })
+        .catch(function () {
+          // Endpoint failure: still leave the dashboard so the user is not
+          // left stuck.
+          window.location.href = '/signin';
+        });
+    });
+  })();
+</script>

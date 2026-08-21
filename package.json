@@ -24,8 +24,9 @@
     "vercel": "^59.3.0"
   },
   "allowScripts": {
+    "sharp@0.34.5": true,
+    "esbuild@0.27.0": true,
     "esbuild@0.25.12": true,
-    "esbuild@0.27.7": true,
-    "sharp@0.34.5": true
+    "esbuild@0.27.7": true
   }
 }

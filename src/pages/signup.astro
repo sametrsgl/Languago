@@ -61,7 +61,7 @@ import Layout from '../layouts/Layout.astro';
       submitBtn.disabled = true;
       submitBtn.textContent = 'Kaydediliyor…';
 
-      fetch(location.pathname + '?_action=signup', {
+      fetch('/api/auth/signup', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ fullName: fullName || null, email: email, password: password }),
@@ -75,9 +75,9 @@ import Layout from '../layouts/Layout.astro';
           submitBtn.disabled = false;
           submitBtn.textContent = 'Kayıt Ol';
 
-          if (result && result.data) {
+          if (result && result.ok) {
             // Email confirmation disabled in Supabase → session exists → auto-login.
-            if (result.data.hasSession) {
+            if (result.hasSession) {
               window.location.href = '/dashboard';
               return;
             }
@@ -86,7 +86,7 @@ import Layout from '../layouts/Layout.astro';
             return;
           }
 
-          // Error path: result.error may be an ActionError or an input error.
+          // Error path: result.error may be a field error or a message error.
           var message = 'Kayıt sırasında bir hata oluştu.';
           if (result && result.error) {
             if (result.error.fields) {

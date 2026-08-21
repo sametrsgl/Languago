@@ -61,7 +61,7 @@ if (supabase) {
       submitBtn.disabled = true;
       submitBtn.textContent = 'Giriş yapılıyor…';
 
-      fetch(location.pathname + '?_action=signin', {
+      fetch('/api/auth/signin', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ email: email, password: password }),
@@ -72,7 +72,7 @@ if (supabase) {
           });
         })
         .then(function (result) {
-          if (result && result.data && result.data.ok) {
+          if (result && result.ok) {
             window.location.href = '/dashboard';
             return;
           }
