@@ -1,0 +1,20 @@
+{
+  "name": "kingfish-platform",
+  "type": "module",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Lingo Branch — Kingfish teaching platform (Astro SSR + Supabase)",
+  "scripts": {
+    "dev": "astro dev",
+    "build": "astro build",
+    "preview": "astro preview",
+    "start": "node ./dist/server/entry.mjs"
+  },
+  "dependencies": {
+    "@astrojs/node": "^9.5.5",
+    "@astrojs/sitemap": "^3.4.0",
+    "@supabase/ssr": "^0.12.4",
+    "@supabase/supabase-js": "^2.112.3",
+    "astro": "^5.18.2"
+  }
+}

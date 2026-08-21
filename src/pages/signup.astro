@@ -1,0 +1,64 @@
+---
+import Layout from '../layouts/Layout.astro';
+import { actions } from 'astro:actions';
+
+let error: string | undefined;
+let success: string | undefined;
+
+if (Astro.request.method === 'POST') {
+  const form = await Astro.request.formData();
+  const { data, error: err } = await Astro.callAction(actions.signup, {
+    email: String(form.get('email') ?? ''),
+    password: String(form.get('password') ?? ''),
+    fullName: String(form.get('fullName') ?? ''),
+  });
+
+  if (err) {
+    error = err.message ?? 'Kayıt sırasında bir hata oluştu.';
+  } else if (data?.hasSession) {
+    // Email confirmation disabled in Supabase → already signed in.
+    return Astro.redirect('/dashboard');
+  } else {
+    success = 'Hesabın oluşturuldu! E-postana gönderilen doğrulama bağlantısını kullan ve giriş yap.';
+  }
+}
+---
+
+<Layout
+  title="Öğrenci Kaydı — Lingo Branch"
+  description="1 dakikada ücretsiz öğrenci hesabı oluşturun. İngilizce kelime, dil bilgisi, okuma ve oyunlarla öğrenmeye başlayın."
+>
+  <main class="auth">
+    <h1>Öğrenci Kaydı</h1>
+    <p style="color: var(--ink-soft); margin-top: -8px;">
+      Lingo Branch'e başlamak için hesap oluştur.
+    </p>
+
+    {error && <div class="alert error" role="alert">{error}</div>}
+    {success && <div class="alert success" role="status">{success}</div>}
+
+    <form method="POST">
+      <div class="field">
+        <label for="fullName">Ad Soyad <span style="color: var(--ink-soft);">(isteğe bağlı)</span></label>
+        <input type="text" id="fullName" name="fullName" maxlength="120" autocomplete="name" />
+      </div>
+
+      <div class="field">
+        <label for="email">E-posta</label>
+        <input type="email" id="email" name="email" required autocomplete="email" />
+      </div>
+
+      <div class="field">
+        <label for="password">Şifre</label>
+        <input type="password" id="password" name="password" required minlength="6" autocomplete="new-password" />
+        <div class="hint">En az 6 karakter.</div>
+      </div>
+
+      <button class="btn primary" type="submit" style="width: 100%;">Kayıt Ol</button>
+    </form>
+
+    <p class="alt">
+      Zaten hesabın var mı? <a href="/signin">Giriş yap</a>
+    </p>
+  </main>
+</Layout>

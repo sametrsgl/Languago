@@ -1,0 +1,84 @@
+---
+interface Props {
+  title: string;
+  description?: string;
+  /** Fully-qualified page URL (e.g. "https://kingfish.lingobranch.com/..."). */
+  canonical?: string;
+  image?: string;
+}
+
+import '../styles/global.css';
+
+const {
+  title,
+  description = 'Lingo Branch — Samet Tıraşoğlu (Kingfish) ile İngilizce öğrenin: kelime, dil bilgisi, okuma ve sınıf içi oyunlar.',
+  canonical,
+  image,
+} = Astro.props;
+
+const siteUrl = Astro.site?.origin || 'https://kingfish.lingobranch.com';
+const path = Astro.url.pathname;
+const pageUrl = canonical || `${siteUrl}${path}`;
+const ogImage = image || `${siteUrl}/og-cover.png`;
+---
+
+<!doctype html>
+<html lang="tr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>{title}</title>
+
+    <!-- SEO -->
+    <meta name="description" content={description} />
+    <meta name="robots" content="index, follow" />
+    <link rel="canonical" href={pageUrl} />
+    <meta name="theme-color" content="#f59e0b" />
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🐟</text></svg>" />
+
+    <!-- Open Graph -->
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="Lingo Branch" />
+    <meta property="og:locale" content="tr_TR" />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={pageUrl} />
+    <meta property="og:image" content={ogImage} />
+
+    <!-- Twitter -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={ogImage} />
+
+    <!-- JS-free progressive content: no client framework, no hydration box -->
+
+    <slot name="head" />
+  </head>
+  <body>
+    <header class="site">
+      <div class="container">
+        <a class="brand" href="/">
+          <span class="fish">🐟</span> Lingo<span class="fish">Branch</span>
+          <small>Kingfish</small>
+        </a>
+        <nav class="site" aria-label="Ana gezinme">
+          <a class="nav" href="/">Ana Sayfa</a>
+          <a class="nav" href="/signup">Kayıt Ol</a>
+          <a class="nav" href="/signin">Giriş Yap</a>
+        </nav>
+      </div>
+    </header>
+
+    <main>
+      <slot />
+    </main>
+
+    <footer class="site">
+      <div class="container">
+        <span>© {new Date().getFullYear()} Lingo Branch — Samet Tıraşoğlu (Kingfish)</span>
+        <span>İngilizce öğrenmenin oyunlu yolu</span>
+      </div>
+    </footer>
+  </body>
+</html>

@@ -1,0 +1,85 @@
+---
+import Layout from '../layouts/Layout.astro';
+---
+
+<Layout
+  title="İngilizce Öğrenmenin Oyunlu Yolu — Lingo Branch"
+  description="Lingo Branch ile İngilizce öğren: kelime dağarcığı, dil bilgisi, okuma becerileri ve sınıf içi oyunlar. Temel öğretmenden canlı online dersler. Hemen kayıt olun."
+>
+  <script is:inline type="application/ld+json" set:html={JSON.stringify({
+  "@context": "https://schema.org",
+  "@type": "EducationalOrganization",
+  name: "Lingo Branch",
+  alternateName: "Kingfish İngilizce",
+  description:
+    "İngilizce öğrenci, kelime, dil bilgisi, okuma ve sınıf içi oyunlarla. Temel öğretmen Samet Tıraşoğlu (Kingfish) tarafından verilen özel dersler.",
+  founder: { "@type": "Person", name: "Samet Tıraşoğlu" },
+  teaches: "English",
+  inLanguage: ["tr", "en"],
+  url: "https://kingfish.lingobranch.com/",
+})} /></script>
+
+  <section class="hero container">
+    <span class="eyebrow">🐟 Kingfish dersleri — online & yüz yüze</span>
+    <h1>İngilizce öğrenmenin eğlenceli yolu</h1>
+    <p class="lead">
+      Lingo Branch; kelime dağarcığı, dil bilgisi, okuma ve sınıf içi oyunlarla
+      İngilizceyi oyun gibi öğrenmeni sağlar. Temel öğretmeninle birebir ilerle,
+      kendi hızında çalış, oyunlarla pekiştir.
+    </p>
+    <div class="btn-row">
+      <a class="btn primary" href="/signup">Hemen Kayıt Ol</a>
+      <a class="btn ghost" href="/signin">Giriş Yap</a>
+    </div>
+  </section>
+
+  <section class="section container">
+    <h2>Nasıl öğreniyoruz?</h2>
+    <div class="grid">
+      <div class="card">
+        <div class="emoji">📚</div>
+        <h3>Kelime &amp; Dil Bilgisi</h3>
+        <p>
+          Aralıklı tekrar (SRS) ile kalıcı kelime öğrenimi ve adım adım dil
+          bilgisi konuları. Seviyene göre özelleşir (A1–C2).
+        </p>
+      </div>
+      <div class="card">
+        <div class="emoji">📖</div>
+        <h3>Okuma Becerileri</h3>
+        <p>
+          Gerçek hayattan okuma parçaları ve anlama sorularıyla okuma hızını ve
+          kelime dağarcığını geliştir.
+        </p>
+      </div>
+      <div class="card">
+        <div class="emoji">🎮</div>
+        <h3>Sınıf İçi Oyunlar</h3>
+        <p>
+          Yazım, kelime ve bilgi yarışması oyunlarıyla öğrendiklerini eğlenerek
+          pekiştir — tek başına veya arkadaşlarınla.
+        </p>
+      </div>
+      <div class="card">
+        <div class="emoji">💻</div>
+        <h3>Online Canlı Dersler</h3>
+        <p>
+          Öğretmeninle kendi içinde barındırılan görüntülü sınıfta (ekran paylaşımı
+          ve kamera) birebir veya grup dersleri.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <section class="section container">
+    <h2>Kimler için?</h2>
+    <p class="lead">
+      İngilizceyi gerçekten öğrenmek isteyen herkes: sınavlara hazırlanan
+      öğrenciler, kelimede takılanlar, konuşma pratiği arayanlar ve eğlenceli
+      yöntemle ilerlemek isteyenler. Kayıt olması 1 dakika sürer.
+    </p>
+    <div class="btn-row">
+      <a class="btn primary" href="/signup">Ücretsiz Kayıt Ol</a>
+    </div>
+  </section>
+</Layout>

@@ -1,0 +1,54 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import { actions } from 'astro:actions';
+import { createSupabaseClient } from '../../lib/supabase';
+
+// Sign-out is a normal POST to this page — handle it before the guard so an
+// authenticated logout still works.
+if (Astro.request.method === 'POST') {
+  await Astro.callAction(actions.signout);
+  return Astro.redirect('/signin');
+}
+
+// Protected route: read the session server-side and redirect if not signed in.
+const supabase = createSupabaseClient(Astro.cookies);
+if (!supabase) {
+  return Astro.redirect('/signin');
+}
+const { data } = await supabase.auth.getUser();
+if (!data.user) {
+  return Astro.redirect('/signin');
+}
+const user = data.user;
+const fullName =
+  (user.user_metadata?.full_name as string | undefined) || undefined;
+---
+
+<Layout
+  title="Öğrenci Paneli — Lingo Branch"
+  description="Derslerine, ilerlemene ve sınıf içi oyunlarına buradan eriş."
+>
+  <main class="dash">
+    <h1>Hoş geldin{fullName ? `, ${fullName}` : ''}! 👋</h1>
+    <p style="color: var(--ink-soft);">
+      Lingo Branch öğrenci panelindesin.
+    </p>
+
+    <div class="panel">
+      <p>
+        <strong>Giriş yapan hesap:</strong> <span class="email">{user.email}</span>
+      </p>
+
+      <ul>
+        <li>✍️ Kelime &amp; dil bilgisi modülleri yakında.</li>
+        <li>📖 Okuma becerileri yakında.</li>
+        <li>🎮 Sınıf içi oyunlar yakında.</li>
+        <li>💻 Online canlı dersler yakında.</li>
+      </ul>
+
+      <form method="POST">
+        <button class="btn ghost" type="submit">Çıkış Yap</button>
+      </form>
+    </div>
+  </main>
+</Layout>
