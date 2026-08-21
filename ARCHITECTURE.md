@@ -16,7 +16,7 @@ student browser
 ## Repo layout
 
 ```
-kingfish-platform/
+languago-platform/
 ├── README.md / DECISIONS.md / ARCHITECTURE.md / PLAN.md
 ├── package.json                # Astro SSR (node adapter)
 ├── astro.config.mjs            # SSR + output, site URL, sitemap
@@ -66,5 +66,5 @@ RLS: students read/write only their own rows; teacher reads roster they own.
 
 ## Testing
 
-- `.test/smoke.js` — jsdom headless test of routes/auth/rendering (mirrors Lingo Branch
+- `.test/smoke.js` — jsdom headless test of routes/auth/rendering (mirrors Languago
   pattern). Run: `cd .test && npm install && node smoke.js`

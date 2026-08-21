@@ -1,6 +1,6 @@
-# Lingo Branch — Kingfish Teaching Platform (web)
+# Languago — Languago Teaching Platform (web)
 
-A teaching workstation for Samet Tıraşoğlu (Kingfish): students sign up, log in, do
+A teaching workstation for Samet Tıraşoğlu : students sign up, log in, do
 self-study (vocab/grammar/reading), play in-class games, and take online classes with
 video — replacing Google Meet with a self-hosted branded video classroom.
 
@@ -39,5 +39,5 @@ npm run build && npm start   # SSR production
 ## Notes
 
 - `.env` and runtime secrets are git-ignored. Never commit keys.
-- Turkish-first UI (brand is Kingfish); content is English-learning.
+- Turkish-first UI (brand is Languago); content is English-learning.
 - CUES 24/7, and built to rank on Google (static HTML + sitemap + structured data).

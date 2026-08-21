@@ -50,9 +50,9 @@ Search Console on launch.
 **Why:** the user explicitly wants students to find the site via Google. Astro's SSR makes
 this achievable without a headless CMS.
 
-## 6. Self-study — reuse Lingo Branch content
+## 6. Self-study — reuse Languago content
 
-**Decision:** port the existing Lingo Branch vocab/grammar/reading datasets (~6k words + SRS,
+**Decision:** port the existing Languago vocab/grammar/reading datasets (~6k words + SRS,
 36 grammar units, 330 reading passages, idioms) into the web self-study modules.
 
 **Why:** already built and tested (147 smoke tests pass). Building fresh would be strictly
@@ -63,5 +63,5 @@ worse; reuse the data, rebuild the UI for web.
 **Decision:** build playable games (spelling, quiz, word games) as Astro client islands in
 vanilla JS.
 
-**Why:** zero dependency, offline-friendly, consistent with the existing Lingo Branch game
+**Why:** zero dependency, offline-friendly, consistent with the existing Languago game
 approach.

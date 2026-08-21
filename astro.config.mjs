@@ -3,7 +3,7 @@ import node from '@astrojs/node';
 import sitemap from '@astrojs/sitemap';
 
 // Public site URL placeholder — override at deploy time with SITE_URL.
-const SITE_URL = process.env.SITE_URL || 'https://kingfish.lingobranch.com';
+const SITE_URL = process.env.SITE_URL || 'https://languago.com';
 
 // https://astro.build/config
 export default defineConfig({

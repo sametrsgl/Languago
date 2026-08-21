@@ -1,6 +1,6 @@
-# Kingfish Teaching Platform — Plan (rev 2: self-host + SEO)
+# Languago Teaching Platform — Plan (rev 2: self-host + SEO)
 
-A teaching workstation for Samet Tıraşoğlu (Kingfish): students sign up, log in, do
+A teaching workstation for Samet Tıraşoğlu : students sign up, log in, do
 self-study, play in-class games, and take online classes with video — replacing
 Google Meet with a self-hosted branded video classroom. Purpose-built to be
 **cheap, fully active 24/7, and discoverable on Google**.
@@ -15,7 +15,7 @@ Google Meet with a self-hosted branded video classroom. Purpose-built to be
 | 4 | **Self-hosted Jitsi** on the same VPS for video classes | Screen share + all cameras; own URL; replaces Google Meet |
 | 5 | **Custom domain** (user pays ~$10–15/yr) | Branded, and needed for Google ranking |
 | 6 | **SEO baked in** — sitemap.xml, robots.txt, meta/OG tags, structured data (JSON-LD), fast load, semantic HTML | Goal: students find site when searching Google |
-| 7 | **Reuse Lingo Branch content** for self-study | ~6k words + SRS + 36 grammar units + 330 reading passages already built |
+| 7 | **Reuse Languago content** for self-study | ~6k words + SRS + 36 grammar units + 330 reading passages already built |
 
 ## Architecture
 
@@ -47,7 +47,7 @@ Supabase stays hosted (free tier) — more reliable than self-hosting DB.
 - DB: `profiles`, `class_roster`, `student_progress`
 
 ### Phase 2 — Self-study area  (~2–3 days)
-- Port Lingo Branch vocab/grammar/reading to web modules
+- Port Languago vocab/grammar/reading to web modules
 - Per-student progress in Supabase; student dashboard + streak
 
 ### Phase 3 — In-class games  (~1–2 days)

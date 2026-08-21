@@ -1,9 +1,9 @@
 {
-  "name": "kingfish-platform",
+  "name": "languago-platform",
   "type": "module",
   "version": "0.1.0",
   "private": true,
-  "description": "Lingo Branch — Kingfish teaching platform (Astro SSR + Supabase)",
+  "description": "Languago — Languago teaching platform (Astro SSR + Supabase)",
   "scripts": {
     "dev": "astro dev",
     "build": "astro build",

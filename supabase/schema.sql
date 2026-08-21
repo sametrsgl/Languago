@@ -1,4 +1,4 @@
--- Kingfish Teaching Platform — Supabase schema
+-- Languago Teaching Platform — Supabase schema
 -- Run in Supabase SQL editor (or `supabase db push`).
 -- Tables: profiles, class_roster, student_progress, lessons.
 -- RLS enabled: students read/write only their own rows; teachers read/write what they own.

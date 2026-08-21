@@ -1,10 +1,10 @@
 /* ============================================================
-   Kingfish / Lingo Branch — global styles
+   Languago — global styles
    Clean, modern, responsive, Turkish-first UI. No frameworks.
    ============================================================ */
 
 :root {
-  --brand: #f59e0b; /* amber — Kingfish */
+  --brand: #f59e0b; /* amber — Languago */
   --brand-dark: #d97706;
   --ink: #1f2937;
   --ink-soft: #4b5563;
