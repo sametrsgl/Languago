@@ -1,0 +1,209 @@
+---
+import Layout from '../layouts/Layout.astro';
+
+// Android APK download URL. Public route, so use a PUBLIC_* env var so it can
+// be swapped at deploy time without code changes. Falls back to the GitHub
+// release asset for the current version.
+const apkUrl =
+  import.meta.env.PUBLIC_APK_URL ||
+  'https://github.com/sametrsgl/Languago/releases/latest/download/Languago-v2.2.0.apk';
+
+const appVersion = 'v2.2.0';
+const apkFilename = 'Languago-v2.2.0.apk';
+
+const features = [
+  {
+    emoji: '🪪',
+    title: 'Kelime',
+    desc: 'SRS (aralıklı tekrar) sistemiyle kelimeleri kalıcı öğren; seviyene göre setler hâlinde ilerle.',
+  },
+  {
+    emoji: '🧩',
+    title: 'Dil Bilgisi',
+    desc: 'A1–B2 konu slaytları ve çoktan seçmeli testlerle dil bilgisini adım adım pekiştir.',
+  },
+  {
+    emoji: '📖',
+    title: 'Okuma',
+    desc: 'Seviyene uygun okuma metinleri ve anlama sorularıyla okuma becerini geliştir.',
+  },
+  {
+    emoji: '🎮',
+    title: 'Sınıf İçi Oyunlar',
+    desc: 'Yazım, kelime ve bilgi yarışması oyunlarıyla öğrendiklerini eğlenerek tekrar et.',
+  },
+  {
+    emoji: '📴',
+    title: '%100 Çevrimdışı',
+    desc: 'İnternet bağlantısı olmadan da çalışır. Ders arası, yolculukta, her yerde çalış.',
+  },
+  {
+    emoji: '🔁',
+    title: 'SRS Tekrar Sistemi',
+    desc: 'Aralıklı tekrar algoritması, unutmadan önce kelimeleri doğru zamanda tekrar ettirir.',
+  },
+  {
+    emoji: '🔊',
+    title: 'Telaffuz — IPA + Sesli Okuma',
+    desc: 'Uluslararası fonetik alfabe (IPA) karşılıkları ve sesli okuma ile doğru telaffuz öğren.',
+  },
+];
+
+const installSteps = [
+  {
+    icon: '1',
+    title: 'APK dosyasını indir',
+    desc: 'Aşağıdaki "Uygulamayı İndir" butonuna dokun. Dosya adı: Languago-v2.2.0.apk.',
+  },
+  {
+    icon: '2',
+    title: 'Dosyayı aç',
+    desc: 'İndirilenler klasöründen APK dosyasına dokun. Android, "bilinmeyen kaynaklardan yükleme" izni isteyebilir.',
+  },
+  {
+    icon: '3',
+    title: 'Güvenlik ayarına onay ver',
+    desc: 'Telefonun sorarsa "Bilinmeyen uygulamalara izin ver"e onay ver. Bu, telefon dışı indirilenler için normaldir.',
+  },
+  {
+    icon: '4',
+    title: 'Kur ve başla',
+    desc: '"Kur"a dokun; kurulum biter bitmez Languago ana ekranında hazır.',
+  },
+];
+---
+
+<Layout
+  title="Languago Uygulamasını İndir — Android APK"
+  description="Languago Android uygulamasını indirin: kelime, dil bilgisi, okuma ve sınıf içi oyunlar %100 çevrimdışı çalışır. SRS tekrar sistemi ve telaffuz desteği. Android APK (v2.2.0) — ücretsiz ve reklamsız."
+>
+  <section class="hero container">
+    <span class="eyebrow">📲 Android uygulaması — Languago</span>
+    <h1>Languago Uygulamasını İndir</h1>
+    <p class="lead">
+      Kelime, dil bilgisi, okuma ve sınıf içi oyunlar artık cebinde. Languago
+      Android uygulaması <strong>%100 çevrimdışı</strong> çalışır; SRS tekrar sistemiyle
+      kalıcı öğrenir, telaffuz desteğiyle doğru telaffuz edersin.
+    </p>
+    <div class="btn-row">
+      <a
+        class="btn primary"
+        href={apkUrl}
+        download={apkFilename}
+        style="font-size:1.05rem;padding:14px 30px;"
+      >⬇ {apkFilename} — İndir</a>
+      <a class="btn ghost" href="/signup">Web'den Başla</a>
+    </div>
+    <p class="meta muted">
+      Android • {appVersion} • ~ver. Ücretsiz ve reklamsız. iOS ve diğer cihazlar için
+      tarayıcıdan web sürümünü kullan.
+    </p>
+  </section>
+
+  <section class="section container">
+    <h2>Uygulamada neler var?</h2>
+    <div class="grid">
+      {
+        features.map((f) => (
+          <div class="card">
+            <div class="emoji">{f.emoji}</div>
+            <h3>{f.title}</h3>
+            <p>{f.desc}</p>
+          </div>
+        ))
+      }
+    </div>
+  </section>
+
+  <section class="section container">
+    <h2>Nasıl kurulur?</h2>
+    <p>
+      App Store veya Play Store yerine APK ile kurulur. Android harici uygulama
+      kurulumuna izin vermesi gerekir — aşağıdaki adımlar 1 dakikadan kısadır.
+    </p>
+    <ol class="steps">
+      {
+        installSteps.map((s) => (
+          <li>
+            <span class="step-num">{s.icon}</span>
+            <div>
+              <strong>{s.title}</strong>
+              <p class="muted" style="margin:.25rem 0 0;">{s.desc}</p>
+            </div>
+          </li>
+        ))
+      }
+    </ol>
+  </section>
+
+  <section class="section container">
+    <h2>Sistem gereksinimleri & sürüm</h2>
+    <div class="req panel">
+      <ul>
+        <li><strong>Sürüm:</strong> Languago {appVersion} ({apkFilename})</li>
+        <li><strong>Platform:</strong> Android (telefon ve tablet). iOS henüz desteklenmiyor.</li>
+        <li><strong>Çevrimdışı:</strong> %100. İndirildikten sonra internet gerekmez.</li>
+        <li><strong>Reklam & ücret:</strong> Yok. Ücretsiz.</li>
+      </ul>
+    </div>
+  </section>
+
+  <section class="section container">
+    <h2>Hemen denemek ister misin? Web sürümü</h2>
+    <p class="lead">
+      Uygulama kurmadan tarayıcıdan çalışmak istersen, Languago web sürümünde aynı
+      kelime, dil bilgisi ve okuma modüllerini kullanabilirsin. Kayıt ol 1 dakika
+      sürer.
+    </p>
+    <div class="btn-row">
+      <a class="btn primary" href="/dashboard">Öğrenci Paneline Git</a>
+      <a class="btn ghost" href="/signup">Ücretsiz Kayıt Ol</a>
+    </div>
+  </section>
+</Layout>
+
+<style>
+  .meta {
+    margin-top: 14px;
+    font-size: 0.92rem;
+  }
+  ol.steps {
+    list-style: none;
+    margin: 24px 0 0;
+    padding: 0;
+    display: grid;
+    gap: 14px;
+  }
+  ol.steps li {
+    display: flex;
+    gap: 16px;
+    align-items: flex-start;
+  }
+  .step-num {
+    flex: 0 0 auto;
+    width: 34px;
+    height: 34px;
+    border-radius: 999px;
+    background: var(--brand);
+    color: #fff;
+    font-weight: 800;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 2px;
+  }
+  .req.panel {
+    background: var(--bg-soft);
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    padding: 20px 24px;
+    margin-top: 8px;
+  }
+  .req ul {
+    margin: 0;
+    padding-left: 20px;
+  }
+  .req li {
+    margin: 6px 0;
+  }
+</style>
