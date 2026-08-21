@@ -1,0 +1,57 @@
+---
+import Layout from '../layouts/Layout.astro';
+export const prerender = true;
+---
+
+<Layout
+  title="Hakkımızda — Languago"
+  description="Languago'nun hikayesi: Samet Tıraşoğlu ile oyun temelli İngilizce öğrenme platformu."
+>
+  <main class="study">
+    <h1>Hakkımızda 📚</h1>
+    <div class="barline"></div>
+
+    <section class="panel">
+      <h2>Languago Nedir?</h2>
+      <p>
+        Languago; kelime, dilbilgisi, okuma ve sınıf içi oyunları tek çatı altında
+        toplayan bir İngilizce öğrenme platformudur. Öğrenciler kendi hızlarında
+        çalışır, öğretmenler sınıflarını ve öğrencilerinin ilerlemesini tek panelden
+        takip eder.
+      </p>
+      <p>
+        Uygulamanın temel fikri basittir: <strong>oyunlu ve sürekli pratik</strong>.
+        Sıkıcı ezber yerine etkileşimli alıştırmalar, seviyene uygun okuma metinleri
+        ve sınıfta birlikte oynanan yarışmalar.
+      </p>
+    </section>
+
+    <section class="panel" style="margin-top:20px;">
+      <h2>Kurucu: Samet Tıraşoğlu</h2>
+      <p>
+        Languago, İngilizce öğretmeni <strong>Samet Tıraşoğlu</strong> tarafından
+        geliştirilmiştir. Amacı; sınıftaki her öğrenciye ulaşabilecek, teknolojiyi
+        pedagojiyle birleştiren bir öğrenme ortamı sunmaktır.
+      </p>
+      <p>
+        Samet, derslerinde öğrencilerin öğrenirken eğlenmesinin kalıcı öğrenmenin
+        anahtarı olduğuna inanır. Languago bu inancın meyvesidir.
+      </p>
+    </section>
+
+    <section class="panel" style="margin-top:20px;">
+      <h2>Yöntemimiz</h2>
+      <ul>
+        <li><strong>Seviye bazlı içerik:</strong> A1'den C2'ye, sonra IELTS, YDS, YÖKDİL gibi sınav seviyelerine.</li>
+        <li><strong>Kendi hızında çalışma:</strong> Öğrenci nerede takılırsa kalsın, kaldığı yerden devam eder.</li>
+        <li><strong>Öğretmen gözlemi:</strong> Öğretmen sınıfındaki her öğrencinin modül bazında ilerlemesini görür.</li>
+        <li><strong>Oyunlarla pekiştirme:</strong> Sınıf içi kelime yarışmaları motivasyonu canlı tutar.</li>
+      </ul>
+    </section>
+
+    <p class="muted" style="margin-top:24px;">
+      Soruların için{' '}
+      <a href="/iletisim">İletişim sayfamızı</a> ziyaret edebilirsin.
+    </p>
+  </main>
+</Layout>

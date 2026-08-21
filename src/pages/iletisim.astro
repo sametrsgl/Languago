@@ -1,0 +1,58 @@
+---
+import Layout from '../layouts/Layout.astro';
+export const prerender = true;
+---
+
+<Layout
+  title="İletişim — Languago"
+  description="Languago ile iletişime geçin: öğretmen ve öğrenci sorularınız için bizimle iletişim kurun."
+>
+  <main class="study">
+    <h1>İletişim ✉️</h1>
+    <div class="barline"></div>
+
+    <section class="panel">
+      <h2>Bize Ulaşın</h2>
+      <p>
+        Languago hakkında soru, öneri ya da iş birliği fikirleriniz için e-posta
+        üzerinden bize ulaşabilirsiniz. Mesajlarınızı en kısa sürede yanıtlamaya çalışırız.
+      </p>
+
+      <div class="contact">
+        <div class="contact__row">
+          <span class="contact__icon">📧</span>
+          <div>
+            <strong>E-posta</strong>
+            <div class="email">samettrol1@gmail.com</div>
+          </div>
+        </div>
+        <div class="contact__row">
+          <span class="contact__icon">🌐</span>
+          <div>
+            <strong>Web</strong>
+            <div><a href="/">www.languago.site</a></div>
+          </div>
+        </div>
+      </div>
+
+      <p class="muted" style="margin-top:16px;">
+        Kurucu ve öğretmen <strong>Samet Tıraşoğlu</strong>'na doğrudan yukarıdaki
+        e-posta adresiyle ulaşabilirsiniz.
+      </p>
+    </section>
+
+    <section class="panel" style="margin-top:20px;">
+      <h2>Sıkça Gelen Konular</h2>
+      <ul>
+        <li>Kayıt ve giriş sorunları</li>
+        <li>Sınıf katılım kodu hakkında bilgi</li>
+        <li>İçerik ve seviyeler hakkında öneriler</li>
+        <li>Okullar ve kurumlar için iş birliği</li>
+      </ul>
+      <p class="muted">
+        Kişisel verilerinizle ilgili hak talepleri için{' '}
+        <a href="/kvkk">KVKK Aydınlatma Metni</a>'ne göz atın.
+      </p>
+    </section>
+  </main>
+</Layout>

@@ -1,0 +1,65 @@
+---
+// Languago teacher-panel shared navigation (a scoped equivalent of the
+// reference TeacherLayout sidebar/header). Rendered inside the site's main
+// Layout header area for each /teacher/* page.
+interface Props {
+  path: string;
+}
+const { path } = Astro.props;
+
+const links = [
+  { href: '/teacher', label: '🏠 Genel Bakış', exact: true },
+  { href: '/teacher/ogrenciler', label: '🧑‍🎓 Öğrenciler', exact: false },
+  { href: '/teacher/siniflar', label: '🏫 Sınıflar', exact: false },
+];
+
+function isActive(href: string, exact: boolean): boolean {
+  if (exact) return path === href;
+  return path.startsWith(href);
+}
+---
+
+<div class="teacher-nav">
+  <div class="teacher-nav__inner">
+    <div class="teacher-nav__home">
+      <a class="btn ghost sm" href="/dashboard">← Öğrenci Paneli</a>
+    </div>
+    <nav class="study-subnav teacher-nav__links" aria-label="Öğretmen menüsü">
+      {
+        links.map((l) => (
+          <a
+            class:list={['pill', { on: isActive(l.href, l.exact) }]}
+            href={l.href}
+          >
+            {l.label}
+          </a>
+        ))
+      }
+    </nav>
+  </div>
+</div>
+
+<style>
+  .teacher-nav {
+    border-bottom: 1px solid var(--line);
+    background: var(--bg-soft);
+    margin-bottom: 24px;
+  }
+  .teacher-nav__inner {
+    max-width: var(--maxw);
+    margin: 0 auto;
+    padding: 12px 20px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    flex-wrap: wrap;
+  }
+  .teacher-nav__links {
+    margin: 0;
+  }
+  .btn.sm {
+    padding: 8px 16px;
+    font-size: 0.9rem;
+  }
+</style>

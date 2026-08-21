@@ -1,0 +1,85 @@
+---
+import Layout from '../layouts/Layout.astro';
+export const prerender = true;
+---
+
+<Layout
+  title="KVKK Aydınlatma Metni — Languago"
+  description="Languago kişisel veri aydınlatma metni: hangi verileri topladığımız, işleme amaçlarımız ve haklarınız."
+>
+  <main class="study">
+    <h1>KVKK Aydınlatma Metni 🔒</h1>
+    <div class="barline"></div>
+
+    <section class="panel">
+      <p class="muted">
+        Son güncelleme: {new Date().getFullYear()}. Bu metin, 6698 sayılı Kişisel
+        Verilerin Korunması Kanunu (KVKK) kapsamında Languago'nun kişisel verileri
+        nasıl işlediğine dair şeffaf bilgi verir. Bu bir hukuki danışmanlık değildir;
+        sorularınız için e-posta üzerinden bizimle iletişime geçebilirsiniz.
+      </p>
+    </section>
+
+    <section class="panel" style="margin-top:20px;">
+      <h2>1. Veri Sorumlusu</h2>
+      <p>
+        Kişisel verileriniz, Languago adına eğitmen <strong>Samet Tıraşoğlu</strong>{' '}
+        tarafından işlenmektedir. İletişim: <span class="email">samettrol1@gmail.com</span>.
+      </p>
+    </section>
+
+    <section class="panel" style="margin-top:20px;">
+      <h2>2. İşlenen Kişisel Veriler</h2>
+      <p>Platformu kullanırken aşağıdaki veriler işlenebilir:</p>
+      <ul>
+        <li><strong>Kimlik bilgileri:</strong> Ad Soyad (isteğe bağlı)</li>
+        <li><strong>İletişim bilgileri:</strong> E-posta adresi</li>
+        <li><strong>Eğitim verileri:</strong> Seviye seçimleri ve öğrenme ilerlemesi (puanlar, tamamlanan modüller)</li>
+        <li><strong>Teknik veriler:</strong> Oturum çerezleri, IP adresi (güvenlik için)</li>
+      </ul>
+    </section>
+
+    <section class="panel" style="margin-top:20px;">
+      <h2>3. İşleme Amaçları</h2>
+      <ul>
+        <li>Hesap oluşturma ve giriş işlemleri</li>
+        <li>Öğrenme ilerlemesinin kaydedilmesi ve öğretmene gösterilmesi</li>
+        <li>Sınıf yönetimi ve katılım kodu işlemleri</li>
+        <li>Platformun güvenliğinin ve kesintisiz çalışmasının sağlanması</li>
+        <li>İletişim taleplerinin yanıtlanması</li>
+      </ul>
+    </section>
+
+    <section class="panel" style="margin-top:20px;">
+      <h2>4. Verilerin Saklanması</h2>
+      <p>
+        Verileriniz, güvenli ve şifreli bağlantılar üzerinden <strong>Supabase</strong>
+        tarafından sağlanan bulut veri tabanında saklanır. Verilere yalnızca yetkili
+        sistem rollerinin erişimi vardır; öğrenci verileri yalnızca ilgili öğrenciye
+        ve kayıtlı öğretmenine görünür. Veriler, işleme amacının gerektirdiği süre
+        boyunca tutulur.
+      </p>
+    </section>
+
+    <section class="panel" style="margin-top:20px;">
+      <h2>5. Haklarınız</h2>
+      <p>KVKK kapsamında aşağıdaki haklara sahipsiniz:</p>
+      <ul>
+        <li>Kişisel verilerinizin işlenip işlenmediğini öğrenme</li>
+        <li>İşlenen veriye erişme ve bilgi talep etme</li>
+        <li>Eksik/yanlış işlenen verilerin düzeltilmesini isteme</li>
+        <li>Verilerinizin silinmesini talep etme</li>
+        <li>Yasaya aykırı işlemlere itiraz etme</li>
+      </ul>
+      <p>
+        Bu haklarınızı kullanmak veya taleplerinize ilişkin açıklama almak için{' '}
+        <span class="email">samettrol1@gmail.com</span> adresine e-posta gönderebilirsiniz.
+      </p>
+    </section>
+
+    <p class="muted" style="margin-top:24px;">
+      Çerez kullanımı hakkında ayrıntılı bilgi için{' '}
+      <a href="/cerez-politikasi">Çerez Politikası</a>'nı okuyabilirsiniz.
+    </p>
+  </main>
+</Layout>

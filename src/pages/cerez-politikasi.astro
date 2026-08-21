@@ -1,0 +1,63 @@
+---
+import Layout from '../layouts/Layout.astro';
+export const prerender = true;
+---
+
+<Layout
+  title="Çerez Politikası — Languago"
+  description="Languago çerez (cookie) politikası: hangi çerezleri kullandığımız ve neden."
+>
+  <main class="study">
+    <h1>Çerez Politikası 🍪</h1>
+    <div class="barline"></div>
+
+    <section class="panel">
+      <p class="muted">
+        Son güncelleme: {new Date().getFullYear()}. Bu politika, Languago platformunun
+        çerezleri nasıl kullandığını açıklar.
+      </p>
+    </section>
+
+    <section class="panel" style="margin-top:20px;">
+      <h2>Çerez Nedir?</h2>
+      <p>
+        Çerezler, bir web sitesini ziyaret ettiğinizde tarayıcınıza yerleştirilen
+        küçük metin dosyalarıdır. Siteyi nasıl kullandığınızı hatırlayarak daha iyi
+        bir deneyim sunmaya yardımcı olurlar.
+      </p>
+    </section>
+
+    <section class="panel" style="margin-top:20px;">
+      <h2>Kullandığımız Çerezler</h2>
+      <ul>
+        <li>
+          <strong>Oturum çerezleri (zorunlu):</strong> Giriş yaptıktan sonra
+          oturumunuzun açık kalmasını sağlar. Bunlar olmadan giriş yapmak ve paneli
+          kullanmak mümkün değildir.
+        </li>
+      </ul>
+      <p class="muted">
+        Languago şu anda reklam ya da takip amaçlı çerez kullanmamaktadır.
+      </p>
+    </section>
+
+    <section class="panel" style="margin-top:20px;">
+      <h2>Çerezleri Nasıl Yönetebilirim?</h2>
+      <p>
+        Tarayıcınızın ayarlarından çerezleri silebilir veya engelleyebilirsiniz. Ancak
+        zorunlu oturum çerezlerini devre dışı bırakmanız durumunda hesabınıza giriş
+        yapamayabilirsiniz.
+      </p>
+    </section>
+
+    <section class="panel" style="margin-top:20px;">
+      <h2>İletişim</h2>
+      <p>
+        Çerezlerle ilgili sorularınız için{' '}
+        <span class="email">samettrol1@gmail.com</span> adresinden bize ulaşabilir,
+        kişisel verilerinizin işlenmesine ilişkin ayrıntılar için{' '}
+        <a href="/kvkk">KVKK Aydınlatma Metni</a>'ni inceleyebilirsiniz.
+      </p>
+    </section>
+  </main>
+</Layout>

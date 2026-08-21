@@ -1,0 +1,192 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import TeacherNav from '../../components/TeacherNav.astro';
+import { createSupabaseClient, pageCookieSource } from '../../lib/supabase';
+import { authorizeTeacher, MODULES, shortDate } from '../../lib/teacher';
+
+// Server-side role gate: read role from profiles.role, redirect when signed
+// out, show a clear notice when the caller is not a teacher/admin.
+const auth = await authorizeTeacher(pageCookieSource(Astro));
+if (!auth.ok && auth.reason !== 'forbidden') {
+  return Astro.redirect('/signin');
+}
+
+type Entry = { payload?: Record<string, unknown>; updated_at?: string };
+type Student = {
+  student_id: string;
+  full_name: string | null;
+  email: string;
+  level: string | null;
+  created_at: string;
+  progress: Record<string, Entry>;
+};
+
+const stats = { students: 0, classes: 0, monthNew: 0 };
+let recent: Student[] = [];
+let moduleActive: Record<string, number> = {};
+let teacherName: string | null = null;
+
+if (auth.ok) {
+  // Best-effort reads — every query is guarded so the panel renders usefully
+  // even if one RPC/table is unavailable.
+  try {
+    const supabase = createSupabaseClient(pageCookieSource(Astro));
+    const [studentsRes, classesRes, userRes] = supabase
+      ? await Promise.all([
+          supabase.rpc('get_teacher_students', { p_teacher: auth.userId }),
+          supabase.from('class_roster').select('id'),
+          supabase.from('profiles').select('full_name').eq('id', auth.userId).maybeSingle(),
+        ])
+      : [null, null, null];
+
+    const students: Student[] = (studentsRes?.data ?? []) as Student[];
+    stats.students = students.length;
+    recent = [...students]
+      .sort(
+        (a, b) => new Date(b.created_at).getTime() - new Date(a.created_at).getTime()
+      )
+      .slice(0, 5);
+    const monthAgo = Date.now() - 30 * 24 * 60 * 60 * 1000;
+    stats.monthNew = students.filter(
+      (s) => new Date(s.created_at).getTime() >= monthAgo
+    ).length;
+
+    for (const m of MODULES) {
+      moduleActive[m.key] = students.filter((s) => s.progress?.[m.key]).length;
+    }
+
+    const classRows = (classesRes?.data ?? []) as { id: string }[];
+    stats.classes = classRows.length;
+
+    teacherName = (userRes?.data?.full_name as string | null | undefined) ?? null;
+  } catch {
+    // Leave defaults; do not crash the page.
+  }
+}
+---
+
+<Layout
+  title="Öğretmen Paneli — Genel Bakış · Languago"
+  description="Languago öğretmen paneli: sınıflarını, öğrencilerini ve ilerlemelerini tek yerden yönet."
+>
+  {
+    auth.ok ? (
+      <main class="study teacher">
+        <TeacherNav path={Astro.url.pathname} />
+
+        <h1>{teacherName ? `${teacherName}:` : ''} Genel Bakış 👋</h1>
+        <p class="muted">
+          Sınıflarını, öğrencilerini ve çalışma ilerlemelerini bu panelden takip edebilirsin.
+        </p>
+        <div class="barline"></div>
+
+        <div class="tstat">
+          <div class="tstat__card">
+            <div class="tstat__num">{stats.students}</div>
+            <div class="tstat__label">Kayıtlı Öğrenci</div>
+          </div>
+          <div class="tstat__card">
+            <div class="tstat__num">{stats.classes}</div>
+            <div class="tstat__label">Sınıf</div>
+          </div>
+          <div class="tstat__card">
+            <div class="tstat__num">{stats.monthNew}</div>
+            <div class="tstat__label">Son 30 Gün Yeni</div>
+          </div>
+        </div>
+
+        <h2 style="margin-top:32px;">Modül Bazında Aktif Öğrenci</h2>
+        <div class="dash-nav">
+          {
+            MODULES.map((m) => (
+              <div class="card tile" style="flex:1 1 200px;">
+                <div>
+                  <div style="font-size:1.6rem;">{m.emoji}</div>
+                  <div class="tt">
+                    {m.label} · {moduleActive[m.key] ?? 0}
+                  </div>
+                  <div class="bb">bu modülde çalışma kaydı olan öğrenci</div>
+                </div>
+              </div>
+            ))
+          }
+        </div>
+
+        <h2 style="margin-top:32px;">Son Kayıt Olanlar</h2>
+        {
+          recent.length ? (
+            <div class="wrap-table">
+              <table class="tbl">
+                <thead>
+                  <tr>
+                    <th>Öğrenci</th>
+                    <th>Seviye</th>
+                    <th>Kayıt</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {recent.map((s) => (
+                    <tr>
+                      <td>
+                        <a
+                          class="btn-link"
+                          href={`/teacher/ogrenci/${s.student_id}`}
+                        >
+                          {s.full_name || s.email}
+                        </a>
+                        <div class="muted small">{s.email}</div>
+                      </td>
+                      <td>{s.level ? s.level.toUpperCase() : 'A1'}</td>
+                      <td>{shortDate(s.created_at)}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          ) : (
+            <p class="empty">Henüz kayıtlı öğrenci yok.</p>
+          )
+        }
+
+        <h2 style="margin-top:32px;">Hızlı İşlemler</h2>
+        <div class="dash-nav">
+          <a class="card tile card-link" href="/teacher/ogrenciler">
+            <div>
+              <div style="font-size:1.6rem;">🧑‍🎓</div>
+              <div class="tt">Öğrenciler</div>
+              <div class="bb">Tüm öğrencileri ve modül ilerlemelerini gör.</div>
+            </div>
+          </a>
+          <a class="card tile card-link" href="/teacher/siniflar">
+            <div>
+              <div style="font-size:1.6rem;">🏫</div>
+              <div class="tt">Sınıflar</div>
+              <div class="bb">Sınıf oluştur, katılım kodunu paylaş, üyeleri yönet.</div>
+            </div>
+          </a>
+          <a class="card tile card-link" href="/dashboard">
+            <div>
+              <div style="font-size:1.6rem;">🎓</div>
+              <div class="tt">Öğrenci Paneli</div>
+              <div class="bb">Kendi çalışma modüllerine geç.</div>
+            </div>
+          </a>
+        </div>
+      </main>
+    ) : (
+      <main class="study">
+        <div class="panel" style="text-align:center;padding:40px 24px;">
+          <div style="font-size:2.4rem;">🔒</div>
+          <h1>Yetkisiz Erişim</h1>
+          <p class="muted">
+            Bu sayfa yalnızca öğretmen hesaplarına açıktır. Giriş yaptığın hesabın
+            öğretmen rolü bulunmuyor.
+          </p>
+          <div class="btn-row" style="justify-content:center;">
+            <a class="btn" href="/dashboard">Öğrenci Paneline Dön</a>
+          </div>
+        </div>
+      </main>
+    )
+  }
+</Layout>

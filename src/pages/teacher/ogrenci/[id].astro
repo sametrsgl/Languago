@@ -1,0 +1,145 @@
+---
+import Layout from '../../../layouts/Layout.astro';
+import TeacherNav from '../../../components/TeacherNav.astro';
+import { createSupabaseClient, pageCookieSource } from '../../../lib/supabase';
+import {
+  authorizeTeacher,
+  MODULES,
+  moduleSummary,
+  shortDate,
+  levelLabel,
+} from '../../../lib/teacher';
+
+const auth = await authorizeTeacher(pageCookieSource(Astro));
+if (!auth.ok && auth.reason !== 'forbidden') {
+  return Astro.redirect('/signin');
+}
+
+const id = Astro.params.id ?? '';
+
+type Entry = { payload?: Record<string, unknown>; updated_at?: string };
+type Student = {
+  student_id: string;
+  full_name: string | null;
+  email: string;
+  level: string | null;
+  created_at: string;
+  progress: Record<string, Entry>;
+};
+
+let student: Student | null = null;
+
+if (auth.ok && id) {
+  try {
+    const supabase = createSupabaseClient(pageCookieSource(Astro));
+    if (supabase) {
+      const { data } = await supabase.rpc('get_teacher_students', {
+        p_teacher: auth.userId,
+      });
+      const rows = (data ?? []) as Student[];
+      student = rows.find((r) => r.student_id === id) ?? null;
+    }
+  } catch {
+    student = null;
+  }
+}
+---
+
+<Layout
+  title={
+    student
+      ? `${student.full_name || student.email} — Öğrenci Profili · Languago`
+      : 'Öğrenci — Öğretmen Paneli · Languago'
+  }
+  description="Languago öğrenci profil sayfası."
+>
+  {
+    auth.ok ? (
+      <main class="study teacher">
+        <TeacherNav path={Astro.url.pathname} />
+        <a class="back" href="/teacher/ogrenciler">← Öğrenciler</a>
+        <h1>Öğrenci Profili 🧑‍🎓</h1>
+        <div class="barline"></div>
+
+        {
+          student ? (
+            <div class="panel" style="background:var(--bg-soft);">
+              <h2 style="font-size:1.4rem;">{student.full_name || '—'}</h2>
+              <p class="muted">
+                <strong>{student.email}</strong> · Seviye{' '}
+                <span class="badge" style="background:var(--brand-dark);">
+                  {levelLabel(student.level)}
+                </span>
+                {' '}· Kayıt: {shortDate(student.created_at)}
+              </p>
+
+              <h3 style="margin-top:24px;">Modül İlerlemeleri</h3>
+              <div class="wrap-table">
+                <table class="tbl">
+                  <thead>
+                    <tr>
+                      <th>Modül</th>
+                      <th>Durum</th>
+                      <th>Son Çalışma</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {
+                      MODULES.map((m) => {
+                        const entry = student!.progress?.[m.key] as
+                          | Entry
+                          | undefined;
+                        const sum = moduleSummary(entry);
+                        return (
+                          <tr>
+                            <td>
+                              {m.emoji} {m.label}
+                            </td>
+                            <td>
+                              {sum ? (
+                                <span class="badge" style="background:var(--success);">
+                                  {sum}
+                                </span>
+                              ) : (
+                                <span class="muted">Başlanmadı</span>
+                              )}
+                            </td>
+                            <td class="muted">
+                              {entry?.updated_at
+                                ? shortDate(entry.updated_at)
+                                : '—'}
+                            </td>
+                          </tr>
+                        );
+                      })
+                    }
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          ) : (
+            <div class="panel" style="text-align:center;padding:40px 24px;">
+              <div style="font-size:2.4rem;">🤷</div>
+              <h1>Öğrenci Bulunamadı</h1>
+              <p class="muted">Bu öğrencinin kaydı bulunamadı ya da erişim yetkin yok.</p>
+              <div class="btn-row" style="justify-content:center;">
+                <a class="btn" href="/teacher/ogrenciler">Öğrencilere Dön</a>
+              </div>
+            </div>
+          )
+        }
+      </main>
+    ) : (
+      <main class="study">
+        <div class="panel" style="text-align:center;padding:40px 24px;">
+          <div style="font-size:2.4rem;">🔒</div>
+          <h1>Yetkisiz Erişim</h1>
+          <p class="muted">Bu sayfa yalnızca öğretmen hesaplarına açıktır.</p>
+          <div class="btn-row" style="justify-content:center;">
+            <a class="btn" href="/dashboard">Öğrenci Paneline Dön</a>
+          </div>
+        </div>
+      </main>
+    )
+  }
+</Layout>

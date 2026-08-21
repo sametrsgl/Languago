@@ -76,8 +76,18 @@ const ogImage = image || `${siteUrl}/og-cover.png`;
 
     <footer class="site">
       <div class="container">
-        <span>© {new Date().getFullYear()} Languago — Samet Tıraşoğlu </span>
-        <span>İngilizce öğrenmenin oyunlu yolu</span>
+        <div class="footer-cols">
+          <div>
+            <span>© {new Date().getFullYear()} Languago — Samet Tıraşoğlu</span>
+            <span>İngilizce öğrenmenin oyunlu yolu</span>
+          </div>
+          <nav class="site footer-nav" aria-label="Alt gezinme">
+            <a class="nav" href="/hakkimizda">Hakkımızda</a>
+            <a class="nav" href="/iletisim">İletişim</a>
+            <a class="nav" href="/kvkk">KVKK</a>
+            <a class="nav" href="/cerez-politikasi">Çerez Politikası</a>
+          </nav>
+        </div>
       </div>
     </footer>
   </body>

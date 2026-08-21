@@ -1,0 +1,208 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import TeacherNav from '../../components/TeacherNav.astro';
+import { createSupabaseClient, pageCookieSource } from '../../lib/supabase';
+import { authorizeTeacher } from '../../lib/teacher';
+
+const auth = await authorizeTeacher(pageCookieSource(Astro));
+if (!auth.ok && auth.reason !== 'forbidden') {
+  return Astro.redirect('/signin');
+}
+
+type ClassRow = {
+  id: string;
+  class_name: string;
+  join_code: string;
+  created_at: string;
+};
+type MemberRow = { class_id: string; student_id: string };
+type Student = {
+  student_id: string;
+  full_name: string | null;
+  email: string;
+};
+
+let classes: ClassRow[] = [];
+let membersByClass = new Map<string, MemberRow[]>();
+let nameMap = new Map<string, { name: string; email: string }>();
+
+if (auth.ok) {
+  try {
+    const supabase = createSupabaseClient(pageCookieSource(Astro));
+    if (!supabase) throw new Error('no_supabase');
+
+    const [classRes, memberRes, studentRes] = await Promise.all([
+      supabase
+        .from('class_roster')
+        .select('id, class_name, join_code, created_at')
+        .order('created_at', { ascending: false }),
+      supabase.from('roster_members').select('class_id, student_id'),
+      supabase.rpc('get_teacher_students', { p_teacher: auth.userId }),
+    ]);
+
+    classes = ((classRes.data ?? []) as ClassRow[]).filter((c) => c.id);
+
+    const members = (memberRes.data ?? []) as MemberRow[];
+    membersByClass = new Map();
+    for (const m of members) {
+      const list = membersByClass.get(m.class_id) ?? [];
+      list.push(m);
+      membersByClass.set(m.class_id, list);
+    }
+
+    for (const s of (studentRes.data ?? []) as Student[]) {
+      nameMap.set(s.student_id, { name: s.full_name || s.email, email: s.email });
+    }
+  } catch {
+    // Keep empty defaults; the page still renders a friendly state.
+  }
+}
+---
+
+<Layout
+  title="Sınıflar — Öğretmen Paneli · Languago"
+  description="Languago sınıf listelerini oluştur ve yönet; katılım kodunu öğrencilerinle paylaş."
+>
+  {
+    auth.ok ? (
+      <main class="study teacher">
+        <TeacherNav path={Astro.url.pathname} />
+
+        <h1>Sınıflar 🏫</h1>
+        <p class="muted">
+          Yeni bir sınıf oluştur ve kendiliğinden üretilen katılım kodunu öğrencilerinle
+          paylaş. Öğrenciler bu kodla sınıfına katılır.
+        </p>
+        <div class="barline"></div>
+
+        <div class="panel" style="background:var(--bg-soft);">
+          <h2 style="font-size:1.15rem;">Yeni Sınıf Oluştur</h2>
+          <form id="class-form" class="class-form">
+            <input
+              id="class-name"
+              type="text"
+              name="class_name"
+              placeholder="Örn. 8. Sınıf — Sabah Grubu"
+              maxlength="120"
+              required
+            />
+            <button class="btn primary" type="submit">Sınıfı Oluştur</button>
+          </form>
+          <p id="class-msg" class="class-msg" role="status"></p>
+        </div>
+
+        <h2 style="margin-top:32px;">Sınıfların</h2>
+        {
+          classes.length ? (
+            classes.map((c) => {
+              const list = membersByClass.get(c.id) ?? [];
+              const count = list.length;
+              return (
+                <div class="panel class-card">
+                  <div class="class-card__head">
+                    <strong>{c.class_name}</strong>
+                    <span class="badge" style="background:var(--brand-dark);">
+                      {count} öğrenci
+                    </span>
+                  </div>
+                  <div class="class-card__code">
+                    Katılım kodu:
+                    <code class="jcode">{c.join_code}</code>
+                  </div>
+                  <div class="class-card__members">
+                    {count ? (
+                      list.map((m) => {
+                        const info = nameMap.get(m.student_id);
+                        return (
+                          <span key={m.student_id} class="mem">
+                            {info?.name ?? '—'}
+                          </span>
+                        );
+                      })
+                    ) : (
+                      <span class="muted">Henüz katılımcı yok.</span>
+                    )}
+                  </div>
+                </div>
+              );
+            })
+          ) : (
+            <div class="panel" style="background:var(--bg-soft);">
+              <p class="empty" style="margin:0;">
+                Henüz oluşturulmuş bir sınıf yok. Yukarıdaki formla ilk sınıfını kur.
+              </p>
+            </div>
+          )
+        }
+      </main>
+    ) : (
+      <main class="study">
+        <div class="panel" style="text-align:center;padding:40px 24px;">
+          <div style="font-size:2.4rem;">🔒</div>
+          <h1>Yetkisiz Erişim</h1>
+          <p class="muted">
+            Bu sayfa yalnızca öğretmen hesaplarına açıktır.
+          </p>
+          <div class="btn-row" style="justify-content:center;">
+            <a class="btn" href="/dashboard">Öğrenci Paneline Dön</a>
+          </div>
+        </div>
+      </main>
+    )
+  }
+</Layout>
+
+<script is:inline>
+  (function () {
+    var form = document.getElementById('class-form');
+    var msg = document.getElementById('class-msg');
+    var input = document.getElementById('class-name');
+    if (!form || !msg || !input) return;
+
+    form.addEventListener('submit', function (e) {
+      e.preventDefault();
+      var name = input.value.trim();
+      if (!name) {
+        msg.textContent = 'Lütfen bir sınıf adı yaz.';
+        msg.className = 'class-msg err';
+        return;
+      }
+      var btn = form.querySelector('button');
+      if (btn) {
+        btn.disabled = true;
+        btn.textContent = 'Oluşturuluyor…';
+      }
+      msg.textContent = '';
+      msg.className = 'class-msg';
+
+      fetch('/api/teacher/classes', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ class_name: name }),
+      })
+        .then(function (r) { return r.json(); })
+        .then(function (res) {
+          if (res && res.ok) {
+            msg.textContent = 'Sınıf oluşturuldu. Katılım kodu: ' + res.join_code;
+            msg.className = 'class-msg ok';
+            input.value = '';
+            setTimeout(function () { window.location.reload(); }, 900);
+          } else {
+            var m = (res && res.error && (res.error.message || (res.error.fields && res.error.fields.class_name && res.error.fields.class_name[0]))) || 'Bir hata oluştu.';
+            msg.textContent = m;
+            msg.className = 'class-msg err';
+          }
+        })
+        .catch(function () {
+          msg.textContent = 'Bağlantı hatası. Tekrar dene.';
+          msg.className = 'class-msg err';
+        })
+        .finally(function () {
+          if (btn) {
+            btn.disabled = false;
+            btn.textContent = 'Sınıfı Oluştur';
+          }
+        });
+    });
+  })();
+</script>
