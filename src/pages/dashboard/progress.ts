@@ -4,8 +4,8 @@ import { pageCookieSource } from '../../lib/supabase';
 
 /**
  * Best-effort student progress persistence.
- * POST /dashboard/progress  body: { module: 'vocab' | 'grammar' | 'reading',
- *                                    payload: { ...any } }
+ * POST /dashboard/progress  body: { module: 'vocab' | 'grammar' | 'reading'
+ *                                    | 'game', payload: { ...any } }
  * Result is written into `student_progress` (unique per student+module).
  * Everything degrades gracefully: if Supabase is not configured or the
  * session is missing we still return a well-formed JSON response — the
@@ -28,7 +28,12 @@ export const POST: APIRoute = async ({ request, cookies }) => {
   const module = String(body.module ?? '');
   const payload = body.payload && typeof body.payload === 'object' ? body.payload : {};
 
-  if (module !== 'vocab' && module !== 'grammar' && module !== 'reading') {
+  if (
+    module !== 'vocab' &&
+    module !== 'grammar' &&
+    module !== 'reading' &&
+    module !== 'game'
+  ) {
     return respond(400, { ok: false, error: 'invalid_module' });
   }
 

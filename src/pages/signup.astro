@@ -1,26 +1,26 @@
 ---
 import Layout from '../layouts/Layout.astro';
-import { actions } from 'astro:actions';
+import { actions, isInputError } from 'astro:actions';
 
 let error: string | undefined;
 let success: string | undefined;
 
-if (Astro.request.method === 'POST') {
-  const form = await Astro.request.formData();
-  const { data, error: err } = await Astro.callAction(actions.signup, {
-    email: String(form.get('email') ?? ''),
-    password: String(form.get('password') ?? ''),
-    fullName: String(form.get('fullName') ?? ''),
-  });
+// Native form submission (accept:'form') — Astro runs the action in the
+// middleware and exposes the result here via getActionResult.
+const result = Astro.getActionResult(actions.signup);
 
-  if (err) {
-    error = err.message ?? 'Kayıt sırasında bir hata oluştu.';
-  } else if (data?.hasSession) {
-    // Email confirmation disabled in Supabase → already signed in.
-    return Astro.redirect('/dashboard');
+if (result?.error) {
+  if (isInputError(result.error)) {
+    error = Object.values(result.error.fields).flat().join(' ');
   } else {
-    success = 'Hesabın oluşturuldu! E-postana gönderilen doğrulama bağlantısını kullan ve giriş yap.';
+    error = result.error.message ?? 'Kayıt sırasında bir hata oluştu.';
   }
+} else if (result?.data?.hasSession) {
+  // Email confirmation disabled in Supabase → already signed in.
+  return Astro.redirect('/dashboard');
+} else if (result?.data) {
+  success =
+    'Hesabın oluşturuldu! E-postana gönderilen doğrulama bağlantısını kullan ve giriş yap.';
 }
 ---
 
@@ -37,7 +37,7 @@ if (Astro.request.method === 'POST') {
     {error && <div class="alert error" role="alert">{error}</div>}
     {success && <div class="alert success" role="status">{success}</div>}
 
-    <form method="POST">
+    <form method="POST" action={actions.signup}>
       <div class="field">
         <label for="fullName">Ad Soyad <span style="color: var(--ink-soft);">(isteğe bağlı)</span></label>
         <input type="text" id="fullName" name="fullName" maxlength="120" autocomplete="name" />

@@ -1,0 +1,313 @@
+---
+import Layout from '../../../layouts/Layout.astro';
+import { getSessionUser } from '../../../lib/auth';
+import { pageCookieSource } from '../../../lib/supabase';
+import { VOCAB_SETS } from '../../../lib/study';
+
+// Protected route.
+const user = await getSessionUser(pageCookieSource(Astro));
+if (!user) return Astro.redirect('/signin');
+
+const setMeta = VOCAB_SETS.map((s) => ({ key: s.key, label: s.label }));
+const setMetaJson = JSON.stringify(setMeta).replace(/</g, '\\u003c');
+---
+<Layout title="Kelime Yarışması — Languago" description="Zamana karşı çoktan seçmeli İngilizce kelime testi.">
+  <main class="study">
+    <a class="back" href="/dashboard/oyunlar">← Oyunlar</a>
+    <h1>Kelime Yarışması 🗂️</h1>
+    <p class="muted">Zamana karşı çoktan seçmeli test: doğru şıkkı işaretle, yüksek skoru yakala.</p>
+    <div class="barline"></div>
+
+    <noscript><div class="alert error">Oyunu oynamak için JavaScript gerekli.</div></noscript>
+
+    <div id="app">
+      <section id="start" class="game-screen">
+        <h2 class="section-h">Set Seç</h2>
+        <div class="chips" id="setChips"><span class="loading">Yükleniyor…</span></div>
+
+        <h2 class="section-h" style="margin-top:20px;">Yön</h2>
+        <div class="chips" id="dirChips">
+          <button type="button" class="chip on" data-dir="both">Karışık</button>
+          <button type="button" class="chip" data-dir="en2tr">Kelime → Anlam</button>
+          <button type="button" class="chip" data-dir="tr2en">Anlam → Kelime</button>
+        </div>
+
+        <h2 class="section-h" style="margin-top:20px;">Süre</h2>
+        <div class="chips" id="timeChips">
+          <button type="button" class="chip" data-sec="45">45 sn</button>
+          <button type="button" class="chip on" data-sec="60">60 sn</button>
+          <button type="button" class="chip" data-sec="90">90 sn</button>
+        </div>
+
+        <div class="btn-row" style="margin-top:28px;">
+          <button type="button" class="btn primary" id="startBtn" disabled>Başla</button>
+        </div>
+      </section>
+
+      <section id="play" class="game-screen" hidden>
+        <div class="stage-meta">
+          <span class="qcount" id="qcount"></span>
+          <span class="timer" id="timer" style="cursor:pointer;" title="Süreyi başlatmak için tıkla">⏱ Timer</span>
+          <span class="qscore"><span id="score">0</span> doğru</span>
+        </div>
+        <div class="quiz-card">
+          <div class="clue-label" id="clueLabel"></div>
+          <div class="clue-big" id="clue"></div>
+          <div class="opt-list" id="opts"></div>
+        </div>
+        <div class="btn-row" id="nextRow" hidden>
+          <button type="button" class="btn primary" id="nextBtn">Sonraki ›</button>
+        </div>
+      </section>
+
+      <section id="end" class="game-screen" hidden>
+        <div id="endBox"></div>
+        <div class="btn-row">
+          <button type="button" class="btn primary" id="againBtn">Tekrar Oyna</button>
+          <a class="btn ghost" href="/dashboard/oyunlar">Diğer Oyunlar</a>
+        </div>
+      </section>
+    </div>
+
+    <script is:inline id="quiz-set-meta" type="application/json" set:html={setMetaJson}></script>
+
+    <script>
+      (function () {
+        var getJson = function (id) {
+          var el = document.getElementById(id);
+          if (!el || !el.textContent) return null;
+          try { return JSON.parse(el.textContent); } catch (e) { return null; }
+        };
+
+        var setMeta = getJson('quiz-set-meta') || [];
+        var words = null; // lazily loaded
+        var $ = function (id) { return document.getElementById(id); };
+        var esc = function (s) {
+          var d = document.createElement('div');
+          d.textContent = s == null ? '' : String(s);
+          return d.innerHTML;
+        };
+        var shuffle = function (a) {
+          a = a.slice();
+          for (var i = a.length - 1; i > 0; i--) {
+            var j = Math.floor(Math.random() * (i + 1));
+            var t = a[i]; a[i] = a[j]; a[j] = t;
+          }
+          return a;
+        };
+        var pickTr = function (t) {
+          if (!t) return '';
+          return String(t).split(',')[0].trim();
+        };
+
+        var QUESTION_COUNT = 10;
+        var state = { set: 'a1', dir: 'both', sec: 60 };
+        var game = null; // { pool, index, score, secondsLeft, timerId }
+
+        function renderSetChips() {
+          var html = '<button type="button" class="chip' + (state.set === 'all' ? ' on' : '') + '" data-set="all"' +
+            (words ? '' : ' disabled') + '>Tümü</button>';
+          setMeta.forEach(function (s) {
+            var cnt = words ? (words.sets[s.key] || []).length : null;
+            html += '<button type="button" class="chip' + (state.set === s.key ? ' on' : '') + '" data-set="' + s.key + '"' +
+              (words ? '' : ' disabled') + '>' + esc(s.label) +
+              (cnt != null ? ' · ' + cnt : '') + '</button>';
+          });
+          $('setChips').innerHTML = html;
+        }
+
+        function onChipClick(wrapId, attr, key) {
+          return function (e) {
+            var b = e.target.closest('.chip');
+            if (!b || b.hasAttribute('disabled')) return;
+            var v = b.getAttribute(attr);
+            if (v === null) return;
+            state[key] = v === 'all' ? 'all' : (/^\d+$/.test(v) ? parseInt(v, 10) : v);
+            Array.prototype.forEach.call($(wrapId).querySelectorAll('.chip'), function (c) {
+              c.classList.toggle('on', c === b);
+            });
+            renderSetChips();
+          };
+        }
+
+        function pickSet(e) { onChipClick('setChips', 'data-set', 'set')(e); }
+        function pickDir(e) { onChipClick('dirChips', 'data-dir', 'dir')(e); }
+        function pickTime(e) { onChipClick('timeChips', 'data-sec', 'sec')(e); }
+
+        function loadNext() {
+          if (game.index >= game.pool.length) { finish(); return; }
+          var key = game.pool[game.index];
+          var w = words.words[key];
+          if (!w) { game.index++; loadNext(); return; }
+          var wtr = pickTr(w.t);
+          var dir = state.dir === 'both' ? (Math.random() < 0.5 ? 'en2tr' : 'tr2en') : state.dir;
+          var clue, answer;
+          if (dir === 'en2tr') { clue = w.w; answer = wtr || w.t; }
+          else { clue = wtr || w.t; answer = w.w; }
+
+          // options
+          var opts = [{ text: answer, correct: true }];
+          var pool = state.set === 'all'
+            ? Object.keys(words.words)
+            : (words.sets[state.set] || []);
+          var tries = 0;
+          while (opts.length < 4 && tries < 400) {
+            tries++;
+            var k = pool[Math.floor(Math.random() * pool.length)];
+            if (!k || k === key) continue;
+            var d = words.words[k];
+            if (!d) continue;
+            var txt = dir === 'en2tr' ? pickTr(d.t) : d.w;
+            if (!txt || txt === answer) continue;
+            if (opts.some(function (o) { return o.text === txt; })) continue;
+            opts.push({ text: txt, correct: false });
+          }
+          opts = shuffle(opts);
+
+          game.current = { dir: dir, clue: clue, answer: answer, opts: opts, label: dir === 'en2tr' ? 'Bu kelimenin Türkçesi' : 'Bu kelimenin İngilizcesi' };
+          $('qcount').textContent = (game.index + 1) + ' / ' + QUESTION_COUNT;
+          $('score').textContent = String(game.score);
+          $('clueLabel').textContent = game.current.label;
+          $('clue').textContent = game.current.clue;
+          var oh = '';
+          opts.forEach(function (o) {
+            oh += '<button type="button" class="option" data-opt="' + esc(o.text) + '">' + esc(o.text) + '</button>';
+          });
+          $('opts').innerHTML = oh;
+          $('nextRow').hidden = true;
+        }
+
+        function onOptionClick(e) {
+          if (game.current.done) return;
+          var btn = e.target.closest ? e.target.closest('.option') : null;
+          if (!btn || btn.hasAttribute('disabled')) return;
+          game.current.done = true;
+          var chosen = btn.getAttribute('data-opt');
+          var isCorrect = chosen === game.current.answer;
+          Array.prototype.forEach.call($('opts').querySelectorAll('.option'), function (b) {
+            b.setAttribute('disabled', '');
+            if (b.getAttribute('data-opt') === game.current.answer) b.classList.add('correct');
+            else if (b === btn) b.classList.add('wrong');
+          });
+          if (isCorrect) game.score++;
+          $('score').textContent = String(game.score);
+          var r = document.createElement('div');
+          r.className = 'reveal';
+          r.textContent = isCorrect ? 'Doğru! ✓' : 'Cevap: ' + game.current.answer;
+          $('opts').appendChild(r);
+          $('nextRow').hidden = false;
+        }
+
+        function tick() {
+          if (!game) return;
+          game.secondsLeft--;
+          var t = $('timer');
+          if (!game.secondsLeft) { finish(); return; }
+          if (t) {
+            t.textContent = '⏱ ' + game.secondsLeft + ' sn';
+            t.classList.toggle('low', game.secondsLeft <= 10);
+          }
+        }
+
+        function startTimer() {
+          game.secondsLeft = state.sec;
+          game.timerId = setInterval(tick, 1000);
+          var t = $('timer');
+          if (t) { t.textContent = '⏱ ' + game.secondsLeft + ' sn'; t.classList.remove('low'); }
+          // tap timer to pause/resume (restarts interval)
+          if (t && !t._bound) {
+            t._bound = true;
+            t.addEventListener('click', function () {
+              if (game.timerId) { clearInterval(game.timerId); game.timerId = null; if (t) t.textContent = '⏸ Durduruldu'; }
+              else { game.timerId = setInterval(tick, 1000); }
+            });
+          }
+        }
+
+        function finish() {
+          clearInterval(game.timerId || 0);
+          var pct = Math.round((game.score / QUESTION_COUNT) * 100);
+          var msg = pct >= 80 ? 'Harika! 🎯' : pct >= 50 ? 'Güzel! 👍' : 'Tekrar dene 💪';
+          saveProgress(pct);
+          $('endBox').innerHTML =
+            '<h2>' + msg + '</h2>' +
+            '<p class="big-score">%' + pct + '</p>' +
+            '<p class="muted">' + game.score + ' / ' + QUESTION_COUNT + ' doğru · ⏱ süre geçti</p>';
+          $('end').hidden = false;
+          $('play').hidden = true;
+        }
+
+        function saveProgress(pct) {
+          try {
+            fetch('/dashboard/progress', {
+              method: 'POST',
+              headers: { 'content-type': 'application/json' },
+              body: JSON.stringify({
+                module: 'game',
+                payload: {
+                  game: 'quiz',
+                  set: state.set,
+                  dir: state.dir,
+                  lastScore: game.score,
+                  total: QUESTION_COUNT,
+                  lastPct: pct,
+                },
+              }),
+            }).catch(function () {});
+          } catch (err) {}
+        }
+
+        function startGame() {
+          if (!words) return;
+          var pool = state.set === 'all'
+            ? shuffle(Object.keys(words.words)).slice(0, QUESTION_COUNT)
+            : shuffle((words.sets[state.set] || [])).slice(0, QUESTION_COUNT);
+          if (pool.length < 2) { alert('Bu sette yeterli kelime yok.'); return; }
+          game = { pool: pool, index: 0, score: 0, current: null, timerId: null };
+          $('start').hidden = true;
+          $('end').hidden = true;
+          $('play').hidden = false;
+          loadNext();
+          startTimer();
+        }
+
+        // boot
+        renderSetChips();
+        import('../../../data/words.js').then(function (mod) {
+          words = mod.WORD_DATA || mod.default || mod;
+          if (!words || !words.sets) { renderSetChips(); return; }
+          renderSetChips();
+          $('startBtn').removeAttribute('disabled');
+        }).catch(function () {
+          var wrap = $('setChips');
+          if (wrap) wrap.innerHTML = '<span class="alert error">Kelime verisi yüklenemedi.</span>';
+        });
+
+        $('setChips').addEventListener('click', pickSet);
+        $('dirChips').addEventListener('click', pickDir);
+        $('timeChips').addEventListener('click', pickTime);
+        $('startBtn').addEventListener('click', startGame);
+        $('opts').addEventListener('click', onOptionClick);
+        $('nextBtn').addEventListener('click', function () { game.index++; loadNext(); });
+        $('againBtn').addEventListener('click', function () {
+          $('end').hidden = true;
+          $('start').hidden = false;
+          $('play').hidden = true;
+        });
+      })();
+    </script>
+  </main>
+</Layout>
+
+<style>
+  .game-screen { min-height: 180px; }
+  .section-h { font-size: 1.05rem; margin: 8px 0 8px; }
+  .stage-meta { display: flex; justify-content: space-between; font-weight: 700; margin-bottom: 16px; color: var(--ink-soft); }
+  .stage-meta .timer.low { color: var(--danger); }
+  .quiz-card { border: 1px solid var(--line); border-radius: var(--radius); background: var(--bg-soft); padding: 24px; }
+  .clue-label { color: var(--ink-soft); font-size: 0.9rem; margin-bottom: 6px; }
+  .clue-big { font-size: clamp(1.4rem, 5vw, 2rem); font-weight: 800; margin-bottom: 18px; }
+  .opt-list { display: flex; flex-direction: column; gap: 8px; }
+  .big-score { font-size: 3rem; font-weight: 800; color: var(--brand-dark); margin: 8px 0; }
+  .loading { color: var(--ink-soft); }
+</style>

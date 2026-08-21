@@ -1,0 +1,62 @@
+---
+import Layout from '../../../layouts/Layout.astro';
+import { getSessionUser } from '../../../lib/auth';
+import { pageCookieSource } from '../../../lib/supabase';
+
+// Protected route.
+const user = await getSessionUser(pageCookieSource(Astro));
+if (!user) return Astro.redirect('/signin');
+
+const games = [
+  {
+    href: '/dashboard/oyunlar/yazim',
+    emoji: '🔤',
+    title: 'Yazım',
+    desc: 'Eksik harfleri tamamla: İngilizce ya da Türkçe kelimeleri ipucundan çıkar.',
+    tag: 'Kelime + Harf',
+  },
+  {
+    href: '/dashboard/oyunlar/quiz',
+    emoji: '🗂️',
+    title: 'Kelime Yarışması',
+    desc: 'Zamana karşı çoktan seçmeli test: kelime ↔ anlam eşleştir, doğru şıkkı bul.',
+    tag: 'Zamanlı + Seçmeli',
+  },
+];
+---
+<Layout
+  title="Oyunlar — Languago"
+  description="Sınıf içi eğlenceli kelime oyunlarıyla pratik yap: Yazım ve Kelime Yarışması."
+>
+  <main class="study">
+    <a class="back" href="/dashboard">← Öğrenci Paneli</a>
+    <h1>Oyunlar 🎮</h1>
+    <p class="muted">
+      Oynayarak öğren. Her oyun, seçtiğin kelime setinden sorular üretir; sonunda
+      skorun kaydedilir.
+    </p>
+    <div class="barline"></div>
+
+    <div class="dash-nav">
+      {
+        games.map((g) => (
+          <a class="card tile card-link" href={g.href} style="border-top:4px solid var(--brand);">
+            <div>
+              <div style="font-size:1.8rem;">{g.emoji}</div>
+              <div class="tt" style="margin-top:6px;">{g.title}</div>
+              <div style="margin:4px 0;"><span class="badge" style="background:var(--brand-dark);">{g.tag}</span></div>
+              <div class="bb">{g.desc}</div>
+            </div>
+          </a>
+        ))
+      }
+    </div>
+
+    <div class="panel" style="margin-top:24px;background:var(--bg-soft);border:1px solid var(--line);border-radius:var(--radius);padding:20px;">
+      <p style="margin:0;font-size:0.95rem;">
+        💡 <strong>İpucu:</strong> Oyunlara başlamadan önce
+        <a href="/dashboard/kelimeler"> Kelime Kartları</a> ile o seti hızlıca tekrar edebilirsin.
+      </p>
+    </div>
+  </main>
+</Layout>

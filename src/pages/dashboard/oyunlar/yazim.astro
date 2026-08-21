@@ -1,0 +1,360 @@
+---
+import Layout from '../../../layouts/Layout.astro';
+import { getSessionUser } from '../../../lib/auth';
+import { pageCookieSource } from '../../../lib/supabase';
+import { VOCAB_SETS } from '../../../lib/study';
+
+// Protected route.
+const user = await getSessionUser(pageCookieSource(Astro));
+if (!user) return Astro.redirect('/signin');
+
+// Server-injected set metadata (labels only — the heavy word module is
+// dynamic-imported on the client so the game page stays light).
+const setMeta = VOCAB_SETS.map((s) => ({ key: s.key, label: s.label }));
+const setMetaJson = JSON.stringify(setMeta).replace(/</g, '\\u003c');
+---
+<Layout title="Yazım Oyunu — Languago" description="Eksik harfleri tamamlayarak İngilizce kelime pratiği yap.">
+  <main class="study">
+    <a class="back" href="/dashboard/oyunlar">← Oyunlar</a>
+    <h1>Yazım Oyunu 🔤</h1>
+    <p class="muted">Bir kelime seti seç, ipucundan kelimeyi bul ve eksik harfleri tamamla.</p>
+    <div class="barline"></div>
+
+    <noscript><div class="alert error">Oyunu oynamak için JavaScript gerekli.</div></noscript>
+
+    <div id="app">
+      <!-- Start screen -->
+      <section id="start" class="game-screen">
+        <h2 class="section-h">Set Seç</h2>
+        <div class="chips" id="setChips"><span class="loading">Yükleniyor…</span></div>
+
+        <h2 class="section-h" style="margin-top:20px;">Yön</h2>
+        <div class="chips" id="dirChips">
+          <button type="button" class="chip on" data-dir="both">Karışık</button>
+          <button type="button" class="chip" data-dir="en2tr">İngilizce → Türkçe</button>
+          <button type="button" class="chip" data-dir="tr2en">Türkçe → İngilizce</button>
+        </div>
+
+        <div class="btn-row" style="margin-top:28px;">
+          <button type="button" class="btn primary" id="startBtn" disabled>Başla</button>
+        </div>
+      </section>
+
+      <!-- Play screen -->
+      <section id="play" class="game-screen" hidden>
+        <div class="stage-meta">
+          <span class="qcount" id="qcount"></span>
+          <span class="qscore"><span id="score">0</span> doğru</span>
+        </div>
+        <div class="game-clue" id="clue"></div>
+        <div class="game-target" id="target"></div>
+        <div class="tiles game-tiles" id="tiles"></div>
+        <div class="btn-row" id="nextRow" hidden>
+          <button type="button" class="btn primary" id="nextBtn">Sonraki ›</button>
+        </div>
+      </section>
+
+      <!-- End screen -->
+      <section id="end" class="game-screen" hidden>
+        <div id="endBox"></div>
+        <div class="btn-row">
+          <button type="button" class="btn primary" id="againBtn">Tekrar Oyna</button>
+          <a class="btn ghost" href="/dashboard/oyunlar">Diğer Oyunlar</a>
+        </div>
+      </section>
+    </div>
+
+    <script is:inline id="set-meta" type="application/json" set:html={setMetaJson}></script>
+
+    <script>
+      (function () {
+        var getJson = function (id) {
+          var el = document.getElementById(id);
+          if (!el || !el.textContent) return null;
+          try { return JSON.parse(el.textContent); } catch (e) { return null; }
+        };
+
+        var setMeta = getJson('set-meta') || [];
+        var words = null; // lazily loaded: { words, sets }
+        var countEl = {};
+        setMeta.forEach(function (s) { countEl[s.key] = 0; });
+
+        // --- helpers ---
+        var $ = function (id) { return document.getElementById(id); };
+        var esc = function (s) {
+          var d = document.createElement('div');
+          d.textContent = s == null ? '' : String(s);
+          return d.innerHTML;
+        };
+        var shuffle = function (a) {
+          a = a.slice();
+          for (var i = a.length - 1; i > 0; i--) {
+            var j = Math.floor(Math.random() * (i + 1));
+            var t = a[i]; a[i] = a[j]; a[j] = t;
+          }
+          return a;
+        };
+        var pickTr = function (t) {
+          if (!t) return '';
+          var parts = String(t).split(',');
+          return (parts[0] || '').trim();
+        };
+
+        // --- state ---
+        var state = { set: 'a1', dir: 'both' };
+        var game = null; // { pool, index, score, current }
+
+        // --- set chips ---
+        function renderSetChips() {
+          var wrap = $('setChips');
+          var html = '<button type="button" class="chip' + (state.set === 'all' ? ' on' : '') + '" data-set="all"' +
+            (words ? '' : ' disabled') + '>Tümü <span class="cnt"></span></button>';
+          setMeta.forEach(function (s) {
+            var cnt = words ? (words.sets[s.key] || []).length : null;
+            html += '<button type="button" class="chip' + (state.set === s.key ? ' on' : '') + '" data-set="' + s.key + '"' +
+              (words ? '' : ' disabled') + '>' + esc(s.label) +
+              (cnt != null ? ' · ' + cnt : '') + '</button>';
+          });
+          wrap.innerHTML = html;
+        }
+
+        function pickSet(e) {
+          var b = e.target.closest('.chip');
+          if (!b || b.getAttribute('data-set') === null) return;
+          if (b.hasAttribute('disabled')) return;
+          state.set = b.getAttribute('data-set');
+          renderSetChips();
+        }
+
+        function pickDir(e) {
+          var b = e.target.closest('.chip');
+          if (!b || b.getAttribute('data-dir') === null) return;
+          state.dir = b.getAttribute('data-dir');
+          Array.prototype.forEach.call($('dirChips').querySelectorAll('.chip'), function (c) {
+            c.classList.toggle('on', c === b);
+          });
+        }
+
+        // --- puzzle generation (ported from the app's spelling game) ---
+        function makePuzzle(target) {
+          var chars = target.split('');
+          var idx = [];
+          for (var i = 0; i < chars.length; i++) {
+            if (chars[i] !== ' ') idx.push(i);
+          }
+          if (idx.length < 2) return null;
+          var nHide = Math.max(1, Math.min(idx.length - 1, Math.round(idx.length * 0.4)));
+          var hidden = shuffle(idx).slice(0, nHide).sort(function (a, b) { return a - b; });
+          var letters = hidden.map(function (x) { return chars[x]; });
+          var used = {};
+          for (var h = 0; h < hidden.length; h++) used[makeKey(chars[hidden[h]])] = 1;
+          var alphabet = 'abcdefghijklmnopqrstuvwxyz';
+          var dist = shuffle(alphabet.split('').filter(function (c) { return !used[makeKey(c)]; })).slice(0, 2);
+          var tiles = shuffle(letters.concat(dist)).map(function (l) { return { letter: l, used: false }; });
+          return { chars: chars, hidden: hidden, tiles: tiles };
+        }
+        function makeKey(c) { return c.toLowerCase(); }
+
+        function loadNext() {
+          if (game.index >= game.pool.length) { finish(); return; }
+          var key = game.pool[game.index];
+          var w = words.words[key];
+          if (!w) { game.index++; loadNext(); return; }
+          var wtr = pickTr(w.t);
+          var dir = state.dir === 'both' ? (Math.random() < 0.5 ? 'en2tr' : 'tr2en') : state.dir;
+          var clue, target, label;
+          if (dir === 'en2tr') {
+            label = 'Bu kelimenin Türkçesi';
+            clue = w.w;
+            target = wtr || w.t;
+          } else {
+            label = 'Bu kelimenin İngilizcesi';
+            clue = wtr || w.t;
+            target = w.w;
+          }
+          target = String(target)
+            .replace(/[^\p{L}\s]/gu, '')
+            .replace(/\s+/g, ' ')
+            .trim();
+          var puzzle = makePuzzle(target);
+          if (!puzzle || puzzle.hidden.length === 0) { game.index++; loadNext(); return; }
+          game.current = { dir: dir, clue: clue, target: target, puzzle: puzzle, filled: [], blankIdx: 0 };
+          renderPlay();
+        }
+
+        function renderPlay() {
+          $('qcount').textContent = (game.index + 1) + ' / ' + game.pool.length;
+          $('score').textContent = String(game.score);
+          $('clue').innerHTML =
+            '<div class="clue-label">' + esc(game.current.dir === 'en2tr' ? 'Bu kelimenin Türkçesi' : 'Bu kelimenin İngilizcesi') + '</div>' +
+            '<div class="clue-big">' + esc(game.current.clue) + '</div>';
+          $('tiles').innerHTML = '';
+          renderTarget();
+          renderTiles();
+          $('nextRow').hidden = true;
+        }
+
+        function renderTarget() {
+          var p = game.current.puzzle;
+          var html = '';
+          for (var i = 0; i < p.chars.length; i++) {
+            var c = p.chars[i];
+            var hidx = p.hidden.indexOf(i);
+            if (c === ' ') { html += '<span class="gt-space">&nbsp;</span>'; continue; }
+            if (hidx >= 0) {
+              var f = game.current.filled[hidx];
+              html += '<span class="blank' + (f ? ' filled' : '') + '">' + (f != null ? esc(f) : '_') + '</span>';
+            } else {
+              html += '<span class="gt-letter">' + esc(c) + '</span>';
+            }
+          }
+          $('target').innerHTML = html;
+        }
+
+        function renderTiles() {
+          var p = game.current.puzzle;
+          var html = '';
+          for (var i = 0; i < p.tiles.length; i++) {
+            var t = p.tiles[i];
+            html += '<button type="button" class="gtile' + (t.used ? ' used' : '') + '" data-ti="' + i + '">' + esc(t.letter) + '</button>';
+          }
+          $('tiles').innerHTML = html;
+        }
+
+        function onTileClick(e) {
+          if (game.current.done) return;
+          var btn = e.target.closest ? e.target.closest('.gtile') : null;
+          if (!btn || btn.classList.contains('used')) return;
+          var i = parseInt(btn.getAttribute('data-ti'), 10);
+          var cur = game.current;
+          var t = cur.puzzle.tiles[i];
+          var blankPos = cur.puzzle.hidden[cur.blankIdx];
+          if (makeKey(t.letter) === makeKey(cur.puzzle.chars[blankPos])) {
+            t.used = true;
+            cur.filled[blankPos] = t.letter;
+            cur.blankIdx++;
+            if (cur.blankIdx >= cur.puzzle.hidden.length) {
+              cur.done = true;
+              game.score++;
+              renderTarget();
+              $('tiles').innerHTML = '<span class="correct-flash">✓ Doğru!</span>';
+              $('nextRow').hidden = false;
+            } else {
+              renderTarget();
+              renderTiles();
+            }
+          } else {
+            btn.classList.add('wrong');
+            setTimeout(function () { btn.classList.remove('wrong'); }, 320);
+          }
+        }
+
+        function finish() {
+          var total = game.pool.length;
+          var pct = Math.round((game.score / total) * 100);
+          var msg = pct >= 80 ? 'Harika! 🎯' : pct >= 50 ? 'Güzel! 👍' : 'Tekrar dene 💪';
+          saveProgress(pct);
+          $('endBox').innerHTML =
+            '<h2>' + msg + '</h2>' +
+            '<p class="big-score">%' + pct + '</p>' +
+            '<p class="muted">' + game.score + ' / ' + total + ' doğru</p>';
+          $('end').hidden = false;
+          $('play').hidden = true;
+        }
+
+        // --- progress save (best-effort) ---
+        function saveProgress(pct) {
+          try {
+            fetch('/dashboard/progress', {
+              method: 'POST',
+              headers: { 'content-type': 'application/json' },
+              body: JSON.stringify({
+                module: 'game',
+                payload: {
+                  game: 'yazim',
+                  set: state.set,
+                  dir: state.dir,
+                  lastScore: game.score,
+                  total: game.pool.length,
+                  lastPct: pct,
+                },
+              }),
+            }).catch(function () {});
+          } catch (err) {}
+        }
+
+        function startGame() {
+          if (!words) return;
+          var pool = state.set === 'all'
+            ? shuffle(Object.keys(words.words)).slice(0, 12)
+            : shuffle((words.sets[state.set] || [])).slice(0, 12);
+          if (pool.length < 2) { alert('Bu sette yeterli kelime yok.'); return; }
+          game = { pool: pool, index: 0, score: 0, current: null };
+          $('start').hidden = true;
+          $('end').hidden = true;
+          $('play').hidden = false;
+          loadNext();
+        }
+
+        // --- boot ---
+        renderSetChips();
+
+        // Lazy-load vocab only when the student actually plays.
+        import('../../../data/words.js').then(function (mod) {
+          words = mod.WORD_DATA || mod.default || mod;
+          if (!words || !words.sets) { renderSetChips(); return; }
+          renderSetChips();
+          if (!$('startBtn').hasAttribute('disabled')) return;
+          $('startBtn').removeAttribute('disabled');
+          $('setChips').querySelector('.loading') && renderSetChips();
+        }).catch(function () {
+          var wrap = $('setChips');
+          if (wrap) wrap.innerHTML = '<span class="alert error">Kelime verisi yüklenemedi.</span>';
+        });
+
+        $('setChips').addEventListener('click', pickSet);
+        $('dirChips').addEventListener('click', pickDir);
+        $('startBtn').addEventListener('click', startGame);
+        $('tiles').addEventListener('click', onTileClick);
+        $('nextBtn').addEventListener('click', function () { game.index++; loadNext(); });
+        $('againBtn').addEventListener('click', function () {
+          $('end').hidden = true;
+          $('start').hidden = false;
+          $('play').hidden = true;
+        });
+      })();
+    </script>
+  </main>
+</Layout>
+
+<style>
+  .game-screen { min-height: 180px; }
+  .section-h { font-size: 1.05rem; margin: 8px 0 8px; }
+  .stage-meta { display: flex; justify-content: space-between; font-weight: 700; margin-bottom: 16px; color: var(--ink-soft); }
+  .game-clue { margin: 8px 0 20px; text-align: center; }
+  .clue-label { color: var(--ink-soft); font-size: 0.9rem; margin-bottom: 6px; }
+  .clue-big { font-size: clamp(1.4rem, 5vw, 2rem); font-weight: 800; }
+  .game-target { display: flex; flex-wrap: wrap; justify-content: center; gap: 6px; margin: 4px 0 24px; min-height: 44px; }
+  .game-target .blank,
+  .game-target .gt-letter,
+  .game-target .gt-space {
+    display: inline-flex; align-items: center; justify-content: center;
+    min-width: 34px; height: 42px; border-radius: 8px; font-weight: 700; font-size: 1.15rem;
+  }
+  .game-target .blank { border: 2px dashed var(--line); background: var(--bg-soft); color: var(--ink-soft); }
+  .game-target .blank.filled { border: 2px solid var(--success); background: #d3f9d8; color: var(--success); }
+  .game-target .gt-letter { color: var(--ink); }
+  .game-target .gt-space { min-width: 12px; }
+  .game-tiles { display: flex; flex-wrap: wrap; justify-content: center; gap: 8px; margin-top: 8px; }
+  .gtile {
+    width: 46px; height: 46px; border-radius: 10px; border: 1px solid var(--line);
+    background: var(--bg); box-shadow: var(--shadow); font-size: 1.2rem; font-weight: 700;
+    cursor: pointer; color: var(--ink); font-family: inherit;
+  }
+  .gtile:hover:not(.used):not(:disabled) { transform: translateY(-2px); }
+  .gtile.used { opacity: 0; pointer-events: none; }
+  .gtile.wrong { background: #ffe3e3; border-color: #ffa8a8; }
+  .correct-flash { color: var(--success); font-weight: 800; font-size: 1.2rem; padding: 10px; }
+  .big-score { font-size: 3rem; font-weight: 800; color: var(--brand-dark); margin: 8px 0; }
+  .loading { color: var(--ink-soft); }
+</style>
