@@ -1,0 +1,467 @@
+---
+// ============================================================================
+// Languago — ÖĞRENİM YOLU (Unified Learning Path / Unit Dashboard)
+// ----------------------------------------------------------------------------
+// Protected route listing every `learning_units` row (a1..c2 + exam levels)
+// as a card. Each card shows the 3-stage loop  📖 Kelime → 📚 Okuma → ✏️
+// Dilbilgisi  with the student's own per-stage progress and SOFT gating:
+// Reading (and Grammar) are UI-locked until the unit's Vocab sets hit ~80%,
+// derived server-side from the student's REAL vocab activity in
+// `student_progress` (module='vocab', payload { set, viewedWords,
+// viewedCount, ... }). The computed unlock flags + vocab_pct are upserted
+// into `student_unit_progress` (RLS owner-only) so the dashboard reads one
+// place. No hard DB block — gating is app-layer soft gating only.
+//
+// Everything is guarded so it never crashes the build/prerender: if Supabase
+// is missing/empty/unreachable we render the known 11-unit list with 0
+// progress and skip the upsert.
+// ============================================================================
+import AppLayout from '../../layouts/AppLayout.astro';
+import { getSessionUser } from '../../lib/auth';
+import { createSupabaseClient, pageCookieSource } from '../../lib/supabase';
+import { VOCAB_SETS } from '../../lib/study';
+import '../../styles/yol.css'; // scoped Tailwind v4 (theme + utilities only — no preflight)
+
+const supabase = createSupabaseClient(pageCookieSource(Astro));
+
+// Protected route.
+const user = await getSessionUser(pageCookieSource(Astro));
+if (!user) return Astro.redirect('/signin');
+
+// --- Vocabulary set sizes (real curriculum) — lazy-loaded like kelimeler.astro
+// so heavy data never enters other routes' bundles. Used to convert a level's
+// viewedCount into a 0..100 vocab_pct.
+let setSizes: Record<string, number> = {};
+try {
+  const { WORD_DATA } = await import('../../data/words.js');
+  const sets = (WORD_DATA.sets as Record<string, string[]>) ?? {};
+  for (const k of Object.keys(sets)) setSizes[k] = (sets[k] ?? []).length;
+} catch {
+  setSizes = {};
+}
+
+// Turkish display label for a level, for the no-DB fallback list.
+const FALLBACK_TITLES: Record<string, string> = {
+  a1: 'A1 · Başlangıç', a2: 'A2 · Temel', b1: 'B1 · Orta', b2: 'B2 · Orta-Üstü',
+  c1: 'C1 · İleri', c2: 'C2 · Usta',
+  ielts: 'IELTS', toefl: 'TOEFL', yokdil: 'YÖKDİL', yds: 'YDS', gre: 'GRE',
+};
+
+// --- 1. The curriculum: learning_units (ordered). Fall back to the known
+// 11-level registry when Supabase/migration isn't reachable (build-safe).
+type UnitRow = {
+  id: string;
+  level: string;
+  title: string;
+  vocab_key: string;
+  reading_key: string;
+  grammar_key: string;
+  sort_order: number;
+};
+let units: UnitRow[] = [];
+try {
+  if (supabase) {
+    const { data } = await supabase
+      .from('learning_units')
+      .select('id, level, title, vocab_key, reading_key, grammar_key, sort_order')
+      .order('sort_order', { ascending: true });
+    units = ((data ?? []) as UnitRow[]).filter((u) => u && u.level);
+  }
+} catch {
+  units = [];
+}
+if (units.length === 0) {
+  units = VOCAB_SETS.map((s, i) => ({
+    id: `lu_${s.key}`,
+    level: s.key,
+    title: FALLBACK_TITLES[s.key] ?? s.label,
+    vocab_key: s.key,
+    reading_key: s.key,
+    grammar_key: s.key,
+    sort_order: i,
+  }));
+}
+const totalUnits = units.length;
+
+// --- 2. The student's real vocab / reading / grammar activity. Each row in
+// `student_progress` is (student_id, module, payload). The vocab payload
+// carries `set` + `viewedCount` (unique words touched in that set). Reading /
+// grammar payloads may carry an explicit level/set field; we match that to be
+// generous but never falsely unlock (best-effort, guarded).
+const GREEDY_NUM = (v: unknown): number => {
+  if (typeof v === 'number') return Number.isFinite(v) ? v : 0;
+  if (typeof v === 'string') {
+    const n = Number(v);
+    return Number.isFinite(n) ? n : 0;
+  }
+  return 0;
+};
+const vocabCountBySet: Record<string, number> = {};
+const readingDoneLevels = new Set<string>();
+const grammarDoneLevels = new Set<string>();
+try {
+  if (supabase) {
+    const { data } = await supabase
+      .from('student_progress')
+      .select('module, payload, updated_at')
+      .eq('student_id', user.id);
+    for (const r of (data ?? []) as { module?: string; payload?: Record<string, unknown> }[]) {
+      const mod = r.module;
+      const p = r.payload;
+      if (!p || typeof p !== 'object') continue;
+      if (mod === 'vocab') {
+        const setKey = String(p['set'] ?? p['lastSet'] ?? '').trim().toLowerCase();
+        // viewedCount is the primary count; fall back to the viewedWords array
+        // length when it's absent (generous/defensive).
+        let count = GREEDY_NUM(p['viewedCount']);
+        if (count <= 0 && Array.isArray(p['viewedWords'])) count = p['viewedWords'].length;
+        // Generous/defensive: keep the max seen per set so a later smaller
+        // save never lowers a student's reached vocabulary for that level.
+        if (setKey) vocabCountBySet[setKey] = Math.max(vocabCountBySet[setKey] ?? 0, count);
+      } else if (mod === 'reading') {
+        const key = String(p['set'] ?? p['level'] ?? '').trim().toLowerCase();
+        if (key) readingDoneLevels.add(key);
+      } else if (mod === 'grammar') {
+        const key = String(p['set'] ?? p['level'] ?? '').trim().toLowerCase();
+        if (key) grammarDoneLevels.add(key);
+      }
+    }
+  }
+} catch {
+  /* guarded — fall through with empty activity */
+}
+
+// --- 3. Existing per-unit progress rows so we only upsert when the newly
+// computed values differ (RLS owner-only reads own rows).
+type StoredUnit = {
+  vocab_pct: number;
+  vocab_done: boolean;
+  reading_done: boolean;
+  grammar_done: boolean;
+  unlock_reading: boolean;
+  unlock_grammar: boolean;
+};
+const storedByUnit: Record<string, StoredUnit> = {};
+try {
+  if (supabase) {
+    const { data } = await supabase
+      .from('student_unit_progress')
+      .select('unit_id, vocab_pct, vocab_done, reading_done, grammar_done, unlock_reading, unlock_grammar')
+      .eq('student_id', user.id);
+    for (const r of (data ?? []) as (StoredUnit & { unit_id: string })[]) {
+      if (r.unit_id) storedByUnit[r.unit_id] = {
+        vocab_pct: GREEDY_NUM(r.vocab_pct),
+        vocab_done: !!r.vocab_done,
+        reading_done: !!r.reading_done,
+        grammar_done: !!r.grammar_done,
+        unlock_reading: !!r.unlock_reading,
+        unlock_grammar: !!r.unlock_grammar,
+      };
+    }
+  }
+} catch {
+  /* guarded */
+}
+
+// --- 4. Gating computation (soft, app-layer). For a unit at level L:
+//   vocabPct     = viewedCount(L's vocab set) / setSize(L) * 100, defensive
+//                  (unknown set size -> treat activity as 0 so it stays
+//                  locked until real activity exists; never errors).
+//   unlockReading = vocabPct >= 80                 (Reading soft-lock)
+//   readingDone   = student has a reading row at this level (best-effort)
+//   grammarDone   = student has a grammar row at this level (best-effort)
+//   unlockGrammar = readingDone || vocabPct >= 80  (Grammar follows Reading,
+//                  also unlocking at the same 80% vocab threshold).
+const UNLOCK_PCT = 80;
+type ComputedUnit = UnitRow & {
+  vocabPct: number;         // 0..100
+  vocabNeeded: number;      // words still needed to hit UNLOCK_PCT (for copy)
+  vocabDone: boolean;
+  readingDone: boolean;
+  grammarDone: boolean;
+  unlockReading: boolean;
+  unlockGrammar: boolean;
+  hadStored: boolean;
+  changed: boolean;
+};
+const computed: ComputedUnit[] = units.map((u) => {
+  const setSize = setSizes[u.level] ?? 0;
+  const viewed = vocabCountBySet[u.vocab_key] ?? 0;
+  const vocabPct = setSize > 0 ? Math.max(0, Math.min(100, Math.round((viewed / setSize) * 100))) : 0;
+  const unlockReading = vocabPct >= UNLOCK_PCT;
+  const readingDone = readingDoneLevels.has(u.reading_key) || readingDoneLevels.has(u.level);
+  const grammarDone = grammarDoneLevels.has(u.grammar_key) || grammarDoneLevels.has(u.level);
+  const unlockGrammar = readingDone || unlockReading;
+  const vocabDone = vocabPct >= 100;
+  const wordsTo80 = Math.max(0, Math.ceil((UNLOCK_PCT / 100) * setSize) - viewed);
+  const prev = storedByUnit[u.id] ?? { vocab_done: false, reading_done: false, grammar_done: false, unlock_reading: false, unlock_grammar: false, vocab_pct: 0 };
+  const hadStored = !!storedByUnit[u.id];
+  const changed =
+    !hadStored ||
+    prev.vocab_pct !== vocabPct ||
+    prev.vocab_done !== vocabDone ||
+    prev.reading_done !== readingDone ||
+    prev.grammar_done !== grammarDone ||
+    prev.unlock_reading !== unlockReading ||
+    prev.unlock_grammar !== unlockGrammar;
+  return {
+    ...u,
+    vocabPct,
+    vocabNeeded: wordsTo80,
+    vocabDone,
+    readingDone,
+    grammarDone,
+    unlockReading,
+    unlockGrammar,
+    hadStored,
+    changed,
+  };
+});
+
+// --- 5. Persist computed soft-gating state into student_unit_progress (only
+// the rows that differ). One batched upsert, ON CONFLICT (student_id, unit_id)
+// — this is the owner's own row, so RLS permits it. Fully guarded.
+try {
+  if (supabase) {
+    const changedRows = computed
+      .filter((c) => c.changed)
+      .map((c) => ({
+        student_id: user.id,
+        unit_id: c.id,
+        vocab_pct: c.vocabPct,
+        vocab_done: c.vocabDone,
+        reading_done: c.readingDone,
+        grammar_done: c.grammarDone,
+        unlock_reading: c.unlockReading,
+        unlock_grammar: c.unlockGrammar,
+      }));
+    if (changedRows.length > 0) {
+      await supabase
+        .from('student_unit_progress')
+        .upsert(changedRows, { onConflict: 'student_id,unit_id' });
+    }
+  }
+} catch {
+  /* guard — a failed (or absent) upsert never blocks rendering */
+}
+
+// --- 6. Global journey: share of units whose Vocab has reached the unlock
+// threshold (i.e. the readable/current part of the path), plus a plain
+// average of per-unit vocab progress for a friendlier "overall" number.
+const unlockedUnits = computed.filter((c) => c.unlockReading).length;
+const globalPct = totalUnits > 0 ? Math.round((unlockedUnits / totalUnits) * 100) : 0;
+const avgVocab =
+  totalUnits > 0
+    ? Math.round(computed.reduce((s, c) => s + c.vocabPct, 0) / totalUnits)
+    : 0;
+
+// Human "%" copy for the global bar.
+const lowerNext = computed.find((c) => !c.unlockReading);
+---
+
+<AppLayout
+  title="Öğrenim Yolu — Languago"
+  description="Seviye seviye ilerleyen öğrenim yolu: her ünitede Kelime → Okuma → Dilbilgisi döngüsünü tamamla."
+>
+  <main class="study yp-wide">
+    <nav class="crumb">
+      <a class="back" href="/dashboard">← Öğrenci Paneli</a>
+      <span class="sep">›</span>
+      <span class="cur">Öğrenim Yolu</span>
+    </nav>
+
+    <!-- ============ PAGE HEAD ============ -->
+    <header class="flex flex-wrap items-end justify-between gap-3">
+      <div>
+        <h1 class="m-0 text-ink">Öğrenim Yolu <span class="align-middle">🗺️</span></h1>
+        <p class="muted mt-2 mb-0">
+          Seviye seviye ilerle: her ünitede <strong>Kelime → Okuma → Dilbilgisi</strong>
+          döngüsünü tamamla. Okuma ve Dilbilgisi, ünitenin kelimelerinde %80'e
+          ulaşınca açılır.
+        </p>
+      </div>
+      <a
+        href="/dashboard/kelimeler"
+        class="flex items-center gap-1 rounded-full bg-brand px-4 py-2 text-sm font-bold text-white shadow-sm transition hover:-translate-y-px hover:shadow"
+      >
+        Kelimelerden Başla →
+      </a>
+    </header>
+    <div class="barline"></div>
+
+    <!-- ============ GLOBAL PATH PROGRESS BAR (teal→orange journey) ============ -->
+    <section class="mb-8 rounded-2xl border border-line bg-white p-5 shadow-sm" aria-label="Genel ilerleme">
+      <div class="flex flex-wrap items-center justify-between gap-2">
+        <h2 class="m-0 flex items-center gap-2 text-sm font-extrabold uppercase tracking-wide text-ink">
+          <span class="flex h-7 w-7 items-center justify-center rounded-full bg-primary-soft text-primary">🏁</span>
+          Genel İlerleme
+        </h2>
+        <span class="text-sm font-bold tabular-nums text-ink-soft">
+          <span class="text-primary-deep">{unlockedUnits}</span> / {totalUnits} ünite açık
+          <span class="ml-1 text-brand">· {globalPct}%</span>
+        </span>
+      </div>
+      <div class="yp-global-track mt-3">
+        <div class="yp-global-fill" style={`width:${globalPct}%`}></div>
+      </div>
+      <p class="muted mb-0 mt-2 text-sm">
+        {globalPct >= 100
+          ? '🎉 Yolculuğun tamamı açık — tüm seviyelerde kelime, okuma ve dilbilgisini özgürce çalışabilirsin!'
+          : lowerNext
+            ? `Sıradaki durağın: ${lowerNext.title} — orada Kelime modülünü aç, %80'e ulaşınca Okuma ve Dilbilgisi açılır. Sadece ${lowerNext.vocabNeeded} kelimeye daha ihtiyacın var (şu an %${lowerNext.vocabPct}).`
+            : 'Yolculuğuna bugün başla — her ünite seni ileri taşır.'}
+      </p>
+    </section>
+
+    <!-- ============ UNIT CARDS ============ -->
+    {
+      computed.length === 0 ? (
+        <div class="rounded-2xl border border-dashed border-primary/40 bg-primary-soft/40 p-10 text-center">
+          <div class="text-3xl">🧭</div>
+          <h2 class="mt-2 mb-1 text-ink">Henüz bir ünite yok</h2>
+          <p class="muted mb-4">Öğrenim yolun hazırlanıyor. Bu arada kelime çalışmaya başlayabilirsin.</p>
+          <a class="btn primary" href="/dashboard/kelimeler">Kelime Çalışmaya Başla</a>
+        </div>
+      ) : (
+        <div class="grid grid-cols-1 gap-5 md:grid-cols-2 xl:grid-cols-3">
+          {
+            computed.map((u) => (
+              <article
+                key={u.level}
+                class="flex flex-col rounded-2xl border border-line bg-white p-5 shadow-sm transition hover:-translate-y-px hover:shadow-md"
+              >
+                <!-- Card header: unit number + title -->
+                <header class="mb-3 flex items-start justify-between gap-2">
+                  <div class="flex items-center gap-2">
+                    <span class="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-brand/15 text-base font-extrabold text-brand-deep">
+                      {String(u.sort_order + 1)}
+                    </span>
+                    <h3 class="m-0 text-lg font-extrabold leading-tight text-ink">{u.title}</h3>
+                  </div>
+                  {
+                    u.unlockReading ? (
+                      <span class="shrink-0 rounded-full bg-brand/15 px-2.5 py-1 text-[0.7rem] font-bold uppercase tracking-wide text-brand-deep">
+                        Açık 🔓
+                      </span>
+                    ) : (
+                      <span class="shrink-0 rounded-full bg-gray-200 px-2.5 py-1 text-[0.7rem] font-bold uppercase tracking-wide text-gray-500">
+                        Kilidi Bekliyor 🔒
+                      </span>
+                    )
+                  }
+                </header>
+
+                <!-- Vocab progress bar (teal): how close to unlocking -->
+                <div class="mb-1 flex items-center justify-between text-xs font-bold text-ink-soft">
+                  <span>Kelime ilerlemesi</span>
+                  <span class="tabular-nums {u.unlockReading ? 'text-emerald-600' : 'text-primary-deep'}">{u.vocabPct}%</span>
+                </div>
+                <div class="yp-track mb-4">
+                  <div class={`yp-fill ${u.vocabDone ? 'yp-fill--done' : ''}`} style={`width:${u.vocabPct}%`}></div>
+                </div>
+
+                <!-- 3-stage loop: 📖 Kelime → 📚 Okuma → ✏️ Dilbilgisi -->
+                <div class="yp-loop mb-4">
+                  <!-- Stage 1 · Vocab (always open) -->
+                  <a href="/dashboard/kelimeler" class="yp-step group">
+                    <span class="flex items-center gap-2 rounded-xl border border-primary/30 bg-primary/5 px-3 py-2.5 transition group-hover:border-primary">
+                      <span class="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-primary text-sm text-white">📖</span>
+                      <span class="min-w-0">
+                        <span class="block text-[0.7rem] font-bold uppercase tracking-wide text-primary-deep">1 · Kelime</span>
+                        <span class="block truncate text-xs font-semibold text-ink group-hover:text-primary-deep">
+                          {u.vocabDone ? 'Tamamlandı ✓' : u.unlockReading ? 'Açık · Çalış' : 'Başla'}
+                        </span>
+                      </span>
+                    </span>
+                  </a>
+
+                  <span class="yp-arrow" aria-hidden="true">→</span>
+
+                  <!-- Stage 2 · Reading (soft-gated on vocabPct >= 80) -->
+                  {
+                    u.unlockReading ? (
+                      <a href={`/dashboard/okuma/${u.reading_key}`} class="yp-step group">
+                        <span class="flex items-center gap-2 rounded-xl border border-line bg-white px-3 py-2.5 transition group-hover:border-primary">
+                          <span class="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-brand/15 text-sm text-brand-deep">📚</span>
+                          <span class="min-w-0">
+                            <span class="block text-[0.7rem] font-bold uppercase tracking-wide text-brand-deep">2 · Okuma</span>
+                            <span class="block truncate text-xs font-semibold text-ink group-hover:text-primary-deep">
+                              {u.readingDone ? 'Tamamlandı ✓' : 'Açık · Okumaya geç'}
+                            </span>
+                          </span>
+                        </span>
+                      </a>
+                    ) : (
+                      <div class="yp-step" title={u.vocabPct >= 80 ? '' : `Okuma için kelimelerde %80 gerekiyor (şu an %${u.vocabPct})`}>
+                        <span class="flex cursor-not-allowed items-center gap-2 rounded-xl border border-dashed border-gray-300 bg-gray-50 px-3 py-2.5 opacity-70">
+                          <span class="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-gray-200 text-sm">🔒</span>
+                          <span class="min-w-0">
+                            <span class="block text-[0.7rem] font-bold uppercase tracking-wide text-gray-500">2 · Okuma</span>
+                            <span class="block truncate text-xs font-semibold text-gray-500">
+                              {u.vocabPct >= 80 ? 'Kelime tamamla' : `%80 kelime gerek · %${u.vocabPct}`}
+                            </span>
+                          </span>
+                        </span>
+                      </div>
+                    )
+                  }
+
+                  <span class="yp-arrow" aria-hidden="true">→</span>
+
+                  <!-- Stage 3 · Grammar (soft-gated, follows Reading) -->
+                  {
+                    u.unlockGrammar ? (
+                      <a href={`/dashboard/dilbilgisi/${u.grammar_key}`} class="yp-step group">
+                        <span class="flex items-center gap-2 rounded-xl border border-line bg-white px-3 py-2.5 transition group-hover:border-primary">
+                          <span class="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-primary/10 text-sm text-primary-deep">✏️</span>
+                          <span class="min-w-0">
+                            <span class="block text-[0.7rem] font-bold uppercase tracking-wide text-primary-deep">3 · Dilbilgisi</span>
+                            <span class="block truncate text-xs font-semibold text-ink group-hover:text-primary-deep">
+                              {u.grammarDone ? 'Tamamlandı ✓' : 'Açık · Çalış'}
+                            </span>
+                          </span>
+                        </span>
+                      </a>
+                    ) : (
+                      <div class="yp-step" title={`Dilbilgisi için kelimelerde %80 gerekiyor (şu an %${u.vocabPct})`}>
+                        <span class="flex cursor-not-allowed items-center gap-2 rounded-xl border border-dashed border-gray-300 bg-gray-50 px-3 py-2.5 opacity-70">
+                          <span class="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-gray-200 text-sm">🔒</span>
+                          <span class="min-w-0">
+                            <span class="block text-[0.7rem] font-bold uppercase tracking-wide text-gray-500">3 · Dilbilgisi</span>
+                            <span class="block truncate text-xs font-semibold text-gray-500">
+                              {u.vocabPct >= 80 ? 'Okumayı bitir' : `%80 kelime gerek · %${u.vocabPct}`}
+                            </span>
+                          </span>
+                        </span>
+                      </div>
+                    )
+                  }
+                </div>
+
+                <!-- Footer hint: locked stage guidance -->
+                <footer class="mt-auto border-t border-line pt-3">
+                  {
+                    u.unlockReading ? (
+                      <p class="mb-0 text-xs text-emerald-700">
+                        ✓ Okuma ve Dilbilgisi açık — döngüyü tamamlaman için hazır!
+                      </p>
+                    ) : (
+                      <p class="mb-0 text-xs text-ink-soft">
+                        🔒 Okuma &amp; Dilbilgisi için kelimelerde <strong>%80</strong>'e ulaş.
+                        {u.vocabNeeded > 0
+                          ? ` Bu ünitede ${u.vocabNeeded.toLocaleString('tr-TR')} kelimeye daha ihtiyacın var (şu an %${u.vocabPct}).`
+                          : ''}
+                      </p>
+                    )
+                  }
+                </footer>
+              </article>
+            ))
+          }
+        </div>
+      )
+    }
+
+    <p class="dash-footer mt-8">Languago · Öğrenim Yolu 🇹🇷</p>
+  </main>
+</AppLayout>
