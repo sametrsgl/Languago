@@ -33,8 +33,17 @@ const ogImage = image || `${siteUrl}/og-cover.png`;
     <meta name="description" content={description} />
     <meta name="robots" content="index, follow" />
     <link rel="canonical" href={pageUrl} />
-    <meta name="theme-color" content="#f59e0b" />
+    <meta name="theme-color" content="#0d9488" />
     <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🐟</text></svg>" />
+
+    <!-- PWA -->
+    <link rel="manifest" href="/manifest.webmanifest" />
+    <meta name="theme-color" content="#0d9488" />
+    <meta name="mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+    <meta name="apple-mobile-web-app-title" content="Languago" />
+    <link rel="apple-touch-icon" href="/icons/icon-192.png" />
 
     <!-- Open Graph -->
     <meta property="og:type" content="website" />
@@ -133,5 +142,18 @@ const ogImage = image || `${siteUrl}/og-cover.png`;
         <span>© {new Date().getFullYear()} Languago — Samet Tıraşoğlu. Tüm hakları saklıdır.</span>
       </div>
     </footer>
+  <script is:inline>
+      // Register the PWA service worker safely — only on the public landing,
+      // only when supported, and never in a way that could break auth/SSR.
+      if ('serviceWorker' in navigator && window.location.href.indexOf('/app') === -1) {
+        window.addEventListener('load', function () {
+          try {
+            navigator.serviceWorker.register('/sw.js').catch(function () {});
+          } catch (e) {
+            /* ignore */
+          }
+        });
+      }
+    </script>
   </body>
 </html>

@@ -106,7 +106,13 @@ create policy "lesson_student_read"  on public.lessons for select using (
   )
 );
 
--- =====================================================================
+-- ============================================================================
+-- Q8: TEACHER-CREATED CONTENT (custom lessons & quizzes) — see
+-- supabase/migrations/20260822_q8_teacher_content.sql for the full DDL + RLS.
+-- Tables: teacher_lessons, teacher_quizzes, teacher_quiz_questions.
+-- ============================================================================
+
+-- ============================================================================
 -- Helpers / updated_at
 -- =====================================================================
 create or replace function public.set_updated_at()

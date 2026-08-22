@@ -65,6 +65,14 @@ const initial = displayName ? displayName.trim().charAt(0).toUpperCase() : 'H';
     <meta name="theme-color" content="#0d9488" />
     <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🐟</text></svg>" />
 
+    <!-- PWA (manifest metadatas only; SW is registered on the public landing) -->
+    <link rel="manifest" href="/manifest.webmanifest" />
+    <meta name="mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+    <meta name="apple-mobile-web-app-title" content="Languago" />
+    <link rel="apple-touch-icon" href="/icons/icon-192.png" />
+
     <!-- Open Graph -->
     <meta property="og:type" content="website" />
     <meta property="og:site_name" content="Languago" />
