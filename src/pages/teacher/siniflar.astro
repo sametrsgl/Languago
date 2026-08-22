@@ -78,71 +78,89 @@ if (auth.ok) {
           <div class="barline"></div>
         </div>
 
-        <div id="create-class" class="panel" style="background:var(--bg-soft);">
-          <h2 style="font-size:1.15rem;">Yeni Sınıf Oluştur</h2>
-          <form id="class-form" class="class-form">
-            <input
-              id="class-name"
-              type="text"
-              name="class_name"
-              placeholder="Örn. 8. Sınıf — Sabah Grubu"
-              maxlength="120"
-              required
-            />
-            <button class="btn primary" type="submit">Sınıfı Oluştur</button>
-          </form>
-          <p id="class-msg" class="class-msg" role="status"></p>
-        </div>
+        <section class="dash-section" aria-labelledby="yeni-sinif-heading">
+          <header class="section-head">
+            <h2 id="yeni-sinif-heading">
+              Yeni Sınıf Oluştur <span class="section-head__icon">➕</span>
+            </h2>
+            <p class="muted">
+              Bir sınıf adı yaz; katılım kodu kendiliğinden oluşur ve öğrencilerinle paylaşırsın.
+            </p>
+          </header>
+          <div id="create-class" class="panel" style="background:var(--bg-soft);">
+            <form id="class-form" class="class-form">
+              <input
+                id="class-name"
+                type="text"
+                name="class_name"
+                placeholder="Örn. 8. Sınıf — Sabah Grubu"
+                maxlength="120"
+                required
+              />
+              <button class="btn primary" type="submit">Sınıfı Oluştur</button>
+            </form>
+            <p id="class-msg" class="class-msg" role="status"></p>
+          </div>
+        </section>
 
-        <h2 style="margin-top:32px;">Sınıfların</h2>
-        {
-          classes.length ? (
-            classes.map((c) => {
-              const list = membersByClass.get(c.id) ?? [];
-              const count = list.length;
-              return (
-                <div class="panel class-card">
-                  <div class="class-card__head">
-                    <strong>{c.class_name}</strong>
-                    <span class="badge" style="background:var(--teal-dark);">
-                      {count} öğrenci
-                    </span>
+        <section class="dash-section" aria-labelledby="siniflarim-heading">
+          <header class="section-head">
+            <h2 id="siniflarim-heading">
+              Sınıflarım <span class="section-head__icon">🏫</span>
+            </h2>
+            <p class="muted">
+              Oluşturduğun sınıflar, üye sayıları ve her sınıfın katılım kodu.
+            </p>
+          </header>
+          {
+            classes.length ? (
+              classes.map((c) => {
+                const list = membersByClass.get(c.id) ?? [];
+                const count = list.length;
+                return (
+                  <div class="panel class-card">
+                    <div class="class-card__head">
+                      <strong>{c.class_name}</strong>
+                      <span class="badge" style="background:var(--teal-dark);">
+                        {count} öğrenci
+                      </span>
+                    </div>
+                    <div class="class-card__code">
+                      Katılım kodu:
+                      <code class="jcode">{c.join_code}</code>
+                    </div>
+                    <div class="class-card__members">
+                      {count ? (
+                        list.map((m) => {
+                          const info = nameMap.get(m.student_id);
+                          return (
+                            <span key={m.student_id} class="mem">
+                              {info?.name ?? '—'}
+                            </span>
+                          );
+                        })
+                      ) : (
+                        <span class="muted">Henüz katılımcı yok.</span>
+                      )}
+                    </div>
                   </div>
-                  <div class="class-card__code">
-                    Katılım kodu:
-                    <code class="jcode">{c.join_code}</code>
-                  </div>
-                  <div class="class-card__members">
-                    {count ? (
-                      list.map((m) => {
-                        const info = nameMap.get(m.student_id);
-                        return (
-                          <span key={m.student_id} class="mem">
-                            {info?.name ?? '—'}
-                          </span>
-                        );
-                      })
-                    ) : (
-                      <span class="muted">Henüz katılımcı yok.</span>
-                    )}
-                  </div>
+                );
+              })
+            ) : (
+              <div class="empty-state">
+                <div class="es-ico">🏫</div>
+                <h3>Henüz sınıfın yok</h3>
+                <p>
+                  İlk sınıfını oluştur, katılım kodunu öğrencilerinle paylaş ve onlar bu kodla
+                  sınıfına katılsın.
+                </p>
+                <div class="btn-row">
+                  <a class="btn" href="#create-class">Sınıf Oluştur</a>
                 </div>
-              );
-            })
-          ) : (
-            <div class="empty-state">
-              <div class="es-ico">🏫</div>
-              <h3>Henüz sınıfın yok</h3>
-              <p>
-                İlk sınıfını oluştur, katılım kodunu öğrencilerinle paylaş ve onlar bu kodla
-                sınıfına katılsın.
-              </p>
-              <div class="btn-row">
-                <a class="btn" href="#create-class">Sınıf Oluştur</a>
               </div>
-            </div>
-          )
-        }
+            )
+          }
+        </section>
       </main>
     ) : (
       <main class="study">

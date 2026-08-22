@@ -84,120 +84,155 @@ if (auth.ok) {
           <div class="barline"></div>
         </div>
 
-        <div class="tstat">
-          <div class="tstat__card">
-            <div class="tstat__icon">🧑‍🎓</div>
-            <div class="tstat__num">{stats.students}</div>
-            <div class="tstat__label">Kayıtlı Öğrenci</div>
+        <section class="dash-section" aria-labelledby="ozet-heading">
+          <header class="section-head">
+            <h2 id="ozet-heading">Özet <span class="section-head__icon">📊</span></h2>
+            <p class="muted">
+              Kayıtlı öğrenci ve sınıf sayıların — bir bakışta genel resim.
+            </p>
+          </header>
+          <div class="tstat">
+            <div class="tstat__card">
+              <div class="tstat__icon">🧑‍🎓</div>
+              <div class="tstat__num">{stats.students}</div>
+              <div class="tstat__label">Kayıtlı Öğrenci</div>
+            </div>
+            <div class="tstat__card">
+              <div class="tstat__icon">🏫</div>
+              <div class="tstat__num">{stats.classes}</div>
+              <div class="tstat__label">Sınıf</div>
+            </div>
+            <div class="tstat__card">
+              <div class="tstat__icon">🎉</div>
+              <div class="tstat__num">{stats.monthNew}</div>
+              <div class="tstat__label">Son 30 Gün Yeni</div>
+            </div>
           </div>
-          <div class="tstat__card">
-            <div class="tstat__icon">🏫</div>
-            <div class="tstat__num">{stats.classes}</div>
-            <div class="tstat__label">Sınıf</div>
-          </div>
-          <div class="tstat__card">
-            <div class="tstat__icon">🎉</div>
-            <div class="tstat__num">{stats.monthNew}</div>
-            <div class="tstat__label">Son 30 Gün Yeni</div>
-          </div>
-        </div>
+        </section>
 
-        <h2 style="margin-top:32px;">Modül Bazında Aktif Öğrenci</h2>
-        <div class="dash-nav">
-          {
-            MODULES.map((m) => (
-              <div class="card tile" style="flex:1 1 200px;">
-                <div>
-                  <div style="font-size:1.6rem;">{m.emoji}</div>
-                  <div class="tt">
-                    {m.label} · {moduleActive[m.key] ?? 0}
+        <section class="dash-section" aria-labelledby="modul-heading">
+          <header class="section-head">
+            <h2 id="modul-heading">
+              Modül Bazında Aktif Öğrenci <span class="section-head__icon">🧩</span>
+            </h2>
+            <p class="muted">
+              Her modülde en az bir çalışma kaydı olan öğrenci sayısı.
+            </p>
+          </header>
+          <div class="dash-nav">
+            {
+              MODULES.map((m) => (
+                <div class="card tile" style="flex:1 1 200px;">
+                  <div>
+                    <div style="font-size:1.6rem;">{m.emoji}</div>
+                    <div class="tt">
+                      {m.label} · {moduleActive[m.key] ?? 0}
+                    </div>
+                    <div class="bb">bu modülde çalışma kaydı olan öğrenci</div>
                   </div>
-                  <div class="bb">bu modülde çalışma kaydı olan öğrenci</div>
+                </div>
+              ))
+            }
+          </div>
+        </section>
+
+        <section class="dash-section" aria-labelledby="kayit-heading">
+          <header class="section-head">
+            <h2 id="kayit-heading">
+              Son Kayıt Olanlar <span class="section-head__icon">🎉</span>
+            </h2>
+            <p class="muted">
+              En son gelen 5 öğrencin ve kayıt tarihleri.
+            </p>
+          </header>
+          {
+            recent.length ? (
+              <div class="wrap-table">
+                <table class="tbl">
+                  <thead>
+                    <tr>
+                      <th>Öğrenci</th>
+                      <th>Seviye</th>
+                      <th>Kayıt</th>
+                      <th class="actions">İşlem</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {recent.map((s) => (
+                      <tr>
+                        <td>
+                          <a
+                            class="btn-link"
+                            href={`/teacher/ogrenci/${s.student_id}`}
+                          >
+                            {s.full_name || s.email}
+                          </a>
+                          <span class="email">{s.email}</span>
+                        </td>
+                        <td>{s.level ? s.level.toUpperCase() : 'A1'}</td>
+                        <td>{shortDate(s.created_at)}</td>
+                        <td class="actions">
+                          <a
+                            class="btn teal-ghost sm"
+                            href={`/teacher/ogrenci/${s.student_id}`}
+                          >
+                            Profili Gör
+                          </a>
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+            ) : (
+              <div class="empty-state">
+                <div class="es-ico">🧑‍🎓</div>
+                <h3>Henüz kayıtlı öğrenci yok</h3>
+                <p>
+                  Öğrencilerin hesap açtıkça burada görünür. Onları davet etmek için{' '}
+                  <a href="/teacher/siniflar">katılım kodunu sınıflarından</a> paylaşabilirsin.
+                </p>
+                <div class="btn-row">
+                  <a class="btn" href="/teacher/ogrenciler">Öğrencilere Git</a>
                 </div>
               </div>
-            ))
+            )
           }
-        </div>
+        </section>
 
-        <h2 style="margin-top:32px;">Son Kayıt Olanlar</h2>
-        {
-          recent.length ? (
-            <div class="wrap-table">
-              <table class="tbl">
-                <thead>
-                  <tr>
-                    <th>Öğrenci</th>
-                    <th>Seviye</th>
-                    <th>Kayıt</th>
-                    <th class="actions">İşlem</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {recent.map((s) => (
-                    <tr>
-                      <td>
-                        <a
-                          class="btn-link"
-                          href={`/teacher/ogrenci/${s.student_id}`}
-                        >
-                          {s.full_name || s.email}
-                        </a>
-                        <span class="email">{s.email}</span>
-                      </td>
-                      <td>{s.level ? s.level.toUpperCase() : 'A1'}</td>
-                      <td>{shortDate(s.created_at)}</td>
-                      <td class="actions">
-                        <a
-                          class="btn teal-ghost sm"
-                          href={`/teacher/ogrenci/${s.student_id}`}
-                        >
-                          Profili Gör
-                        </a>
-                      </td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-            </div>
-          ) : (
-            <div class="empty-state">
-              <div class="es-ico">🧑‍🎓</div>
-              <h3>Henüz kayıtlı öğrenci yok</h3>
-              <p>
-                Öğrencilerin hesap açtıkça burada görünür. Onları davet etmek için{' '}
-                <a href="/teacher/siniflar">katılım kodunu sınıflarından</a> paylaşabilirsin.
-              </p>
-              <div class="btn-row">
-                <a class="btn" href="/teacher/ogrenciler">Öğrencilere Git</a>
+        <section class="dash-section" aria-labelledby="islem-heading">
+          <header class="section-head">
+            <h2 id="islem-heading">
+              Hızlı İşlemler <span class="section-head__icon">⚡</span>
+            </h2>
+            <p class="muted">
+              En sık kullandığın ekranlara tek tıkla geç.
+            </p>
+          </header>
+          <div class="dash-nav">
+            <a class="card tile card-link" href="/teacher/ogrenciler">
+              <div>
+                <div style="font-size:1.6rem;">🧑‍🎓</div>
+                <div class="tt">Öğrenciler</div>
+                <div class="bb">Tüm öğrencileri ve modül ilerlemelerini gör.</div>
               </div>
-            </div>
-          )
-        }
-
-        <h2 style="margin-top:32px;">Hızlı İşlemler</h2>
-        <div class="dash-nav">
-          <a class="card tile card-link" href="/teacher/ogrenciler">
-            <div>
-              <div style="font-size:1.6rem;">🧑‍🎓</div>
-              <div class="tt">Öğrenciler</div>
-              <div class="bb">Tüm öğrencileri ve modül ilerlemelerini gör.</div>
-            </div>
-          </a>
-          <a class="card tile card-link" href="/teacher/siniflar">
-            <div>
-              <div style="font-size:1.6rem;">🏫</div>
-              <div class="tt">Sınıflar</div>
-              <div class="bb">Sınıf oluştur, katılım kodunu paylaş, üyeleri yönet.</div>
-            </div>
-          </a>
-          <a class="card tile card-link" href="/dashboard">
-            <div>
-              <div style="font-size:1.6rem;">🎓</div>
-              <div class="tt">Öğrenci Paneli</div>
-              <div class="bb">Kendi çalışma modüllerine geç.</div>
-            </div>
-          </a>
-        </div>
+            </a>
+            <a class="card tile card-link" href="/teacher/siniflar">
+              <div>
+                <div style="font-size:1.6rem;">🏫</div>
+                <div class="tt">Sınıflar</div>
+                <div class="bb">Sınıf oluştur, katılım kodunu paylaş, üyeleri yönet.</div>
+              </div>
+            </a>
+            <a class="card tile card-link" href="/dashboard">
+              <div>
+                <div style="font-size:1.6rem;">🎓</div>
+                <div class="tt">Öğrenci Paneli</div>
+                <div class="bb">Kendi çalışma modüllerine geç.</div>
+              </div>
+            </a>
+          </div>
+        </section>
       </main>
     ) : (
       <main class="study">

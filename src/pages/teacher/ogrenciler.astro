@@ -62,8 +62,17 @@ if (auth.ok) {
           <div class="barline"></div>
         </div>
 
-        {
-          students.length ? (
+        <section class="dash-section" aria-labelledby="ogrenci-heading">
+          <header class="section-head">
+            <h2 id="ogrenci-heading">
+              Öğrenciler & İlerleme <span class="section-head__icon">📈</span>
+            </h2>
+            <p class="muted">
+              Her öğrencinin seviyesi ve modül bazında son çalışma durumu bu tabloda.
+            </p>
+          </header>
+          {
+            students.length ? (
             <div class="wrap-table">
               <table class="tbl">
                 <thead>
@@ -136,21 +145,22 @@ if (auth.ok) {
                 </tbody>
               </table>
             </div>
-          ) : (
-            <div class="empty-state">
-              <div class="es-ico">🧑‍🎓</div>
-              <h3>Henüz öğrencin yok</h3>
-              <p>
-                Öğrenciler <a href="/signup">kayıt formu</a> ile geldikçe burada listelenir.
-                Onları davet etmek için{' '}
-                <a href="/teacher/siniflar">katılım kodunu sınıflarından</a> paylaş.
-              </p>
-              <div class="btn-row">
-                <a class="btn" href="/teacher/siniflar">Sınıflara Git</a>
+            ) : (
+              <div class="empty-state">
+                <div class="es-ico">🧑‍🎓</div>
+                <h3>Henüz öğrencin yok</h3>
+                <p>
+                  Öğrenciler <a href="/signup">kayıt formu</a> ile geldikçe burada listelenir.
+                  Onları davet etmek için{' '}
+                  <a href="/teacher/siniflar">katılım kodunu sınıflarından</a> paylaş.
+                </p>
+                <div class="btn-row">
+                  <a class="btn" href="/teacher/siniflar">Sınıflara Git</a>
+                </div>
               </div>
-            </div>
-          )
-        }
+            )
+          }
+        </section>
       </main>
     ) : (
       <main class="study">

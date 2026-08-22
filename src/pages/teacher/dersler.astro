@@ -64,79 +64,97 @@ if (auth.ok) {
           <div class="barline"></div>
         </div>
 
-        <div id="create-lesson" class="panel" style="background:var(--bg-soft);">
-          <h2 style="font-size:1.15rem;">Yeni Canlı Ders Oluştur</h2>
-          <form id="lesson-form" class="class-form">
-            <input
-              id="lesson-title"
-              type="text"
-              name="title"
-              placeholder="Örn. 8. Sınıf — Kelime Tekrarı"
-              maxlength="120"
-              required
-            />
-            <label class="field-label" for="lesson-time">Ders zamanı</label>
-            <input id="lesson-time" name="starts_at" type="datetime-local" required />
-            <label class="field-label" for="lesson-class">Sınıf (isteğe bağlı)</label>
-            <select id="lesson-class" name="class_id">
-              <option value="">— Sınıf seçilmedi —</option>
-              {classes.map((c) => (
-                <option value={c.id}>{c.class_name}</option>
-              ))}
-            </select>
-            <button class="btn primary" type="submit">Dersi Oluştur</button>
-          </form>
-          <p id="lesson-msg" class="class-msg" role="status"></p>
-        </div>
+        <section class="dash-section" aria-labelledby="yeni-ders-heading">
+          <header class="section-head">
+            <h2 id="yeni-ders-heading">
+              Yeni Canlı Ders Oluştur <span class="section-head__icon">➕</span>
+            </h2>
+            <p class="muted">
+              Başlık ve zaman seç; güvenli oda anahtarın otomatik oluşur.
+            </p>
+          </header>
+          <div id="create-lesson" class="panel" style="background:var(--bg-soft);">
+            <form id="lesson-form" class="class-form">
+              <input
+                id="lesson-title"
+                type="text"
+                name="title"
+                placeholder="Örn. 8. Sınıf — Kelime Tekrarı"
+                maxlength="120"
+                required
+              />
+              <label class="field-label" for="lesson-time">Ders zamanı</label>
+              <input id="lesson-time" name="starts_at" type="datetime-local" required />
+              <label class="field-label" for="lesson-class">Sınıf (isteğe bağlı)</label>
+              <select id="lesson-class" name="class_id">
+                <option value="">— Sınıf seçilmedi —</option>
+                {classes.map((c) => (
+                  <option value={c.id}>{c.class_name}</option>
+                ))}
+              </select>
+              <button class="btn primary" type="submit">Dersi Oluştur</button>
+            </form>
+            <p id="lesson-msg" class="class-msg" role="status"></p>
+          </div>
+        </section>
 
-        <h2 style="margin-top:32px;">Derslerin</h2>
-        {
-          lessons.length ? (
-            <div class="wrap-table">
-              <table class="tbl">
-                <thead>
-                  <tr>
-                    <th>Ders</th>
-                    <th>Zaman</th>
-                    <th>Sınıf</th>
-                    <th class="actions">Oda</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {lessons.map((l) => (
+        <section class="dash-section" aria-labelledby="derslerim-heading">
+          <header class="section-head">
+            <h2 id="derslerim-heading">
+              Derslerin <span class="section-head__icon">🎥</span>
+            </h2>
+            <p class="muted">
+              Planladığın dersler ve oda bağlantıları burada listelenir.
+            </p>
+          </header>
+          {
+            lessons.length ? (
+              <div class="wrap-table">
+                <table class="tbl">
+                  <thead>
                     <tr>
-                      <td>
-                        <strong>{l.title}</strong>
-                        <div class="muted small">Oluşturulma: {shortDate(l.created_at)}</div>
-                      </td>
-                      <td>{shortDate(l.starts_at)}</td>
-                      <td>
-                        {l.class_id ? classNameById.get(l.class_id) ?? '—' : <span class="muted">Genel</span>}
-                      </td>
-                      <td class="actions">
-                        <a class="btn primary sm" href={`/ders/${l.room_token}`}>
-                          Derse Başla →
-                        </a>
-                      </td>
+                      <th>Ders</th>
+                      <th>Zaman</th>
+                      <th>Sınıf</th>
+                      <th class="actions">Oda</th>
                     </tr>
-                  ))}
-                </tbody>
-              </table>
-            </div>
-          ) : (
-            <div class="empty-state">
-              <div class="es-ico">🎥</div>
-              <h3>Henüz canlı dersin yok</h3>
-              <p>
-                İlk dersini planla, oda anahtarın otomatik oluşsun ve öğrencilerinle link ile
-                canlı görüşmeye geç.
-              </p>
-              <div class="btn-row">
-                <a class="btn" href="#create-lesson">Canlı Ders Oluştur</a>
+                  </thead>
+                  <tbody>
+                    {lessons.map((l) => (
+                      <tr>
+                        <td>
+                          <strong>{l.title}</strong>
+                          <div class="muted small">Oluşturulma: {shortDate(l.created_at)}</div>
+                        </td>
+                        <td>{shortDate(l.starts_at)}</td>
+                        <td>
+                          {l.class_id ? classNameById.get(l.class_id) ?? '—' : <span class="muted">Genel</span>}
+                        </td>
+                        <td class="actions">
+                          <a class="btn primary sm" href={`/ders/${l.room_token}`}>
+                            Derse Başla →
+                          </a>
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
               </div>
-            </div>
-          )
-        }
+            ) : (
+              <div class="empty-state">
+                <div class="es-ico">🎥</div>
+                <h3>Henüz canlı dersin yok</h3>
+                <p>
+                  İlk dersini planla, oda anahtarın otomatik oluşsun ve öğrencilerinle link ile
+                  canlı görüşmeye geç.
+                </p>
+                <div class="btn-row">
+                  <a class="btn" href="#create-lesson">Canlı Ders Oluştur</a>
+                </div>
+              </div>
+            )
+          }
+        </section>
       </main>
     ) : (
       <main class="study">

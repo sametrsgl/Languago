@@ -1683,6 +1683,37 @@ footer.site .brand .footer-mascot {
   padding: 5px 14px;
 }
 
+/* Organized guided sections — a uniform .dash-section/.section-head rhythm
+   shared by every /teacher page, mirroring the student dashboard's clarity.
+   Professional flavour: scannable stat cards, clean tables, obvious buttons.
+   Additive — introduces these two classes only. */
+.study.teacher .dash-section {
+  margin-top: 40px;
+}
+.study.teacher .dash-section:first-of-type {
+  margin-top: 30px;
+}
+.study.teacher .section-head {
+  margin-bottom: 16px;
+}
+.study.teacher .section-head h2 {
+  margin: 0 0 4px;
+  font-size: 1.4rem;
+  color: var(--ink);
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  flex-wrap: wrap;
+}
+.study.teacher .section-head__icon {
+  font-size: 1.15rem;
+  line-height: 1;
+}
+.study.teacher .section-head .muted {
+  margin: 0;
+  max-width: 760px;
+}
+
 @media (max-width: 560px) {
   .study.teacher .tbl .actions {
     text-align: left;

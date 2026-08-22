@@ -67,19 +67,49 @@ if (auth.ok && id) {
           <div class="barline"></div>
         </div>
 
-        {
-          student ? (
-            <div class="panel" style="background:var(--bg-soft);">
-              <h2 style="font-size:1.4rem;">{student.full_name || '—'}</h2>
-              <p class="muted">
-                <strong>{student.email}</strong> · Seviye{' '}
-                <span class="badge" style="background:var(--teal-dark);">
-                  {levelLabel(student.level)}
-                </span>
-                {' '}· Kayıt: {shortDate(student.created_at)}
-              </p>
+        <section class="dash-section" aria-labelledby="ogrenci-bilgi-heading">
+          <header class="section-head">
+            <h2 id="ogrenci-bilgi-heading">
+              Öğrenci Bilgileri <span class="section-head__icon">🧑‍🎓</span>
+            </h2>
+            <p class="muted">Genel bilgiler, seviye ve kayıt tarihi.</p>
+          </header>
+          {
+            student ? (
+              <div class="panel" style="background:var(--bg-soft);">
+                <h2 style="font-size:1.4rem;">{student.full_name || '—'}</h2>
+                <p class="muted">
+                  <strong>{student.email}</strong> · Seviye{' '}
+                  <span class="badge" style="background:var(--teal-dark);">
+                    {levelLabel(student.level)}
+                  </span>
+                  {' '}· Kayıt: {shortDate(student.created_at)}
+                </p>
+              </div>
+            ) : (
+              <div class="empty-state">
+                <div class="es-ico">🤷</div>
+                <h3>Öğrenci Bulunamadı</h3>
+                <p>Bu öğrencinin kaydı bulunamadı ya da erişim yetkin yok.</p>
+                <div class="btn-row">
+                  <a class="btn" href="/teacher/ogrenciler">Öğrencilere Dön</a>
+                </div>
+              </div>
+            )
+          }
+        </section>
 
-              <h3 style="margin-top:24px;">Modül İlerlemeleri</h3>
+        {
+          student && (
+            <section class="dash-section" aria-labelledby="modul-ilerleme-heading">
+              <header class="section-head">
+                <h2 id="modul-ilerleme-heading">
+                  Modül İlerlemeleri <span class="section-head__icon">📈</span>
+                </h2>
+                <p class="muted">
+                  Bu öğrencinin her modüldeki durumu ve son çalışma tarihi.
+                </p>
+              </header>
               <div class="wrap-table">
                 <table class="tbl">
                   <thead>
@@ -122,16 +152,7 @@ if (auth.ok && id) {
                   </tbody>
                 </table>
               </div>
-            </div>
-          ) : (
-            <div class="empty-state">
-              <div class="es-ico">🤷</div>
-              <h3>Öğrenci Bulunamadı</h3>
-              <p>Bu öğrencinin kaydı bulunamadı ya da erişim yetkin yok.</p>
-              <div class="btn-row">
-                <a class="btn" href="/teacher/ogrenciler">Öğrencilere Dön</a>
-              </div>
-            </div>
+            </section>
           )
         }
       </main>
