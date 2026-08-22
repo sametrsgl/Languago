@@ -113,6 +113,13 @@ create policy "lesson_student_read"  on public.lessons for select using (
 -- ============================================================================
 
 -- ============================================================================
+-- Q2+Q4: PARENT ROLE + FAMILY LINKAGE (see
+-- supabase/migrations/20260822_q2q4_parent_role.sql).
+-- - profiles.role now allows ('student','teacher','parent','admin').
+-- - family_links + get_family_children(family dashboard).
+-- ============================================================================
+
+-- ============================================================================
 -- Helpers / updated_at
 -- =====================================================================
 create or replace function public.set_updated_at()
