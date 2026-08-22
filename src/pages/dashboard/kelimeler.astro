@@ -284,6 +284,11 @@ const levelLabel = (lv: string) => sets.find((s) => s.key === lv)?.label ?? lv;
         </div>
 
         <style is:inline>
+          /* Ensure the trainer overlays are truly hidden when the hidden
+             attribute is set — otherwise the Tailwind `flex` utility in their
+             class list overrides hidden and they render as blank full-screen
+             blocks covering the whole page. */
+          [hidden] { display: none !important; }
           .fill-correct { background: #10b981 !important; border-color: #059669 !important; color: #fff !important; }
           .fill-wrong   { background: #f43f5e !important; border-color: #e11d48 !important; color: #fff !important; }
           #repBody .fill-opt:disabled, #fillBody [data-opt]:disabled { opacity: 0.7; cursor: not-allowed; }
