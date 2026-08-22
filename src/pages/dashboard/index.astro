@@ -172,6 +172,38 @@ const studyLinks = [
     cta: 'Oyna →',
   },
 ];
+
+// ---- ÖĞRENİM YOLU — guided 4-step stepper mapped 1:1 to the study links.
+// Module keys match the `module` values written by dashboard/progress.ts
+// (vocab | grammar | reading | game). "Done" = the student has at least one
+// progress row for that module. Pure derivation over the existing `progress`
+// array; no logic previously present was changed.
+type StudyStep = {
+  href: string;
+  emoji: string;
+  title: string;
+  stepTitle: string;
+  desc: string;
+  module: string;
+  done: boolean;
+  ctaLabel: string;
+};
+const stepModules = ['vocab', 'grammar', 'reading', 'game'] as const;
+const stepTitles = ['Kelime Öğren', 'Dilbilgisini Pekiştir', 'Oku & Anla', 'Oyunlarla Tekrar Et'];
+const steps: StudyStep[] = studyLinks.map((l, i) => {
+  const module = stepModules[i];
+  const done = progress.some((r) => r.module === module);
+  return {
+    ...l,
+    stepTitle: stepTitles[i],
+    module,
+    done,
+    ctaLabel: done ? 'Devam Et →' : module === 'game' ? 'Oyna →' : 'Başla →',
+  };
+});
+// First step still awaiting the student → visually highlighted "Sırada bu!".
+const firstPendingIndex = steps.findIndex((s) => !s.done);
+const utilitiesVisible = (studentLessons.length > 0 && !isTeacher) || isTeacher;
 ---
 
 <AppLayout
@@ -179,120 +211,419 @@ const studyLinks = [
   description="Derslerine, ilerlemene ve sınıf içi oyunlarına buradan eriş."
 >
   <main class="study">
-    <h1>Hoş geldin{firstName ? `, ${firstName}` : ''}! 👋</h1>
-    <p class="muted">
-      Bugün öğrenmeye hazır mısın? Kendi kendine çalışma modüllerinin hepsi aşağıda.
-    </p>
+    <!-- ============ WELCOME ============ -->
+    <div class="dash-hero">
+      <div class="dash-hero__text">
+        <h1 class="dash-hero__title">Hoş geldin{firstName ? `, ${firstName}` : ''}! 👋</h1>
+        <p class="muted">
+          Bugün öğrenmeye hazır mısın? Kendi kendine çalışma modüllerinin hepsi aşağıda.
+        </p>
 
-    <!-- Bugünkü heyecan: streak / modül / kelime stat chips (best-effort) -->
-    <div class="excite">
-      {
-        hasProgress ? (
-          <div class="stat-grid">
-            <div class="stat-chip">
-              <span class="stat-ico">🔥</span>
-              <span class="stat-num">{streak}</span>
-              <span class="stat-label">Gün serisi</span>
-            </div>
-            <div class="stat-chip">
-              <span class="stat-ico">📚</span>
-              <span class="stat-num">{moduleCount}</span>
-              <span class="stat-label">Modül</span>
-            </div>
-            <div class="stat-chip">
-              <span class="stat-ico">🎯</span>
-              <span class="stat-num">{wordsCount}</span>
-              <span class="stat-label">Kelime / Puan</span>
-            </div>
-          </div>
-        ) : (
-          <div class="start-path">
-            <div class="start-path__head">Bugün nasıl başlarsın? 🌅</div>
-            <p class="start-path__body">
-              Yeni başlıyorsun — bu harika! 🎉 İlk adım olarak
-              <a href="/dashboard/kelimeler">Kelime modülüyle</a> birkaç kelime öğrenmeyi dene.
-              Serini burada görmeye başlayacaksın 🔥
-            </p>
-          </div>
-        )
-      }
+        <!-- Bugünkü heyecan: streak / modül / kelime stat chips (best-effort) -->
+        <div class="excite">
+          {
+            hasProgress ? (
+              <div class="stat-grid">
+                <div class="stat-chip">
+                  <span class="stat-ico">🔥</span>
+                  <span class="stat-num">{streak}</span>
+                  <span class="stat-label">Gün serisi</span>
+                </div>
+                <div class="stat-chip">
+                  <span class="stat-ico">📚</span>
+                  <span class="stat-num">{moduleCount}</span>
+                  <span class="stat-label">Modül</span>
+                </div>
+                <div class="stat-chip">
+                  <span class="stat-ico">🎯</span>
+                  <span class="stat-num">{wordsCount}</span>
+                  <span class="stat-label">Kelime / Puan</span>
+                </div>
+              </div>
+            ) : (
+              <div class="start-path">
+                <div class="start-path__head">Bugün nasıl başlarsın? 🌅</div>
+                <p class="start-path__body">
+                  Yeni başlıyorsun — bu harika! 🎉 İlk adım olarak
+                  <a href="/dashboard/kelimeler">Kelime modülüyle</a> birkaç kelime öğrenmeyi dene.
+                  Serini burada görmeye başlayacaksın 🔥
+                </p>
+              </div>
+            )
+          }
+        </div>
+      </div>
+      <!-- Tasteful mascot accent (Komodo dragon, transparent PNG) -->
+      <img
+        src="/mascot.png"
+        alt=""
+        class="dash-mascot"
+        width="130"
+        height="130"
+        loading="lazy"
+      />
     </div>
 
     <div class="barline"></div>
 
-    <div class="dash-nav">
+    <!-- ============ ÖĞRENİM YOLU — guided stepper ============ -->
+    <section class="dash-section" aria-labelledby="ogrenim-yolu-heading">
+      <header class="section-head">
+        <h2 id="ogrenim-yolu-heading">Öğrenim Yolu <span class="section-head__icon">📈</span></h2>
+        <p class="muted">
+          Adım adım ilerle: her modülü tamamladıkça ✓ ile işaretlenir. Sıradaki adım turuncuyla
+          vurgulanır.
+        </p>
+      </header>
+
+      <ol class="study-path">
+        {
+          steps.map((s, i) => (
+            <li
+              class:list={[
+                'study-step',
+                s.done && 'study-step--done',
+                i === firstPendingIndex && 'study-step--now',
+                !hasProgress && i === 0 && 'study-step--now',
+              ]}
+            >
+              <a class="study-card" href={s.href}>
+                <span class="study-card__row">
+                  <span class="step-badge" aria-hidden="true">
+                    {s.done ? '✓' : String(i + 1)}
+                  </span>
+                  <span class="step-emoji" aria-hidden="true">{s.emoji}</span>
+                  {
+                    i === firstPendingIndex && firstPendingIndex !== -1 && (
+                      <span class="step-ribbon">Sırada bu! ⭐</span>
+                    )
+                  }
+                </span>
+                <span class="step-title">{s.stepTitle}</span>
+                <span class="step-desc">{s.desc}</span>
+                <span class:list={['start-pill', s.done && 'start-pill--done']}>{s.ctaLabel}</span>
+              </a>
+            </li>
+          ))
+        }
+      </ol>
+    </section>
+
+    <!-- ============ HESABIM & ARAÇLAR — utilities (kept separate from the path) ============ -->
+    <section class="dash-section" aria-labelledby="araclar-heading">
+      <header class="section-head">
+        <h2 id="araclar-heading">Hesabım & Araçlar <span class="section-head__icon">🧰</span></h2>
+        <p class="muted">Sınıf dersleri ve öğretmen araçların burada — öğrenme yolundan ayrı.</p>
+      </header>
+
       {
-        studyLinks.map((l) => (
-          <a class="card tile card-link feat-card" href={l.href}>
-            <span class="feat-emoji">{l.emoji}</span>
-            <span class="tt">{l.title}</span>
-            <span class="bb">{l.desc}</span>
-            <span class="start-pill">{l.cta}</span>
-          </a>
-        ))
+        utilitiesVisible ? (
+          <div class="utilities">
+            {
+              !isTeacher && studentLessons.length > 0 && (
+                <div class="live-lessons">
+                  <h3 class="util-title">Canlı Dersler 🎥</h3>
+                  <p class="muted">
+                    Öğretmeninin senin için planladığı çevrimiçi derslere aşağıdan katıl.
+                  </p>
+                  <div class="wrap-table">
+                    <table class="tbl">
+                      <thead>
+                        <tr>
+                          <th>Ders</th>
+                          <th>Zaman</th>
+                          <th></th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {studentLessons.map((l) => (
+                          <tr>
+                            <td>
+                              <strong>{l.title}</strong>
+                            </td>
+                            <td>{new Date(l.starts_at).toLocaleString('tr-TR', { dateStyle: 'medium', timeStyle: 'short' })}</td>
+                            <td>
+                              <a class="btn primary sm" href={`/ders/${l.room_token}`}>
+                                Derse Katıl →
+                              </a>
+                            </td>
+                          </tr>
+                        ))}
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              )
+            }
+
+            {
+              isTeacher && (
+                <a class="card tile card-link teacher-dash" href="/teacher">
+                  <div>
+                    <div style="font-size:1.8rem;">📋</div>
+                    <div class="tt">Öğretmen Paneli</div>
+                    <div class="bb">
+                      Sınıflarını, öğrencilerini ve ilerlemelerini yönetmek için öğretmen
+                      panelini aç.
+                    </div>
+                  </div>
+                </a>
+              )
+            }
+          </div>
+        ) : (
+          <div class="panel quick-row">
+            <span class="quick-row__label">Hızlı erişim:</span>
+            <a class="btn ghost sm" href="/dashboard/kelimeler">Kelime</a>
+            <a class="btn ghost sm" href="/dashboard/dilbilgisi">Dilbilgisi</a>
+            <a class="btn ghost sm" href="/dashboard/okuma">Okuma</a>
+            <a class="btn ghost sm" href="/dashboard/oyunlar">Oyunlar</a>
+          </div>
+        )
       }
-    </div>
+    </section>
 
-    {
-      !isTeacher && studentLessons.length > 0 && (
-        <div class="live-lessons">
-          <h2 style="margin-top:32px;">Canlı Dersler 🎥</h2>
-          <p class="muted">
-            Öğretmeninin senin için planladığı çevrimiçi derslere aşağıdan katıl.
-          </p>
-          <div class="wrap-table">
-            <table class="tbl">
-              <thead>
-                <tr>
-                  <th>Ders</th>
-                  <th>Zaman</th>
-                  <th></th>
-                </tr>
-              </thead>
-              <tbody>
-                {studentLessons.map((l) => (
-                  <tr>
-                    <td>
-                      <strong>{l.title}</strong>
-                    </td>
-                    <td>{new Date(l.starts_at).toLocaleString('tr-TR', { dateStyle: 'medium', timeStyle: 'short' })}</td>
-                    <td>
-                      <a class="btn primary sm" href={`/ders/${l.room_token}`}>
-                        Derse Katıl →
-                      </a>
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
-        </div>
-      )
-    }
-
-    {
-      isTeacher && (
-        <a class="card tile card-link teacher-dash" href="/teacher">
-          <div>
-            <div style="font-size:1.8rem;">📋</div>
-            <div class="tt">Öğretmen Paneli</div>
-            <div class="bb">
-              Sınıflarını, öğrencilerini ve ilerlemelerini yönetmek için öğretmen
-              panelini aç.
-            </div>
-          </div>
-        </a>
-      )
-    }
-
-    <!-- Sign-out lives in the app header user menu (AppLayout); no duplicate
-         panel needed here. A quiet quick-link row keeps the bottom tidy. -->
-    <div class="panel quick-row">
-      <span class="quick-row__label">Devam etmek için:</span>
-      <a class="btn ghost sm" href="/dashboard/kelimeler">Kelime</a>
-      <a class="btn ghost sm" href="/dashboard/dilbilgisi">Dilbilgisi</a>
-      <a class="btn ghost sm" href="/dashboard/okuma">Okuma</a>
-      <a class="btn ghost sm" href="/dashboard/oyunlar">Oyunlar</a>
-    </div>
+    <p class="dash-footer">Languago · öğrenmeye devam 🇹🇷</p>
   </main>
+
+  <style>
+    /* ===== Redesign of the student dashboard (additive — only new classes) ===== */
+    .dash-hero {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 24px;
+    }
+    .dash-hero__title {
+      margin: 0 0 6px;
+    }
+    .dash-hero__text {
+      flex: 1 1 auto;
+      min-width: 0;
+    }
+    /* Small, contained Komodo-dragon mascot on the right of the welcome header */
+    .dash-mascot {
+      flex: 0 0 130px;
+      width: 130px;
+      height: 130px;
+      object-fit: contain;
+      object-position: center;
+      margin-top: 4px;
+      /* tasteful teal wash so the transparent png sits on theme */
+      filter: drop-shadow(0 10px 18px rgba(13, 148, 136, 0.28));
+    }
+
+    /* Reusable dashboard section + heading */
+    .dash-section {
+      margin-top: 40px;
+    }
+    .section-head {
+      margin-bottom: 18px;
+    }
+    .section-head h2 {
+      margin: 0 0 4px;
+      font-size: 1.5rem;
+    }
+    .section-head__icon {
+      font-size: 1.25rem;
+    }
+    .section-head .muted {
+      margin: 0;
+    }
+
+    /* ---------- Öğrenim Yolu stepper ---------- */
+    .study-path {
+      list-style: none;
+      margin: 0;
+      padding: 0;
+      position: relative;
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 18px;
+    }
+    /* Hidden under the opaque cards, the horizontal rail shows through the gaps
+       at badge height → reads as a connector line between steps (desktop). */
+    .study-path::before {
+      content: '';
+      position: absolute;
+      left: 7%;
+      right: 7%;
+      top: 42px;
+      height: 3px;
+      border-radius: 999px;
+      background: linear-gradient(90deg, var(--teal-soft), var(--orange, #f59e0b));
+      opacity: 0.45;
+      z-index: 0;
+      pointer-events: none;
+    }
+    .study-step {
+      position: relative;
+      min-width: 0;
+    }
+
+    .study-card {
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 8px;
+      height: 100%;
+      padding: 20px 18px 18px;
+      background: var(--bg-soft);
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      box-shadow: 0 10px 26px -20px rgba(13, 148, 136, 0.45);
+      text-decoration: none;
+      transition: transform 0.18s ease, box-shadow 0.18s ease, border-color 0.18s ease;
+      z-index: 1;
+    }
+    .study-card:hover {
+      transform: translateY(-5px);
+      border-color: var(--teal);
+      box-shadow: 0 24px 48px -22px rgba(13, 148, 136, 0.5);
+    }
+    .study-card__row {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      width: 100%;
+      position: relative;
+    }
+
+    /* Teal numbered badge; flips to a solid ✓ when the module has progress */
+    .step-badge {
+      flex: 0 0 auto;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 44px;
+      height: 44px;
+      border-radius: 999px;
+      background: var(--teal);
+      color: #fff;
+      font-size: 1.15rem;
+      font-weight: 800;
+      box-shadow: 0 8px 16px -8px rgba(13, 148, 136, 0.65);
+    }
+    .step-emoji {
+      font-size: 1.7rem;
+      line-height: 1;
+    }
+
+    /* Completed step: teal check + faded/struck title */
+    .study-step--done .step-badge {
+      background: var(--teal-dark, #0f766e);
+    }
+    .study-step--done .step-title {
+      text-decoration: line-through;
+      text-decoration-thickness: 2px;
+      text-decoration-color: rgba(13, 148, 136, 0.5);
+      color: var(--ink-soft);
+      opacity: 0.75;
+    }
+    .study-step--done .step-desc {
+      opacity: 0.7;
+    }
+    .start-pill--done {
+      background: var(--teal-dark, #0f766e);
+    }
+
+    /* First pending step — "Sırada bu!" we highlight it in orange */
+    .study-step--now .study-card {
+      border-color: var(--orange, #f59e0b);
+      box-shadow: 0 0 0 3px rgba(245, 158, 11, 0.18), 0 20px 44px -20px rgba(245, 158, 11, 0.55);
+    }
+    .study-step--now .step-badge {
+      background: var(--orange, #f59e0b);
+    }
+    .step-ribbon {
+      position: absolute;
+      right: 0;
+      top: 0;
+      background: linear-gradient(135deg, var(--orange, #f59e0b), #f97316);
+      color: #fff;
+      font-size: 0.7rem;
+      font-weight: 800;
+      padding: 4px 10px;
+      border-radius: 999px;
+      box-shadow: 0 6px 14px -8px rgba(245, 158, 11, 0.9);
+      white-space: nowrap;
+    }
+
+    .step-title {
+      font-size: 1.05rem;
+      font-weight: 800;
+      color: var(--ink, #0f172a);
+    }
+    .step-desc {
+      font-size: 0.88rem;
+      line-height: 1.5;
+      color: var(--ink-soft);
+    }
+
+    /* ---------- Hesabım & Araçlar ---------- */
+    .utilities {
+      display: grid;
+      gap: 18px;
+    }
+    .util-title {
+      margin: 0 0 4px;
+      font-size: 1.15rem;
+    }
+
+    /* slim footer line */
+    .dash-footer {
+      margin: 40px 0 0;
+      text-align: center;
+      font-size: 0.8rem;
+      color: var(--ink-soft);
+      opacity: 0.7;
+    }
+
+    /* Responsive: stack steps vertically on small screens with a vertical rail */
+    @media (max-width: 900px) {
+      .study-path {
+        grid-template-columns: 1fr;
+        gap: 14px;
+      }
+      .study-path::before {
+        /* horizontal rail off; vertical rail down the left gutter */
+        left: 21px;
+        right: auto;
+        top: 24px;
+        bottom: 24px;
+        width: 3px;
+        height: auto;
+        background: linear-gradient(180deg, var(--teal-soft), var(--orange, #f59e0b));
+      }
+      .study-card {
+        padding-left: 64px; /* room for badge + rail down the left gutter */
+      }
+      .study-card__row {
+        position: static;
+      }
+      .step-badge {
+        position: absolute;
+        left: 0;
+        top: 20px;
+      }
+      .step-emoji {
+        padding-left: 54px;
+      }
+      .step-ribbon {
+        position: static;
+        margin-left: 54px;
+      }
+    }
+    @media (max-width: 480px) {
+      .dash-hero {
+        flex-direction: column;
+      }
+      .dash-mascot {
+        width: 96px;
+        height: 96px;
+        margin-top: -6px;
+      }
+    }
+  </style>
 </AppLayout>
