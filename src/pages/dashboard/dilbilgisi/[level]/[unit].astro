@@ -100,6 +100,26 @@ const gapChips: string[][] = practice.map((p) => {
 });
 
 const interactCount = quiz.length + practice.length + 5 + 6; // MCQ+boşluk+uygulama+eşleştirme
+
+// --- Konu uygunluk algılayıcı: zamir/iyelik ünitesi mi? ---
+// Aynı şablon tüm ünitelerde çalışır; ancak karşılaştırma matrisi, İyelik
+// sekmeleri ve zamir eşleştirme etkinlikleri YALNIZCA zamir/iyelik konularına
+// aittir. Aksi hâlde (ör. To Be, Artikeller) bir öğretmen bu tabloyu göstermez.
+function isPronounUnit(): boolean {
+  const hay = [unit.title, unit.short, ...slides.map((s) => s.h + ' ' + s.b), ...(unit.slides ?? []).map((s: any) => s.h)]
+    .join(' ')
+    .toLocaleLowerCase('tr');
+  const markers = ['zamir', 'iyelik', 'pronoun', 'possessive', 'personal pron',
+    'object pron', 'subject pron', 'benim', 'senin', 'onun', 'bizim', 'sizin',
+    'mine', 'yours', 'his', 'hers', 'ours', 'theirs', 'my ', 'your ', 'her ',
+    'him', 'me,', 'us,', 'them'];
+  return markers.some((m) => hay.includes(m));
+}
+const pronounRelated = isPronounUnit();
+// Zamirle ilgisiz ünitelerde sekmeler 'Tümü' dışındaki kategorileri gereksiz kılar.
+const TABS_ACTIVE = pronounRelated
+  ? TABS
+  : TABS.filter((t) => t.k === 'all');
 ---
 
 <AppLayout title={`${unit.title} — ${levelTitle(level)} · Languago`} description={meta.subtitle}>
@@ -127,7 +147,7 @@ const interactCount = quiz.length + practice.length + 5 + 6; // MCQ+boşluk+uygu
     <!-- I. Çok sekmeli konu anlatımı -->
     <h2 style="font-size:1.2rem;">📘 Konu Anlatımı</h2>
     <div class="gram-tabs" id="tabBar" role="tablist">
-      {TABS.map((t) => (
+      {TABS_ACTIVE.map((t) => (
         <button type="button" class="gram-tab" data-tab={t.k} role="tab" aria-selected={t.k === 'all' ? 'true' : 'false'}>{t.label}</button>
       ))}
     </div>
@@ -149,7 +169,8 @@ const interactCount = quiz.length + practice.length + 5 + 6; // MCQ+boşluk+uygu
       </div>
     </div>
 
-    <!-- Karşılaştırmalı renk kodlu zamir matrisi -->
+    <!-- Karşılaştırmalı renk kodlu zamir matrisi (yalnızca zamir/iyelik ünitesinde) -->
+    {pronounRelated && (
     <div class="gram-matrix card" id="matrixCard" data-emph="all">
       <h3 style="margin-bottom:2px;">🔎 Karşılaştırma Tablosu</h3>
       <p class="muted">Dört biçimi aynı kişiyle yan yana gör. Bir hücreye gelince <strong>satırın tüm biçimleri</strong> vurgulanır.</p>
@@ -184,8 +205,13 @@ const interactCount = quiz.length + practice.length + 5 + 6; // MCQ+boşluk+uygu
         <span class="gm-legend gm-l-sz">İyelik Zamiri</span>
       </div>
     </div>
+    )}
+    {!pronounRelated && (
+      <p class="muted" style="margin-top:18px;">Bu ünitede tablo kategorilerine ayrılmış özel bir konu yok — ders slaytlarını okuyup alıştırmaları çözerek ilerle. 💪</p>
+    )}
 
-    <!-- II. Satır içi Uygulama (tap-to-match) -->
+    <!-- II. Satır içi Uygulama (zamir eşleştirme — yalnızca zamir/iyelik ünitesinde) -->
+    {pronounRelated && (
     <div class="gram-apply card" id="applyCard">
       <button type="button" id="applyToggle" class="btn primary">⚡ Hızlı Uygulama (30 sn)</button>
       <div id="applyBody" class="gram-apply__body" style="display:none;">
@@ -197,6 +223,7 @@ const interactCount = quiz.length + practice.length + 5 + 6; // MCQ+boşluk+uygu
         <div class="gram-match__fb" id="applyFb"></div>
       </div>
     </div>
+    )}
 
     <!-- III. Çeşitlendirilmiş Pekiştirme -->
     <h2 style="font-size:1.2rem;margin-top:34px;">🧩 Pekiştirme Testi</h2>
@@ -257,6 +284,8 @@ const interactCount = quiz.length + practice.length + 5 + 6; // MCQ+boşluk+uygu
       </>
     )}
 
+    {pronounRelated && (
+      <>
     <h3 style="margin-top:30px;">🧲 Eşleştirme</h3>
     <div class="gram-matchcard card">
       <p class="muted">Zamirleri karşılıklarıyla eşleştir: soldan birini seç, sağdan eşini bul.</p>
@@ -266,6 +295,8 @@ const interactCount = quiz.length + practice.length + 5 + 6; // MCQ+boşluk+uygu
       </div>
       <div class="gram-match__fb" id="matchFb"></div>
     </div>
+      </>
+    )}
 
     <!-- IV. Performans analizi + Uygulama Listesi -->
     <button type="button" id="resultsBtn" class="btn primary" style="margin-top:30px;">📊 Sonuçlarımı Gör</button>
@@ -275,10 +306,14 @@ const interactCount = quiz.length + practice.length + 5 + 6; // MCQ+boşluk+uygu
       <div class="gram-analysis__bars" id="anaBars"></div>
       <div class="gram-revlist" id="revList">
         <div class="gram-revlist__title">📚 Uygulama Listesi — gözden geçir</div>
+        {pronounRelated && (
+        <>
         <button type="button" class="gram-rev gram-rev--ozne" data-gotab="ozne">Özne zamirlerini gözden geçir →</button>
         <button type="button" class="gram-rev gram-rev--nesne" data-gotab="nesne">Nesne zamirlerini gözden geçir →</button>
         <button type="button" class="gram-rev gram-rev--sa" data-gotab="iyelik-sifat">İyelik sıfatlarını gözden geçir →</button>
         <button type="button" class="gram-rev gram-rev--sz" data-gotab="iyelik-zamir">İyelik zamirlerini gözden geçir →</button>
+        </>
+        )}
       </div>
       <button type="button" id="retryBtn" class="btn ghost">🔁 Alıştırmaları tekrar başlat</button>
     </div>
@@ -409,7 +444,7 @@ const interactCount = quiz.length + practice.length + 5 + 6; // MCQ+boşluk+uygu
     }
   </style>
 
-  <script define:vars={{ level, unitId, unitTitle: unit.title, unitShort: unit.short, quiz, practice, mistakes, pairs: PAIRS }}>
+  <script define:vars={{ level, unitId, unitTitle: unit.title, unitShort: unit.short, quiz, practice, mistakes, pairs: PAIRS, pronounRelated }}>
     (function () {
       // ---- yardımcılar ----
       function shuffle(a) { var arr = a.slice(); for (var i = arr.length - 1; i > 0; i--) { var j = Math.floor(Math.random() * (i + 1)); var t = arr[i]; arr[i] = arr[j]; arr[j] = t; } return arr; }
@@ -431,7 +466,7 @@ const interactCount = quiz.length + practice.length + 5 + 6; // MCQ+boşluk+uygu
       var AREA_LABEL = { ozne: 'Özne Zamirleri', nesne: 'Nesne Zamirleri', 'iyelik-sifat': 'İyelik Sıfatları', 'iyelik-zamir': 'İyelik Zamirleri' };
 
       // ---- V. Modül ilerlemesi ----
-      var totals = { mcq: quiz.length, gap: practice.length, apply: 5, match: 6 };
+      var totals = { mcq: quiz.length, gap: practice.length, apply: pronounRelated ? 5 : 0, match: pronounRelated ? 6 : 0 };
       var doneC = { mcq: 0, gap: 0, apply: 0, match: 0 };
       var results = []; // {area, ok}
       var grandTotal = totals.mcq + totals.gap + totals.apply + totals.match;
@@ -576,10 +611,10 @@ const interactCount = quiz.length + practice.length + 5 + 6; // MCQ+boşluk+uygu
         return {};
       }
 
-      // ---- II. Satır içi Uygulama ----
+      // ---- II. Satır içi Uygulama (yalnızca zamir/iyelik ünitesinde) ----
       var applyToggle = document.getElementById('applyToggle');
       var applyStarted = false;
-      applyToggle.addEventListener('click', function () {
+      if (applyToggle) applyToggle.addEventListener('click', function () {
         var body = document.getElementById('applyBody');
         var open = body.style.display !== 'none';
         body.style.display = open ? 'none' : '';
@@ -706,16 +741,19 @@ const interactCount = quiz.length + practice.length + 5 + 6; // MCQ+boşluk+uygu
       }
       startGap();
 
-      // ---- III. Eşleştirme (ikidilli) ----
+      // ---- III. Eşleştirme (ikidilli; yalnızca zamir/iyelik ünitesinde) ----
       var MATCH_DONE = false;
-      var chosenMatch = shuffle(pairs.slice()).slice(0, 6);
-      buildPair({
-        left: 'matchL', right: 'matchR', fb: 'matchFb', pairs: chosenMatch,
-        leftLabel: function (p) { return (p.ic || '') + ' ' + p.en; },
-        rightLabel: function (p) { return p.tr; },
-        onPair: function () { doneC.match++; updProgress(); },
-        onDone: function () { doneC.match = totals.match; MATCH_DONE = true; updProgress(); var el = document.getElementById('matchFb'); if (el) { el.textContent = 'Harikasın! Tüm zamirleri eşleştirdin 🧲🎉'; el.style.color = 'var(--success)'; } saveProgressFromPractice(); }
-      });
+      var matchBox = document.getElementById('matchL');
+      if (pronounRelated && matchBox) {
+        var chosenMatch = shuffle(pairs.slice()).slice(0, 6);
+        buildPair({
+          left: 'matchL', right: 'matchR', fb: 'matchFb', pairs: chosenMatch,
+          leftLabel: function (p) { return (p.ic || '') + ' ' + p.en; },
+          rightLabel: function (p) { return p.tr; },
+          onPair: function () { doneC.match++; updProgress(); },
+          onDone: function () { doneC.match = totals.match; MATCH_DONE = true; updProgress(); var el = document.getElementById('matchFb'); if (el) { el.textContent = 'Harikasın! Tüm zamirleri eşleştirdin 🧲🎉'; el.style.color = 'var(--success)'; } saveProgressFromPractice(); }
+        });
+      }
 
       // ---- IV. Sonuç / analiz + Uygulama Listesi ----
       document.getElementById('resultsBtn').addEventListener('click', function () {
@@ -758,13 +796,19 @@ const interactCount = quiz.length + practice.length + 5 + 6; // MCQ+boşluk+uygu
         var already = Object.keys(byArea).some(function (k) { return byArea[k].tried > 0; });
         var msgEl = document.getElementById('anaMsg');
         if (!already) {
-          msgEl.innerHTML = '<strong>Zamirlerine güzel başladın!</strong> 📘 Biraz etkileşim tamamladıktan sonra burada konuya göre güçlü ve zayıf yönlerini göreceksin.';
+          msgEl.innerHTML = pronounRelated
+            ? '<strong>Zamirlerine güzel başladın!</strong> 📘 Biraz etkileşim tamamladıktan sonra burada konuya göre güçlü ve zayıf yönlerini göreceksin.'
+            : '<strong>Konuda güzel bir başlangıç yaptın!</strong> 📘 Alıştırmaları tamamladıkça ilerlemen burada izlenebilir.';
         } else {
           var parts = [];
-          parts.push('<strong>Zamirlerini güçlendirdin!</strong> 🎉');
+          parts.push(pronounRelated ? '<strong>Zamirlerini güçlendirdin!</strong> 🎉' : '<strong>Çalışmayı tamamladın!</strong> 🎉');
           if (best) parts.push('En iyi konun: <strong>' + AREA_LABEL[best] + '</strong>.');
           var weakLabel = weak ? AREA_LABEL[weak] : 'İyelik biçimleri';
-          parts.push('<strong>' + weakLabel + '</strong> \u00fczerinde biraz daha pratik yapabilirsin. Aşağıdaki <em>Uygulama Listesi</em>\u2019nden ilgili konuyu tekrar açabilirsin.');
+          if (pronounRelated) {
+            parts.push('<strong>' + weakLabel + '</strong> üzerinde biraz daha pratik yapabilirsin. Aşağıdaki <em>Uygulama Listesi</em>den ilgili konuyu tekrar açabilirsin.');
+          } else {
+            parts.push('Aynı ünitedeki alıştırmaları tekrar çözerek kalıcılaştırabilirsin.');
+          }
           msgEl.innerHTML = parts.join(' ');
         }
       }
