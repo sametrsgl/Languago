@@ -202,11 +202,11 @@ export const GRAMMAR_MCQ_A2 = {
       "'do' gelecek kurmaz.",
       "'be' bu yapıda olmaz."
     ] },
-    { "q": "___ you open the window, please?", "options": ["Will", "Are", "Do to", "Is"], "a": 0, "why": [
-      "Correct: kibar istek/teklif için 'Will you …?'",
-      "'Are' rica yapısı kurmaz.",
-      "'Do to' geçersiz.",
-      "'Is' bu yapıda olmaz."
+    { "q": "___ you open the window, please?", "options": ["Will", "Are", "Does", "Is"], "a": 0, "why": [
+          "Correct: kibar istek/teklif için 'Will you …?'",
+          "'Are' rica yapısı kurmaz.",
+          "'Does' 3. tekil geniş; özne 'you' + rica için uygun değil.",
+          "'Is' bu yapıda olmaz."
     ] }
   ],
   "a2-14": [
@@ -292,11 +292,11 @@ export const GRAMMAR_MCQ_A2 = {
       "'don't should' — should 'do/does/doesn't'la kullanılmaz.",
       "'shouldn'ts' — çekim yok."
     ] },
-    { "q": "___ I call the doctor?", "options": ["Should", "Does", "Will to", "Am"], "a": 0, "why": [
-      "Correct: tavsiye sorma → Should I …?",
-      "'Does' should ile değil.",
-      "'Will to' geçersiz.",
-      "'Am' tavsiye sorusu kurmaz."
+    { "q": "___ I call the doctor?", "options": ["Should", "Does", "Will", "Am"], "a": 0, "why": [
+          "Correct: tavsiye sorma → Should I …?",
+          "'Does' should ile değil.",
+          "'Will' gelecek zaman; tavsiye sorusu için değil.",
+          "'Am' tavsiye sorusu kurmaz."
     ] },
     { "q": "We ___ eat more vegetables.", "options": ["should", "shoulds", "are should", "should to"], "a": 0, "why": [
       "Correct: tavsiye → should.",
@@ -408,11 +408,11 @@ export const GRAMMAR_MCQ_A2 = {
       "'melt' 3. tekil (it) için -s gerekir.",
       "'is melting' şu an olan; genel gerçek değil."
     ] },
-    { "q": "If it rains, we ___ stay home.", "options": ["will", "would", "won't not", "are"], "a": 0, "why": [
-      "Correct: first conditional ana cümle → will.",
-      "'would' second conditional içindir; first'te değil.",
-      "'won't not' çift olumsuz.",
-      "'are' tek başına gelecek kurmaz."
+    { "q": "If it rains, we ___ stay home.", "options": ["will", "would", "will to", "are"], "a": 0, "why": [
+          "Correct: first conditional ana cümle → will.",
+          "'would' second conditional içindir; first'te değil.",
+          "'will to' — will sonrası 'to' gelmez.",
+          "'are' tek başına gelecek kurmaz."
     ] },
     { "q": "If she ___ hard, she will pass.", "options": ["studies", "will study", "studys", "is study"], "a": 0, "why": [
       "Correct: if'li tarafta geniş zaman → studies.",
@@ -426,11 +426,11 @@ export const GRAMMAR_MCQ_A2 = {
       "'can't to' — can sonrası 'to' gelmez.",
       "'don't can' — çift yardımcı."
     ] },
-    { "q": "___ you study, you will pass the exam.", "options": ["If", "When so", "Because of", "Unless not"], "a": 0, "why": [
-      "Correct: koşul bağlacı → If.",
-      "'When so' geçersiz.",
-      "'Because of' neden/isim ister, cümle değil.",
-      "'Unless not' — 'unless' zaten 'olmazsa' (if not), 'not' fazla."
+    { "q": "___ you study, you will pass the exam.", "options": ["If", "When", "Because of", "Unless"], "a": 0, "why": [
+          "Correct: koşul bağlacı → If.",
+          "'When' zaman bağlacı; koşul anlamı verir ama ne zaman sorusu taşır — 'if' daha doğru.",
+          "'Because of' neden/isim ister, tam cümle bağlamaz.",
+          "'Unless' olumsuz koşuldur; burada 'pass' ile mantıksal olarak çelişir."
     ] }
   ]
 };
