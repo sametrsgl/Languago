@@ -1,0 +1,1717 @@
+{
+  "schema": "cefr-grammar-syllabus/v1",
+  "generated_for": "Languago",
+  "description": "Authoritative English grammar syllabus mapped to CEFR levels A1-C1. Each module is one coherent teachable grammar point with honest prerequisites and demographic targeting for primary (children), middle (teens), and adult learners.",
+  "levels": {
+    "A1": {
+      "label": "Beginner",
+      "description": "Basic sentence construction, common verbs in simple forms, everyday topics.",
+      "grammar_modules": [
+        {
+          "topic_name": "Alphabet and Basic Word Order (SVO)",
+          "prerequisite_topics": [],
+          "target_demographic_tags": [
+            { "group": "primary", "priority": "essential", "complexity": "easy" },
+            { "group": "middle", "priority": "essential", "complexity": "easy" },
+            { "group": "adult", "priority": "essential", "complexity": "easy" }
+          ],
+          "summary_note": "Subject-Verb-Object order as the default frame for all English sentences."
+        },
+        {
+          "topic_name": "Nouns and Simple Plurals",
+          "prerequisite_topics": ["Alphabet and Basic Word Order (SVO)"],
+          "target_demographic_tags": [
+            { "group": "primary", "priority": "essential", "complexity": "easy" },
+            { "group": "middle", "priority": "essential", "complexity": "easy" },
+            { "group": "adult", "priority": "essential", "complexity": "easy" }
+          ],
+          "summary_note": "Countable nouns, regular -s/-es plurals, common irregular plurals."
+        },
+        {
+          "topic_name": "Subject Pronouns (I, you, he, she, it, we, they)",
+          "prerequisite_topics": [],
+          "target_demographic_tags": [
+            { "group": "primary", "priority": "essential", "complexity": "easy" },
+            { "group": "middle", "priority": "essential", "complexity": "easy" },
+            { "group": "adult", "priority": "essential", "complexity": "easy" }
+          ],
+          "summary_note": "First pronouns before verb forms; foundation for he/she/it agreement."
+        },
+        {
+          "topic_name": "Object Pronouns (me, you, him, her, it, us, them)",
+          "prerequisite_topics": ["Subject Pronouns (I, you, he, she, it, we, they)"],
+          "target_demographic_tags": [
+            { "group": "primary", "priority": "essential", "complexity": "easy" },
+            { "group": "middle", "priority": "essential", "complexity": "easy" },
+            { "group": "adult", "priority": "essential", "complexity": "easy" }
+          ],
+          "summary_note": "Distinguishing subject vs object pronoun roles in the sentence."
+        },
+        {
+          "topic_name": "Possessive Adjectives and Possessive 's",
+          "prerequisite_topics": ["Nouns and Simple Plurals", "Object Pronouns (me, you, him, her, it, us, them)"],
+          "target_demographic_tags": [
+            { "group": "primary", "priority": "essential", "complexity": "easy" },
+            { "group": "middle", "priority": "essential", "complexity": "easy" },
+            { "group": "adult", "priority": "essential", "complexity": "easy" }
+          ],
+          "summary_note": "my/your/his/her/its/our/their + possessive apostrophe-s for ownership."
+        },
+        {
+          "topic_name": "The Verb 'to be' (am, is, are)",
+          "prerequisite_topics": ["Subject Pronouns (I, you, he, she, it, we, they)"],
+          "target_demographic_tags": [
+            { "group": "primary", "priority": "essential", "complexity": "easy" },
+            { "group": "middle", "priority": "essential", "complexity": "easy" },
+            { "group": "adult", "priority": "essential", "complexity": "easy" }
+          ],
+          "summary_note": "The single most-used English verb: affirmative, negative, and question forms."
+        },
+        {
+          "topic_name": "Articles: a/an and the",
+          "prerequisite_topics": ["Nouns and Simple Plurals"],
+          "target_demographic_tags": [
+            { "group": "primary", "priority": "essential", "complexity": "moderate" },
+            { "group": "middle", "priority": "essential", "complexity": "easy" },
+            { "group": "adult", "priority": "essential", "complexity": "easy" }
+          ],
+          "summary_note": "a/an for first mention and indefinite, the for known/specific references."
+        },
+        {
+          "topic_name": "Demonstratives: this, that, these, those",
+          "prerequisite_topics": ["Nouns and Simple Plurals", "Articles: a/an and the"],
+          "target_demographic_tags": [
+            { "group": "primary", "priority": "essential", "complexity": "easy" },
+            { "group": "middle", "priority": "essential", "complexity": "easy" },
+            { "group": "adult", "priority": "essential", "complexity": "easy" }
+          ],
+          "summary_note": "Proximity-based deixis, singular vs plural, near vs far."
+        },
+        {
+          "topic_name": "Present Simple (affirmative)",
+          "prerequisite_topics": ["Subject Pronouns (I, you, he, she, it, we, they)"],
+          "target_demographic_tags": [
+            { "group": "primary", "priority": "essential", "complexity": "easy" },
+            { "group": "middle", "priority": "essential", "complexity": "easy" },
+            { "group": "adult", "priority": "essential", "complexity": "easy" }
+          ],
+          "summary_note": "Habits, routines, facts; third-person -s and -es spelling."
+        },
+        {
+          "topic_name": "Present Simple: negatives with don't/doesn't",
+          "prerequisite_topics": ["Present Simple (affirmative)"],
+          "target_demographic_tags": [
+            { "group": "primary", "priority": "essential", "complexity": "moderate" },
+            { "group": "middle", "priority": "essential", "complexity": "easy" },
+            { "group": "adult", "priority": "essential", "complexity": "easy" }
+          ],
+          "summary_note": "Auxiliary do/does in negation; the -s moves to the auxiliary."
+        },
+        {
+          "topic_name": "Present Simple: questions with do/does",
+          "prerequisite_topics": ["Present Simple: negatives with don't/doesn't"],
+          "target_demographic_tags": [
+            { "group": "primary", "priority": "essential", "complexity": "moderate" },
+            { "group": "middle", "priority": "essential", "complexity": "easy" },
+            { "group": "adult", "priority": "essential", "complexity": "easy" }
+          ],
+          "summary_note": "Yes/no questions and inversion via do/does."
+        },
+        {
+          "topic_name": "The Verb 'to have' (have/has) and Have Got",
+          "prerequisite_topics": ["Present Simple (affirmative)"],
+          "target_demographic_tags": [
+            { "group": "primary", "priority": "essential", "complexity": "moderate" },
+            { "group": "middle", "priority": "essential", "complexity": "easy" },
+            { "group": "adult", "priority": "essential", "complexity": "easy" }
+          ],
+          "summary_note": "Possession; have got as an informal British variant."
+        },
+        {
+          "topic_name": "There is / There are",
+          "prerequisite_topics": ["The Verb 'to be' (am, is, are)", "Nouns and Simple Plurals"],
+          "target_demographic_tags": [
+            { "group": "primary", "priority": "essential", "complexity": "easy" },
+            { "group": "middle", "priority": "essential", "complexity": "easy" },
+            { "group": "adult", "priority": "essential", "complexity": "easy" }
+          ],
+          "summary_note": "Existential constructions for describing places and objects."
+        },
+        {
+          "topic_name": "Basic Adjectives and Word Order",
+          "prerequisite_topics": ["Nouns and Simple Plurals", "The Verb 'to be' (am, is, are)"],
+          "target_demographic_tags": [
+            { "group": "primary", "priority": "essential", "complexity": "easy" },
+            { "group": "middle", "priority": "essential", "complexity": "easy" },
+            { "group": "adult", "priority": "essential", "complexity": "easy" }
+          ],
+          "summary_note": "Adjectives before nouns and after to be; no plural adjectives."
+        },
+        {
+          "topic_name": "Adverbs of Frequency (always, usually, sometimes, never)",
+          "prerequisite_topics": ["Present Simple (affirmative)"],
+          "target_demographic_tags": [
+            { "group": "primary", "priority": "essential", "complexity": "moderate" },
+            { "group": "middle", "priority": "essential", "complexity": "easy" },
+            { "group": "adult", "priority": "essential", "complexity": "easy" }
+          ],
+          "summary_note": "Positioning before main verbs and after to be."
+        },
+        {
+          "topic_name": "Imperatives (commands and instructions)",
+          "prerequisite_topics": ["Present Simple (affirmative)"],
+          "target_demographic_tags": [
+            { "group": "primary", "priority": "essential", "complexity": "easy" },
+            { "group": "middle", "priority": "essential", "complexity": "easy" },
+            { "group": "adult", "priority": "recommended", "complexity": "easy" }
+          ],
+          "summary_note": "Base-form commands, polite requests with please, negative don't."
+        },
+        {
+          "topic_name": "Question Words (what, where, when, who, why, how)",
+          "prerequisite_topics": ["Present Simple: questions with do/does"],
+          "target_demographic_tags": [
+            { "group": "primary", "priority": "essential", "complexity": "moderate" },
+            { "group": "middle", "priority": "essential", "complexity": "easy" },
+            { "group": "adult", "priority": "essential", "complexity": "easy" }
+          ],
+          "summary_note": "Wh- question formation on top of yes/no question inversion."
+        },
+        {
+          "topic_name": "Prepositions of Place (in, on, under, next to, behind, between)",
+          "prerequisite_topics": ["There is / There are"],
+          "target_demographic_tags": [
+            { "group": "primary", "priority": "essential", "complexity": "easy" },
+            { "group": "middle", "priority": "essential", "complexity": "easy" },
+            { "group": "adult", "priority": "essential", "complexity": "easy" }
+          ],
+          "summary_note": "Basic spatial relations for describing locations."
+        },
+        {
+          "topic_name": "Prepositions of Time (in, on, at)",
+          "prerequisite_topics": ["Prepositions of Place (in, on, under, next to, behind, between)"],
+          "target_demographic_tags": [
+            { "group": "primary", "priority": "recommended", "complexity": "moderate" },
+            { "group": "middle", "priority": "essential", "complexity": "moderate" },
+            { "group": "adult", "priority": "essential", "complexity": "moderate" }
+          ],
+          "summary_note": "at + specific times, on + days/dates, in + months/years."
+        },
+        {
+          "topic_name": "Present Continuous (am/is/are + -ing)",
+          "prerequisite_topics": ["Present Simple (affirmative)", "The Verb 'to be' (am, is, are)"],
+          "target_demographic_tags": [
+            { "group": "primary", "priority": "essential", "complexity": "moderate" },
+            { "group": "middle", "priority": "essential", "complexity": "moderate" },
+            { "group": "adult", "priority": "essential", "complexity": "moderate" }
+          ],
+          "summary_note": "Actions in progress now; -ing spelling rules."
+        },
+        {
+          "topic_name": "Present Simple vs Present Continuous",
+          "prerequisite_topics": ["Present Simple (affirmative)", "Present Continuous (am/is/are + -ing)"],
+          "target_demographic_tags": [
+            { "group": "primary", "priority": "recommended", "complexity": "moderate" },
+            { "group": "middle", "priority": "essential", "complexity": "moderate" },
+            { "group": "adult", "priority": "essential", "complexity": "moderate" }
+          ],
+          "summary_note": "Habitual vs temporary/ongoing; stative verb exceptions previewed."
+        },
+        {
+          "topic_name": "Modal verbs: Introduction to Modal Structure",
+          "prerequisite_topics": ["Present Simple (affirmative)"],
+          "target_demographic_tags": [
+            { "group": "primary", "priority": "recommended", "complexity": "moderate" },
+            { "group": "middle", "priority": "essential", "complexity": "moderate" },
+            { "group": "adult", "priority": "essential", "complexity": "moderate" }
+          ],
+          "summary_note": "Modal + bare infinitive, no -s, fixed word order before Can module."
+        },
+        {
+          "topic_name": "Can / Can't for Ability and Permission",
+          "prerequisite_topics": ["Modal verbs: Introduction to Modal Structure"],
+          "target_demographic_tags": [
+            { "group": "primary", "priority": "essential", "complexity": "easy" },
+            { "group": "middle", "priority": "essential", "complexity": "easy" },
+            { "group": "adult", "priority": "essential", "complexity": "easy" }
+          ],
+          "summary_note": "The first modal: ability, simple permission, no to after modal."
+        },
+        {
+          "topic_name": "Countable and Uncountable Nouns (some/any)",
+          "prerequisite_topics": ["Nouns and Simple Plurals", "There is / There are"],
+          "target_demographic_tags": [
+            { "group": "primary", "priority": "recommended", "complexity": "moderate" },
+            { "group": "middle", "priority": "essential", "complexity": "moderate" },
+            { "group": "adult", "priority": "essential", "complexity": "moderate" }
+          ],
+          "summary_note": "Count vs mass nouns; some in positive, any in negatives/questions."
+        },
+        {
+          "topic_name": "This/That/These/Those as Pronouns",
+          "prerequisite_topics": ["Demonstratives: this, that, these, those"],
+          "target_demographic_tags": [
+            { "group": "primary", "priority": "recommended", "complexity": "easy" },
+            { "group": "middle", "priority": "recommended", "complexity": "easy" },
+            { "group": "adult", "priority": "recommended", "complexity": "easy" }
+          ],
+          "summary_note": "Using demonstratives without a following noun, e.g. 'These are mine.'"
+        },
+        {
+          "topic_name": "Basic Connectors: and, but, or, so, because",
+          "prerequisite_topics": ["Alphabet and Basic Word Order (SVO)"],
+          "target_demographic_tags": [
+            { "group": "primary", "priority": "essential", "complexity": "easy" },
+            { "group": "middle", "priority": "essential", "complexity": "easy" },
+            { "group": "adult", "priority": "essential", "complexity": "moderate" }
+          ],
+          "summary_note": "Joining words and simple clauses to make longer utterances."
+        },
+        {
+          "topic_name": "There is/are: questions and negatives",
+          "prerequisite_topics": ["There is / There are"],
+          "target_demographic_tags": [
+            { "group": "primary", "priority": "recommended", "complexity": "moderate" },
+            { "group": "middle", "priority": "recommended", "complexity": "easy" },
+            { "group": "adult", "priority": "recommended", "complexity": "easy" }
+          ],
+          "summary_note": "Is there any...? / Are there any...? / There isn't/aren't."
+        },
+        {
+          "topic_name": "Like + -ing for Likes and Dislikes",
+          "prerequisite_topics": ["Present Simple (affirmative)", "Present Continuous (am/is/are + -ing)"],
+          "target_demographic_tags": [
+            { "group": "primary", "priority": "essential", "complexity": "easy" },
+            { "group": "middle", "priority": "essential", "complexity": "easy" },
+            { "group": "adult", "priority": "essential", "complexity": "easy" }
+          ],
+          "summary_note": "First -ing form: like/love/hate/enjoy + gerund."
+        },
+        {
+          "topic_name": "Possessive Pronouns (mine, yours, his, hers, ours, theirs)",
+          "prerequisite_topics": ["Possessive Adjectives and Possessive 's", "Demonstratives: this, that, these, those"],
+          "target_demographic_tags": [
+            { "group": "primary", "priority": "recommended", "complexity": "moderate" },
+            { "group": "middle", "priority": "essential", "complexity": "moderate" },
+            { "group": "adult", "priority": "essential", "complexity": "moderate" }
+          ],
+          "summary_note": "Standalone possessive pronouns replacing a noun phrase."
+        },
+        {
+          "topic_name": "Basic Prepositions of Movement (to, from, into, out of)",
+          "prerequisite_topics": ["Prepositions of Place (in, on, under, next to, behind, between)"],
+          "target_demographic_tags": [
+            { "group": "primary", "priority": "recommended", "complexity": "easy" },
+            { "group": "middle", "priority": "recommended", "complexity": "easy" },
+            { "group": "adult", "priority": "recommended", "complexity": "easy" }
+          ],
+          "summary_note": "Direction with movement verbs like go, come, walk."
+        },
+        {
+          "topic_name": "Adverbs of Manner (slowly, quickly, well)",
+          "prerequisite_topics": ["Basic Adjectives and Word Order"],
+          "target_demographic_tags": [
+            { "group": "primary", "priority": "recommended", "complexity": "moderate" },
+            { "group": "middle", "priority": "essential", "complexity": "moderate" },
+            { "group": "adult", "priority": "essential", "complexity": "moderate" }
+          ],
+          "summary_note": "Adjective+ly forms and the irregular good/well."
+        },
+        {
+          "topic_name": "The Zero Article (no article)",
+          "prerequisite_topics": ["Articles: a/an and the"],
+          "target_demographic_tags": [
+            { "group": "primary", "priority": "recommended", "complexity": "moderate" },
+            { "group": "middle", "priority": "recommended", "complexity": "moderate" },
+            { "group": "adult", "priority": "recommended", "complexity": "moderate" }
+          ],
+          "summary_note": "When no article is used: general plurals, languages, meals, school/home."
+        },
+        {
+          "topic_name": "Wh- Questions with Question Words + to be",
+          "prerequisite_topics": ["Question Words (what, where, when, who, why, how)", "The Verb 'to be' (am, is, are)"],
+          "target_demographic_tags": [
+            { "group": "primary", "priority": "essential", "complexity": "moderate" },
+            { "group": "middle", "priority": "essential", "complexity": "easy" },
+            { "group": "adult", "priority": "essential", "complexity": "easy" }
+          ],
+          "summary_note": "Wh- questions that don't use do/does because the main verb is to be."
+        }
+      ]
+    },
+    "A2": {
+      "label": "Elementary",
+      "description": "Simple past and future, comparison, quantifiers, basic relative and modal expansion.",
+      "grammar_modules": [
+        {
+          "topic_name": "Past Simple of 'to be' (was/were)",
+          "prerequisite_topics": ["The Verb 'to be' (am, is, are)"],
+          "target_demographic_tags": [
+            { "group": "primary", "priority": "essential", "complexity": "moderate" },
+            { "group": "middle", "priority": "essential", "complexity": "easy" },
+            { "group": "adult", "priority": "essential", "complexity": "easy" }
+          ],
+          "summary_note": "Foundation for all past-time reference, before main-verb past."
+        },
+        {
+          "topic_name": "Past Simple: regular verbs (-ed)",
+          "prerequisite_topics": ["Past Simple of 'to be' (was/were)"],
+          "target_demographic_tags": [
+            { "group": "primary", "priority": "essential", "complexity": "moderate" },
+            { "group": "middle", "priority": "essential", "complexity": "easy" },
+            { "group": "adult", "priority": "essential", "complexity": "easy" }
+          ],
+          "summary_note": "-ed endings and spelling rules; finished past actions."
+        },
+        {
+          "topic_name": "Past Simple: irregular verbs",
+          "prerequisite_topics": ["Past Simple: regular verbs (-ed)"],
+          "target_demographic_tags": [
+            { "group": "primary", "priority": "essential", "complexity": "moderate" },
+            { "group": "middle", "priority": "essential", "complexity": "moderate" },
+            { "group": "adult", "priority": "essential", "complexity": "moderate" }
+          ],
+          "summary_note": "The most frequent irregular verb list; rote memorization strategies."
+        },
+        {
+          "topic_name": "Past Simple: negatives and questions (did)",
+          "prerequisite_topics": ["Past Simple: irregular verbs", "Present Simple: questions with do/does"],
+          "target_demographic_tags": [
+            { "group": "primary", "priority": "essential", "complexity": "moderate" },
+            { "group": "middle", "priority": "essential", "complexity": "moderate" },
+            { "group": "adult", "priority": "essential", "complexity": "moderate" }
+          ],
+          "summary_note": "did + base form; did not/didn't; auxiliary carries the past."
+        },
+        {
+          "topic_name": "Adverbs of Time Expressions (yesterday, last week, ago)",
+          "prerequisite_topics": ["Prepositions of Time (in, on, at)"],
+          "target_demographic_tags": [
+            { "group": "primary", "priority": "recommended", "complexity": "moderate" },
+            { "group": "middle", "priority": "essential", "complexity": "easy" },
+            { "group": "adult", "priority": "essential", "complexity": "easy" }
+          ],
+          "summary_note": "Time markers that pair with past simple."
+        },
+        {
+          "topic_name": "Comparatives (-er / more)",
+          "prerequisite_topics": ["Basic Adjectives and Word Order"],
+          "target_demographic_tags": [
+            { "group": "primary", "priority": "essential", "complexity": "moderate" },
+            { "group": "middle", "priority": "essential", "complexity": "moderate" },
+            { "group": "adult", "priority": "essential", "complexity": "moderate" }
+          ],
+          "summary_note": "Comparing two things; than; long vs short adjective patterns."
+        },
+        {
+          "topic_name": "Superlatives (-est / most)",
+          "prerequisite_topics": ["Comparatives (-er / more)"],
+          "target_demographic_tags": [
+            { "group": "primary", "priority": "essential", "complexity": "moderate" },
+            { "group": "middle", "priority": "essential", "complexity": "moderate" },
+            { "group": "adult", "priority": "essential", "complexity": "moderate" }
+          ],
+          "summary_note": "Comparing three or more; the + superlative + in/of."
+        },
+        {
+          "topic_name": "as...as for Equality and not as...as",
+          "prerequisite_topics": ["Comparatives (-er / more)"],
+          "target_demographic_tags": [
+            { "group": "primary", "priority": "recommended", "complexity": "moderate" },
+            { "group": "middle", "priority": "essential", "complexity": "moderate" },
+            { "group": "adult", "priority": "essential", "complexity": "moderate" }
+          ],
+          "summary_note": "Expressing equal and unequal comparison."
+        },
+        {
+          "topic_name": "Going to for Future Intentions and Predictions",
+          "prerequisite_topics": ["Past Simple: negatives and questions (did)", "The Verb 'to be' (am, is, are)"],
+          "target_demographic_tags": [
+            { "group": "primary", "priority": "essential", "complexity": "moderate" },
+            { "group": "middle", "priority": "essential", "complexity": "moderate" },
+            { "group": "adult", "priority": "essential", "complexity": "moderate" }
+          ],
+          "summary_note": "The first future form: planned/intended future."
+        },
+        {
+          "topic_name": "Will for Predictions and Offers",
+          "prerequisite_topics": ["Going to for Future Intentions and Predictions", "Modal verbs: Introduction to Modal Structure"],
+          "target_demographic_tags": [
+            { "group": "primary", "priority": "essential", "complexity": "moderate" },
+            { "group": "middle", "priority": "essential", "complexity": "moderate" },
+            { "group": "adult", "priority": "essential", "complexity": "moderate" }
+          ],
+          "summary_note": "Spontaneous decisions, offers, promises, general predictions."
+        },
+        {
+          "topic_name": "Going to vs Will",
+          "prerequisite_topics": ["Going to for Future Intentions and Predictions", "Will for Predictions and Offers"],
+          "target_demographic_tags": [
+            { "group": "primary", "priority": "recommended", "complexity": "moderate" },
+            { "group": "middle", "priority": "essential", "complexity": "moderate" },
+            { "group": "adult", "priority": "essential", "complexity": "moderate" }
+          ],
+          "summary_note": "Planned intention vs spontaneous/spontaneous prediction nuance."
+        },
+        {
+          "topic_name": "Present Continuous for Future Arrangements",
+          "prerequisite_topics": ["Present Continuous (am/is/are + -ing)", "Going to for Future Intentions and Predictions"],
+          "target_demographic_tags": [
+            { "group": "primary", "priority": "recommended", "complexity": "advanced" },
+            { "group": "middle", "priority": "essential", "complexity": "moderate" },
+            { "group": "adult", "priority": "essential", "complexity": "moderate" }
+          ],
+          "summary_note": "Fixed future arrangements with a time reference."
+        },
+        {
+          "topic_name": "Basic Quantifiers: much, many, a lot of",
+          "prerequisite_topics": ["Countable and Uncountable Nouns (some/any)"],
+          "target_demographic_tags": [
+            { "group": "primary", "priority": "recommended", "complexity": "moderate" },
+            { "group": "middle", "priority": "essential", "complexity": "moderate" },
+            { "group": "adult", "priority": "essential", "complexity": "moderate" }
+          ],
+          "summary_note": "Count vs uncount quantity; a lot of for both."
+        },
+        {
+          "topic_name": "How much / How many and Quantifier Questions",
+          "prerequisite_topics": ["Basic Quantifiers: much, many, a lot of", "Question Words (what, where, when, who, why, how)"],
+          "target_demographic_tags": [
+            { "group": "primary", "priority": "recommended", "complexity": "moderate" },
+            { "group": "middle", "priority": "essential", "complexity": "moderate" },
+            { "group": "adult", "priority": "essential", "complexity": "moderate" }
+          ],
+          "summary_note": "Asking about quantity; responses with quantifiers."
+        },
+        {
+          "topic_name": "Be going to vs Will for Predictions",
+          "prerequisite_topics": ["Going to vs Will"],
+          "target_demographic_tags": [
+            { "group": "primary", "priority": "optional", "complexity": "advanced" },
+            { "group": "middle", "priority": "recommended", "complexity": "moderate" },
+            { "group": "adult", "priority": "recommended", "complexity": "moderate" }
+          ],
+          "summary_note": "Evidence-based vs opinion-based predictions."
+        },
+        {
+          "topic_name": "Reflexive Pronouns (myself, yourself, himself...)",
+          "prerequisite_topics": ["Object Pronouns (me, you, him, her, it, us, them)"],
+          "target_demographic_tags": [
+            { "group": "primary", "priority": "optional", "complexity": "advanced" },
+            { "group": "middle", "priority": "recommended", "complexity": "moderate" },
+            { "group": "adult", "priority": "essential", "complexity": "moderate" }
+          ],
+          "summary_note": "Reflexive vs reciprocal meaning; by + reflexive for alone."
+        },
+        {
+          "topic_name": "Past Continuous (was/were + -ing)",
+          "prerequisite_topics": ["Past Simple: negatives and questions (did)", "Present Continuous (am/is/are + -ing)"],
+          "target_demographic_tags": [
+            { "group": "primary", "priority": "recommended", "complexity": "advanced" },
+            { "group": "middle", "priority": "essential", "complexity": "moderate" },
+            { "group": "adult", "priority": "essential", "complexity": "moderate" }
+          ],
+          "summary_note": "Background action in progress at a past moment."
+        },
+        {
+          "topic_name": "Past Simple vs Past Continuous",
+          "prerequisite_topics": ["Past Simple: negatives and questions (did)", "Past Continuous (was/were + -ing)"],
+          "target_demographic_tags": [
+            { "group": "primary", "priority": "recommended", "complexity": "advanced" },
+            { "group": "middle", "priority": "essential", "complexity": "moderate" },
+            { "group": "adult", "priority": "essential", "complexity": "moderate" }
+          ],
+          "summary_note": "Interrupted action: when + simple past in a past-continuous sentence."
+        },
+        {
+          "topic_name": "Could / Couldn't for Past Ability",
+          "prerequisite_topics": ["Can / Can't for Ability and Permission", "Past Simple: negatives and questions (did)"],
+          "target_demographic_tags": [
+            { "group": "primary", "priority": "recommended", "complexity": "moderate" },
+            { "group": "middle", "priority": "essential", "complexity": "moderate" },
+            { "group": "adult", "priority": "essential", "complexity": "moderate" }
+          ],
+          "summary_note": "Past ability; could as the past of can."
+        },
+        {
+          "topic_name": "Must / Mustn't: Obligation and Prohibition",
+          "prerequisite_topics": ["Modal verbs: Introduction to Modal Structure"],
+          "target_demographic_tags": [
+            { "group": "primary", "priority": "essential", "complexity": "moderate" },
+            { "group": "middle", "priority": "essential", "complexity": "easy" },
+            { "group": "adult", "priority": "essential", "complexity": "easy" }
+          ],
+          "summary_note": "Strong obligation (rules) and prohibition; mustn't vs don't have to."
+        },
+        {
+          "topic_name": "Should / Shouldn't for Advice",
+          "prerequisite_topics": ["Must / Mustn't: Obligation and Prohibition"],
+          "target_demographic_tags": [
+            { "group": "primary", "priority": "essential", "complexity": "moderate" },
+            { "group": "middle", "priority": "essential", "complexity": "easy" },
+            { "group": "adult", "priority": "essential", "complexity": "easy" }
+          ],
+          "summary_note": "Advice and recommendation; softer than must."
+        },
+        {
+          "topic_name": "Have to / Don't have to (external obligation)",
+          "prerequisite_topics": ["Must / Mustn't: Obligation and Prohibition"],
+          "target_demographic_tags": [
+            { "group": "primary", "priority": "recommended", "complexity": "advanced" },
+            { "group": "middle", "priority": "essential", "complexity": "moderate" },
+            { "group": "adult", "priority": "essential", "complexity": "moderate" }
+          ],
+          "summary_note": "External rules vs must; distinction from mustn't (no obligation)."
+        },
+        {
+          "topic_name": "First Conditional (if + present simple, will)",
+          "prerequisite_topics": ["Will for Predictions and Offers", "Basic Connectors: and, but, or, so, because", "Present Simple (affirmative)"],
+          "target_demographic_tags": [
+            { "group": "primary", "priority": "recommended", "complexity": "advanced" },
+            { "group": "middle", "priority": "essential", "complexity": "moderate" },
+            { "group": "adult", "priority": "essential", "complexity": "moderate" }
+          ],
+          "summary_note": "Real/possible future conditions; comma rules for if-clauses."
+        },
+        {
+          "topic_name": "Zero Conditional (if + present simple, present simple)",
+          "prerequisite_topics": ["Present Simple (affirmative)", "First Conditional (if + present simple, will)"],
+          "target_demographic_tags": [
+            { "group": "primary", "priority": "recommended", "complexity": "advanced" },
+            { "group": "middle", "priority": "recommended", "complexity": "moderate" },
+            { "group": "adult", "priority": "recommended", "complexity": "moderate" }
+          ],
+          "summary_note": "General truths and facts; when/if interchangeability."
+        },
+        {
+          "topic_name": "Object Pronouns after Prepositions",
+          "prerequisite_topics": ["Object Pronouns (me, you, him, her, it, us, them)", "Prepositions of Place (in, on, under, next to, behind, between)"],
+          "target_demographic_tags": [
+            { "group": "primary", "priority": "recommended", "complexity": "moderate" },
+            { "group": "middle", "priority": "recommended", "complexity": "moderate" },
+            { "group": "adult", "priority": "recommended", "complexity": "moderate" }
+          ],
+          "summary_note": "Pronoun case after prepositions (with me, to her...)."
+        },
+        {
+          "topic_name": "Conjunctions: because, so, although, but (revisited)",
+          "prerequisite_topics": ["Basic Connectors: and, but, or, so, because"],
+          "target_demographic_tags": [
+            { "group": "primary", "priority": "recommended", "complexity": "moderate" },
+            { "group": "middle", "priority": "essential", "complexity": "moderate" },
+            { "group": "adult", "priority": "essential", "complexity": "moderate" }
+          ],
+          "summary_note": "Expanding clause linking with reason, result, concession."
+        },
+        {
+          "topic_name": "Relative Pronouns Who and Which (basic defining)",
+          "prerequisite_topics": ["Question Words (what, where, when, who, why, how)", "Object Pronouns (me, you, him, her, it, us, them)"],
+          "target_demographic_tags": [
+            { "group": "primary", "priority": "optional", "complexity": "advanced" },
+            { "group": "middle", "priority": "recommended", "complexity": "moderate" },
+            { "group": "adult", "priority": "essential", "complexity": "moderate" }
+          ],
+          "summary_note": "Who for people, which for things in simple defining clauses."
+        },
+        {
+          "topic_name": "Possession Review: possessive s with plurals and irregulars",
+          "prerequisite_topics": ["Possessive Adjectives and Possessive 's", "Nouns and Simple Plurals"],
+          "target_demographic_tags": [
+            { "group": "primary", "priority": "recommended", "complexity": "moderate" },
+            { "group": "middle", "priority": "essential", "complexity": "moderate" },
+            { "group": "adult", "priority": "essential", "complexity": "moderate" }
+          ],
+          "summary_note": "Marking possession on plural and irregular plural nouns."
+        },
+        {
+          "topic_name": "Adverbs of Degree (very, really, too, a bit)",
+          "prerequisite_topics": ["Adverbs of Manner (slowly, quickly, well)"],
+          "target_demographic_tags": [
+            { "group": "primary", "priority": "recommended", "complexity": "moderate" },
+            { "group": "middle", "priority": "essential", "complexity": "moderate" },
+            { "group": "adult", "priority": "essential", "complexity": "moderate" }
+          ],
+          "summary_note": "Modifying adjectives and other adverbs."
+        },
+        {
+          "topic_name": "Verb + -ing: enjoy, love, hate, finish, mind",
+          "prerequisite_topics": ["Like + -ing for Likes and Dislikes", "Present Simple (affirmative)"],
+          "target_demographic_tags": [
+            { "group": "primary", "priority": "recommended", "complexity": "moderate" },
+            { "group": "middle", "priority": "essential", "complexity": "moderate" },
+            { "group": "adult", "priority": "essential", "complexity": "moderate" }
+          ],
+          "summary_note": "Expanding verbs that require a gerund after them."
+        },
+        {
+          "topic_name": "Verb + to-infinitive: want, need, plan, hope, decide",
+          "prerequisite_topics": ["Verb + -ing: enjoy, love, hate, finish, mind", "Going to for Future Intentions and Predictions"],
+          "target_demographic_tags": [
+            { "group": "primary", "priority": "recommended", "complexity": "moderate" },
+            { "group": "middle", "priority": "essential", "complexity": "moderate" },
+            { "group": "adult", "priority": "essential", "complexity": "moderate" }
+          ],
+          "summary_note": "Verbs that require to + base form."
+        },
+        {
+          "topic_name": "Gerunds vs Infinitives: like/hate + -ing vs want + to",
+          "prerequisite_topics": ["Verb + -ing: enjoy, love, hate, finish, mind", "Verb + to-infinitive: want, need, plan, hope, decide"],
+          "target_demographic_tags": [
+            { "group": "primary", "priority": "recommended", "complexity": "advanced" },
+            { "group": "middle", "priority": "essential", "complexity": "moderate" },
+            { "group": "adult", "priority": "essential", "complexity": "moderate" }
+          ],
+          "summary_note": "The first clear -ing vs to distinction after specific verbs."
+        },
+        {
+          "topic_name": "Infinitive of Purpose (to + verb for reason)",
+          "prerequisite_topics": ["Verb + to-infinitive: want, need, plan, hope, decide"],
+          "target_demographic_tags": [
+            { "group": "primary", "priority": "recommended", "complexity": "moderate" },
+            { "group": "middle", "priority": "essential", "complexity": "moderate" },
+            { "group": "adult", "priority": "essential", "complexity": "moderate" }
+          ],
+          "summary_note": "'I went to the shop to buy milk.' Why/for what purpose."
+        },
+        {
+          "topic_name": "Yes/No Questions and Short Answers",
+          "prerequisite_topics": ["Present Simple: questions with do/does", "The Verb 'to be' (am, is, are)"],
+          "target_demographic_tags": [
+            { "group": "primary", "priority": "essential", "complexity": "moderate" },
+            { "group": "middle", "priority": "essential", "complexity": "easy" },
+            { "group": "adult", "priority": "essential", "complexity": "easy" }
+          ],
+          "summary_note": "Auxiliary-subject inversion and natural short responses."
+        },
+        {
+          "topic_name": "Going to / Will questions and Short Answers",
+          "prerequisite_topics": ["Going to vs Will", "Yes/No Questions and Short Answers"],
+          "target_demographic_tags": [
+            { "group": "primary", "priority": "recommended", "complexity": "moderate" },
+            { "group": "middle", "priority": "essential", "complexity": "moderate" },
+            { "group": "adult", "priority": "essential", "complexity": "moderate" }
+          ],
+          "summary_note": "Future question formation and auxiliary-based short answers."
+        },
+        {
+          "topic_name": "Prepositions of Time and Place Review and Consolidation",
+          "prerequisite_topics": ["Prepositions of Place (in, on, under, next to, behind, between)", "Prepositions of Time (in, on, at)"],
+          "target_demographic_tags": [
+            { "group": "primary", "priority": "recommended", "complexity": "moderate" },
+            { "group": "middle", "priority": "essential", "complexity": "moderate" },
+            { "group": "adult", "priority": "essential", "complexity": "moderate" }
+          ],
+          "summary_note": "Consolidating the common in/on/at patterns across contexts."
+        },
+        {
+          "topic_name": "Too + adjective / adjective + enough",
+          "prerequisite_topics": ["Adverbs of Degree (very, really, too, a bit)"],
+          "target_demographic_tags": [
+            { "group": "primary", "priority": "optional", "complexity": "advanced" },
+            { "group": "middle", "priority": "recommended", "complexity": "moderate" },
+            { "group": "adult", "priority": "recommended", "complexity": "moderate" }
+          ],
+          "summary_note": "Expressing excess and sufficiency; word order with enough."
+        }
+      ]
+    },
+    "B1": {
+      "label": "Intermediate",
+      "description": "Present perfect, future continuous/perfect, modals of deduction, all conditionals, passive, reported speech introduction.",
+      "grammar_modules": [
+        {
+          "topic_name": "Present Perfect: experience (have/has + past participle)",
+          "prerequisite_topics": ["Past Simple: irregular verbs", "The Verb 'to have' (have/has) and Have Got"],
+          "target_demographic_tags": [
+            { "group": "primary", "priority": "recommended", "complexity": "advanced" },
+            { "group": "middle", "priority": "essential", "complexity": "moderate" },
+            { "group": "adult", "priority": "essential", "complexity": "moderate" }
+          ],
+          "summary_note": "Life experience without a finished time; contrast with simple past."
+        },
+        {
+          "topic_name": "Present Perfect: already, yet, just, ever, never",
+          "prerequisite_topics": ["Present Perfect: experience (have/has + past participle)"],
+          "target_demographic_tags": [
+            { "group": "primary", "priority": "optional", "complexity": "advanced" },
+            { "group": "middle", "priority": "essential", "complexity": "moderate" },
+            { "group": "adult", "priority": "essential", "complexity": "moderate" }
+          ],
+          "summary_note": "Time adverbs that signal the present perfect."
+        },
+        {
+          "topic_name": "Present Perfect vs Past Simple",
+          "prerequisite_topics": ["Present Perfect: experience (have/has + past participle)", "Past Simple: negatives and questions (did)"],
+          "target_demographic_tags": [
+            { "group": "primary", "priority": "optional", "complexity": "advanced" },
+            { "group": "middle", "priority": "essential", "complexity": "moderate" },
+            { "group": "adult", "priority": "essential", "complexity": "moderate" }
+          ],
+          "summary_note": "The crucial distinction: relevant-to-now vs finished-time."
+        },
+        {
+          "topic_name": "Present Perfect for Unfinished Past (for, since)",
+          "prerequisite_topics": ["Present Perfect: experience (have/has + past participle)", "Prepositions of Time (in, on, at)"],
+          "target_demographic_tags": [
+            { "group": "primary", "priority": "optional", "complexity": "advanced" },
+            { "group": "middle", "priority": "essential", "complexity": "moderate" },
+            { "group": "adult", "priority": "essential", "complexity": "moderate" }
+          ],
+          "summary_note": "Actions/situations that started in the past and continue now."
+        },
+        {
+          "topic_name": "Present Perfect Continuous (have/has been + -ing)",
+          "prerequisite_topics": ["Present Perfect: experience (have/has + past participle)", "Present Continuous (am/is/are + -ing)"],
+          "target_demographic_tags": [
+            { "group": "primary", "priority": "optional", "complexity": "advanced" },
+            { "group": "middle", "priority": "recommended", "complexity": "advanced" },
+            { "group": "adult", "priority": "essential", "complexity": "moderate" }
+          ],
+          "summary_note": "Emphasis on duration/recent activity vs present perfect result focus."
+        },
+        {
+          "topic_name": "Used to for Past Habits and States",
+          "prerequisite_topics": ["Past Simple: irregular verbs", "Present Simple (affirmative)"],
+          "target_demographic_tags": [
+            { "group": "primary", "priority": "optional", "complexity": "advanced" },
+            { "group": "middle", "priority": "essential", "complexity": "moderate" },
+            { "group": "adult", "priority": "essential", "complexity": "moderate" }
+          ],
+          "summary_note": "Past habits no longer true; contrast with past simple."
+        },
+        {
+          "topic_name": "Tag Questions",
+          "prerequisite_topics": ["Yes/No Questions and Short Answers", "Present Perfect: experience (have/has + past participle)"],
+          "target_demographic_tags": [
+            { "group": "primary", "priority": "optional", "complexity": "advanced" },
+            { "group": "middle", "priority": "recommended", "complexity": "advanced" },
+            { "group": "adult", "priority": "essential", "complexity": "moderate" }
+          ],
+          "summary_note": "Confirming information; auxiliary + pronoun reversal rules."
+        },
+        {
+          "topic_name": "Modal Deduction: must, might, may, could (present)",
+          "prerequisite_topics": ["Modal verbs: Introduction to Modal Structure", "Should / Shouldn't for Advice"],
+          "target_demographic_tags": [
+            { "group": "primary", "priority": "optional", "complexity": "advanced" },
+            { "group": "middle", "priority": "essential", "complexity": "moderate" },
+            { "group": "adult", "priority": "essential", "complexity": "moderate" }
+          ],
+          "summary_note": "Making guesses about present situations; certainty scale."
+        },
+        {
+          "topic_name": "Modal Deduction: can't for impossible guess",
+          "prerequisite_topics": ["Modal Deduction: must, might, may, could (present)"],
+          "target_demographic_tags": [
+            { "group": "primary", "priority": "optional", "complexity": "advanced" },
+            { "group": "middle", "priority": "essential", "complexity": "moderate" },
+            { "group": "adult", "priority": "essential", "complexity": "moderate" }
+          ],
+          "summary_note": "can't = logical impossibility, contrasting with must."
+        },
+        {
+          "topic_name": "Permission: May I...? / Can I...?",
+          "prerequisite_topics": ["Can / Can't for Ability and Permission", "Present Simple: questions with do/does"],
+          "target_demographic_tags": [
+            { "group": "primary", "priority": "essential", "complexity": "moderate" },
+            { "group": "middle", "priority": "essential", "complexity": "moderate" },
+            { "group": "adult", "priority": "essential", "complexity": "moderate" }
+          ],
+          "summary_note": "Polite permission requests in everyday and classroom contexts."
+        },
+        {
+          "topic_name": "Modals of Permission: may, might, can (polite)",
+          "prerequisite_topics": ["Can / Can't for Ability and Permission", "Permission: May I...? / Can I...?"],
+          "target_demographic_tags": [
+            { "group": "primary", "priority": "recommended", "complexity": "moderate" },
+            { "group": "middle", "priority": "recommended", "complexity": "moderate" },
+            { "group": "adult", "priority": "essential", "complexity": "moderate" }
+          ],
+          "summary_note": "Asking for and granting permission across formality levels."
+        },
+        {
+          "topic_name": "Requests and Offers: will, would, shall, can, could",
+          "prerequisite_topics": ["Will for Predictions and Offers", "Could / Couldn't for Past Ability"],
+          "target_demographic_tags": [
+            { "group": "primary", "priority": "recommended", "complexity": "advanced" },
+            { "group": "middle", "priority": "essential", "complexity": "moderate" },
+            { "group": "adult", "priority": "essential", "complexity": "moderate" }
+          ],
+          "summary_note": "Polite requests (could you...?), suggestions (shall we...?), offers."
+        },
+        {
+          "topic_name": "Second Conditional (if + past simple, would)",
+          "prerequisite_topics": ["First Conditional (if + present simple, will)", "Past Simple: negatives and questions (did)"],
+          "target_demographic_tags": [
+            { "group": "primary", "priority": "optional", "complexity": "advanced" },
+            { "group": "middle", "priority": "essential", "complexity": "moderate" },
+            { "group": "adult", "priority": "essential", "complexity": "moderate" }
+          ],
+          "summary_note": "Unreal/hypothetical present or future; were for all persons."
+        },
+        {
+          "topic_name": "First vs Second Conditional: real vs unreal",
+          "prerequisite_topics": ["First Conditional (if + present simple, will)", "Second Conditional (if + past simple, would)"],
+          "target_demographic_tags": [
+            { "group": "primary", "priority": "optional", "complexity": "advanced" },
+            { "group": "middle", "priority": "essential", "complexity": "moderate" },
+            { "group": "adult", "priority": "essential", "complexity": "moderate" }
+          ],
+          "summary_note": "Choosing between real and hypothetical conditions."
+        },
+        {
+          "topic_name": "Past Perfect (had + past participle)",
+          "prerequisite_topics": ["Past Simple: irregular verbs", "Present Perfect: experience (have/has + past participle)"],
+          "target_demographic_tags": [
+            { "group": "primary", "priority": "optional", "complexity": "advanced" },
+            { "group": "middle", "priority": "essential", "complexity": "moderate" },
+            { "group": "adult", "priority": "essential", "complexity": "moderate" }
+          ],
+          "summary_note": "Past-before-past; sequencing two past events."
+        },
+        {
+          "topic_name": "Third Conditional (if + past perfect, would have)",
+          "prerequisite_topics": ["Second Conditional (if + past simple, would)", "Past Perfect (had + past participle)"],
+          "target_demographic_tags": [
+            { "group": "primary", "priority": "optional", "complexity": "advanced" },
+            { "group": "middle", "priority": "recommended", "complexity": "advanced" },
+            { "group": "adult", "priority": "essential", "complexity": "moderate" }
+          ],
+          "summary_note": "Unreal past; regrets and counterfactuals about finished events."
+        },
+        {
+          "topic_name": "Past Perfect Continuous (had been + -ing)",
+          "prerequisite_topics": ["Past Perfect (had + past participle)", "Present Perfect Continuous (have/has been + -ing)"],
+          "target_demographic_tags": [
+            { "group": "primary", "priority": "optional", "complexity": "advanced" },
+            { "group": "middle", "priority": "recommended", "complexity": "advanced" },
+            { "group": "adult", "priority": "essential", "complexity": "moderate" }
+          ],
+          "summary_note": "Background duration leading up to a past event."
+        },
+        {
+          "topic_name": "Passive Voice: Present Simple and Past Simple",
+          "prerequisite_topics": ["Present Simple (affirmative)", "Past Simple: irregular verbs"],
+          "target_demographic_tags": [
+            { "group": "primary", "priority": "optional", "complexity": "advanced" },
+            { "group": "middle", "priority": "recommended", "complexity": "advanced" },
+            { "group": "adult", "priority": "essential", "complexity": "moderate" }
+          ],
+          "summary_note": "Who/what receives the action; agent with by; first passive forms."
+        },
+        {
+          "topic_name": "Passive Voice: Present Perfect and Future (will)",
+          "prerequisite_topics": ["Passive Voice: Present Simple and Past Simple", "Present Perfect: experience (have/has + past participle)"],
+          "target_demographic_tags": [
+            { "group": "primary", "priority": "optional", "complexity": "advanced" },
+            { "group": "middle", "priority": "recommended", "complexity": "advanced" },
+            { "group": "adult", "priority": "essential", "complexity": "moderate" }
+          ],
+          "summary_note": "Passive with have been + pp and will be + pp."
+        },
+        {
+          "topic_name": "Passive Voice with Modals (must be, can be, should be)",
+          "prerequisite_topics": ["Passive Voice: Present Simple and Past Simple", "Modal verbs: Introduction to Modal Structure"],
+          "target_demographic_tags": [
+            { "group": "primary", "priority": "optional", "complexity": "advanced" },
+            { "group": "middle", "priority": "recommended", "complexity": "advanced" },
+            { "group": "adult", "priority": "essential", "complexity": "moderate" }
+          ],
+          "summary_note": "General rules and possibility expressed passively."
+        },
+        {
+          "topic_name": "Reported Speech: statements (say/tell + backshift)",
+          "prerequisite_topics": ["Past Simple: negatives and questions (did)", "Present Perfect: experience (have/has + past participle)"],
+          "target_demographic_tags": [
+            { "group": "primary", "priority": "optional", "complexity": "advanced" },
+            { "group": "middle", "priority": "recommended", "complexity": "advanced" },
+            { "group": "adult", "priority": "essential", "complexity": "moderate" }
+          ],
+          "summary_note": "Reporting reported content; say vs tell; one-step tense backshift."
+        },
+        {
+          "topic_name": "Reported Speech: time and place changes",
+          "prerequisite_topics": ["Reported Speech: statements (say/tell + backshift)"],
+          "target_demographic_tags": [
+            { "group": "primary", "priority": "optional", "complexity": "advanced" },
+            { "group": "middle", "priority": "recommended", "complexity": "advanced" },
+            { "group": "adult", "priority": "essential", "complexity": "moderate" }
+          ],
+          "summary_note": "here→there, today→that day, now→then shifts."
+        },
+        {
+          "topic_name": "Defining Relative Clauses (who, which, that, where)",
+          "prerequisite_topics": ["Relative Pronouns Who and Which (basic defining)", "Object Pronouns (me, you, him, her, it, us, them)"],
+          "target_demographic_tags": [
+            { "group": "primary", "priority": "optional", "complexity": "advanced" },
+            { "group": "middle", "priority": "essential", "complexity": "moderate" },
+            { "group": "adult", "priority": "essential", "complexity": "moderate" }
+          ],
+          "summary_note": "Essential information; that as an alternative; no commas."
+        },
+        {
+          "topic_name": "Relative Clauses: subject vs object pronouns",
+          "prerequisite_topics": ["Defining Relative Clauses (who, which, that, where)"],
+          "target_demographic_tags": [
+            { "group": "primary", "priority": "optional", "complexity": "advanced" },
+            { "group": "middle", "priority": "recommended", "complexity": "advanced" },
+            { "group": "adult", "priority": "essential", "complexity": "moderate" }
+          ],
+          "summary_note": "When the relative pronoun is subject vs object; who/whom."
+        },
+        {
+          "topic_name": "Gerunds as Subjects and Objects",
+          "prerequisite_topics": ["Verb + -ing: enjoy, love, hate, finish, mind", "Like + -ing for Likes and Dislikes"],
+          "target_demographic_tags": [
+            { "group": "primary", "priority": "optional", "complexity": "advanced" },
+            { "group": "middle", "priority": "recommended", "complexity": "moderate" },
+            { "group": "adult", "priority": "essential", "complexity": "moderate" }
+          ],
+          "summary_note": "Swimming is fun / I enjoy swimming; -ing naming activities."
+        },
+        {
+          "topic_name": "Infinitive after Adjectives (happy to, easy to, important to)",
+          "prerequisite_topics": ["Verb + to-infinitive: want, need, plan, hope, decide"],
+          "target_demographic_tags": [
+            { "group": "primary", "priority": "recommended", "complexity": "moderate" },
+            { "group": "middle", "priority": "essential", "complexity": "moderate" },
+            { "group": "adult", "priority": "essential", "complexity": "moderate" }
+          ],
+          "summary_note": "It's + adjective + to-infinitive for opinion/evaluation."
+        },
+        {
+          "topic_name": "Gerunds after Prepositions",
+          "prerequisite_topics": ["Gerunds as Subjects and Objects", "Prepositions of Time and Place Review and Consolidation"],
+          "target_demographic_tags": [
+            { "group": "primary", "priority": "optional", "complexity": "advanced" },
+            { "group": "middle", "priority": "recommended", "complexity": "advanced" },
+            { "group": "adult", "priority": "essential", "complexity": "moderate" }
+          ],
+          "summary_note": "good at cooking, interested in reading."
+        },
+        {
+          "topic_name": "Modal Perfects: should have, could have, must have",
+          "prerequisite_topics": ["Modal Deduction: must, might, may, could (present)", "Past Perfect (had + past participle)"],
+          "target_demographic_tags": [
+            { "group": "primary", "priority": "optional", "complexity": "advanced" },
+            { "group": "middle", "priority": "recommended", "complexity": "advanced" },
+            { "group": "adult", "priority": "essential", "complexity": "advanced" }
+          ],
+          "summary_note": "Regret (should have), missed opportunity (could have), past deduction (must have)."
+        },
+        {
+          "topic_name": "Future Continuous (will be + -ing)",
+          "prerequisite_topics": ["Will for Predictions and Offers", "Present Continuous (am/is/are + -ing)"],
+          "target_demographic_tags": [
+            { "group": "primary", "priority": "optional", "complexity": "advanced" },
+            { "group": "middle", "priority": "recommended", "complexity": "advanced" },
+            { "group": "adult", "priority": "essential", "complexity": "moderate" }
+          ],
+          "summary_note": "Actions in progress at a future point; future arrangements."
+        },
+        {
+          "topic_name": "Future Perfect (will have + past participle)",
+          "prerequisite_topics": ["Future Continuous (will be + -ing)", "Present Perfect: experience (have/has + past participle)"],
+          "target_demographic_tags": [
+            { "group": "primary", "priority": "optional", "complexity": "advanced" },
+            { "group": "middle", "priority": "recommended", "complexity": "advanced" },
+            { "group": "adult", "priority": "essential", "complexity": "moderate" }
+          ],
+          "summary_note": "Completed by a future deadline: 'will have finished by 5pm.'"
+        },
+        {
+          "topic_name": "Adjectives + Prepositions (interested in, good at, afraid of)",
+          "prerequisite_topics": ["Gerunds after Prepositions", "Gerunds as Subjects and Objects"],
+          "target_demographic_tags": [
+            { "group": "primary", "priority": "recommended", "complexity": "moderate" },
+            { "group": "middle", "priority": "essential", "complexity": "moderate" },
+            { "group": "adult", "priority": "essential", "complexity": "moderate" }
+          ],
+          "summary_note": "Common adjective+preposition collocations with gerund complements."
+        },
+        {
+          "topic_name": "Phrasal Verbs: introduction (separability)",
+          "prerequisite_topics": ["Object Pronouns (me, you, him, her, it, us, them)", "Past Simple: irregular verbs"],
+          "target_demographic_tags": [
+            { "group": "primary", "priority": "optional", "complexity": "advanced" },
+            { "group": "middle", "priority": "recommended", "complexity": "moderate" },
+            { "group": "adult", "priority": "essential", "complexity": "moderate" }
+          ],
+          "summary_note": "Verb + particle combinations; pronoun placement in separable phrasals."
+        },
+        {
+          "topic_name": "Questions: Embedded Questions (Do you know where...?)",
+          "prerequisite_topics": ["Question Words (what, where, when, who, why, how)", "Yes/No Questions and Short Answers"],
+          "target_demographic_tags": [
+            { "group": "primary", "priority": "optional", "complexity": "advanced" },
+            { "group": "middle", "priority": "recommended", "complexity": "advanced" },
+            { "group": "adult", "priority": "essential", "complexity": "moderate" }
+          ],
+          "summary_note": "Polite indirect questions with statement word order."
+        },
+        {
+          "topic_name": "Quantifiers: few, a few, little, a little",
+          "prerequisite_topics": ["Basic Quantifiers: much, many, a lot of"],
+          "target_demographic_tags": [
+            { "group": "primary", "priority": "optional", "complexity": "advanced" },
+            { "group": "middle", "priority": "recommended", "complexity": "advanced" },
+            { "group": "adult", "priority": "essential", "complexity": "moderate" }
+          ],
+          "summary_note": "Positive vs negative nuance: a few vs few, a little vs little."
+        },
+        {
+          "topic_name": "Both, either, neither, all, each, every",
+          "prerequisite_topics": ["Countable and Uncountable Nouns (some/any)", "Object Pronouns (me, you, him, her, it, us, them)"],
+          "target_demographic_tags": [
+            { "group": "primary", "priority": "optional", "complexity": "advanced" },
+            { "group": "middle", "priority": "recommended", "complexity": "advanced" },
+            { "group": "adult", "priority": "essential", "complexity": "moderate" }
+          ],
+          "summary_note": "Distributive and pair quantifiers; agreement rules."
+        },
+        {
+          "topic_name": "Both, Either, Neither: choices",
+          "prerequisite_topics": ["Basic Quantifiers: much, many, a lot of"],
+          "target_demographic_tags": [
+            { "group": "primary", "priority": "recommended", "complexity": "moderate" },
+            { "group": "middle", "priority": "recommended", "complexity": "moderate" },
+            { "group": "adult", "priority": "recommended", "complexity": "moderate" }
+          ],
+          "summary_note": "Two-item choices: both...and, either...or, neither...nor."
+        },
+        {
+          "topic_name": "Adjective Order",
+          "prerequisite_topics": ["Basic Adjectives and Word Order", "Comparatives (-er / more)"],
+          "target_demographic_tags": [
+            { "group": "primary", "priority": "optional", "complexity": "advanced" },
+            { "group": "middle", "priority": "recommended", "complexity": "moderate" },
+            { "group": "adult", "priority": "recommended", "complexity": "moderate" }
+          ],
+          "summary_note": "Opinion-size-age-shape-color-origin-material-purpose order."
+        },
+        {
+          "topic_name": "Linking Words: however, although, even though, despite",
+          "prerequisite_topics": ["Conjunctions: because, so, although, but (revisited)"],
+          "target_demographic_tags": [
+            { "group": "primary", "priority": "optional", "complexity": "advanced" },
+            { "group": "middle", "priority": "recommended", "complexity": "moderate" },
+            { "group": "adult", "priority": "essential", "complexity": "moderate" }
+          ],
+          "summary_note": "Contrast and concession across and within sentences."
+        },
+        {
+          "topic_name": "Clauses of Result: so / such that",
+          "prerequisite_topics": ["Adverbs of Degree (very, really, too, a bit)", "Conjunctions: because, so, although, but (revisited)"],
+          "target_demographic_tags": [
+            { "group": "primary", "priority": "optional", "complexity": "advanced" },
+            { "group": "middle", "priority": "recommended", "complexity": "advanced" },
+            { "group": "adult", "priority": "essential", "complexity": "moderate" }
+          ],
+          "summary_note": "so + adjective/adverb, such + noun, that-clause of result."
+        }
+      ]
+    },
+    "B2": {
+      "label": "Upper-Intermediate",
+      "description": "Full passive across tenses, causative, reported speech expansion, all modal perfects, non-defining/reduced relatives, complex -ing patterns.",
+      "grammar_modules": [
+        {
+          "topic_name": "Passive Voice: Past Continuous and Present Perfect Continuous",
+          "prerequisite_topics": ["Passive Voice: Present Simple and Past Simple", "Past Continuous (was/were + -ing)"],
+          "target_demographic_tags": [
+            { "group": "primary", "priority": "optional", "complexity": "advanced" },
+            { "group": "middle", "priority": "recommended", "complexity": "advanced" },
+            { "group": "adult", "priority": "essential", "complexity": "advanced" }
+          ],
+          "summary_note": "Expanding passive across progressive and perfect-progressive forms."
+        },
+        {
+          "topic_name": "Passive Voice: Future Perfect",
+          "prerequisite_topics": ["Passive Voice: Present Perfect and Future (will)", "Future Perfect (will have + past participle)"],
+          "target_demographic_tags": [
+            { "group": "primary", "priority": "optional", "complexity": "advanced" },
+            { "group": "middle", "priority": "optional", "complexity": "advanced" },
+            { "group": "adult", "priority": "recommended", "complexity": "advanced" }
+          ],
+          "summary_note": "will have been + past participle for future completion passive."
+        },
+        {
+          "topic_name": "Causative have/get (have something done)",
+          "prerequisite_topics": ["Passive Voice: Present Simple and Past Simple"],
+          "target_demographic_tags": [
+            { "group": "primary", "priority": "optional", "complexity": "advanced" },
+            { "group": "middle", "priority": "recommended", "complexity": "advanced" },
+            { "group": "adult", "priority": "essential", "complexity": "advanced" }
+          ],
+          "summary_note": "Arranging for someone else to do something for you."
+        },
+        {
+          "topic_name": "Causative get + infinitive and have + object + verb patterns",
+          "prerequisite_topics": ["Causative have/get (have something done)"],
+          "target_demographic_tags": [
+            { "group": "primary", "priority": "optional", "complexity": "advanced" },
+            { "group": "middle", "priority": "optional", "complexity": "advanced" },
+            { "group": "adult", "priority": "recommended", "complexity": "advanced" }
+          ],
+          "summary_note": "get someone to do, have someone do; causation vs arrangement."
+        },
+        {
+          "topic_name": "Reported Speech: questions",
+          "prerequisite_topics": ["Reported Speech: statements (say/tell + backshift)", "Question Words (what, where, when, who, why, how)"],
+          "target_demographic_tags": [
+            { "group": "primary", "priority": "optional", "complexity": "advanced" },
+            { "group": "middle", "priority": "recommended", "complexity": "advanced" },
+            { "group": "adult", "priority": "essential", "complexity": "advanced" }
+          ],
+          "summary_note": "Reporting yes/no and wh- questions; no inversion, no question mark."
+        },
+        {
+          "topic_name": "Reported Speech: commands and requests",
+          "prerequisite_topics": ["Reported Speech: statements (say/tell + backshift)", "Imperatives (commands and instructions)"],
+          "target_demographic_tags": [
+            { "group": "primary", "priority": "optional", "complexity": "advanced" },
+            { "group": "middle", "priority": "recommended", "complexity": "advanced" },
+            { "group": "adult", "priority": "essential", "complexity": "advanced" }
+          ],
+          "summary_note": "tell/ask someone to do something; negative orders."
+        },
+        {
+          "topic_name": "Reporting Verbs (suggest, recommend, admit, deny, promise)",
+          "prerequisite_topics": ["Reported Speech: statements (say/tell + backshift)", "Verb + -ing: enjoy, love, hate, finish, mind"],
+          "target_demographic_tags": [
+            { "group": "primary", "priority": "optional", "complexity": "advanced" },
+            { "group": "middle", "priority": "recommended", "complexity": "advanced" },
+            { "group": "adult", "priority": "essential", "complexity": "advanced" }
+          ],
+          "summary_note": "Reporting verbs + that-clause, + to-infinitive, or + gerund."
+        },
+        {
+          "topic_name": "Mixed Conditionals (intro: past/future and 2nd/3rd mixing)",
+          "prerequisite_topics": ["Third Conditional (if + past perfect, would have)", "Second Conditional (if + past simple, would)"],
+          "target_demographic_tags": [
+            { "group": "primary", "priority": "optional", "complexity": "advanced" },
+            { "group": "middle", "priority": "optional", "complexity": "advanced" },
+            { "group": "adult", "priority": "essential", "complexity": "advanced" }
+          ],
+          "summary_note": "Combining unreal past condition with unreal present result."
+        },
+        {
+          "topic_name": "Mixed Conditionals: third→second and second→third",
+          "prerequisite_topics": ["Mixed Conditionals (intro: past/future and 2nd/3rd mixing)"],
+          "target_demographic_tags": [
+            { "group": "primary", "priority": "optional", "complexity": "advanced" },
+            { "group": "middle", "priority": "optional", "complexity": "advanced" },
+            { "group": "adult", "priority": "essential", "complexity": "advanced" }
+          ],
+          "summary_note": "The two canonical mixed types in detail with usage contexts."
+        },
+        {
+          "topic_name": "Wish + past simple (present wishes)",
+          "prerequisite_topics": ["Second Conditional (if + past simple, would)"],
+          "target_demographic_tags": [
+            { "group": "primary", "priority": "optional", "complexity": "advanced" },
+            { "group": "middle", "priority": "recommended", "complexity": "advanced" },
+            { "group": "adult", "priority": "essential", "complexity": "advanced" }
+          ],
+          "summary_note": "I wish I had...; were for hypothetical situations."
+        },
+        {
+          "topic_name": "Wish + past perfect (regrets)",
+          "prerequisite_topics": ["Wish + past simple (present wishes)", "Past Perfect (had + past participle)"],
+          "target_demographic_tags": [
+            { "group": "primary", "priority": "optional", "complexity": "advanced" },
+            { "group": "middle", "priority": "recommended", "complexity": "advanced" },
+            { "group": "adult", "priority": "essential", "complexity": "advanced" }
+          ],
+          "summary_note": "Regret about past actions: I wish I had gone."
+        },
+        {
+          "topic_name": "If only + would (complaints about present)",
+          "prerequisite_topics": ["Wish + past simple (present wishes)", "Modals of Permission: may, might, can (polite)"],
+          "target_demographic_tags": [
+            { "group": "primary", "priority": "optional", "complexity": "advanced" },
+            { "group": "middle", "priority": "optional", "complexity": "advanced" },
+            { "group": "adult", "priority": "recommended", "complexity": "advanced" }
+          ],
+          "summary_note": "Expressing irritation about a current habit/situation."
+        },
+        {
+          "topic_name": "Modal Perfects: might have, may have, could have (deduction)",
+          "prerequisite_topics": ["Modal Perfects: should have, could have, must have", "Modal Deduction: must, might, may, could (present)"],
+          "target_demographic_tags": [
+            { "group": "primary", "priority": "optional", "complexity": "advanced" },
+            { "group": "middle", "priority": "recommended", "complexity": "advanced" },
+            { "group": "adult", "priority": "essential", "complexity": "advanced" }
+          ],
+          "summary_note": "Past deduction with epistemic modality; certainty spectrum."
+        },
+        {
+          "topic_name": "Modal Perfects: needn't have / didn't need to",
+          "prerequisite_topics": ["Modal Perfects: should have, could have, must have"],
+          "target_demographic_tags": [
+            { "group": "primary", "priority": "optional", "complexity": "advanced" },
+            { "group": "middle", "priority": "optional", "complexity": "advanced" },
+            { "group": "adult", "priority": "recommended", "complexity": "advanced" }
+          ],
+          "summary_note": "Unnecessary past action done vs not done; contrast."
+        },
+        {
+          "topic_name": "Modal Perfects: would have (unreal conditions) review",
+          "prerequisite_topics": ["Third Conditional (if + past perfect, would have)", "Modal Perfects: should have, could have, must have"],
+          "target_demographic_tags": [
+            { "group": "primary", "priority": "optional", "complexity": "advanced" },
+            { "group": "middle", "priority": "recommended", "complexity": "advanced" },
+            { "group": "adult", "priority": "essential", "complexity": "advanced" }
+          ],
+          "summary_note": "would have in counterfactual contexts outside if-clauses."
+        },
+        {
+          "topic_name": "Non-defining relative clauses",
+          "prerequisite_topics": ["Defining Relative Clauses (who, which, that, where)", "Relative Clauses: subject vs object pronouns"],
+          "target_demographic_tags": [
+            { "group": "primary", "priority": "optional", "complexity": "advanced" },
+            { "group": "middle", "priority": "optional", "complexity": "advanced" },
+            { "group": "adult", "priority": "essential", "complexity": "advanced" }
+          ],
+          "summary_note": "Extra, non-essential info with commas; no that."
+        },
+        {
+          "topic_name": "Defining vs Non-defining relative clauses",
+          "prerequisite_topics": ["Defining Relative Clauses (who, which, that, where)", "Non-defining relative clauses"],
+          "target_demographic_tags": [
+            { "group": "primary", "priority": "optional", "complexity": "advanced" },
+            { "group": "middle", "priority": "recommended", "complexity": "advanced" },
+            { "group": "adult", "priority": "essential", "complexity": "advanced" }
+          ],
+          "summary_note": "Punctuation and meaning contrast; omission rules."
+        },
+        {
+          "topic_name": "Reduced relative clauses (participle -ing / -ed)",
+          "prerequisite_topics": ["Defining vs Non-defining relative clauses", "Gerunds as Subjects and Objects"],
+          "target_demographic_tags": [
+            { "group": "primary", "priority": "optional", "complexity": "advanced" },
+            { "group": "middle", "priority": "optional", "complexity": "advanced" },
+            { "group": "adult", "priority": "essential", "complexity": "advanced" }
+          ],
+          "summary_note": "Dropping the relative pronoun + be in active/passive clauses."
+        },
+        {
+          "topic_name": "Relative clauses with prepositions",
+          "prerequisite_topics": ["Relative Clauses: subject vs object pronouns", "Prepositions of Place (in, on, under, next to, behind, between)"],
+          "target_demographic_tags": [
+            { "group": "primary", "priority": "optional", "complexity": "advanced" },
+            { "group": "middle", "priority": "optional", "complexity": "advanced" },
+            { "group": "adult", "priority": "recommended", "complexity": "advanced" }
+          ],
+          "summary_note": "the person who I talked to / to whom I talked; formal vs informal."
+        },
+        {
+          "topic_name": "Gerunds and Infinitives: complex patterns (remember, stop, try, regret)",
+          "prerequisite_topics": ["Gerunds vs Infinitives: like/hate + -ing vs want + to", "Verb + -ing: enjoy, love, hate, finish, mind"],
+          "target_demographic_tags": [
+            { "group": "primary", "priority": "optional", "complexity": "advanced" },
+            { "group": "middle", "priority": "recommended", "complexity": "advanced" },
+            { "group": "adult", "priority": "essential", "complexity": "advanced" }
+          ],
+          "summary_note": "Verbs whose meaning changes between gerund and infinitive."
+        },
+        {
+          "topic_name": "Gerund/Infinitive: perfect and passive forms (having done, to be told)",
+          "prerequisite_topics": ["Gerunds and Infinitives: complex patterns (remember, stop, try, regret)"],
+          "target_demographic_tags": [
+            { "group": "primary", "priority": "optional", "complexity": "advanced" },
+            { "group": "middle", "priority": "optional", "complexity": "advanced" },
+            { "group": "adult", "priority": "recommended", "complexity": "advanced" }
+          ],
+          "summary_note": "Advanced -ing/to forms for perfect and passive meaning."
+        },
+        {
+          "topic_name": "Verb + object + infinitive (ask/tell/want someone to do)",
+          "prerequisite_topics": ["Verb + to-infinitive: want, need, plan, hope, decide", "Object Pronouns (me, you, him, her, it, us, them)"],
+          "target_demographic_tags": [
+            { "group": "primary", "priority": "optional", "complexity": "advanced" },
+            { "group": "middle", "priority": "recommended", "complexity": "advanced" },
+            { "group": "adult", "priority": "essential", "complexity": "advanced" }
+          ],
+          "summary_note": "Two-object patterns: ask/tell/allow/want + object + to-infinitive."
+        },
+        {
+          "topic_name": "Let / Make + object + base form (causative verbs)",
+          "prerequisite_topics": ["Verb + object + infinitive (ask/tell/want someone to do)"],
+          "target_demographic_tags": [
+            { "group": "primary", "priority": "optional", "complexity": "advanced" },
+            { "group": "middle", "priority": "recommended", "complexity": "advanced" },
+            { "group": "adult", "priority": "essential", "complexity": "advanced" }
+          ],
+          "summary_note": "Bare infinitive complements; passive forms (was made to do)."
+        },
+        {
+          "topic_name": "used to vs be/get used to",
+          "prerequisite_topics": ["Used to for Past Habits and States", "Gerunds after Prepositions"],
+          "target_demographic_tags": [
+            { "group": "primary", "priority": "optional", "complexity": "advanced" },
+            { "group": "middle", "priority": "recommended", "complexity": "advanced" },
+            { "group": "adult", "priority": "essential", "complexity": "advanced" }
+          ],
+          "summary_note": "Past habit (used to + base) vs accustomed to (+ -ing)."
+        },
+        {
+          "topic_name": "Articles: advanced uses (the with names, zero article refinement)",
+          "prerequisite_topics": ["The Zero Article (no article)", "Articles: a/an and the"],
+          "target_demographic_tags": [
+            { "group": "primary", "priority": "optional", "complexity": "advanced" },
+            { "group": "middle", "priority": "recommended", "complexity": "advanced" },
+            { "group": "adult", "priority": "essential", "complexity": "advanced" }
+          ],
+          "summary_note": "Geographical names, institutions, meals, media; fine distinctions."
+        },
+        {
+          "topic_name": "Comparatives: (not) as...as and the...the...",
+          "prerequisite_topics": ["Comparatives (-er / more)", "as...as for Equality and not as...as"],
+          "target_demographic_tags": [
+            { "group": "primary", "priority": "optional", "complexity": "advanced" },
+            { "group": "middle", "priority": "recommended", "complexity": "moderate" },
+            { "group": "adult", "priority": "recommended", "complexity": "moderate" }
+          ],
+          "summary_note": "Proportional and comparative-parallel structures."
+        },
+        {
+          "topic_name": "Conditionals: alternatives to if (unless, in case, provided that)",
+          "prerequisite_topics": ["First Conditional (if + present simple, will)", "Third Conditional (if + past perfect, would have)"],
+          "target_demographic_tags": [
+            { "group": "primary", "priority": "optional", "complexity": "advanced" },
+            { "group": "middle", "priority": "optional", "complexity": "advanced" },
+            { "group": "adult", "priority": "essential", "complexity": "advanced" }
+          ],
+          "summary_note": "unless = if...not; formal conditional markers."
+        },
+        {
+          "topic_name": "Inversion after negative adverbials (never, rarely, hardly)",
+          "prerequisite_topics": ["Clauses of Result: so / such that", "Adverbs of Frequency (always, usually, sometimes, never)"],
+          "target_demographic_tags": [
+            { "group": "primary", "priority": "optional", "complexity": "advanced" },
+            { "group": "middle", "priority": "optional", "complexity": "advanced" },
+            { "group": "adult", "priority": "essential", "complexity": "advanced" }
+          ],
+          "summary_note": "Emphatic subject-auxiliary inversion in formal/academic English."
+        },
+        {
+          "topic_name": "Embedded questions and noun clauses (advanced)",
+          "prerequisite_topics": ["Questions: Embedded Questions (Do you know where...?)", "Reported Speech: questions"],
+          "target_demographic_tags": [
+            { "group": "primary", "priority": "optional", "complexity": "advanced" },
+            { "group": "middle", "priority": "recommended", "complexity": "advanced" },
+            { "group": "adult", "priority": "essential", "complexity": "advanced" }
+          ],
+          "summary_note": "Noun clauses as subjects/objects; whether/if; word order."
+        },
+        {
+          "topic_name": "Modal verbs: be able to, had to (suppletive forms)",
+          "prerequisite_topics": ["Could / Couldn't for Past Ability", "Have to / Don't have to (external obligation)"],
+          "target_demographic_tags": [
+            { "group": "primary", "priority": "optional", "complexity": "advanced" },
+            { "group": "middle", "priority": "recommended", "complexity": "moderate" },
+            { "group": "adult", "priority": "essential", "complexity": "moderate" }
+          ],
+          "summary_note": "Modal-gap filling: was/were able to, had to for all tenses."
+        },
+        {
+          "topic_name": "Future Perfect Continuous (will have been + -ing)",
+          "prerequisite_topics": ["Future Perfect (will have + past participle)", "Present Perfect Continuous (have/has been + -ing)"],
+          "target_demographic_tags": [
+            { "group": "primary", "priority": "optional", "complexity": "advanced" },
+            { "group": "middle", "priority": "optional", "complexity": "advanced" },
+            { "group": "adult", "priority": "recommended", "complexity": "advanced" }
+          ],
+          "summary_note": "Duration continuing up to a future point."
+        },
+        {
+        "topic_name": "Discourse: linkers of addition and contrast (furthermore, whereas, nevertheless)",
+          "prerequisite_topics": ["Linking Words: however, although, even though, despite"],
+          "target_demographic_tags": [
+            { "group": "primary", "priority": "optional", "complexity": "advanced" },
+            { "group": "middle", "priority": "optional", "complexity": "advanced" },
+            { "group": "adult", "priority": "essential", "complexity": "advanced" }
+          ],
+          "summary_note": "Formal linking for essays and academic writing."
+        },
+        {
+          "topic_name": "Prepositional verbs vs phrasal verbs (advanced)",
+          "prerequisite_topics": ["Phrasal Verbs: introduction (separability)"],
+          "target_demographic_tags": [
+            { "group": "primary", "priority": "optional", "complexity": "advanced" },
+            { "group": "middle", "priority": "optional", "complexity": "advanced" },
+            { "group": "adult", "priority": "recommended", "complexity": "advanced" }
+          ],
+          "summary_note": "Transitive/intransitive distinctions; particle vs preposition placement."
+        },
+        {
+          "topic_name": "Conditional without if: inversion (Had I known, Were I you)",
+          "prerequisite_topics": ["Inversion after negative adverbials (never, rarely, hardly)", "Mixed Conditionals: third→second and second→third"],
+          "target_demographic_tags": [
+            { "group": "primary", "priority": "optional", "complexity": "advanced" },
+            { "group": "middle", "priority": "optional", "complexity": "advanced" },
+            { "group": "adult", "priority": "essential", "complexity": "advanced" }
+          ],
+          "summary_note": "Formal conditional inversion; had/should/were fronting."
+        },
+        {
+          "topic_name": "Emphatic do/did (I do agree, do sit down)",
+          "prerequisite_topics": ["Present Simple: questions with do/does", "Past Simple: negatives and questions (did)"],
+          "target_demographic_tags": [
+            { "group": "primary", "priority": "optional", "complexity": "advanced" },
+            { "group": "middle", "priority": "optional", "complexity": "advanced" },
+            { "group": "adult", "priority": "recommended", "complexity": "moderate" }
+          ],
+          "summary_note": "Emphasis and insistence in affirmative and imperative contexts."
+        }
+      ]
+    },
+    "C1": {
+      "label": "Advanced",
+      "description": "Refined discourse control, advanced passive/reporting, complex -ing forms and fronting, nuanced modality.",
+      "grammar_modules": [
+        {
+          "topic_name": "Advanced Passive constructions (It is said that..., He is believed to...)",
+          "prerequisite_topics": ["Passive Voice: Future Perfect", "Reporting Verbs (suggest, recommend, admit, deny, promise)"],
+          "target_demographic_tags": [
+            { "group": "primary", "priority": "optional", "complexity": "advanced" },
+            { "group": "middle", "priority": "optional", "complexity": "advanced" },
+            { "group": "adult", "priority": "essential", "complexity": "advanced" }
+          ],
+          "summary_note": "Impersonal passive and double-agent passive for reporting/opinion."
+        },
+        {
+          "topic_name": "Passive with get and passive infinitive (-ing)",
+          "prerequisite_topics": ["Advanced Passive constructions (It is said that..., He is believed to...)"],
+          "target_demographic_tags": [
+            { "group": "primary", "priority": "optional", "complexity": "advanced" },
+            { "group": "middle", "priority": "optional", "complexity": "advanced" },
+            { "group": "adult", "priority": "essential", "complexity": "advanced" }
+          ],
+          "summary_note": "Get-passives (get broken), being + past participle."
+        },
+        {
+          "topic_name": "Hedging and modality of certainty/uncertainty",
+          "prerequisite_topics": ["Modal Deduction: must, might, may, could (present)", "Modal Perfects: might have, may have, could have (deduction)"],
+          "target_demographic_tags": [
+            { "group": "primary", "priority": "optional", "complexity": "advanced" },
+            { "group": "middle", "priority": "optional", "complexity": "advanced" },
+            { "group": "adult", "priority": "essential", "complexity": "advanced" }
+          ],
+          "summary_note": "Fine-grained degree of certainty: must/could/might/may + adverbs (perhaps, presumably)."
+        },
+        {
+          "topic_name": "Mixed and extended conditional structures (advanced)",
+          "prerequisite_topics": ["Mixed Conditionals: third→second and second→third", "Conditional without if: inversion (Had I known, Were I you)"],
+          "target_demographic_tags": [
+            { "group": "primary", "priority": "optional", "complexity": "advanced" },
+            { "group": "middle", "priority": "optional", "complexity": "advanced" },
+            { "group": "adult", "priority": "essential", "complexity": "advanced" }
+          ],
+          "summary_note": "Interlocking conditionals, implied conditions, counterfactual nuance."
+        },
+        {
+          "topic_name": "Cleft constructions (It was X that..., What I want is...)",
+          "prerequisite_topics": ["Emphatic do/did (I do agree, do sit down)", "Inversion after negative adverbials (never, rarely, hardly)"],
+          "target_demographic_tags": [
+            { "group": "primary", "priority": "optional", "complexity": "advanced" },
+            { "group": "middle", "priority": "optional", "complexity": "advanced" },
+            { "group": "adult", "priority": "essential", "complexity": "advanced" }
+          ],
+          "summary_note": "Focusing and emphasis through it-clefts and wh-clefts."
+        },
+        {
+          "topic_name": "Fronting and inversion for emphasis (advanced)",
+          "prerequisite_topics": ["Inversion after negative adverbials (never, rarely, hardly)", "Cleft constructions (It was X that..., What I want is...)"],
+          "target_demographic_tags": [
+            { "group": "primary", "priority": "optional", "complexity": "advanced" },
+            { "group": "middle", "priority": "optional", "complexity": "advanced" },
+            { "group": "adult", "priority": "essential", "complexity": "advanced" }
+          ],
+          "summary_note": "So + adjective at sentence start, resource/style inversion."
+        },
+        {
+          "topic_name": "Nominalization and noun phrases in academic writing",
+          "prerequisite_topics": ["Gerunds as Subjects and Objects", "Discourse: linkers of addition and contrast (furthermore, whereas, nevertheless)"],
+          "target_demographic_tags": [
+            { "group": "primary", "priority": "optional", "complexity": "advanced" },
+            { "group": "middle", "priority": "optional", "complexity": "advanced" },
+            { "group": "adult", "priority": "essential", "complexity": "advanced" }
+          ],
+          "summary_note": "Turning verbs into nouns for dense, formal register."
+        },
+        {
+          "topic_name": "Complex noun phrases with multiple modifiers",
+          "prerequisite_topics": ["Adjective Order", "Nominalization and noun phrases in academic writing", "Reduced relative clauses (participle -ing / -ed)"],
+          "target_demographic_tags": [
+            { "group": "primary", "priority": "optional", "complexity": "advanced" },
+            { "group": "middle", "priority": "optional", "complexity": "advanced" },
+            { "group": "adult", "priority": "essential", "complexity": "advanced" }
+          ],
+          "summary_note": "Stacking determiners, adjectives, participles, and relative/postmodifiers."
+        },
+        {
+          "topic_name": "Advanced reporting: reporting verbs + infinitive/gerund and patterns",
+          "prerequisite_topics": ["Reporting Verbs (suggest, recommend, admit, deny, promise)", "Verb + object + infinitive (ask/tell/want someone to do)"],
+          "target_demographic_tags": [
+            { "group": "primary", "priority": "optional", "complexity": "advanced" },
+            { "group": "middle", "priority": "optional", "complexity": "advanced" },
+            { "group": "adult", "priority": "essential", "complexity": "advanced" }
+          ],
+          "summary_note": "Mastery of verb complementation in reported discourse."
+        },
+        {
+          "topic_name": "Comment clauses and stance adverbials (it seems, as far as I know)",
+          "prerequisite_topics": ["Hedging and modality of certainty/uncertainty"],
+          "target_demographic_tags": [
+            { "group": "primary", "priority": "optional", "complexity": "advanced" },
+            { "group": "middle", "priority": "optional", "complexity": "advanced" },
+            { "group": "adult", "priority": "essential", "complexity": "advanced" }
+          ],
+          "summary_note": "Speaker stance markers that frame the whole utterance."
+        },
+        {
+          "topic_name": "Participle clauses (Having finished, she left; Written in 1900...)",
+          "prerequisite_topics": ["Reduced relative clauses (participle -ing / -ed)", "Gerund/Infinitive: perfect and passive forms (having done, to be told)"],
+          "target_demographic_tags": [
+            { "group": "primary", "priority": "optional", "complexity": "advanced" },
+            { "group": "middle", "priority": "optional", "complexity": "advanced" },
+            { "group": "adult", "priority": "essential", "complexity": "advanced" }
+          ],
+          "summary_note": "Subordinating with present and past participles without an overt subject."
+        },
+        {
+          "topic_name": "Absolute constructions and appositives",
+          "prerequisite_topics": ["Participle clauses (Having finished, she left; Written in 1900...)"],
+          "target_demographic_tags": [
+            { "group": "primary", "priority": "optional", "complexity": "advanced" },
+            { "group": "middle", "priority": "optional", "complexity": "advanced" },
+            { "group": "adult", "priority": "essential", "complexity": "advanced" }
+          ],
+          "summary_note": "Standalone noun+participle clauses; noun-phrase apposition."
+        },
+        {
+          "topic_name": "Subjunctive and formal structures (It is essential that he be...)",
+          "prerequisite_topics": ["Complex noun phrases with multiple modifiers", "Mixed and extended conditional structures (advanced)"],
+          "target_demographic_tags": [
+            { "group": "primary", "priority": "optional", "complexity": "advanced" },
+            { "group": "middle", "priority": "optional", "complexity": "advanced" },
+            { "group": "adult", "priority": "recommended", "complexity": "advanced" }
+          ],
+          "summary_note": "Present subjunctive after require/essential/suggest in formal register."
+        },
+        {
+          "topic_name": "Ellipsis and substitution (advanced)",
+          "prerequisite_topics": ["Discourse: linkers of addition and contrast (furthermore, whereas, nevertheless)", "Comment clauses and stance adverbials (it seems, as far as I know)"],
+          "target_demographic_tags": [
+            { "group": "primary", "priority": "optional", "complexity": "advanced" },
+            { "group": "middle", "priority": "optional", "complexity": "advanced" },
+            { "group": "adult", "priority": "essential", "complexity": "advanced" }
+          ],
+          "summary_note": "Omission for conciseness; do/so/one as substitutes."
+        },
+        {
+          "topic_name": "Advanced cohesive devices (reference chains, hedged connectors)",
+          "prerequisite_topics": ["Discourse: linkers of addition and contrast (furthermore, whereas, nevertheless)", "Ellipsis and substitution (advanced)"],
+          "target_demographic_tags": [
+            { "group": "primary", "priority": "optional", "complexity": "advanced" },
+            { "group": "middle", "priority": "optional", "complexity": "advanced" },
+            { "group": "adult", "priority": "essential", "complexity": "advanced" }
+          ],
+          "summary_note": "Cohesion through reference, substitution, ellipsis, and conjunction."
+        },
+        {
+          "topic_name": "Style and register: formal vs informal grammar choices",
+          "prerequisite_topics": ["Subjunctive and formal structures (It is essential that he be...)", "Fronting and inversion for emphasis (advanced)"],
+          "target_demographic_tags": [
+            { "group": "primary", "priority": "optional", "complexity": "advanced" },
+            { "group": "middle", "priority": "optional", "complexity": "advanced" },
+            { "group": "adult", "priority": "essential", "complexity": "advanced" }
+          ],
+          "summary_note": "Contractions, relative pronoun choice, passive vs active for tone."
+        },
+        {
+          "topic_name": "Nuanced tense selection (narrative, future-in-past)",
+          "prerequisite_topics": ["Future Perfect Continuous (will have been + -ing)", "Past Perfect Continuous (had been + -ing)"],
+          "target_demographic_tags": [
+            { "group": "primary", "priority": "optional", "complexity": "advanced" },
+            { "group": "middle", "priority": "optional", "complexity": "advanced" },
+            { "group": "adult", "priority": "essential", "complexity": "advanced" }
+          ],
+          "summary_note": "Storytelling tense patterns; would for future-in-the-past."
+        },
+        {
+          "topic_name": "Advanced article use in complex noun phrases",
+          "prerequisite_topics": ["Articles: advanced uses (the with names, zero article refinement)", "Complex noun phrases with multiple modifiers"],
+          "target_demographic_tags": [
+            { "group": "primary", "priority": "optional", "complexity": "advanced" },
+            { "group": "middle", "priority": "optional", "complexity": "advanced" },
+            { "group": "adult", "priority": "essential", "complexity": "advanced" }
+          ],
+          "summary_note": "Article choice with of-phrases, gerund modifiers, and abstract nouns."
+        },
+        {
+          "topic_name": "Advanced conditional: implied and elliptical conditions",
+          "prerequisite_topics": ["Mixed and extended conditional structures (advanced)"],
+          "target_demographic_tags": [
+            { "group": "primary", "priority": "optional", "complexity": "advanced" },
+            { "group": "middle", "priority": "optional", "complexity": "advanced" },
+            { "group": "adult", "priority": "recommended", "complexity": "advanced" }
+          ],
+          "summary_note": "Conditions implied by context; 'What if...?', 'If only...'."
+        },
+        {
+          "topic_name": "Focused degree and extent structures (so...that, such...that, too...to)",
+          "prerequisite_topics": ["Clauses of Result: so / such that", "Too + adjective / adjective + enough"],
+          "target_demographic_tags": [
+            { "group": "primary", "priority": "optional", "complexity": "advanced" },
+            { "group": "middle", "priority": "optional", "complexity": "advanced" },
+            { "group": "adult", "priority": "essential", "complexity": "advanced" }
+          ],
+          "summary_note": "Strong consequence and sufficiency patterns for emphasis."
+        },
+        {
+          "topic_name": "Modality: will, would, must for assumptions and predictions (advanced)",
+          "prerequisite_topics": ["Hedging and modality of certainty/uncertainty", "Modal Deduction: must, might, may, could (present)"],
+          "target_demographic_tags": [
+            { "group": "primary", "priority": "optional", "complexity": "advanced" },
+            { "group": "middle", "priority": "optional", "complexity": "advanced" },
+            { "group": "adult", "priority": "essential", "complexity": "advanced" }
+          ],
+          "summary_note": "Epistemic uses beyond simple deduction: presumably, expected behavior."
+        },
+        {
+          "topic_name": "Grammar of academic citation and reference",
+          "prerequisite_topics": ["Advanced reporting: reporting verbs + infinitive/gerund and patterns"],
+          "target_demographic_tags": [
+            { "group": "primary", "priority": "optional", "complexity": "advanced" },
+            { "group": "middle", "priority": "optional", "complexity": "advanced" },
+            { "group": "adult", "priority": "essential", "complexity": "advanced" }
+          ],
+          "summary_note": "Attribution, hedging, and tense choices typical of academic prose."
+        },
+        {
+          "topic_name": "Complete tense-aspect system review (challenging mixed practice)",
+          "prerequisite_topics": ["Nuanced tense selection (narrative, future-in-past)", "Advanced Passive constructions (It is said that..., He is believed to...)"],
+          "target_demographic_tags": [
+            { "group": "primary", "priority": "optional", "complexity": "advanced" },
+            { "group": "middle", "priority": "optional", "complexity": "advanced" },
+            { "group": "adult", "priority": "essential", "complexity": "advanced" }
+          ],
+          "summary_note": "Integrative review of the full tense-aspect-passive-modality matrix."
+        },
+        {
+          "topic_name": "Consolidation: integrated grammar discourse project",
+          "prerequisite_topics": ["Complete tense-aspect system review (challenging mixed practice)", "Style and register: formal vs informal grammar choices"],
+          "target_demographic_tags": [
+            { "group": "primary", "priority": "optional", "complexity": "advanced" },
+            { "group": "middle", "priority": "optional", "complexity": "advanced" },
+            { "group": "adult", "priority": "essential", "complexity": "advanced" }
+          ],
+          "summary_note": "Applying all learned grammar to extended academic/formal writing."
+        }
+      ]
+    }
+  }
+}
