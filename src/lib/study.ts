@@ -12,6 +12,7 @@ export const GRAMMAR_LEVELS = {
   a2: { label: 'A2 · Temel', color: '#0EA5E9', subtitle: 'Günlük dilbilgisi' },
   b1: { label: 'B1 · Orta', color: '#8B5CF6', subtitle: 'Orta düzey dilbilgisi' },
   b2: { label: 'B2 · Orta-Üstü', color: '#F59E0B', subtitle: 'İleri dilbilgisi' },
+  c1: { label: 'C1 · İleri', color: '#7C3AED', subtitle: 'Akademik ve incelikli dilbilgisi' },
 } as const;
 
 export type GrammarLevelKey = keyof typeof GRAMMAR_LEVELS;
@@ -53,6 +54,7 @@ export async function loadGrammar(level: string) {
     case 'a2': return import('../data/grammar_a2.js');
     case 'b1': return import('../data/grammar_b1.js');
     case 'b2': return import('../data/grammar_b2.js');
+    case 'c1': return import('../data/grammar_c1.js');
     default: return null;
   }
 }
@@ -64,6 +66,7 @@ export async function loadGrammarMcq(level: string) {
     case 'a2': return import('../data/grammar_mcq_a2.js');
     case 'b1': return import('../data/grammar_mcq_b1.js');
     case 'b2': return import('../data/grammar_mcq_b2.js');
+    case 'c1': return import('../data/grammar_mcq_c1.js');
     default: return null;
   }
 }
