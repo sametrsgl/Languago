@@ -1,0 +1,602 @@
+---
+import AppLayout from '../../layouts/AppLayout.astro';
+import TeacherNav from '../../components/TeacherNav.astro';
+import { createSupabaseClient, pageCookieSource } from '../../lib/supabase';
+import { authorizeTeacher, shortDate, levelLabel } from '../../lib/teacher';
+
+const auth = await authorizeTeacher(pageCookieSource(Astro));
+if (!auth.ok && auth.reason !== 'forbidden') {
+  return Astro.redirect('/signin');
+}
+
+const LEVELS = ['A1', 'A2', 'B1', 'B2', 'C1'];
+
+type LessonRow = {
+  id: string;
+  title: string;
+  summary: string | null;
+  level: string | null;
+  class_id: string | null;
+  created_at: string;
+};
+type QuizRow = {
+  id: string;
+  title: string;
+  description: string | null;
+  level: string | null;
+  class_id: string | null;
+  created_at: string;
+};
+type ClassRow = { id: string; class_name: string };
+type Qcount = { quiz_id: string; n: number; a: number };
+
+let lessons: LessonRow[] = [];
+let quizzes: QuizRow[] = [];
+let classes: ClassRow[] = [];
+let classNameById = new Map<string, string>();
+let qcountByQuiz = new Map<string, { n: number; a: number }>();
+
+if (auth.ok) {
+  try {
+    const supabase = createSupabaseClient(pageCookieSource(Astro));
+    if (!supabase) throw new Error('no_supabase');
+
+    // RLS scopes teacher_lessons / teacher_quizzes to the caller's own rows.
+    const [lessonRes, quizRes, classRes, questionsRes] = await Promise.all([
+      supabase
+        .from('teacher_lessons')
+        .select('id, title, summary, level, class_id, created_at')
+        .order('created_at', { ascending: false }),
+      supabase
+        .from('teacher_quizzes')
+        .select('id, title, description, level, class_id, created_at')
+        .order('created_at', { ascending: false }),
+      supabase.from('class_roster').select('id, class_name').order('class_name'),
+      supabase
+        .from('teacher_quiz_questions')
+        .select('id, quiz_id'),
+    ]);
+
+    lessons = (lessonRes.data ?? []) as LessonRow[];
+    quizzes = (quizRes.data ?? []) as QuizRow[];
+    classes = (classRes.data ?? []) as ClassRow[];
+    for (const c of classes) classNameById.set(c.id, c.class_name);
+
+    for (const q of (questionsRes.data ?? []) as Qcount[]) {
+      const cur = qcountByQuiz.get(q.quiz_id) ?? { n: 0, a: 0 };
+      cur.n += 1;
+      qcountByQuiz.set(q.quiz_id, cur);
+    }
+  } catch {
+    // Keep empty defaults; the page still renders a friendly state.
+  }
+}
+
+function rowLevel(l: string | null | undefined): string {
+  return levelLabel(l || null);
+}
+---
+<AppLayout
+  title="İçerik — Öğretmen Paneli · Languago"
+  description="Languago özel ders/aktivitelerini ve quizlerini oluştur, soru ekle ve yönet."
+>
+  {
+    auth.ok ? (
+      <main class="study teacher">
+        <TeacherNav path={Astro.url.pathname} />
+
+        <div class="page-head">
+          <span class="page-eyebrow">Öğretmen Paneli</span>
+          <h1>İçerik Yönetimi 📝</h1>
+          <p class="page-sub">
+            Kendi derslerini / yazdırılabilir aktivitelerini ve quizlerini oluştur,
+            soru ekle ve öğrencilerinle burada paylaş. Bu içerikler yalnızca sana özeldir.
+          </p>
+          <div class="barline"></div>
+        </div>
+
+        <section class="dash-section" aria-labelledby="yeni-ders-heading">
+          <header class="section-head">
+            <h2 id="yeni-ders-heading">
+              Yeni Ders / Aktivite Oluştur <span class="section-head__icon">📄</span>
+            </h2>
+            <p class="muted">
+              Başlık ve özet gir; ders açıklaması veya yazdırılabilir aktivite metnini ekle.
+            </p>
+          </header>
+          <div id="create-lesson" class="panel" style="background:var(--bg-soft);">
+            <form id="lesson-form" class="class-form content-form">
+              <input
+                id="lesson-title"
+                type="text"
+                name="title"
+                placeholder="Örn. 8. Sınıf — Çevre Vocab Çalışma Kağıdı"
+                maxlength="120"
+                required
+              />
+              <label class="field-label" for="lesson-summary">Özet</label>
+              <textarea id="lesson-summary" name="summary" rows="2" placeholder="Kısa bir açıklama…"></textarea>
+              <div class="form-grid">
+                <div>
+                  <label class="field-label" for="lesson-level">Seviye</label>
+                  <select id="lesson-level" name="level">
+                    {LEVELS.map((lv) => <option value={lv}>{lv}</option>)}
+                  </select>
+                </div>
+                <div>
+                  <label class="field-label" for="lesson-class">Sınıf (isteğe bağlı)</label>
+                  <select id="lesson-class" name="class_id">
+                    <option value="">— Sınıf seçilmedi —</option>
+                    {classes.map((c) => <option value={c.id}>{c.class_name}</option>)}
+                  </select>
+                </div>
+              </div>
+              <label class="field-label" for="lesson-body">İçerik / Metin</label>
+              <textarea id="lesson-body" name="body" rows="8" placeholder="Ders açıklaması veya aktivite metni…"></textarea>
+              <button class="btn primary" type="submit">Dersi / Aktiviteyi Oluştur</button>
+            </form>
+            <p id="lesson-msg" class="class-msg" role="status"></p>
+          </div>
+        </section>
+
+        <section class="dash-section" aria-labelledby="yeni-quiz-heading">
+          <header class="section-head">
+            <h2 id="yeni-quiz-heading">
+              Yeni Quiz Oluştur <span class="section-head__icon">🧩</span>
+            </h2>
+            <p class="muted">
+              Önce quiz başlığını oluştur, ardından quiz içine soru ekle (4 seçenek + doğru cevap + açıklama).
+            </p>
+          </header>
+          <div id="create-quiz" class="panel" style="background:var(--bg-soft);">
+            <form id="quiz-form" class="class-form content-form">
+              <input
+                id="quiz-title"
+                type="text"
+                name="title"
+                placeholder="Örn. 7. Sınıf — Irregular Verbs Quiz"
+                maxlength="120"
+                required
+              />
+              <label class="field-label" for="quiz-desc">Açıklama</label>
+              <textarea id="quiz-desc" name="description" rows="2" placeholder="Bu quiz neyi ölçer?"></textarea>
+              <div class="form-grid">
+                <div>
+                  <label class="field-label" for="quiz-level">Seviye</label>
+                  <select id="quiz-level" name="level">
+                    {LEVELS.map((lv) => <option value={lv}>{lv}</option>)}
+                  </select>
+                </div>
+                <div>
+                  <label class="field-label" for="quiz-class">Sınıf (isteğe bağlı)</label>
+                  <select id="quiz-class" name="class_id">
+                    <option value="">— Sınıf seçilmedi —</option>
+                    {classes.map((c) => <option value={c.id}>{c.class_name}</option>)}
+                  </select>
+                </div>
+              </div>
+              <button class="btn primary" type="submit">Quiz Oluştur</button>
+            </form>
+            <p id="quiz-msg" class="class-msg" role="status"></p>
+
+            <div id="question-builder" class="question-builder" hidden>
+              <hr style="margin:20px 0;" />
+              <h3>Quiz Oluşturuldu — Soru Ekle</h3>
+              <p class="muted small">Şu an: <strong id="qb-quiz-title"></strong></p>
+              <form id="question-form" class="class-form content-form">
+                <input id="qb-quiz-id" type="hidden" name="quiz_id" />
+                <label class="field-label" for="q-prompt">Soru Metni</label>
+                <textarea id="q-prompt" name="prompt" rows="2" placeholder="Örn. 'go' fiilinin past formu hangisidir?" required></textarea>
+
+                <div class="options-box">
+                  <label class="field-label">Seçenekler</label>
+                  <div class="option-row">
+                    <input class="opt" id="q-opt-0" type="text" placeholder="Seçenek A" required />
+                    <label class="btn-radio"><input type="radio" name="answer_index" value="0" checked /> Doğru</label>
+                  </div>
+                  <div class="option-row">
+                    <input class="opt" id="q-opt-1" type="text" placeholder="Seçenek B" required />
+                    <label class="btn-radio"><input type="radio" name="answer_index" value="1" /> Doğru</label>
+                  </div>
+                  <div class="option-row">
+                    <input class="opt" id="q-opt-2" type="text" placeholder="Seçenek C" required />
+                    <label class="btn-radio"><input type="radio" name="answer_index" value="2" /> Doğru</label>
+                  </div>
+                  <div class="option-row">
+                    <input class="opt" id="q-opt-3" type="text" placeholder="Seçenek D" required />
+                    <label class="btn-radio"><input type="radio" name="answer_index" value="3" /> Doğru</label>
+                  </div>
+                </div>
+
+                <label class="field-label" for="q-explain">Açıklama (isteğe bağlı)</label>
+                <textarea id="q-explain" name="explain" rows="2" placeholder="Doğru cevabın neden doğru olduğu…"></textarea>
+                <div class="btn-row">
+                  <button class="btn primary" type="submit">Soruyu Ekle</button>
+                </div>
+              </form>
+              <p id="q-msg" class="class-msg" role="status"></p>
+              <p id="qb-done" class="muted small" style="margin-top:8px;">
+                Quiz tamamen hazır! İstersen başka soru eklemeye devam edebilir veya bu bölümü kapatabilirsin.
+              </p>
+            </div>
+          </div>
+        </section>
+
+        <section class="dash-section" aria-labelledby="iceriklerim-heading">
+          <header class="section-head">
+            <h2 id="iceriklerim-heading">
+              İçeriklerim <span class="section-head__icon">📚</span>
+            </h2>
+            <p class="muted">
+              Oluşturduğun dersler ve quizler. Bir kaydı silmek için 🗑️ simgesine tıkla.
+            </p>
+          </header>
+
+          <h3 class="sub-h">Dersler ve Aktiviteler</h3>
+          {
+            lessons.length ? (
+              <div class="content-list">
+                {lessons.map((l) => (
+                  <div class="panel content-card" data-type="lesson" data-id={l.id}>
+                    <div class="content-card__body">
+                      <div class="content-card__head">
+                        <strong>{l.title}</strong>
+                        <span class="badge" style="background:var(--teal-dark);">{rowLevel(l.level)}</span>
+                      </div>
+                      <div class="muted small">
+                        {l.summary && `${l.summary} · `}{l.class_id ? classNameById.get(l.class_id) ?? '—' : 'Genel'}
+                      </div>
+                      <div class="muted small">Oluşturulma: {shortDate(l.created_at)}</div>
+                    </div>
+                    <button class="icon-btn" title="Dersi Sil" aria-label="Dersi sil" data-action="delete-lesson">
+                      🗑️
+                    </button>
+                  </div>
+                ))}
+              </div>
+            ) : (
+              <div class="empty-state">
+                <div class="es-ico">📄</div>
+                <h3>Henüz ders veya aktivite yok</h3>
+                <p>İlk dersini / aktivitini yukarıdaki formla oluştur.</p>
+              </div>
+            )
+          }
+
+          <h3 class="sub-h">Quizler</h3>
+          {
+            quizzes.length ? (
+              <div class="content-list">
+                {quizzes.map((z) => {
+                  const c = qcountByQuiz.get(z.id) ?? { n: 0, a: 0 };
+                  return (
+                    <div class="panel content-card" data-type="quiz" data-id={z.id}>
+                      <div class="content-card__body">
+                        <div class="content-card__head">
+                          <strong>{z.title}</strong>
+                          <span class="badge" style="background:var(--orange);">{rowLevel(z.level)}</span>
+                        </div>
+                        <div class="muted small">
+                          {c.n} soru · {z.description ?? ''} · {z.class_id ? classNameById.get(z.class_id) ?? '—' : 'Genel'}
+                        </div>
+                        <div class="muted small">Oluşturulma: {shortDate(z.created_at)}</div>
+                      </div>
+                      <button class="icon-btn" title="Quiz" aria-label="Quiz ekle" data-action="add-question" data-title={z.title}>
+                        ➕ Soru
+                      </button>
+                      <button class="icon-btn" title="Quiz'i Sil" aria-label="Quiz sil" data-action="delete-quiz">
+                        🗑️
+                      </button>
+                    </div>
+                  );
+                })}
+              </div>
+            ) : (
+              <div class="empty-state">
+                <div class="es-ico">🧩</div>
+                <h3>Henüz quiz yok</h3>
+                <p>İlk quizini yukarıdaki formla oluştur ve soru eklemeye başla.</p>
+              </div>
+            )
+          }
+        </section>
+      </main>
+    ) : (
+      <main class="study">
+        <div class="panel" style="text-align:center;padding:40px 24px;">
+          <div style="font-size:2.4rem;">🔒</div>
+          <h1>Yetkisiz Erişim</h1>
+          <p class="muted">Bu sayfa yalnızca öğretmen hesaplarına açıktır.</p>
+          <div class="btn-row" style="justify-content:center;">
+            <a class="btn" href="/dashboard">Öğrenci Paneline Dön</a>
+          </div>
+        </div>
+      </main>
+    )
+  }
+</AppLayout>
+
+<style>
+  .field-label {
+    display: block;
+    margin: 12px 0 4px;
+    font-size: 0.9rem;
+    color: #60676d;
+  }
+  .content-form input[type='text'],
+  .content-form textarea,
+  .content-form select {
+    width: 100%;
+    margin-top: 8px;
+  }
+  .content-form textarea {
+    font-family: inherit;
+  }
+  .form-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+  }
+  .options-box {
+    margin-top: 12px;
+  }
+  .option-row {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-top: 8px;
+  }
+  .option-row .opt {
+    flex: 1;
+  }
+  .btn-radio {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 0.88rem;
+    color: var(--teal-dark);
+    white-space: nowrap;
+    cursor: pointer;
+  }
+  .sub-h {
+    margin: 22px 0 10px;
+    font-size: 1.05rem;
+  }
+  .content-list {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+  .content-card {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 14px;
+    flex-wrap: wrap;
+  }
+  .content-card__body {
+    flex: 1;
+    min-width: 200px;
+  }
+  .content-card__head {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex-wrap: wrap;
+  }
+  .icon-btn {
+    background: var(--bg-soft);
+    border: 1px solid var(--line);
+    border-radius: 10px;
+    padding: 8px 12px;
+    font-size: 1rem;
+    cursor: pointer;
+    color: inherit;
+  }
+  .icon-btn:hover {
+    border-color: var(--teal);
+    color: var(--teal-dark);
+  }
+  @media (max-width: 560px) {
+    .form-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>
+
+<script is:inline>
+  (function () {
+    function el(id) { return document.getElementById(id); }
+    function fieldMsg(msgEl, type, text) {
+      if (!msgEl) return;
+      msgEl.textContent = text;
+      msgEl.className = 'class-msg' + (type ? ' ' + type : '');
+    }
+    function api(path, method, body) {
+      return fetch(path, {
+        method: method,
+        headers: { 'Content-Type': 'application/json' },
+        body: body ? JSON.stringify(body) : undefined,
+      }).then(function (r) { return r.json(); });
+    }
+    function readErr(res) {
+      if (res && res.error) {
+        var f = res.error.fields;
+        if (f) {
+          for (var k in f) if (Object.prototype.hasOwnProperty.call(f, k) && f[k] && f[k][0]) return f[k][0];
+        }
+        if (res.error.message) return res.error.message;
+      }
+      return 'Bir hata oluştu.';
+    }
+    function flashError(msgEl, type, text) {
+      if (!msgEl) return;
+      msgEl.textContent = text;
+      msgEl.className = 'class-msg err';
+      if (!type) return;
+      setTimeout(function () { msgEl.className = 'class-msg'; }, 1800);
+    }
+
+    // ---- Lesson create ----
+    var lessonForm = el('lesson-form');
+    var lessonMsg = el('lesson-msg');
+    if (lessonForm && lessonMsg) {
+      lessonForm.addEventListener('submit', function (e) {
+        e.preventDefault();
+        var title = el('lesson-title').value.trim();
+        if (!title) { flashError(lessonMsg, 1, 'Lütfen bir başlık yaz.'); return; }
+        var btn = lessonForm.querySelector('button');
+        if (btn) { btn.disabled = true; btn.textContent = 'Oluşturuluyor…'; }
+        fieldMsg(lessonMsg, '', '');
+        api('/api/teacher/content-lessons', 'POST', {
+          title: title,
+          summary: el('lesson-summary').value.trim(),
+          level: el('lesson-level').value,
+          body: el('lesson-body').value,
+          class_id: el('lesson-class').value || null,
+        }).then(function (res) {
+          if (res && res.ok) {
+            fieldMsg(lessonMsg, 'ok', 'Ders / aktivite oluşturuldu.');
+            setTimeout(function () { window.location.reload(); }, 700);
+          } else {
+            fieldMsg(lessonMsg, 'err', readErr(res));
+          }
+        }).catch(function () {
+          fieldMsg(lessonMsg, 'err', 'Bağlantı hatası. Tekrar dene.');
+        }).finally(function () {
+          if (btn) { btn.disabled = false; btn.textContent = 'Dersi / Aktiviteyi Oluştur'; }
+        });
+      });
+    }
+
+    // ---- Quiz create -> reveal question builder ----
+    var quizForm = el('quiz-form');
+    var quizMsg = el('quiz-msg');
+    var builder = el('question-builder');
+    if (quizForm && quizMsg && builder) {
+      quizForm.addEventListener('submit', function (e) {
+        e.preventDefault();
+        var title = el('quiz-title').value.trim();
+        if (!title) { flashError(quizMsg, 1, 'Lütfen bir quiz başlığı yaz.'); return; }
+        var btn = quizForm.querySelector('button');
+        if (btn) { btn.disabled = true; btn.textContent = 'Oluşturuluyor…'; }
+        fieldMsg(quizMsg, '', '');
+        api('/api/teacher/content-quizzes', 'POST', {
+          title: title,
+          description: el('quiz-desc').value.trim(),
+          level: el('quiz-level').value,
+          class_id: el('quiz-class').value || null,
+        }).then(function (res) {
+          if (res && res.ok) {
+            fieldMsg(quizMsg, 'ok', 'Quiz oluşturuldu. Şimdi soru ekle:');
+            el('qb-quiz-id').value = res.quiz.id;
+            el('qb-quiz-title').textContent = res.quiz.title;
+            builder.hidden = false;
+            builder.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            el('q-msg').textContent = '';
+            el('q-msg').className = 'class-msg';
+            quizForm.reset();
+          } else {
+            fieldMsg(quizMsg, 'err', readErr(res));
+          }
+        }).catch(function () {
+          fieldMsg(quizMsg, 'err', 'Bağlantı hatası. Tekrar dene.');
+        }).finally(function () {
+          if (btn) { btn.disabled = false; btn.textContent = 'Quiz Oluştur'; }
+        });
+      });
+    }
+
+    // ---- Question add ----
+    var qForm = el('question-form');
+    var qMsg = el('q-msg');
+    if (qForm && qMsg) {
+      qForm.addEventListener('submit', function (e) {
+        e.preventDefault();
+        var quizId = el('qb-quiz-id').value;
+        if (!quizId) { flashError(qMsg, 1, 'Önce bir quiz oluştur.'); return; }
+        var options = [];
+        for (var i = 0; i < 4; i++) options.push(el('q-opt-' + i).value.trim());
+        if (options.some(function (o) { return !o; })) {
+          flashError(qMsg, 1, 'Lütfen 4 seçeneği de doldur.');
+          return;
+        }
+        var answer = qForm.querySelector('input[name="answer_index"]:checked');
+        var btn = qForm.querySelector('button');
+        if (btn) { btn.disabled = true; btn.textContent = 'Ekleniyor…'; }
+        fieldMsg(qMsg, '', '');
+        api('/api/teacher/content-questions', 'POST', {
+          quiz_id: quizId,
+          prompt: el('q-prompt').value.trim(),
+          options: options,
+          answer_index: answer ? parseInt(answer.value, 10) : 0,
+          explain: el('q-explain').value.trim(),
+        }).then(function (res) {
+          if (res && res.ok) {
+            fieldMsg(qMsg, 'ok', 'Soru eklendi ✓');
+            el('q-prompt').value = '';
+            el('q-explain').value = '';
+            for (var i2 = 0; i2 < 4; i2++) el('q-opt-' + i2).value = '';
+            var first = qForm.querySelector('input[name="answer_index"][value="0"]');
+            if (first) first.checked = true;
+            el('qb-done').scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+          } else {
+            fieldMsg(qMsg, 'err', readErr(res));
+          }
+        }).catch(function () {
+          fieldMsg(qMsg, 'err', 'Bağlantı hatası. Tekrar dene.');
+        }).finally(function () {
+          if (btn) { btn.disabled = false; btn.textContent = 'Soruyu Ekle'; }
+        });
+      });
+    }
+
+    // ---- Deletes + "add question" quick-link on existing quizzes ----
+    function bindDelete() {
+      document.querySelectorAll('[data-action="delete-lesson"]').forEach(function (btn) {
+        btn.addEventListener('click', function () {
+          var card = btn.closest('.content-card');
+          var id = card && card.getAttribute('data-id');
+          if (!id) return;
+          if (!confirm('Bu dersi / aktiviteyi silmek istediğine emin misin?')) return;
+          btn.disabled = true;
+          api('/api/teacher/content-lessons', 'DELETE', { id: id })
+            .then(function (res) {
+              if (res && res.ok) { window.location.reload(); }
+              else { alert(readErr(res) || 'Silme başarısız.'); btn.disabled = false; }
+            })
+            .catch(function () { alert('Bağlantı hatası.'); btn.disabled = false; });
+        });
+      });
+      document.querySelectorAll('[data-action="delete-quiz"]').forEach(function (btn) {
+        btn.addEventListener('click', function () {
+          var card = btn.closest('.content-card');
+          var id = card && card.getAttribute('data-id');
+          if (!id) return;
+          if (!confirm('Bu quizi (ve tüm sorularını) silmek istediğine emin misin?')) return;
+          btn.disabled = true;
+          api('/api/teacher/content-quizzes', 'DELETE', { id: id })
+            .then(function (res) {
+              if (res && res.ok) { window.location.reload(); }
+              else { alert(readErr(res) || 'Silme başarısız.'); btn.disabled = false; }
+            })
+            .catch(function () { alert('Bağlantı hatası.'); btn.disabled = false; });
+        });
+      });
+      document.querySelectorAll('[data-action="add-question"]').forEach(function (btn) {
+        btn.addEventListener('click', function () {
+          var card = btn.closest('.content-card');
+          var id = card && card.getAttribute('data-id');
+          var title = btn.getAttribute('data-title') || '';
+          if (!id) return;
+          el('qb-quiz-id').value = id;
+          el('qb-quiz-title').textContent = title;
+          builder.hidden = false;
+          builder.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        });
+      });
+    }
+    document.addEventListener('DOMContentLoaded', function () { bindDelete(); });
+    if (document.readyState !== 'loading') bindDelete();
+  })();
+</script>

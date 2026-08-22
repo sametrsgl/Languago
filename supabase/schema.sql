@@ -120,6 +120,12 @@ create policy "lesson_student_read"  on public.lessons for select using (
 -- ============================================================================
 
 -- ============================================================================
+-- Q11: DUAL CALENDAR (group classes + 1-on-1 tutoring) — see
+-- supabase/migrations/20260822_q11_dual_calendar.sql.
+-- - tutor_slots + tutor_bookings for 1-on-1 booking alongside group lessons.
+-- ============================================================================
+
+-- ============================================================================
 -- Helpers / updated_at
 -- =====================================================================
 create or replace function public.set_updated_at()
