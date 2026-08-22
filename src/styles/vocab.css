@@ -108,3 +108,92 @@
 .kv-card-inner {
   will-change: transform;
 }
+
+/* ---- 20-word set progression UI ---- */
+.setprogress {
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  background: #fff;
+  padding: 12px 14px;
+  box-shadow: 0 1px 2px rgba(31, 41, 55, 0.05);
+}
+.setline {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+.setmeta {
+  flex: 1;
+  min-width: 160px;
+}
+.setlab {
+  font-weight: 800;
+  font-size: 0.95rem;
+  color: var(--ink);
+}
+.set-sub {
+  font-weight: 600;
+  font-size: 0.75rem;
+  color: var(--ink-soft);
+  margin-left: 6px;
+}
+.set-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 5px;
+  margin-top: 6px;
+}
+.set-chip {
+  min-width: 26px;
+  height: 26px;
+  padding: 0 7px;
+  border-radius: 8px;
+  border: 1px solid var(--line);
+  background: var(--bg-soft);
+  color: var(--ink-soft);
+  font-weight: 700;
+  font-size: 0.75rem;
+  cursor: pointer;
+  transition: all 0.15s;
+}
+.set-chip:hover { border-color: var(--primary); color: var(--primary-deep); }
+.set-chip.on { background: var(--primary); border-color: var(--primary); color: #fff; }
+.set-more { color: var(--ink-soft); font-size: 0.75rem; display: inline-flex; align-items: center; }
+.set-prev, .set-next {
+  border-radius: 10px;
+  border: 1px solid var(--line);
+  background: #fff;
+  color: var(--ink-soft);
+  font-weight: 700;
+  font-size: 0.82rem;
+  padding: 8px 12px;
+  cursor: pointer;
+  transition: all 0.15s;
+  white-space: nowrap;
+}
+.set-prev:hover:not(:disabled), .set-next:hover:not(:disabled) {
+  border-color: var(--primary);
+  color: var(--primary-deep);
+  background: var(--primary-soft);
+}
+.set-prev:disabled, .set-next:disabled { opacity: 0.4; cursor: not-allowed; }
+.setbar {
+  height: 8px;
+  border-radius: 999px;
+  background: var(--bg-soft);
+  overflow: hidden;
+  margin-top: 10px;
+}
+.setbar-fill {
+  height: 100%;
+  border-radius: 999px;
+  background: linear-gradient(90deg, #0d9488, #14b8a6);
+  transition: width 0.3s ease;
+}
+.setcount {
+  margin-top: 7px;
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: var(--ink-soft);
+}

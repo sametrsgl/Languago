@@ -175,6 +175,9 @@ const levelLabel = (lv: string) => sets.find((s) => s.key === lv)?.label ?? lv;
 
         <div id="countline" class="mb-2 px-1 text-xs font-semibold text-ink-soft" role="status"></div>
 
+        <!-- 20-word set progression: pager + progress bar -->
+        <div id="setpanel" class="mb-3"></div>
+
         <!-- Flashcard grid --->
         <div id="flashgrid" class="grid gap-4 [grid-template-columns:repeat(auto-fill,minmax(220px,1fr))]">
           <!-- server-rendered default view (no-JS fallback); client rebuilds -->
@@ -269,6 +272,7 @@ const levelLabel = (lv: string) => sets.find((s) => s.key === lv)?.label ?? lv;
 
         var grid = document.getElementById('flashgrid');
         var countEl = document.getElementById('countline');
+        var setPanEl = document.getElementById('setpanel');
         var emptyEl = document.getElementById('empty');
         var searchEl = document.getElementById('search');
         var sortEl = document.getElementById('sort');
@@ -281,6 +285,32 @@ const levelLabel = (lv: string) => sets.find((s) => s.key === lv)?.label ?? lv;
         var viewed = {};
         var lastSet = 'all';
         var RESULT_CAP = 200;
+
+        /* ---------- 20-word SET PROGRESSION ---------- */
+        var SET_SIZE = 20;
+        var uid = userId || 'anon';
+        // Persisted per-level set progress + current set (survives reload).
+        var progKey = 'languago_setprog_' + uid;   // { level: { setIdx: count } }
+        var curKey  = 'languago_curset_' + uid;     // { level: setIdx }
+        var setProg = {};
+        var setCur  = {};
+        (function loadSetState() {
+          try { setProg = JSON.parse(localStorage.getItem(progKey) || '{}') || {}; } catch (e) { setProg = {}; }
+          try { setCur  = JSON.parse(localStorage.getItem(curKey)  || '{}') || {}; } catch (e) { setCur = {}; }
+        })();
+        function persistSetState() {
+          try { localStorage.setItem(progKey, JSON.stringify(setProg)); } catch (e) {}
+          try { localStorage.setItem(curKey,  JSON.stringify(setCur));  } catch (e) {}
+        }
+        function levelSetProg(lvl) { return (setProg[lvl] = setProg[lvl] || {}); }
+        function setCountFor(lvl, idx) { return levelSetProg(lvl)[idx] || 0; }
+        function setDoneFor(chunk, count) { return count >= chunk.length; }
+        // First incomplete set index for a level (from all its chunks' saved counts).
+        function firstIncomplete(lvl, totalSets) {
+          var prog = setProg[lvl] || {};
+          for (var i = 0; i < totalSets; i++) if (!prog[i] || prog[i] < SET_SIZE) return i;
+          return 0;
+        }
 
         function esc(s) {
           var d = document.createElement('div');
@@ -344,6 +374,14 @@ const levelLabel = (lv: string) => sets.find((s) => s.key === lv)?.label ?? lv;
         function opened(w) {
           if (!viewed[w.w]) viewed[w.w] = 1;
           else viewed[w.w] += 1;
+          // Record 20-word-set progress for the current level + set (only in chunked mode).
+          if (!query && activeSet !== 'all') {
+            var lvl = activeSet;
+            var idx = setCur[lvl] || 0;
+            var prog = levelSetProg(lvl);
+            prog[idx] = Math.min(prog[idx] || 0, 100000) + 1; // view count for this set
+            persistSetState();
+          }
           // Fire-and-forget progress upsert on every card open (guarded).
           saveProgress(w);
         }
@@ -396,32 +434,81 @@ const levelLabel = (lv: string) => sets.find((s) => s.key === lv)?.label ?? lv;
           }
         }
 
+        function currentSetInfo(list) {
+          // list = the filtered word array for the active level (chunked mode).
+          var totalSets = Math.max(1, Math.ceil(list.length / SET_SIZE));
+          var lvl = activeSet;
+          var idx = setCur[lvl] || 0;
+          if (idx >= totalSets) idx = 0;
+          setCur[lvl] = idx;
+          var chunk = list.slice(idx * SET_SIZE, idx * SET_SIZE + SET_SIZE);
+          var doneCount = setCountFor(lvl, idx);
+          return { totalSets: totalSets, idx: idx, chunk: chunk, doneCount: doneCount };
+        }
+
         function render() {
           var q = query.trim().toLowerCase();
-          var out = [];
-          for (var i = 0; i < words.length && out.length < RESULT_CAP; i++) {
+          var searching = !!q;
+          var list = [];
+
+          // Build the filtered list for the selected scope (level or 'all'), no cap yet.
+          for (var i = 0; i < words.length; i++) {
             var w = words[i];
             if (activeSet !== 'all' && (w.lv || []).indexOf(activeSet) === -1) continue;
             if (q && !((w.w && w.w.toLowerCase().indexOf(q) !== -1) || (w.t && w.t.toLowerCase().indexOf(q) !== -1))) continue;
             if (onlyUnlearned && (favs[w.w] || viewed[w.w])) continue;
-            out.push(w);
+            list.push(w);
           }
-          if (sortOrder === 'az') out.sort(function (a, b) { return a.w.localeCompare(b.w); });
-          else if (sortOrder === 'za') out.sort(function (a, b) { return b.w.localeCompare(a.w); });
+          if (sortOrder === 'az') list.sort(function (a, b) { return a.w.localeCompare(b.w); });
+          else if (sortOrder === 'za') list.sort(function (a, b) { return b.w.localeCompare(a.w); });
+          var total = list.length;
 
-          var total = 0;
-          for (var k = 0; k < words.length; k++) {
-            var ww = words[k];
-            if (activeSet !== 'all' && (ww.lv || []).indexOf(activeSet) === -1) continue;
-            if (q && !((ww.w && ww.w.toLowerCase().indexOf(q) !== -1) || (ww.t && ww.t.toLowerCase().indexOf(q) !== -1))) continue;
-            if (onlyUnlearned && (favs[ww.w] || viewed[ww.w])) continue;
-            total++;
+          // Decide the slice to render.
+          var out, setInfo = null;
+          if (searching) {
+            out = list.slice(0, RESULT_CAP); // search bypasses sets (cap for perf)
+          } else {
+            setInfo = currentSetInfo(list);
+            out = setInfo.chunk;
           }
 
-          countEl.textContent = out.length >= RESULT_CAP
-            ? 'İlk ' + RESULT_CAP + ' sonuç gösteriliyor…'
-            : total.toLocaleString('tr-TR') + ' sonuç';
+          var extra = '';
+          if (setInfo && total === 0) {
+            extra = '';
+          } else if (setInfo) {
+            var done = setDoneFor(out, setInfo.doneCount) || setInfo.doneCount >= out.length;
+            var pct = out.length ? Math.min(100, Math.round((setInfo.doneCount / out.length) * 100)) : 0;
+            var shownTotal = (setInfo.idx + 1) + ' / ' + setInfo.totalSets;
+            var chips = '';
+            var firstN = Math.min(8, setInfo.totalSets);
+            for (var c = 0; c < firstN; c++) {
+              chips += '<button type="button" class="set-chip' + (c === setInfo.idx ? ' on' : '') + '" data-setidx="' + c + '" aria-label="Set ' + (c + 1) + '">' + (c + 1) + '</button>';
+            }
+            if (setInfo.totalSets > firstN) {
+              if (setInfo.idx >= firstN) chips += '<span class="set-more">…</span><button type="button" class="set-chip' + (setInfo.idx === setInfo.totalSets - 1 ? ' on' : '') + '" data-setidx="' + (setInfo.totalSets - 1) + '" aria-label="Set ' + setInfo.totalSets + '">' + setInfo.totalSets + '</button>';
+              else chips += '<span class="set-more">…</span><button type="button" class="set-chip" data-setidx="' + (setInfo.totalSets - 1) + '" aria-label="Set ' + setInfo.totalSets + '">' + setInfo.totalSets + '</button>';
+            }
+            extra = (
+              '<div class="setprogress">' +
+                '<div class="setline">' +
+                  '<button type="button" class="set-prev" data-prev aria-label="Önceki set"' + (setInfo.idx === 0 ? ' disabled' : '') + '>← Önceki</button>' +
+                  '<div class="setmeta">' +
+                    '<div class="setlab">Set ' + shownTotal + ' <span class="set-sub">' + (setInfo.idx * SET_SIZE + 1) + '–' + (setInfo.idx * SET_SIZE + out.length) + ' / ' + total + ' kelime</span></div>' +
+                    '<div class="set-chips">' + chips + '</div>' +
+                  '</div>' +
+                  '<button type="button" class="set-next" data-next aria-label="Sonraki set"' + (setInfo.idx === setInfo.totalSets - 1 ? ' disabled' : '') + '>Sonraki →</button>' +
+                '</div>' +
+                '<div class="setbar"><div class="setbar-fill" style="width:' + pct + '%"></div></div>' +
+                '<div class="setcount">' + (done ? '✓ Tamamlandı! 🎉' : Math.min(setInfo.doneCount || 0, out.length) + ' / ' + out.length + ' kelimeye baktın · %' + pct) + '</div>' +
+              '</div>'
+            );
+          }
+
+          countEl.textContent = searching
+            ? (out.length >= RESULT_CAP ? 'İlk ' + RESULT_CAP + ' sonuç gösteriliyor…' : total.toLocaleString('tr-TR') + ' sonuç')
+            : (total.toLocaleString('tr-TR') + ' kelime · Set ' + (setInfo ? (setInfo.idx + 1) : 1) + '/' + (setInfo ? setInfo.totalSets : 1));
           emptyEl.hidden = out.length !== 0;
+          setPanEl.innerHTML = extra || '';
           grid.textContent = '';
           var frag = document.createDocumentFragment();
           var tmp = document.createElement('div');
@@ -437,8 +524,24 @@ const levelLabel = (lv: string) => sets.find((s) => s.key === lv)?.label ?? lv;
         document.getElementById('setlist').addEventListener('click', function (e) {
           var b = e.target.closest('[data-set-key]');
           if (!b) return;
-          activeSet = b.getAttribute('data-set-key');
+          var newKey = b.getAttribute('data-set-key');
+          var changedLevel = newKey !== activeSet;
+          activeSet = newKey;
           lastSet = activeSet === 'all' ? 'all' : activeSet;
+          if (changedLevel) {
+            // Reset search + sort so the level view is clean, and jump to the
+            // first incomplete set for this level (best-effort).
+            query = ''; searchEl.value = ''; unlearnedEl.setAttribute('aria-pressed', 'false'); onlyUnlearned = false;
+            var list = [];
+            for (var li = 0; li < words.length; li++) {
+              var ww = words[li];
+              if (activeSet !== 'all' && (ww.lv || []).indexOf(activeSet) === -1) continue;
+              list.push(ww);
+            }
+            var totalSets = Math.max(1, Math.ceil(list.length / SET_SIZE));
+            setCur[activeSet] = firstIncomplete(activeSet, totalSets);
+            persistSetState();
+          }
           document.querySelectorAll('#setlist .kv-set-btn').forEach(function (c) {
             var on = c === b;
             c.classList.toggle('on', on);
@@ -449,6 +552,36 @@ const levelLabel = (lv: string) => sets.find((s) => s.key === lv)?.label ?? lv;
             c.classList.toggle('text-ink-soft', !on);
           });
           render();
+        });
+
+        // Set pager + chips (delegated on the set panel).
+        setPanEl.addEventListener('click', function (e) {
+          var chip = e.target.closest('[data-setidx]');
+          if (chip) {
+            setCur[activeSet] = parseInt(chip.getAttribute('data-setidx'), 10) || 0;
+            persistSetState();
+            render();
+            return;
+          }
+          var prev = e.target.closest('[data-prev]');
+          if (prev && !prev.disabled) {
+            var i1 = (setCur[activeSet] || 0) - 1;
+            setCur[activeSet] = i1 < 0 ? 0 : i1;
+            persistSetState(); render(); return;
+          }
+          var next = e.target.closest('[data-next]');
+          if (next && !next.disabled) {
+            var list = [];
+            for (var ni = 0; ni < words.length; ni++) {
+              var nw = words[ni];
+              if (activeSet !== 'all' && (nw.lv || []).indexOf(activeSet) === -1) continue;
+              list.push(nw);
+            }
+            var totalSets = Math.max(1, Math.ceil(list.length / SET_SIZE));
+            var i2 = (setCur[activeSet] || 0) + 1;
+            setCur[activeSet] = i2 >= totalSets ? totalSets - 1 : i2;
+            persistSetState(); render(); return;
+          }
         });
 
         searchEl.addEventListener('input', function () { query = searchEl.value; render(); });
