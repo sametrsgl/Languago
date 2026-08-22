@@ -1,0 +1,110 @@
+/* ============================================================
+   Languago — vocab flashcards page (scoped Tailwind v4)
+   ============================================================
+   This file is imported ONLY by src/pages/dashboard/kelimeler.astro.
+
+   It pulls in Tailwind's *theme* and *utilities* layers but deliberately
+   omits the *base/preflight* layer, so no global CSS reset is emitted.
+   That keeps this page's Tailwind styles additive and scoped: the existing
+   global.css and the AppLayout shell are never touched or reset.
+
+   Tokens are mapped to Languago brand colors so utilities read naturally:
+     primary  -> teal   #0d9488  (UI, links, focus, primary accents)
+     brand    -> orange #f59e0b  (CTAs / actions / gamified accents)
+   Default Tailwind palette (teal-*, gray-*, amber-*, emerald-*) is also
+   available for soft secondary tiers.
+   ============================================================ */
+
+@layer theme, base, components, utilities;
+
+@import 'tailwindcss/theme.css' layer(theme);
+@import 'tailwindcss/utilities.css' layer(utilities);
+
+@theme {
+  /* Languago brand mapping */
+  --color-primary: #0d9488; /* teal */
+  --color-primary-deep: #0f766e; /* teal-dark */
+  --color-primary-soft: #ccfbf1; /* teal-soft */
+  --color-brand: #f59e0b; /* orange */
+  --color-brand-deep: #d97706; /* orange-dark */
+  --color-ink: #1f2937;
+  --color-ink-soft: #4b5563;
+  --color-line: #e5e7eb; /* global --line */
+  --color-bg-soft: #f6f8fb; /* global --bg-soft */
+}
+
+/* Make room for the two-column dashboard on this page only. */
+.study.kv-wide {
+  max-width: 1240px;
+}
+
+/* Small inline-key hint chip (Enter/space) in the page intro. */
+.kv-kbd {
+  display: inline-block;
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  background: var(--bg-soft);
+  color: var(--ink-soft);
+  font-size: 0.78rem;
+  font-weight: 700;
+  line-height: 1;
+  padding: 3px 6px;
+  box-shadow: 0 1px 0 rgba(31, 41, 55, 0.08);
+}
+
+/* ---- 3D flip card mechanics (kept here; utilities above do styling) ---- */
+.kv-card {
+  perspective: 1400px;
+}
+.kv-card-inner {
+  display: grid;
+  transform-style: preserve-3d;
+  transition: transform 0.45s cubic-bezier(0.22, 0.61, 0.36, 1);
+}
+.kv-card-inner > .kv-face {
+  grid-area: 1 / 1;
+  align-self: start;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+}
+.kv-card.is-flipped .kv-card-inner {
+  transform: rotateY(180deg);
+}
+.kv-back {
+  transform: rotateY(180deg);
+}
+
+/* Respect reduced-motion: don't spin, just swap opacity/visibility. */
+@media (prefers-reduced-motion: reduce) {
+  .kv-card-inner {
+    transition: none;
+  }
+  .kv-card .kv-back {
+    opacity: 0;
+    visibility: hidden;
+  }
+  .kv-card.is-flipped .kv-front {
+    opacity: 0;
+    visibility: hidden;
+  }
+  .kv-card.is-flipped .kv-back {
+    opacity: 1;
+    visibility: visible;
+  }
+}
+
+/* Subtle entrance for each card so the grid feels alive. */
+@keyframes kv-pop {
+  from { opacity: 0; transform: translateY(8px) scale(0.98); }
+  to { opacity: 1; transform: none; }
+}
+.kv-card {
+  animation: kv-pop 0.28s ease both;
+}
+
+/* Firefox/older Safari sometimes need an explicit stacking context so
+   transformed children don't bleed out of the rounded card. */
+.kv-card,
+.kv-card-inner {
+  will-change: transform;
+}

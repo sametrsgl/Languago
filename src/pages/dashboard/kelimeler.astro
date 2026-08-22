@@ -4,6 +4,7 @@ import { getSessionUser } from '../../lib/auth';
 import { pageCookieSource } from '../../lib/supabase';
 import { VOCAB_SETS } from '../../lib/study';
 import { readProgress, payloadStr } from '../../lib/progress';
+import '../../styles/vocab.css'; // scoped Tailwind v4 (theme + utilities only — no preflight)
 
 // Protected route.
 const user = await getSessionUser(pageCookieSource(Astro));
@@ -46,20 +47,48 @@ const resumeWord = payloadStr(vocabProgress, 'lastWord');
 const resumeSet = payloadStr(vocabProgress, 'set', 'lastSet');
 // Only auto-select a set if it's a real, known set key.
 const resumeSetKey = sets.some((s) => s.key === resumeSet) ? resumeSet : '';
+// Signed-in user id — used to key the per-user Favorites in localStorage.
+const userId = user?.id ?? '';
+
+// Level badge accent colors (gamified), mirrored in the client script.
+const LV_CLR: Record<string, string> = {
+  a1: 'bg-emerald-500', a2: 'bg-teal-500', b1: 'bg-sky-500', b2: 'bg-indigo-500',
+  c1: 'bg-violet-500', c2: 'bg-fuchsia-500', ielts: 'bg-amber-500',
+  toefl: 'bg-rose-500', yokdil: 'bg-cyan-600', yds: 'bg-orange-500', gre: 'bg-slate-500',
+};
+const POS_TR: Record<string, string> = {
+  noun: 'isim', verb: 'fiil', adjective: 'sıfat', adverb: 'zarf',
+  preposition: 'edat', conjunction: 'bağlaç', pronoun: 'zamir',
+  interjection: 'ünlem', determiner: 'belirteç', modal: 'kip fiili',
+  article: 'artikel', phrase: 'ifade',
+};
+
+// Server-render the default view (Tümü, first 120) so the page is visible
+// even with JS disabled; the client script rebuilds an interactive grid.
+const ssrItems = items.slice(0, 120);
+const levelLabel = (lv: string) => sets.find((s) => s.key === lv)?.label ?? lv;
 ---
 
-<AppLayout title="Kelime Çalışması — Languago" description="Kelime kartlarına göz at, ara ve detaylı tanımları incele.">
-  <main class="study">
+<AppLayout title="Kelime Kartları — Languago" description="Kelime kartlarıyla çalış, ara, sesli dinle ve favorilerine ekle.">
+  <main class="study kv-wide">
     <nav class="crumb">
       <a class="back" href="/dashboard">← Öğrenci Paneli</a>
       <span class="sep">›</span>
       <span class="cur">Kelime</span>
     </nav>
-    <h1>Kelime Kartları 🪪</h1>
-    <p class="muted">
-      {items.length.toLocaleString('tr-TR')} kelime · İngilizce kelime veya Türkçe anlamıyla ara,
-      sete göre filtrele, bir kelimeye dokununca detayı gör.
-    </p>
+
+    <header class="flex flex-wrap items-end justify-between gap-3">
+      <div>
+        <h1 class="m-0 text-ink">Kelime Kartları <span class="align-middle">🪪</span></h1>
+        <p class="muted mt-2 mb-0">
+          {items.length.toLocaleString('tr-TR')} kelime · Karta tıkla / <kbd class="kv-kbd">Enter</kbd> ile çevir,
+          🔊 ile dinle, ⭐ ile favorine ekle.
+        </p>
+      </div>
+      <span class="flex items-center gap-1 rounded-full bg-primary-soft px-3 py-1 text-xs font-bold text-primary-deep">
+        🗂️ {sets.length} set
+      </span>
+    </header>
     <div class="barline"></div>
 
     {resumeWord && (
@@ -73,137 +102,229 @@ const resumeSetKey = sets.some((s) => s.key === resumeSet) ? resumeSet : '';
       </div>
     )}
 
-    <!-- server-rendered set overview (counts computed here, no JS needed) -->
-    <div class="tiles">
-      {sets.map((s) => (
-        <button type="button" class="tile" style="border-top:4px solid var(--brand);text-align:left;"
-          data-set-key={s.key}>
-          <div class="tt">{s.label}</div>
-          <div class="bb">{s.count.toLocaleString('tr-TR')} kelime</div>
-        </button>
-      ))}
+    <!-- Two-column responsive grid: sticky level/set sidebar (lg+) + main column -->
+    <div class="kv-grid mt-5 lg:grid lg:grid-cols-[250px_1fr] lg:gap-6">
+
+      <!-- LEFT · sticky level/set filters (collapses to wrapped chips on mobile) -->
+      <aside class="lg:sticky lg:top-[84px] lg:self-start lg:max-h-[calc(100vh-110px)] lg:overflow-y-auto lg:pr-1">
+        <h2 class="mb-2 mt-0 text-[0.72rem] font-extrabold uppercase tracking-wider text-ink-soft">
+          Setler &amp; Seviyeler
+        </h2>
+        <div id="setlist" class="flex flex-wrap gap-2 lg:flex-col lg:gap-1.5">
+          <button type="button" data-set-key="all"
+            class="kv-set-btn on flex items-center justify-between gap-2 rounded-xl border border-primary/30 bg-primary px-3 py-2 text-left text-sm font-bold text-white shadow-sm transition hover:-translate-y-px hover:shadow">
+            <span>Tümü</span>
+            <span class="rounded-full bg-white/25 px-2 py-0.5 text-xs font-bold tabular-nums">
+              {items.length.toLocaleString('tr-TR')}
+            </span>
+          </button>
+          {sets.map((s) => (
+            <button type="button" data-set-key={s.key}
+              class="kv-set-btn flex items-center justify-between gap-2 rounded-xl border border-line bg-white px-3 py-2 text-left text-sm font-semibold text-ink-soft transition hover:-translate-y-px hover:border-primary hover:text-primary-deep hover:shadow">
+              <span>{s.label}</span>
+              <span class="rounded-full bg-bg-soft px-2 py-0.5 text-xs tabular-nums text-ink-soft">
+                {s.count.toLocaleString('tr-TR')}
+              </span>
+            </button>
+          ))}
+        </div>
+        <noscript>
+          <p class="mt-3 text-sm text-ink-soft">Kartları görmek için lütfen JavaScript'i etkinleştir.</p>
+        </noscript>
+      </aside>
+
+      <!-- RIGHT · sticky toolbar + flashcard grid -->
+      <section class="min-w-0">
+        <!-- Sticky top toolbar: search + sort + Öğrenilmedi toggle -->
+        <div class="sticky top-[72px] z-10 -mx-1 mb-3 rounded-2xl border border-line/80 bg-white/90 p-2 shadow-sm backdrop-blur sm:flex sm:items-center sm:gap-2">
+          <label class="relative flex flex-1 items-center">
+            <span class="pointer-events-none absolute left-3 text-ink-soft" aria-hidden="true">🔍</span>
+            <input
+              id="search"
+              type="search"
+              placeholder="İngilizce kelime veya Türkçe anlam ara…"
+              autocomplete="off"
+              aria-label="Kelime veya Türkçe anlam ara"
+              class="w-full rounded-xl border border-line bg-white py-2.5 pl-9 pr-3 text-sm text-ink outline-none transition focus:border-primary focus:ring-2 focus:ring-primary/30"
+            />
+          </label>
+
+          <label class="mt-2 flex items-center gap-1 text-xs font-semibold text-ink-soft sm:mt-0">
+            <span aria-hidden="true">↕</span>
+            <span class="sr-only">Sıralama</span>
+            <select
+              id="sort"
+              aria-label="Sıralama ölçütü"
+              class="rounded-xl border border-line bg-white px-2.5 py-2.5 text-sm text-ink outline-none focus:border-primary focus:ring-2 focus:ring-primary/30"
+            >
+              <option value="default">Sırala: Varsayılan</option>
+              <option value="az">Alfabetik A→Z</option>
+              <option value="za">Alfabetik Z→A</option>
+            </select>
+          </label>
+
+          <button
+            type="button"
+            id="unlearned"
+            aria-pressed="false"
+            class="mt-2 flex items-center gap-1.5 rounded-xl border border-line bg-white px-3 py-2.5 text-sm font-semibold text-ink-soft transition hover:border-brand hover:text-brand-deep sm:mt-0"
+          >
+            <span aria-hidden="true">🎯</span> Öğrenilmedi
+          </button>
+        </div>
+
+        <div id="countline" class="mb-2 px-1 text-xs font-semibold text-ink-soft" role="status"></div>
+
+        <!-- Flashcard grid --->
+        <div id="flashgrid" class="grid gap-4 [grid-template-columns:repeat(auto-fill,minmax(220px,1fr))]">
+          <!-- server-rendered default view (no-JS fallback); client rebuilds -->
+          {ssrItems.map((w) => {
+            const pos = POS_TR[w.p] || w.p || '';
+            const lvcls = (w.lv as string[]).slice(0, 3);
+            return (
+              <div class="kv-card group rounded-2xl border border-line bg-white p-3 shadow-sm outline-none transition hover:-translate-y-0.5 hover:border-primary hover:shadow-lg focus-visible:ring-2 focus-visible:ring-primary/60"
+                data-w={w.w} tabindex="0" role="button"
+                aria-label={`${w.w} — kartı çevirmek için Enter veya tıkla`}>
+                <div class="kv-card-inner min-h-[190px]">
+                  {/* FRONT */}
+                  <div class="kv-face kv-front flex flex-col">
+                    <div class="mb-2 flex flex-wrap items-center gap-1.5">
+                      <span class="rounded-full bg-primary px-2.5 py-0.5 text-[0.7rem] font-bold text-white">{pos}</span>
+                      {lvcls.map((lv) => (
+                        <span class={`rounded-full ${LV_CLR[lv] || 'bg-slate-400'} px-2 py-0.5 text-[0.65rem] font-bold text-white`}>{levelLabel(lv)}</span>
+                      ))}
+                    </div>
+                    <div class="text-[clamp(1.35rem,3vw,1.9rem)] font-extrabold capitalize leading-tight text-ink">{w.w}</div>
+                    {w.i && <div class="mt-1 font-mono text-sm text-ink-soft/80">{w.i}</div>}
+                    <span class="mt-auto inline-flex items-center gap-1 self-start rounded-full bg-bg-soft px-2.5 py-1 text-[0.7rem] font-bold text-ink-soft">
+                      ⟳ Tıkla · Çevir
+                    </span>
+                  </div>
+                  {/* BACK */}
+                  <div class="kv-face kv-back flex flex-col">
+                    <div class="mb-2 flex flex-wrap items-center gap-1.5">
+                      {lvcls.map((lv) => (
+                        <span class={`rounded-full ${LV_CLR[lv] || 'bg-slate-400'} px-2 py-0.5 text-[0.65rem] font-bold text-white`}>{levelLabel(lv)}</span>
+                      ))}
+                    </div>
+                    <div class="text-lg font-extrabold leading-snug text-primary-deep">🇹🇷 {w.t}</div>
+                    {w.i && <div class="mt-0.5 font-mono text-xs text-ink-soft/70">{w.i}</div>}
+                    <div class="mt-2 text-sm font-semibold text-ink">
+                      <span class="mr-1 text-[0.62rem] font-extrabold uppercase tracking-wide text-primary">Tanım</span>
+                      <span class="block text-ink-soft">{w.d}</span>
+                    </div>
+                    {w.e && (
+                      <div class="mt-2 border-l-[3px] border-primary pl-2 text-[0.85rem] italic text-ink-soft">
+                        {w.e}
+                      </div>
+                    )}
+                  </div>
+                </div>
+                {/* action buttons (unaffected by flip) */}
+                <div class="mt-2 flex items-center gap-1.5 border-t border-line/70 pt-2">
+                  <button type="button" data-play data-w={w.w}
+                    class="inline-flex h-9 w-9 items-center justify-center rounded-full border border-line bg-white text-base transition hover:border-primary hover:bg-primary-soft"
+                    aria-label={`${w.w} kelimesini sesli oku`}>🔊</button>
+                  <button type="button" data-fav data-w={w.w} aria-pressed="false"
+                    class="inline-flex h-9 w-9 items-center justify-center rounded-full border border-line bg-white text-base transition hover:border-brand hover:bg-amber-50"
+                    aria-label={`${w.w} kelimesini favorilere ekle`}>☆</button>
+                  <span class="ml-auto text-[0.65rem] font-semibold text-ink-soft hidden sm:inline">Languago · Kelime</span>
+                </div>
+              </div>
+            );
+          })}
+        </div>
+
+        <div id="empty" hidden class="empty mt-6 rounded-2xl border border-dashed border-line bg-bg-soft p-10 text-center text-ink-soft">
+          <div class="text-3xl">🤔</div>
+          <div class="mt-2 font-semibold text-ink">Sonuç bulunamadı</div>
+          <div class="text-sm">Farklı bir kelime dene ya da set değiştir.</div>
+        </div>
+      </section>
     </div>
-
-    <div style="height:26px;"></div>
-
-    <!-- client browse + search + detail -->
-    <div class="chips" id="chips">
-      <button type="button" class="chip on" data-set-key="all">Tümü</button>
-      {sets.map((s) => (
-        <button type="button" class="chip" data-set-key={s.key}>{s.label}</button>
-      ))}
-    </div>
-    <input class="vsearch" id="search" type="search" placeholder="Kelime veya Türkçe anlam ara…" autocomplete="off" />
-    <div class="wcount" id="count"></div>
-
-    <div class="wdetail" id="detail" hidden></div>
-    <ul class="wlist" id="list"></ul>
-    <div class="empty" id="empty" hidden>Sonuç bulunamadı. Farklı bir kelime dene.</div>
 
     <script is:inline id="vocab-meta" type="application/json" set:html={setMetaJson}></script>
     <script is:inline id="vocab-data" type="application/json" set:html={vocabJson}></script>
 
-    <script define:vars={{ resumeWord, resumeSetKey }}>
+    <script define:vars={{ resumeWord, resumeSetKey, userId }}>
       (function () {
-        var getJson = function (id) {
+        function getJson(id) {
           var el = document.getElementById(id);
           if (!el || !el.textContent) return null;
           try { return JSON.parse(el.textContent); } catch (e) { return null; }
-        };
+        }
         var words = getJson('vocab-data') || [];
         var sets = getJson('vocab-meta') || [];
-
-        var listEl = document.getElementById('list');
-        var countEl = document.getElementById('count');
-        var emptyEl = document.getElementById('empty');
-        var detailEl = document.getElementById('detail');
-        var searchEl = document.getElementById('search');
-        var chipsWrap = document.getElementById('chips');
-
-        var activeSet = 'all';
-        var query = '';
-        var viewed = {};
-        var lastSet = 'all';
+        var byW = {};
+        words.forEach(function (w) { byW[w.w] = w; });
 
         var badgeLabels = {};
         sets.forEach(function (s) { badgeLabels[s.key] = s.label; });
+        var LV_CLR = {
+          a1: 'bg-emerald-500', a2: 'bg-teal-500', b1: 'bg-sky-500', b2: 'bg-indigo-500',
+          c1: 'bg-violet-500', c2: 'bg-fuchsia-500', ielts: 'bg-amber-500',
+          toefl: 'bg-rose-500', yokdil: 'bg-cyan-600', yds: 'bg-orange-500', gre: 'bg-slate-500'
+        };
+        var POS_TR = { noun: 'isim', verb: 'fiil', adjective: 'sıfat', adverb: 'zarf', preposition: 'edat', conjunction: 'bağlaç', pronoun: 'zamir', interjection: 'ünlem', determiner: 'belirteç', modal: 'kip fiili', article: 'artikel', phrase: 'ifade' };
 
-        var esc = function (s) {
+        var grid = document.getElementById('flashgrid');
+        var countEl = document.getElementById('countline');
+        var emptyEl = document.getElementById('empty');
+        var searchEl = document.getElementById('search');
+        var sortEl = document.getElementById('sort');
+        var unlearnedEl = document.getElementById('unlearned');
+
+        var activeSet = 'all';
+        var query = '';
+        var sortOrder = 'default';
+        var onlyUnlearned = false;
+        var viewed = {};
+        var lastSet = 'all';
+        var RESULT_CAP = 200;
+
+        function esc(s) {
           var d = document.createElement('div');
           d.textContent = s == null ? '' : String(s);
           return d.innerHTML;
-        };
+        }
 
-        var render = function () {
-          var q = query.trim().toLowerCase();
-          var filtered = [];
-          for (var i = 0; i < words.length; i++) {
-            var w = words[i];
-            if (activeSet !== 'all' && w.lv.indexOf(activeSet) === -1) continue;
-            if (q) {
-              var hit =
-                (w.w && w.w.toLowerCase().indexOf(q) !== -1) ||
-                (w.t && w.t.toLowerCase().indexOf(q) !== -1);
-              if (!hit) continue;
-            }
-            filtered.push(w);
-            if (filtered.length >= 120) break;
+        /* ---------- Favorites (localStorage, keyed by user id) ---------- */
+        var favKey = 'languago_favs_' + (userId || 'anon');
+        var favs = {};
+        (function loadFavs() {
+          try {
+            var arr = JSON.parse(localStorage.getItem(favKey) || '[]');
+            if (Array.isArray(arr)) arr.forEach(function (w) { favs[w] = true; });
+          } catch (e) {}
+        })();
+        function toggleFav(w, btn) {
+          if (favs[w]) { delete favs[w]; }
+          else { favs[w] = true; }
+          try { localStorage.setItem(favKey, JSON.stringify(Object.keys(favs))); } catch (e) {}
+          if (btn) {
+            var on = !!favs[w];
+            btn.setAttribute('aria-label', (on ? '' : 'favorilere ekle: ') + w);
+            btn.setAttribute('aria-pressed', on ? 'true' : 'false');
+            btn.textContent = on ? '★' : '☆';
+            btn.classList.toggle('is-fav', on);
           }
-          countEl.textContent = filtered.length >= 120
-            ? 'İlk 120 sonuç gösteriliyor…'
-            : filtered.length + ' sonuç';
-          emptyEl.hidden = filtered.length !== 0;
-          listEl.textContent = '';
-          var frag = document.createDocumentFragment();
-          filtered.forEach(function (w) {
-            var li = document.createElement('li');
-            var left = document.createElement('span');
-            left.className = 'wt';
-            left.textContent = w.w;
-            var mid = document.createElement('span');
-            var badges = (w.lv || []).slice(0, 3).map(function (lv) {
-              var b = document.createElement('span');
-              b.className = 'wtlvl';
-              b.textContent = badgeLabels[lv] || lv;
-              return b;
-            });
-            badges.forEach(function (b) { mid.appendChild(b); });
-            var right = document.createElement('span');
-            right.className = 'wtr';
-            right.textContent = w.t;
-            var wrap = document.createElement('span');
-            wrap.style.textAlign = 'right';
-            wrap.append(mid, document.createElement('br'), right);
-            li.append(left, wrap);
-            li.addEventListener('click', function () { showDetail(w); });
-            frag.appendChild(li);
-          });
-          listEl.appendChild(frag);
-        };
+          if (onlyUnlearned) render();
+        }
 
-        var showDetail = function (w) {
-          var posMap = { noun: 'isim', verb: 'fiil', adjective: 'sıfat', adverb: 'zarf', preposition: 'edat', conjunction: 'bağlaç', pronoun: 'zamir', interjection: 'ünlem', determiner: 'belirteç', modal: 'kip fiili', article: 'artikel', phrase: 'ifade' };
-          var pos = posMap[w.p] || w.p || '';
-          var lv = (w.lv || []).map(function (l) { return badgeLabels[l] || l; });
-          var lvHtml = lv.length ? '<span class="lv-tag">' + esc(lv.join(' · ')) + '</span>' : '';
-          detailEl.innerHTML =
-            '<button type="button" class="close" aria-label="Kapat">✕</button>' +
-            '<div class="w-head">' +
-              '<h2>' + esc(w.w) + '</h2>' +
-              (w.i ? '<span class="ipa">' + esc(w.i) + '</span>' : '') +
-            '</div>' +
-            (pos || lvHtml ? '<div>' + (pos ? '<span class="pos">' + esc(pos) + '</span>' : '') + lvHtml + '</div>' : '') +
-            '<div class="w-sec"><div class="w-sec-label">Tanım</div><p class="w-def">' + esc(w.d) + '</p></div>' +
-            (w.e ? '<div class="w-sec"><div class="w-sec-label">Örnek Cümle</div><div class="ex">' + esc(w.e) + '</div></div>' : '') +
-            '<div class="w-sec"><div class="w-sec-label">Türkçe</div><div class="tr">🇹🇷 ' + esc(w.t) + '</div></div>';
-          detailEl.hidden = false;
-          detailEl.classList.add('show');
-          detailEl.scrollIntoView({ behavior: 'smooth', block: 'center' });
-          viewed[w.w] = (viewed[w.w] || 0) + 1;
-          saveProgress(w);
-        };
+        /* ---------- Audio (Web Speech API) ---------- */
+        function speak(word) {
+          try {
+            if (!('speechSynthesis' in window)) return;
+            window.speechSynthesis.cancel();
+            var u = new SpeechSynthesisUtterance(word);
+            u.lang = 'en-US';
+            u.rate = 0.92;
+            window.speechSynthesis.speak(u);
+          } catch (e) {}
+        }
 
-        var saveProgress = function (w) {
+        /* ---------- Progress (same contract as before) ---------- */
+        function saveProgress(w) {
           try {
             fetch('/dashboard/progress', {
               method: 'POST',
@@ -219,34 +340,158 @@ const resumeSetKey = sets.some((s) => s.key === resumeSet) ? resumeSet : '';
               }),
             }).catch(function () {});
           } catch (e) {}
-        };
+        }
+        function opened(w) {
+          if (!viewed[w.w]) viewed[w.w] = 1;
+          else viewed[w.w] += 1;
+          // Fire-and-forget progress upsert on every card open (guarded).
+          saveProgress(w);
+        }
 
-        chipsWrap.addEventListener('click', function (e) {
-          var b = e.target.closest('.chip');
+        /* ---------- Card rendering ---------- */
+        function badgeHtml(lv) {
+          return '<span class="rounded-full ' + (LV_CLR[lv] || 'bg-slate-400') + ' px-2 py-0.5 text-[0.65rem] font-bold text-white">' + esc(badgeLabels[lv] || lv) + '</span>';
+        }
+        function cardHtml(w) {
+          var pos = POS_TR[w.p] || w.p || '';
+          var posHtml = pos ? '<span class="rounded-full bg-primary px-2.5 py-0.5 text-[0.7rem] font-bold text-white">' + esc(pos) + '</span>' : '';
+          var lv = (w.lv || []).slice(0, 3);
+          var lvHtml = lv.map(badgeHtml).join('');
+          var fav = !!favs[w.w];
+          return (
+            '<div class="kv-card rounded-2xl border border-line bg-white p-3 shadow-sm outline-none transition hover:-translate-y-0.5 hover:border-primary hover:shadow-lg focus-visible:ring-2 focus-visible:ring-primary/60" data-w="' + esc(w.w) + '" tabindex="0" role="button" aria-label="' + esc(w.w) + ' — kartı çevirmek için Enter veya tıkla">' +
+              '<div class="kv-card-inner min-h-[190px]">' +
+                '<div class="kv-face kv-front flex flex-col">' +
+                  '<div class="mb-2 flex flex-wrap items-center gap-1.5">' + posHtml + lvHtml + '</div>' +
+                  '<div class="text-[clamp(1.35rem,3vw,1.9rem)] font-extrabold capitalize leading-tight text-ink">' + esc(w.w) + '</div>' +
+                  (w.i ? '<div class="mt-1 font-mono text-sm text-ink-soft/80">' + esc(w.i) + '</div>' : '') +
+                  '<span class="mt-auto inline-flex items-center gap-1 self-start rounded-full bg-bg-soft px-2.5 py-1 text-[0.7rem] font-bold text-ink-soft">⟳ Tıkla · Çevir</span>' +
+                '</div>' +
+                '<div class="kv-face kv-back flex flex-col">' +
+                  '<div class="mb-2 flex flex-wrap items-center gap-1.5">' + lvHtml + '</div>' +
+                  '<div class="text-lg font-extrabold leading-snug text-primary-deep">🇹🇷 ' + esc(w.t) + '</div>' +
+                  (w.i ? '<div class="mt-0.5 font-mono text-xs text-ink-soft/70">' + esc(w.i) + '</div>' : '') +
+                  '<div class="mt-2 text-sm font-semibold text-ink">' +
+                    '<span class="mr-1 text-[0.62rem] font-extrabold uppercase tracking-wide text-primary">Tanım</span>' +
+                    '<span class="block text-ink-soft">' + esc(w.d) + '</span>' +
+                  '</div>' +
+                  (w.e ? '<div class="mt-2 border-l-[3px] border-primary pl-2 text-[0.85rem] italic text-ink-soft">' + esc(w.e) + '</div>' : '') +
+                '</div>' +
+              '</div>' +
+              '<div class="mt-2 flex items-center gap-1.5 border-t border-line/70 pt-2">' +
+                '<button type="button" data-play data-w="' + esc(w.w) + '" class="inline-flex h-9 w-9 items-center justify-center rounded-full border border-line bg-white text-base transition hover:border-primary hover:bg-primary-soft" aria-label="' + esc(w.w) + ' kelimesini sesli oku">🔊</button>' +
+                '<button type="button" data-fav data-w="' + esc(w.w) + '" aria-pressed="' + (fav ? 'true' : 'false') + '" class="inline-flex h-9 w-9 items-center justify-center rounded-full border border-line bg-white text-base transition hover:border-brand hover:bg-amber-50 ' + (fav ? 'is-fav border-brand bg-amber-50' : '') + '" aria-label="' + esc(w.w) + (fav ? ' favorilerden çıkar' : ' kelimesini favorilere ekle') + '">' + (fav ? '★' : '☆') + '</button>' +
+                '<span class="ml-auto hidden text-[0.65rem] font-semibold text-ink-soft sm:inline">Languago · Kelime</span>' +
+              '</div>' +
+            '</div>'
+          );
+        }
+
+        function flipCard(card) {
+          var flipped = card.classList.toggle('is-flipped');
+          var w = card.getAttribute('data-w');
+          if (flipped && w) {
+            var wo = byW[w];
+            if (wo) opened(wo);
+          }
+        }
+
+        function render() {
+          var q = query.trim().toLowerCase();
+          var out = [];
+          for (var i = 0; i < words.length && out.length < RESULT_CAP; i++) {
+            var w = words[i];
+            if (activeSet !== 'all' && (w.lv || []).indexOf(activeSet) === -1) continue;
+            if (q && !((w.w && w.w.toLowerCase().indexOf(q) !== -1) || (w.t && w.t.toLowerCase().indexOf(q) !== -1))) continue;
+            if (onlyUnlearned && (favs[w.w] || viewed[w.w])) continue;
+            out.push(w);
+          }
+          if (sortOrder === 'az') out.sort(function (a, b) { return a.w.localeCompare(b.w); });
+          else if (sortOrder === 'za') out.sort(function (a, b) { return b.w.localeCompare(a.w); });
+
+          var total = 0;
+          for (var k = 0; k < words.length; k++) {
+            var ww = words[k];
+            if (activeSet !== 'all' && (ww.lv || []).indexOf(activeSet) === -1) continue;
+            if (q && !((ww.w && ww.w.toLowerCase().indexOf(q) !== -1) || (ww.t && ww.t.toLowerCase().indexOf(q) !== -1))) continue;
+            if (onlyUnlearned && (favs[ww.w] || viewed[ww.w])) continue;
+            total++;
+          }
+
+          countEl.textContent = out.length >= RESULT_CAP
+            ? 'İlk ' + RESULT_CAP + ' sonuç gösteriliyor…'
+            : total.toLocaleString('tr-TR') + ' sonuç';
+          emptyEl.hidden = out.length !== 0;
+          grid.textContent = '';
+          var frag = document.createDocumentFragment();
+          var tmp = document.createElement('div');
+          out.forEach(function (w) {
+            tmp.innerHTML = cardHtml(w);
+            var node = tmp.firstElementChild;
+            frag.appendChild(node);
+          });
+          grid.appendChild(frag);
+        }
+
+        /* ---------- Events ---------- */
+        document.getElementById('setlist').addEventListener('click', function (e) {
+          var b = e.target.closest('[data-set-key]');
           if (!b) return;
           activeSet = b.getAttribute('data-set-key');
           lastSet = activeSet === 'all' ? 'all' : activeSet;
-          chipsWrap.querySelectorAll('.chip').forEach(function (c) {
-            c.classList.toggle('on', c === b);
+          document.querySelectorAll('#setlist .kv-set-btn').forEach(function (c) {
+            var on = c === b;
+            c.classList.toggle('on', on);
+            c.classList.toggle('bg-primary', on);
+            c.classList.toggle('text-white', on);
+            c.classList.toggle('border-primary/30', on);
+            c.classList.toggle('border-line', !on);
+            c.classList.toggle('text-ink-soft', !on);
           });
           render();
         });
 
         searchEl.addEventListener('input', function () { query = searchEl.value; render(); });
+        sortEl.addEventListener('change', function () { sortOrder = sortEl.value; render(); });
 
-        detailEl.addEventListener('click', function (e) {
-          if (e.target && e.target.classList && e.target.classList.contains('close')) {
-            detailEl.hidden = true;
-            detailEl.classList.remove('show');
-          }
+        unlearnedEl.addEventListener('click', function () {
+          onlyUnlearned = !onlyUnlearned;
+          unlearnedEl.setAttribute('aria-pressed', onlyUnlearned ? 'true' : 'false');
+          unlearnedEl.classList.toggle('bg-brand', onlyUnlearned);
+          unlearnedEl.classList.toggle('text-white', onlyUnlearned);
+          unlearnedEl.classList.toggle('border-brand', onlyUnlearned);
+          render();
+        });
+
+        grid.addEventListener('click', function (e) {
+          var t = e.target;
+          var play = t.closest('[data-play]');
+          if (play) { speak(play.getAttribute('data-w')); e.stopPropagation(); return; }
+          var fav = t.closest('[data-fav]');
+          if (fav) { toggleFav(fav.getAttribute('data-w'), fav); e.stopPropagation(); return; }
+          var card = t.closest('.kv-card');
+          if (card) flipCard(card);
+        });
+
+        grid.addEventListener('keydown', function (e) {
+          if (e.key !== 'Enter' && e.key !== ' ') return;
+          if (e.target.closest && e.target.closest('button, input, select')) return;
+          var card = e.target.closest && e.target.closest('.kv-card');
+          if (card) { e.preventDefault(); flipCard(card); }
         });
 
         // Auto-select the last studied set (best-effort), if provided.
         if (resumeSetKey) {
           activeSet = resumeSetKey;
           lastSet = resumeSetKey;
-          chipsWrap.querySelectorAll('.chip').forEach(function (c) {
-            c.classList.toggle('on', c.getAttribute('data-set-key') === resumeSetKey);
+          document.querySelectorAll('#setlist .kv-set-btn').forEach(function (c) {
+            var on = c.getAttribute('data-set-key') === resumeSetKey;
+            c.classList.toggle('on', on);
+            c.classList.toggle('bg-primary', on);
+            c.classList.toggle('text-white', on);
+            c.classList.toggle('border-primary/30', on);
+            c.classList.toggle('border-line', !on);
+            c.classList.toggle('text-ink-soft', !on);
           });
         }
 
@@ -256,10 +501,28 @@ const resumeSetKey = sets.some((s) => s.key === resumeSet) ? resumeSet : '';
           resumeEl.addEventListener('click', function (e) {
             var go = e.target.closest('[data-go]');
             if (!go) return;
-            for (var i = 0; i < words.length; i++) {
-              if (words[i].w === resumeWord) { showDetail(words[i]); break; }
+            if (!byW[resumeWord]) return;
+            if (!viewed[resumeWord] || activeSetIsMissing(resumeWord)) {
+              activeSet = 'all'; query = ''; sortOrder = 'default'; onlyUnlearned = false;
+              searchEl.value = '';
+              render();
+            }
+            var card = null;
+            var cards = grid.querySelectorAll('.kv-card');
+            for (var i = 0; i < cards.length; i++) {
+              if (cards[i].getAttribute('data-w') === resumeWord) { card = cards[i]; break; }
+            }
+            if (card) {
+              card.classList.add('is-flipped');
+              var wo = byW[resumeWord];
+              if (wo) opened(wo);
+              card.scrollIntoView({ behavior: 'smooth', block: 'center' });
             }
           });
+        }
+        function activeSetIsMissing(word) {
+          if (activeSet === 'all') return false;
+          return (byW[word] && byW[word].lv && byW[word].lv.indexOf(activeSet) === -1);
         }
 
         render();

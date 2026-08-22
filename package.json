@@ -20,7 +20,9 @@
     "astro": "^5.18.2"
   },
   "devDependencies": {
+    "@tailwindcss/vite": "^4.3.3",
     "patch-package": "^8.0.1",
+    "tailwindcss": "^4.3.3",
     "vercel": "^59.3.0"
   },
   "allowScripts": {
