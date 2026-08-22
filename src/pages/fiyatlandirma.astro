@@ -1,0 +1,188 @@
+---
+// Languago — Public Pricing page (DESIGN/TEST MODE — no real payments).
+// ----------------------------------------------------------------
+// Renders the 4 seeded `pricing_tiers` as comparison cards (price + features
+// from the jsonb), marks the paid tiers "Yakında" (coming soon / design-mode)
+// and shows a DISABLED 7-day-trial CTA. This page is the "design it now,
+// charge later" surface: real Stripe/Iyzico checkout will replace these
+// "Yakında" badges once gateway keys are wired. NO billing is performed here.
+import Layout from '../layouts/Layout.astro';
+import { createSupabaseClient, pageCookieSource } from '../lib/supabase';
+import {
+  TIER_META,
+  getTierFeatureAccess,
+  type TierKey,
+} from '../lib/billing';
+import '../styles/pricing.css'; // scoped Tailwind v4 (theme + utilities only — no preflight)
+
+// The 4 tiers as a card row (mirrors public.pricing_tiers shape).
+type PricingCard = {
+  key: string;
+  label: string;
+  price_try: number;
+  price_usd: number;
+  features: string[];
+  sort_order: number;
+};
+
+// Price references shown in design mode. These are DISPLAY ONLY — nothing is
+// charged. Kept in sync with the seeded rows; only used as a graceful fallback.
+const PRICE_TRY: Record<TierKey, number> = { free: 0, premium: 249, family: 399, institutional: 0 };
+
+// Guarded server-side read of the public price list (public RLS). If Supabase
+// is missing, the table is empty, or the read fails, we fall back to a static
+// card list derived from the tier metadata so the page always renders cleanly.
+let cards: PricingCard[] = [];
+try {
+  const supabase = createSupabaseClient(pageCookieSource(Astro));
+  if (supabase) {
+    const { data } = await supabase
+      .from('pricing_tiers')
+      .select('key, label, price_try, price_usd, features, sort_order')
+      .eq('is_active', true)
+      .order('sort_order', { ascending: true });
+    cards = (data ?? []) as PricingCard[];
+  }
+} catch {
+  cards = [];
+}
+
+const FALLBACK_CARDS: PricingCard[] = (Object.keys(TIER_META) as TierKey[]).map((k, i) => ({
+  key: k,
+  label: TIER_META[k].label,
+  price_try: PRICE_TRY[k],
+  price_usd: 0,
+  features: getTierFeatureAccess(k)
+    .entries.filter((e) => e.on)
+    .map((e) => e.label),
+  sort_order: i,
+}));
+// If the DB read returned nothing usable, use the static card list.
+const rows = cards.length ? cards : FALLBACK_CARDS;
+
+const fmtPrice = (n: number) =>
+  n > 0 ? `${n.toLocaleString('tr-TR')} ₺` : null;
+
+const freeCard = rows.find((r) => r.key === 'free');
+const paidCards = rows.filter((r) => r.key !== 'free');
+---
+
+<Layout
+  title="Fiyatlandırma — Languago"
+  description="Languago'nun abonelik planlarını karşılaştırın: Ücretsiz, Premium, Aile ve Kurumsal. Ödeme altyapısı yakında aktif olacak — şimdi sadece tasarım aşamasında."
+  canonical="https://www.languago.site/fiyatlandirma"
+>
+  <section class="section container fc-wrap">
+    <div class="section-head" style="text-align:center;max-width:640px;margin-inline:auto;">
+      <span class="kicker">Fiyatlandırma</span>
+      <h1 style="font-size:2.1rem;line-height:1.15;">Sana uygun planı seç</h1>
+      <p class="muted" style="margin-top:12px;">
+        İster kendi başına, ister ailenle ya da kurumunla — Languago herkes için
+        bir plan sunar. 💡 <strong>Ödeme altyapımız henüz kurgu aşamasında:</strong>
+        aşağıdaki fiyatlar ve ücretli planlar <em>yakında</em> aktif olacak, şu an için
+        ücretsiz her şey.
+      </p>
+    </div>
+
+    <!-- Design-mode notice banner -->
+    <div class="panel" style="max-width:640px;margin:22px auto 8px;text-align:center;background:var(--bg-soft);border:1px dashed var(--line);">
+      <p class="muted" style="margin:0;font-size:.92rem;">
+        🔧 <strong>Kurgu aşamasında:</strong> şu anda gerçek bir ödeme alınmıyor.
+        Planları inceleyebilir, ücretsiz hesapla tüm yeni özellikleri kullanabilirsin.
+      </p>
+    </div>
+  </section>
+
+  <!-- Free plan (always available) -->
+  {
+    freeCard && (
+      <section class="section container fc-wrap" style="padding-top:4px;">
+        <section class="card" style="display:flex;flex-wrap:wrap;gap:18px;align-items:center;justify-content:space-between;padding:20px 22px;border-top:4px solid var(--teal);">
+          <div style="flex:1 1 260px;min-width:0;">
+            <h2 style="margin:0 0 4px;">{freeCard.label}</h2>
+            <p class="muted" style="margin:0;">Başlamak için ideal — kart yok, ödeme yok.</p>
+          </div>
+          <div style="text-align:right;">
+            <div style="font-size:1.1rem;font-weight:800;color:var(--teal);">0 ₺</div>
+            <div class="muted" style="font-size:.85rem;">sonsuza kadar</div>
+          </div>
+          <a class="btn primary" href="/signup">Ücretsiz Başla →</a>
+        </section>
+      </section>
+    )
+  }
+
+  <!-- Paid plans: {"Yakında"} comparison cards -->
+  <section class="section container fc-wrap" style="padding-top:8px;">
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(270px,1fr));gap:18px;">
+      {
+        paidCards.map((t, i) => {
+          const tierKey = (['premium', 'family', 'institutional'].includes(t.key) ? t.key : 'premium') as TierKey;
+          const meta = TIER_META[tierKey];
+          const price = fmtPrice(t.price_try);
+          const features = Array.isArray(t.features) && t.features.length
+            ? t.features
+            : getTierFeatureAccess(tierKey).entries.filter((e) => e.on).map((e) => e.label);
+          const featured = tierKey === 'premium' && i === 0;
+          return (
+            <article
+              class="card"
+              style={`position:relative;display:flex;flex-direction:column;gap:14px;padding:22px;height:100%;${featured ? 'border-top:4px solid var(--brand);' : ''}`}
+            >
+              <span class="fc-yakinda">⏳ Yakında</span>
+              <div>
+                <h3 style="margin:0 0 2px;font-size:1.25rem;">{meta.label}</h3>
+                <p class="muted" style="margin:0;font-size:.88rem;">{meta.tagline}</p>
+              </div>
+              <div>
+                <span style="font-size:1.5rem;font-weight:900;color:var(--ink);">
+                  {price ?? 'Özel fiyat'}
+                </span>
+                {price && <span class="muted" style="font-size:.85rem;"> / ay</span>}
+                <div class="muted" style="font-size:.78rem;margin-top:2px;">
+                  Fiyat yakında netleşecek · tasarım aşamasında
+                </div>
+              </div>
+              <ul style="list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:8px;flex:1 1 auto;">
+                {
+                  features.map((f) => (
+                    <li style="display:flex;gap:8px;align-items:flex-start;">
+                      <span style="color:var(--teal);font-weight:900;">✓</span>
+                      <span style="font-size:.92rem;">{f}</span>
+                    </li>
+                  ))
+                }
+              </ul>
+              <span
+                class="fc-cta fc-cta--paid"
+                aria-disabled="true"
+                title="Ödeme altyapısı yakında aktif olacak"
+              >
+                7 Gün Ücretsiz Dene · Yakında
+              </span>
+            </article>
+          );
+        })
+      }
+    </div>
+  </section>
+
+  <!-- Trial / design-mode CTA -->
+  <section class="section container fc-wrap" style="text-align:center;max-width:680px;">
+    <div class="panel" style="padding:26px;background:var(--bg-soft);border:1px solid var(--line);">
+      <h2 style="margin:0 0 8px;font-size:1.35rem;">🕖 7 Gün Ücretsiz Deneme</h2>
+      <p class="muted" style="margin:0 0 16px;font-size:.95rem;">
+        Premium'u ücretsiz denemek için sabırsızlanıyor olabilirsin. Deneme
+        başlatma altyapısı (Stripe/Iyzico) henüz bağlanmadığı için bu özellik
+        <strong>şu an kurgu aşamasında</strong>. Aktif olduğunda burada
+        duyurusunu yapacağız. 🙈
+      </p>
+      <button class="fc-cta fc-cta--paid" type="button" disabled style="max-width:320px;margin-inline:auto;cursor:not-allowed;">
+        🚧 7 Gün Ücretsiz Dene — Yakında
+      </button>
+      <p class="muted" style="margin:14px 0 0;font-size:.82rem;">
+        Gerçek bir ödeme alınmaz · fiyatlar ve trial yalnızca tasarım amaçlıdır.
+      </p>
+    </div>
+  </section>
+</Layout>

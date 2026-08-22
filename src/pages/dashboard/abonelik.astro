@@ -1,0 +1,261 @@
+---
+// Languago — Account & Billing page (/dashboard/abonelik).
+// --------------------------------------------------------
+// DESIGN/TEST MODE — shows the signed-in user's current subscription tier +
+// trial status and their per-tier feature access. Payment is NOT wired: when
+// the user has no subscription row we best-effort upsert a default 'free'
+// row (owner RLS allows) and always surface a "payment coming soon" message.
+//
+// Reads are GUARDED: a missing Supabase, no session, an empty or malformed
+// row resolve to a safe default ('free') so the page never crashes/prerenders
+// badly.
+import AppLayout from '../../layouts/AppLayout.astro';
+import { pageCookieSource } from '../../lib/supabase';
+import { getSessionUser } from '../../lib/auth';
+import { getOrCreateSubscription, getTierFeatureAccess } from '../../lib/billing';
+
+// Protected route.
+const user = await getSessionUser(pageCookieSource(Astro));
+if (!user) return Astro.redirect('/signin');
+
+// Read (and ensure) the user's subscription row — guarded.
+const sub = await getOrCreateSubscription(pageCookieSource(Astro));
+const view = sub?.view ?? null;
+
+// Ordered feature-access list for the account page (from the resolved tier).
+const featureEntries = view?.tier ? getTierFeatureAccess(view.tier).entries : null;
+
+const tierMeta = { free: 'Ücretsiz', premium: 'Premium', family: 'Aile', institutional: 'Kurumsal' } as const;
+
+// Render-facing tier data (view-derived, safe defaults when sub is null).
+const displayTierKey = view?.tier ?? 'free';
+const displayTierLabel = tierMeta[displayTierKey] ?? 'Ücretsiz';
+const isTrialing = view?.isTrialing ?? false;
+const daysLeft = view?.daysLeft ?? 0;
+const trialEndsAt = view?.trialEndsAt ?? null;
+const gatewayLabel = view?.gateway ?? null;
+const paymentPending = view?.paymentPending ?? true;
+---
+
+<AppLayout
+  title="Abonelik & Hesap — Languago"
+  description="Abonelik planın, deneme durumun ve erişebildiğin özellikler."
+>
+  <main class="study" style="max-width:860px;">
+    <nav class="crumb">
+      <a class="back" href="/dashboard">← Öğrenci Paneli</a>
+      <span class="sep">›</span>
+      <span class="cur">Abonelik</span>
+    </nav>
+
+    <!-- Payment-coming-soon banner (design/test mode) -->
+    <div class="panel abo-notice">
+      <strong>🔧 Ödeme altyapısı kurgu aşamasında</strong>
+      <span>
+        Şu anda gerçek bir ücret alınmıyor. Plan yükseltme ve ödeme, Stripe/Iyzico
+        bağlantısı kurulduktan sonra burada aktif hale gelecek. O zamana kadar
+        ücretsiz tier'daki tüm özellikler açık.
+      </span>
+    </div>
+
+    <!-- Current plan -->
+    <section class="dash-section">
+      <header class="section-head">
+        <h2 id="plan-heading">Mevcut Plan</h2>
+        <p class="muted">Abonelik durumun ve erişebildiğin özellikler.</p>
+      </header>
+      <div class="card abo-plan">
+        <div class="abo-plan__badge" aria-hidden="true">
+          {displayTierKey === 'free' ? '🆓' : displayTierKey === 'premium' ? '⭐' : displayTierKey === 'family' ? '👨‍👩‍👧' : '🏫'}
+        </div>
+        <div class="abo-plan__body">
+          <div class="abo-plan__name">{displayTierLabel}</div>
+          {
+            isTrialing ? (
+              <div class="abo-trial">
+                <span class="abo-trial__chip">🕖 Ücretsiz deneme</span>
+                <span class="muted">
+                  {daysLeft} gün kaldı {trialEndsAt ? `· biter: ${new Date(trialEndsAt).toLocaleDateString('tr-TR', { day: 'numeric', month: 'short', year: 'numeric' })}` : ''}
+                </span>
+              </div>
+            ) : displayTierKey === 'free' ? (
+              <div class="muted">Ücretsiz plandasın — devam et, ücret yok 🎉</div>
+            ) : (
+              <div class="muted">Aktif plan</div>
+            )
+          }
+          {
+            gatewayLabel && (
+              <div class="muted" style="font-size:.82rem;margin-top:6px;">
+                Sağlayıcı: {gatewayLabel}
+              </div>
+            )
+          }
+        </div>
+        {
+          displayTierKey === 'free' && (
+            <a class="btn gh primary sm abo-upgrade" href="/fiyatlandirma">
+              Planları Gör · Yakında
+            </a>
+          )
+        }
+      </div>
+    </section>
+
+    <!-- Upgrade / trial state -->
+    <section class="dash-section">
+      <header class="section-head">
+        <h2 id="upgrade-heading">Yükseltme</h2>
+        <p class="muted">Premium ve üstü planlara geçiş yakında mümkün olacak.</p>
+      </header>
+      <div class="panel" style="padding:18px 20px;background:var(--bg-soft);border:1px dashed var(--line);">
+        {
+          isTrialing ? (
+            <p style="margin:0;">
+              🕖 Premium denemen aktif: <strong>{daysLeft} gün kaldı</strong>.
+              Sona erdiğinde ücretsiz plana dönersin. Otomatik ödeme yakında
+              açılacak — şu an hiçbir ücret alınmıyor.
+            </p>
+          ) : (
+            <p style="margin:0;">
+              💡 Ücretli planlara geçmek için <a href="/fiyatlandirma">fiyatlandırma
+              sayfamıza</a> göz atabilirsin. Ödeme altyapısı <strong>şu an kurgu
+              aşamasında</strong> — planlar <em>yakında</em> buradan aktifleştirilecek.
+            </p>
+          )
+        }
+      </div>
+    </section>
+
+    <!-- Feature access for the current tier -->
+    <section class="dash-section">
+      <header class="section-head">
+        <h2 id="features-heading">Erişebildiğin Özellikler</h2>
+        <p class="muted">
+          {displayTierLabel} tier'ın ({paymentPending ? 'ödeme bekleniyor' : 'aktif'}) kapsadığı özellikler.
+        </p>
+      </header>
+      <div class="abo-features">
+        {
+          featureEntries?.map((f) => (
+            <div class:list={['abo-f', f.on && 'abo-f--on']}>
+              <span class="abo-f__mark" aria-hidden="true">{f.on ? '✓' : '—'}</span>
+              <span class="abo-f__label">{f.label}</span>
+              <span class="abo-f__state">{f.on ? 'Açık' : 'Yakında'}</span>
+            </div>
+          ))
+        }
+      </div>
+    </section>
+
+    <p class="dash-footer">Languago · öğrenmeye devam 🇹🇷</p>
+  </main>
+
+  <style>
+    /* Additive, prefixed styles for the account/billing page. */
+    .abo-notice {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+      padding: 14px 18px;
+      background: var(--bg-soft);
+      border: 1px solid var(--line);
+      border-left: 4px solid var(--brand);
+      font-size: 0.9rem;
+      color: var(--ink-soft);
+    }
+    .abo-notice strong {
+      color: var(--ink);
+      font-weight: 800;
+    }
+    .abo-plan {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 16px;
+      padding: 20px 22px;
+      border-top: 4px solid var(--teal);
+    }
+    .abo-plan__badge {
+      font-size: 2rem;
+      flex: 0 0 auto;
+    }
+    .abo-plan__body {
+      flex: 1 1 220px;
+      min-width: 0;
+    }
+    .abo-plan__name {
+      font-size: 1.4rem;
+      font-weight: 900;
+      color: var(--ink);
+      margin: 0 0 4px;
+    }
+    .abo-trial {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 8px;
+    }
+    .abo-trial__chip {
+      display: inline-flex;
+      border-radius: 999px;
+      background: var(--brand);
+      color: #fff;
+      font-size: 0.78rem;
+      font-weight: 800;
+      padding: 3px 10px;
+    }
+    .abo-upgrade {
+      flex: 0 0 auto;
+    }
+    .abo-features {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+    .abo-f {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 11px 14px;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background: var(--bg);
+      color: var(--ink-soft);
+    }
+    .abo-f--on {
+      background: var(--bg-soft);
+    }
+    .abo-f__mark {
+      width: 22px;
+      height: 22px;
+      flex: 0 0 22px;
+      border-radius: 50%;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.85rem;
+      font-weight: 900;
+      background: var(--bg-soft);
+      color: var(--ink-soft);
+    }
+    .abo-f--on .abo-f__mark {
+      background: var(--teal);
+      color: #fff;
+    }
+    .abo-f__label {
+      flex: 1 1 auto;
+      font-size: 0.95rem;
+      font-weight: 600;
+      color: var(--ink);
+    }
+    .abo-f__state {
+      font-size: 0.78rem;
+      font-weight: 800;
+      color: var(--ink-soft);
+    }
+    .abo-f--on .abo-f__state {
+      color: var(--teal);
+    }
+  </style>
+</AppLayout>

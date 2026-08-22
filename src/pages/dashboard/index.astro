@@ -429,9 +429,16 @@ const utilitiesVisible =
             <a class="btn ghost sm" href="/dashboard/dilbilgisi">Dilbilgisi</a>
             <a class="btn ghost sm" href="/dashboard/okuma">Okuma</a>
             <a class="btn ghost sm" href="/dashboard/oyunlar">Oyunlar</a>
+            <a class="btn ghost sm" href="/dashboard/abonelik">Abonelik</a>
           </div>
         )
       }
+      <!-- Subtle account link — always visible under the tools section. -->
+      <div class="abo-subtle">
+        <a href="/dashboard/abonelik">Abonelik &amp; Plan</a>
+        <span aria-hidden="true">·</span>
+        <span class="muted">ödeme altyapısı yakında</span>
+      </div>
     </section>
 
     <p class="dash-footer">Languago · öğrenmeye devam 🇹🇷</p>
@@ -629,6 +636,20 @@ const utilitiesVisible =
       font-size: 0.8rem;
       color: var(--ink-soft);
       opacity: 0.7;
+    }
+
+    /* subtle Abonelik account link under the tools section */
+    .abo-subtle {
+      margin-top: 16px;
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 6px;
+      font-size: 0.85rem;
+    }
+    .abo-subtle a {
+      color: var(--teal);
+      font-weight: 700;
     }
 
     /* Responsive: stack steps vertically on small screens with a vertical rail */
