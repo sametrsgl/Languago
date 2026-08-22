@@ -1,0 +1,332 @@
+---
+import AppLayout from '../../layouts/AppLayout.astro';
+import TeacherNav from '../../components/TeacherNav.astro';
+import { createSupabaseClient, pageCookieSource } from '../../lib/supabase';
+import { authorizeTeacher, shortDate } from '../../lib/teacher';
+
+const auth = await authorizeTeacher(pageCookieSource(Astro));
+if (!auth.ok && auth.reason !== 'forbidden') {
+  return Astro.redirect('/signin');
+}
+
+type Slot = {
+  id: string;
+  teacher_id: string;
+  starts_at: string;
+  duration_min: number | null;
+  room_token: string | null;
+  note: string | null;
+  status: 'open' | 'booked' | 'cancelled' | string;
+  created_at?: string;
+};
+type Booking = {
+  slot_id: string;
+  student_id: string;
+  full_name: string | null;
+  email: string;
+};
+
+const DURATIONS = [30, 45, 60];
+
+let slots: Slot[] = [];
+let bookingBySlot = new Map<string, Booking>();
+
+if (auth.ok) {
+  try {
+    const supabase = createSupabaseClient(pageCookieSource(Astro));
+    if (!supabase) throw new Error('no_supabase');
+
+    // RLS `slots_owner` scopes both reads to this teacher's own rows.
+    const [slotsRes, bookingsRes] = await Promise.all([
+      supabase
+        .from('tutor_slots')
+        .select('id, teacher_id, starts_at, duration_min, room_token, note, status')
+        .order('starts_at', { ascending: false }),
+      supabase.rpc('get_booking_students', { p_teacher: auth.userId }),
+    ]);
+
+    slots = (slotsRes.data ?? []) as Slot[];
+    for (const b of ((bookingsRes.data ?? []) as Booking[])) {
+      bookingBySlot.set(b.slot_id, b);
+    }
+  } catch {
+    // Keep empty defaults.
+  }
+}
+
+function statusBadge(s: string): string {
+  if (s === 'open') return '🟢 Açık';
+  if (s === 'booked') return '🔵 Dolu';
+  if (s === 'cancelled') return '⛔ İptal';
+  return s;
+}
+function statusTone(s: string): string {
+  if (s === 'open') return 'badge-teal';
+  if (s === 'booked') return 'badge-orange';
+  return 'badge-muted';
+}
+function fmtWhen(iso: string, dur: number | null): string {
+  const d = new Date(iso);
+  const date = Number.isNaN(d.getTime()) ? iso : d.toLocaleString('tr-TR', { dateStyle: 'medium', timeStyle: 'short' });
+  return `${date} · ${dur ?? 30} dk`;
+}
+function canCancel(s: Slot): boolean {
+  // Open or booked slots can be cancelled; already-cancelled ones cannot.
+  return s.status === 'open' || s.status === 'booked';
+}
+---
+
+<AppLayout
+  title="1:1 Ders Takvimi — Öğretmen Paneli · Languago"
+  description="Languago öğretmen paneli: birebir (1:1) ders slotlarını oluştur, yönet ve iptal et."
+>
+  {
+    auth.ok ? (
+      <main class="study teacher">
+        <TeacherNav path={Astro.url.pathname} />
+
+        <div class="page-head">
+          <span class="page-eyebrow">Öğretmen Paneli</span>
+          <h1>1:1 Ders Takvimi 📅</h1>
+          <p class="page-sub">
+            Öğrencilerinin rezervasyon yapabilmesi için açık birebir ders slotları oluştur.
+            Oluşturduğun slotların durumunu ve kimin rezervasyon yaptığını buradan takip edebilirsin.
+          </p>
+          <div class="barline"></div>
+        </div>
+
+        <section class="dash-section" aria-labelledby="yeni-slot-heading">
+          <header class="section-head">
+            <h2 id="yeni-slot-heading">
+              Yeni Slot Oluştur <span class="section-head__icon">➕</span>
+            </h2>
+            <p class="muted">
+              Başlangıç zamanını ve süreyi seç. Slot oluşturulduğunda öğrenciler için rezervasyona açılır.
+            </p>
+          </header>
+          <div class="panel" style="background:var(--bg-soft);">
+            <form id="slot-form" class="class-form content-form">
+              <label class="field-label" for="slot-starts">Başlangıç Zamanı</label>
+              <input id="slot-starts" type="datetime-local" name="starts_at" required />
+              <div class="form-grid">
+                <div>
+                  <label class="field-label" for="slot-duration">Süre</label>
+                  <select id="slot-duration" name="duration_min">
+                    {DURATIONS.map((d) => <option value={d}>{d} dk</option>)}
+                  </select>
+                </div>
+                <div>
+                  <div class="muted small" style="padding-top:28px;">
+                    30, 45 veya 60 dakikalık birebir ders seçebilirsin.
+                  </div>
+                </div>
+              </div>
+              <label class="field-label" for="slot-note">Not (isteğe bağlı)</label>
+              <input
+                id="slot-note"
+                type="text"
+                name="note"
+                placeholder="Örn. Focus: konuşma pratiği"
+                maxlength="300"
+              />
+              <button class="btn primary" type="submit">Slot Oluştur</button>
+            </form>
+            <p id="slot-msg" class="class-msg" role="status"></p>
+          </div>
+        </section>
+
+        <section class="dash-section" aria-labelledby="slotlar-heading">
+          <header class="section-head">
+            <h2 id="slotlar-heading">
+              Slotlarım <span class="section-head__icon">🗓️</span>
+            </h2>
+            <p class="muted">
+              Oluşturduğun tüm birebir ders slotları — en yeni en üstte.
+            </p>
+          </header>
+
+          {
+            slots.length ? (
+              <div class="wrap-table">
+                <table class="tbl">
+                  <thead>
+                    <tr>
+                      <th>Zaman</th>
+                      <th>Durum</th>
+                      <th>Rezervasyon</th>
+                      <th class="actions">İşlem</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {slots.map((s) => {
+                      const b = bookingBySlot.get(s.id);
+                      return (
+                        <tr data-id={s.id} data-status={s.status}>
+                          <td>
+                            <strong>{fmtWhen(s.starts_at, s.duration_min)}</strong>
+                            {s.note && <div class="muted small">{s.note}</div>}
+                          </td>
+                          <td>
+                            <span class:list={['badge', statusTone(s.status)]}>
+                              {statusBadge(s.status)}
+                            </span>
+                          </td>
+                          <td>
+                            {s.status === 'booked' && b ? (
+                              <span>
+                                {b.full_name || b.email}
+                                <span class="email">{b.email}</span>
+                              </span>
+                            ) : s.status === 'booked' ? (
+                              <span class="muted">Dolu</span>
+                            ) : (
+                              <span class="muted">—</span>
+                            )}
+                          </td>
+                          <td class="actions">
+                            {
+                              canCancel(s) ? (
+                                <button
+                                  class="btn teal-ghost sm"
+                                  data-action="cancel-slot"
+                                  data-id={s.id}
+                                >
+                                  İptal Et
+                                </button>
+                              ) : (
+                                <span class="muted small">İptal edilmiş</span>
+                              )
+                            }
+                          </td>
+                        </tr>
+                      );
+                    })}
+                  </tbody>
+                </table>
+              </div>
+            ) : (
+              <div class="empty-state">
+                <div class="es-ico">📅</div>
+                <h3>Henüz slot yok</h3>
+                <p>Öğrencilerinin rezervasyon yapabilmesi için yukarıdan ilk slotunu oluştur.</p>
+              </div>
+            )
+          }
+        </section>
+
+        <p class="dash-footer">Languago · 1:1 Ders Takvimi</p>
+      </main>
+    ) : (
+      <main class="study">
+        <div class="panel" style="text-align:center;padding:40px 24px;">
+          <div style="font-size:2.4rem;">🔒</div>
+          <h1>Yetkisiz Erişim</h1>
+          <p class="muted">Bu sayfa yalnızca öğretmen hesaplarına açıktır.</p>
+          <div class="btn-row" style="justify-content:center;">
+            <a class="btn" href="/dashboard">Öğrenci Paneline Dön</a>
+          </div>
+        </div>
+      </main>
+    )
+  }
+</AppLayout>
+
+<style>
+  .content-form input[type='datetime-local'],
+  .content-form select {
+    width: 100%;
+    margin-top: 8px;
+  }
+  .badge-teal { background: var(--teal-soft); color: var(--teal-dark); }
+  .badge-orange { background: var(--orange-soft, #fdeadd); color: var(--orange, #b45309); }
+  .badge-muted { background: var(--bg-soft); color: var(--ink-soft); }
+  .email { margin-left: 6px; }
+</style>
+
+<script is:inline>
+  (function () {
+    function el(id) { return document.getElementById(id); }
+    function api(path, method, body) {
+      return fetch(path, {
+        method: method,
+        headers: { 'Content-Type': 'application/json' },
+        body: body ? JSON.stringify(body) : undefined,
+      }).then(function (r) { return r.json(); });
+    }
+    function readErr(res) {
+      if (res && res.error) {
+        var f = res.error.fields;
+        if (f) {
+          for (var k in f) if (Object.prototype.hasOwnProperty.call(f, k) && f[k] && f[k][0]) return f[k][0];
+        }
+        if (res.error.message) return res.error.message;
+      }
+      return 'Bir hata oluştu.';
+    }
+
+    // ---- Create slot ----
+    var form = el('slot-form');
+    var slotMsg = el('slot-msg');
+    if (form && slotMsg) {
+      form.addEventListener('submit', function (e) {
+        e.preventDefault();
+        var starts = el('slot-starts').value;
+        if (!starts) {
+          slotMsg.textContent = 'Lütfen bir başlangıç zamanı seç.';
+          slotMsg.className = 'class-msg err';
+          return;
+        }
+        var duration = parseInt(el('slot-duration').value, 10);
+        var btn = form.querySelector('button');
+        if (btn) { btn.disabled = true; btn.textContent = 'Oluşturuluyor…'; }
+        slotMsg.textContent = '';
+        slotMsg.className = 'class-msg';
+
+        api('/api/teacher/tutor-slots', 'POST', {
+          starts_at: new Date(starts).toISOString(),
+          duration_min: duration,
+          note: el('slot-note').value.trim(),
+        }).then(function (res) {
+          if (res && res.ok) {
+            slotMsg.textContent = 'Slot oluşturuldu.';
+            slotMsg.className = 'class-msg ok';
+            setTimeout(function () { window.location.reload(); }, 700);
+          } else {
+            slotMsg.textContent = readErr(res);
+            slotMsg.className = 'class-msg err';
+          }
+        }).catch(function () {
+          slotMsg.textContent = 'Bağlantı hatası. Tekrar dene.';
+          slotMsg.className = 'class-msg err';
+        }).finally(function () {
+          if (btn) { btn.disabled = false; btn.textContent = 'Slot Oluştur'; }
+        });
+      });
+    }
+
+    // ---- Cancel slot (event delegation) ----
+    document.querySelectorAll('[data-action="cancel-slot"]').forEach(function (btn) {
+      btn.addEventListener('click', function () {
+        var id = btn.getAttribute('data-id');
+        if (!id) return;
+        if (!window.confirm('Bu slotu iptal etmek istediğine emin misin?')) return;
+        var orig = btn.textContent;
+        btn.disabled = true;
+        btn.textContent = 'İptal ediliyor…';
+        api('/api/teacher/tutor-slots', 'DELETE', { id: id }).then(function (res) {
+          if (res && res.ok) {
+            window.location.reload();
+          } else {
+            alert(readErr(res));
+            btn.disabled = false;
+            btn.textContent = orig;
+          }
+        }).catch(function () {
+          alert('Bağlantı hatası.');
+          btn.disabled = false;
+          btn.textContent = orig;
+        });
+      });
+    });
+  })();
+</script>

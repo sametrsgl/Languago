@@ -39,3 +39,20 @@ create policy "notif_owner_update" on public.notifications for update using (aut
 
 -- index for fast own-feed queries
 create index if not exists notifications_user_idx on public.notifications (user_id, created_at desc);
+
+-- Self-only notification writer (SECURITY DEFINER, bound to auth.uid() so a
+-- caller can never notify another user → no spam vector). Service-role /
+-- future scheduled jobs use a separate restricted path.
+create or replace function public.create_notification(
+  p_title text, p_body text default null, p_href text default null, p_kind text default 'info'
+) returns boolean
+language plpgsql security definer set search_path = public
+as $$
+begin
+  insert into public.notifications (user_id, title, body, href, kind)
+  values (auth.uid(), p_title, p_body, p_href, p_kind);
+  return true;
+end;
+$$;
+revoke execute on function public.create_notification(text, text, text, text) from public;
+grant execute on function public.create_notification(text, text, text, text) to authenticated;

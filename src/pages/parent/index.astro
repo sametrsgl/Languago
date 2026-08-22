@@ -1,0 +1,274 @@
+---
+import AppLayout from '../../layouts/AppLayout.astro';
+import { createSupabaseClient, pageCookieSource } from '../../lib/supabase';
+import { authorizeParent } from '../../lib/parent';
+import { MODULES, moduleSummary, shortDate } from '../../lib/teacher';
+
+// Server-side role gate: read role from profiles.role, redirect when signed
+// out, show a clear notice when the caller is not a parent/admin.
+const auth = await authorizeParent(pageCookieSource(Astro));
+if (!auth.ok && auth.reason !== 'forbidden') {
+  return Astro.redirect('/signin');
+}
+
+type ProgressEntry = { payload?: Record<string, unknown>; updated_at?: string };
+type Child = {
+  child_id: string;
+  full_name: string | null;
+  email: string;
+  level: string | null;
+  progress: Record<string, ProgressEntry> | null;
+  last_activity: string | null;
+};
+
+let children: Child[] = [];
+let childrenError: string | null = null;
+
+if (auth.ok) {
+  try {
+    const supabase = createSupabaseClient(pageCookieSource(Astro));
+    if (!supabase) throw new Error('no_supabase');
+    const { data, error } = await supabase.rpc('get_family_children', {
+      p_parent: auth.userId,
+    });
+    if (error) childrenError = error.message;
+    children = (Array.isArray(data) ? data : []) as Child[];
+  } catch {
+    childrenError = 'Aile verileri okunamadı.';
+  }
+}
+
+// How many distinct modules each child has touched.
+function touchedCount(p: Record<string, ProgressEntry> | null): number {
+  if (!p) return 0;
+  return MODULES.filter((m) => p[m.key] && typeof p[m.key] === 'object').length;
+}
+// The most recent activity across all modules.
+function childLastActivity(c: Child): string | null {
+  if (c.last_activity) return c.last_activity;
+  let last: string | null = null;
+  const p = c.progress;
+  if (p) {
+    for (const key of Object.keys(p)) {
+      const at = p[key]?.updated_at;
+      if (at && (!last || new Date(at).getTime() > new Date(last).getTime())) last = at;
+    }
+  }
+  return last;
+}
+function levelLabel(lv: string | null): string {
+  return lv && lv.trim() ? lv.trim().toUpperCase() : 'A1';
+}
+---
+
+<AppLayout
+  title="Veli Paneli — Çocuklarım · Languago"
+  description="Languago veli panelleri: çocuklarının (bağlı öğrencilerin) ilerlemesini ve son çalışmalarını takip et."
+>
+  {
+    auth.ok ? (
+      <main class="study teacher">
+        <div class="page-head">
+          <span class="page-eyebrow">Veli Paneli</span>
+          <h1>Çocuklarım 👨‍👩‍👧</h1>
+          <p class="page-sub">
+            Bağlı çocuklarının çalışma ilerlemesini tek yerden izleyebilir,
+            dilimlerde hangi modülle gün geçirdiklerini görebilirsin. Yeni bir çocuk
+            bağlamak için aşağıdaki e-posta bölümünü kullan.
+          </p>
+          <div class="barline"></div>
+        </div>
+
+        <section class="dash-section" aria-labelledby="cocuklar-heading">
+          <header class="section-head">
+            <h2 id="cocuklar-heading">
+              Çocuklarım <span class="section-head__icon">👨‍👩‍👧</span>
+            </h2>
+            <p class="muted">
+              Bağladığın öğrenciler ve onların modül bazlı çalışma özetleri.
+            </p>
+          </header>
+
+          {
+            childrenError && (
+              <div class="panel" style="border-color:var(--red,#e53e3e);">
+                <p class="muted">{childrenError}</p>
+              </div>
+            )
+          }
+
+          {
+            children.length ? (
+              <div class="content-list">
+                {children.map((c) => {
+                  const last = childLastActivity(c);
+                  return (
+                    <div class="panel content-card">
+                      <div class="content-card__body">
+                        <div class="content-card__head">
+                          <strong>{c.full_name || c.email}</strong>
+                          <span class="badge" style="background:var(--teal-dark);">
+                            {levelLabel(c.level)}
+                          </span>
+                        </div>
+                        <div class="muted small">{c.email}</div>
+                        <div class="muted small" style="margin-top:4px;">
+                          {touchedCount(c.progress)} modülde çalışma kaydı · Son aktivite:{' '}
+                          {shortDate(last)}
+                        </div>
+                        <div class="child-chips">
+                          {
+                            MODULES.map((m) => {
+                              const entry = c.progress?.[m.key];
+                              const s =
+                                entry && typeof entry === 'object'
+                                  ? moduleSummary(entry as ProgressEntry)
+                                  : null;
+                              return (
+                                <span class:list={['chip', s ? 'chip--on' : null]}>
+                                  {m.emoji} {m.label}{s ? ` · ${s}` : ''}
+                                </span>
+                              );
+                            })
+                          }
+                        </div>
+                      </div>
+                    </div>
+                  );
+                })}
+              </div>
+            ) : (
+              <div class="empty-state">
+                <div class="es-ico">👨‍👩‍👧</div>
+                <h3>Henüz çocuk eklemedin</h3>
+                <p>
+                  Çocuğunun kayıtlı e-posta adresini aşağıya ekleyerek onu bağlayabilirsin. Bu
+                  işlem yalnızca hesabı açık ve öğrenci rolündeki kullanıcılar için geçerlidir.
+                </p>
+              </div>
+            )
+          }
+        </section>
+
+        <section class="dash-section" aria-labelledby="ekle-heading">
+          <header class="section-head">
+            <h2 id="ekle-heading">
+              Çocuk Ekle <span class="section-head__icon">➕</span>
+            </h2>
+            <p class="muted">
+              Çocuğunun kayıtlı e-posta adresini gir; sistem onu otomatik olarak bağlar.
+            </p>
+          </header>
+          <div class="panel" style="background:var(--bg-soft);">
+            <form id="add-child-form" class="class-form content-form">
+              <label class="field-label" for="child-email">Çocuğun E-posta Adresi</label>
+              <input
+                id="child-email"
+                type="email"
+                name="email"
+                placeholder="orn. can@ornek.com"
+                maxlength="200"
+                required
+              />
+              <button class="btn primary" type="submit">Çocuğu Ekle</button>
+            </form>
+            <p id="add-child-msg" class="class-msg" role="status"></p>
+          </div>
+        </section>
+
+        <p class="dash-footer">Languago · Veli Paneli</p>
+      </main>
+    ) : (
+      <main class="study">
+        <div class="panel" style="text-align:center;padding:40px 24px;">
+          <div style="font-size:2.4rem;">🔒</div>
+          <h1>Yetkisiz Erişim</h1>
+          <p class="muted">Bu sayfa yalnızca veli hesaplarına açıktır.</p>
+          <div class="btn-row" style="justify-content:center;">
+            <a class="btn" href="/dashboard">Öğrenci Paneline Dön</a>
+          </div>
+        </div>
+      </main>
+    )
+  }
+</AppLayout>
+
+<style>
+  .child-chips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-top: 10px;
+  }
+  .chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 5px 11px;
+    border-radius: 999px;
+    font-size: 0.82rem;
+    background: var(--bg-soft);
+    border: 1px solid var(--line);
+    color: var(--ink-soft);
+  }
+  .chip--on {
+    background: var(--teal-soft);
+    border-color: var(--teal-soft);
+    color: var(--teal-dark);
+    font-weight: 600;
+  }
+  .content-form input[type='email'] {
+    width: 100%;
+    max-width: 420px;
+    margin: 8px 0 12px;
+  }
+</style>
+
+<script is:inline>
+  (function () {
+    var form = document.getElementById('add-child-form');
+    var msg = document.getElementById('add-child-msg');
+    if (!form || !msg) return;
+
+    form.addEventListener('submit', function (e) {
+      e.preventDefault();
+      var email = document.getElementById('child-email').value.trim();
+      if (!email) {
+        msg.textContent = 'Lütfen bir e-posta adresi yaz.';
+        msg.className = 'class-msg err';
+        return;
+      }
+      var btn = form.querySelector('button');
+      if (btn) { btn.disabled = true; btn.textContent = 'Ekleniyor…'; }
+      msg.textContent = '';
+      msg.className = 'class-msg';
+
+      fetch('/api/parent/add-child', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email: email }),
+      })
+        .then(function (r) { return r.json(); })
+        .then(function (res) {
+          if (res && res.ok) {
+            msg.textContent = 'Çocuk başarıyla eklendi.';
+            msg.className = 'class-msg ok';
+            form.reset();
+            setTimeout(function () { window.location.reload(); }, 800);
+          } else {
+            msg.textContent = res && res.error && res.error.message
+              ? res.error.message
+              : 'Bir hata oluştu.';
+            msg.className = 'class-msg err';
+          }
+        })
+        .catch(function () {
+          msg.textContent = 'Bağlantı hatası. Tekrar dene.';
+          msg.className = 'class-msg err';
+        })
+        .finally(function () {
+          if (btn) { btn.disabled = false; btn.textContent = 'Çocuğu Ekle'; }
+        });
+    });
+  })();
+</script>
