@@ -13,7 +13,7 @@ if (!READING_LEVELS.some((l) => l.key === level)) return Astro.redirect('/dashbo
 
 const mod = await loadReading(level);
 const readings = mod ? mod[`READINGS_${exportSuffix(level)}`] : null;
-const passage = (readings as { id: string; topic: string; title: string; text: string; questions: { q: string; options: string[]; a: number }[] }[])
+const passage = (readings as { id: string; topic: string; title: string; text: string; questions: { q: string; options: string[]; a: number; why?: string[] }[] }[])
   ?.find((p) => p.id === passageId);
 if (!passage) return Astro.redirect(`/dashboard/okuma/${level}`);
 
@@ -54,7 +54,7 @@ const total = questions.length;
         <div class="quiz-q" data-idx={i}>
           <div class="qq">{i + 1}. {qq.q}</div>
           {qq.options.map((opt, oi) => (
-            <button type="button" class="option" data-correct={oi === qq.a ? '1' : '0'}>
+            <button type="button" class="option" data-correct={oi === qq.a ? '1' : '0'} data-oi={oi}>
               {String.fromCharCode(65 + oi)}) {opt}
             </button>
           ))}
@@ -63,9 +63,9 @@ const total = questions.length;
       ))}
     </div>
 
-    <script define:vars={{ level, passageId, passageTitle: passage.title }}>
+    <script define:vars={{ level, passageId, passageTitle: passage.title, questions }}>
       (function () {
-        // level, passageId, passageTitle available via define:vars
+        // level, passageId, passageTitle, questions available via define:vars
         var quiz = document.getElementById('readQuiz');
         if (!quiz) return;
         var correct = 0;
@@ -88,17 +88,36 @@ const total = questions.length;
           var q = btn.closest('.quiz-q');
           if (!q) return;
           var reveal = q.querySelector('[data-reveal]');
+          if (reveal) reveal.style.whiteSpace = 'pre-line'; // why notlarını kendi satırında göster
           var isCorrect = btn.getAttribute('data-correct') === '1';
+          var chosenIdx = parseInt(btn.getAttribute('data-oi') || '-1', 10);
+          var idx = parseInt(q.getAttribute('data-idx') || '0', 10);
+          var qq = questions[idx];
+          var ansIdx = qq ? qq.a : -1;
+          // Şıka özel "neden doğru/yanlış" notu (options ile aynı dizin). why[] yoksa null → eski mesaj korunur.
+          function whyOf(i) {
+            if (qq && Array.isArray(qq.why) && i >= 0 && i < qq.why.length && qq.why[i]) return qq.why[i];
+            return null;
+          }
           q.querySelectorAll('.option').forEach(function (o) { o.disabled = true; });
           q.querySelectorAll('.option[data-correct="1"]').forEach(function (o) {
             o.classList.add('correct');
           });
           if (isCorrect) {
             correct++;
-            if (reveal) { reveal.textContent = '✓ Doğru! Harikasın! 🎉'; reveal.className = 'reveal ok'; }
+            var whyRight = whyOf(ansIdx);
+            if (reveal) {
+              reveal.textContent = '✓ Doğru! Harikasın! 🎉' + (whyRight ? '\n' + whyRight : '');
+              reveal.className = 'reveal ok';
+            }
           } else {
             btn.classList.add('wrong');
-            if (reveal) { reveal.textContent = 'Tekrar deneyebilirsin 💪 — doğru cevap yukarıda yeşil gösterildi.'; reveal.className = 'reveal try'; }
+            var whyChosen = whyOf(chosenIdx);
+            var whyCorrect = whyOf(ansIdx);
+            var msg = 'Tekrar deneyebilirsin 💪 — doğru cevap yukarıda yeşil gösterildi.';
+            if (whyChosen) msg += '\n❌ Seçtiğin şık: ' + whyChosen;
+            if (whyCorrect) msg += '\n✅ Doğru cevap: ' + whyCorrect;
+            if (reveal) { reveal.textContent = msg; reveal.className = 'reveal try'; }
           }
           answered++;
           if (scoreNum) scoreNum.textContent = String(correct);
