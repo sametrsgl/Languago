@@ -568,8 +568,8 @@ const TABS_ACTIVE = pronounRelated
         }
       }
       function markDone(key) { doneSteps[key] = true; }
-      function next() { go(currentStep + 1); }
-      function prev() { go(currentStep - 1); }
+      function wizNext() { go(currentStep + 1); }
+      function wizPrev() { go(currentStep - 1); }
       function go(idx) {
         if (idx < 0 || idx >= stepOrder.length) return;
         showStep(stepOrder[idx], true);
@@ -590,14 +590,14 @@ const TABS_ACTIVE = pronounRelated
         s.appendChild(foot);
       });
       qsa('[data-wprev]').forEach(function (b) {
-        b.addEventListener('click', function () { prev(); });
+        b.addEventListener('click', function () { wizPrev(); });
       });
       qsa('[data-wnext]').forEach(function (b) {
         b.addEventListener('click', function () {
           var cur = stepOrder[currentStep];
           markDone(cur);
           if (cur === 'review') { showAnalysis(); return; }
-          next();
+          wizNext();
         });
       });
       function showAnalysis() {
