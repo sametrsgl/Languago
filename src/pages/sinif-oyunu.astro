@@ -1,0 +1,462 @@
+---
+// Languago — Sınıf İçi Karşılaşma (Baamboozle-style team versus grid game)
+// PUBLIC page (no login): a teacher opens it on a projector/smartboard in class,
+// picks a grammar topic + number of teams, and teams take turns revealing tiles.
+import Layout from '../layouts/Layout.astro';
+
+// Build the topic bank server-side from the live grammar content: for every
+// grammar unit across all CEFR levels, attach its MCQ question pool keyed by id.
+// Lazy imports keep the page's server chunk lean while still pulling real data.
+const levels: { key: string; label: string; bank: string }[] = [
+  { key: 'a1', label: 'A1', bank: 'a1' }, { key: 'a2', label: 'A2', bank: 'a2' },
+  { key: 'b1', label: 'B1', bank: 'b1' }, { key: 'b2', label: 'B2', bank: 'b2' },
+  { key: 'c1', label: 'C1', bank: 'c1' },
+];
+
+async function buildBank() {
+  const topics: any[] = [];
+  for (const lv of levels) {
+    const vid = lv.bank.toUpperCase();
+    const gramMod: any = await import(`../data/grammar_${lv.bank}.js`);
+    const GRAM: any = gramMod[`GRAMMAR_${vid}`] || gramMod.GRAMMAR_A1 || null;
+    const mcqMod: any = await import(`../data/grammar_mcq_${lv.bank}.js`);
+    const MCQM: any = mcqMod[`GRAMMAR_MCQ_${vid}`] || mcqMod.GRAMMAR_MCQ_A1 || null;
+    const units: any[] = (GRAM && GRAM.units) || [];
+    for (const u of units) {
+      const qs: any[] = (MCQM && MCQM[u.id]) || [];
+      if (qs.length === 0) continue;
+      topics.push({
+        level: lv.key,
+        levelLabel: lv.label,
+        id: u.id,
+        title: u.title || u.short,
+        short: u.short || u.title,
+        qs: qs.map((q: any) => ({ q: q.q, o: q.options, a: q.a, why: q.why || null })),
+      });
+    }
+  }
+  return topics;
+}
+
+const topics = await buildBank();
+const topicsJson = JSON.stringify(topics).replace(/</g, '\\u003c');
+
+// Difficulty maps to CEFR bands so the generated questions scale in context.
+const DIFF = [
+  { key: 'primary', label: 'İlkokul 🧒', levels: ['a1', 'a2'] },
+  { key: 'middle', label: 'Ortaokul 🧑', levels: ['a1', 'a2', 'b1', 'b2'] },
+  { key: 'adult', label: 'Yetişkin 🧑‍💼', levels: ['a1', 'a2', 'b1', 'b2', 'c1'] },
+];
+const diffJson = JSON.stringify(DIFF).replace(/</g, '\\u003c');
+---
+<Layout title="Sınıf İçi Karşılaşma — Languago" description="Sınıfta takım olarak oynanan Baamboozle tarzı dilbilgisi rekabet oyunu.">
+  <main class="cm" id="app">
+    <noscript><div style="padding:24px;text-align:center">Bu oyun için JavaScript gerekli.</div></noscript>
+
+    <!-- ===== LOBBY ===== -->
+    <section class="cm-screen" id="scrLobby">
+      <div class="cm-head">
+        <h1>🎮 Sınıf İçi Karşılaşma</h1>
+        <p class="muted">Bir dil bilgisi konusu seç, takımları kur, tahtayı aç. 20% karolarda sürpriz güç kartları var!</p>
+      </div>
+
+      <div class="cm-panel">
+        <h2 class="cm-sub">1) Konu Seç</h2>
+        <div class="cm-diff" id="diffRow"></div>
+        <div class="cm-topics" id="topicGrid"></div>
+      </div>
+
+      <div class="cm-panel">
+        <h2 class="cm-sub">2) Takım Sayısı</h2>
+        <div class="cm-teams" id="teamRow">
+          <button type="button" class="cm-team-btn" data-t="2">2 Takım</button>
+          <button type="button" class="cm-team-btn" data-t="3">3 Takım</button>
+          <button type="button" class="cm-team-btn" data-t="4">4 Takım</button>
+        </div>
+      </div>
+
+      <div class="cm-start-wrap">
+        <button type="button" class="cm-start" id="startBtn" disabled>Tahtayı Aç 🚀</button>
+        <p class="muted" id="lobbyNote">Önce bir konu seç.</p>
+      </div>
+    </section>
+
+    <!-- ===== BOARD ===== -->
+    <section class="cm-screen" id="scrBoard" hidden>
+      <div class="cm-scorebar" id="scorebar"></div>
+      <div class="cm-tilegrid" id="tileGrid"></div>
+      <div class="cm-foot">
+        <button type="button" class="cm-quit" id="quitBtn">← Lobbieye Dön</button>
+        <button type="button" class="cm-reset" id="resetBtn">🔁 Yeniden Başla</button>
+      </div>
+    </section>
+
+    <!-- ===== QUESTION / POWER-UP MODAL ===== -->
+    <div class="cm-modal" id="modal" hidden>
+      <div class="cm-modal-card" id="modalCard"></div>
+    </div>
+
+    <!-- ===== WINNER ===== -->
+    <section class="cm-screen" id="scrWin" hidden>
+      <div class="cm-win">
+        <h1 id="winTitle">🏆</h1>
+        <p id="winSub" class="cm-win-sub"></p>
+        <div class="cm-win-tiles" id="winFinal"></div>
+        <div class="btn-row" style="justify-content:center;margin-top:22px;">
+          <button type="button" class="cm-start" id="replayBtn">🔁 Tekrar Oyna</button>
+        </div>
+      </div>
+    </section>
+
+    <script is:inline id="cm-topics" type="application/json" set:html={topicsJson}></script>
+    <script is:inline id="cm-diff" type="application/json" set:html={diffJson}></script>
+  </main>
+
+  <style is:global>
+    .cm { max-width: 1280px; margin: 0 auto; padding: 12px 16px 60px; font-family: inherit; color: var(--ink); }
+    .cm-head { text-align: center; }
+    .cm-head h1 { font-size: clamp(1.6rem, 4vw, 2.4rem); margin-bottom: 4px; }
+    .cm-panel { background: var(--bg-soft); border: 1px solid var(--line); border-radius: var(--radius); padding: 18px 20px; margin-top: 20px; }
+    .cm-sub { margin: 0 0 12px; font-size: 1.1rem; }
+    .cm-diff { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 14px; }
+    .cm-diff-chip {
+      border: 1px solid var(--line); background: #fff; border-radius: 999px;
+      padding: 8px 16px; font-weight: 700; cursor: pointer; font-family: inherit;
+    }
+    .cm-diff-chip.on { background: var(--teal); border-color: var(--teal); color: #fff; }
+    .cm-topics { display: grid; gap: 10px; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); max-height: 340px; overflow-y: auto; }
+    .cm-topic {
+      text-align: left; border: 1px solid var(--line); background: #fff; border-radius: 12px;
+      padding: 12px 14px; cursor: pointer; font-family: inherit; transition: all .12s;
+    }
+    .cm-topic:hover { border-color: var(--teal); transform: translateY(-1px); }
+    .cm-topic.on { border: 2px solid var(--teal); background: var(--teal-soft); }
+    .cm-topic .tt { font-weight: 700; font-size: .95rem; }
+    .cm-topic .lv { font-size: .72rem; font-weight: 800; color: #fff; background: var(--teal-dark); border-radius: 999px; padding: 2px 8px; }
+    .cm-topic .cnt { font-size: .78rem; color: var(--ink-soft); }
+    .cm-teams { display: flex; gap: 10px; flex-wrap: wrap; }
+    .cm-team-btn {
+      flex: 1; min-width: 110px; border: 1px solid var(--line); background: #fff;
+      border-radius: 12px; padding: 14px; font-weight: 800; cursor: pointer; font-family: inherit;
+    }
+    .cm-team-btn.on { background: var(--brand); border-color: var(--brand); color: #fff; }
+    .cm-start-wrap { text-align: center; margin-top: 24px; }
+    .cm-start {
+      background: linear-gradient(135deg, var(--brand), var(--brand-dark)); color: #fff;
+      border: none; border-radius: 999px; padding: 16px 46px; font-size: 1.2rem; font-weight: 800;
+      cursor: pointer; box-shadow: 0 14px 28px -12px rgba(245,158,11,.9); font-family: inherit;
+    }
+    .cm-start:disabled { opacity: .5; cursor: not-allowed; }
+    .cm-scorebar { display: flex; gap: 8px; flex-wrap: wrap; justify-content: center; margin-bottom: 16px; }
+    .cm-score {
+      flex: 1 1 120px; max-width: 220px; border-radius: 14px; padding: 10px 14px; color: #fff;
+      text-align: center; font-weight: 800; transition: transform .15s;
+    }
+    .cm-score.active { transform: scale(1.05); box-shadow: 0 0 0 3px #fff, 0 12px 26px -10px rgba(0,0,0,.5); }
+    .cm-score .sn { font-size: .75rem; text-transform: uppercase; letter-spacing: .05em; opacity: .9; }
+    .cm-score .sv { font-size: 2rem; line-height: 1.1; }
+    .cm-tilegrid { display: grid; gap: 10px; grid-template-columns: repeat(auto-fill, minmax(130px, 1fr)); }
+    .cm-tile {
+      aspect-ratio: 1 / 1; border: none; border-radius: 14px; color: #fff; font-size: 1.7rem;
+      font-weight: 800; cursor: pointer; font-family: inherit; position: relative;
+      background: linear-gradient(145deg, var(--teal), var(--teal-dark));
+      box-shadow: 0 6px 0 rgba(0,0,0,.25), 0 12px 22px -12px rgba(0,0,0,.5);
+      transition: transform .08s, box-shadow .08s;
+    }
+    .cm-tile:hover:not(:disabled) { transform: translateY(-2px); }
+    .cm-tile:active:not(:disabled) { transform: translateY(2px); box-shadow: 0 2px 0 rgba(0,0,0,.25); }
+    .cm-tile.used { background: rgba(255,255,255,.2); color: rgba(255,255,255,.35); box-shadow: none; cursor: default; }
+    .cm-tile.power { background: linear-gradient(145deg, var(--brand), var(--brand-dark)); }
+    .cm-tile .tn { font-size: 1.7rem; }
+    .cm-foot { display: flex; justify-content: space-between; gap: 10px; margin-top: 22px; flex-wrap: wrap; }
+    .cm-quit, .cm-reset { border: 1px solid var(--line); background: #fff; border-radius: 10px; padding: 10px 16px; font-weight: 700; cursor: pointer; font-family: inherit; }
+    .cm-modal { position: fixed; inset: 0; background: rgba(10,20,25,.72); display: flex; align-items: center; justify-content: center; z-index: 90; padding: 16px; }
+    .cm-modal-card { max-width: 720px; width: 100%; background: #fff; border-radius: 18px; padding: 28px; box-shadow: 0 30px 80px -20px rgba(0,0,0,.6); animation: cmPop .25s ease; }
+    @keyframes cmPop { from { transform: scale(.92); opacity: 0; } to { transform: scale(1); opacity: 1; } }
+    .cm-q-topic { font-size: .8rem; font-weight: 700; color: var(--teal-dark); text-transform: uppercase; letter-spacing: .04em; }
+    .cm-q-point { font-size: .85rem; font-weight: 800; color: var(--brand-dark); }
+    .cm-q-text { font-size: clamp(1.3rem, 3vw, 1.9rem); font-weight: 800; margin: 10px 0 16px; }
+    .cm-q-opts { display: grid; gap: 8px; margin-bottom: 18px; }
+    .cm-q-opt { border: 1px solid var(--line); border-radius: 10px; padding: 12px 14px; font-size: 1.05rem; font-weight: 600; background: var(--bg-soft); }
+    .cm-answer { font-size: 1.2rem; font-weight: 800; color: #0b7a5a; padding: 12px 14px; background: #e8fbf3; border: 2px solid #7bdcb5; border-radius: 12px; margin: 6px 0 16px; }
+    .cm-hide-answer { border: 1px solid var(--line); background: #fff; border-radius: 999px; padding: 10px 20px; font-weight: 700; cursor: pointer; font-family: inherit; }
+    .cm-actions { display: flex; gap: 12px; }
+    .cm-correct, .cm-wrong, .cm-skip { flex: 1; border: none; border-radius: 14px; padding: 16px; font-size: 1.15rem; font-weight: 800; color: #fff; cursor: pointer; font-family: inherit; }
+    .cm-correct { background: linear-gradient(145deg,#2fb27f,#18925f); }
+    .cm-wrong { background: linear-gradient(145deg,#f0564a,#d6372b); }
+    .cm-skip { background: linear-gradient(145deg,#8b98a5,#5f6b76); }
+    .cm-power-title { font-size: 1.6rem; font-weight: 800; margin-bottom: 6px; }
+    .cm-power-desc { font-size: 1.1rem; margin-bottom: 20px; }
+    .cm-win { text-align: center; padding: 30px; }
+    .cm-win h1 { font-size: 2.6rem; }
+    .cm-win-sub { font-size: 1.2rem; }
+    .cm-win-tiles { display: flex; gap: 14px; justify-content: center; margin-top: 16px; flex-wrap: wrap; }
+    .cm-win-chip { border-radius: 14px; padding: 12px 20px; color: #fff; font-weight: 800; font-size: 1.1rem; }
+    @media (max-width: 560px) {
+      .cm-tilegrid { grid-template-columns: repeat(auto-fill, minmax(84px,1fr)); }
+      .cm-tile { font-size: 1.2rem; }
+    }
+  </style>
+
+  <script>
+    (function () {
+      var $ = function (id) { return document.getElementById(id); };
+      var esc = function (s) {
+        var d = document.createElement('div'); d.textContent = s == null ? '' : String(s); return d.innerHTML;
+      };
+
+      var topics = null, diffs = null;
+      try { topics = JSON.parse($('cm-topics').textContent) || []; } catch (e) { topics = []; }
+      try { diffs = JSON.parse($('cm-diff').textContent) || []; } catch (e) { diffs = []; }
+
+      var DIFF_COLORS = { primary: '#10b981', middle: '#f59e0b', adult: '#7c3aed' };
+
+      var state = { diff: 'primary', topicId: null, teams: 2, used: {}, scores: [], active: 0, power: {}, total: 0, powerDouble: false };
+
+      function pickDiff() {
+        return diffs.find(function (d) { return d.key === state.diff; }) || diffs[0];
+      }
+
+      // ---- lobby topic render ----
+      function renderDiff() {
+        var row = $('diffRow');
+        row.innerHTML = '';
+        diffs.forEach(function (d) {
+          var b = document.createElement('button');
+          b.type = 'button'; b.className = 'cm-diff-chip' + (d.key === state.diff ? ' on' : '');
+          b.textContent = d.label;
+          b.setAttribute('data-diff', d.key);
+          row.appendChild(b);
+        });
+      }
+      function renderTopics() {
+        var grid = $('topicGrid'); grid.innerHTML = '';
+        var valid = topics.filter(function (t) { return pickDiff().levels.indexOf(t.level) !== -1; });
+        if (valid.length === 0) { grid.innerHTML = '<p class="muted">Bu seviyede konu yok.</p>'; return; }
+        valid.forEach(function (t, i) {
+          var b = document.createElement('button');
+          b.type = 'button'; b.className = 'cm-topic' + (t.id === state.topicId ? ' on' : '');
+          b.setAttribute('data-id', t.id);
+          b.innerHTML = '<span class="lv">' + esc(t.levelLabel) + '</span> <span class="tt">' + esc(t.title) + '</span> ' +
+            '<span class="cnt">(' + t.qs.length + ' soru)</span>';
+          b.addEventListener('click', function () {
+            state.topicId = t.id;
+            var all = grid.querySelectorAll('.cm-topic');
+            for (var i = 0; i < all.length; i++) all[i].classList.toggle('on', all[i].getAttribute('data-id') === t.id);
+            $('startBtn').removeAttribute('disabled');
+            $('lobbyNote').textContent = 'Seçilen: ' + t.title + ' · ' + t.qs.length + ' soru hazır.';
+          });
+          grid.appendChild(b);
+        });
+      }
+
+      // ---- board ----
+      var TILE_COUNT = 24;
+      var POWER_NAMES = ['Puanları Takas Et', 'İki Katı Puan', 'Puan Çal', 'Sıfırla'];
+      var POWER_DESC = {
+        'Puanları Takas Et': 'Bu takım ile rakibinin puanları yer değiştirir!',
+        'İki Katı Puan': 'Sıradaki soru iki kat değer kazanır.',
+        'Puan Çal': 'Rakibin puanının 10%’unu bu takıma aktar.',
+        'Sıfırla': 'Bir takımın puanı 0’a düşer.',
+      };
+      var TEAM_COLORS = ['#0d9488', '#f59e0b', '#7c3aed', '#ef4444'];
+
+      function currentTopic() {
+        return topics.find(function (t) { return t.id === state.topicId; });
+      }
+
+      function startGame() {
+        state.scores = []; for (var i = 0; i < state.teams; i++) state.scores.push(0);
+        state.active = 0; state.used = {}; state.total = TILE_COUNT;
+        // 20% power-up tiles
+        state.power = {};
+        var pCount = Math.round(TILE_COUNT * 0.2);
+        var idx = shuffle(range(TILE_COUNT)).slice(0, pCount);
+        idx.forEach(function (x) {
+          state.power[x] = POWER_NAMES[Math.floor(Math.random() * POWER_NAMES.length)];
+        });
+
+        $('scrLobby').hidden = true; $('scrWin').hidden = true; $('scrBoard').hidden = false;
+        renderBoard();
+      }
+      function range(n) { var a = []; for (var i = 1; i <= n; i++) a.push(i); return a; }
+      function shuffle(a) { a = a.slice(); for (var i = a.length - 1; i > 0; i--) { var j = Math.floor(Math.random() * (i + 1)); var t = a[i]; a[i] = a[j]; a[j] = t; } return a; }
+
+      function renderBoard() {
+        var bar = $('scorebar'); bar.innerHTML = '';
+        for (var i = 0; i < state.teams; i++) {
+          var s = document.createElement('div');
+          s.className = 'cm-score' + (i === state.active ? ' active' : '');
+          s.style.background = TEAM_COLORS[i];
+          s.innerHTML = '<div class="sn">Takım ' + (i + 1) + '</div><div class="sv" data-sv="' + i + '">' + state.scores[i] + '</div>';
+          bar.appendChild(s);
+        }
+        var grid = $('tileGrid'); grid.innerHTML = '';
+        for (var n = 1; n <= state.total; n++) {
+          var t = document.createElement('button');
+          t.type = 'button'; t.className = 'cm-tile' + (state.power[n] ? ' power' : '') + (state.used[n] ? ' used' : '');
+          t.setAttribute('data-n', n);
+          t.innerHTML = state.used[n] ? '<span style="font-size:1.2rem">✓</span>' : '<span class="tn">' + n + '</span>';
+          t.disabled = !!state.used[n];
+          t.addEventListener('click', function () { openTile(parseInt(this.getAttribute('data-n'), 10)); });
+          grid.appendChild(t);
+        }
+      }
+
+      function openTile(n) {
+        if (state.used[n]) return;
+        state.used[n] = true;
+        if (state.power[n]) { openPower(state.power[n]); }
+        else { openQuestion(); }
+        renderBoard();
+      }
+
+      function openQuestion() {
+        var topic = currentTopic();
+        var q = topic ? topic.qs[Math.floor(Math.random() * topic.qs.length)] : null;
+        var req = state.powerDouble ? 2 : 1;
+        var vis = topic ? (topic.short || topic.title) : '';
+        $('modalCard').innerHTML =
+          '<div class="cm-q-topic">' + esc(topic ? topic.title : 'Soru') + ' · ' + (state.active + 1) + '. takım</div>' +
+          '<div class="cm-q-point">' + (req > 1 ? '2× ' : '') + '+10 puan</div>' +
+          '<div class="cm-q-text">' + esc(q ? q.q : 'Soru hazırlanamadı') + '</div>' +
+          (q && q.o ? '<div class="cm-q-opts">' + q.o.map(function (o, i) { return '<div class="cm-q-opt">' + String.fromCharCode(65 + i) + ') ' + esc(o) + '</div>'; }).join('') + '</div>' : '') +
+          '<button type="button" class="cm-hide-answer" id="revealBtn">💡 Cevabı Göster</button>' +
+          '<div style="display:none" id="answerBox">' +
+            '<div class="cm-answer">✅ Cevap: ' + esc(q && q.o ? q.o[q.a] : '') + '</div>' +
+            '<div class="cm-actions">' +
+              '<button type="button" class="cm-correct" data-act="ok">✓ Doğru</button>' +
+              '<button type="button" class="cm-skip" data-act="skip">↷ Geç</button>' +
+              '<button type="button" class="cm-wrong" data-act="no">✗ Yanlış</button>' +
+            '</div>' +
+          '</div>';
+        $('modal').hidden = false;
+        $('revealBtn').onclick = function () {
+          this.style.display = 'none';
+          $('answerBox').style.display = '';
+        };
+        $('modalCard').querySelectorAll('[data-act]').forEach(function (b) {
+          b.onclick = function () { resolveQuestion(b.getAttribute('data-act'), req); };
+        });
+      }
+
+      function resolveQuestion(act, mult) {
+        var gain = 10 * mult;
+        if (act === 'ok') state.scores[state.active] += gain;
+        else if (act === 'skip') { /* no change */ }
+        // wrong: no gain
+        state.powerDouble = false;
+        advance();
+      }
+
+      function openPower(name) {
+        var body = '<div class="cm-power-title">⚡ ' + esc(name) + '</div><div class="cm-power-desc">' + esc(POWER_DESC[name]) + '</div>';
+        var extra = '';
+        if (name === 'İki Katı Puan') {
+          extra = '<button type="button" class="cm-skip" data-power-ok="1">Onayla — sıradaki soru 2×</button>';
+        } else if (name === 'Sıfırla') {
+          extra = '<div class="cm-actions"><button type="button" class="cm-wrong" data-power-t="1">Takım 1’i Sıfırla</button>' + (state.teams >= 2 ? '<button type="button" class="cm-wrong" data-power-t="2">Takım 2’yi Sıfırla</button>' : '') + '</div>';
+        } else if (name === 'Puan Çal') {
+          extra = '<div class="cm-actions"><button type="button" class="cm-correct" data-power-ok="1">Rakipten 10% çal</button></div>';
+        } else { // swap
+          extra = '<div class="cm-actions"><button type="button" class="cm-correct" data-power-ok="1">Takas Et</button></div>';
+        }
+        $('modalCard').innerHTML = body + extra;
+        $('modal').hidden = false;
+        if (name === 'İki Katı Puan') {
+          $('modalCard').querySelector('[data-power-ok]').onclick = function () { state.powerDouble = true; closeModal(); advance(); };
+        } else if (name === 'Sıfırla') {
+          $('modalCard').querySelectorAll('[data-power-t]').forEach(function (b) {
+            b.onclick = function () { state.scores[parseInt(b.getAttribute('data-power-t'), 10)] = 0; syncScores(); closeModal(); advance(); };
+          });
+        } else if (name === 'Puan Çal') {
+          $('modalCard').querySelector('[data-power-ok]').onclick = function () {
+            var other = (state.active + 1) % state.teams;
+            var steal = Math.round(state.scores[other] * 0.1);
+            state.scores[state.active] += steal; state.scores[other] -= steal; syncScores(); closeModal(); advance();
+          };
+        } else { // swap
+          $('modalCard').querySelector('[data-power-ok]').onclick = function () {
+            var other = (state.active + 1) % state.teams;
+            var t = state.scores[state.active]; state.scores[state.active] = state.scores[other]; state.scores[other] = t;
+            syncScores(); closeModal(); advance();
+          };
+        }
+      }
+
+      function syncScores() {
+        var el = document.querySelectorAll('.cm-score .sv');
+        for (var i = 0; i < el.length; i++) el[i].textContent = state.scores[i];
+      }
+      function closeModal() { $('modal').hidden = true; }
+      function advance() {
+        // next active team
+        state.active = (state.active + 1) % state.teams;
+        // check win: all tiles used
+        var left = range(state.total).filter(function (n) { return !state.used[n]; }).length;
+        syncScores();
+        renderBoard();
+        closeModal();
+        if (left === 0) showWinner();
+        else flashTurn();
+      }
+      function flashTurn() {
+        // highlight active team score
+        var bar = $('scorebar');
+        var all = bar.querySelectorAll('.cm-score');
+        for (var i = 0; i < all.length; i++) all[i].classList.toggle('active', i === state.active);
+      }
+      function showWinner() {
+        var mx = Math.max.apply(null, state.scores);
+        var winners = state.scores.map(function (s, i) { return s === mx ? i : -1; }).filter(function (i) { return i >= 0; });
+        $('winSub').textContent = winners.length === 1 ? ('Takım ' + (winners[0] + 1) + ' kazandı! 🏆') : ('Takımlar berabere! 🙌');
+        $('winTitle').textContent = '🏆';
+        var box = $('winFinal'); box.innerHTML = '';
+        for (var i = 0; i < state.teams; i++) {
+          var t = document.createElement('div');
+          t.className = 'cm-win-chip';
+          t.style.background = winners.indexOf(i) >= 0 ? TEAM_COLORS[i] : 'rgba(0,0,0,.15)';
+          t.textContent = 'Takım ' + (i + 1) + ': ' + state.scores[i];
+          box.appendChild(t);
+        }
+        $('scrBoard').hidden = true;
+        $('scrWin').hidden = false;
+      }
+
+      // ---- events ----
+      $('diffRow').addEventListener('click', function (e) {
+        var b = e.target.closest('[data-diff]'); if (!b) return;
+        state.diff = b.getAttribute('data-diff');
+        renderDiff(); renderTopics();
+      });
+      $('teamRow').addEventListener('click', function (e) {
+        var b = e.target.closest('[data-t]'); if (!b) return;
+        state.teams = parseInt(b.getAttribute('data-t'), 10);
+        var all = this.querySelectorAll('.cm-team-btn');
+        for (var i = 0; i < all.length; i++) all[i].classList.toggle('on', all[i] === b);
+      });
+      $('startBtn').addEventListener('click', startGame);
+      $('quitBtn').addEventListener('click', function () {
+        $('scrBoard').hidden = true; $('scrWin').hidden = true; $('scrLobby').hidden = false;
+      });
+      $('resetBtn').addEventListener('click', function () {
+        // same config, new board
+        state.used = {}; state.scores = []; for (var i = 0; i < state.teams; i++) state.scores.push(0); state.active = 0; state.powerDouble = false;
+        startGame();
+      });
+      $('replayBtn').addEventListener('click', function () {
+        $('scrWin').hidden = true; $('scrLobby').hidden = false;
+        renderTopics();
+      });
+      // Escape closes modal
+      document.addEventListener('keydown', function (e) { if (e.key === 'Escape') closeModal(); });
+
+      // init
+      if (!topics.length) {
+        $('startBtn').disabled = true;
+        $('lobbyNote').textContent = 'Konu verisi yüklenemedi.';
+      }
+      renderDiff(); renderTopics();
+    })();
+  </script>
+</Layout>
