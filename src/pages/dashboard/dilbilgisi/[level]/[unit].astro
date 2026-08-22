@@ -144,6 +144,25 @@ const TABS_ACTIVE = pronounRelated
       <div class="gram-progress__sub" id="gramProgSub">Etkileşimleri tamamladıkça ilerlemen dolar.</div>
     </div>
 
+    <!-- Adımlı Sihirbaz (Stepper): tek seferde tek adım görünür -->
+    <nav class="wizard-nav" id="wizardNav" aria-label="Ders adımları">
+      {[
+        { key: 'lesson', label: '📘 Ders' },
+        { key: 'mcq', label: '🧩 Test' },
+        { key: 'gap', label: '✍️ Boşluk' },
+        { key: 'match', label: '🧲 Eşleştirme', hidden: !pronounRelated },
+        { key: 'review', label: '📊 Sonuç' },
+      ].map((s) => (
+        <button type="button" class="wizard-step-btn" data-step={s.key}
+          data-hidden={s.hidden ? '1' : '0'}
+          {s.hidden ? 'hidden' : ''}>{s.label}</button>
+      ))}
+    </nav>
+
+    <!-- ADIM 1 · Ders -->
+    <section class="wizard-step" data-step="lesson">
+      <div class="lesson-layout">
+        <div class="lesson-col">
     <!-- I. Çok sekmeli konu anlatımı -->
     <h2 style="font-size:1.2rem;">📘 Konu Anlatımı</h2>
     <div class="gram-tabs" id="tabBar" role="tablist">
@@ -168,7 +187,8 @@ const TABS_ACTIVE = pronounRelated
         <button type="button" id="nextSlide" class="btn primary">Sonraki →</button>
       </div>
     </div>
-
+        </div><!-- /lesson-col: açıklama -->
+        <div class="lesson-col">
     <!-- Karşılaştırmalı renk kodlu zamir matrisi (yalnızca zamir/iyelik ünitesinde) -->
     {pronounRelated && (
     <div class="gram-matrix card" id="matrixCard" data-emph="all">
@@ -209,8 +229,10 @@ const TABS_ACTIVE = pronounRelated
     {!pronounRelated && (
       <p class="muted" style="margin-top:18px;">Bu ünitede tablo kategorilerine ayrılmış özel bir konu yok — ders slaytlarını okuyup alıştırmaları çözerek ilerle. 💪</p>
     )}
+        </div><!-- /lesson-col: karşılaştırma -->
+      </div><!-- /lesson-layout -->
 
-    <!-- II. Satır içi Uygulama (zamir eşleştirme — yalnızca zamir/iyelik ünitesinde) -->
+    <!-- Hızlı Uygulama (zamir eşleştirme — yalnızca zamir/iyelik ünitesinde) -->
     {pronounRelated && (
     <div class="gram-apply card" id="applyCard">
       <button type="button" id="applyToggle" class="btn primary">⚡ Hızlı Uygulama (30 sn)</button>
@@ -224,7 +246,10 @@ const TABS_ACTIVE = pronounRelated
       </div>
     </div>
     )}
+    </section>
 
+    <!-- ADIM 2 · Test (Çoktan Seçmeli) -->
+    <section class="wizard-step" data-step="mcq">
     <!-- III. Çeşitlendirilmiş Pekiştirme -->
     <h2 style="font-size:1.2rem;margin-top:34px;">🧩 Pekiştirme Testi</h2>
 
@@ -252,7 +277,10 @@ const TABS_ACTIVE = pronounRelated
         </div>
       </>
     )}
+    </section>
 
+    <!-- ADIM 3 · Boşluk Doldurma -->
+    <section class="wizard-step" data-step="gap">
     {practice.length > 0 && (
       <>
         <h3 style="margin-top:30px;">✍️ Boşluğu Doldur <span class="muted" style="font-weight:500;">(çipi tıkla ya da boşluğa sürükle)</span></h3>
@@ -283,7 +311,10 @@ const TABS_ACTIVE = pronounRelated
         </div>
       </>
     )}
+    </section>
 
+    <!-- ADIM 4 · Eşleştirme -->
+    <section class="wizard-step" data-step="match">
     {pronounRelated && (
       <>
     <h3 style="margin-top:30px;">🧲 Eşleştirme</h3>
@@ -297,8 +328,10 @@ const TABS_ACTIVE = pronounRelated
     </div>
       </>
     )}
+    </section>
 
-    <!-- IV. Performans analizi + Uygulama Listesi -->
+    <!-- ADIM 5 · Sonuç / Performans Analizi -->
+    <section class="wizard-step" data-step="review">
     <button type="button" id="resultsBtn" class="btn primary" style="margin-top:30px;">📊 Sonuçlarımı Gör</button>
     <div class="gram-analysis card" id="analysis" style="display:none;">
       <h3>💪 Performans Analizi</h3>
@@ -317,10 +350,30 @@ const TABS_ACTIVE = pronounRelated
       </div>
       <button type="button" id="retryBtn" class="btn ghost">🔁 Alıştırmaları tekrar başlat</button>
     </div>
+    </section>
   </main>
 
   <style is:global>
     /* ---- Languago grammar deep-learning module ---- */
+    .wizard-nav { display: flex; flex-wrap: wrap; gap: 8px; margin: 6px 0 18px; }
+    .wizard-step-btn {
+      border: 1px solid var(--line); background: var(--bg); color: var(--ink-soft);
+      border-radius: 999px; padding: 8px 15px; font-weight: 700; font-size: 0.85rem;
+      cursor: pointer; transition: all 0.15s; font-family: inherit;
+    }
+    .wizard-step-btn:hover:not(:disabled) { border-color: var(--teal); color: var(--teal-dark); }
+    .wizard-step-btn.on { background: var(--teal); border-color: var(--teal); color: #fff; box-shadow: 0 8px 18px -10px rgba(13,148,136,0.7); }
+    .wizard-step-btn.done::after { content: ' ✓'; opacity: 0.9; }
+    .wizard-step { display: none; }
+    .wizard-step.is-active { display: block; animation: wizardSlide .35s ease; }
+    .wizard-step:focus { outline: none; }
+    @keyframes wizardSlide { from { opacity: 0; transform: translateX(14px); } to { opacity: 1; transform: none; } }
+    /* Ders adımı: açıklama solda, karşılaştırma tablosu sağda (geniş ekranda) */
+    .lesson-layout { display: grid; gap: 22px; }
+    @media (min-width: 960px) { .lesson-layout { grid-template-columns: minmax(0,1fr) minmax(0,1fr); align-items: start; } }
+    .lesson-col:last-child .gram-matrix { margin-top: 0; }
+    .wizard-foot { display: flex; justify-content: space-between; align-items: center; gap: 10px; margin-top: 26px; padding-top: 16px; border-top: 1px solid var(--line); flex-wrap: wrap; }
+
     .gram-progress { margin: 4px 0 22px; }
     .gram-progress__head { display: flex; align-items: center; justify-content: space-between; font-size: 0.95rem; margin-bottom: 10px; }
     .gram-progress__sub { font-size: 0.82rem; color: var(--ink-soft); margin-top: 8px; }
@@ -482,6 +535,81 @@ const TABS_ACTIVE = pronounRelated
         if (sub) sub.textContent = answered + ' / ' + grandTotal + ' etkileşim tamamlandı';
       }
       updProgress();
+
+      // ---- Sihirbaz (Stepper) durum makinesi: tek adım görünür ----
+      var stepOrder = (function () {
+        var list = [];
+        qsa('.wizard-step-btn').forEach(function (b) { if (b.getAttribute('data-hidden') !== '1') list.push(b.getAttribute('data-step')); });
+        return list;
+      })();
+      var currentStep = 0;
+      var stepEls = {};    // key -> section
+      var stepBtns = {};   // key -> nav button
+      qsa('.wizard-step').forEach(function (s) { stepEls[s.getAttribute('data-step')] = s; });
+      qsa('.wizard-step-btn').forEach(function (b) { stepBtns[b.getAttribute('data-step')] = b; });
+      var doneSteps = { lesson: true };
+
+      function showStep(key, focusTop) {
+        var idx = stepOrder.indexOf(key);
+        if (idx < 0) return;
+        currentStep = idx;
+        qsa('.wizard-step').forEach(function (s) {
+          s.classList.toggle('is-active', s.getAttribute('data-step') === key);
+        });
+        qsa('.wizard-step-btn').forEach(function (b) {
+          var k = b.getAttribute('data-step');
+          b.classList.toggle('on', k === key);
+          b.classList.toggle('done', !!doneSteps[k]);
+          b.setAttribute('aria-current', k === key ? 'step' : 'false');
+        });
+        if (focusTop) {
+          var nav = document.getElementById('wizardNav');
+          if (nav) nav.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+      }
+      function markDone(key) { doneSteps[key] = true; }
+      function next() { go(currentStep + 1); }
+      function prev() { go(currentStep - 1); }
+      function go(idx) {
+        if (idx < 0 || idx >= stepOrder.length) return;
+        showStep(stepOrder[idx], true);
+      }
+      qsa('.wizard-step-btn').forEach(function (b) {
+        b.addEventListener('click', function () { showStep(b.getAttribute('data-step'), true); });
+      });
+      qsa('.wizard-step').forEach(function (s) {
+        var key = s.getAttribute('data-step');
+        var foot = document.createElement('div');
+        foot.className = 'wizard-foot';
+        foot.innerHTML =
+          (stepOrder.indexOf(key) > 0
+            ? '<button type="button" class="btn ghost" data-wprev>← Önceki</button>'
+            : '<span></span>') +
+          '<button type="button" class="btn primary" data-wnext>' +
+          (key === 'review' ? '🎉 Bitir' : 'Devam →') + '</button>';
+        s.appendChild(foot);
+      });
+      qsa('[data-wprev]').forEach(function (b) {
+        b.addEventListener('click', function () { prev(); });
+      });
+      qsa('[data-wnext]').forEach(function (b) {
+        b.addEventListener('click', function () {
+          var cur = stepOrder[currentStep];
+          markDone(cur);
+          if (cur === 'review') { showAnalysis(); return; }
+          next();
+        });
+      });
+      function showAnalysis() {
+        buildAnalysis();
+        var a = document.getElementById('analysis');
+        if (a) a.style.display = '';
+        saveProgress();
+      }
+      var resultsBtn = document.getElementById('resultsBtn');
+      if (resultsBtn) resultsBtn.addEventListener('click', showAnalysis);
+
+      showStep(stepOrder[0], false);
 
       // ---- I. Sekmeler + kaydırma ----
       var itemsAll = qsa('#slideItems [data-slide]');
