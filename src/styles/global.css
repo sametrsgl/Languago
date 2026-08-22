@@ -1767,3 +1767,27 @@ footer.site .brand .footer-mascot {
     text-align: left;
   }
 }
+
+/* ---- Homepage: Sınıf İçi Karşılaşma (versus) — hero altı CTA band ---- */
+.vs-band { margin: 4px auto 8px; }
+.vs-band__inner {
+  display: flex; align-items: center; justify-content: space-between; gap: 22px; flex-wrap: wrap;
+  background: linear-gradient(120deg, #0f766e 0%, #0d9488 55%, #14b8a6 100%);
+  color: #fff; border-radius: 22px; padding: 28px 30px;
+  box-shadow: 0 24px 48px -24px rgba(13, 148, 136, 0.85);
+  border: 1px solid rgba(255, 255, 255, 0.18);
+}
+.vs-band__text { flex: 1 1 360px; max-width: 720px; }
+.vs-band__text h2 { margin: 2px 0 8px; font-size: clamp(1.5rem, 3.5vw, 2.1rem); color: #fff; }
+.vs-band__text p { margin: 0 0 16px; color: rgba(255, 255, 255, 0.92); font-size: 1.02rem; max-width: 620px; }
+.vs-band .btn.primary { background: #fff; color: #0f766e; box-shadow: 0 10px 20px -10px rgba(0,0,0,.4); }
+.vs-band .btn.ghost { color: #fff; border-color: rgba(255,255,255,.55); }
+.vs-band__visual { font-size: clamp(2.6rem, 6vw, 4rem); letter-spacing: 6px; filter: drop-shadow(0 6px 12px rgba(0,0,0,.3)); }
+.vs-kicker {
+  display: inline-block; background: rgba(255,255,255,.18); border: 1px solid rgba(255,255,255,.3);
+  border-radius: 999px; padding: 4px 14px; font-size: .78rem; font-weight: 800; letter-spacing: .04em;
+}
+@media (max-width: 560px) {
+  .vs-band__inner { padding: 22px 18px; }
+  .vs-band__visual { order: -1; text-align: center; }
+}
