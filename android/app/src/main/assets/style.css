@@ -381,6 +381,52 @@ a.support-mail { color: var(--primary); text-decoration: none; font-weight: 700;
 .part-row.done { border-color: var(--green); }
 
 /* ===================================================================
+   Mobile responsiveness fixes
+   =================================================================== */
+html { font-size: 16px; }
+@media (max-width: 360px) { html { font-size: 14px; } }
+@media (min-width: 361px) and (max-width: 400px) { html { font-size: 15px; } }
+
+/* Ensure no element overflows the viewport */
+body, #app, #content, #topbar, #tabbar { max-width: 100%; }
+* { max-width: 100%; }
+
+/* Word wrapping for long text */
+.hero h2 { word-break: break-word; hyphens: auto; }
+.set-name { word-break: break-word; }
+.set-desc { word-break: break-word; }
+.stat-box .num { word-break: break-all; }
+
+/* Ensure hero text wraps properly on small screens */
+.hero h2 { font-size: clamp(18px, 4.5vw, 22px); line-height: 1.3; }
+.hero p { font-size: clamp(12px, 3vw, 13.5px); }
+
+/* Stat grid: stack on very small screens */
+@media (max-width: 340px) {
+  .stat-grid { grid-template-columns: 1fr; }
+}
+
+/* Button sizing for small screens */
+.btn { min-height: 48px; font-size: clamp(14px, 3.5vw, 15px); }
+.option { min-height: 48px; font-size: clamp(14px, 3.5vw, 15px); }
+
+/* Ensure modal card respects viewport height */
+.modal-card { max-height: calc(100vh - 60px); }
+
+/* Touch targets minimum size */
+.icon-btn { min-width: 44px; min-height: 44px; }
+.tab { min-height: 52px; }
+
+/* Prevent text selection issues on small screens */
+.wod-word { font-size: clamp(24px, 7vw, 30px); }
+.g-slide-h { font-size: clamp(16px, 4vw, 18px); }
+.quiz-q { font-size: clamp(18px, 5vw, 20px); }
+
+/* Safe area insets for newer phones */
+#topbar { padding-left: calc(16px + env(safe-area-inset-left)); padding-right: calc(16px + env(safe-area-inset-right)); }
+.tabbar-content { padding-left: calc(8px + env(safe-area-inset-left)); padding-right: calc(8px + env(safe-area-inset-right)); }
+
+/* ===================================================================
    Dark mode
    =================================================================== */
 [data-theme="dark"] {
