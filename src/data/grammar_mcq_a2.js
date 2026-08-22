@@ -48,5 +48,389 @@ export const GRAMMAR_MCQ_A2 = {
     { "q": "She ___ drive a car.", "options": ["can't", "cans", "can't to", "cannot to"], "a": 0 },
     { "q": "___ you help me with this?", "options": ["Can", "Cans", "Can to", "Do can"], "a": 0 },
     { "q": "He ___ play the guitar.", "options": ["can", "cans", "can to", "can plays"], "a": 0 }
+  ],
+  "a2-09": [
+    { "q": "Yesterday I ___ to the market.", "options": ["goed", "gone", "went", "go"], "a": 2, "why": [
+      "go → 'goed' yoktur; düzensiz fiil -ed almaz.",
+      "'gone' yalnız present perfect'te (have gone) kullanılır; burada past simple gerekli.",
+      "Correct: 'go → went' düzensiz geçmiş biçimi.",
+      "'go' geniş zaman; 'yesterday' geçmiş zaman ister."
+    ] },
+    { "q": "She ___ a tasty cake yesterday.", "options": ["maked", "makes", "made", "make"], "a": 2, "why": [
+      "'make → maked' yoktur.",
+      "Geniş zaman ('makes') 'yesterday' ile uymaz.",
+      "Correct: 'make → made' düzensiz geçmiş.",
+      "'make' yalın geniş; geçmiş gerekli."
+    ] },
+    { "q": "They ___ their homework last night.", "options": ["doed", "did", "does", "do"], "a": 1, "why": [
+      "'do → doed' yoktur, -ed almaz.",
+      "Correct: 'do → did' düzensiz geçmiş.",
+      "'does' geniş 3. tekil; geçmiş zaman için değil.",
+      "'do' geniş yalın; 'last night' geçmiş ister."
+    ] },
+    { "q": "Choose the past form of 'take'.", "options": ["taked", "took", "taken", "takes"], "a": 1, "why": [
+      "'take → taked' yoktur.",
+      "Correct: 'take → took' düzensiz geçmiş.",
+      "'taken' (past participle) 'have taken' içindir.",
+      "'takes' geniş 3. tekil; geçmiş değil."
+    ] },
+    { "q": "He ___ a letter to his friend last month.", "options": ["writed", "wrote", "written", "writes"], "a": 1, "why": [
+      "'write → writed' yoktur.",
+      "Correct: 'write → wrote' düzensiz geçmiş.",
+      "'written' participle; 'have written' içindir.",
+      "'writes' geniş; 'last month' geçmiş."
+    ] }
+  ],
+  "a2-10": [
+    { "q": "I ___ at home yesterday evening.", "options": ["were", "am", "was", "is"], "a": 2, "why": [
+      "'were' you/we/they ile; I ile değil.",
+      "Geniş/şimdiki 'am' geçmiş 'yesterday evening' için değil.",
+      "Correct: I ile 'was'.",
+      "'is' 3. tekil şimdiki; geçmiş için değil."
+    ] },
+    { "q": "They ___ very tired after the trip.", "options": ["was", "were", "are", "is"], "a": 1, "why": [
+      "'was' I/he/she/it için; 'they' ile değil.",
+      "Correct: they ile 'were'.",
+      "Şimdiki 'are' geçmiş bağlam için değil.",
+      "'is' 3. tekil şimdiki; çoğul+geçmiş için değil."
+    ] },
+    { "q": "___ you at school yesterday?", "options": ["Was", "Were", "Are", "Is"], "a": 1, "why": [
+      "'Was' you ile kullanılmaz.",
+      "Correct: you ile soru 'Were you …?'",
+      "Şimdiki 'Are' geçmiş değil.",
+      "'Is' you için değil."
+    ] },
+    { "q": "There ___ many people at the concert.", "options": ["was", "were", "is", "be"], "a": 1, "why": [
+      "Tekil 'was' çoğul 'many people' için değil.",
+      "Correct: çoğul + geçmiş → 'were'.",
+      "Şimdiki 'is' geçmiş bağlam için değil.",
+      "'be' çekimsiz kalıptır."
+    ] },
+    { "q": "She ___ not at work on Monday.", "options": ["weren't", "wasn't", "aren't", "isn't"], "a": 1, "why": [
+      "'weren't' çoğul; she ile değil.",
+      "Correct: she ile geçmiş negatif 'wasn't'.",
+      "Şimdiki 'aren't' geçmiş 'on Monday' için değil.",
+      "'isn't' şimdiki; geçmiş için değil."
+    ] }
+  ],
+  "a2-11": [
+    { "q": "I ___ my grandparents yesterday.", "options": ["visit", "visits", "visited", "visiting"], "a": 2, "why": [
+      "Geniş 'visit' 'yesterday' ile uymaz.",
+      "'visits' 3. tekil geniş; geçmiş değil.",
+      "Correct: 'yesterday' → geçmiş 'visited'.",
+      "'visiting' tek başına ana fiil olamaz (am/is/are gerekir)."
+    ] },
+    { "q": "She moved to Ankara two years ___.", "options": ["ago", "last", "before now", "since"], "a": 0, "why": [
+      "Correct: 'two years ago' = iki yıl önce.",
+      "'last' öncesinde zaman ister (last year); burada sayı var.",
+      "'before now' bu kalıpta İngilizcede kullanılmaz.",
+      "'since' bir başlangıç noktası ister (since 2020), sayı+ago değil."
+    ] },
+    { "q": "He ___ his car last week.", "options": ["sells", "sold", "sale", "selling"], "a": 1, "why": [
+      "Geniş 'sells' 'last week' ile uymaz.",
+      "Correct: 'sell → sold' düzensiz geçmiş, 'last week'.",
+      "'sale' isimdir; fiil gerekli.",
+      "'selling' tek başına ana fiil olamaz."
+    ] },
+    { "q": "We had a picnic three days ___.", "options": ["ago", "earlierly", "lasty", "agone"], "a": 0, "why": [
+      "Correct: 'three days ago'.",
+      "'earlierly' İngilizcede bu biçimde yok (earlier farklıdır).",
+      "'lasty' sözcüğü yok.",
+      "'agone' sözcüğü yok."
+    ] },
+    { "q": "They ___ (not/come) to school last Friday.", "options": ["don't come", "didn't came", "didn't come", "won't come"], "a": 2, "why": [
+      "Geniş 'don't come' geçmiş için değil.",
+      "'didn't' sonrası fiil yalın olmalı: 'didn't came' yanlış.",
+      "Correct: 'didn't come' — did + yalın fiil.",
+      "'won't come' gelecek; 'last Friday' geçmiş."
+    ] }
+  ],
+  "a2-12": [
+    { "q": "This bag is ___ as yours.", "options": ["as heavy", "more heavy", "heavier as", "heavy as"], "a": 0, "why": [
+      "Correct: as + sıfat + as (eşitlik).",
+      "'more heavy' comparative; as…as eşittir.",
+      "'heavier as' — comparative (-er) as…as yapısına uymaz.",
+      "Eşitlikte ilk 'as' gereklidir: 'as heavy as'."
+    ] },
+    { "q": "My sister is not ___ as me.", "options": ["as tall", "taller as", "tallest as", "more tall"], "a": 0, "why": [
+      "Correct: not as + sıfat + as.",
+      "'taller as' — -er'li comparative as…as ile olmaz.",
+      "'tallest as' üstünlük; eşitlik değil.",
+      "'more tall' yanlış comparative (tall → taller)."
+    ] },
+    { "q": "He is ___ as his father.", "options": ["as tall", "taller as", "as taller", "tall as"], "a": 0, "why": [
+      "Correct: as + yalın sıfat + as.",
+      "'taller as' — comparative as…as ile kullanılmaz.",
+      "'as taller' — as…as arasında yalın sıfat gerekir (-er değil).",
+      "'tall as' — eşitlikte ilk 'as' eksik."
+    ] },
+    { "q": "This book is not ___ that one.", "options": ["as interesting than", "as interesting as", "more interesting as", "interesting as"], "a": 1, "why": [
+      "'as interesting than' — 'than' as…as ile kullanılmaz.",
+      "Correct: as + sıfat + as biçimi.",
+      "'more interesting as' — 'more' as…as ile uymaz.",
+      "İlk 'as' eksik: eşitlikte as…as gerekli."
+    ] },
+    { "q": "Your room is ___ mine.", "options": ["as bigger as", "as big as", "bigger as", "as big than"], "a": 1, "why": [
+      "'as bigger as' — as…as arasına yalın sıfat gelir (-er değil).",
+      "Correct: as + big + as.",
+      "'bigger as' — comparative 'than' ister, as değil.",
+      "'as big than' — 'than' as…as ile kullanılmaz."
+    ] }
+  ],
+  "a2-13": [
+    { "q": "I think it ___ rain tomorrow.", "options": ["will", "is", "rain", "to"], "a": 0, "why": [
+      "Correct: gelecek tahmini için 'will'.",
+      "'is' gelecek kurmaz (is rain yanlış).",
+      "'rain' yalın fiil; yardımcı gerekli.",
+      "'to' bu yapıda olmaz."
+    ] },
+    { "q": "Don't worry, I ___ help you.", "options": ["will", "am", "has", "going"], "a": 0, "why": [
+      "Correct: anlık teklif/karar için 'will'.",
+      "'am' tek başına yardımcı değil (am help olmaz).",
+      "'has' özne+fiil uyumu yok.",
+      "'going' tek başına yetersiz (going to gerekir)."
+    ] },
+    { "q": "She ___ (not/come) to the meeting.", "options": ["won't came", "won't come", "doesn't will come", "won't to come"], "a": 1, "why": [
+      "'won't came' — won't sonrası fiil geçmiş değil, yalın olur.",
+      "Correct: won't + yalın fiil (come).",
+      "'doesn't will come' — çift yardımcı yanlış.",
+      "'won't to come' — won't sonrası 'to' gelmez."
+    ] },
+    { "q": "Maybe we ___ have time later.", "options": ["will", "are", "do", "be"], "a": 0, "why": [
+      "Correct: 'maybe' ile olasılık/gelecek → will.",
+      "'are' tek başına yetersiz.",
+      "'do' gelecek kurmaz.",
+      "'be' bu yapıda olmaz."
+    ] },
+    { "q": "___ you open the window, please?", "options": ["Will", "Are", "Do to", "Is"], "a": 0, "why": [
+      "Correct: kibar istek/teklif için 'Will you …?'",
+      "'Are' rica yapısı kurmaz.",
+      "'Do to' geçersiz.",
+      "'Is' bu yapıda olmaz."
+    ] }
+  ],
+  "a2-14": [
+    { "q": "I ___ my friend tonight.", "options": ["am meeting", "meeting", "meetting", "am meet"], "a": 0, "why": [
+      "Correct: planlanmış gelecek için am + -ing.",
+      "Tek başına 'meeting' çekimli fiil değil (am/is/are gerekir).",
+      "'meetting' — meet → meeting (t ikizlenmez).",
+      "'am meet' — -ing gerekli."
+    ] },
+    { "q": "She ___ to İzmir tomorrow.", "options": ["is flying", "flies", "is fly", "is flys"], "a": 0, "why": [
+      "Correct: program için is + -ing.",
+      "Geniş 'flies' tekrarlanan eylem için; planlanmış gelecek değil.",
+      "'is fly' — -ing gerekli.",
+      "'flys' yazımı yanlış (flies)."
+    ] },
+    { "q": "We ___ dinner with friends on Sunday.", "options": ["are having", "having", "haveing", "are have"], "a": 0, "why": [
+      "Correct: planlı gelecek için are + -ing.",
+      "'having' tek başına çekimsiz.",
+      "'haveing' — have → having (e düşer).",
+      "'are have' — -ing gerekli."
+    ] },
+    { "q": "They ___ next week.", "options": ["are coming", "comes", "coming", "is come"], "a": 0, "why": [
+      "Correct: çoğul + program → are coming.",
+      "Geniş 'comes' tekrar için; planlanmış gelecek değil.",
+      "'coming' tek başına ana fiil olamaz.",
+      "'is come' — çoğul (are) + -ing gerekli."
+    ] },
+    { "q": "___ he meeting us at 6?", "options": ["Is", "Are", "Will be", "Does"], "a": 0, "why": [
+      "Correct: şimdiki zaman gelecek sorusu → Is.",
+      "'Are' he ile kullanılmaz.",
+      "'Will be' 'meeting' ile yanlış kurulum.",
+      "'Does' -ing formuyla kullanılmaz."
+    ] }
+  ],
+  "a2-15": [
+    { "q": "You ___ wear a helmet on the bike.", "options": ["must", "doesn't must", "must to", "musting"], "a": 0, "why": [
+      "Correct: zorunluluk/kural için must.",
+      "'doesn't must' — must '-s / doesn't' almaz.",
+      "'must to' — must sonrası 'to' gelmez.",
+      "'musting' — must çekimlenmez."
+    ] },
+    { "q": "You ___ smoke in the hospital. It is forbidden.", "options": ["mustn't", "don't have to", "doesn't have to", "not must"], "a": 0, "why": [
+      "Correct: yasak için mustn't.",
+      "'don't have to' = gerek yok (izin), yasak DEĞİL.",
+      "'doesn't have to' — anlam 'gerek yok', yasak değil.",
+      "'not must' — İngilizcede bu kalıp yok."
+    ] },
+    { "q": "You ___ pay now. You can pay later.", "options": ["don't have to", "mustn't", "can't to", "not have"], "a": 0, "why": [
+      "Correct: 'gerek yok' için don't have to.",
+      "'mustn't' yasak/engel koyar; burada gerek yok anlamı var.",
+      "'can't to' — can sonrası 'to' gelmez, anlam da farklı.",
+      "'not have' — çekimsiz."
+    ] },
+    { "q": "She ___ work on Sundays.", "options": ["has to", "have to", "haves to", "to has"], "a": 0, "why": [
+      "Correct: 3. tekil zorunluluk → has to.",
+      "'have to' 3. tekil (she) için değil.",
+      "'haves to' — 'has' zaten; 'haves' yok.",
+      "'to has' — sıralama yanlış."
+    ] },
+    { "q": "Students ___ use their phones during the exam. (yasak)", "options": ["mustn't", "don't have to", "mustn't to", "haven't to"], "a": 0, "why": [
+      "Correct: yasak → mustn't.",
+      "'don't have to' = gerek yok, yasak değil.",
+      "'mustn't to' — must sonrası 'to' gelmez.",
+      "'haven't to' — 'have to' olumsuzu bu biçimde kurulmaz (don't have to)."
+    ] }
+  ],
+  "a2-16": [
+    { "q": "You ___ drink more water.", "options": ["should", "shoulds", "should to", "shoulding"], "a": 0, "why": [
+      "Correct: tavsiye için should.",
+      "'shoulds' — should -s almaz.",
+      "'should to' — should sonrası 'to' gelmez.",
+      "'shoulding' — should çekimlenmez."
+    ] },
+    { "q": "He ___ study for the exam.", "options": ["should", "shoulds", "should to", "is should"], "a": 0, "why": [
+      "Correct: tavsiye → should.",
+      "'shoulds' — should değişmez.",
+      "'should to' — 'to' gelmez.",
+      "'is should' — yardımcı fazlalığı."
+    ] },
+    { "q": "You ___ (not) worry about it.", "options": ["shouldn't", "shouldn't to", "don't should", "shouldn'ts"], "a": 0, "why": [
+      "Correct: tavsiye olumsuz → shouldn't.",
+      "'shouldn't to' — 'to' gelmez.",
+      "'don't should' — should 'do/does/doesn't'la kullanılmaz.",
+      "'shouldn'ts' — çekim yok."
+    ] },
+    { "q": "___ I call the doctor?", "options": ["Should", "Does", "Will to", "Am"], "a": 0, "why": [
+      "Correct: tavsiye sorma → Should I …?",
+      "'Does' should ile değil.",
+      "'Will to' geçersiz.",
+      "'Am' tavsiye sorusu kurmaz."
+    ] },
+    { "q": "We ___ eat more vegetables.", "options": ["should", "shoulds", "are should", "should to"], "a": 0, "why": [
+      "Correct: tavsiye → should.",
+      "'shoulds' — should değişmez (-s almaz).",
+      "'are should' — yardımcı fazlalığı.",
+      "'should to' — 'to' gelmez."
+    ] }
+  ],
+  "a2-17": [
+    { "q": "I ___ swim when I was six.", "options": ["could", "coulds", "could to", "caned"], "a": 0, "why": [
+      "Correct: geçmişte yetenek → could.",
+      "'coulds' — could -s almaz.",
+      "'could to' — sonrası 'to' gelmez.",
+      "'caned' — 'can' bu biçimde geçmiş yapmaz."
+    ] },
+    { "q": "She ___ (not) find her keys.", "options": ["couldn't", "couldn't to", "not could", "couldn'ts"], "a": 0, "why": [
+      "Correct: geçmiş olumsuz yetenek → couldn't.",
+      "'couldn't to' — 'to' gelmez.",
+      "'not could' — sıralama yanlış.",
+      "'couldn'ts' — çekim yok."
+    ] },
+    { "q": "___ you help me carry this, please?", "options": ["Could", "Coulds", "Could to", "Do could"], "a": 0, "why": [
+      "Correct: kibar rica → Could you …?",
+      "'Coulds' — çekim yok.",
+      "'Could to' — 'to' gelmez.",
+      "'Do could' — çift yardımcı."
+    ] },
+    { "q": "He couldn't ___ the door last night.", "options": ["open", "opened", "opens", "opening"], "a": 0, "why": [
+      "Correct: could/couldn't sonrası fiil yalın.",
+      "Geçmiş 'opened' — couldn't sonrası yalın gerekir.",
+      "Geniş 'opens' — uyumsuz.",
+      "'opening' — -ing formu yanlış."
+    ] },
+    { "q": "When I was young, I ___ run very fast.", "options": ["could", "could to", "coulds", "can"], "a": 0, "why": [
+      "Correct: geçmiş yetenek → could.",
+      "'could to' — 'to' gelmez.",
+      "'coulds' — çekim yok.",
+      "'can' şimdiki; 'when I was young' geçmiş."
+    ] }
+  ],
+  "a2-18": [
+    { "q": "He ___ TV when I arrived.", "options": ["was watching", "watched", "is watching", "watches"], "a": 0, "why": [
+      "Correct: geçmişte süren eylem → was + -ing.",
+      "'watched' tek seferlik; süren eylem vurgusu yok.",
+      "'is watching' şimdiki; 'when I arrived' geçmişte.",
+      "Geniş 'watches' geçmiş bağlam için değil."
+    ] },
+    { "q": "They ___ dinner at 8 o'clock.", "options": ["were having", "was having", "have had", "haveing"], "a": 0, "why": [
+      "Correct: çoğul + past continuous → were having.",
+      "'was having' çoğul (they) için değil.",
+      "'have had' present perfect; 'at 8 o'clock' geçmiş an.",
+      "'haveing' — have → having."
+    ] },
+    { "q": "While she ___, the phone rang.", "options": ["was cooking", "cooked", "is cooking", "cooks"], "a": 0, "why": [
+      "Correct: while + past continuous (süren eylem).",
+      "'cooked' süren eylem vurgusu yok; while ile past cont beklenir.",
+      "'is cooking' şimdiki; telefon 'rang' geçmiş.",
+      "Geniş 'cooks' geçmiş bağlam için değil."
+    ] },
+    { "q": "I ___ (not/listen) when she spoke.", "options": ["wasn't listening", "didn't listening", "weren't listening", "didn't was listen"], "a": 0, "why": [
+      "Correct: past continuous olumsuz → wasn't + -ing.",
+      "'didn't listening' — did + -ing uyumsuz.",
+      "'weren't' I için değil (wasn't gerekir).",
+      "'didn't was listen' — gramer dışı."
+    ] },
+    { "q": "We ___ football when it started to rain.", "options": ["were playing", "was playing", "played", "are playing"], "a": 0, "why": [
+      "Correct: çoğul + süren eylem → were playing.",
+      "'was playing' çoğul (we) için değil.",
+      "'played' süren eylem değil; 'when it started' ile past cont beklenir.",
+      "'are playing' şimdiki; 'started' geçmiş."
+    ] }
+  ],
+  "a2-19": [
+    { "q": "I cut ___ while cooking.", "options": ["myself", "meself", "me", "mine"], "a": 0, "why": [
+      "Correct: I → myself.",
+      "'meself' standart değildir (bölgesel yanlış).",
+      "'me' dönüşlü değil; 'cut me' farklı anlam.",
+      "'mine' iyelik zamiri; dönüşlü değil."
+    ] },
+    { "q": "She looked at ___ in the mirror.", "options": ["herself", "himself", "hers", "herselfs"], "a": 0, "why": [
+      "Correct: she → herself.",
+      "'himself' eril; she için değil.",
+      "'hers' iyelik; dönüşlü değil.",
+      "'herselfs' — herself çoğul yapılmaz."
+    ] },
+    { "q": "We enjoyed ___ at the party.", "options": ["ourselves", "ourself", "ours", "our"], "a": 0, "why": [
+      "Correct: we → ourselves.",
+      "'ourself' çoğul we için değil.",
+      "'ours' iyelik zamiri; dönüşlü değil.",
+      "'our' iyelik sıfatı; dönüşlü değil."
+    ] },
+    { "q": "He taught ___ to play the piano.", "options": ["himself", "hisself", "him", "his"], "a": 0, "why": [
+      "Correct: he → himself.",
+      "'hisself' standart değildir.",
+      "'him' dönüşlü değil.",
+      "'his' iyelik sıfatı."
+    ] },
+    { "q": "They built the house by ___.", "options": ["themselves", "theirselves", "them", "their"], "a": 0, "why": [
+      "Correct: they + by + themselves (tek başlarına).",
+      "'theirselves' standart değildir.",
+      "'them' dönüşlü değil.",
+      "'their' iyelik sıfatı."
+    ] }
+  ],
+  "a2-20": [
+    { "q": "If you heat ice, it ___.", "options": ["melts", "will melts", "melt", "is melting"], "a": 0, "why": [
+      "Correct: zero conditional → iki geniş zaman.",
+      "'will melts' — zero'da will kullanılmaz, ayrıca çift çekim.",
+      "'melt' 3. tekil (it) için -s gerekir.",
+      "'is melting' şu an olan; genel gerçek değil."
+    ] },
+    { "q": "If it rains, we ___ stay home.", "options": ["will", "would", "won't not", "are"], "a": 0, "why": [
+      "Correct: first conditional ana cümle → will.",
+      "'would' second conditional içindir; first'te değil.",
+      "'won't not' çift olumsuz.",
+      "'are' tek başına gelecek kurmaz."
+    ] },
+    { "q": "If she ___ hard, she will pass.", "options": ["studies", "will study", "studys", "is study"], "a": 0, "why": [
+      "Correct: if'li tarafta geniş zaman → studies.",
+      "'will study' — if'li cümlede will kullanılmaz.",
+      "'studys' — study → studies (y→ies).",
+      "'is study' — gramer dışı."
+    ] },
+    { "q": "If I drink coffee at night, I ___ sleep.", "options": ["can't", "will can't", "can't to", "don't can"], "a": 0, "why": [
+      "Correct: zero conditional genel sonuç → can't.",
+      "'will can't' — çift yardımcı.",
+      "'can't to' — can sonrası 'to' gelmez.",
+      "'don't can' — çift yardımcı."
+    ] },
+    { "q": "___ you study, you will pass the exam.", "options": ["If", "When so", "Because of", "Unless not"], "a": 0, "why": [
+      "Correct: koşul bağlacı → If.",
+      "'When so' geçersiz.",
+      "'Because of' neden/isim ister, cümle değil.",
+      "'Unless not' — 'unless' zaten 'olmazsa' (if not), 'not' fazla."
+    ] }
   ]
 };
