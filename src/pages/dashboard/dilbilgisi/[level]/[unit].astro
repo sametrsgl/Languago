@@ -163,6 +163,15 @@ const TABS_ACTIVE = pronounRelated
 
     <!-- ADIM 1 · Ders -->
     <section class="wizard-step" data-step="lesson">
+    <!-- ★ REHBERLİ BİÇİM DERSİ — biçim biçim öğreten ana yöntem (ilkel öğrenme yolu) -->
+    <div class="guided card" id="guidedCard" style="display:none;">
+      <div class="guided__head">
+        <div class="guided__title">🎯 Rehberli Biçim Dersi</div>
+        <p class="muted">Konuyu <strong>biçim biçim</strong> öğren: önce anlatımı oku, hemen mini-kontrole geç, sonra sıradaki biçime geç. Biçimleri bitirince <strong>karışık sınav</strong> seni bekliyor. 🚀</p>
+      </div>
+      <div class="guided__steps" id="guidedSteps" role="tablist" aria-label="Biçim adımları"></div>
+      <div class="guided__panel" id="guidedPanel"></div>
+    </div>
       <div class="lesson-layout">
         <div class="lesson-col">
     <!-- I. Çok sekmeli konu anlatımı -->
@@ -521,6 +530,42 @@ const TABS_ACTIVE = pronounRelated
     }
     .gram-rev:hover { border-color: var(--teal); color: var(--teal-dark); background: var(--teal-soft); }
 
+    /* ---- ★ Rehberli Biçim Dersi (guided form-by-form) ---- */
+    .guided { margin-bottom: 26px; border-radius: 16px; overflow: hidden; }
+    .guided__head { border-bottom: 1px solid var(--line); padding-bottom: 12px; }
+    .guided__title { font-size: 1.28rem; font-weight: 800; color: var(--ink); }
+    .guided__head .muted { margin: 4px 0 0; font-size: 0.9rem; }
+    .guided__steps { display: flex; flex-wrap: wrap; gap: 10px; margin: 16px 0; }
+    .guided-pill {
+      border: 2px solid var(--line); background: var(--bg); color: var(--ink);
+      border-radius: 999px; padding: 11px 20px; font-weight: 800; font-size: 0.98rem;
+      cursor: pointer; font-family: inherit; transition: all 0.15s; line-height: 1.2;
+    }
+    .guided-pill.on { color: #fff; border-color: var(--gc, var(--teal)); background: var(--gc, var(--teal)); box-shadow: 0 10px 20px -10px var(--gc, var(--teal)); }
+    .guided-pill.done::after { content: ' ✓'; opacity: 0.9; }
+    .guided-pill:not(.on):not(.locked):hover { border-color: var(--teal); color: var(--teal-dark); }
+    .guided-pill.locked { opacity: 0.4; cursor: not-allowed; }
+    .guided-stage-title { font-size: 1.12rem; font-weight: 800; color: #fff; padding: 14px 18px; border-radius: 12px; margin-bottom: 14px; display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+    .guided-slide { border: 1px solid var(--line); border-radius: 12px; background: var(--bg-soft); padding: 16px; }
+    .guided-slide__badge { display: inline-block; border-radius: 999px; padding: 3px 12px; font-size: 0.78rem; font-weight: 800; color: #fff; margin-bottom: 10px; }
+    .guided-slide h3 { margin: 0 0 6px; }
+    .guided-nav { display: flex; gap: 10px; align-items: center; justify-content: space-between; margin-top: 12px; }
+    .guided-confirm { width: 100%; margin-top: 16px; padding: 13px 18px; font-size: 1rem; }
+    .guided-qtip { background: var(--teal-soft); border: 1px solid var(--teal); color: var(--teal-dark); border-radius: 10px; padding: 10px 14px; font-size: 0.92rem; margin-bottom: 14px; }
+    .guided-q .gq-q { font-weight: 700; font-size: 1.1rem; margin-bottom: 4px; }
+    .guided-q .gq-q .gq-num { margin-right: 6px; font-weight: 800; }
+    .gq-opts { display: flex; flex-direction: column; }
+    .gq-fb { margin-top: 12px; font-weight: 700; }
+    .gq-fb.ok { color: var(--success); }
+    .gq-fb.no { color: var(--teal-dark); }
+    .guided-next-row { margin-top: 14px; }
+    .guided-done { text-align: center; padding: 20px 8px; }
+    .guided-done__msg { font-size: 1.16rem; font-weight: 800; margin: 10px 0 18px; color: var(--ink); }
+    .guided-score { display: inline-block; font-size: 1.35rem; font-weight: 800; color: var(--teal-dark); background: var(--teal-soft); border-radius: 12px; padding: 12px 22px; margin-bottom: 8px; }
+    .guided-note { margin-bottom: 14px; font-size: 0.95rem; }
+    .guided-deep { margin-top: 18px; border-left: 6px solid var(--brand); background: var(--bg-soft); border-radius: 12px; padding: 20px 16px; text-align: center; }
+    .guided-deep .btn { margin: 6px; }
+
     @media (max-width: 560px) {
       .gram-tabs { gap: 6px; }
       .gram-tab { padding: 7px 12px; font-size: 0.8rem; }
@@ -528,7 +573,7 @@ const TABS_ACTIVE = pronounRelated
     }
   </style>
 
-  <script define:vars={{ level, unitId, unitTitle: unit.title, unitShort: unit.short, quiz, practice, mistakes, pairs: PAIRS, pronounRelated }}>
+  <script define:vars={{ level, unitId, unitTitle: unit.title, unitShort: unit.short, slides, quiz, practice, mistakes, pairs: PAIRS, pronounRelated }}>
     (function () {
       // ---- yardımcılar ----
       function shuffle(a) { var arr = a.slice(); for (var i = arr.length - 1; i > 0; i--) { var j = Math.floor(Math.random() * (i + 1)); var t = arr[i]; arr[i] = arr[j]; arr[j] = t; } return arr; }
@@ -550,13 +595,77 @@ const TABS_ACTIVE = pronounRelated
       var AREA_LABEL = { ozne: 'Özne Zamirleri', nesne: 'Nesne Zamirleri', 'iyelik-sifat': 'İyelik Sıfatları', 'iyelik-zamir': 'İyelik Zamirleri' };
 
       // ---- V. Modül ilerlemesi ----
-      var totals = { mcq: quiz.length, gap: practice.length, apply: pronounRelated ? 5 : 0, match: pronounRelated ? 6 : 0 };
-      var doneC = { mcq: 0, gap: 0, apply: 0, match: 0 };
+      var totals = { mcq: quiz.length, gap: practice.length, apply: pronounRelated ? 5 : 0, match: pronounRelated ? 6 : 0, guided: 0 };
+      var doneC = { mcq: 0, gap: 0, apply: 0, match: 0, guided: 0 };
       var results = []; // {area, ok}
-      var grandTotal = totals.mcq + totals.gap + totals.apply + totals.match;
+
+      // ---- ★ Rehberli Biçim Dersi: FORM SINIFLANDIRICISI ----
+      // Anlatım (slides) ve MCQ'ları olumlu/olumsuz/soru biçimlerine ayırır.
+      // Pragmatik sezgisel: kusursuz olması gerekmez, makul olması yeterlidir.
+      var QSTR = ['soru', 'question', '?'];                      // soru sinyalleri
+      var AUXS = ['do ', 'does ', 'did ', 'is ', 'are ', 'am ', 'was ', 'were ', 'can ', 'could ', 'will ', 'would ', 'shall ', 'should ', 'may ', 'might ', 'must ', 'have ', 'has ', 'had ', 'who ', 'what ', 'where ', 'when ', 'why ', 'how '];
+      var NEGW = ['olumsuz', 'negativ', 'olumsuzluk', "don't", "doesn't", "didn't", "isn't", "aren't", 'never', 'not'];
+      function normT(s) { return String(s == null ? '' : s).toLocaleLowerCase('tr'); }
+      function hasQuest(t) { return t.indexOf('?') !== -1; }
+      function startAux(t) { for (var i = 0; i < AUXS.length; i++) { if (t.indexOf(AUXS[i]) === 0) return true; } return false; }
+      function hasNegWord(t) { for (var i = 0; i < NEGW.length; i++) { if (t.indexOf(NEGW[i]) !== -1) return true; } return false; }
+      // slayt biçimi: başlık + gövde
+      function slideForm(h, b) {
+        var t = normT((h || '') + ' ' + (b || ''));
+        if (hasQuest(t)) return 'question';
+        for (var i = 0; i < QSTR.length; i++) { if (t.indexOf(QSTR[i]) !== -1 && QSTR[i] !== '?') return 'question'; }
+        if (hasNegWord(t)) return 'negative';
+        return 'positive';
+      }
+      // MCQ biçimi: soru kökü + cevaplar (yanlış seçeneğin sinyal oluşturmasını önlemek
+      // için doğru cevaba öncelik verilir; çeldiriciler ikincil toplu sinyal olarak kullanılır)
+      function mcqForm(qq) {
+        if (!qq) return 'positive';
+        var q = normT(qq.q);
+        if (hasQuest(q)) return 'question';
+        if (startAux(q)) return 'question';
+        if (q.indexOf('soru') !== -1) return 'question';
+        var opts = qq.options || [];
+        var ans = (typeof qq.a === 'number' && opts[qq.a]) ? normT(opts[qq.a]) : '';
+        // doğru cevap olumsuzluk taşıyor mu?
+        if (hasNegWord(ans)) return 'negative';
+        // ya da seçeneklerin en az 2'si olumsuz (olumsuzluk seçimli bir soru)
+        var negCnt = 0;
+        for (var i = 0; i < opts.length; i++) { if (hasNegWord(normT(opts[i]))) negCnt++; }
+        if (negCnt >= 2) return 'negative';
+        return 'positive';
+      }
+      // biçim başına ayrıştır + 4 aşamalı adım listesi kur
+      function buildGuided() {
+        if (!quiz || !quiz.length) return null;
+        var byForm = { positive: { slides: [], mcqs: [] }, negative: { slides: [], mcqs: [] }, question: { slides: [], mcqs: [] } };
+        (slides || []).forEach(function (s) { var f = slideForm(s.h, s.b); byForm[f].slides.push(s); });
+        quiz.forEach(function (qq) { var f = mcqForm(qq); byForm[f].mcqs.push(qq); });
+        var allSlides = (slides || []).slice();
+        var FORMDEF = [
+          { key: 'positive', label: 'Olumlu', emoji: '\u{1F535}', color: '#0d9488' },
+          { key: 'negative', label: 'Olumsuz', emoji: '\u{1F534}', color: '#e11d48' },
+          { key: 'question', label: 'Soru', emoji: '\u{1F7E3}', color: '#7c3aed' }
+        ];
+        var stages = [];
+        FORMDEF.forEach(function (fd) {
+          var own = byForm[fd.key];
+          var mc = own.mcqs.slice(0, 4);              // biçim kontrolü: en fazla 4 soru
+          if (!own.slides.length && !mc.length) return; // biçim içeriği yok → aşama atla
+          stages.push({ key: fd.key, label: fd.label, emoji: fd.emoji, color: fd.color, slides: own.slides.length ? own.slides : allSlides, mcqs: mc });
+        });
+        stages.push({ key: 'mixed', label: 'Karışık', emoji: '\u{1F9E9}', color: '#f59e0b', slides: allSlides, mcqs: shuffle(quiz.slice()).slice(0, 8) });
+        var guidedCount = 0;
+        stages.forEach(function (s) { guidedCount += s.mcqs.length; });
+        return { stages: stages, guidedCount: guidedCount };
+      }
+      var guidedData = buildGuided();
+      if (guidedData) { totals.guided = guidedData.guidedCount; }
+
+      var grandTotal = totals.mcq + totals.gap + totals.apply + totals.match + (totals.guided || 0);
 
       function updProgress() {
-        var answered = doneC.mcq + doneC.gap + doneC.apply + doneC.match;
+        var answered = doneC.mcq + doneC.gap + doneC.apply + doneC.match + doneC.guided;
         var pct = grandTotal ? Math.round((answered / grandTotal) * 100) : 0;
         var fill = document.getElementById('gramFillEnd');
         var pctEl = document.getElementById('gramPct');
@@ -998,6 +1107,186 @@ const TABS_ACTIVE = pronounRelated
         renderJumble();
       }
 
+      // ---- ★ VIII. Rehberli Biçim Dersi — akış kontrolü (anlatım → kontrol → karışık) ----
+      var guidedCard = document.getElementById('guidedCard');
+      var guidedStepsEl = document.getElementById('guidedSteps');
+      var G = null;
+      function canGo(i) { return i === 0 || G.done[i - 1] === true; }
+      function goStage(i) {
+        if (!G || i < 0 || i >= G.stages.length || !canGo(i)) return;
+        G.cur = i; G.phase = 'lecture'; G.slide = 0; G.ai = 0; G.mixOk = 0;
+        renderGuidedPills();
+        renderGuidedPanel();
+      }
+      function renderGuidedPills() {
+        if (!guidedStepsEl) return;
+        guidedStepsEl.innerHTML = '';
+        G.stages.forEach(function (st, i) {
+          var b = document.createElement('button');
+          b.type = 'button';
+          b.className = 'guided-pill';
+          b.style.setProperty('--gc', st.color);
+          var done = G.done[i] === true;
+          b.classList.toggle('on', i === G.cur);
+          b.classList.toggle('done', done);
+          b.classList.toggle('locked', !canGo(i) && i !== G.cur);
+          b.disabled = !canGo(i) && i !== G.cur;
+          b.textContent = st.emoji + ' ' + st.label;
+          b.addEventListener('click', function () { goStage(i); });
+          guidedStepsEl.appendChild(b);
+        });
+      }
+      function stageTitle(st) {
+        return '<div class="guided-stage-title" style="background:' + st.color + ';">' + st.emoji + ' ' + (st.key === 'mixed' ? 'Karışık Sınav' : 'Anlatım · ' + st.label) + '</div>';
+      }
+      function renderGuidedPanel() {
+        var panel = document.getElementById('guidedPanel');
+        if (!panel) return;
+        if (G.phase === 'lecture') renderLecture();
+        else if (G.phase === 'check') renderCheck();
+        else renderStageDone();
+      }
+      // a) ANLATIM aşaması: o biçimin slaytlarını tek tek göster
+      function renderLecture() {
+        var panel = document.getElementById('guidedPanel');
+        var st = G.stages[G.cur];
+        var html = stageTitle(st);
+        html += '<div class="guided-slides" id="guidedSlides">';
+        st.slides.forEach(function (s, i) {
+          html += '<div class="guided-slide" data-gslide="' + i + '" style="' + (i === G.slide ? '' : 'display:none;') + '">';
+          html += '<span class="guided-slide__badge" style="background:' + st.color + ';">' + st.emoji + ' ' + st.label + '</span>';
+          html += '<h3>' + esc(s.h || '') + '</h3><div class="body">' + (s.b || '') + '</div>';
+          html += '</div>';
+        });
+        html += '</div>';
+        if (st.slides.length > 1) {
+          html += '<div class="guided-nav">' +
+            '<button type="button" class="btn ghost" data-gprev>← Önceki</button>' +
+            '<span class="muted">' + (G.slide + 1) + ' / ' + st.slides.length + '</span>' +
+            '<button type="button" class="btn primary" data-gnext>Sonraki →</button></div>';
+        }
+        html += '<button type="button" class="btn primary guided-confirm" id="guidedConfirm">' + (st.key === 'mixed' ? '🧩 Sınava geç' : '✓ Anladım — Kontrole geç') + '</button>';
+        panel.innerHTML = html;
+        var pv = qs('[data-gprev]', panel), nx = qs('[data-gnext]', panel);
+        if (pv) pv.addEventListener('click', function () { G.slide = Math.max(0, G.slide - 1); renderGuidedPanel(); });
+        if (nx) nx.addEventListener('click', function () { G.slide = Math.min(st.slides.length - 1, G.slide + 1); renderGuidedPanel(); });
+        var conf = document.getElementById('guidedConfirm');
+        if (conf) conf.addEventListener('click', function () { G.phase = 'check'; G.ai = 0; if (st.key === 'mixed') G.mixOk = 0; renderGuidedPanel(); });
+      }
+      // b) KONTROL aşaması: o biçimin anında geri bildirimli 2-4 sorusu
+      function renderCheck() {
+        var panel = document.getElementById('guidedPanel');
+        var st = G.stages[G.cur];
+        var mcqs = st.mcqs;
+        if (!mcqs.length) {
+          panel.innerHTML = stageTitle(st) +
+            '<div class="guided-note">Bu biçim için ayrı kontrol sorusu yok; anlatımı okudun. Devam et. 🚀</div>' +
+            '<button type="button" class="btn primary guided-confirm" id="guidedConfirm">✓ Anladım — devam</button>';
+          var c = document.getElementById('guidedConfirm');
+          if (c) c.addEventListener('click', completeStage);
+          return;
+        }
+        var ii = Math.min(G.ai, mcqs.length - 1);
+        var qq = mcqs[ii];
+        var html = stageTitle(st);
+        html += '<div class="guided-qtip">' + (st.key === 'mixed'
+          ? '🧩 Karışık deneme — tüm biçimlerden karışık ' + mcqs.length + ' soru.'
+          : 'Bu biçimi kavradın mı? ' + mcqs.length + ' kısa soruyla kontrol edelim.') + '</div>';
+        html += '<div class="guided-q card">' +
+          '<div class="gq-q"><span class="gq-num" style="color:' + st.color + ';">' + st.emoji + ' Soru ' + (ii + 1) + ' / ' + mcqs.length + '</span><div style="margin-top:4px;">' + esc(qq.q) + '</div></div>' +
+          '<div class="gq-opts">';
+        qq.options.forEach(function (opt, oi) {
+          html += '<button type="button" class="option" data-correct="' + (oi === qq.a ? '1' : '0') + '">' + String.fromCharCode(65 + oi) + ') ' + esc(opt) + '</button>';
+        });
+        html += '</div><div class="gq-fb" id="guidedFb"></div></div>';
+        html += '<div class="guided-next-row"><button type="button" class="btn primary" id="guidedNextQ" style="display:none;">' +
+          (ii + 1 >= mcqs.length ? (st.key === 'mixed' ? '🧩 Sınavı Bitir' : '✓ Bu biçimi kavradın') : 'Sonraki soru →') + '</button></div>';
+        panel.innerHTML = html;
+        qsa('.gq-opts .option', panel).forEach(function (b) {
+          b.addEventListener('click', function () {
+            if (b.disabled) return;
+            var q = qs('.guided-q', panel);
+            var fb = qs('#guidedFb', panel);
+            var opts = qsa('.option', q);
+            opts.forEach(function (o) { o.disabled = true; });
+            qsa('[data-correct="1"]', q).forEach(function (o) { o.classList.add('correct'); });
+            var correct = b.getAttribute('data-correct') === '1';
+            if (!correct) b.classList.add('wrong');
+            var qq2 = mcqs[ii];
+            results.push({ area: areaOf(qq2.options[qq2.a]), ok: correct });
+            doneC.guided++; updProgress();
+            if (st.key === 'mixed') { if (correct) G.mixOk++; }
+            if (correct) { fb.textContent = '✓ Doğru! Harikasın! 🎉'; fb.className = 'gq-fb ok'; }
+            else { fb.textContent = '✗ Olmadı — doğru cevap: ' + qq2.options[qq2.a] + '. ' + explain(qq2, qq2.a); fb.className = 'gq-fb no'; }
+            var nx2 = document.getElementById('guidedNextQ'); if (nx2) nx2.style.display = '';
+          });
+        });
+        var nxt = document.getElementById('guidedNextQ');
+        if (nxt) nxt.addEventListener('click', function () {
+          G.ai++;
+          if (G.ai >= mcqs.length) { completeStage(); } else { renderGuidedPanel(); }
+        });
+      }
+      function completeStage() {
+        G.done[G.cur] = true;
+        G.phase = 'done';
+        renderGuidedPills();
+        renderGuidedPanel();
+        if (G.stages[G.cur].key === 'mixed') { saveProgressFromPractice(); saveGuidedProgress(); }
+      }
+      // c) AŞAMA SONU: özet + sıradaki biçime / derin alıştırmalara geçiş
+      function renderStageDone() {
+        var panel = document.getElementById('guidedPanel');
+        var st = G.stages[G.cur];
+        var last = G.cur === G.stages.length - 1;
+        var html = stageTitle(st);
+        html += '<div class="guided-done">';
+        if (st.key === 'mixed') {
+          html += '<div class="guided-score">🧩 Skorun: ' + G.mixOk + ' / ' + st.mcqs.length + '</div>';
+          html += '<div class="guided-done__msg">🎉 Karışık sınavı tamamladın — rehberli ders bitti!</div>';
+        } else {
+          html += '<div class="guided-done__msg">✓ Bu biçimi kavradın — Sıradaki biçime geç →</div>';
+        }
+        html += '</div>';
+        if (!last) {
+          var nst = G.stages[G.cur + 1];
+          html += '<button type="button" class="btn primary guided-confirm" id="guidedNextStage">' + nst.emoji + ' ' + nst.label + ' →</button>';
+        }
+        if (last) {
+          html += '<div class="guided-deep">' +
+            '<div style="font-weight:800;font-size:1.05rem;margin-bottom:6px;">💪 Şimdi daha derin alıştırmalar</div>' +
+            '<p class="muted" style="margin:0 0 10px;">Anlatım ve rehberli kontrol bitti. Aşağıdaki adımlarda tam test, boşluk doldurma ve eşleştirme ile kalıcılaştır.</p>' +
+            '<button type="button" class="btn primary" id="guidedDeep">📈 Derin alıştırmalara geç →</button>' +
+            '<button type="button" class="btn ghost" id="guidedReplay">🔁 Rehberli dersi tekrar izle</button></div>';
+        }
+        panel.innerHTML = html;
+        var nsb = document.getElementById('guidedNextStage');
+        if (nsb) nsb.addEventListener('click', function () { goStage(G.cur + 1); });
+        var deep = document.getElementById('guidedDeep');
+        if (deep) deep.addEventListener('click', function () {
+          var target = quiz.length ? 'mcq' : (practice.length ? 'gap' : 'match');
+          showStep(target, true);
+        });
+        var rep = document.getElementById('guidedReplay');
+        if (rep) rep.addEventListener('click', function () { G.done = {}; G.cur = 0; goStage(0); });
+      }
+      function saveGuidedProgress() {
+        try {
+          fetch('/dashboard/progress', {
+            method: 'POST',
+            headers: { 'content-type': 'application/json' },
+            body: JSON.stringify({ module: 'grammar', payload: { level: level, unit: unitId, title: unitTitle, guided: true, correct: (doneC.guided || 0), total: (totals.guided || 1) } })
+          }).catch(function () {});
+        } catch (e) {}
+      }
+      function initGuided() {
+        if (!guidedCard || !guidedData) return;
+        G = { stages: guidedData.stages, cur: 0, phase: 'lecture', slide: 0, ai: 0, done: {}, mixOk: 0 };
+        guidedCard.style.display = '';
+        renderGuidedPills();
+        renderGuidedPanel();
+      }
+
       // ---- V. Sonuç / analiz + Uygulama Listesi ----
       document.getElementById('resultsBtn').addEventListener('click', function () {
         buildAnalysis();
@@ -1068,7 +1357,7 @@ const TABS_ACTIVE = pronounRelated
       // ---- tekrar başlat ----
       document.getElementById('retryBtn').addEventListener('click', function () {
         results = [];
-        doneC.mcq = doneC.gap = doneC.apply = doneC.match = 0;
+        doneC.mcq = doneC.gap = doneC.apply = doneC.match = doneC.guided = 0;
         updProgress();
         setTab('all');
         // boşlukları sıfırla
@@ -1115,6 +1404,7 @@ const TABS_ACTIVE = pronounRelated
       }
 
       // başlangıç durumu
+      initGuided();
       setTab('all');
     })();
   </script>
