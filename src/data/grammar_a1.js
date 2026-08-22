@@ -182,6 +182,292 @@ export const GRAMMAR_A1 = {
         { q: "The cat is ___ the table.", hint: "in / on / at", a: ["on"] },
         { q: "She lives ___ Istanbul.", hint: "in / on / at", a: ["in"] }
       ]
+    },
+    {
+      id: "a1-09",
+      title: "Object Pronouns (me, him, her)",
+      short: "me, you, him, us, them",
+      slides: [
+        { h: "Nesne zamirleri", b: "Özne zamirleri cümlenin öznesi, nesne zamirleri fiilin veya edatın nesnesidir.\n\n- I → me, You → you\n- He → him, She → her, It → it\n- We → us, They → them\n\n> I see her. → Onu (kadını) görüyorum.\n> Give it to me. → Onu bana ver." },
+        { h: "Özne ve nesne karşılaştırması", b: "Özne cümlenin başında fiili yapar; nesne genelde fiilden sonra gelir.\n\n> She loves him. → (Kadın) onu (erkeği) seviyor.\n> He loves her. → (Erkek) onu (kadını) seviyor.\n\n! Dikkat: Türkçedeki 'onu' İngilizcede him veya her olabilir; cinsiyete göre seçilir." },
+        { h: "Edatlardan sonra", b: "in, with, for gibi edatlardan sonra nesne zamiri gelir.\n\n> Come with us. → Bizimle gel.\n> This gift is for him. → Bu hediye onun için (erkek)." }
+      ],
+      mistakes: [
+        { w: "Me like coffee.", r: "I like coffee.", n: "Özne olarak I kullanılır; me nesne zamiridir." },
+        { w: "She loves he.", r: "She loves him.", n: "Fiilden sonra nesne zamiri him kullanılır." },
+        { w: "Call they later.", r: "Call them later.", n: "they nesne durumunda them olur." }
+      ],
+      practice: [
+        { q: "I see ___ every day. (she)", hint: "she → nesne", a: ["her"] },
+        { q: "Please call ___ tonight. (he)", hint: "he → nesne", a: ["him"] },
+        { q: "Come with ___. (we)", hint: "we → nesne", a: ["us"] },
+        { q: "I like ___. (you)", hint: "you → nesne", a: ["you"] },
+        { q: "This gift is for ___. (they)", hint: "they → nesne", a: ["them"] }
+      ]
+    },
+    {
+      id: "a1-10",
+      title: "Possessive Adjectives and 's",
+      short: "my, your, her + Ali's",
+      slides: [
+        { h: "İyelik sıfatları", b: "Bir şeyin kime ait olduğunu gösterir, isimden ÖNCE gelir.\n\n- I → my, You → your, He → his\n- She → her, It → its, We → our, They → their\n\n> This is my phone. → Bu benim telefonum.\n> Their house is small. → Onların evi küçük." },
+        { h: "Possessive 's (isim + 's)", b: "Bir kişi veya hayvana ait olduğunu göstermek için ismin sonuna 's eklenir.\n\n> Ahmet's car → Ahmet'in arabası\n> My sister's room → Kız kardeşimin odası\n\nÇoğullarda sadece kesme işareti:\n> my parents' house → ailemin evi" },
+        { h: "Whose (kimin) sorusu", b: "> Whose book is this? → Bu kimin kitabı?\n> It's Ali's. → Ali'nin.\n\n! Dikkat: İsimden sonra 's eklenmeden tek başına devam edilmez." }
+      ],
+      mistakes: [
+        { w: "This is Ali his car.", r: "This is Ali's car.", n: "isimden sonra 's gelir; his araya eklenmez." },
+        { w: "It's the car of Ali.", r: "It's Ali's car.", n: "İnsanlar için of yerine 's daha doğaldır." },
+        { w: "This is my sister car.", r: "This is my sister's car.", n: "Aidiyet için isimden sonra 's eklenir." }
+      ],
+      practice: [
+        { q: "This is ___ phone. (I)", hint: "I → benim", a: ["my"] },
+        { q: "___ name is Mehmet. (he)", hint: "he → onun", a: ["his"] },
+        { q: "This is ___ car. (Ahmet)", hint: "isim + 's", a: ["Ahmet's"] },
+        { q: "It's my ___ bag. (sister)", hint: "isim + 's", a: ["sister's"] },
+        { q: "___ house is big. (they)", hint: "they → onların", a: ["their"] }
+      ]
+    },
+    {
+      id: "a1-11",
+      title: "Demonstratives (this / that / these / those)",
+      short: "bu, şu (tekil/çoğul)",
+      slides: [
+        { h: "Yakın ve uzak", b: "Yakındaki şeyler için this (tekil) / these (çoğul), uzaktakiler için that (tekil) / those (çoğul).\n\n> This is my phone. → Bu benim telefonum.\n> That is your car. → Şu senin araban.\n> These are my keys. → Bunlar benim anahtarlarım.\n> Those are old photos. → Şunlar eski fotoğraflar." },
+        { h: "this/that + tekil, these/those + çoğul", b: "this ve that tekil isimle, these ve those çoğul isimle kullanılır.\n\n> This is a good idea. (tekil)\n> These books are heavy. (çoğul)" },
+        { h: "Soru olarak", b: "> What is this? → Bu nedir?\n> Are these your glasses? → Bunlar senin gözlüğün mü?\n\n! Dikkat: Türkçedeki 'bu/şu' ayrımı yerine yakın/uzak mesafe ayrımı önemlidir." }
+      ],
+      mistakes: [
+        { w: "This are my keys.", r: "These are my keys.", n: "Çoğul için these kullanılır." },
+        { w: "That books are new.", r: "Those books are new.", n: "that tekil; çoğulda those." },
+        { w: "These is my phone.", r: "This is my phone.", n: "Tekil yakın için this is kullanılır." }
+      ],
+      practice: [
+        { q: "___ is my book. (yakın, tekil)", hint: "bu", a: ["this"] },
+        { q: "___ are my keys. (yakın, çoğul)", hint: "bunlar", a: ["these"] },
+        { q: "___ is your house. (uzak, tekil)", hint: "şu", a: ["that"] },
+        { q: "___ are old shoes. (uzak, çoğul)", hint: "şunlar", a: ["those"] },
+        { q: "Is ___ your phone? (yakın)", hint: "bu", a: ["this"] }
+      ]
+    },
+    {
+      id: "a1-12",
+      title: "Adjectives and Word Order",
+      short: "a big house, a red car",
+      slides: [
+        { h: "Sıfat nedir?", b: "Sıfatlar isimleri tarif eder: renk, boyut, durum, görünüş.\n\n- big, small, old, new, happy, beautiful\n\n> a big house → büyük bir ev\n> a red car → kırmızı bir araba" },
+        { h: "Sıfat isimden ÖNCE gelir", b: "İngilizcede sıfat isimden önce gelir ve değişmez (tekil/çoğul yok).\n\n> an old man (not: a man old)\n> three big dogs → üç büyük köpek\n\n! Dikkat: Türkçede 'güzel bir ev' deriz; İngilizcede 'a beautiful house' (sıfat önce)." },
+        { h: "be fiilinden sonra", b: "Sıfat şeyi tanımlamak için be fiilinden sonra da gelir.\n\n> The house is beautiful. → Ev güzel.\n> She is happy. → O mutlu." }
+      ],
+      mistakes: [
+        { w: "I have a house big.", r: "I have a big house.", n: "Sıfat isimden önce gelir." },
+        { w: "A old man is here.", r: "An old man is here.", n: "old ünlü sesle başlar → an." },
+        { w: "She is a teacher good.", r: "She is a good teacher.", n: "Sıfat isimden önce gelir." }
+      ],
+      practice: [
+        { q: "I have a ___ house. (big)", hint: "büyük", a: ["big"] },
+        { q: "She is a ___ girl. (beautiful)", hint: "güzel", a: ["beautiful"] },
+        { q: "This is a ___ car. (red)", hint: "kırmızı", a: ["red"] },
+        { q: "The book is ___. (new)", hint: "yeni", a: ["new"] },
+        { q: "He is an ___ man. (old)", hint: "yaşlı", a: ["old"] }
+      ]
+    },
+    {
+      id: "a1-13",
+      title: "Adverbs of Frequency",
+      short: "always, usually, sometimes, never",
+      slides: [
+        { h: "Sık kullanılan zarflar", b: "Bir eylemin ne sıklıkla yapıldığını gösterir.\n\n- always (her zaman), usually (genellikle), often (sık sık)\n- sometimes (bazen), rarely (nadiren), never (asla)\n\n> She never eats meat. → O asla et yemez." },
+        { h: "Nereye gelir?", b: "Çoğunlukla özne ile fiil arasına gelir.\n\n> I always wake up early. → Ben her zaman erken kalkarım.\n\nbe fiilinden sonra gelir:\n> He is always happy. → O her zaman mutlu." },
+        { h: "Yüzde anlamı", b: "always → %100, usually → %90, often → %75, sometimes → %50, never → %0\n\n> I sometimes go to the gym.\n> They never go out.\n\n! Dikkat: Zarf özne ile fiil arasına girer, cümlenin sonuna değil." }
+      ],
+      mistakes: [
+        { w: "He always is late.", r: "He is always late.", n: "be fiilinden SONRA gelir." },
+        { w: "I drink always coffee.", r: "I always drink coffee.", n: "Zarf özne ile fiil arasına gelir." },
+        { w: "She drinks never milk.", r: "She never drinks milk.", n: "Zarf özne ile fiil arasına gelir." }
+      ],
+      practice: [
+        { q: "I ___ drink tea in the morning. (her zaman)", hint: "her zaman", a: ["always"] },
+        { q: "She ___ eats meat. (asla)", hint: "asla", a: ["never"] },
+        { q: "He is ___ happy. (her zaman)", hint: "her zaman", a: ["always"] },
+        { q: "They ___ go to the gym. (bazen)", hint: "bazen", a: ["sometimes"] },
+        { q: "We ___ watch TV at night. (genellikle)", hint: "genellikle", a: ["usually"] }
+      ]
+    },
+    {
+      id: "a1-14",
+      title: "Question Words (what, where, when...)",
+      short: "what, where, when, who, why, how",
+      slides: [
+        { h: "En yaygın soru kelimeleri", b: "what → ne, who → kim, where → nerede, when → ne zaman, why → neden, how → nasıl\n\n> What is your name? → Adın ne?\n> Where do you live? → Nerede yaşıyorsun?" },
+        { h: "who / what / where", b: "> Who is he? → O kim?\n> What is this? → Bu ne?\n> Where are you? → Neredesin?\n\nSoru kelimesinden sonra do/does veya am/is/are gelir." },
+        { h: "when / why / how", b: "> When do you wake up? → Ne zaman kalkıyorsun?\n> Why are you sad? → Neden üzgünsün?\n> How are you? → Nasılsın?\n\n! Dikkat: how many → kaç tane, how much → ne kadar." }
+      ],
+      mistakes: [
+        { w: "Who is your name?", r: "What is your name?", n: "İsim sormak için what kullanılır." },
+        { w: "Where you live?", r: "Where do you live?", n: "Soru kelimesinden sonra do/does gelir." },
+        { w: "How old is you?", r: "How old are you?", n: "you öznesi are alır." }
+      ],
+      practice: [
+        { q: "___ is your name?", hint: "ne", a: ["what"] },
+        { q: "___ do you live? (nerede)", hint: "nerede", a: ["where"] },
+        { q: "___ is he? (kim)", hint: "kim", a: ["who"] },
+        { q: "___ do you wake up? (ne zaman)", hint: "ne zaman", a: ["when"] },
+        { q: "___ are you sad? (neden)", hint: "neden", a: ["why"] }
+      ]
+    },
+    {
+      id: "a1-15",
+      title: "Present Continuous (am/is/are + -ing)",
+      short: "şu an yapıyorum",
+      slides: [
+        { h: "Kullanım", b: "Şu anda olan eylemler için am/is/are + fiil + -ing kullanılır.\n\n> I am reading now. → Şu an okuyorum.\n> She is cooking dinner. → Akşam yemeği pişiriyor." },
+        { h: "Özneye göre", b: "- I → am\n- He / She / It → is\n- You / We / They → are\n\n> I am working.\n> He is sleeping.\n> They are playing football." },
+        { h: "-ing ekleme", b: "Fiile -ing ekleriz; bazı fiillerde küçük değişiklikler olur.\n\n> go → going, make → making (e düşer), run → running (çift harf)\n\n! Dikkat: Şu an yapılan işler için present continuous; alışkanlıklar için simple present kullanılır." }
+      ],
+      mistakes: [
+        { w: "She is cook dinner.", r: "She is cooking dinner.", n: "be + fiil + -ing gerekir." },
+        { w: "I am work now.", r: "I am working now.", n: "Fiile -ing eklenir." },
+        { w: "They is playing.", r: "They are playing.", n: "they öznesi are alır." }
+      ],
+      practice: [
+        { q: "I am ___ now. (work)", hint: "şu an", a: ["working"] },
+        { q: "She is ___ dinner. (cook)", hint: "-ing", a: ["cooking"] },
+        { q: "They are ___ football. (play)", hint: "-ing", a: ["playing"] },
+        { q: "He ___ watching TV. (be)", hint: "he → is", a: ["is"] },
+        { q: "We ___ studying now. (be)", hint: "we → are", a: ["are"] }
+      ]
+    },
+    {
+      id: "a1-16",
+      title: "Can / Can't (Ability and Permission)",
+      short: "yapabilirim / yapamam",
+      slides: [
+        { h: "Yetenek", b: "Bir şeyi yapabildiğimizi söylemek için can kullanılır.\n\n> I can swim. → Yüzebilirim.\n> She can play the guitar. → Gitar çalabilir." },
+        { h: "Olumsuz ve soru", b: "> I can't (cannot) speak Japanese. → Japonca konuşamam.\n> Can you help me? → Bana yardım edebilir misin?\n\nSoru ve olumsuzda fiil yalın kalır." },
+        { h: "İzin", b: "Can izin istemek için de kullanılır.\n\n> Can I open the window? → Pencereyi açabilir miyim?\n> You can go now. → Artık gidebilirsin.\n\n! Dikkat: can'den sonra -s eklenmez: he can swim (doğru), he cans swim (yanlış)." }
+      ],
+      mistakes: [
+        { w: "She can swims.", r: "She can swim.", n: "can'den sonra fiil yalın kalır." },
+        { w: "I cans swim.", r: "I can swim.", n: "can'e -s eklenmez." },
+        { w: "He can't swims.", r: "He can't swim.", n: "can't'tan sonra da fiil yalın kalır." }
+      ],
+      practice: [
+        { q: "I ___ swim. (yetenek)", hint: "yapabilmek", a: ["can"] },
+        { q: "She ___ play football. (yapabilir)", hint: "yapabilir", a: ["can"] },
+        { q: "He ___ speak English. (cannot)", hint: "yapamaz", a: ["can't", "cannot"] },
+        { q: "___ you help me?", hint: "soru", a: ["can"] },
+        { q: "I ___ run fast. (yapamam)", hint: "yapamam", a: ["can't", "cannot"] }
+      ]
+    },
+    {
+      id: "a1-17",
+      title: "Imperatives (Commands)",
+      short: "Open the door!",
+      slides: [
+        { h: "Emir cümleleri", b: "Birinden bir şey yapmasını istemek için fiilin yalın hali kullanılır, özne yazılmaz.\n\n> Sit down. → Otur.\n> Open the door. → Kapıyı aç.\n> Be careful. → Dikkatli ol." },
+        { h: "Olumsuz emir", b: "Yapmaması için başa Don't eklenir.\n\n> Don't run. → Koşma.\n> Don't be late. → Geç kalma." },
+        { h: "Kibar istekler (please)", b: "> Please sit down.\n> Open the door, please.\n\n! Dikkat: Emirde özne you kullanılmaz: 'You open the door' yanlıştır." }
+      ],
+      mistakes: [
+        { w: "Open you the door.", r: "Open the door.", n: "Emirde you öznesi kullanılmaz." },
+        { w: "Not run in the hall.", r: "Don't run in the hall.", n: "Olumsuz emir don't ile kurulur." },
+        { w: "To sit down.", r: "Sit down.", n: "Emirde to kullanılmaz, yalın fiil yeterlidir." }
+      ],
+      practice: [
+        { q: "___ the window, please. (open)", hint: "emir", a: ["open"] },
+        { q: "___ down. (sit)", hint: "emir, otur", a: ["sit"] },
+        { q: "___ worry. (not)", hint: "olumsuz emir", a: ["don't", "do not"] },
+        { q: "___ here. (come)", hint: "emir, gel", a: ["come"] },
+        { q: "___ be late. (not)", hint: "olumsuz emir", a: ["don't", "do not"] }
+      ]
+    },
+    {
+      id: "a1-18",
+      title: "Connectors (and, but, or, so, because)",
+      short: "ve, ama, veya, bu yüzden, çünkü",
+      slides: [
+        { h: "and / but / or", b: "and → ve (ekleme), but → ama (zıtlık), or → veya (seçenek)\n\n> I like tea and coffee. → Çayı ve kahveyi seviyorum.\n> I like tea but not coffee.\n> Do you want tea or coffee?" },
+        { h: "so / because", b: "so → bu yüzden (sonuç), because → çünkü (sebep)\n\n> I was tired, so I slept. → Yorgundum, bu yüzden uyudum.\n> I slept because I was tired. → Yorgun olduğum için uyudum." },
+        { h: "Bağlaçlar birleştirir", b: "İki kısa cümleyi veya ifadeyi birleştirirler.\n\n> I like him because he is kind.\n\n! Dikkat: because ile so aynı cümlede genelde birlikte kullanılmaz." }
+      ],
+      mistakes: [
+        { w: "I was tired, because I slept.", r: "I was tired, so I slept.", n: "Sonuç için so; because sebebi verir." },
+        { w: "I like tea because coffee.", r: "I like tea and coffee.", n: "Birlikte sevdiklerini and ile bağlarsın." },
+        { w: "I went home so I was sick.", r: "I went home because I was sick.", n: "Hasta olduğu için eve gitti → because." }
+      ],
+      practice: [
+        { q: "I like tea ___ coffee. (ve)", hint: "ve", a: ["and"] },
+        { q: "I like tea ___ not coffee. (ama)", hint: "ama", a: ["but"] },
+        { q: "Do you want tea ___ coffee? (veya)", hint: "veya", a: ["or"] },
+        { q: "I was tired, ___ I slept. (bu yüzden)", hint: "bu yüzden", a: ["so"] },
+        { q: "I slept ___ I was tired. (çünkü)", hint: "çünkü", a: ["because"] }
+      ]
+    },
+    {
+      id: "a1-19",
+      title: "Like / Love / Hate + -ing",
+      short: "sevmek + -ing",
+      slides: [
+        { h: "Sevmek / sevmemek", b: "like, love, enjoy, dislike, hate fiillerinden sonra -ing kullanılır.\n\n> I like reading. → Okumayı severim.\n> She loves dancing. → Dans etmeyi çok sever." },
+        { h: "Olumsuz", b: "> I don't like cooking. → Yemek yapmayı sevmem.\n> She hates waiting. → Beklemekten nefret eder.\n\n> Do you like swimming? → Yüzmeyi sever misin?" },
+        { h: "Kullanım", b: "Bir aktiviteden hoşlanmak/tatmek için kullanılır.\n\n> He enjoys playing football.\n\n! Dikkat: like to play de doğrudur, ama -ing daha yaygındır." }
+      ],
+      mistakes: [
+        { w: "I like read books.", r: "I like reading books.", n: "like'tan sonra fiile -ing eklenir." },
+        { w: "She like cooking.", r: "She likes cooking.", n: "Üçüncü tekil şahısta like → likes." },
+        { w: "I don't like cook.", r: "I don't like cooking.", n: "like'tan sonra -ing gelir." }
+      ],
+      practice: [
+        { q: "I like ___ books. (read)", hint: "-ing", a: ["reading"] },
+        { q: "She likes ___ football. (play)", hint: "-ing", a: ["playing"] },
+        { q: "Do you like ___? (sing)", hint: "-ing", a: ["singing"] },
+        { q: "He doesn't like ___ TV. (watch)", hint: "-ing", a: ["watching"] },
+        { q: "They love ___ to music. (listen)", hint: "-ing", a: ["listening"] }
+      ]
+    },
+    {
+      id: "a1-20",
+      title: "Possessive Pronouns (mine, yours...)",
+      short: "mine, yours, his, hers, ours, theirs",
+      slides: [
+        { h: "Nedir?", b: "İyelik zamirleri ismin tekrarını önler: 'benimki, seninki' gibi.\n\n- my → mine, your → yours\n- his → his, her → hers\n- our → ours, their → theirs\n\n> This is my book. It's mine. → Bu benim kitabım. O benimki." },
+        { h: "İyelik sıfatı vs iyelik zamiri", b: "İyelik SIFATI isimden önce gelir; iyelik ZAMİRİ yalnız durur (isim yok).\n\n> This is my car. (sıfat + isim)\n> This car is mine. (zamir, isim yok)\n> Is this pen yours? → Bu kalem seninki mi?" },
+        { h: "Dikkat", b: "> Her bag is red. Mine is blue. → Onun çantası kırmızı, benimki mavi.\n\n! Dikkat: his hem sıfat hem zamir olabilir: This is his. → Bu onunki." }
+      ],
+      mistakes: [
+        { w: "The book is my.", r: "The book is mine.", n: "İsim yoksa iyelik zamiri mine kullanılır." },
+        { w: "This is her's.", r: "This is hers.", n: "hers'e kesme işareti eklenmez." },
+        { w: "Is this pen your?", r: "Is this pen yours?", n: "İsim yoksa yours kullanılır." }
+      ],
+      practice: [
+        { q: "This book is ___. (my)", hint: "benimki", a: ["mine"] },
+        { q: "Is this pen ___? (your)", hint: "seninki", a: ["yours"] },
+        { q: "The car is ___. (her)", hint: "onunki (kadın)", a: ["hers"] },
+        { q: "That house is ___. (our)", hint: "bizimki", a: ["ours"] },
+        { q: "This phone is ___. (their)", hint: "onlarınki", a: ["theirs"] }
+      ]
+    },
+    {
+      id: "a1-21",
+      title: "Wh-Questions with To Be",
+      short: "What / Where / Who + is / are",
+      slides: [
+        { h: "Yapı", b: "Soru kelimesi + am/is/are + özne.\n\n> Where are you? → Neredesin?\n> Who is he? → O kim?\n> What is this? → Bu ne?" },
+        { h: "Örneklendirme", b: "> Why is she sad? → O neden üzgün?\n> Where is the station? → İstasyon nerede?\n> How are you? → Nasılsın?" },
+        { h: "Soru kelimeleri", b: "what (ne), where (nerede), who (kim), when (ne zaman), why (neden), how (nasıl)\n\n! Dikkat: Soruda fiil özneden ÖNCE gelir: 'Where is Ali?' doğru, 'Where Ali is?' yanlış." }
+      ],
+      mistakes: [
+        { w: "Where you are?", r: "Where are you?", n: "be fiili soruda özneden önce gelir." },
+        { w: "Who old is he?", r: "How old is he?", n: "Yaş sorusu için how old kullanılır." },
+        { w: "Where is the keys?", r: "Where are the keys?", n: "Çoğul özne için are kullanılır." }
+      ],
+      practice: [
+        { q: "___ are you from? (nereden)", hint: "nereden/nerede", a: ["where"] },
+        { q: "___ is he? (kim)", hint: "kim", a: ["who"] },
+        { q: "___ is your name? (ne)", hint: "ne", a: ["what"] },
+        { q: "Why ___ you sad? (be)", hint: "you → are", a: ["are"] },
+        { q: "How ___ you? (be)", hint: "nasılsın", a: ["are"] }
+      ]
     }
   ]
 };
