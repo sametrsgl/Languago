@@ -62,7 +62,10 @@ const progressionJson = JSON.stringify(progression).replace(/</g, '\\u003c');
       <section id="play" class="game-screen" hidden>
         <div class="stage-meta">
           <span class="qcount" id="qcount"></span>
-          <span class="timer" id="timer" style="cursor:pointer;" title="Süreyi başlatmak için tıkla">⏱ Timer</span>
+          <span class="timer-wrap">
+            <span class="timer" id="timer" style="cursor:pointer;" title="Süreyi başlatmak için tıkla">⏱ Timer</span>
+            <span class="timer-bar"><span class="timer-fill" id="timerFill"></span></span>
+          </span>
           <span class="qscore"><span id="score">0</span> doğru</span>
         </div>
         <div class="quiz-card">
@@ -86,6 +89,7 @@ const progressionJson = JSON.stringify(progression).replace(/</g, '\\u003c');
 
     <script is:inline id="game-prog" type="application/json" set:html={progressionJson}></script>
     <script is:inline id="quiz-set-meta" type="application/json" set:html={setMetaJson}></script>
+    <script is:inline id="quiz-uid" type="application/json" set:html={JSON.stringify(user?.id || 'anon').replace(/</g, '\\u003c')}></script>
 
     <script>
       (function () {
@@ -119,6 +123,37 @@ const progressionJson = JSON.stringify(progression).replace(/</g, '\\u003c');
         var QUESTION_COUNT = 10;
         var state = { set: 'a1', dir: 'both', sec: 60 };
         var game = null; // { pool, index, score, secondsLeft, timerId }
+
+        // --- Spaced repetition memory (client-side, per user) ---
+        // { [wordKey]: { fail, seen, lastOk } } — drives the pool weighting so
+        // missed/fresh words come up first and just-correct ones sink.
+        var uid = (getJson('quiz-uid') || 'anon');
+        var srsKey = 'languago_spaced_' + uid;
+        var srs = {};
+        (function loadSrs() { try { srs = JSON.parse(localStorage.getItem(srsKey) || '{}') || {}; } catch (e) { srs = {}; } })();
+        function saveSrs() { try { localStorage.setItem(srsKey, JSON.stringify(srs)); } catch (e) {} }
+        function srsRecord(key, ok) {
+          if (!key) return;
+          var r = srs[key] || { fail: 0, seen: 0, lastOk: 0 };
+          r.seen++;
+          if (ok) { r.lastOk = Date.now(); } else { r.fail++; }
+          srs[key] = r;
+          saveSrs();
+        }
+        function srsDue(key) {
+          var r = srs[key] || { fail: 0, seen: 0, lastOk: 0 };
+          var due = r.fail * 2;                 // missed words rise
+          if (!r.lastOk) due += 1;              // never-correct rises slightly
+          var days = r.lastOk ? (Date.now() - r.lastOk) / 86400000 : 999;
+          due -= Math.min(2, days);             // recent-correct sink
+          return due;
+        }
+        function weightedPool(keys) {
+          var kv = keys.map(function (k) { return { k: k, due: srsDue(k) }; })
+            .sort(function (a, b) { return b.due - a.due; });   // highest due first
+          // keep a bit of order variety so it's not purely the same 10 every time
+          return shuffle(kv.slice(0, QUESTION_COUNT * 2)).slice(0, QUESTION_COUNT).map(function (x) { return x.k; });
+        }
 
         // --- RPG progression (mirrors src/lib/gamification.ts) ---
         var XP_PER_LEVEL = 100, PER_CORRECT_XP = 5, TIME_BONUS_XP = 5;
@@ -228,7 +263,7 @@ const progressionJson = JSON.stringify(progression).replace(/</g, '\\u003c');
           }
           opts = shuffle(opts);
 
-          game.current = { dir: dir, clue: clue, answer: answer, opts: opts, label: dir === 'en2tr' ? 'Bu kelimenin Türkçesi' : 'Bu kelimenin İngilizcesi' };
+          game.current = { dir: dir, clue: clue, answer: answer, opts: opts, label: dir === 'en2tr' ? 'Bu kelimenin Türkçesi' : 'Bu kelimenin İngilizcesi', key: key };
           $('qcount').textContent = (game.index + 1) + ' / ' + QUESTION_COUNT;
           $('score').textContent = String(game.score);
           $('clueLabel').textContent = game.current.label;
@@ -258,6 +293,8 @@ const progressionJson = JSON.stringify(progression).replace(/</g, '\\u003c');
             // Immediate reward loop: small +XP pop per correct answer.
             showXpPop(PER_CORRECT_XP);
           }
+          // Spaced repetition: record the recall outcome for this word.
+          srsRecord(game.current.key, isCorrect);
           $('score').textContent = String(game.score);
           var r = document.createElement('div');
           r.className = isCorrect ? 'reveal ok' : 'reveal no';
@@ -270,7 +307,15 @@ const progressionJson = JSON.stringify(progression).replace(/</g, '\\u003c');
           if (!game) return;
           game.secondsLeft--;
           var t = $('timer');
+          var fill = $('timerFill');
           if (!game.secondsLeft) { finish(); return; }
+          // Visual shrinking bar: fraction of total time left, colored by urgency.
+          var frac = game.totalSec ? (game.secondsLeft / game.totalSec) * 100 : 0;
+          if (fill) {
+            fill.style.width = Math.max(0, Math.min(100, frac)) + '%';
+            fill.className = 'timer-fill ' +
+              (frac > 50 ? 't-ok' : frac > 25 ? 't-warn' : 't-danger');
+          }
           if (t) {
             t.textContent = '⏱ ' + game.secondsLeft + ' sn';
             t.classList.toggle('low', game.secondsLeft <= 10);
@@ -279,9 +324,12 @@ const progressionJson = JSON.stringify(progression).replace(/</g, '\\u003c');
 
         function startTimer() {
           game.secondsLeft = state.sec;
+          game.totalSec = state.sec;
           game.timerId = setInterval(tick, 1000);
           var t = $('timer');
+          var fill = $('timerFill');
           if (t) { t.textContent = '⏱ ' + game.secondsLeft + ' sn'; t.classList.remove('low'); }
+          if (fill) { fill.style.width = '100%'; fill.className = 'timer-fill t-ok'; }
           // tap timer to pause/resume (restarts interval)
           if (t && !t._bound) {
             t._bound = true;
@@ -360,9 +408,10 @@ const progressionJson = JSON.stringify(progression).replace(/</g, '\\u003c');
 
         function startGame() {
           if (!words) return;
-          var pool = state.set === 'all'
-            ? shuffle(Object.keys(words.words)).slice(0, QUESTION_COUNT)
-            : shuffle((words.sets[state.set] || [])).slice(0, QUESTION_COUNT);
+          var base = state.set === 'all'
+            ? Object.keys(words.words)
+            : (words.sets[state.set] || []);
+          var pool = weightedPool(base);
           if (pool.length < 2) { alert('Bu sette yeterli kelime yok.'); return; }
           game = { pool: pool, index: 0, score: 0, current: null, timerId: null };
           $('start').hidden = true;
@@ -405,6 +454,12 @@ const progressionJson = JSON.stringify(progression).replace(/</g, '\\u003c');
   .section-h { font-size: 1.05rem; margin: 8px 0 8px; }
   .stage-meta { display: flex; justify-content: space-between; font-weight: 700; margin-bottom: 16px; color: var(--ink-soft); flex-wrap: wrap; gap: 6px; }
   .stage-meta .timer.low { color: var(--danger); }
+  .timer-wrap { display: inline-flex; align-items: center; gap: 8px; min-width: 120px; }
+  .timer-bar { flex: 1; height: 8px; min-width: 70px; border-radius: 999px; background: var(--line); overflow: hidden; }
+  .timer-fill { display: block; height: 100%; border-radius: 999px; transition: width .4s linear, background .25s; }
+  .timer-fill.t-ok { background: #22c55e; }
+  .timer-fill.t-warn { background: #f59e0b; }
+  .timer-fill.t-danger { background: #ef4444; }
   .quiz-card { border: 1px solid var(--line); border-radius: var(--radius); background: var(--bg-soft); padding: 24px; }
   .clue-label { color: var(--ink-soft); font-size: 0.9rem; margin-bottom: 6px; }
   .clue-big { font-size: clamp(1.4rem, 5vw, 2rem); font-weight: 800; margin-bottom: 18px; }
