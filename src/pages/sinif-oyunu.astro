@@ -177,8 +177,8 @@ const diffJson = JSON.stringify(DIFF).replace(/</g, '\\u003c');
     .cm-tile:hover:not(:disabled) { transform: scale(1.04); filter: brightness(1.08); }
     .cm-tile:active:not(:disabled) { transform: scale(.95); }
     .cm-tile.used { background: #f27127; color: #fff; box-shadow: 0 5px 10px rgba(0,0,0,.22); cursor: default; }
-    .cm-tile.power { background: #f27127; }
-    .cm-tile.used .tn, .cm-tile.used .tpw { font-size: 1.1rem; }
+    /* Power tiles are indistinguishable from normal tiles until opened —
+         the .power class must NOT add color so players can't spot them. */
     .cm-tile .tn { font-size: 1.9rem; }
     .cm-foot { display: flex; justify-content: center; gap: 18px; margin-top: 30px; flex-wrap: wrap; align-items: flex-end; }
     .cm-quit, .cm-reset {
