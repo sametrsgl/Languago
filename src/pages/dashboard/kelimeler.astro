@@ -171,6 +171,31 @@ const levelLabel = (lv: string) => sets.find((s) => s.key === lv)?.label ?? lv;
           >
             <span aria-hidden="true">🎯</span> Öğrenilmedi
           </button>
+          <button
+            type="button"
+            id="unknown-only"
+            aria-pressed="false"
+            class="mt-2 flex items-center gap-1.5 rounded-xl border border-line bg-white px-3 py-2.5 text-sm font-semibold text-ink-soft transition hover:border-primary hover:text-primary-deep sm:mt-0"
+            title="Bilmediğin kelimeleri filtrele"
+          >
+            <span aria-hidden="true">🤷</span> Bilmediklerim
+            <span id="unk-count" class="rounded-full bg-bg-soft px-1.5 py-0.5 text-xs font-bold tabular-nums text-ink-soft">0</span>
+          </button>
+        </div>
+
+        <!-- Helper trainers: repetition + fill-in-the-blank -->
+        <div id="trainbar" class="mb-3 flex flex-wrap items-center gap-2 px-1">
+          <button type="button" id="rep-start" disabled
+            class="inline-flex items-center gap-1.5 rounded-xl border border-brand/40 bg-amber-50 px-3 py-2 text-sm font-bold text-brand-deep transition hover:border-brand hover:bg-amber-100 disabled:opacity-45 disabled:cursor-not-allowed"
+            title="Önce kartlardaki 🤷 ile kelimeleri işaretle">
+            <span aria-hidden="true">🔁</span> Tekrar Başlat
+          </button>
+          <button type="button" id="fill-start" disabled
+            class="inline-flex items-center gap-1.5 rounded-xl border border-primary/30 bg-primary-soft px-3 py-2 text-sm font-bold text-primary-deep transition hover:border-primary hover:bg-teal-100 disabled:opacity-45 disabled:cursor-not-allowed"
+            title="Bu kapsamda örnek cümleli (\'e\') kelime yok">
+            <span aria-hidden="true">✍️</span> Cümle Tamamla
+          </button>
+          <span id="trainhint" class="text-xs font-semibold text-ink-soft"></span>
         </div>
 
         <div id="countline" class="mb-2 px-1 text-xs font-semibold text-ink-soft" role="status"></div>
@@ -243,6 +268,26 @@ const levelLabel = (lv: string) => sets.find((s) => s.key === lv)?.label ?? lv;
           <div class="mt-2 font-semibold text-ink">Sonuç bulunamadı</div>
           <div class="text-sm">Farklı bir kelime dene ya da set değiştir.</div>
         </div>
+
+        <!-- TEKRAR (repetition) mode overlay -->
+        <div id="repOverlay" hidden class="fixed inset-0 z-50 flex items-center justify-center bg-slate-900/50 p-4 backdrop-blur-sm" role="dialog" aria-modal="true" aria-label="Kelime tekrarı">
+          <div class="w-full max-w-lg overflow-hidden rounded-3xl border border-line bg-white p-5 shadow-2xl">
+            <div id="repBody" class="min-h-[260px]"></div>
+          </div>
+        </div>
+
+        <!-- BOŞLUK DOLDURMA (fill-in-the-blank) mode overlay -->
+        <div id="fillOverlay" hidden class="fixed inset-0 z-50 flex items-center justify-center bg-slate-900/50 p-4 backdrop-blur-sm" role="dialog" aria-modal="true" aria-label="Cümle tamamlama">
+          <div class="w-full max-w-lg overflow-hidden rounded-3xl border border-line bg-white p-5 shadow-2xl">
+            <div id="fillBody" class="min-h-[280px]"></div>
+          </div>
+        </div>
+
+        <style is:inline>
+          .fill-correct { background: #10b981 !important; border-color: #059669 !important; color: #fff !important; }
+          .fill-wrong   { background: #f43f5e !important; border-color: #e11d48 !important; color: #fff !important; }
+          #repBody .fill-opt:disabled, #fillBody [data-opt]:disabled { opacity: 0.7; cursor: not-allowed; }
+        </style>
       </section>
     </div>
 
@@ -277,11 +322,21 @@ const levelLabel = (lv: string) => sets.find((s) => s.key === lv)?.label ?? lv;
         var searchEl = document.getElementById('search');
         var sortEl = document.getElementById('sort');
         var unlearnedEl = document.getElementById('unlearned');
+        var unknownEl = document.getElementById('unknown-only');
+        var unkCountEl = document.getElementById('unk-count');
+        var repStartEl = document.getElementById('rep-start');
+        var fillStartEl = document.getElementById('fill-start');
+        var trainHintEl = document.getElementById('trainhint');
+        var repOverlay = document.getElementById('repOverlay');
+        var repBody = document.getElementById('repBody');
+        var fillOverlay = document.getElementById('fillOverlay');
+        var fillBody = document.getElementById('fillBody');
 
         var activeSet = 'all';
         var query = '';
         var sortOrder = 'default';
         var onlyUnlearned = false;
+        var onlyUnknown = false;
         var viewed = {};
         var lastSet = 'all';
         var RESULT_CAP = 200;
@@ -464,6 +519,7 @@ const levelLabel = (lv: string) => sets.find((s) => s.key === lv)?.label ?? lv;
           var lv = (w.lv || []).slice(0, 3);
           var lvHtml = lv.map(badgeHtml).join('');
           var fav = !!favs[w.w];
+          var unk = !!unknowns[w.w];
           return (
             '<div class="kv-card rounded-2xl border border-line bg-white p-3 shadow-sm outline-none transition hover:-translate-y-0.5 hover:border-primary hover:shadow-lg focus-visible:ring-2 focus-visible:ring-primary/60" data-w="' + esc(w.w) + '" tabindex="0" role="button" aria-label="' + esc(w.w) + ' — kartı çevirmek için Enter veya tıkla">' +
               '<div class="kv-card-inner min-h-[190px]">' +
@@ -487,6 +543,7 @@ const levelLabel = (lv: string) => sets.find((s) => s.key === lv)?.label ?? lv;
               '<div class="mt-2 flex items-center gap-1.5 border-t border-line/70 pt-2">' +
                 '<button type="button" data-play data-w="' + esc(w.w) + '" class="inline-flex h-9 w-9 items-center justify-center rounded-full border border-line bg-white text-base transition hover:border-primary hover:bg-primary-soft" aria-label="' + esc(w.w) + ' kelimesini sesli oku">🔊</button>' +
                 '<button type="button" data-fav data-w="' + esc(w.w) + '" aria-pressed="' + (fav ? 'true' : 'false') + '" class="inline-flex h-9 w-9 items-center justify-center rounded-full border border-line bg-white text-base transition hover:border-brand hover:bg-amber-50 ' + (fav ? 'is-fav border-brand bg-amber-50' : '') + '" aria-label="' + esc(w.w) + (fav ? ' favorilerden çıkar' : ' kelimesini favorilere ekle') + '">' + (fav ? '★' : '☆') + '</button>' +
+                '<button type="button" data-unk data-w="' + esc(w.w) + '" aria-pressed="' + (unk ? 'true' : 'false') + '" class="inline-flex h-9 w-9 items-center justify-center rounded-full border border-line bg-white text-base transition ' + (unk ? 'is-unk border-primary bg-primary-soft' : 'hover:border-primary hover:bg-primary-soft') + '" aria-label="' + esc(w.w) + (unk ? ' — bilirim, bilinmeyenlerden çıkar' : ' — bilmiyorum, bilinmeyenlere ekle') + '" title="' + (unk ? 'Bilirim ✓' : 'Bilmiyorum 🤷') + '">' + (unk ? '✓' : '🤷') + '</button>' +
                 '<span class="ml-auto hidden text-[0.65rem] font-semibold text-ink-soft sm:inline">Languago · Kelime</span>' +
               '</div>' +
             '</div>'
@@ -531,6 +588,7 @@ const levelLabel = (lv: string) => sets.find((s) => s.key === lv)?.label ?? lv;
             if (activeSet !== 'all' && (w.lv || []).indexOf(activeSet) === -1) continue;
             if (q && !((w.w && w.w.toLowerCase().indexOf(q) !== -1) || (w.t && w.t.toLowerCase().indexOf(q) !== -1))) continue;
             if (onlyUnlearned && (favs[w.w] || viewed[w.w])) continue;
+            if (onlyUnknown && !unknowns[w.w]) continue;
             list.push(w);
           }
           if (sortOrder === 'az') list.sort(function (a, b) { return a.w.localeCompare(b.w); });
@@ -593,6 +651,7 @@ const levelLabel = (lv: string) => sets.find((s) => s.key === lv)?.label ?? lv;
             frag.appendChild(node);
           });
           grid.appendChild(frag);
+          refreshTrainers();
         }
 
         /* ---------- Events ---------- */
@@ -607,6 +666,7 @@ const levelLabel = (lv: string) => sets.find((s) => s.key === lv)?.label ?? lv;
             // Reset search + sort so the level view is clean, and jump to the
             // first incomplete set for this level (best-effort).
             query = ''; searchEl.value = ''; unlearnedEl.setAttribute('aria-pressed', 'false'); onlyUnlearned = false;
+            resetUnknownFilter();
             var list = [];
             for (var li = 0; li < words.length; li++) {
               var ww = words[li];
@@ -677,6 +737,8 @@ const levelLabel = (lv: string) => sets.find((s) => s.key === lv)?.label ?? lv;
           if (play) { speak(play.getAttribute('data-w')); e.stopPropagation(); return; }
           var fav = t.closest('[data-fav]');
           if (fav) { toggleFav(fav.getAttribute('data-w'), fav); e.stopPropagation(); return; }
+          var unk = t.closest('[data-unk]');
+          if (unk) { toggleUnknown(unk.getAttribute('data-w'), unk); e.stopPropagation(); return; }
           var card = t.closest('.kv-card');
           if (card) flipCard(card);
         });
@@ -712,6 +774,7 @@ const levelLabel = (lv: string) => sets.find((s) => s.key === lv)?.label ?? lv;
             if (!byW[resumeWord]) return;
             if (!viewed[resumeWord] || activeSetIsMissing(resumeWord)) {
               activeSet = 'all'; query = ''; sortOrder = 'default'; onlyUnlearned = false;
+              resetUnknownFilter();
               searchEl.value = '';
               render();
             }
@@ -732,6 +795,333 @@ const levelLabel = (lv: string) => sets.find((s) => s.key === lv)?.label ?? lv;
           if (activeSet === 'all') return false;
           return (byW[word] && byW[word].lv && byW[word].lv.indexOf(activeSet) === -1);
         }
+
+        /* ==================================================================
+           FEATURE 1 · Bilmediğim Kelimeler (localStorage, keyed by user)
+           ================================================================== */
+        var unkKey = 'languago_unknown_' + (userId || 'anon');
+        var unknowns = {};
+        (function loadUnknowns() {
+          try {
+            var arr = JSON.parse(localStorage.getItem(unkKey) || '[]');
+            if (Array.isArray(arr)) arr.forEach(function (w) { unknowns[w] = true; });
+          } catch (e) {}
+        })();
+        function persistUnknowns() {
+          try { localStorage.setItem(unkKey, JSON.stringify(Object.keys(unknowns))); } catch (e) {}
+        }
+        function escRe(s) { return s.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'); }
+        function capFirst(s) { return s ? s[0].toUpperCase() + s.slice(1) : s; }
+        // Is a word part of the active level scope (or 'all')? Used to count the
+        // "Bilmediklerim" badge and to build the repetition / fill drills.
+        function scopeHas(wName) {
+          if (activeSet === 'all') return true;
+          var w = byW[wName];
+          return w && w.lv && w.lv.indexOf(activeSet) !== -1;
+        }
+        function unknownsInScope() {
+          var n = 0;
+          for (var ww in unknowns) if (byW[ww] && scopeHas(ww)) n++;
+          return n;
+        }
+        function setUnknownBtn(btn, wName) {
+          var on = !!unknowns[wName];
+          btn.setAttribute('aria-pressed', on ? 'true' : 'false');
+          btn.setAttribute('aria-label', wName + (on ? ' — bilirim, bilinmeyenlerden çıkar' : ' — bilmiyorum, bilinmeyenlere ekle'));
+          btn.setAttribute('title', on ? 'Bilirim ✓' : 'Bilmiyorum 🤷');
+          btn.textContent = on ? '✓' : '🤷';
+          if (on) btn.classList.add('is-unk', 'border-primary', 'bg-primary-soft');
+          else btn.classList.remove('is-unk', 'border-primary', 'bg-primary-soft');
+        }
+        function toggleUnknown(wName, btn) {
+          if (unknowns[wName]) delete unknowns[wName];
+          else unknowns[wName] = true;
+          persistUnknowns();
+          if (btn) setUnknownBtn(btn, wName);
+          if (onlyUnknown && !unknowns[wName]) render(); // un-marked while in Bilmediklerim view → drop card
+          else refreshTrainers();
+        }
+        function resetUnknownFilter() {
+          onlyUnknown = false;
+          if (unknownEl) {
+            unknownEl.setAttribute('aria-pressed', 'false');
+            unknownEl.classList.remove('bg-primary', 'text-white', 'border-primary');
+          }
+        }
+        // Keep the count badge + enable/disable the two trainers.
+        function refreshTrainers() {
+          var n = unknownsInScope();
+          if (unkCountEl) unkCountEl.textContent = String(n);
+          if (repStartEl) {
+            repStartEl.disabled = n === 0;
+            repStartEl.title = n > 0 ? '' : 'Önce kartlardaki 🤷 ile kelimeleri işaretle';
+          }
+          if (trainHintEl) trainHintEl.textContent = n > 0 ? (n + ' bilinmeyen kelime · tekrara hazır 📚') : '';
+          var usable = scopeHasUsableFill();
+          if (fillStartEl) {
+            fillStartEl.disabled = !usable;
+            fillStartEl.title = usable ? '' : 'Bu kapsamda örnek cümleli (\'e\') kelime yok';
+          }
+        }
+
+        /* ==================================================================
+           FEATURE 2 · Tekrar (drill the current unknown words)
+           ================================================================== */
+        var rep = { open: false, queue: [], correct: 0, mistakes: 0, requeued: {}, curr: null, total: 0, revealed: false };
+        function startDrill() {
+          var ord = orderedForLevel(activeSet);
+          var pool = [];
+          for (var i = 0; i < ord.length; i++) { var w = ord[i]; if (unknowns[w.w]) pool.push(w); }
+          if (!pool.length) return;
+          rep = { open: true, queue: shuffleArr(pool.map(function (w) { return w.w; }), 'rep::' + activeSet),
+            correct: 0, mistakes: 0, requeued: {}, curr: null, total: pool.length, revealed: false };
+          repOverlay.hidden = false;
+          renderRep();
+        }
+        function repHeader() {
+          var seen = rep.correct + rep.mistakes;
+          var pct = rep.total ? Math.round((rep.correct / rep.total) * 100) : 0;
+          return '<div class="mb-3 flex flex-wrap items-center justify-between gap-2 text-xs font-extrabold text-ink-soft">' +
+            '<span>🔁 Tekrar · Kart ' + (seen + 1) + ' / ' + rep.total + '</span>' +
+            '<span><span class="text-emerald-600">✓ ' + rep.correct + '</span> · <span class="text-orange-600">🌀 ' + rep.mistakes + '</span> · Skor %' + pct + '</span>' +
+            '<button type="button" data-rep="exit" class="rounded-full border border-line bg-bg-soft px-2 py-1 text-xs font-bold text-ink-soft hover:border-primary" title="Kapat">✕</button>' +
+          '</div>';
+        }
+        function renderRep() {
+          if (!rep.open) return;
+          if (rep.curr == null) {
+            if (rep.queue.length) { rep.curr = rep.queue.shift(); rep.revealed = false; }
+            else { renderRepSummary(); return; }
+          }
+          var w = byW[rep.curr];
+          if (!w) { rep.curr = null; renderRep(); return; }
+          var inner;
+          if (!rep.revealed) {
+            // EN word hidden → user recalls, then presses Çevir.
+            inner = '<div class="rounded-2xl border border-dashed border-line bg-bg-soft p-8 text-center">' +
+              '<div class="text-4xl">💭</div>' +
+              '<div class="mt-2 text-sm font-semibold text-ink-soft">Bu kelimeyi düşün… hatırla, sonra çevir.</div>' +
+              '<button type="button" data-rep="cevir" class="mt-5 inline-flex items-center gap-1.5 rounded-xl bg-primary px-5 py-2.5 text-sm font-bold text-white shadow-sm transition hover:bg-primary-deep">🔎 Çevir</button>' +
+            '</div>';
+          } else {
+            inner = '<div class="rounded-2xl border border-line p-5">' +
+              '<div class="text-center">' +
+                '<div class="text-2xl font-extrabold text-ink">' + esc(w.w) + '</div>' +
+                '<div class="mt-1 text-lg font-extrabold leading-snug text-primary-deep">🇹🇷 ' + esc(w.t) + '</div>' +
+                (w.i ? '<div class="mt-1 font-mono text-xs text-ink-soft/70">' + esc(w.i) + '</div>' : '') +
+                (w.d ? '<div class="mx-auto mt-2 max-w-sm text-xs text-ink-soft">' + esc(w.d) + '</div>' : '') +
+                '<button type="button" data-rep="audio" class="mt-3 inline-flex h-9 w-9 items-center justify-center rounded-full border border-line bg-bg-soft text-base transition hover:border-primary hover:bg-primary-soft" title="Sesli dinle">🔊</button>' +
+              '</div>' +
+              '<div class="mt-4 flex flex-wrap justify-center gap-2">' +
+                '<button type="button" data-rep="bildim" class="inline-flex items-center gap-1.5 rounded-xl bg-emerald-500 px-4 py-2.5 text-sm font-bold text-white transition hover:bg-emerald-600">Bildim ✓</button>' +
+                '<button type="button" data-rep="tekrar" class="inline-flex items-center gap-1.5 rounded-xl bg-amber-500 px-4 py-2.5 text-sm font-bold text-white transition hover:bg-amber-600">Tekrar Görseydim 🔁</button>' +
+              '</div>' +
+            '</div>';
+          }
+          repBody.innerHTML = repHeader() + inner;
+        }
+        function repAfter() { if (!rep.open) return; rep.revealed = true; renderRep(); }
+        function repKnown() {
+          var wName = rep.curr;
+          if (unknowns[wName]) toggleUnknown(wName, null); // removes from unknowns
+          rep.correct++;
+          rep.curr = null; renderRep();
+        }
+        function repAgain() {
+          var wName = rep.curr;
+          rep.requeued[wName] = (rep.requeued[wName] || 0) + 1;
+          if (rep.requeued[wName] <= 3) rep.queue.push(wName); // re-queue later (bounded to avoid infinite loop)
+          rep.mistakes++;
+          rep.curr = null; renderRep();
+        }
+        function renderRepSummary() {
+          var tot = rep.correct + rep.mistakes;
+          var pct = tot ? Math.round((rep.correct / tot) * 100) : 0;
+          var msg = pct >= 80 ? 'Harika! Bu kelimeleri bilinmeyenlerden çıkardın. 🎉'
+            : pct >= 50 ? 'İyi gidiyorsun! Birkaç kelimeyi daha tekrar et. 👍'
+            : 'Pes etme — tekrar tekrar görünce kalıcı olur. 💪';
+          repBody.innerHTML = repHeader().replace('Kart ' + (rep.correct + rep.mistakes + 1) + ' / ' + rep.total, 'Bitti') +
+            '<div class="text-center">' +
+              '<div class="text-4xl">🎯</div>' +
+              '<div class="mt-2 text-xl font-extrabold text-ink">Tekrar Tamamlandı!</div>' +
+              '<div class="mt-3 flex justify-center gap-3 text-sm font-bold">' +
+                '<span class="rounded-full bg-emerald-500 px-3 py-1 text-white">✓ ' + rep.correct + ' Bilirim</span>' +
+                '<span class="rounded-full bg-amber-500 px-3 py-1 text-white">🌀 ' + rep.mistakes + ' Tekrar</span>' +
+              '</div>' +
+              '<div class="mt-3 text-sm font-semibold text-ink">Skor: %' + pct + ' <span class="font-normal text-ink-soft">(' + tot + ' deneme)</span></div>' +
+              '<p class="mx-auto mt-2 max-w-xs text-sm text-ink-soft">' + msg + '</p>' +
+              '<div class="mt-4 flex flex-wrap justify-center gap-2">' +
+                '<button type="button" data-rep="restart" class="inline-flex items-center gap-1.5 rounded-xl bg-primary px-4 py-2.5 text-sm font-bold text-white transition hover:bg-primary-deep">Yeniden Başlat 🔁</button>' +
+                '<button type="button" data-rep="exit" class="inline-flex items-center gap-1.5 rounded-xl border border-line bg-white px-4 py-2.5 text-sm font-bold text-ink-soft transition hover:border-primary">✕ Kapat</button>' +
+              '</div>' +
+            '</div>';
+        }
+
+        /* ==================================================================
+           FEATURE 3 · Boşluk Doldurma (fill-in-the-blank on real examples)
+           ================================================================== */
+        var fill = { open: false, items: [], idx: -1, correct: 0, total: 0, answered: false, target: null };
+        function fillUsable(w) {
+          if (!w || !w.e || typeof w.e !== 'string') return false;
+          var s = w.e.trim();
+          if (s.length < 8) return false;
+          return new RegExp('\\b' + escRe(w.w) + '\\b', 'i').test(s); // the word appears as a whole word
+        }
+        function scopeHasUsableFill() {
+          var ord = orderedForLevel(activeSet);
+          for (var i = 0; i < ord.length; i++) if (fillUsable(ord[i])) return true;
+          return false;
+        }
+        // Blank the FIRST whole-word occurrence of the target in its example.
+        // sentenceInitial = the blank sits at the start of a sentence → answer is capitalized.
+        function blankFor(w) {
+          var sen = w.e;
+          var escW = escRe(w.w);
+          var m = sen.match(new RegExp('\\b' + escW + '\\b', 'i'));
+          if (!m) return null;
+          var idx = m.index;
+          var pre = sen.slice(0, idx);
+          var post = sen.slice(idx + w.w.length);
+          var sentenceInitial = pre.trim() === '' || /[.!?;:"”’]\s*$/.test(pre);
+          return { pre: pre, post: post, sentenceInitial: sentenceInitial,
+                   capped: sentenceInitial ? capFirst(w.w) : w.w, word: w.w };
+        }
+        // Options = correct word + up to 3 distractors from the same scope, same PoS first.
+        function fillOptions(target) {
+          var ord = orderedForLevel(activeSet);
+          var same = [], others = [];
+          for (var i = 0; i < ord.length; i++) {
+            var w = ord[i];
+            if (w.w === target.w) continue;
+            if (w.p === target.p) same.push(w.w); else others.push(w.w);
+          }
+          var dist = shuffleArr(same, 'fillopt::' + target.w).slice(0, 3);
+          for (var o = 0; o < others.length && dist.length < 3; o++) {
+            if (dist.indexOf(others[o]) === -1) dist.push(others[o]);
+          }
+          var choices = [target.w].concat(dist.slice(0, 3));
+          var uniq = [];
+          choices.forEach(function (c) { if (uniq.indexOf(c) === -1) uniq.push(c); });
+          return shuffleArr(uniq, 'fillopts::' + target.w);
+        }
+        function startFill() {
+          var ord = orderedForLevel(activeSet);
+          var pool = [];
+          for (var i = 0; i < ord.length; i++) { var w = ord[i]; if (fillUsable(w)) pool.push(w); }
+          fillOverlay.hidden = false;
+          if (!pool.length) {
+            fillBody.innerHTML = '<div class="text-center p-6">' +
+              '<div class="text-3xl">✍️</div>' +
+              '<div class="mt-2 font-bold text-ink">Bu kapsamda örnek cümleli kelime yok</div>' +
+              '<div class="text-sm text-ink-soft">Farklı bir set seç ve tekrar dene.</div>' +
+              '<button type="button" data-fillctl="exit" class="mt-4 inline-flex items-center gap-1.5 rounded-xl bg-primary px-4 py-2 text-sm font-bold text-white transition hover:bg-primary-deep">✕ Kapat</button></div>';
+            return;
+          }
+          pool = shuffleArr(pool, 'fill::' + activeSet).slice(0, 10); // ~10 items
+          fill = { open: true, items: pool, idx: -1, correct: 0, total: pool.length, answered: false, target: null };
+          fillNext();
+        }
+        function renderFill() {
+          var w = fill.target;
+          var bl = blankFor(w);
+          if (!bl) { fillNext(); return; } // skip gracefully (no usable example)
+          var qNum = fill.idx + 1;
+          var header = '<div class="mb-3 flex flex-wrap items-center justify-between gap-2 text-xs font-extrabold text-ink-soft">' +
+            '<span>✍️ Cümle Tamamla · Soru ' + qNum + ' / ' + fill.total + '</span>' +
+            '<span><span class="text-emerald-600">✓ ' + fill.correct + '</span> · Skor %' + (fill.total ? Math.round(fill.correct / fill.total * 100) : 0) + '</span></div>';
+          var sentence = bl.pre + '<span class="rounded bg-primary-soft px-1 font-bold text-primary-deep">______</span>' + bl.post;
+          var opts = fillOptions(w).map(function (choice) {
+            var disp = bl.sentenceInitial ? capFirst(choice) : choice;
+            return '<button type="button" data-opt="' + esc(choice) + '" class="w-full rounded-xl border border-line bg-white px-4 py-2.5 text-left text-sm font-bold text-ink transition hover:border-primary hover:bg-primary-soft">' + esc(disp) + '</button>';
+          }).join('');
+          fillBody.innerHTML = header +
+            '<div class="rounded-2xl border border-dashed border-line bg-bg-soft p-4 text-sm italic text-ink-soft">' + sentence + '</div>' +
+            '<div class="mt-2 text-xs font-semibold text-primary-deep">🇹🇷 İpucu: ' + esc(w.t) + '</div>' +
+            '<div class="mt-3 grid grid-cols-1 gap-2 sm:grid-cols-2">' + opts + '</div>' +
+            '<div id="fillfb" class="mt-3"></div>';
+          fill.answered = false;
+        }
+        function fillNext() {
+          fill.idx++;
+          if (fill.idx >= fill.items.length) return renderFillSummary();
+          fill.target = fill.items[fill.idx];
+          renderFill();
+        }
+        function fillChoose(btn) {
+          if (fill.answered || !fill.target) return;
+          fill.answered = true;
+          var target = fill.target;
+          var chosen = btn.getAttribute('data-opt');
+          var correct = chosen.toLowerCase() === target.w.toLowerCase();
+          if (correct) fill.correct++;
+          var bl = blankFor(target);
+          var ansDisp = (bl && bl.sentenceInitial) ? capFirst(target.w) : target.w;
+          var why = 'Türkçesi: <b>' + esc(target.t) + '</b>' + (target.d ? ' · ' + esc(target.d) : '');
+          var fb = correct
+            ? '<div class="rounded-xl border border-emerald-500 bg-emerald-50 p-3 text-sm font-semibold text-emerald-800">✅ Doğru! <b>' + esc(ansDisp) + '</b> — ' + why + '</div>'
+            : '<div class="rounded-xl border border-rose-500 bg-rose-50 p-3 text-sm font-semibold text-rose-800">❌ Yanlış — Doğru cevap <b>' + esc(ansDisp) + '</b>.</div>' +
+              '<div class="mt-1 rounded-xl border border-line bg-bg-soft p-3 text-xs text-ink-soft">' + why + '</div>';
+          var opts = fillBody.querySelectorAll('[data-opt]');
+          for (var i = 0; i < opts.length; i++) {
+            var o = opts[i];
+            if (o.getAttribute('data-opt').toLowerCase() === target.w.toLowerCase()) o.classList.add('fill-correct');
+          }
+          if (!correct) btn.classList.add('fill-wrong');
+          for (var d = 0; d < opts.length; d++) opts[d].setAttribute('disabled', 'disabled');
+          var fbEl = document.getElementById('fillfb');
+          if (fbEl) fbEl.innerHTML = fb + '<button type="button" data-fillctl="next" class="mt-2 w-full rounded-xl bg-primary px-4 py-2.5 text-sm font-bold text-white transition hover:bg-primary-deep">Sonraki →</button>';
+        }
+        function renderFillSummary() {
+          var tot = fill.total || 0;
+          var pct = tot ? Math.round(fill.correct / tot * 100) : 0;
+          fillBody.innerHTML =
+            '<div class="text-center">' +
+              '<div class="text-4xl">🏆</div>' +
+              '<div class="mt-2 text-xl font-extrabold text-ink">Bitti! Skorun %' + pct + '</div>' +
+              '<div class="mt-3 text-sm font-bold text-ink-soft">' + fill.correct + ' / ' + tot + ' doğru cevap</div>' +
+              '<div class="mt-4 flex flex-wrap justify-center gap-2">' +
+                '<button type="button" data-fillctl="restart" class="rounded-xl bg-primary px-4 py-2.5 text-sm font-bold text-white transition hover:bg-primary-deep">Yeniden Başlat ✍️</button>' +
+                '<button type="button" data-fillctl="exit" class="rounded-xl border border-line bg-white px-4 py-2.5 text-sm font-bold text-ink-soft transition hover:border-primary">✕ Kapat</button>' +
+              '</div>' +
+            '</div>';
+        }
+        function closeFill() { fill.open = false; fillOverlay.hidden = true; }
+
+        /* ---------- Helper trainers + sandbox handlers ---------- */
+        unknownEl.addEventListener('click', function () {
+          onlyUnknown = !onlyUnknown;
+          unknownEl.setAttribute('aria-pressed', onlyUnknown ? 'true' : 'false');
+          unknownEl.classList.toggle('bg-primary', onlyUnknown);
+          unknownEl.classList.toggle('text-white', onlyUnknown);
+          unknownEl.classList.toggle('border-primary', onlyUnknown);
+          render();
+        });
+        repStartEl.addEventListener('click', startDrill);
+        fillStartEl.addEventListener('click', startFill);
+        repOverlay.addEventListener('click', function (e) {
+          if (e.target === repOverlay) { rep.open = false; repOverlay.hidden = true; return; }
+          var b = e.target.closest('[data-rep]');
+          if (!b) return;
+          var act = b.getAttribute('data-rep');
+          if (act === 'cevir') repAfter();
+          else if (act === 'bildim') repKnown();
+          else if (act === 'tekrar') repAgain();
+          else if (act === 'audio') { var aw = byW[rep.curr]; if (aw) speak(aw.w); }
+          else if (act === 'restart') startDrill();
+          else if (act === 'exit') { rep.open = false; repOverlay.hidden = true; }
+        });
+        fillOverlay.addEventListener('click', function (e) {
+          if (e.target === fillOverlay) { closeFill(); return; }
+          var opt = e.target.closest('[data-opt]');
+          if (opt) { fillChoose(opt); return; }
+          var c = e.target.closest('[data-fillctl]');
+          if (c) {
+            var act = c.getAttribute('data-fillctl');
+            if (act === 'next') fillNext();
+            else if (act === 'exit') closeFill();
+            else if (act === 'restart') { closeFill(); startFill(); }
+          }
+        });
 
         render();
       })();
