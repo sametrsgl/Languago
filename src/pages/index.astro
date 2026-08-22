@@ -1,42 +1,10 @@
 ---
 import Layout from '../layouts/Layout.astro';
 ---
-
 <Layout
   title="İngilizce Öğrenmenin Oyunlu Yolu — Languago"
   description="Languago ile İngilizce öğren: kelime dağarcığı, dil bilgisi, okuma becerileri ve sınıf içi oyunlar. Temel öğretmenden canlı online dersler. Hemen kayıt olun."
 >
-  <script is:inline type="application/ld+json" set:html={JSON.stringify({
-  "@context": "https://schema.org",
-  "@graph": [
-    {
-      "@type": "WebSite",
-      "@id": "https://www.languago.site/#website",
-      url: "https://www.languago.site/",
-      name: "Languago",
-      description:
-        "İngilizce öğrenmenin oyunlu yolu: kelime dağarcığı, dil bilgisi, okuma becerileri ve sınıf içi oyunlar.",
-      inLanguage: "tr-TR",
-      publisher: { "@id": "https://www.languago.site/#organization" },
-    },
-    {
-      "@type": "EducationalOrganization",
-      "@id": "https://www.languago.site/#organization",
-      name: "Languago",
-      alternateName: "Languago İngilizce",
-      description:
-        "İngilizce öğrenme: kelime, dil bilgisi, okuma ve sınıf içi oyunlarla. Özel dersler temel öğretmen Samet Tıraşoğlu tarafından verilir.",
-      url: "https://www.languago.site/",
-      logo: "https://www.languago.site/og-cover.png",
-      email: "samettrol1@gmail.com",
-      founder: { "@type": "Person", name: "Samet Tıraşoğlu" },
-      teaches: "English",
-      inLanguage: ["tr", "en"],
-      areaServed: { "@type": "Place", name: "Türkiye" },
-    },
-  ],
-})} /></script>
-
   <section class="hero container">
     <div class="deco d1">📚</div>
     <div class="deco d2">💬</div>
@@ -63,7 +31,6 @@ import Layout from '../layouts/Layout.astro';
     </div>
   </section>
 
-  <!-- ⭐ Hero altı: Sınıf İçi Karşılaşma (versus mode) — öne çıkan CTA -->
   <section class="vs-band container">
     <div class="vs-band__inner">
       <div class="vs-band__text">

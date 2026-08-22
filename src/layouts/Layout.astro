@@ -66,6 +66,38 @@ const ogImage = image || `${siteUrl}/og-cover.png`;
     <!-- JS-free progressive content: no client framework, no hydration box -->
 
     <slot name="head" />
+
+    <!-- Organization + WebSite structured data (static JSON-LD, no set:html —
+         a set:html/is:inline script in the head slot reorders the SSR stream
+         on this page: content leaks after </html>. Kept plain/literal. -->
+    <script type="application/ld+json">{
+      "@context": "https://schema.org",
+      "@graph": [
+        {
+          "@type": "WebSite",
+          "@id": "https://www.languago.site/#website",
+          "url": "https://www.languago.site/",
+          "name": "Languago",
+          "description": "İngilizce öğrenmenin oyunlu yolu: kelime dağarcığı, dil bilgisi, okuma becerileri ve sınıf içi oyunlar.",
+          "inLanguage": "tr-TR",
+          "publisher": { "@id": "https://www.languago.site/#organization" }
+        },
+        {
+          "@type": "EducationalOrganization",
+          "@id": "https://www.languago.site/#organization",
+          "name": "Languago",
+          "alternateName": "Languago İngilizce",
+          "description": "İngilizce öğrenme: kelime, dil bilgisi, okuma ve sınıf içi oyunlarla. Özel dersler temel öğretmen Samet Tıraşoğlu tarafından verilir.",
+          "url": "https://www.languago.site/",
+          "logo": "https://www.languago.site/og-cover.png",
+          "email": "samettrol1@gmail.com",
+          "founder": { "@type": "Person", "name": "Samet Tıraşoğlu" },
+          "teaches": "English",
+          "inLanguage": ["tr", "en"],
+          "areaServed": { "@type": "Place", "name": "Türkiye" }
+        }
+      ]
+    }</script>
   </head>
   <body>
     <div class="notice-bar">
