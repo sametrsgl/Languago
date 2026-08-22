@@ -9,10 +9,10 @@ window.GRAMMAR_MCQ_A1 = {
   ],
   "a1-02": [
     { "q": "___ name is John.", "options": ["Me", "My", "I", "Mine"], "a": 1 },
-    { "q": "This is ___ book.", "options": ["she", "her", "hers", "she's"], "a": 1 },
+    { "q": "This is ___ book.", "options": ["she", "her", "hers", "she is"], "a": 1 },
     { "q": "___ car is red. (they)", "options": ["They", "Them", "Their", "Theirs"], "a": 2 },
     { "q": "That is ___ pen. (you)", "options": ["your", "you", "yours", "you're"], "a": 0 },
-    { "q": "Ali likes ___ job. (he)", "options": ["he", "him", "him's", "his"], "a": 3 },
+    { "q": "Ali likes ___ job. (he)", "options": ["he", "him", "his", "hiss"], "a": 2 },
     { "q": "___ name is Anna. (she)", "options": ["She", "Her", "Hers", "She's"], "a": 1 }
   ],
   "a1-03": [
@@ -53,7 +53,7 @@ window.GRAMMAR_MCQ_A1 = {
     { "q": "___ a park near my house.", "options": ["There are", "There aren't", "There is", "It is"], "a": 2 },
     { "q": "___ many students here.", "options": ["There is", "There are", "There isn't", "It is"], "a": 1 },
     { "q": "___ any shops near here?", "options": ["Is there", "Are there", "Is it", "There are"], "a": 1 },
-    { "q": "There ___ a bank near here.", "options": ["are", "isn't", "aren't", "be"], "a": 1 }
+    { "q": "There ___ a bank near here.", "options": ["are", "isn't", "is"], "a": 2 }
   ],
   "a1-08": [
     { "q": "I go to work ___ Monday.", "options": ["in", "on", "at", "to"], "a": 1 },

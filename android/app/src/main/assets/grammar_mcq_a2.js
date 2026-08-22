@@ -12,7 +12,7 @@ window.GRAMMAR_MCQ_A2 = {
     { "q": "She usually ___ up at seven.", "options": ["is getting", "get", "gets", "getting"], "a": 2 }
   ],
   "a2-03": [
-    { "q": "Yesterday I ___ to the market.", "options": ["go", "goed", "went", "gone"], "a": 2 },
+    { "q": "Yesterday I ___ to the cinema.", "options": ["go", "goed", "went", "gone"], "a": 2 },
     { "q": "She ___ pizza for dinner last night.", "options": ["eated", "ate", "eats", "eat"], "a": 1 },
     { "q": "Choose the correct past form of study.", "options": ["studied", "studyed", "studid", "studiedd"], "a": 0 },
     { "q": "He ___ his homework two hours ago.", "options": ["finish", "finishes", "finished", "finishing"], "a": 2 }
@@ -24,7 +24,7 @@ window.GRAMMAR_MCQ_A2 = {
     { "q": "Did they ___ the meeting?", "options": ["attended", "attend", "attends", "attending"], "a": 1 }
   ],
   "a2-05": [
-    { "q": "I ___ my grandparents next weekend.", "options": ["am going to visit", "going to visit", "am going to visits", "is going to visit"], "a": 0 },
+    { "q": "I ___ my friend tomorrow.", "options": ["am going to visit", "going to visit", "am going to visits", "is going to visit"], "a": 0 },
     { "q": "She ___ a new car.", "options": ["is going to buy", "going to buy", "is going to buys", "are going to buy"], "a": 0 },
     { "q": "We ___ to the beach on holiday.", "options": ["are going to go", "going to go", "are going to goes", "is going to go"], "a": 0 },
     { "q": "They are not going to ___ late.", "options": ["coming", "came", "come", "comes"], "a": 2 }

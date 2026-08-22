@@ -2,7 +2,7 @@ window.GRAMMAR_MCQ_B2 = {
   "b2-01": [
     { "q": "They ___ for three hours when the power went out.", "options": ["have been working", "has been working", "have worked", "are working"], "a": 0 },
     { "q": "She ___ French since last year, so her speaking has improved a lot.", "options": ["has studied", "has been studying", "studied", "is studying"], "a": 1 },
-    { "q": "It ___ all morning, so the streets are wet.", "options": ["has rained", "rained", "has been raining", "rains"], "a": 2 },
+    { "q": "It ___ since morning.", "options": ["has rained", "rained", "has been raining", "rains"], "a": 2 },
     { "q": "I ___ for the exam all week and I still feel unprepared.", "options": ["have been preparing", "have prepared", "prepared", "prepare"], "a": 0 },
     { "q": "He ___ too hard lately, which is why he looks exhausted.", "options": ["has worked", "works", "had worked", "has been working"], "a": 3 }
   ],
@@ -53,7 +53,7 @@ window.GRAMMAR_MCQ_B2 = {
     { "q": "That ___ be true, it sounds completely impossible.", "options": ["must", "might", "can't", "should"], "a": 2 },
     { "q": "I am not sure, but she ___ be at the office.", "options": ["must", "might", "can't", "mustn't"], "a": 1 },
     { "q": "He ___ have forgotten the meeting, he never misses anything.", "options": ["must", "might", "can't", "shouldn't"], "a": 2 },
-    { "q": "The door is locked and his coat is here, so he ___ have left the house.", "options": ["must", "might", "can't", "could"], "a": 2 }
+    { "q": "The door is locked and his coat is here, so he ___ have left.", "options": ["must", "might", "can't", "could"], "a": 2 }
   ],
   "b2-09": [
     { "q": "I wish I ___ a bigger flat.", "options": ["has", "had", "have", "would have"], "a": 1 },
