@@ -70,5 +70,89 @@ export const GRAMMAR_MCQ_B1 = {
     { "q": "There are ___ people waiting outside the gate.", "options": ["a lot of", "much", "a little", "is a lot"], "a": 0 },
     { "q": "Do you have ___ sugar for the tea?", "options": ["some", "any", "much many", "few"], "a": 1 },
     { "q": "I bought ___ apples at the market.", "options": ["some", "any", "little", "much"], "a": 0 }
+  ],
+  "b1-11": [
+    { "q": "She ___ for two hours.", "options": ["has been waiting", "have been waiting", "waits", "is waiting"], "a": 0 },
+    { "q": "I ___ this book for three days.", "options": ["have been reading", "have read", "am reading", "has been reading"], "a": 0 },
+    { "q": "How long ___ you ___ English?", "options": ["have ... been studying", "do ... study", "are ... studying", "has ... been studying"], "a": 0 },
+    { "q": "They ___ all day, so they look tired.", "options": ["have been working", "has been working", "have work", "working"], "a": 0 },
+    { "q": "She looks tired because she ___ (run).", "options": ["has been running", "has run", "runs", "is running"], "a": 0 }
+  ],
+  "b1-12": [
+    { "q": "I have ___ finished my homework.", "options": ["just", "yet", "ever", "never"], "a": 0 },
+    { "q": "She has ___ eaten, so she is not hungry.", "options": ["yet", "already", "never", "ever"], "a": 1 },
+    { "q": "Have you finished ___?", "options": ["just", "already", "yet", "ever"], "a": 2 },
+    { "q": "I have ___ been to Japan.", "options": ["yet", "never", "just", "already"], "a": 1 },
+    { "q": "___ you ever tried sushi?", "options": ["Have", "Did", "Do", "Was"], "a": 0 }
+  ],
+  "b1-13": [
+    { "q": "I ___ to play football, but now I swim.", "options": ["use", "used", "using", "uses"], "a": 1 },
+    { "q": "She used to ___ in this city.", "options": ["live", "lived", "living", "lives"], "a": 0 },
+    { "q": "I didn't ___ to like vegetables.", "options": ["used", "use", "using", "uses"], "a": 1 },
+    { "q": "___ you use to smoke?", "options": ["Did", "Do", "Was", "Were"], "a": 0 },
+    { "q": "He ___ to be very quiet as a child.", "options": ["use", "used", "using", "uses"], "a": 1 }
+  ],
+  "b1-14": [
+    { "q": "It's cold today, ___?", "options": ["isn't it", "is it", "isn't", "don't it"], "a": 0 },
+    { "q": "She isn't coming, ___?", "options": ["isn't she", "is she", "is it", "doesn't she"], "a": 1 },
+    { "q": "You like coffee, ___?", "options": ["don't you", "do you", "aren't you", "doesn't you"], "a": 0 },
+    { "q": "He can swim, ___?", "options": ["can't he", "can he", "doesn't he", "isn't he"], "a": 0 },
+    { "q": "They don't live here, ___?", "options": ["don't they", "do they", "are they", "aren't they"], "a": 1 }
+  ],
+  "b1-15": [
+    { "q": "His car is here, so he ___ be at home.", "options": ["must", "can't", "mustn't", "might not"], "a": 0 },
+    { "q": "That ___ be true; it is impossible.", "options": ["must", "can't", "should", "could"], "a": 1 },
+    { "q": "She is not answering; she ___ be sleeping.", "options": ["might", "can't", "mustn't", "doesn't"], "a": 0 },
+    { "q": "He ___ be the boss; he is too young.", "options": ["must", "can't", "could", "should"], "a": 1 },
+    { "q": "I'm not sure, but it ___ rain tomorrow.", "options": ["must", "can't", "might", "has to"], "a": 2 }
+  ],
+  "b1-16": [
+    { "q": "This box is ___ heavy for me.", "options": ["too", "enough", "very enough", "too much"], "a": 0 },
+    { "q": "He is old ___ to vote.", "options": ["too", "enough", "so", "very"], "a": 1 },
+    { "q": "She is ___ tired to go out.", "options": ["enough", "too", "very", "much"], "a": 1 },
+    { "q": "The soup is hot ___ to eat.", "options": ["too", "enough", "so", "very"], "a": 1 },
+    { "q": "It's not warm ___ to swim outside.", "options": ["enough", "too", "so", "very"], "a": 0 }
+  ],
+  "b1-17": [
+    { "q": "The film was really ___; I almost slept.", "options": ["bored", "boring", "bore", "bores"], "a": 1 },
+    { "q": "I felt ___ after the long trip.", "options": ["tired", "tiring", "tire", "tires"], "a": 0 },
+    { "q": "The match was very ___; we shouted a lot.", "options": ["excited", "exciting", "excite", "excites"], "a": 1 },
+    { "q": "She is very ___ in learning English.", "options": ["interesting", "interested", "interest", "interests"], "a": 1 },
+    { "q": "We were ___ when we heard the result.", "options": ["surprising", "surprised", "surprise", "surprises"], "a": 1 }
+  ],
+  "b1-18": [
+    { "q": "I enjoy ___ books in my free time.", "options": ["to read", "reading", "read", "reads"], "a": 1 },
+    { "q": "She decided ___ to London.", "options": ["go", "to go", "going", "went"], "a": 1 },
+    { "q": "He finished ___ his homework.", "options": ["to do", "doing", "do", "does"], "a": 1 },
+    { "q": "I want ___ a new phone.", "options": ["to buy", "buying", "buy", "buys"], "a": 0 },
+    { "q": "Would you mind ___ the window?", "options": ["open", "opening", "to open", "opened"], "a": 1 }
+  ],
+  "b1-19": [
+    { "q": "I went to the bakery ___ some bread.", "options": ["for buy", "to buy", "buying", "for to buy"], "a": 1 },
+    { "q": "She called ___ him.", "options": ["to help", "for help", "helping", "for to help"], "a": 0 },
+    { "q": "He closed the window ___ cold air in.", "options": ["to not let", "not to let", "to let not", "so that not"], "a": 1 },
+    { "q": "We stopped ___ some water.", "options": ["to get", "getting", "get", "for get"], "a": 0 },
+    { "q": "She is saving money ___ a car.", "options": ["for buy", "to buy", "buying", "buy"], "a": 1 }
+  ],
+  "b1-20": [
+    { "q": "My parents make me ___ my homework first.", "options": ["to do", "do", "doing", "did"], "a": 1 },
+    { "q": "She lets her child ___ TV after dinner.", "options": ["watch", "to watch", "watching", "watched"], "a": 0 },
+    { "q": "The school allows students ___ mobiles in class.", "options": ["use", "to use", "using", "used"], "a": 1 },
+    { "q": "He made me ___ for an hour.", "options": ["wait", "to wait", "waiting", "waited"], "a": 0 },
+    { "q": "They don't allow visitors ___ photos here.", "options": ["take", "to take", "taking", "took"], "a": 1 }
+  ],
+  "b1-21": [
+    { "q": "___ is waiting for you outside.", "options": ["Somebody", "Anything", "Nothing", "Anybody"], "a": 0 },
+    { "q": "I looked everywhere, but I found ___ .", "options": ["something", "nothing", "anything", "nobody"], "a": 1 },
+    { "q": "Do you know ___ about this?", "options": ["somebody", "anything", "nothing", "everywhere"], "a": 1 },
+    { "q": "There is ___ to eat in the kitchen.", "options": ["anybody", "nothing", "somebody", "anyone"], "a": 1 },
+    { "q": "Is there ___ you want to ask?", "options": ["something", "anything", "nothing", "somebody"], "a": 1 }
+  ],
+  "b1-22": [
+    { "q": "She said (that) she ___ tired.", "options": ["is", "was", "has been", "be"], "a": 1 },
+    { "q": "He told me ___ come early.", "options": ["to", "that", "for", "so"], "a": 0 },
+    { "q": "\"I will help you,\" he said. → He said he ___ help me.", "options": ["will", "would", "going to", "does"], "a": 1 },
+    { "q": "She asked me ___ the window.", "options": ["open", "to open", "opening", "opened"], "a": 1 },
+    { "q": "He said he ___ from Turkey.", "options": ["is", "was", "be", "am"], "a": 1 }
   ]
 };

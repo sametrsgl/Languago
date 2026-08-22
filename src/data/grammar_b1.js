@@ -224,6 +224,274 @@ export const GRAMMAR_B1 = {
         { q: "Do you have ___ sugar?", hint: "some / any", a: ["any"] },
         { q: "I bought ___ apples.", hint: "some / any", a: ["some"] }
       ]
+    },
+    {
+      id: "b1-11",
+      title: "Present Perfect Continuous",
+      short: "have/has been + -ing",
+      slides: [
+        { h: "Kuruluş", b: "have/has been + fiil-ing\\n\\n> I have been studying for two hours.\\n> She has been working all day." },
+        { h: "Kullanım", b: "Geçmişte başlayıp hâlâ devam eden veya yakın zamanda biten eylem; süreye vurgu:\\n\\n> I have been reading this book for a week." },
+        { h: "Present Perfect ile fark", b: "PPC → süre/etkinlik vurgusu, PP → sonuç.\\n\\n> I have been cleaning. (etkinlik)\\n> I have cleaned the kitchen. (sonuç)" }
+      ],
+      mistakes: [
+        { w: "I have been work here.", r: "I have been working here.", n: "been sonrası fiil -ing alır." },
+        { w: "She has being working.", r: "She has been working.", n: "Doğrusu been, being değil." },
+        { w: "I have been studied English.", r: "I have been studying English.", n: "PPC'de 3. hal değil -ing kullanılır." }
+      ],
+      practice: [
+        { q: "I ___ for two hours.", hint: "study (PPC)", a: ["have been studying", "'ve been studying"] },
+        { q: "We ___ all morning.", hint: "work", a: ["have been working"] },
+        { q: "She ___ (not/feel) well lately.", hint: "feel (olumsuz)", a: ["hasn't been feeling", "has not been feeling"] },
+        { q: "He ___ since 8 am.", hint: "run", a: ["has been running"] },
+        { q: "How long ___ you ___ here?", hint: "wait", a: ["have ... been waiting"] }
+      ]
+    },
+    {
+      id: "b1-12",
+      title: "Present Perfect (just / already / yet / ever / never)",
+      short: "zaman zarfları",
+      slides: [
+        { h: "just", b: "Az önce, çok yakın geçmişte:\\n\\n> I have just finished my homework." },
+        { h: "already / yet", b: "already → olumlu cümlede 'çoktan'.\\nyet → soru ve olumsuzda (cümle sonunda) 'henüz'.\\n\\n> She has already eaten. / Have you finished yet?" },
+        { h: "ever / never", b: "Hayat tecrübesi:\\n\\n> Have you ever been to Italy?\\n> I have never seen that film." }
+      ],
+      mistakes: [
+        { w: "I have finished my homework yet.", r: "I have already finished my homework.", n: "yet olumlu cümlede değil; already kullanılır." },
+        { w: "She haven't arrived yet.", r: "She hasn't arrived yet.", n: "3. tekil she → has." },
+        { w: "Have you ever went there?", r: "Have you ever been there?", n: "ever'den sonra 3. hal (been)." }
+      ],
+      practice: [
+        { q: "I have ___ finished my homework.", hint: "az önce", a: ["just"] },
+        { q: "She has ___ eaten.", hint: "çoktan", a: ["already"] },
+        { q: "Have you finished ___?", hint: "cümle sonu", a: ["yet"] },
+        { q: "I have ___ seen that film.", hint: "hiç", a: ["never"] },
+        { q: "___ you ever been to Paris?", hint: "ever", a: ["Have"] }
+      ]
+    },
+    {
+      id: "b1-13",
+      title: "used to (eski alışkanlıklar)",
+      short: "artık yapılmayan şeyler",
+      slides: [
+        { h: "Yapı", b: "used to + fiil yalın\\n\\n> I used to play football. (Eskiden oynardım, artık oynamıyorum)" },
+        { h: "Olumsuz / soru", b: "didn't use to — Did ... use to?\\n\\n> I didn't use to like coffee.\\n> Did you use to ride a bike?" },
+        { h: "used to vs Past Simple", b: "used to → artık geçerli olmayan eski alışkanlık/durum.\\nPast Simple → tek seferlik olay.\\n\\n> I used to live in Ankara. / I met her in 2019." }
+      ],
+      mistakes: [
+        { w: "I use to live here.", r: "I used to live here.", n: "Eski alışkanlık için used to.", },
+        { w: "She used to went there.", r: "She used to go there.", n: "used to + yalın fiil." },
+        { w: "I didn't used to like it.", r: "I didn't use to like it.", n: "didn't'ten sonra use to gelir." }
+      ],
+      practice: [
+        { q: "I ___ to play tennis when I was young.", hint: "used", a: ["used"] },
+        { q: "She ___ to live in Izmir.", hint: "used", a: ["used"] },
+        { q: "I didn't ___ to like coffee.", hint: "use", a: ["use"] },
+        { q: "He ___ to be very shy.", hint: "used", a: ["used"] },
+        { q: "Did you ___ to ride a bike?", hint: "use", a: ["use"] }
+      ]
+    },
+    {
+      id: "b1-14",
+      title: "Question Tags (değil mi?)",
+      short: "onay sorusu ekleri",
+      slides: [
+        { h: "Temel kural", b: "Olumlu cümle → olumsuz tag; olumsuz cümle → olumlu tag.\\n\\n> It's cold, isn't it?\\n> She isn't here, is she?" },
+        { h: "Yardımcı fiil + zamir", b: "Tag, cümledeki yardımcı fiille başlar:\\n\\n> You like tea, don't you?\\n> He can swim, can't he?" },
+        { h: "Önemli detay", b: "I am → aren't I?\\n\\n> I'm early, aren't I?" }
+      ],
+      mistakes: [
+        { w: "She is nice, is she?", r: "She is nice, isn't she?", n: "Olumlu cümle → olumsuz tag." },
+        { w: "They don't work, don't they?", r: "They don't work, do they?", n: "Olumsuz cümle → olumlu tag." },
+        { w: "He can swim, doesn't he?", r: "He can swim, can't he?", n: "can fiili devam eder → can't he." }
+      ],
+      practice: [
+        { q: "It's cold, ___?", hint: "isn't", a: ["isn't it"] },
+        { q: "She isn't here, ___?", hint: "is", a: ["is she"] },
+        { q: "You like tea, ___?", hint: "don't", a: ["don't you"] },
+        { q: "He can swim, ___?", hint: "can't", a: ["can't he"] },
+        { q: "They don't work here, ___?", hint: "do", a: ["do they"] }
+      ]
+    },
+    {
+      id: "b1-15",
+      title: "Modal Çıkarım (must / might / can't)",
+      short: "tahmin ve çıkarım",
+      slides: [
+        { h: "Kesinlik derecesi", b: "must → neredeyse kesin, might/may/could → olası, can't → imkânsız.\\n\\n> must, might, can't" },
+        { h: "must (güçlü çıkarım)", b: "> He must be at work; his car is here.\\n> She must be tired; she worked all night." },
+        { h: "might / can't", b: "might/may/could → olasılık.\\ncan't → kesin olumsuz çıkarım (must not değil!).\\n\\n> She might be at home.\\n> That can't be true." }
+      ],
+      mistakes: [
+        { w: "He must be at home; I saw him leave.", r: "He can't be at home; I saw him leave.", n: "Kesin olumsuz çıkarım için can't." },
+        { w: "She can be the manager; she is too young.", r: "She can't be the manager; she is too young.", n: "Olası değilse can't." },
+        { w: "He must working now.", r: "He must be working now.", n: "must + be + -ing." }
+      ],
+      practice: [
+        { q: "He ___ be at work; his car is here.", hint: "must", a: ["must"] },
+        { q: "That ___ be true; it's impossible.", hint: "can't", a: ["can't", "cannot"] },
+        { q: "She ___ be sleeping; she isn't answering.", hint: "might", a: ["might", "may", "could"] },
+        { q: "They ___ be home; the lights are on.", hint: "must", a: ["must"] },
+        { q: "I'm not sure, but it ___ rain later.", hint: "might", a: ["might", "may", "could"] }
+      ]
+    },
+    {
+      id: "b1-16",
+      title: "too / enough",
+      short: "aşırılık ve yeterlilik",
+      slides: [
+        { h: "too + sıfat", b: "Fazla, aşırı (olumsuz anlam):\\n\\n> This bag is too heavy. (Çok ağır)" },
+        { h: "sıfat + enough", b: "Yeterince:\\n\\n> He is old enough to drive.\\n\\nSıfattan SONRA gelir: old enough (enough old değil)." },
+        { h: "too...to / enough...to", b: "> She is too tired to work.\\n> It's warm enough to swim." }
+      ],
+      mistakes: [
+        { w: "I'm enough old to vote.", r: "I'm old enough to vote.", n: "enough sıfattan sonra gelir." },
+        { w: "This soup is too hot enough.", r: "This soup is too hot.", n: "too ve enough birlikte kullanılmaz." },
+        { w: "She is too young to driving.", r: "She is too young to drive.", n: "to + yalın fiil." }
+      ],
+      practice: [
+        { q: "This coffee is ___ hot to drink.", hint: "too", a: ["too"] },
+        { q: "He is old ___ to drive.", hint: "enough", a: ["enough"] },
+        { q: "I'm ___ tired to study.", hint: "too", a: ["too"] },
+        { q: "The water is warm ___ to swim.", hint: "enough", a: ["enough"] },
+        { q: "She is not old ___ to drive.", hint: "enough", a: ["enough"] }
+      ]
+    },
+    {
+      id: "b1-17",
+      title: "-ed / -ing Sıfatlar",
+      short: "duygu vs etki",
+      slides: [
+        { h: "-ing sıfatlar", b: "Durumu/etkiyi yaratan şey:\\n\\n> The film was boring. (Film sıkıcı)\\n> It was an exciting game." },
+        { h: "-ed sıfatlar", b: "Kişinin hissettiği duygu:\\n\\n> I was bored. (Sıkıldım)\\n> We were excited." },
+        { h: "Yaygın çiftler", b: "interesting/ed, exciting/ed, tiring/ed, disappointing/ed, frightening/ed.\\n\\nKişi hissediyor → -ed; şey hissettiriyor → -ing." }
+      ],
+      mistakes: [
+        { w: "The movie was bored.", r: "The movie was boring.", n: "Film sıkıcı → -ing." },
+        { w: "I was boring.", r: "I was bored.", n: "Kişi sıkıldı → -ed." },
+        { w: "This is a tired job.", r: "This is a tiring job.", n: "İş yorucu → -ing." }
+      ],
+      practice: [
+        { q: "I was really ___ after work.", hint: "tire", a: ["tired"] },
+        { q: "The lesson was very ___.", hint: "bore", a: ["boring"] },
+        { q: "She is ___ in history.", hint: "interest", a: ["interested"] },
+        { q: "That game is so ___.", hint: "excite", a: ["exciting"] },
+        { q: "We were ___ to hear the news.", hint: "surprise", a: ["surprised"] }
+      ]
+    },
+    {
+      id: "b1-18",
+      title: "Fiil + -ing vs Fiil + to",
+      short: "fiil kalıpları",
+      slides: [
+        { h: "-ing alan fiiller", b: "enjoy, mind, finish, avoid, feel like, can't stand, suggest:\\n\\n> I enjoy playing chess.\\n> Would you mind opening the window?" },
+        { h: "to + fiil alan fiiller", b: "want, need, decide, plan, hope, offer, promise, agree:\\n\\n> I decided to go home.\\n> She wants to become a doctor." },
+        { h: "Her ikisini alanlar", b: "start, begin, like, love, hate / prefer:\\n\\n> I started to read / reading." }
+      ],
+      mistakes: [
+        { w: "I enjoy to play chess.", r: "I enjoy playing chess.", n: "enjoy + -ing." },
+        { w: "She decided going home.", r: "She decided to go home.", n: "decide + to." },
+        { w: "I want going home.", r: "I want to go home.", n: "want + to." }
+      ],
+      practice: [
+        { q: "I enjoy ___ football.", hint: "play", a: ["playing"] },
+        { q: "She wants ___ a doctor.", hint: "become", a: ["to become"] },
+        { q: "He finished ___ the report.", hint: "write", a: ["writing"] },
+        { q: "I decided ___ a new course.", hint: "take", a: ["to take"] },
+        { q: "We feel like ___ out.", hint: "eat", a: ["eating"] }
+      ]
+    },
+    {
+      id: "b1-19",
+      title: "Amaç Bildiren 'to' (Infinitive of Purpose)",
+      short: "neden için",
+      slides: [
+        { h: "to + fiil", b: "Amaç bildirir ('için'):\\n\\n> I went to the shop to buy milk. (Süt almak için)" },
+        { h: "Why sorusuna yanıt", b: "> Why did you call? → To ask for help.\\n\\nDaha resmi: in order to / so as to." },
+        { h: "Olumsuz amaç", b: "so as not to / in order not to:\\n\\n> He left early so as not to be late." }
+      ],
+      mistakes: [
+        { w: "I went there for buy milk.", r: "I went there to buy milk.", n: "Amaç için to kullanılır." },
+        { w: "She studied for to pass.", r: "She studied to pass.", n: "'for to' yanlıştır." },
+        { w: "I came here see you.", r: "I came here to see you.", n: "to gereklidir." }
+      ],
+      practice: [
+        { q: "I went to the bank ___ my money.", hint: "withdraw", a: ["to withdraw"] },
+        { q: "She called me ___ her.", hint: "help", a: ["to help"] },
+        { q: "We left early ___ the bus.", hint: "catch", a: ["to catch"] },
+        { q: "He studies hard ___ the exam.", hint: "pass", a: ["to pass"] },
+        { q: "I opened the window ___ some fresh air.", hint: "get", a: ["to get"] }
+      ]
+    },
+    {
+      id: "b1-20",
+      title: "make / let / allow",
+      short: "zorlamak ve izin vermek",
+      slides: [
+        { h: "make + kişi + yalın fiil", b: "Zorlamak:\\n\\n> My parents make me study. (Beni çalışmaya zorlarlar)" },
+        { h: "let + kişi + yalın fiil", b: "İzin vermek (günlük):\\n\\n> My mum lets me go out. (Çıkmama izin verir)" },
+        { h: "allow + kişi + to fiil", b: "İzin vermek (resmi).\\n\\nDikkat: make/let → yalın fiil, allow → to + fiil.\\n\\n> They allow students to use phones."
+        }
+      ],
+      mistakes: [
+        { w: "My father makes me to study.", r: "My father makes me study.", n: "make + yalın fiil (to yok)." },
+        { w: "She lets me to go out.", r: "She lets me go out.", n: "let + yalın fiil." },
+        { w: "They allow students using phones.", r: "They allow students to use phones.", n: "allow + to + fiil." }
+      ],
+      practice: [
+        { q: "My dad made me ___ my room.", hint: "clean", a: ["clean"] },
+        { q: "She lets her son ___ late.", hint: "stay", a: ["stay"] },
+        { q: "The teacher allowed us ___ early.", hint: "leave", a: ["to leave"] },
+        { q: "Don't make me ___ that.", hint: "do", a: ["do"] },
+        { q: "They don't allow people ___ here.", hint: "smoke", a: ["to smoke"] }
+      ]
+    },
+    {
+      id: "b1-21",
+      title: "Belgisiz Zamirler",
+      short: "somebody / anything / nothing",
+      slides: [
+        { h: "some- / any- / no-", b: "somebody, anybody, everybody, nobody\\nsomething, anything, everything, nothing\\n\\n> Somebody is at the door." },
+        { h: "some / any", b: "some- → olumluda, any- → olumsuz/soruda:\\n\\n> I want something to eat.\\n> I don't know anything.\\n> Is anybody home?" },
+        { h: "no-", b: "no- olumsuz anlam verir, olumsuz fiille kullanılmaz.\\n\\n> Nobody called. (Doğru) / Nobody didn't call. (Yanlış)\\n> There is nothing in the fridge."
+        }
+      ],
+      mistakes: [
+        { w: "I don't know nobody here.", r: "I don't know anybody here.", n: "no- ile olumsuz fiil birlikte kullanılmaz." },
+        { w: "Is somebody home?", r: "Is anybody home?", n: "Sorularda any- kullanılır." },
+        { w: "There is no anything in the bag.", r: "There is nothing in the bag.", n: "no + anything olmaz." }
+      ],
+      practice: [
+        { q: "___ is knocking at the door.", hint: "somebody", a: ["Somebody", "Someone"] },
+        { q: "There is ___ in the fridge.", hint: "hiçbir şey", a: ["nothing"] },
+        { q: "I don't know ___ about it.", hint: "anything", a: ["anything"] },
+        { q: "Is ___ here?", hint: "anybody", a: ["anybody", "anyone"] },
+        { q: "___ phoned while you were out.", hint: "somebody", a: ["Somebody", "Someone"] }
+      ]
+    },
+    {
+      id: "b1-22",
+      title: "Dolaylı Anlatım (say / tell, ricalar)",
+      short: "backshift ve rica",
+      slides: [
+        { h: "say / tell", b: "say (to) + kişi, tell + kişi (to'suz):\\n\\n> He said (that) he was tired.\\n> He told me (that) he was tired." },
+        { h: "Backshift (zaman kayması)", b: "present → past, will → would, can → could, am/is → was/were.\\n\\n> \"I am busy.\" → She said she was busy."
+        },
+        { h: "Aktarılan ricalar", b: "ask/tell + kişi + to fiil:\\n\\n> \"Please close the door.\" → She asked me to close the door.\\n> \"Close the door!\" → He told me to close the door."
+        }
+      ],
+      mistakes: [
+        { w: "She said she is tired.", r: "She said she was tired.", n: "Backshift: is → was." },
+        { w: "He said me that he was happy.", r: "He told me that he was happy.", n: "said'den sonra kişi gelmez." },
+        { w: "She asked me close the door.", r: "She asked me to close the door.", n: "ask + kişi + to." }
+      ],
+      practice: [
+        { q: "He said (that) he ___ at home.", hint: "be (backshift)", a: ["was"] },
+        { q: "\"I will come.\" → He said he ___ come.", hint: "will", a: ["would"] },
+        { q: "She told me (that) she ___ to help.", hint: "want", a: ["wanted"] },
+        { q: "She asked me ___ quiet.", hint: "be", a: ["to be"] },
+        { q: "\"Call me.\" → They told me ___ them.", hint: "call", a: ["to call"] }
+      ]
     }
   ]
 };
