@@ -171,6 +171,7 @@ const diffJson = JSON.stringify(DIFF).replace(/</g, '\\u003c');
     .cm-foot { display: flex; justify-content: space-between; gap: 10px; margin-top: 22px; flex-wrap: wrap; }
     .cm-quit, .cm-reset { border: 1px solid var(--line); background: #fff; border-radius: 10px; padding: 10px 16px; font-weight: 700; cursor: pointer; font-family: inherit; }
     .cm-modal { position: fixed; inset: 0; background: rgba(10,20,25,.72); display: flex; align-items: center; justify-content: center; z-index: 90; padding: 16px; }
+    .cm-modal[hidden] { display: none; }
     .cm-modal-card { max-width: 720px; width: 100%; background: #fff; border-radius: 18px; padding: 28px; box-shadow: 0 30px 80px -20px rgba(0,0,0,.6); animation: cmPop .25s ease; }
     @keyframes cmPop { from { transform: scale(.92); opacity: 0; } to { transform: scale(1); opacity: 1; } }
     .cm-q-topic { font-size: .8rem; font-weight: 700; color: var(--teal-dark); text-transform: uppercase; letter-spacing: .04em; }
