@@ -16,10 +16,10 @@ export const GRAMMAR_MCQ_B1 = {
     { "q": "___ you ever eaten sushi?", "options": ["Did", "Have", "Do", "Was"], "a": 1 }
   ],
   "b1-03": [
-    { "q": "Look at those black clouds! It ___ rain soon.", "options": ["will", "is going to", "goes to", "has"], "a": 1 },
-    { "q": "The phone is ringing. I ___ answer it.", "options": ["am going to", "will", "do", "am"], "a": 1 },
-    { "q": "We ___ visit grandma next weekend; we already booked the tickets.", "options": ["will", "are going to", "go to", "shall"], "a": 1 },
-    { "q": "I think our team ___ win the match.", "options": ["will", "is going to", "was", "be"], "a": 0 },
+    { "q": "Look at those black clouds! It ___ rain soon.", "options": ["will", "is going to", "is going", "will to"], "a": 1 },
+    { "q": "The phone is ringing. I ___ answer it.", "options": ["am going to", "will", "will to", "am going"], "a": 1 },
+    { "q": "We ___ visit grandma next weekend; we already booked the tickets.", "options": ["will", "are going to", "are going", "will going to"], "a": 1 },
+    { "q": "I think our team ___ win the match.", "options": ["will", "is going", "going to", "will to"], "a": 0 },
     { "q": "Select the correct sentence:", "options": ["I am going to help you.", "I will going to help you.", "I going to help you.", "I will to help you."], "a": 0 }
   ],
   "b1-04": [
@@ -58,17 +58,17 @@ export const GRAMMAR_MCQ_B1 = {
     { "q": "The window ___ by the children yesterday.", "options": ["is broken", "was broken", "breaks", "was break"], "a": 1 }
   ],
   "b1-09": [
-    { "q": "You look tired. You ___ go to bed early tonight.", "options": ["must go to sleep", "should", "have to does", "musts"], "a": 1 },
+    { "q": "You look tired. You ___ go to bed early tonight.", "options": ["must to", "should", "should to", "musts"], "a": 1 },
     { "q": "She ___ wear a uniform at her school.", "options": ["have to", "has to", "must to", "should to"], "a": 1 },
-    { "q": "You ___ smoke here; it is forbidden.", "options": ["must not", "don't have to", "should not to", "musts not"], "a": 0 },
-    { "q": "It is a rule that every student ___ bring an ID card.", "options": ["must", "should", "has to does", "musts"], "a": 0 },
+    { "q": "You ___ smoke here; it is forbidden.", "options": ["must not", "don't have to", "must not to", "doesn't have to"], "a": 0 },
+    { "q": "It is a rule that every student ___ bring an ID card.", "options": ["must", "should", "must to", "should to"], "a": 0 },
     { "q": "Select the correct sentence:", "options": ["You should to study.", "He musts go.", "She has to work.", "I must to call."], "a": 2 }
   ],
   "b1-10": [
     { "q": "I only have ___ money, so I cannot buy the jacket.", "options": ["a few", "a little", "many", "few"], "a": 1 },
     { "q": "She has ___ good friends, about five of them.", "options": ["a few", "a little", "much", "little"], "a": 0 },
-    { "q": "There are ___ people waiting outside the gate.", "options": ["a lot of", "much", "a little", "is a lot"], "a": 0 },
-    { "q": "Do you have ___ sugar for the tea?", "options": ["some", "any", "much many", "few"], "a": 1 },
+    { "q": "There are ___ people waiting outside the gate.", "options": ["a lot of", "much", "a little", "little"], "a": 0 },
+    { "q": "Do you have ___ sugar for the tea?", "options": ["some", "any", "many", "few"], "a": 1 },
     { "q": "I bought ___ apples at the market.", "options": ["some", "any", "little", "much"], "a": 0 }
   ],
   "b1-11": [
@@ -102,7 +102,7 @@ export const GRAMMAR_MCQ_B1 = {
   "b1-15": [
     { "q": "His car is here, so he ___ be at home.", "options": ["must", "can't", "mustn't", "might not"], "a": 0 },
     { "q": "That ___ be true; it is impossible.", "options": ["must", "can't", "should", "could"], "a": 1 },
-    { "q": "She is not answering; she ___ be sleeping.", "options": ["might", "can't", "mustn't", "doesn't"], "a": 0 },
+    { "q": "She is not answering; she ___ be sleeping.", "options": ["might", "can't", "mustn't", "won't"], "a": 0 },
     { "q": "He ___ be the boss; he is too young.", "options": ["must", "can't", "could", "should"], "a": 1 },
     { "q": "I'm not sure, but it ___ rain tomorrow.", "options": ["must", "can't", "might", "has to"], "a": 2 }
   ],
@@ -144,7 +144,7 @@ export const GRAMMAR_MCQ_B1 = {
   "b1-21": [
     { "q": "___ is waiting for you outside.", "options": ["Somebody", "Anything", "Nothing", "Anybody"], "a": 0 },
     { "q": "I looked everywhere, but I found ___ .", "options": ["something", "nothing", "anything", "nobody"], "a": 1 },
-    { "q": "Do you know ___ about this?", "options": ["somebody", "anything", "nothing", "everywhere"], "a": 1 },
+    { "q": "Do you know ___ about this?", "options": ["somebody", "anything", "nothing", "anybody"], "a": 1 },
     { "q": "There is ___ to eat in the kitchen.", "options": ["anybody", "nothing", "somebody", "anyone"], "a": 1 },
     { "q": "Is there ___ you want to ask?", "options": ["something", "anything", "nothing", "somebody"], "a": 1 }
   ],
