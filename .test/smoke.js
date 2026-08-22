@@ -198,10 +198,10 @@ click("#tiles .tile"); // tap a tile (correct or wrong — must not throw)
 ok(true, "tile tap handled without error");
 
 console.log("== grammar: data integrity ==");
-ok(!!w.GRAMMAR_A1 && !!w.GRAMMAR_A2 && !!w.GRAMMAR_B1 && !!w.GRAMMAR_B2, "4 grammar level files loaded");
-const gLevels = [w.GRAMMAR_A1, w.GRAMMAR_A2, w.GRAMMAR_B1, w.GRAMMAR_B2];
+ok(!!w.GRAMMAR_A1 && !!w.GRAMMAR_A2 && !!w.GRAMMAR_B1 && !!w.GRAMMAR_B2 && !!w.GRAMMAR_C1, "5 grammar level files loaded");
+const gLevels = [w.GRAMMAR_A1, w.GRAMMAR_A2, w.GRAMMAR_B1, w.GRAMMAR_B2, w.GRAMMAR_C1];
 const gTotalUnits = gLevels.reduce((n, l) => n + l.units.length, 0);
-ok(gTotalUnits === 36, "36 total units (" + gTotalUnits + ")");
+ok(gTotalUnits === 97, "97 total units (" + gTotalUnits + ")");
 let gShapeOk = true, gShapeMsg = "";
 gLevels.forEach((l) => l.units.forEach((u) => {
   if (!u.slides || !u.slides.length) { gShapeOk = false; gShapeMsg = u.id + " missing slides"; }
@@ -209,7 +209,7 @@ gLevels.forEach((l) => l.units.forEach((u) => {
   if (!u.practice || !u.practice.length) { gShapeOk = false; gShapeMsg = u.id + " missing practice"; }
 }));
 ok(gShapeOk, "all units have slides, mistakes, practice" + (gShapeOk ? "" : " (" + gShapeMsg + ")"));
-const mcqMaps = [w.GRAMMAR_MCQ_A1, w.GRAMMAR_MCQ_A2, w.GRAMMAR_MCQ_B1, w.GRAMMAR_MCQ_B2];
+const mcqMaps = [w.GRAMMAR_MCQ_A1, w.GRAMMAR_MCQ_A2, w.GRAMMAR_MCQ_B1, w.GRAMMAR_MCQ_B2, w.GRAMMAR_MCQ_C1];
 let gMcqOk = true, gMcqMsg = "";
 gLevels.forEach((l) => l.units.forEach((u) => {
   let found = false;
@@ -221,10 +221,10 @@ ok(gMcqOk, "all units have >=3 comprehension MCQs" + (gMcqOk ? "" : " (" + gMcqM
 console.log("== grammar: levels & units ==");
 click('.tab[data-tab="grammar"]');
 ok(text("#titleText") === "Dilbilgisi", "grammar view title");
-ok(d.querySelectorAll("[data-glevel]").length === 4, "4 level cards");
+ok(d.querySelectorAll("[data-glevel]").length === 5, "5 level cards");
 Array.from(d.querySelectorAll("[data-glevel]")).find((c) => c.getAttribute("data-glevel") === "a1").click();
 ok((text("#titleText") || "").indexOf("A1") === 0, "A1 level title (" + text("#titleText") + ")");
-ok(d.querySelectorAll("[data-gunit]").length === 8, "A1 has 8 units (" + d.querySelectorAll("[data-gunit]").length + ")");
+ok(d.querySelectorAll("[data-gunit]").length === 21, "A1 has 21 units (" + d.querySelectorAll("[data-gunit]").length + ")");
 
 console.log("== grammar: slides ==");
 Array.from(d.querySelectorAll("[data-gunit]")).find((c) => c.getAttribute("data-gunit") === "a1-01").click();
@@ -295,7 +295,7 @@ ok(!!d.querySelector("#gRedo"), "completion screen shown");
 
 console.log("== grammar: completion tracked ==");
 click("#gBackLevel");
-ok(d.querySelectorAll("[data-gunit]").length === 8, "back to A1 unit list");
+ok(d.querySelectorAll("[data-gunit]").length === 21, "back to A1 unit list");
 const u1card = Array.from(d.querySelectorAll("[data-gunit]")).find((c) => c.getAttribute("data-gunit") === "a1-01");
 ok(u1card && !!u1card.querySelector(".g-unit-num.done"), "completed unit shows checkmark");
 ok(u1card && (u1card.textContent || "").indexOf("En iyi") >= 0, "unit shows best score");
@@ -304,7 +304,7 @@ console.log("== grammar: dedicated MCQ test (Grammatik Testi) ==");
 click('.tab[data-tab="grammar"]');
 ok(!!d.querySelector("[data-gtest]"), "Grammatik Testi entry card present");
 click("[data-gtest]");
-ok(d.querySelectorAll("[data-gtestlevel]").length === 4, "level picker shows 4 levels");
+ok(d.querySelectorAll("[data-gtestlevel]").length === 5, "level picker shows 5 levels");
 click('[data-gtestlevel="a1"]');
 ok(d.querySelectorAll(".gtest-opt").length === 4, "test question renders exactly 4 options");
 let tGuard = 0;
@@ -320,7 +320,7 @@ ok(!!d.querySelector("#gtestLevels"), "test end screen shows Seviye seç");
 ok((d.querySelector("#content").textContent || "").indexOf("En iyi") >= 0, "end screen shows best score");
 ok((w.localStorage.getItem("ewc_progress_v2") || "").indexOf("grammarTest") >= 0, "grammar test best persisted");
 d.querySelector("#gtestLevels").click();
-ok(d.querySelectorAll("[data-gtestlevel]").length === 4, "Seviye seç returns to level picker");
+ok(d.querySelectorAll("[data-gtestlevel]").length === 5, "Seviye seç returns to level picker");
 
 console.log("== daily tasks: tracking ==");
 click('.tab[data-tab="home"]');
@@ -351,12 +351,12 @@ rSets.forEach(function (n) {
   rTotal += arr.length;
   if (arr.length < 30) rMinOk = false;
   arr.forEach(function (p) {
-    if (!p.topic || !p.title || !p.text || !p.questions || p.questions.length !== 3) rOk = false;
+    if (!p.topic || !p.title || !p.text || !p.questions || p.questions.length < 3 || p.questions.length > 5) rOk = false;
   });
 });
 ok(rTotal >= 330, ">=330 total passages (" + rTotal + ")");
 ok(rMinOk, "every set has >=30 passages");
-ok(rOk, "all passages have topic/title/text + 3 questions");
+ok(rOk, "all passages have topic/title/text + 3-5 questions");
 
 console.log("== reading: list & passage ==");
 click('.tab[data-tab="sets"]');

@@ -15,7 +15,7 @@
   var ALL_KEYS = Object.keys(WORDS).sort();
 
   // Grammar curriculum (A1–B2), loaded from grammar_*.js
-  var GRAMMAR = [window.GRAMMAR_A1, window.GRAMMAR_A2, window.GRAMMAR_B1, window.GRAMMAR_B2].filter(Boolean);
+  var GRAMMAR = [window.GRAMMAR_A1, window.GRAMMAR_A2, window.GRAMMAR_B1, window.GRAMMAR_B2, window.GRAMMAR_C1].filter(Boolean);
   var GRAMMAR_BY_ID = {};
   GRAMMAR.forEach(function (g) { GRAMMAR_BY_ID[g.id] = g; });
 
@@ -1264,7 +1264,7 @@
       '<div class="hero" style="background:linear-gradient(135deg,#7C3AED,#2563EB)">' +
       '  <div class="kicker">Dilbilgisi</div>' +
       '  <h2>Dilbilgisi Koçu</h2>' +
-      '  <p>' + t.done + ' / ' + t.total + ' ünite tamamlandı · 4 seviye (A1–B2)</p>' +
+      '  <p>' + t.done + ' / ' + t.total + ' ünite tamamlandı · 5 seviye (A1–C1)</p>' +
       '</div>' +
       '<div class="set-card" data-gtest>' +
       '  <div class="set-badge" style="background:#7C3AED">📝</div>' +

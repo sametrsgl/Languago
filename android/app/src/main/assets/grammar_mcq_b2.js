@@ -1,72 +1,1513 @@
+// Languago — B2 MCQ
 window.GRAMMAR_MCQ_B2 = {
   "b2-01": [
-    { "q": "They ___ for three hours when the power went out.", "options": ["have been working", "has been working", "have worked", "are working"], "a": 0 },
-    { "q": "She ___ French since last year, so her speaking has improved a lot.", "options": ["has studied", "has been studying", "studied", "is studying"], "a": 1 },
-    { "q": "It ___ since morning.", "options": ["has rained", "rained", "has been raining", "rains"], "a": 2 },
-    { "q": "I ___ for the exam all week and I still feel unprepared.", "options": ["have been preparing", "have prepared", "prepared", "prepare"], "a": 0 },
-    { "q": "He ___ too hard lately, which is why he looks exhausted.", "options": ["has worked", "works", "had worked", "has been working"], "a": 3 }
+    {
+      "q": "They ___ for three hours when the power went out.",
+      "options": [
+        "have been working",
+        "has been working",
+        "have worked",
+        "are working"
+      ],
+      "a": 0
+    },
+    {
+      "q": "She ___ French since last year, so her speaking has improved a lot.",
+      "options": [
+        "has studied",
+        "has been studying",
+        "studied",
+        "is studying"
+      ],
+      "a": 1
+    },
+    {
+      "q": "It ___ all morning, so the streets are wet.",
+      "options": [
+        "has rained",
+        "rained",
+        "has been raining",
+        "rains"
+      ],
+      "a": 2
+    },
+    {
+      "q": "I ___ for the exam all week and I still feel unprepared.",
+      "options": [
+        "have been preparing",
+        "have prepared",
+        "prepared",
+        "prepare"
+      ],
+      "a": 0
+    },
+    {
+      "q": "He ___ too hard lately, which is why he looks exhausted.",
+      "options": [
+        "has worked",
+        "works",
+        "had worked",
+        "has been working"
+      ],
+      "a": 3
+    }
   ],
   "b2-02": [
-    { "q": "When I arrived at the station, the train ___ already ___.", "options": ["has, left", "had, left", "had, leave", "was, leaving"], "a": 1 },
-    { "q": "She ___ dinner before her guests came.", "options": ["had eaten", "has eaten", "eats", "was eating"], "a": 0 },
-    { "q": "He told me he ___ that film before, so we watched something else.", "options": ["saw", "has seen", "had seen", "sees"], "a": 2 },
-    { "q": "By the time the teacher arrived, the students ___ all the questions.", "options": ["answer", "answered", "have answered", "had answered"], "a": 3 },
-    { "q": "They ___ (not) the report, so they could not present it.", "options": ["had not finished", "have not finished", "did not finish", "not finished"], "a": 0 }
+    {
+      "q": "When I arrived at the station, the train ___ already ___.",
+      "options": [
+        "has, left",
+        "had, left",
+        "had, leave",
+        "was, leaving"
+      ],
+      "a": 1
+    },
+    {
+      "q": "She ___ dinner before her guests came.",
+      "options": [
+        "had eaten",
+        "has eaten",
+        "eats",
+        "was eating"
+      ],
+      "a": 0
+    },
+    {
+      "q": "He told me he ___ that film before, so we watched something else.",
+      "options": [
+        "saw",
+        "has seen",
+        "had seen",
+        "sees"
+      ],
+      "a": 2
+    },
+    {
+      "q": "By the time the teacher arrived, the students ___ all the questions.",
+      "options": [
+        "answer",
+        "answered",
+        "have answered",
+        "had answered"
+      ],
+      "a": 3
+    },
+    {
+      "q": "They ___ (not) the report, so they could not present it.",
+      "options": [
+        "had not finished",
+        "have not finished",
+        "did not finish",
+        "not finished"
+      ],
+      "a": 0
+    }
   ],
   "b2-03": [
-    { "q": "If I ___ harder, I would have passed the interview.", "options": ["studied", "had studied", "would study", "study"], "a": 1 },
-    { "q": "She would have caught the bus if she ___ earlier.", "options": ["left", "had left", "would leave", "leaves"], "a": 1 },
-    { "q": "If they had told us, we ___ them.", "options": ["would help", "helped", "would have helped", "help"], "a": 2 },
-    { "q": "If he ___ me about the meeting, I would have attended.", "options": ["asked", "had asked", "would ask", "asks"], "a": 1 },
-    { "q": "I would have called you if I ___ your number.", "options": ["knew", "had known", "would know", "know"], "a": 1 }
+    {
+      "q": "If I ___ harder, I would have passed the interview.",
+      "options": [
+        "studied",
+        "had studied",
+        "would study",
+        "study"
+      ],
+      "a": 1
+    },
+    {
+      "q": "She would have caught the bus if she ___ earlier.",
+      "options": [
+        "left",
+        "had left",
+        "would leave",
+        "leaves"
+      ],
+      "a": 1
+    },
+    {
+      "q": "If they had told us, we ___ them.",
+      "options": [
+        "would help",
+        "helped",
+        "would have helped",
+        "help"
+      ],
+      "a": 2
+    },
+    {
+      "q": "If he ___ me about the meeting, I would have attended.",
+      "options": [
+        "asked",
+        "had asked",
+        "would ask",
+        "asks"
+      ],
+      "a": 1
+    },
+    {
+      "q": "I would have called you if I ___ your number.",
+      "options": [
+        "knew",
+        "had known",
+        "would know",
+        "know"
+      ],
+      "a": 1
+    }
   ],
   "b2-04": [
-    { "q": "If I had studied medicine, I ___ a doctor now.", "options": ["would be", "will be", "would have been", "am"], "a": 0 },
-    { "q": "If she had saved more money, she ___ a new car today.", "options": ["would have", "will have", "had", "has"], "a": 0 },
-    { "q": "If they had moved to London, they ___ near us now.", "options": ["would live", "would have lived", "will live", "lived"], "a": 0 },
-    { "q": "If I ___ afraid of heights, I would have gone climbing with you.", "options": ["was", "am not", "were not", "had not been"], "a": 2 },
-    { "q": "If he had taken that job, he ___ in Istanbul at this moment.", "options": ["would be living", "would have lived", "will live", "lived"], "a": 0 }
+    {
+      "q": "If I had studied medicine, I ___ a doctor now.",
+      "options": [
+        "would be",
+        "will be",
+        "would have been",
+        "am"
+      ],
+      "a": 0
+    },
+    {
+      "q": "If she had saved more money, she ___ a new car today.",
+      "options": [
+        "would have",
+        "will have",
+        "had",
+        "has"
+      ],
+      "a": 0
+    },
+    {
+      "q": "If they had moved to London, they ___ near us now.",
+      "options": [
+        "would live",
+        "would have lived",
+        "will live",
+        "lived"
+      ],
+      "a": 0
+    },
+    {
+      "q": "If I ___ afraid of heights, I would have gone climbing with you.",
+      "options": [
+        "was",
+        "am not",
+        "were not",
+        "had not been"
+      ],
+      "a": 2
+    },
+    {
+      "q": "If he had taken that job, he ___ in Istanbul at this moment.",
+      "options": [
+        "would be living",
+        "would have lived",
+        "will live",
+        "lived"
+      ],
+      "a": 0
+    }
   ],
   "b2-05": [
-    { "q": "She said she ___ tired after the journey.", "options": ["is", "was", "has been", "will be"], "a": 1 },
-    { "q": "He told me he ___ come to the party.", "options": ["will", "would", "can", "shall"], "a": 1 },
-    { "q": "They said they ___ happy with the result.", "options": ["were", "are", "have been", "are being"], "a": 0 },
-    { "q": "She said she ___ be free the next day.", "options": ["will", "would", "can", "could"], "a": 1 },
-    { "q": "Which sentence is correct when reporting What did he say today?", "options": ["He said me he was busy.", "He told he was busy.", "He said he was busy.", "He told me he is busy."], "a": 2 }
+    {
+      "q": "She said she ___ tired after the journey.",
+      "options": [
+        "is",
+        "was",
+        "has been",
+        "will be"
+      ],
+      "a": 1
+    },
+    {
+      "q": "He told me he ___ come to the party.",
+      "options": [
+        "will",
+        "would",
+        "can",
+        "shall"
+      ],
+      "a": 1
+    },
+    {
+      "q": "They said they ___ happy with the result.",
+      "options": [
+        "were",
+        "are",
+        "have been",
+        "are being"
+      ],
+      "a": 0
+    },
+    {
+      "q": "She said she ___ be free the next day.",
+      "options": [
+        "will",
+        "would",
+        "can",
+        "could"
+      ],
+      "a": 1
+    },
+    {
+      "q": "Which sentence is correct when reporting What did he say today?",
+      "options": [
+        "He said me he was busy.",
+        "He told he was busy.",
+        "He said he was busy.",
+        "He told me he is busy."
+      ],
+      "a": 2
+    }
   ],
   "b2-06": [
-    { "q": "The new bridge ___ at the moment.", "options": ["is being built", "was built", "is built", "has built"], "a": 0 },
-    { "q": "The work ___ by five o'clock yesterday.", "options": ["had been finished", "has been finished", "is finished", "will be finished"], "a": 0 },
-    { "q": "The letters ___ tomorrow morning.", "options": ["will be sent", "are sending", "sent", "will send"], "a": 0 },
-    { "q": "That book ___ by a very famous author.", "options": ["was written", "wrote", "is writing", "has written"], "a": 0 },
-    { "q": "The window ___ by a careless boy during the game.", "options": ["was broken", "broke", "is broken", "has broken"], "a": 0 }
+    {
+      "q": "The new bridge ___ at the moment.",
+      "options": [
+        "is being built",
+        "was built",
+        "is built",
+        "has built"
+      ],
+      "a": 0
+    },
+    {
+      "q": "The work ___ by five o'clock yesterday.",
+      "options": [
+        "had been finished",
+        "has been finished",
+        "is finished",
+        "will be finished"
+      ],
+      "a": 0
+    },
+    {
+      "q": "The letters ___ tomorrow morning.",
+      "options": [
+        "will be sent",
+        "are sending",
+        "sent",
+        "will send"
+      ],
+      "a": 0
+    },
+    {
+      "q": "That book ___ by a very famous author.",
+      "options": [
+        "was written",
+        "wrote",
+        "is writing",
+        "has written"
+      ],
+      "a": 0
+    },
+    {
+      "q": "The window ___ by a careless boy during the game.",
+      "options": [
+        "was broken",
+        "broke",
+        "is broken",
+        "has broken"
+      ],
+      "a": 0
+    }
   ],
   "b2-07": [
-    { "q": "I really enjoy ___ in the mountains.", "options": ["to hike", "hiking", "hike", "to hiking"], "a": 1 },
-    { "q": "She decided ___ a new project.", "options": ["starting", "start", "to start", "to starting"], "a": 2 },
-    { "q": "We finished ___ dinner and went for a walk.", "options": ["to eat", "eating", "eat", "eaten"], "a": 1 },
-    { "q": "He promised ___ me as soon as he landed.", "options": ["calling", "call", "to call", "to calling"], "a": 2 },
-    { "q": "I avoid ___ late because I hate rushing.", "options": ["to stay", "staying", "stay", "stayed"], "a": 1 }
+    {
+      "q": "I really enjoy ___ in the mountains.",
+      "options": [
+        "to hike",
+        "hiking",
+        "hike",
+        "to hiking"
+      ],
+      "a": 1
+    },
+    {
+      "q": "She decided ___ a new project.",
+      "options": [
+        "starting",
+        "start",
+        "to start",
+        "to starting"
+      ],
+      "a": 2
+    },
+    {
+      "q": "We finished ___ dinner and went for a walk.",
+      "options": [
+        "to eat",
+        "eating",
+        "eat",
+        "eaten"
+      ],
+      "a": 1
+    },
+    {
+      "q": "He promised ___ me as soon as he landed.",
+      "options": [
+        "calling",
+        "call",
+        "to call",
+        "to calling"
+      ],
+      "a": 2
+    },
+    {
+      "q": "I avoid ___ late because I hate rushing.",
+      "options": [
+        "to stay",
+        "staying",
+        "stay",
+        "stayed"
+      ],
+      "a": 1
+    }
   ],
   "b2-08": [
-    { "q": "He worked all night, so he ___ be very tired now.", "options": ["must", "might", "can't", "mustn't"], "a": 0 },
-    { "q": "That ___ be true, it sounds completely impossible.", "options": ["must", "might", "can't", "should"], "a": 2 },
-    { "q": "I am not sure, but she ___ be at the office.", "options": ["must", "might", "can't", "mustn't"], "a": 1 },
-    { "q": "He ___ have forgotten the meeting, he never misses anything.", "options": ["must", "might", "can't", "shouldn't"], "a": 2 },
-    { "q": "The door is locked and his coat is here, so he ___ have left.", "options": ["must", "might", "can't", "could"], "a": 2 }
+    {
+      "q": "He worked all night, so he ___ be very tired now.",
+      "options": [
+        "must",
+        "might",
+        "can't",
+        "mustn't"
+      ],
+      "a": 0
+    },
+    {
+      "q": "That ___ be true, it sounds completely impossible.",
+      "options": [
+        "must",
+        "might",
+        "can't",
+        "should"
+      ],
+      "a": 2
+    },
+    {
+      "q": "I am not sure, but she ___ be at the office.",
+      "options": [
+        "must",
+        "might",
+        "can't",
+        "mustn't"
+      ],
+      "a": 1
+    },
+    {
+      "q": "He ___ have forgotten the meeting, he never misses anything.",
+      "options": [
+        "must",
+        "might",
+        "can't",
+        "shouldn't"
+      ],
+      "a": 2
+    },
+    {
+      "q": "The door is locked and his coat is here, so he ___ have left the house.",
+      "options": [
+        "must",
+        "might",
+        "can't",
+        "could"
+      ],
+      "a": 2
+    }
   ],
   "b2-09": [
-    { "q": "I wish I ___ a bigger flat.", "options": ["has", "had", "have", "would have"], "a": 1 },
-    { "q": "I wish I ___ harder for that exam.", "options": ["study", "studied", "had studied", "would study"], "a": 2 },
-    { "q": "I wish it ___ raining so we could go out.", "options": ["stops", "stopped", "would stop", "had stopped"], "a": 2 },
-    { "q": "I wish I ___ taller, but I am quite short.", "options": ["am", "was", "were", "be"], "a": 2 },
-    { "q": "I wish you ___ so much noise; it is hard to concentrate.", "options": ["did not make", "do not make", "had not made", "would not make"], "a": 3 }
+    {
+      "q": "I wish I ___ a bigger flat.",
+      "options": [
+        "has",
+        "had",
+        "have",
+        "would have"
+      ],
+      "a": 1
+    },
+    {
+      "q": "I wish I ___ harder for that exam.",
+      "options": [
+        "study",
+        "studied",
+        "had studied",
+        "would study"
+      ],
+      "a": 2
+    },
+    {
+      "q": "I wish it ___ raining so we could go out.",
+      "options": [
+        "stops",
+        "stopped",
+        "would stop",
+        "had stopped"
+      ],
+      "a": 2
+    },
+    {
+      "q": "I wish I ___ taller, but I am quite short.",
+      "options": [
+        "am",
+        "was",
+        "were",
+        "be"
+      ],
+      "a": 2
+    },
+    {
+      "q": "I wish you ___ so much noise; it is hard to concentrate.",
+      "options": [
+        "did not make",
+        "do not make",
+        "had not made",
+        "would not make"
+      ],
+      "a": 3
+    }
   ],
   "b2-10": [
-    { "q": "By 2026 I ___ university.", "options": ["will finish", "will be finishing", "will have finished", "finish"], "a": 2 },
-    { "q": "This time tomorrow I ___ to Ankara.", "options": ["will fly", "will be flying", "will have flown", "fly"], "a": 1 },
-    { "q": "By the time you arrive, I ___ the flat.", "options": ["will clean", "clean", "will have cleaned", "will be cleaning"], "a": 2 },
-    { "q": "At 8pm tonight I ___ my favourite show on TV.", "options": ["will be watching", "watch", "will have watched", "watched"], "a": 0 },
-    { "q": "She ___ the report by Friday, so it will be ready for the meeting.", "options": ["will write", "will be writing", "will have written", "writes"], "a": 2 }
+    {
+      "q": "By 2026 I ___ university.",
+      "options": [
+        "will finish",
+        "will be finishing",
+        "will have finished",
+        "finish"
+      ],
+      "a": 2
+    },
+    {
+      "q": "This time tomorrow I ___ to Ankara.",
+      "options": [
+        "will fly",
+        "will be flying",
+        "will have flown",
+        "fly"
+      ],
+      "a": 1
+    },
+    {
+      "q": "By the time you arrive, I ___ the flat.",
+      "options": [
+        "will clean",
+        "clean",
+        "will have cleaned",
+        "will be cleaning"
+      ],
+      "a": 2
+    },
+    {
+      "q": "At 8pm tonight I ___ my favourite show on TV.",
+      "options": [
+        "will be watching",
+        "watch",
+        "will have watched",
+        "watched"
+      ],
+      "a": 0
+    },
+    {
+      "q": "She ___ the report by Friday, so it will be ready for the meeting.",
+      "options": [
+        "will write",
+        "will be writing",
+        "will have written",
+        "writes"
+      ],
+      "a": 2,
+      "why": [
+        "Present simple/future without a completion marker misses 'by Friday' → not planned-for completion.",
+        "Future continuous describes an action in progress at that time, not one finished before the deadline.",
+        "Correct: will have + past participle shows the report is finished by Friday.",
+        "Present simple is not used for this future-planned completion."
+      ]
+    }
+  ],
+  "b2-11": [
+    {
+      "q": "The flat is modern. ___, it is in the city centre.",
+      "options": [
+        "Nevertheless",
+        "Whereas",
+        "Furthermore",
+        "However"
+      ],
+      "a": 2,
+      "why": [
+        "'Nevertheless' (yine de) zıtlık/şaşırtıcı sonuç için; burada iki olumlu bilgi ekleniyor.",
+        "'Whereas' tek cümlede iki durumu karşılaştırır; ekleme yapmaz.",
+        "Correct: 'furthermore/moreover' cümleye olumlu ekleme yapar.",
+        "'However' zıtlık anlamı verir, olumlu ekleme değil."
+      ]
+    },
+    {
+      "q": "She works in a hospital, ___ her brother runs a café.",
+      "options": [
+        "furthermore",
+        "whereas",
+        "in addition",
+        "moreover"
+      ],
+      "a": 1,
+      "why": [
+        "'Furthermore' ekleme yapar; burası iki farklı durumu karşılaştırıyor.",
+        "Correct: 'whereas' tek cümlede iki kişiyi/durumu karşılaştırır.",
+        "'In addition' ekleme anlamı; zıtlık değil.",
+        "'Moreover' ekleme yapar; karşılaştırma yapmaz."
+      ]
+    },
+    {
+      "q": "The exam was long; ___, we finished on time.",
+      "options": [
+        "moreover",
+        "furthermore",
+        "nevertheless",
+        "in addition"
+      ],
+      "a": 2,
+      "why": [
+        "'Moreover' ekleme yapar; beklenmeyen sonuç değil.",
+        "Fazladan bilgi ekler, zıtlığa rağmen gerçekleşen sonucu vermez.",
+        "Correct: 'nevertheless/nonetheless' = uzun olmasına rağmen yine de bitirdik.",
+        "'In addition' ekleme; 'buna rağmen' anlamı yok."
+      ]
+    },
+    {
+      "q": "___ he was exhausted, he kept working.",
+      "options": [
+        "Although",
+        "Therefore",
+        "So that",
+        "However"
+      ],
+      "a": 0,
+      "why": [
+        "Correct: 'although/though/even though' zıt duruma rağmen yapılan eylemi belirtir.",
+        "'Therefore' sonuç anlamı; zıtlık değil.",
+        "'So that' amaç belirtir, zıtlık vermez.",
+        "'However' cümle başında zıtlık verir ama 'although' + tümce yapısıyla kullanılmaz."
+      ]
+    },
+    {
+      "q": "He didn't study. ___, he passed the exam easily.",
+      "options": [
+        "Moreover",
+        "Nevertheless",
+        "Furthermore",
+        "In addition"
+      ],
+      "a": 1,
+      "why": [
+        "'Moreover' olumlu ekleme yapar; şaşırtıcı sonuç değil.",
+        "Correct: 'nevertheless' = çalışmamasına rağmen geçti, beklenmedik sonuç.",
+        "'Furthermore' ekleme; karşıtlık yok.",
+        "'In addition' ekleme; 'buna rağmen' yok."
+      ]
+    }
+  ],
+  "b2-12": [
+    {
+      "q": "The house ___ we rented is quite old.",
+      "options": [
+        "where",
+        "which",
+        "who",
+        "what"
+      ],
+      "a": 1,
+      "why": [
+        "'Where' yer belirten bağıntı; burada evi tanımlayan nesne bağıntısı gerekli.",
+        "Correct: 'which/that' evi tanımlar (defining).",
+        "'Who' kişiler için kullanılır, ev için değil.",
+        "'What' cümleyi bağlamaz; bağıntı zamiri gerekiyor."
+      ]
+    },
+    {
+      "q": "Our neighbour, ___ is a dentist, helps us a lot.",
+      "options": [
+        "which",
+        "that",
+        "who",
+        "what"
+      ],
+      "a": 2,
+      "why": [
+        "'Which' şeyler için; kişi değil.",
+        "Non-defining (virgüllü) cümleciğe 'that' gelmez.",
+        "Correct: kişi için 'who'; virgüllü bilgi ekler.",
+        "'What' bağıntı cümleciği kurmaz."
+      ]
+    },
+    {
+      "q": "She has a car ___ never breaks down.",
+      "options": [
+        "who",
+        "whom",
+        "that",
+        "whose"
+      ],
+      "a": 2,
+      "why": [
+        "'Who' kişiler için özne; araba için değil.",
+        "'Whom' nesne kişi zamiri; araba değil.",
+        "Correct: 'that/which' arabanın öznesi olarak tanımlar.",
+        "'Whose' sahiplik (kimin) bildirir; burada özne gerekli."
+      ]
+    },
+    {
+      "q": "The scientist ___ discovered the vaccine won a prize.",
+      "options": [
+        "that",
+        "what",
+        "where",
+        "whose"
+      ],
+      "a": 0,
+      "why": [
+        "Correct: 'who/that' kişiyi tanımlayan özne bağıntısı.",
+        "'What' bağıntı kurmaz.",
+        "'Where' yer içindir.",
+        "'Whose' sahiplik (kimin) içindir; burada eylemi yapan kişi."
+      ]
+    },
+    {
+      "q": "My phone, ___ I use every day, has a cracked screen.",
+      "options": [
+        "that",
+        "which",
+        "who",
+        "whom"
+      ],
+      "a": 1,
+      "why": [
+        "Virgüllü (non-defining) cümleciğe 'that' GETİRİLEMEZ.",
+        "Correct: virgüllü cümleciğe ekstra bilgi için 'which' gelir.",
+        "'Who' kişiler içindir.",
+        "'Whom' nesne kişi içindir."
+      ]
+    }
+  ],
+  "b2-13": [
+    {
+      "q": "The man ___ at the door is waiting for you.",
+      "options": [
+        "stands",
+        "standing",
+        "stood",
+        "to stand"
+      ],
+      "a": 1,
+      "why": [
+        "'Stands' ana cümle öznesini işgal eder; burada yan cümlecik gerekli.",
+        "Correct: aktif yan cümleciği '-ing' biçimine indirgeriz (the man who is standing → standing).",
+        "'Stood' geçmiş zaman; süren eylem için -ing.",
+        "'To stand' amaç/yönelme; tanımlama yapmaz."
+      ]
+    },
+    {
+      "q": "The window ___ in last night's storm is being fixed.",
+      "options": [
+        "breaking",
+        "break",
+        "broken",
+        "broke"
+      ],
+      "a": 2,
+      "why": [
+        "'Breaking' aktif; cam kendini kırmadı, kırıldı (pasif).",
+        "'Break' yalın fiil; yan cümlecik formu değil.",
+        "Correct: 'broken' pasif indirgeme (window which was broken → broken).",
+        "'Broke' geçmiş ana fiil; yan cümlecik uygun değil."
+      ]
+    },
+    {
+      "q": "Passengers ___ for Flight 203 should board now.",
+      "options": [
+        "waited",
+        "waiting",
+        "to wait",
+        "wait"
+      ],
+      "a": 1,
+      "why": [
+        "'Waited' geçmiş; şu an bekleyenleri tanımlıyoruz.",
+        "Correct: aktif süreç → '-ing' (who are waiting → waiting).",
+        "'To wait' amaç; tanımlama biçimi değil.",
+        "'Wait' yalın fiil; yan cümlecik gerekiyor."
+      ]
+    },
+    {
+      "q": "The report ___ by the team was approved.",
+      "options": [
+        "preparing",
+        "prepared",
+        "prepare",
+        "to prepare"
+      ],
+      "a": 1,
+      "why": [
+        "'Preparing' aktif; rapor kendini hazırlamadı.",
+        "Correct: nesne pasif → '-ed' (which was prepared → prepared).",
+        "'Prepare' yalın fiil; indirgenmiş cümlecik değil.",
+        "'To prepare' amaç biçimi; tanımlama yapmaz."
+      ]
+    },
+    {
+      "q": "The books ___ here are mostly in English.",
+      "options": [
+        "writing",
+        "written",
+        "wrote",
+        "to write"
+      ],
+      "a": 1,
+      "why": [
+        "'Writing' aktif; kitaplar yazılmış (pasif).",
+        "Correct: pasif indirgeme → '-ed/-en' (books that were written → written).",
+        "'Wrote' geçmiş ana fiil; yan cümlecik gerekiyor.",
+        "'To write' amaç; tanımlama yapmaz."
+      ]
+    }
+  ],
+  "b2-14": [
+    {
+      "q": "Never ___ I seen such a beautiful view.",
+      "options": [
+        "did",
+        "have",
+        "had",
+        "was"
+      ],
+      "a": 1,
+      "why": [
+        "'Did' olumsuz zarfla geçmişte kullanılmaz; burada present perfect gerekli/sıralama wrong.",
+        "Correct: olumsuz zarfla başlayan cümlede yardımcı öznenin önüne geçer → 'have I seen'.",
+        "'Had' geçmiş bitmiş eylem için; 'seen' ile present-perfect bağlamı sapıyor.",
+        "'Was' bu yapıyla uyumsuz (seen + was olmaz)."
+      ]
+    },
+    {
+      "q": "Hardly ___ we left the office when it started snowing.",
+      "options": [
+        "did",
+        "had",
+        "have",
+        "were"
+      ],
+      "a": 1,
+      "why": [
+        "'Did + leave' no sooner/hardly yapısında past simple'la değil, past perfect'la kurulur.",
+        "Correct: 'Hardly had + özne + 3.hal ... when' — past perfect vurgusu.",
+        "'Have' şimdiki; geçmiş iki olay için uygun değil.",
+        "'Were' yapıya uymaz (leave fiili)."
+      ]
+    },
+    {
+      "q": "No sooner had he sat down ___ the phone rang.",
+      "options": [
+        "when",
+        "than",
+        "while",
+        "that"
+      ],
+      "a": 1,
+      "why": [
+        "'When' hardly yapısında olur; 'no sooner...than' kalıbında değil.",
+        "Correct: no sooner...THAN kalıbı zorunludur.",
+        "'While' eş zamanlılık; 'no sooner' için değil.",
+        "'That' no sooner yapısında kullanılmaz."
+      ]
+    },
+    {
+      "q": "Rarely ___ we experience such extreme cold here.",
+      "options": [
+        "do",
+        "are",
+        "have",
+        "did"
+      ],
+      "a": 0,
+      "why": [
+        "Correct: 'rarely do + özne + fiil' — geniş zaman inversion.",
+        "'Are' + experience uyumsuz (pasif değil).",
+        "'Have + experience' kalıbı var ama burada geniş zaman bağlamı.",
+        "'Did' geçmiş; 'experience' geniş zaman bağlamı."
+      ]
+    },
+    {
+      "q": "Not only ___ the app work well, but it is also free.",
+      "options": [
+        "does",
+        "do",
+        "it does",
+        "it is"
+      ],
+      "a": 0,
+      "why": [
+        "Correct: 'not only does the app + fiil' — üçüncü tekil do/does inversion.",
+        "'Do' üçüncü tekil 'the app' ile uyumsuz.",
+        "'It does' inversion istemeyen dolambaç ama sıra bozuk (not only it does...).",
+        "'It is' 'work' fiiliyle uyumsuz."
+      ]
+    }
+  ],
+  "b2-15": [
+    {
+      "q": "It ___ Ali who fixed the computer yesterday.",
+      "options": [
+        "were",
+        "was",
+        "is",
+        "be"
+      ],
+      "a": 1,
+      "why": [
+        "'Were' çoğul; it-cleft öznesi 'It' tekil.",
+        "Correct: geçmiş olay için 'It was + odak + who'.",
+        "'Is' şimdiki; olay geçmişte.",
+        "'Be' çekimli be gerektirir (was)."
+      ]
+    },
+    {
+      "q": "It is the heavy traffic ___ makes us late.",
+      "options": [
+        "who",
+        "that",
+        "where",
+        "what"
+      ],
+      "a": 1,
+      "why": [
+        "'Who' kişiler içindir.",
+        "Correct: it-cleft'te odak şey/nesne ise 'that' gelir.",
+        "'Where' yer içindir; burada sebep vurgusu.",
+        "'What' it-cleft yapısında kullanılmaz."
+      ]
+    },
+    {
+      "q": "It was ___ we first met, in 2015.",
+      "options": [
+        "where",
+        "that",
+        "when",
+        "in that"
+      ],
+      "a": 2,
+      "why": [
+        "'Where' yer içindir; buraya zaman geliyor.",
+        "'That' zaman vurgusunda 'it is/was X that' kalıbı 'in 2015' içinde kullanılmaz.",
+        "Correct: zamanı vurgulamak için 'when' kullanılır.",
+        "'In that' undiomatiğine kullanılmaz."
+      ]
+    },
+    {
+      "q": "It was my sister ___ borrowed my camera.",
+      "options": [
+        "who",
+        "that",
+        "which",
+        "what"
+      ],
+      "a": 0,
+      "why": [
+        "Correct: kişi öznesini vurgulamak için 'who' (veya that).",
+        "'That' kişi için de mümkün ama 'who' en doğru odak; burada da doğru kabul edilir.",
+        "'Which' kişiler içindir.",
+        "'What' it-cleft yapısında kullanılmaz."
+      ]
+    },
+    {
+      "q": "What I need ___ more time to finish.",
+      "options": [
+        "is",
+        "are",
+        "were",
+        "be"
+      ],
+      "a": 0,
+      "why": [
+        "Correct: 'what-clause' öznesi tekil kabul edilir → 'is'.",
+        "'Are' what-cümleciği çoğul gerekmediğinde yanlış.",
+        "'Were' geçmiş/şart; şimdiki gerçek.",
+        "'Be' çekimli be gerektirir."
+      ]
+    }
+  ],
+  "b2-16": [
+    {
+      "q": "Do you know where the nearest bank ___?",
+      "options": [
+        "is",
+        "does",
+        "do",
+        "are"
+      ],
+      "a": 0,
+      "why": [
+        "Correct: içiçe soruda özne-fiil sırası değişmez → 'where the bank is'.",
+        "'Does' soru yardımcısına gerek yok (is var, kelime sırası cümle).",
+        "'Do' yerine 'is' gerekli.",
+        "'Are' tekil 'bank' ile uyumsuz."
+      ]
+    },
+    {
+      "q": "I wonder ___ she has already left.",
+      "options": [
+        "that",
+        "if",
+        "what",
+        "where"
+      ],
+      "a": 1,
+      "why": [
+        "'That' yes/no soru bağlamında kullanılmaz.",
+        "Correct: yes/no sorusu içiçe → 'if/whether'.",
+        "'What' nesne sorar; burada evet/hayır.",
+        "'Where' yer sorar; burası durum."
+      ]
+    },
+    {
+      "q": "Can you tell me what time the film ___?",
+      "options": [
+        "starts",
+        "start",
+        "does start",
+        "is starting"
+      ],
+      "a": 0,
+      "why": [
+        "Correct: içiçe soruda cümle sırası → 'what time the film starts' (does'sız).",
+        "'Start' özne 'film' üçüncü tekil → -s ister.",
+        "'Does start' soru taklası içiçe soruda YAPILMAZ.",
+        "'Is starting' şu an başlama değil, tarife (starts)."
+      ]
+    },
+    {
+      "q": "They asked us where we ___ from.",
+      "options": [
+        "do come",
+        "come",
+        "are coming",
+        "came"
+      ],
+      "a": 3,
+      "why": [
+        "'Do come' içiçe soruda soru taklası olamaz.",
+        "'Come' geçmiş anlatı bağlamına uygun değil (ask geçmiş).",
+        "'Are coming' hareket anlamı; asıl soru 'where ... from'.",
+        "Correct: 'asked' geçmiş → zaman kayması ile 'came'."
+      ]
+    },
+    {
+      "q": "I don't know ___ the meeting starts at 3.",
+      "options": [
+        "that",
+        "if",
+        "what",
+        "why"
+      ],
+      "a": 1,
+      "why": [
+        "'That' olumlu bildirilen cümlede kullanılır; burada 'bilmiyorum + evet/hayır'.",
+        "Correct: 'if/whether' bilgi-belirsizlik bildirir.",
+        "'What' nesne sorar; yes/no değil.",
+        "'Why' sebep sorar; burası evet/hayır."
+      ]
+    }
+  ],
+  "b2-17": [
+    {
+      "q": "You ___ have told me about the change earlier.",
+      "options": [
+        "should",
+        "must",
+        "needn't",
+        "would"
+      ],
+      "a": 0,
+      "why": [
+        "Correct: geçmiş eleştiri/şiddetli öğüt → 'should have + 3.hal'.",
+        "'Must have + 3.hal' güçlü çıkarım yapar, eleştiri/öğüt değil.",
+        "'Needn't have' yapılan gereksiz eylem; burada 'söylemedin' şikâyeti.",
+        "'Would have' koşullu varsayım; tavsiye değil."
+      ]
+    },
+    {
+      "q": "I ___ have booked a table — the restaurant was empty.",
+      "options": [
+        "should",
+        "needn't",
+        "must",
+        "didn't"
+      ],
+      "a": 1,
+      "why": [
+        "'Should have' yapılması gereken; burada yapılan ama gereksiz.",
+        "Correct: boş yere yaptığımız şey → 'needn't have + 3.hal'.",
+        "'Must have' kesin çıkarım; bu bağlam değil.",
+        "'Didn't' 'have booked' ile uyumsuz."
+      ]
+    },
+    {
+      "q": "We didn't ___ to leave so early; there was plenty of time.",
+      "options": [
+        "need",
+        "needed",
+        "needn't",
+        "must"
+      ],
+      "a": 0,
+      "why": [
+        "Correct: yapılmayan/gerek olmayan → 'didn't need to + fiil'.",
+        "'Needed' 'didn't + needed' çift geçmiş → 'need' ister.",
+        "'Needn't' 'didn't' ile kullanılmaz.",
+        "'Must' 'didn't must' yapısı yok."
+      ]
+    },
+    {
+      "q": "He should ___ paid attention to the teacher.",
+      "options": [
+        "has",
+        "have",
+        "had",
+        "to have"
+      ],
+      "a": 1,
+      "why": [
+        "'Has' have + 3.hal kalıbında kullanılmaz.",
+        "Correct: 'should have + past participle' (paid).",
+        "'Had' 'should had' yanlıştır; have ister.",
+        "'To have' 'should + to' uyumsuz."
+      ]
+    },
+    {
+      "q": "She needn't have ___ so much food for the party.",
+      "options": [
+        "cook",
+        "cooked",
+        "cooking",
+        "to cook"
+      ],
+      "a": 1,
+      "why": [
+        "'Cook' yalın; needn't have + 3.hal ister.",
+        "Correct: 'needn't have + cooked' — gereksiz yapılmış.",
+        "'Cooking' have + -ing olmaz.",
+        "'To cook' have + to-inf olmaz."
+      ]
+    }
+  ],
+  "b2-18": [
+    {
+      "q": "She told ___ that she would arrive late.",
+      "options": [
+        "me",
+        "that",
+        "me that",
+        "us that"
+      ],
+      "a": 0,
+      "why": [
+        "Correct: 'tell' nesne ister → 'told me'.",
+        "'That' doğrudan 'told' + that'dan önce nesne gerekir.",
+        "'Me that' iki nesne — 'that' gerekmez (told me that dezired ama burada seçenek fazla).",
+        "'Us that' 'that' gereksiz; us + that → sadece us yüksek doğru, burası gevşek."
+      ]
+    },
+    {
+      "q": "He suggested ___ a taxi instead of walking.",
+      "options": [
+        "to take",
+        "taking",
+        "take",
+        "took"
+      ],
+      "a": 1,
+      "why": [
+        "'To take' suggest sonrası to-inf gelmez.",
+        "Correct: suggest/recommend + -ing → 'suggested taking'.",
+        "'Take' yalın; -ing gerekli.",
+        "'Took' geçmiş; suggest yapısında -ing."
+      ]
+    },
+    {
+      "q": "They promised ___ us as soon as they could.",
+      "options": [
+        "calling",
+        "call",
+        "to call",
+        "called"
+      ],
+      "a": 2,
+      "why": [
+        "'Calling' promise + -ing değil; promise + to.",
+        "'Call' yalın; promise to-inf ister.",
+        "Correct: promise + to-infinitive → 'promised to call'.",
+        "'Called' geçmiş; yapı uyumsuz."
+      ]
+    },
+    {
+      "q": "He denied ___ the glass.",
+      "options": [
+        "to break",
+        "break",
+        "breaking",
+        "broke"
+      ],
+      "a": 2,
+      "why": [
+        "'To break' deny + to-inf olmaz.",
+        "'Break' yalın; -ing gerekli.",
+        "Correct: deny + -ing → 'denied breaking'.",
+        "'Broke' geçmiş; deny yapısı -ing."
+      ]
+    },
+    {
+      "q": "She asked ___ to bring the documents tomorrow.",
+      "options": [
+        "me",
+        "that me",
+        "that",
+        "me that"
+      ],
+      "a": 0,
+      "why": [
+        "Correct: ask + nesne + to-inf → 'asked me to bring'.",
+        "'That me' ask + that + me düzeni yok.",
+        "'That' nesne gerektiren 'ask' için yetmiyor.",
+        "'Me that' 'that' gerekmez; ask me to + fiil."
+      ]
+    }
+  ],
+  "b2-19": [
+    {
+      "q": "I need to have my phone ___ as soon as possible.",
+      "options": [
+        "repair",
+        "repaired",
+        "repairing",
+        "to repair"
+      ],
+      "a": 1,
+      "why": [
+        "'Repair' yalın; causative have + nesne + 3.hal.",
+        "Correct: have something done → 'have my phone repaired' (telefon bakım yaptırılır).",
+        "'Repairing' have + -ing causative değil.",
+        "'To repair' causative yapısında to gelmez."
+      ]
+    },
+    {
+      "q": "She had her hair ___ at the new salon.",
+      "options": [
+        "cut",
+        "cutted",
+        "cuting",
+        "to cut"
+      ],
+      "a": 0,
+      "why": [
+        "Correct: have her hair cut — cut düzensiz 3.hal (cut).",
+        "'Cutted' düzensiz fiil 'cut/cut/cut'; cutted yok.",
+        "'Cuting' -ing; causative 3.hal ister.",
+        "'To cut' causative'da to gelmez."
+      ]
+    },
+    {
+      "q": "We got the windows ___ last month.",
+      "options": [
+        "clean",
+        "cleaned",
+        "cleaning",
+        "to clean"
+      ],
+      "a": 1,
+      "why": [
+        "'Clean' yalın; get + nesne + 3.hal.",
+        "Correct: 'got the windows cleaned' — temizletmek.",
+        "'Cleaning' get + -ing causative değil.",
+        "'To clean' get yapısında to gelmez."
+      ]
+    },
+    {
+      "q": "He had the technician ___ the broken monitor.",
+      "options": [
+        "check",
+        "checked",
+        "to check",
+        "checking"
+      ],
+      "a": 0,
+      "why": [
+        "Correct: have + kişi + yalın fiil (to'suz) → 'had the technician check'.",
+        "'Checked' have + kişi + yalın fiil; 3.hal değil.",
+        "'To check' have + kişi + to-inf olmaz.",
+        "'Checking' -ing; yalın fiil gerekir."
+      ]
+    },
+    {
+      "q": "They are having a new kitchen ___ at the moment.",
+      "options": [
+        "install",
+        "installed",
+        "installing",
+        "to install"
+      ],
+      "a": 1,
+      "why": [
+        "'Install' yalın; causative have + nesne + 3.hal.",
+        "Correct: 'having a new kitchen installed' — mutfağı kurduruyorlar.",
+        "'Installing' have + -ing değil.",
+        "'To install' causative'da to gelmez."
+      ]
+    }
+  ],
+  "b2-20": [
+    {
+      "q": "I won't come ___ you invite me first.",
+      "options": [
+        "if",
+        "unless",
+        "as long as",
+        "provided"
+      ],
+      "a": 1,
+      "why": [
+        "'If' şartı olumlu kurar; ama burada 'sen davet etmezsen gelmem' → unless.",
+        "Correct: unless = if...not → 'gelmem, sen davet etmezsen'.",
+        "'As long as' koşulun sağlanmasıyla; 'unless' olumsuz şart daha uygun.",
+        "'Provided' resmî şart; unless daha doğal."
+      ]
+    },
+    {
+      "q": "You may borrow the car ___ you return it by 8pm.",
+      "options": [
+        "unless",
+        "as long as",
+        "in case",
+        "otherwise"
+      ],
+      "a": 1,
+      "why": [
+        "'Unless' negatif şart; burada koşulun sağlanması gerek.",
+        "Correct: 'as long as / so long as' = 'olduğu sürece' koşulu.",
+        "'In case' ihtiyat/önlem; koşul değil.",
+        "'Otherwise' sonuç zıtlığı; cümle başında değil."
+      ]
+    },
+    {
+      "q": "You'll pass the exam ___ you study regularly.",
+      "options": [
+        "unless",
+        "provided",
+        "otherwise",
+        "in case"
+      ],
+      "a": 1,
+      "why": [
+        "'Unless' olumsuz şart; 'düzenli çalışırsan' olumlu koşul.",
+        "Correct: 'provided/providing (that)' resmî şartı ifade eder.",
+        "'Otherwise' aksi halde; koşul öncesi değil.",
+        "'In case' önlem; koşul sonucu değil."
+      ]
+    },
+    {
+      "q": "___ you leave now, you will miss the last train.",
+      "options": [
+        "However",
+        "Unless",
+        "In case",
+        "Therefore"
+      ],
+      "a": 1,
+      "why": [
+        "'However' zıtlık; şart cümlesi değil.",
+        "Correct: 'unless you leave now' = hemen çıkmazsan kaçıracaksın.",
+        "'In case' önlem; şart/koşul değil.",
+        "'Therefore' sonuç; cümle başı şart değil."
+      ]
+    },
+    {
+      "q": "I'll lend you the money ___ you promise to pay it back.",
+      "options": [
+        "as long as",
+        "unless",
+        "in case",
+        "so that"
+      ],
+      "a": 0,
+      "why": [
+        "Correct: 'as long as' koşul = ödemeyi vaat ettiğin sürece.",
+        "'Unless' olumsuz şart; burada olumlu koşul.",
+        "'In case' olasılık önlemi; koşul değil.",
+        "'So that' amaç; burada koşul."
+      ]
+    }
+  ],
+  "b2-21": [
+    {
+      "q": "I ___ agree with you on this point.",
+      "options": [
+        "does",
+        "do",
+        "am",
+        "will"
+      ],
+      "a": 1,
+      "why": [
+        "'Does' üçüncü tekil; özne 'I'.",
+        "Correct: emphatic vurgu → 'I do agree' (do + yalın fiil).",
+        "'Am' agree fiiliyle uyumsuz.",
+        "'Will' gelecek; vurgu istemi do + fiil."
+      ]
+    },
+    {
+      "q": "She ___ finish the whole report by noon, just as she promised.",
+      "options": [
+        "did",
+        "does",
+        "done",
+        "was"
+      ],
+      "a": 0,
+      "why": [
+        "Correct: geçmiş vurgu → 'did + finish' (yalın fiil).",
+        "'Does' geniş zaman; bağlam geçmiş.",
+        "'Done' 'did + done' çift 3.hal yanlış.",
+        "'Was' finish fiiliyle uyumsuz."
+      ]
+    },
+    {
+      "q": "No sooner had the guests arrived ___ it began to rain.",
+      "options": [
+        "when",
+        "than",
+        "that",
+        "while"
+      ],
+      "a": 1,
+      "why": [
+        "'When' hardly yapılarındadır; no sooner...than kalıbı.",
+        "Correct: 'no sooner...than' kalıp kalıpı zorunlu.",
+        "'That' no sooner yapısında yok.",
+        "'While' eş zamanlılık; çok yakın ardışıklık vurgusu."
+      ]
+    },
+    {
+      "q": "Please ___ sit down and wait for a moment.",
+      "options": [
+        "do",
+        "does",
+        "did",
+        "to"
+      ],
+      "a": 0,
+      "why": [
+        "Correct: ısrarlı emir vurgusu → 'do sit down' (do + fiil).",
+        "'Does' emirde do kullanılır; does + fiil emir degildir.",
+        "'Did' geçmiş; emir şimdi.",
+        "'To' emir vurgusu değil."
+      ]
+    },
+    {
+      "q": "He didn't attend, but he ___ send his apologies.",
+      "options": [
+        "does",
+        "did",
+        "done",
+        "will"
+      ],
+      "a": 1,
+      "why": [
+        "'Does' geniş; bağlam geçmiş zıtlık.",
+        "Correct: 'but he did send' — geçmiş vurgu zıtlığı.",
+        "'Done' did + done çift 3.hal yanlış.",
+        "'Will' gelecek; zıtlık geçmişte."
+      ]
+    }
+  ],
+  "b2-22": [
+    {
+      "q": "I used to ___ in this neighbourhood as a child.",
+      "options": [
+        "live",
+        "lived",
+        "living",
+        "to live"
+      ],
+      "a": 0,
+      "why": [
+        "Correct: 'used to + yalın fiil' geçmiş alışkanlık/eylem.",
+        "'Lived' used to + fiil base; lived değil.",
+        "'Living' used to + -ing alışkanlık değil (be used to -ing ile karışma).",
+        "'To live' used to zaten 'to' içerir; bir daha to eklenmez."
+      ]
+    },
+    {
+      "q": "She is used to ___ up early for work.",
+      "options": [
+        "wake",
+        "waking",
+        "woke",
+        "wakes"
+      ],
+      "a": 1,
+      "why": [
+        "'Wake' be used to + -ing ister.",
+        "Correct: 'be used to + -ing' = alışkın olmak → 'waking'.",
+        "'Woke' geçmiş; yapı -ing.",
+        "'Wakes' -s; be used to -ing form bekler."
+      ]
+    },
+    {
+      "q": "He is getting used to ___ in a big city.",
+      "options": [
+        "live",
+        "living",
+        "lives",
+        "lived"
+      ],
+      "a": 1,
+      "why": [
+        "'Live' get used to + -ing.",
+        "Correct: 'get used to + -ing' = alışma süreci → 'living'.",
+        "'Lives' -s; -ing gerekli.",
+        "'Lived' geçmiş; süreç -ing."
+      ]
+    },
+    {
+      "q": "They used to ___ by bike to school when they were young.",
+      "options": [
+        "go",
+        "went",
+        "going",
+        "gone"
+      ],
+      "a": 0,
+      "why": [
+        "Correct: 'used to + go' geçmiş alışkanlık.",
+        "'Went' used to + yalın fiil; went değil.",
+        "'Going' used to + -ing olmaz.",
+        "'Gone' -ed/-en; used to + base."
+      ]
+    },
+    {
+      "q": "I am not used to ___ such spicy food.",
+      "options": [
+        "eat",
+        "eating",
+        "ate",
+        "eats"
+      ],
+      "a": 1,
+      "why": [
+        "'Eat' be used to + -ing.",
+        "Correct: 'be used to + -ing' → 'not used to eating'.",
+        "'Ate' geçmiş; -ing gerekli.",
+        "'Eats' -s; -ing form."
+      ]
+    }
   ]
 };
