@@ -14,7 +14,7 @@ export const GRAMMAR_MCQ_A1 = {
     { "q": "This is ___ book.", "options": ["she", "her", "hers", "she's"], "a": 1 },
     { "q": "___ car is red. (they)", "options": ["They", "Them", "Their", "Theirs"], "a": 2 },
     { "q": "That is ___ pen. (you)", "options": ["your", "you", "yours", "you're"], "a": 0 },
-    { "q": "Ali likes ___ job. (he)", "options": ["he", "him", "him's", "his"], "a": 3 },
+    { "q": "Ali likes ___ job. (he)", "options": ["he", "him", "he's", "his"], "a": 3 },
     { "q": "___ name is Anna. (she)", "options": ["She", "Her", "Hers", "She's"], "a": 1 }
   ],
   "a1-03": [
@@ -26,7 +26,7 @@ export const GRAMMAR_MCQ_A1 = {
     { "q": "I have ___ hour before dinner.", "options": ["a", "an", "the", "some"], "a": 1 }
   ],
   "a1-04": [
-    { "q": "I have two ___.", "options": ["book", "books", "bookes", "bookies"], "a": 1 },
+    { "q": "I have two ___.", "options": ["book", "books", "bookes", "book's"], "a": 1 },
     { "q": "Three ___ are playing.", "options": ["childs", "children", "childes", "childrens"], "a": 1 },
     { "q": "Two ___ are on the floor.", "options": ["boxs", "boxes", "boxies", "box"], "a": 1 },
     { "q": "The ___ are sleeping. (baby)", "options": ["babys", "babyes", "babies", "babys'"], "a": 2 },
@@ -75,7 +75,7 @@ export const GRAMMAR_MCQ_A1 = {
   ],
   "a1-10": [
     { "q": "This is ___ phone. (I)", "options": ["I", "me", "my", "mine"], "a": 2 },
-    { "q": "This is ___ car. (Ahmet)", "options": ["Ahmet", "Ahmet's", "Ahmet is", "Ahmetes"], "a": 1 },
+    { "q": "This is ___ car. (Ahmet)", "options": ["Ahmet", "Ahmet's", "Ahmet is", "Ahmets"], "a": 1 },
     { "q": "___ name is Ali. (he)", "options": ["He", "Him", "His", "He's"], "a": 2 },
     { "q": "It's my ___ bag. (sister)", "options": ["sister", "sister's", "sisters", "sisters's"], "a": 1 },
     { "q": "___ project is great. (we)", "options": ["We", "Us", "Our", "Ours"], "a": 2 },
@@ -100,8 +100,8 @@ export const GRAMMAR_MCQ_A1 = {
   "a1-13": [
     { "q": "I ___ drink tea in the morning. (100%)", "options": ["never", "always", "sometimes", "rarely"], "a": 1 },
     { "q": "She ___ eats meat. (0%)", "options": ["always", "usually", "never", "often"], "a": 2 },
-    { "q": "He is ___ happy.", "options": ["always", "sometimes always", "soon", "twice"], "a": 0 },
-    { "q": "They ___ go to the gym. (50%)", "options": ["always", "never", "sometimes", "always never"], "a": 2 },
+    { "q": "He is ___ happy.", "options": ["always", "usually", "often", "never"], "a": 0 },
+    { "q": "They ___ go to the gym. (50%)", "options": ["always", "never", "sometimes", "often"], "a": 2 },
     { "q": "We ___ watch TV at night.", "options": ["watch usually", "always watch", "usually watch", "watch never"], "a": 2 },
     { "q": "He ___ comes to class on time. (never)", "options": ["comes never", "never comes", "come never", "never come"], "a": 1 }
   ],
@@ -122,8 +122,8 @@ export const GRAMMAR_MCQ_A1 = {
     { "q": "I am ___ a letter. (write)", "options": ["write", "writes", "writing", "wrote"], "a": 2 }
   ],
   "a1-16": [
-    { "q": "She ___ swim.", "options": ["can", "cans", "can is", "can's"], "a": 0 },
-    { "q": "I ___ speak Japanese.", "options": ["can't", "can nots", "cans", "canes"], "a": 0 },
+    { "q": "She ___ swim.", "options": ["can", "cans", "can to", "can's"], "a": 0 },
+    { "q": "I ___ speak Japanese.", "options": ["can't", "can nots", "cans", "don't"], "a": 0 },
     { "q": "___ you help me?", "options": ["Can", "Cans", "Is", "Are"], "a": 0 },
     { "q": "He can ___ English.", "options": ["speaks", "speak", "speaking", "spoke"], "a": 1 },
     { "q": "We can ___ football.", "options": ["plays", "play", "playing", "played"], "a": 1 },
