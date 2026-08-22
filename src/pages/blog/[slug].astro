@@ -1,0 +1,137 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import { createSupabaseClient, pageCookieSource } from '../../lib/supabase';
+
+type PostRow = {
+  id: string;
+  slug: string;
+  title: string;
+  summary: string | null;
+  body: string | null;
+  cover_url: string | null;
+  author: string | null;
+  created_at: string;
+};
+
+const slug = Astro.params.slug ?? '';
+
+// Public marketing/SEO surface — reads only PUBLISHED posts, no auth required.
+let post: PostRow | null = null;
+try {
+  const supabase = createSupabaseClient(pageCookieSource(Astro));
+  if (supabase) {
+    const { data, error } = await supabase
+      .from('blog_posts')
+      .select('id, slug, title, summary, body, cover_url, author, created_at')
+      .eq('published', true)
+      .eq('slug', slug)
+      .maybeSingle();
+    if (!error) post = (data as PostRow | null) ?? null;
+  }
+} catch {
+  post = null;
+}
+
+if (!post) {
+  Astro.response.status = 404;
+}
+
+const MONTHS_TR = [
+  'Ocak', 'Şubat', 'Mart', 'Nisan', 'Mayıs', 'Haziran',
+  'Temmuz', 'Ağustos', 'Eylül', 'Ekim', 'Kasım', 'Aralık',
+];
+function longDate(iso: string | null | undefined): string {
+  if (!iso) return '';
+  const d = new Date(iso);
+  if (Number.isNaN(d.getTime())) return '';
+  return `${d.getDate()} ${MONTHS_TR[d.getMonth()] ?? ''} ${d.getFullYear()}`;
+}
+---
+<Layout
+  title={post ? `${post.title} — Languago Blog` : 'Yazı Bulunamadı — Languago'}
+  description={post?.summary || 'Languago blog yazısı.'}
+  image={post?.cover_url || undefined}
+>
+  {
+    post ? (
+      <main class="study blog-post">
+        <article>
+          <div class="barline"></div>
+          <span class="muted small">
+            {longDate(post.created_at)}
+            {post.author ? ` · ${post.author}` : ''}
+          </span>
+          <h1 class="blog-post__title">{post.title}</h1>
+          <div class="barline"></div>
+
+          {post.cover_url && (
+            <img class="blog-post__cover" src={post.cover_url} alt={post.title} loading="lazy" />
+          )}
+
+          <div class="blog-post__content" set:html={post.body || ''} />
+
+          <div class="btn-row" style="margin-top:32px;">
+            <a class="btn" href="/blog">← Tüm Yazılar</a>
+          </div>
+        </article>
+      </main>
+    ) : (
+      <main class="study">
+        <div class="panel" style="text-align:center;padding:48px 24px;">
+          <div style="font-size:2.6rem;">🔍</div>
+          <h1>Yazı Bulunamadı</h1>
+          <p class="muted">Aradığın blog yazısı bulunamadı ya da henüz yayınlanmadı.</p>
+          <div class="btn-row" style="justify-content:center;">
+            <a class="btn" href="/blog">→ Blog'a Dön</a>
+            <a class="btn ghost" href="/">← Ana Sayfa</a>
+          </div>
+        </div>
+      </main>
+    )
+  }
+</Layout>
+
+<style>
+  .blog-post__title {
+    margin: 10px 0 0;
+    font-size: 2rem;
+    line-height: 1.25;
+  }
+  .blog-post__cover {
+    width: 100%;
+    max-height: 420px;
+    object-fit: cover;
+    display: block;
+    border-radius: 14px;
+    margin: 20px 0;
+    background: var(--teal-soft);
+  }
+  .blog-post__content {
+    font-size: 1.05rem;
+    line-height: 1.7;
+  }
+  .blog-post__content :global(h2) {
+    margin: 24px 0 8px;
+    font-size: 1.4rem;
+  }
+  .blog-post__content :global(h3) {
+    margin: 20px 0 8px;
+    font-size: 1.2rem;
+  }
+  .blog-post__content :global(p) {
+    margin: 12px 0;
+  }
+  .blog-post__content :global(ul),
+  .blog-post__content :global(ol) {
+    margin: 12px 0;
+    padding-left: 22px;
+  }
+  .blog-post__content :global(img) {
+    max-width: 100%;
+    border-radius: 12px;
+  }
+  .blog-post__content :global(a) {
+    color: var(--teal-dark);
+    font-weight: 600;
+  }
+</style>

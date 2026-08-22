@@ -1,0 +1,428 @@
+---
+import AppLayout from '../../layouts/AppLayout.astro';
+import { createSupabaseClient, pageCookieSource } from '../../lib/supabase';
+import { authorizeAdmin } from '../../lib/admin';
+import { shortDate } from '../../lib/teacher';
+
+const auth = await authorizeAdmin(pageCookieSource(Astro));
+if (!auth.ok && auth.reason !== 'forbidden') {
+  return Astro.redirect('/signin');
+}
+
+type SettingRow = { key: string; value: string; updated_at: string | null };
+type PostRow = {
+  id: string;
+  slug: string;
+  title: string;
+  summary: string | null;
+  body: string | null;
+  cover_url: string | null;
+  published: boolean;
+  author: string | null;
+  created_at: string;
+  updated_at: string | null;
+};
+
+let settings: SettingRow[] = [];
+let posts: PostRow[] = [];
+
+if (auth.ok) {
+  try {
+    const supabase = createSupabaseClient(pageCookieSource(Astro));
+    if (!supabase) throw new Error('no_supabase');
+    const [sRes, pRes] = await Promise.all([
+      supabase.from('site_settings').select('key, value, updated_at').order('key'),
+      supabase
+        .from('blog_posts')
+        .select('id, slug, title, summary, body, cover_url, published, author, created_at, updated_at')
+        .order('created_at', { ascending: false }),
+    ]);
+    settings = (sRes.data ?? []) as SettingRow[];
+    posts = (pRes.data ?? []) as PostRow[];
+  } catch {
+    // Keep empty defaults; page still renders a friendly state.
+  }
+}
+---
+<AppLayout
+  title="Admin Yönetimi — Languago"
+  description="Languago site ayarları ve blog yazıları yönetimi (yalnızca yöneticiler)."
+>
+  {
+    auth.ok ? (
+      <main class="study teacher">
+        <div class="page-head">
+          <span class="page-eyebrow">Admin Paneli</span>
+          <h1>İçerik & Site Yönetimi ⚙️</h1>
+          <p class="page-sub">
+            Site metinlerini ve blog yazılarını buradan yönetebilirsin. Bu bölüm yalnızca
+            yönetici (admin) hesaplarına açıktır.
+          </p>
+          <div class="barline"></div>
+        </div>
+
+        <section class="dash-section" aria-labelledby="settings-heading">
+          <header class="section-head">
+            <h2 id="settings-heading">Site Metinleri & Ayarlar <span class="section-head__icon">🔧</span></h2>
+            <p class="muted">Site genelinde kullanılan metin ve ayarları ekle, güncelle veya sil.</p>
+          </header>
+
+          <form id="setting-form" class="panel content-form" style="background:var(--bg-soft);">
+            <div class="form-grid">
+              <div>
+                <label class="field-label" for="set-key">Anahtar (key)</label>
+                <input id="set-key" type="text" placeholder="örn. hero_title" maxlength="200" required />
+              </div>
+              <div>
+                <label class="field-label" for="set-value">Değer (value)</label>
+                <input id="set-value" type="text" placeholder="Değer…" required />
+              </div>
+            </div>
+            <div class="btn-row" style="margin-top:14px;">
+              <button class="btn primary" type="submit">Ayarlı Kaydet / Güncelle</button>
+            </div>
+            <p id="setting-msg" class="class-msg" role="status"></p>
+          </form>
+
+          <div id="settings-list" class="content-list" style="margin-top:16px;">
+            {
+              settings.length ? (
+                settings.map((s) => (
+                  <div class="panel content-card" data-setting-key={s.key}>
+                    <div class="content-card__body">
+                      <div class="content-card__head">
+                        <strong>{s.key}</strong>
+                      </div>
+                      <div class="muted small">{s.value || '—'}</div>
+                      <div class="muted small">Son güncelleme: {shortDate(s.updated_at)}</div>
+                    </div>
+                    <button class="icon-btn" title="Düzenle" aria-label="Ayarı düzenle" data-action="edit-setting">✏️</button>
+                    <button class="icon-btn" title="Sil" aria-label="Ayarı sil" data-action="delete-setting">🗑️</button>
+                  </div>
+                ))
+              ) : (
+                <div class="empty-state">
+                  <div class="es-ico">🔧</div>
+                  <h3>Henüz ayar yok</h3>
+                  <p>İlk site ayarını yukarıdaki formla ekle.</p>
+                </div>
+              )
+            }
+          </div>
+        </section>
+
+        <section class="dash-section" aria-labelledby="blog-heading">
+          <header class="section-head">
+            <h2 id="blog-heading">Blog Yazıları <span class="section-head__icon">✍️</span></h2>
+            <p class="muted">
+              Yayınlanan yazılar <a href="/blog">/blog</a> sayfasında herkese görünür. Taslaklar yalnızca burada görünür.
+            </p>
+          </header>
+
+          <form id="post-form" class="panel content-form" style="background:var(--bg-soft);">
+            <input id="post-id" type="hidden" name="id" />
+            <label class="field-label" for="post-title">Başlık</label>
+            <input id="post-title" type="text" maxlength="160" placeholder="Yazının başlığı…" required />
+            <label class="field-label" for="post-slug">Slug (URL) — boşsa başlıktan üretilir</label>
+            <input id="post-slug" type="text" maxlength="200" placeholder="ornek-blog-yazisi" />
+            <label class="field-label" for="post-summary">Özet</label>
+            <textarea id="post-summary" rows="2" placeholder="Arama motorlarına ve /blog listesine gösterilecek kısa özet…"></textarea>
+            <label class="field-label" for="post-author">Yazar</label>
+            <input id="post-author" type="text" maxlength="120" placeholder="örn. Samet Tıraşoğlu" />
+            <label class="field-label" for="post-cover">Kapak Görseli URL (isteğe bağlı)</label>
+            <input id="post-cover" type="text" maxlength="500" placeholder="https://…/gorsel.png" />
+            <label class="field-label" for="post-body">İçerik (metin)</label>
+            <textarea id="post-body" rows="10" placeholder="Yazının tam içeriği…"></textarea>
+            <label class="check-row" for="post-published">
+              <input id="post-published" type="checkbox" />
+              <span>Yayınla (herkese göster)</span>
+            </label>
+            <div class="btn-row" style="margin-top:14px;">
+              <button class="btn primary" type="submit" id="post-submit-btn">Yazıyı Kaydet</button>
+              <button class="btn ghost" type="button" id="post-cancel-btn" hidden>Sıfırla</button>
+            </div>
+            <p id="post-msg" class="class-msg" role="status"></p>
+          </form>
+
+          <div id="posts-list" class="content-list" style="margin-top:16px;">
+            {
+              posts.length ? (
+                posts.map((p) => (
+                  <div class="panel content-card" data-post-id={p.id}>
+                    <div class="content-card__body">
+                      <div class="content-card__head">
+                        <strong>{p.title}</strong>
+                        <span
+                          class="badge"
+                          style={p.published ? 'background:var(--teal-dark);' : 'background:var(--ink-soft);'}
+                        >
+                          {p.published ? 'Yayında' : 'Taslak'}
+                        </span>
+                      </div>
+                      <div class="muted small">/{p.slug}</div>
+                      <div class="muted small">
+                        {(p.summary && `${p.summary} · `) || ''}Yazar: {p.author || '—'} · {shortDate(p.created_at)}
+                      </div>
+                    </div>
+                    {p.published ? (
+                      <a class="icon-btn" style="text-decoration:none;color:inherit;" href={`/blog/${p.slug}`} title="Görüntüle" aria-label="Yazıyı görüntüle">👁️</a>
+                    ) : null}
+                    <button class="icon-btn" title="Düzenle" aria-label="Yazıyı düzenle" data-action="edit-post">✏️</button>
+                    <button class="icon-btn" title="Sil" aria-label="Yazıyı sil" data-action="delete-post">🗑️</button>
+                  </div>
+                ))
+              ) : (
+                <div class="empty-state">
+                  <div class="es-ico">✍️</div>
+                  <h3>Henüz blog yazısı yok</h3>
+                  <p>İlk yazını yukarıdaki formla oluştur.</p>
+                </div>
+              )
+            }
+          </div>
+        </section>
+      </main>
+    ) : (
+      <main class="study">
+        <div class="panel" style="text-align:center;padding:40px 24px;">
+          <div style="font-size:2.4rem;">🔒</div>
+          <h1>Yetkisiz Erişim</h1>
+          <p class="muted">Bu sayfa yalnızca yönetici (admin) hesaplarına açıktır.</p>
+          <div class="btn-row" style="justify-content:center;">
+            <a class="btn" href="/dashboard">Ana Panole Dön</a>
+          </div>
+        </div>
+      </main>
+    )
+  }
+</AppLayout>
+
+<style>
+  .content-form input[type='text'],
+  .content-form textarea,
+  .content-form input:not([type='checkbox']) {
+    width: 100%;
+    margin-top: 8px;
+  }
+  .content-form textarea {
+    font-family: inherit;
+  }
+  .field-label {
+    display: block;
+    margin: 12px 0 4px;
+    font-size: 0.9rem;
+    color: #60676d;
+  }
+  .form-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+  }
+  .check-row {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    margin-top: 14px;
+    font-size: 0.95rem;
+    cursor: pointer;
+  }
+  .content-list {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+  .content-card {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    flex-wrap: wrap;
+  }
+  .content-card__body {
+    flex: 1;
+    min-width: 200px;
+  }
+  .content-card__head {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex-wrap: wrap;
+  }
+  .icon-btn {
+    background: var(--bg-soft);
+    border: 1px solid var(--line);
+    border-radius: 10px;
+    padding: 8px 12px;
+    font-size: 1rem;
+    cursor: pointer;
+    color: inherit;
+  }
+  .icon-btn:hover {
+    border-color: var(--teal);
+    color: var(--teal-dark);
+  }
+  @media (max-width: 560px) {
+    .form-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>
+
+<script is:inline>
+  (function () {
+    function el(id) { return document.getElementById(id); }
+    function api(path, method, body) {
+      return fetch(path, {
+        method: method,
+        headers: { 'Content-Type': 'application/json' },
+        body: body ? JSON.stringify(body) : undefined,
+      }).then(function (r) { return r.json(); });
+    }
+    function readErr(res) {
+      if (res && res.error) {
+        var f = res.error.fields;
+        if (f) {
+          for (var k in f) if (Object.prototype.hasOwnProperty.call(f, k) && f[k] && f[k][0]) return f[k][0];
+        }
+        if (res.error.message) return res.error.message;
+      }
+      return 'Bir hata oluştu.';
+    }
+
+    // ---- Settings ----
+    var settingForm = el('setting-form');
+    var settingMsg = el('setting-msg');
+    if (settingForm && settingMsg) {
+      settingForm.addEventListener('submit', function (e) {
+        e.preventDefault();
+        var key = el('set-key').value.trim();
+        var value = el('set-value').value;
+        if (!key) { settingMsg.textContent = 'Anahtar gerekli.'; settingMsg.className = 'class-msg err'; return; }
+        api('/api/admin/settings', 'POST', { key: key, value: value }).then(function (res) {
+          if (res && res.ok) {
+            settingMsg.textContent = 'Ayar kaydedildi.';
+            settingMsg.className = 'class-msg ok';
+            setTimeout(function () { window.location.reload(); }, 700);
+          } else {
+            settingMsg.textContent = readErr(res);
+            settingMsg.className = 'class-msg err';
+          }
+        }).catch(function () {
+          settingMsg.textContent = 'Bağlantı hatası.';
+          settingMsg.className = 'class-msg err';
+        });
+      });
+
+      var settingsList = el('settings-list');
+      if (settingsList) {
+        settingsList.addEventListener('click', function (ev) {
+          var btn = ev.target.closest('[data-action]');
+          if (!btn) return;
+          var card = btn.closest('[data-setting-key]');
+          var key = card && card.getAttribute('data-setting-key');
+          if (btn.getAttribute('data-action') === 'delete-setting' && key) {
+            api('/api/admin/settings', 'DELETE', { key: key }).then(function (res) {
+              if (res && res.ok) { window.location.reload(); }
+              else { settingMsg.textContent = readErr(res); settingMsg.className = 'class-msg err'; }
+            });
+          } else if (btn.getAttribute('data-action') === 'edit-setting' && card) {
+            var body = card.querySelector('.content-card__body');
+            el('set-key').value = key;
+            el('set-value').value = body ? (body.children[1] ? body.children[1].textContent.trim() : '') : '';
+            el('setting-form').scrollIntoView({ behavior: 'smooth', block: 'start' });
+          }
+        });
+      }
+    }
+
+    // ---- Posts ----
+    var postForm = el('post-form');
+    var postMsg = el('post-msg');
+    var postSubmitBtn = el('post-submit-btn');
+    var postCancelBtn = el('post-cancel-btn');
+    var postsList = el('posts-list');
+
+    function loadPostIntoForm(p) {
+      el('post-id').value = p.id;
+      el('post-title').value = p.title;
+      el('post-slug').value = p.slug;
+      el('post-summary').value = p.summary || '';
+      el('post-author').value = p.author || '';
+      el('post-cover').value = p.cover_url || '';
+      el('post-body').value = p.body || '';
+      el('post-published').checked = !!p.published;
+      if (postSubmitBtn) postSubmitBtn.textContent = 'Değişiklikleri Kaydet';
+      if (postCancelBtn) postCancelBtn.hidden = false;
+      postForm.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+
+    if (postForm && postMsg) {
+      postForm.addEventListener('submit', function (e) {
+        e.preventDefault();
+        var title = el('post-title').value.trim();
+        if (!title) { postMsg.textContent = 'Başlık gerekli.'; postMsg.className = 'class-msg err'; return; }
+        var btn = postForm.querySelector('button#post-submit-btn');
+        if (btn) { btn.disabled = true; btn.textContent = 'Kaydediliyor…'; }
+        postMsg.textContent = '';
+        postMsg.className = 'class-msg';
+        api('/api/admin/posts', 'POST', {
+          id: el('post-id').value || undefined,
+          title: title,
+          slug: el('post-slug').value.trim(),
+          summary: el('post-summary').value.trim(),
+          body: el('post-body').value,
+          cover_url: el('post-cover').value.trim(),
+          published: el('post-published').checked,
+          author: el('post-author').value.trim(),
+        }).then(function (res) {
+          if (res && res.ok) {
+            postMsg.textContent = 'Blog yazısı kaydedildi.';
+            postMsg.className = 'class-msg ok';
+            setTimeout(function () { window.location.reload(); }, 700);
+          } else {
+            postMsg.textContent = readErr(res);
+            postMsg.className = 'class-msg err';
+          }
+        }).catch(function () {
+          postMsg.textContent = 'Bağlantı hatası.';
+          postMsg.className = 'class-msg err';
+        }).finally(function () {
+          if (btn) { btn.disabled = false; btn.textContent = 'Yazıyı Kaydet'; }
+        });
+      });
+
+      if (postCancelBtn) {
+        postCancelBtn.addEventListener('click', function () {
+          postForm.reset();
+          el('post-id').value = '';
+          postSubmitBtn.textContent = 'Yazıyı Kaydet';
+          postCancelBtn.hidden = true;
+        });
+      }
+
+      if (postsList) {
+        postsList.addEventListener('click', function (ev) {
+          var btn = ev.target.closest('[data-action]');
+          if (!btn) return;
+          var card = btn.closest('[data-post-id]');
+          var id = card && card.getAttribute('data-post-id');
+          if (btn.getAttribute('data-action') === 'delete-post' && id) {
+            if (!window.confirm('Bu blog yazısı silinecek. Emin misin?')) return;
+            api('/api/admin/posts', 'DELETE', { id: id }).then(function (res) {
+              if (res && res.ok) { window.location.reload(); }
+              else { postMsg.textContent = readErr(res); postMsg.className = 'class-msg err'; }
+            });
+          } else if (btn.getAttribute('data-action') === 'edit-post' && id) {
+            api('/api/admin/posts', 'GET').then(function (res) {
+              var list = (res && res.ok && res.posts) ? res.posts : [];
+              var p = null;
+              for (var i = 0; i < list.length; i++) if (list[i].id === id) { p = list[i]; break; }
+              if (!p) { postMsg.textContent = 'Yazı bulunamadı.'; postMsg.className = 'class-msg err'; return; }
+              loadPostIntoForm(p);
+            });
+          }
+        });
+      }
+    }
+  })();
+</script>

@@ -1,0 +1,131 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import { createSupabaseClient, pageCookieSource } from '../../lib/supabase';
+
+type PostRow = {
+  id: string;
+  slug: string;
+  title: string;
+  summary: string | null;
+  cover_url: string | null;
+  published: boolean;
+  author: string | null;
+  created_at: string;
+};
+
+// Public marketing/SEO surface — reads only PUBLISHED posts. Readers do NOT
+// need auth; they use the public Layout. RLS allows anon SELECT of published
+// posts. If Supabase isn't configured (local build), an empty list renders.
+let posts: PostRow[] = [];
+try {
+  const supabase = createSupabaseClient(pageCookieSource(Astro));
+  if (supabase) {
+    const { data, error } = await supabase
+      .from('blog_posts')
+      .select('id, slug, title, summary, cover_url, published, author, created_at')
+      .eq('published', true)
+      .order('created_at', { ascending: false });
+    if (!error) posts = (data ?? []) as PostRow[];
+  }
+} catch {
+  // Empty list default.
+}
+
+const MONTHS_TR = [
+  'Ocak', 'Şubat', 'Mart', 'Nisan', 'Mayıs', 'Haziran',
+  'Temmuz', 'Ağustos', 'Eylül', 'Ekim', 'Kasım', 'Aralık',
+];
+function longDate(iso: string | null | undefined): string {
+  if (!iso) return '';
+  const d = new Date(iso);
+  if (Number.isNaN(d.getTime())) return '';
+  return `${d.getDate()} ${MONTHS_TR[d.getMonth()] ?? ''} ${d.getFullYear()}`;
+}
+---
+<Layout
+  title="Blog — Languago"
+  description="Languago blog: İngilizce öğrenme ipuçları, dil bilgisi rehberleri, kelime listeleri ve okuma etkinlikleri."
+>
+  <main class="study">
+    <div class="page-head">
+      <span class="page-eyebrow">Languago Blog</span>
+      <h1>Blog ✍️</h1>
+      <p class="page-sub">
+        İngilizce öğrenme ipuçları, dil bilgisi rehberleri ve Languago'dan güncel haberler.
+      </p>
+      <div class="barline"></div>
+    </div>
+
+    {
+      posts.length ? (
+        <div class="blog-grid">
+          {
+            posts.map((p) => (
+              <a class="panel blog-card" href={`/blog/${p.slug}`}>
+                {p.cover_url && (
+                  <img class="blog-card__cover" src={p.cover_url} alt={p.title} loading="lazy" />
+                )}
+                <div class="blog-card__body">
+                  <span class="muted small">
+                    {longDate(p.created_at)}
+                    {p.author ? ` · ${p.author}` : ''}
+                  </span>
+                  <h2 class="blog-card__title">{p.title}</h2>
+                  <p class="muted">{p.summary}</p>
+                  <span class="blog-card__link">Devamını oku →</span>
+                </div>
+              </a>
+            ))
+          }
+        </div>
+      ) : (
+        <div class="panel" style="text-align:center;padding:40px 24px;">
+          <div style="font-size:2.4rem;">📝</div>
+          <h2>Henüz yazı yok</h2>
+          <p class="muted">Blog yazıları çok yakında yayında olacak.</p>
+        </div>
+      )
+    }
+  </main>
+</Layout>
+
+<style>
+  .blog-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 20px;
+    margin-top: 20px;
+  }
+  .blog-card {
+    display: block;
+    overflow: hidden;
+    transition: transform 0.15s ease, border-color 0.15s ease;
+  }
+  .blog-card:hover {
+    transform: translateY(-2px);
+    border-color: var(--teal);
+  }
+  .blog-card__cover {
+    width: 100%;
+    height: 180px;
+    object-fit: cover;
+    display: block;
+    background: var(--teal-soft);
+  }
+  .blog-card__body {
+    padding: 16px;
+  }
+  .blog-card__title {
+    margin: 6px 0;
+    font-size: 1.15rem;
+    line-height: 1.3;
+    color: var(--ink);
+  }
+  .blog-card__link {
+    display: inline-block;
+    margin-top: 8px;
+    font-weight: 700;
+    color: var(--teal-dark);
+    font-size: 0.92rem;
+  }
+</style>
