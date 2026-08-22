@@ -152,7 +152,7 @@ const TABS_ACTIVE = pronounRelated
         { key: 'lesson', label: '📘 Ders' },
         { key: 'mcq', label: '🧩 Test' },
         { key: 'gap', label: '✍️ Boşluk' },
-        { key: 'match', label: '🧲 Eşleştirme', hidden: !pronounRelated },
+        { key: 'match', label: '🧲 Eşleştirme' },
         { key: 'review', label: '📊 Sonuç' },
       ].map((s) => (
         <button type="button" class="wizard-step-btn" data-step={s.key}
@@ -315,11 +315,24 @@ const TABS_ACTIVE = pronounRelated
     )}
     </section>
 
-    <!-- ADIM 4 · Eşleştirme -->
+    <!-- ADIM 4 · Eşleştirme / Kelime Karmakarışık -->
     <section class="wizard-step" data-step="match">
-    {pronounRelated && (
+      <div class="gram-jumble card">
+        <h3 style="margin:0 0 4px;">🔄 Karmakarışık Kelime</h3>
+        <p class="muted">Harfleri karıştırılmış kelimeyi doğru sırayla kur: harflere tıkla ve kelimeyi yaz.</p>
+        <div class="gram-jumble__hint" id="jumbleHint"></div>
+        <div class="gram-jumble__word" id="jumbleWord"></div>
+        <div class="gram-jumble__letters" id="jumbleLetters"></div>
+        <div class="gram-jumble__fb" id="jumbleFb"></div>
+        <div class="btn-row" style="margin-top:14px;">
+          <button type="button" class="btn ghost" id="jumbleShuffle">🔀 Harfleri Karıştır</button>
+          <button type="button" class="btn primary" id="jumbleNext">Yeni Kelime →</button>
+        </div>
+      </div>
+
+      {pronounRelated && (
       <>
-    <h3 style="margin-top:30px;">🧲 Eşleştirme</h3>
+    <h3 style="margin-top:24px;">🧲 Zamir Eşleştirme</h3>
     <div class="gram-matchcard card">
       <p class="muted">Zamirleri karşılıklarıyla eşleştir: soldan birini seç, sağdan eşini bul.</p>
       <div class="gram-match">
@@ -329,7 +342,7 @@ const TABS_ACTIVE = pronounRelated
       <div class="gram-match__fb" id="matchFb"></div>
     </div>
       </>
-    )}
+      )}
     </section>
 
     <!-- ADIM 5 · Sonuç / Performans Analizi -->
@@ -474,6 +487,22 @@ const TABS_ACTIVE = pronounRelated
     .gram-gap__fb.no { color: var(--teal-dark); }
 
     .gram-matchcard { margin-top: 10px; }
+    .gram-jumble__hint { font-size: 1.05rem; font-weight: 800; color: var(--teal-dark); margin: 6px 0 2px; }
+    .gram-jumble__word {
+      display: flex; gap: 8px; flex-wrap: wrap; min-height: 56px; align-items: center;
+      padding: 10px; background: var(--bg-soft); border: 2px dashed var(--line); border-radius: 12px;
+    }
+    .gram-jumble__letters { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 12px; }
+    .jub {
+      width: 52px; height: 52px; border-radius: 12px; border: none; cursor: pointer;
+      background: linear-gradient(180deg, var(--teal), var(--teal-dark)); color: #fff;
+      font-size: 1.5rem; font-weight: 800; font-family: inherit;
+      box-shadow: 0 3px 0 rgba(0,0,0,.25); transition: transform .08s;
+    }
+    .jub:hover { transform: translateY(-2px); }
+    .jub:active { transform: translateY(1px); }
+    .jub.used { background: rgba(13,148,136,.28); color: var(--teal-dark); box-shadow: none; cursor: default; }
+    .gram-jumble__fb { margin-top: 10px; font-weight: 700; }
 
     .gram-analysis { margin-top: 24px; border-top: 6px solid var(--teal); }
     .gram-analysis__msg { font-size: 1.02rem; }
@@ -885,7 +914,91 @@ const TABS_ACTIVE = pronounRelated
         });
       }
 
-      // ---- IV. Sonuç / analiz + Uygulama Listesi ----
+      // ---- IV. Karmakarışık Kelime (harf oyunu) — HER ünitede çalışır ----
+      function esc(s) {
+        var d = document.createElement('div'); d.textContent = s == null ? '' : String(s); return d.innerHTML;
+      }
+      var jumbleWordPool = (function () {
+        var set = {}, out = [];
+        function add(w) {
+          w = (w || '').trim();
+          if (!w) return;
+          if (!/^[A-Za-z'’\-]{3,}$/.test(w)) return;
+          var k = w.toLowerCase();
+          if (!set[k]) { set[k] = 1; out.push(w); }
+        }
+        // practice (gap) correct answers
+        (practice || []).forEach(function (p) { (p.a || []).forEach(add); });
+        // MCQ correct answers
+        (quiz || []).forEach(function (q) {
+          if (q && q.options && typeof q.a === 'number') add(q.options[q.a]);
+          (q.options || []).forEach(add);
+        });
+        return out;
+      })().slice(0, 10);
+
+      var jumbleHint = document.getElementById('jumbleHint');
+      var jumbleWord = document.getElementById('jumbleWord');
+      var jumbleLetters = document.getElementById('jumbleLetters');
+      var jumbleFb = document.getElementById('jumbleFb');
+      var curWord = null, picked = [];
+
+      function shuffleString(s) {
+        var arr = s.split('');
+        for (var i = arr.length - 1; i > 0; i--) {
+          var j = Math.floor(Math.random() * (i + 1));
+          var t = arr[i]; arr[i] = arr[j]; arr[j] = t;
+        }
+        return arr.join('');
+      }
+      function renderJumble() {
+        picked = [];
+        curWord = jumbleWordPool[Math.floor(Math.random() * jumbleWordPool.length)];
+        if (!curWord) { jumbleFb.textContent = 'Bu ünitede tıklanacak kelime yok.'; return; }
+        jumbleHint.textContent = 'Bu ünitenin kelimelerinden biri: ' + curWord.length + ' harf';
+        var scrambled = shuffleString(curWord);
+        var letters = '';
+        for (var i = 0; i < scrambled.length; i++) {
+          letters += '<button type="button" class="jub" data-li="' + i + '">' + esc(scrambled.charAt(i)) + '</button>';
+        }
+        jumbleLetters.innerHTML = letters;
+        jumbleWord.innerHTML = '<span class="jub used" style="width:auto;padding:0 14px;">?</span>';
+        jumbleFb.textContent = '';
+        var bs = jumbleLetters.querySelectorAll('.jub');
+        for (var i = 0; i < bs.length; i++) {
+          bs[i].addEventListener('click', function () {
+            if (this.classList.contains('used')) return;
+            this.classList.add('used');
+            var c = this.textContent;
+            picked.push(c);
+            // rebuild progress in word row
+            var build = '';
+            for (var p = 0; p < picked.length; p++) {
+              build += '<span class="jub" style="pointer-events:none;">' + esc(picked[p]) + '</span>';
+            }
+            for (var r = picked.length; r < curWord.length; r++) {
+              build += '<span class="jub used" style="width:auto;padding:0 12px;color:transparent;">_</span>';
+            }
+            jumbleWord.innerHTML = build;
+            if (picked.length === curWord.length) {
+              var attempt = picked.join('');
+              var ok = attempt.toLowerCase() === curWord.toLowerCase();
+              jumbleFb.style.color = ok ? 'var(--success)' : 'var(--danger)';
+              jumbleFb.textContent = ok ? '✓ Doğru! Kelime: ' + curWord : '✗ Yanlış — doğrusu: ' + curWord + '. Yeniden dene 🔀';
+              if (ok) { doneC.match++; updProgress(); saveProgressFromPractice(); }
+            }
+          });
+        }
+      }
+      var jShuffle = document.getElementById('jumbleShuffle');
+      var jNext = document.getElementById('jumbleNext');
+      if (jShuffle && jNext && jumbleWordPool.length) {
+        jShuffle.addEventListener('click', renderJumble);
+        jNext.addEventListener('click', renderJumble);
+        renderJumble();
+      }
+
+      // ---- V. Sonuç / analiz + Uygulama Listesi ----
       document.getElementById('resultsBtn').addEventListener('click', function () {
         buildAnalysis();
         var a = document.getElementById('analysis');
