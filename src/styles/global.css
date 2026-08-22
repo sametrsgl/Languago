@@ -453,6 +453,54 @@ footer.site .brand .footer-mascot {
   text-align: center;
 }
 
+/* OAuth divider + Google button (signin / signup) */
+.divider {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin: 20px 0;
+  color: var(--ink-soft);
+  font-size: 0.85rem;
+}
+.divider::before,
+.divider::after {
+  content: "";
+  flex: 1;
+  height: 1px;
+  background: var(--line);
+}
+.btn-google {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  width: 100%;
+  background: #fff;
+  color: var(--ink);
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  padding: 12px 26px;
+  font-weight: 700;
+  font-size: 1rem;
+  cursor: pointer;
+  text-decoration: none;
+  transition: background 0.15s, transform 0.05s, box-shadow 0.15s;
+}
+.btn-google:hover {
+  background: var(--bg-soft);
+  color: var(--ink);
+  text-decoration: none;
+  box-shadow: var(--shadow);
+}
+.btn-google:active {
+  transform: translateY(1px);
+}
+.btn-google .g-icon {
+  width: 20px;
+  height: 20px;
+  flex: 0 0 auto;
+}
+
 /* ---------- dashboard ---------- */
 .dash {
   max-width: 720px;
