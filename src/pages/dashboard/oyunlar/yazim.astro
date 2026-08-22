@@ -3,10 +3,19 @@ import AppLayout from '../../../layouts/AppLayout.astro';
 import { getSessionUser } from '../../../lib/auth';
 import { pageCookieSource } from '../../../lib/supabase';
 import { VOCAB_SETS } from '../../../lib/study';
+import { readProgress } from '../../../lib/progress';
+import { readProgression } from '../../../lib/gamification';
 
 // Protected route.
 const user = await getSessionUser(pageCookieSource(Astro));
 if (!user) return Astro.redirect('/signin');
+
+// Current RPG progression (XP / level / streak / mastery) from the student's
+// own game progress row. Guarded — a fresh student yields a level-1 baseline.
+const progression = readProgression(
+  await readProgress(pageCookieSource(Astro), 'game')
+);
+const progressionJson = JSON.stringify(progression).replace(/</g, '\\u003c');
 
 // Server-injected set metadata (labels only — the heavy word module is
 // dynamic-imported on the client so the game page stays light).
@@ -69,6 +78,7 @@ const setMetaJson = JSON.stringify(setMeta).replace(/</g, '\\u003c');
       </section>
     </div>
 
+    <script is:inline id="game-prog" type="application/json" set:html={progressionJson}></script>
     <script is:inline id="set-meta" type="application/json" set:html={setMetaJson}></script>
 
     <script>
@@ -108,6 +118,54 @@ const setMetaJson = JSON.stringify(setMeta).replace(/</g, '\\u003c');
         // --- state ---
         var state = { set: 'a1', dir: 'both' };
         var game = null; // { pool, index, score, current }
+
+        // --- RPG progression (mirrors src/lib/gamification.ts) ---
+        var XP_PER_LEVEL = 100, PER_CORRECT_XP = 5, TIME_BONUS_XP = 5;
+        var before = getJson('game-prog') || { xp: 0, level: 1, streak: 0, mastery: {}, lastPlayed: '' };
+        var clXpFromScore = function (pct, tb) {
+          var p = Math.max(0, Math.min(100, (pct || 0)));
+          return Math.round(p / 2) + Math.max(0, Math.round(tb || 0));
+        };
+        var clLevel = function (xp) {
+          xp = Math.max(0, Math.floor(xp || 0));
+          return { level: Math.floor(xp / XP_PER_LEVEL) + 1, xpIntoLevel: xp % XP_PER_LEVEL, xpForNextLevel: XP_PER_LEVEL };
+        };
+        var clMastery = function (pct) {
+          pct = Math.max(0, Math.min(100, (pct || 0)));
+          var bands = [[85, 'usta', '👑', 'Usta'], [70, 'ust', '🔥', 'Üst'], [50, 'orta', '🔶', 'Orta'], [0, 'yeni', '🌱', 'Yeni']];
+          for (var i = 0; i < bands.length; i++) { if (pct >= bands[i][0]) return { key: bands[i][1], emoji: bands[i][2], label: bands[i][3], pct: pct }; }
+          return { key: 'yeni', emoji: '🌱', label: 'Yeni', pct: pct };
+        };
+        var clToday = function () {
+          var d = new Date();
+          return d.getFullYear() + '-' + ('0' + (d.getMonth() + 1)).slice(-2) + '-' + ('0' + d.getDate()).slice(-2);
+        };
+        var clDayNum = function (s) {
+          var t = Date.parse(String(s || ''));
+          return isFinite(t) ? Math.floor(t / 86400000) : NaN;
+        };
+        var clNextStreak = function (prev, lastPlayed, today) {
+          var p = typeof prev === 'number' && prev >= 0 ? prev : 1;
+          if (!lastPlayed) return p === 0 ? 1 : p;
+          var a = clDayNum(lastPlayed), b = clDayNum(today);
+          if (!isFinite(a) || !isFinite(b)) return p === 0 ? 1 : p;
+          if (a === b) return Math.max(1, p);      // same-day replay — hold
+          if (b - a === 1) return p + 1;            // played yesterday — extend
+          return 1;                                 // gap — reset
+        };
+        function showXpPop(n) {
+          var sc = $('score');
+          if (!sc) return;
+          var host = $('play') || document.body;
+          var s = document.createElement('span');
+          s.className = 'xp-pop';
+          s.textContent = '+' + n + ' XP';
+          var r = sc.getBoundingClientRect();
+          s.style.left = (r.left + r.width / 2 - 24) + 'px';
+          s.style.top = (r.top - 18 > 0 ? r.top - 18 : r.top + 24) + 'px';
+          host.appendChild(s);
+          setTimeout(function () { if (s.parentNode) s.parentNode.removeChild(s); }, 950);
+        }
 
         // --- set chips ---
         function renderSetChips() {
@@ -241,6 +299,8 @@ const setMetaJson = JSON.stringify(setMeta).replace(/</g, '\\u003c');
             if (cur.blankIdx >= cur.puzzle.hidden.length) {
               cur.done = true;
               game.score++;
+              // Immediate reward loop: small +XP pop per solved word.
+              showXpPop(PER_CORRECT_XP);
               renderTarget();
               $('tiles').innerHTML = '<span class="correct-flash">Süper, doğru! ✓</span>';
               $('nextRow').hidden = false;
@@ -258,17 +318,42 @@ const setMetaJson = JSON.stringify(setMeta).replace(/</g, '\\u003c');
           var total = game.pool.length;
           var pct = Math.round((game.score / total) * 100);
           var msg = pct >= 80 ? 'Harika! 🎯' : pct >= 50 ? 'İyi iş 👏' : 'Tekrar dene 💪';
-          saveProgress(pct);
+
+          // --- RPG reward for the round (no timer in this game) ---
+          var xpGained = clXpFromScore(pct, 0) + PER_CORRECT_XP * game.score;
+          var beforeLevel = clLevel(before.xp || 0);
+          var newXp = (before.xp || 0) + xpGained;
+          var newLevel = clLevel(newXp);
+          var levelUp = newLevel.level > beforeLevel.level;
+          var today = clToday();
+          var newStreak = clNextStreak(before.streak || 0, before.lastPlayed, today);
+          var m = clMastery(pct);
+          var mastery = {};
+          if (before.mastery && typeof before.mastery === 'object') {
+            for (var k in before.mastery) { if (before.mastery[k]) mastery[k] = before.mastery[k]; }
+          }
+          mastery['yazim'] = m;
+
+          saveProgress(pct, newXp, newLevel.level, newStreak, today, mastery);
+
+          var award =
+            '<div class="xp-award">🎉 +' + xpGained + ' XP · Seviye ' + newLevel.level + '</div>' +
+            (levelUp ? '<div class="xp-levelup">⭐ Yeni seviye! ⬆️</div>' : '') +
+            '<div class="xp-badges">' +
+            '<span class="pbadge streak">🔥 ' + newStreak + ' gün</span>' +
+            '<span class="pbadge mastery">' + m.emoji + ' Mastery: ' + m.label + ' · %' + pct + '</span>' +
+            '</div>';
           $('endBox').innerHTML =
             '<h2>' + msg + '</h2>' +
             '<p class="big-score">%' + pct + '</p>' +
-            '<p class="muted">' + game.score + ' / ' + total + ' doğru</p>';
+            '<p class="muted">' + game.score + ' / ' + total + ' doğru</p>' +
+            award;
           $('end').hidden = false;
           $('play').hidden = true;
         }
 
         // --- progress save (best-effort) ---
-        function saveProgress(pct) {
+        function saveProgress(pct, xp, level, streak, lastPlayed, mastery) {
           try {
             fetch('/dashboard/progress', {
               method: 'POST',
@@ -282,6 +367,12 @@ const setMetaJson = JSON.stringify(setMeta).replace(/</g, '\\u003c');
                   lastScore: game.score,
                   total: game.pool.length,
                   lastPct: pct,
+                  // RPG progression fields (additive — keep lastScore/lastPct).
+                  xp: xp,
+                  level: level,
+                  streak: streak,
+                  lastPlayed: lastPlayed,
+                  mastery: mastery,
                 },
               }),
             }).catch(function () {});
@@ -369,4 +460,15 @@ const setMetaJson = JSON.stringify(setMeta).replace(/</g, '\\u003c');
   .btn-cta { padding: 14px 36px; font-size: 1.15rem; box-shadow: 0 12px 24px -12px rgba(245, 158, 11, 0.85); }
   .start-row { justify-content: center; margin-top: 22px; }
   .start-hint { text-align: center; color: var(--ink-soft); font-size: 0.9rem; margin: 4px 0 0; }
+
+  /* RPG progression layer */
+  .xp-award { margin-top: 14px; font-size: 1.15rem; font-weight: 800; color: var(--teal-dark); }
+  .xp-levelup { margin-top: 6px; display: inline-block; background: linear-gradient(135deg, var(--brand), var(--brand-dark)); color: #fff; padding: 5px 14px; border-radius: 999px; font-weight: 800; animation: popin .5s ease; }
+  .xp-badges { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 12px; }
+  .pbadge { border-radius: 999px; padding: 5px 13px; font-size: .88rem; font-weight: 700; }
+  .pbadge.streak { background: var(--teal-soft); color: var(--teal-dark); }
+  .pbadge.mastery { background: #fff7e6; border: 1px solid #fde9bf; color: var(--brand-dark); }
+  @keyframes popin { 0% { transform: scale(.6); opacity: 0; } 100% { transform: scale(1); opacity: 1; } }
+  .xp-pop { position: fixed; z-index: 60; color: var(--brand-dark); font-weight: 800; font-size: .95rem; pointer-events: none; animation: xppop .95s ease forwards; text-shadow: 0 1px 2px rgba(255,255,255,.8); }
+  @keyframes xppop { 0% { transform: translateY(0); opacity: 1; } 70% { opacity: 1; } 100% { transform: translateY(-26px); opacity: 0; } }
 </style>

@@ -2,10 +2,22 @@
 import AppLayout from '../../../layouts/AppLayout.astro';
 import { getSessionUser } from '../../../lib/auth';
 import { pageCookieSource } from '../../../lib/supabase';
+import { readProgress } from '../../../lib/progress';
+import { readProgression } from '../../../lib/gamification';
 
 // Protected route.
 const user = await getSessionUser(pageCookieSource(Astro));
 if (!user) return Astro.redirect('/signin');
+
+// RPG progression for the student (guarded — a fresh student gets a
+// level-1, 0-XP baseline with no mastery/streak). Powers the hub card.
+const progression = readProgression(
+  await readProgress(pageCookieSource(Astro), 'game')
+);
+const gameLabels: Record<string, { name: string; href: string }> = {
+  quiz: { name: 'Kelime Yarışması', href: '/dashboard/oyunlar/quiz' },
+  yazim: { name: 'Yazım', href: '/dashboard/oyunlar/yazim' },
+};
 
 const games = [
   {
@@ -37,6 +49,48 @@ const games = [
     </p>
     <div class="barline"></div>
 
+    {/* RPG progression card */}
+    <div class="prog-card">
+      <div class="prog-head">
+        <div class="prog-level">
+          <span class="prog-lvl-badge">Lv {progression.level}</span>
+          <span class="prog-total">Toplam {progression.xp} XP</span>
+        </div>
+        <div class="prog-streak">🔥 {progression.streak} gün</div>
+      </div>
+      <div class="xpbar" title="{progression.xpIntoLevel} / {progression.xpForNextLevel} XP (seviye {progression.level + 1})">
+        <span class="xpbar-fill" style={`width:${progression.pctToNext}%`}></span>
+      </div>
+      <div class="prog-sub">
+        <span>{progression.xpIntoLevel} / {progression.xpForNextLevel} XP → Seviye {progression.level + 1}</span>
+        <span class="prog-games">Oyun bazlı ustalık</span>
+      </div>
+      <div class="prog-mastery">
+        {
+          Object.entries(gameLabels).map(([key, g]) => {
+            const m = progression.mastery[key as 'quiz' | 'yazim'];
+            return m ? (
+              <a class="mchip" href={g.href}>
+                <span class="memoji">{m.emoji}</span>
+                <span class="mbody">
+                  <span class="mname">{g.name}</span>
+                  <span class="mlabel">{m.label} · %{m.pct}</span>
+                </span>
+              </a>
+            ) : (
+              <a class="mchip idle" href={g.href}>
+                <span class="memoji">🎮</span>
+                <span class="mbody">
+                  <span class="mname">{g.name}</span>
+                  <span class="mlabel">Henüz oynanmadı</span>
+                </span>
+              </a>
+            );
+          })
+        }
+      </div>
+    </div>
+
     <div class="dash-nav">
       {
         games.map((g) => (
@@ -60,3 +114,53 @@ const games = [
     </div>
   </main>
 </AppLayout>
+
+<style>
+  .prog-card {
+    background: linear-gradient(135deg, #0d3b38 0%, #0f766e 60%, #115e59 100%);
+    color: #fff;
+    border-radius: var(--radius);
+    padding: 22px 24px;
+    margin-bottom: 24px;
+    box-shadow: 0 18px 36px -20px rgba(13, 148, 136, 0.6);
+  }
+  .prog-head { display: flex; justify-content: space-between; align-items: center; gap: 12px; flex-wrap: wrap; }
+  .prog-level { display: flex; align-items: center; gap: 12px; }
+  .prog-lvl-badge {
+    background: var(--brand);
+    color: #fff; font-weight: 800; font-size: 1.05rem;
+    padding: 7px 16px; border-radius: 999px;
+    box-shadow: 0 10px 20px -10px rgba(245, 158, 11, 0.9);
+  }
+  .prog-total { font-weight: 700; font-size: 1.05rem; }
+  .prog-streak {
+    background: rgba(255,255,255,.14); border: 1px solid rgba(255,255,255,.28);
+    padding: 6px 14px; border-radius: 999px; font-weight: 700; font-size: .95rem;
+  }
+  .xpbar {
+    height: 14px; border-radius: 999px; background: rgba(255,255,255,.2);
+    overflow: hidden; margin: 16px 0 8px;
+  }
+  .xpbar-fill {
+    display: block; height: 100%; width: 0;
+    background: linear-gradient(90deg, var(--brand) 0%, #fbbf24 100%);
+    border-radius: 999px; transition: width .4s ease;
+  }
+  .prog-sub {
+    display: flex; justify-content: space-between; gap: 10px; flex-wrap: wrap;
+    font-size: .85rem; color: rgba(255,255,255,.85);
+  }
+  .prog-games { font-weight: 700; text-transform: uppercase; letter-spacing: .04em; font-size: .75rem; }
+  .prog-mastery { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 14px; }
+  .mchip {
+    display: inline-flex; align-items: center; gap: 10px; text-decoration: none;
+    background: rgba(255,255,255,.12); border: 1px solid rgba(255,255,255,.24);
+    border-radius: 12px; padding: 9px 14px; transition: background .15s, transform .12s;
+  }
+  .mchip:hover { background: rgba(255,255,255,.22); color: #fff; transform: translateY(-1px); text-decoration: none; }
+  .mchip.idle { opacity: .75; }
+  .memoji { font-size: 1.3rem; }
+  .mbody { display: flex; flex-direction: column; line-height: 1.25; }
+  .mname { font-weight: 700; color: #fff; font-size: .92rem; }
+  .mlabel { font-size: .78rem; color: rgba(255,255,255,.8); }
+</style>
