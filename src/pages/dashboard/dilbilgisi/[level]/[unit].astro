@@ -616,6 +616,7 @@ const interactCount = quiz.length + practice.length + 5 + 6; // MCQ+boşluk+uygu
           var isCorrect = btn.getAttribute('data-correct') === '1';
           var idx = parseInt(q.getAttribute('data-idx') || '0', 10);
           var qq = quiz[idx];
+          var ansIdx = qq ? qq.a : -1;
           var answer = qq ? qq.options[qq.a] : '';
           opts.forEach(function (o) { o.disabled = true; });
           q.querySelectorAll('.option[data-correct="1"]').forEach(function (o) { o.classList.add('correct'); });
@@ -630,14 +631,19 @@ const interactCount = quiz.length + practice.length + 5 + 6; // MCQ+boşluk+uygu
           var whyBtn = q.querySelector('[data-why]');
           var whyB = q.querySelector('[data-whybox]');
           if (whyBtn) whyBtn.style.display = '';
-          if (whyB) whyB.textContent = explain(answer);
+          if (whyB) whyB.textContent = explain(qq, ansIdx);
           if (qq && qq.options[qq.a] !== undefined && qq.options[qq.a] !== null && qq.q) { /* noop guard */ }
 
           if (doneC.mcq >= total) saveProgress();
         });
       }
 
-      function explain(word) {
+      function explain(qq, ansIdx) {
+        // Önce seçeneğe özel "neden yanlış/doğru" notu (varsa) göster
+        if (qq && Array.isArray(qq.why) && ansIdx >= 0 && ansIdx < qq.why.length && qq.why[ansIdx]) {
+          return qq.why[ansIdx] + ' 💡';
+        }
+        var word = qq && qq.options ? qq.options[ansIdx >= 0 ? ansIdx : (qq.a || 0)] : '';
         var s = String(word).toLowerCase();
         // yakın gerçek not: unit.mistakes 'n' alanlarında eşleştir, yoksa genel nazik not
         for (var i = 0; i < mistakes.length; i++) {

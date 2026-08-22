@@ -222,6 +222,320 @@ export const GRAMMAR_B2 = {
         { q: "At 8pm I ___ TV.", hint: "watch", a: ["will be watching"] },
         { q: "She ___ the report by Friday.", hint: "finish", a: ["will have finished"] }
       ]
+    },
+    // ============ B2-11..B2-22 — EKLENEN ÜNİTELER ============
+    // Aşama 1 (Tanıma) → Aşama 2 (Yönlendirmeli Üretim) → Aşama 3 (Gerçek Yaşam)
+    {
+      id: "b2-11",
+      title: "Bağlaçlar: Ekleme & Zıtlık",
+      short: "furthermore / whereas / nevertheless",
+      slides: [
+        { h: "Kuruluş", b: "Söylem belirteçleri cümleleri ve düşünceleri bağlar.\\n\\n> Addition (ekleme): furthermore, moreover, in addition\\n> Contrast (zıtlık): whereas, nevertheless, nonetheless" },
+        { h: "Kullanım", b: "> whereas iki şeyi karşılaştırır: She loves coffee, whereas he prefers tea.\\n> nevertheless/nonetheless = 'yine de': It was hard; nevertheless, we succeeded.\\n> furthermore = 'ayrıca': The flat is cheap. Furthermore, it's central." },
+        { h: "Noktalama", b: "whereas cümle ortasında virgül ister.\\nnevertheless/furthermore genelde noktadan ya da noktalı virgülden sonra cümle başında başlar." }
+      ],
+      mistakes: [
+        { w: "Although he was tired, but he kept working.", r: "Although he was tired, he kept working.", n: "although ile but aynı cümlede kullanılmaz." },
+        { w: "He is tall, however she is short.", r: "He is tall, whereas she is short.", n: "Zıtlığı tek cümlede bağlamak için whereas; however yeni cümle başlatır." },
+        { w: "The film was boring; moreover, we left early.", r: "The film was boring; therefore, we left early.", n: "'Ayrıca' değil 'bu yüzden' anlamı gerekiyor → therefore." }
+      ],
+      practice: [
+        // Aşama 1 — Tanıma
+        { q: "It's a good hotel. ___, it's not expensive.", hint: "ayrıca", a: ["Furthermore", "Moreover", "In addition"] },
+        // Aşama 2 — Yönlendirmeli
+        { q: "She is very patient, ___ her brother is impatient.", hint: "zıtlık bağlacı", a: ["whereas"] },
+        { q: "The test was hard; ___, I passed.", hint: "yine de", a: ["nevertheless", "nonetheless"] },
+        // Aşama 3 — Gerçek yaşam
+        { q: "___ the traffic was heavy, we arrived on time.", hint: "trafiğe rağmen", a: ["Although", "Though", "Even though"] },
+        { q: "He didn't study. ___, he got a high grade.", hint: "bunun aksine / gerçekten şaşırtıcı", a: ["Nevertheless", "Nonetheless"] }
+      ]
+    },
+    {
+      id: "b2-12",
+      title: "Sıfat Cümlecikleri: Tanımlayan / Tanımlamayan",
+      short: "which / who…, that",
+      slides: [
+        { h: "Tanımlayan (defining)", b: "Kişiyi/şeyi belirler, virgül YOK:\\n\\n> The man who lives next door is a doctor.\\n> The book that I read was great." },
+        { h: "Tanımlamayan (non-defining)", b: "Ekstra bilgi verir, virgül VAR, 'that' KULLANILMAZ:\\n\\n> My brother, who lives in Izmir, is an engineer.\\n> This phone, which I bought last year, still works." },
+        { h: "Fark", b: "Tanımlayanda 'that' mümkün; tanımlayamanda asla. Tanımlayan olmadan cümle anlamsızlaşır, tanımlamayan bilgi silinebilir." }
+      ],
+      mistakes: [
+        { w: "My father, that is 60, still works.", r: "My father, who is 60, still works.", n: "Non-defining'de that kullanılmaz; kişi için who." },
+        { w: "The man which lives here is kind.", r: "The man who lives here is kind.", n: "Kişi için who (which değil)." },
+        { w: "My car, which is old, it still runs.", r: "My car, which is old, still runs.", n: "Yan cümlecikten sonra özne/zamir tekrarlanmaz." }
+      ],
+      practice: [
+        // Aşama 1
+        { q: "The woman ___ wrote the letter is my aunt.", hint: "kişi + live/act özne", a: ["who"] },
+        { q: "That's the house ___ I grew up.", hint: "yer", a: ["where"] },
+        // Aşama 2
+        { q: "My phone, ___ I bought last year, is broken.", hint: "şey, virgül var, that'sız", a: ["which"] },
+        { q: "The scientist ___ discovered the cure won a prize.", hint: "kişi (tanımlayan)", a: ["who", "that"] },
+        // Aşama 3
+        { q: "___ , which still works, is my grandfather's.", hint: "cümle: Bu saat", a: ["This watch"] },
+        { q: "We visited the museum ___ has ancient artifacts.", hint: "which/that (şey)", a: ["which", "that"] }
+      ]
+    },
+    {
+      id: "b2-13",
+      title: "Participles (Sıfat Cümleciğini Kısaltma)",
+      short: "-ing / -ed clauses",
+      slides: [
+        { h: "Kuruluş", b: "Sıfat cümleciğini -ing / -ed / -en biçimine indirgeriz:\\n\\n> The man who is standing there → the man standing there\\n> The books that were written here → the books written here" },
+        { h: "-ing (aktif)", b: "Eylem özneyi yapıyorsa -ing kullanılır:\\n\\n> The girl sitting by the window is my cousin." },
+        { h: "-ed (pasif)", b: "Eylem özneye uygulanıyorsa -ed/-3.hal kullanılır:\\n\\n> The letter sent yesterday arrived today." }
+      ],
+      mistakes: [
+        { w: "The man standing at the door is my uncle.", r: "(doğru — -ing aktif)", n: "-ing kullanımı doğrudur; yanıltıcı yok." },
+        { w: "The glass breaking by the child was expensive.", r: "The glass broken by the child was expensive.", n: "Camı kıran çocuk değil; cam kırılıyor → -ed." },
+        { w: "Tenants using the pool must obey rules.", r: "(doğru)", n: "Kiracılar kendileri kullanıyor → -ing." },
+        { w: "The story writing in 1990 is famous.", r: "The story written in 1990 is famous.", n: "Hikâye yazılıyor → -ed." }
+      ],
+      practice: [
+        // Aşama 1
+        { q: "The woman ___ at the door is my aunt.", hint: "stand (aktif)", a: ["standing"] },
+        { q: "The window ___ in the storm is being fixed.", hint: "kırmak > break (pasif)", a: ["broken"] },
+        // Aşama 2
+        { q: "Tenants ___ in Room 8 must not smoke.", hint: "stay (aktif)", a: ["staying"] },
+        { q: "The report ___ by the team was accepted.", hint: "hazırlamak > prepare (pasif)", a: ["prepared"] },
+        // Aşama 3
+        { q: "The email ___ at noon has not been answered.", hint: "send (pasif)", a: ["sent"] },
+        { q: "Passengers ___ for Flight 203 should come now.", hint: "beklemek > wait (aktif)", a: ["waiting"] }
+      ]
+    },
+    {
+      id: "b2-14",
+      title: "Olumsuz Zarflardan Sonra İnversion",
+      short: "no sooner / hardly / never",
+      slides: [
+        { h: "Kuruluş", b: "Cümle olumsuz/anlamca olumsuz bir zarfla başlarsa özne-fiil yer değiştirir (inversion):\\n\\n> Never have I seen such a film.\\n> Hardly had we left when it started raining." },
+        { h: "no sooner…than", b: "Iki geçmiş eylem arasındaki çok kısa süreyi vurgular:\\n\\n> No sooner had I sat down than the phone rang." },
+        { h: "Kullanım", b: "Resmî/yazılı İngilizcede vurgu içindir. Konuşmada genelde normal sıra: I have never seen…\\n\\n> Rarely do we see snow here." }
+      ],
+      mistakes: [
+        { w: "Never I have seen such a view.", r: "Never have I seen such a view.", n: "Olumsuz zarfla başlayınca özne-fiil yer değiştirir (inversion)." },
+        { w: "No sooner had we arrived than it started to rain.", r: "(doğru)", n: "Doğru yapı: No sooner had + özne + 3.hal…than…" },
+        { w: "Hardly I had opened the door when the dog ran out.", r: "Hardly had I opened the door when the dog ran out.", n: "Hardly sonrasında yardımcı fiil öznenin önüne geçer." },
+        { w: "Rarely do we see snow here.", r: "(doğru)", n: "Rarely başına inversion doğrudur; soru sormuyor." }
+      ],
+      practice: [
+        // Aşama 1
+        { q: "Never ___ I seen such a beautiful sunset.", hint: "have", a: ["have"] },
+        // Aşama 2
+        { q: "Hardly ___ the train when the doors closed.", hint: "have (had)", a: ["had"] },
+        { q: "No sooner ___ I finished my coffee than he called.", hint: "have (had)", a: ["had"] },
+        // Aşama 3
+        { q: "Rarely ___ we experience earthquakes in this region.", hint: "do", a: ["do"] },
+        { q: "Not only ___ she sing, but she also dances.", hint: "can / does", a: ["can", "does"] }
+      ]
+    },
+    {
+      id: "b2-15",
+      title: "Cleft Sentences (Vurgu Cümleleri)",
+      short: "It is X who…",
+      slides: [
+        { h: "It-cleft", b: "Bilgiyi vurgulamak için 'It is/was + vurgulanan + who/that':\\n\\n> Ali broke the window. → It was Ali who broke the window.\\n> It is in Istanbul that they met." },
+        { h: "Kuruluş", b: "It + be + odak + who/which/that + geri kalan. Şimdiki: is; geçmiş: was.\\n\\n> It was yesterday that we decided." },
+        { h: "Kullanım", b: "Konuşmacı hangi parçayı vurguladığını netleştirmek ister: özne, nesne, zaman ya da yer odaklanabilir." }
+      ],
+      mistakes: [
+        { w: "It was Ali who he broke the window.", r: "It was Ali who broke the window.", n: "Odak olan 'Ali' cümle içinde tekrar zamir almaz." },
+        { w: "It is in Istanbul where they met.", r: "It is in Istanbul that they met.", n: "It-cleft'te yer için where değil that kullanılır." },
+        { w: "It were the children who made the mess.", r: "It was the children who made the mess.", n: "It-cleft'te be öznesi 'It', o yüzden daima was." },
+        { w: "It was yesterday that we decided.", r: "(doğru)", n: "Zaman vurgusu için that ile doğru kurulmuş." }
+      ],
+      practice: [
+        // Aşama 1
+        { q: "It ___ Anna who called first.", hint: "be", a: ["was"] },
+        // Aşama 2
+        { q: "It is the rain ___ spoils our plans.", hint: "that/which", a: ["that", "which"] },
+        { q: "It was in 2010 ___ they launched the app.", hint: "that", a: ["that"] },
+        // Aşama 3
+        { q: "It ___ my brother who borrowed the car.", hint: "be (geçmiş)", a: ["was"] },
+        { q: "It is not the money ___ matters most.", hint: "that/which", a: ["that", "which"] }
+      ]
+    },
+    {
+      id: "b2-16",
+      title: "İçiçe Sorular (Embedded Questions)",
+      short: "Do you know where…?",
+      slides: [
+        { h: "Kuruluş", b: "Soru, sorunun içinde cümle gibi dizilir (soru sıralaması yok):\\n\\n> Where is it? → Do you know where it is?\\n> Do you know where is it? ✗" },
+        { h: "Yes/No soruları", b: "if / whether ile bağlanır:\\n\\n> I wonder if she is coming." },
+        { h: "Soru sözcüğü", b: "wh- sözcüğü özneden sonra doğrudan gelir:\\n\\n> They asked me why I was late." }
+      ],
+      mistakes: [
+        { w: "Do you know where is the station?", r: "Do you know where the station is?", n: "İçiçe soruda özne-fiil yer değiştirmez." },
+        { w: "I wonder if is she ready.", r: "I wonder if she is ready.", n: "if'ten sonra cümle düzeni normal." },
+        { w: "Can you tell me what time does the bus leave?", r: "Can you tell me what time the bus leaves?", n: "can you tell me… içinde yardımcı-özne taklası yapılmaz." },
+        { w: "They asked why I was late.", r: "(doğru)", n: "wh- + özne + fiil sıralaması doğrudur." }
+      ],
+      practice: [
+        // Aşama 1
+        { q: "Do you know where the station ___?", hint: "is", a: ["is"] },
+        // Aşama 2
+        { q: "I wonder ___ she will come.", hint: "if/whether", a: ["if", "whether"] },
+        { q: "Can you tell me what time the film ___?", hint: "start (does'sız)", a: ["starts"] },
+        // Aşama 3
+        { q: "They asked us why we ___ late.", hint: "be (geçmiş)", a: ["were"] },
+        { q: "Do you know when the meeting ___? ", hint: "begin (simple present)", a: ["begins"] }
+      ]
+    },
+    {
+      id: "b2-17",
+      title: "Geçmiş Kipleri: regret & criticism",
+      short: "should have / needn't have",
+      slides: [
+        { h: "should have + 3.hal", b: "Geçmişte yapılmalıydı ama yapılmadı (pişmanlık/eleştiri):\\n\\n> You should have told me earlier." },
+        { h: "needn't have + 3.hal", b: "Geçmişte gerekli görünüp yapılan ama aslında gereksiz olan:\\n\\n> I needn't have booked a table — it was empty." },
+        { h: "needn't have vs didn't need to", b: "needn't have → yapıldı (gereksizdi).\\ndidn't need to → yapılmadı (gerek yoktu):\\n\\n> I didn't need to go. (gitmedim)" }
+      ],
+      mistakes: [
+        { w: "You should have told me earlier.", r: "(doğru)", n: "Eleştiri/şiddetli öğüt için should have + 3.hal doğrudur." },
+        { w: "We needn't have bought tickets, but we didn't.", r: "We didn't need to buy tickets, so we didn't.", n: "Alınmadıysa 'didn't need to' kullanılır." },
+        { w: "She should had called me.", r: "She should have called me.", n: "should + have + 3.hal (had değil)." },
+        { w: "He needn't have worried — everything was fine.", r: "(doğru)", n: "Boş yere endişelendi → needn't have + worried doğru." }
+      ],
+      practice: [
+        // Aşama 1
+        { q: "You ___ have told me earlier.", hint: "should", a: ["should"] },
+        // Aşama 2
+        { q: "I ___ have booked a table; the place was empty.", hint: "needn't", a: ["needn't", "need not"] },
+        { q: "She ___ have called me.", hint: "should (eleştiri)", a: ["should"] },
+        // Aşama 3
+        { q: "We didn't ___ to worry about the flight; it was on time.", hint: "need", a: ["need"] },
+        { q: "He ___ not have driven so fast.", hint: "should/shouldn't", a: ["should"] }
+      ]
+    },
+    {
+      id: "b2-18",
+      title: "Aktarma Fiilleri",
+      short: "say / tell / suggest…",
+      slides: [
+        { h: "say vs tell", b: "> say + (that) + cümle: He said (that) he was busy.\\n> tell + nesne + (that): He told me (that) he was busy.\\n\\n! said me ✗ / told that ✗" },
+        { h: "suggest / recommend", b: "Bu fiillerden sonra -ing ya da that + should:\\n\\n> She suggested going out. / She suggested (that) we go out." },
+        { h: "Diğer aktarma fiilleri", b: "admit/deny + -ing: He admitted breaking the glass.\\npromise/offer + to: She promised to help.\\nask + to: He asked me to wait." }
+      ],
+      mistakes: [
+        { w: "She said me that she was tired.", r: "She told me that she was tired.", n: "said me değil; tell nesne alır." },
+        { w: "He suggested to go by train.", r: "He suggested going by train.", n: "suggest sonrası -ing (to değil)." },
+        { w: "They denied to break the glass.", r: "They denied breaking the glass.", n: "deny sonrası -ing." },
+        { w: "She asked me to wait.", r: "(doğru)", n: "ask + nesne + to-inf doğrudur." }
+      ],
+      practice: [
+        // Aşama 1
+        { q: "He told ___ that the shop was closed.", hint: "me/us", a: ["me", "us"] },
+        // Aşama 2
+        { q: "She suggested ___ a taxi.", hint: "take (İng)", a: ["taking"] },
+        { q: "They promised ___ early.", hint: "come (to)", a: ["to come"] },
+        // Aşama 3
+        { q: "He admitted ___ the window.", hint: "break (İng)", a: ["breaking"] },
+        { q: "She asked ___ to bring the documents.", hint: "me/us/him", a: ["me", "us", "him"] }
+      ]
+    },
+    {
+      id: "b2-19",
+      title: "Causative: have/get something done",
+      short: "have + obj + 3.hal",
+      slides: [
+        { h: "Yapı", b: "Birine iş yaptırmak:\\n\\n> I had my car repaired. (arabamı tamir ettirdim)\\n> She had her hair cut." },
+        { h: "get ile", b: "> I got the computer fixed.\\n\\nAynı anlam; get konuşma dilinde daha yaygın." },
+        { h: "have + kişi + fiil", b: "Birini bir işe ikna etmek/zorlamak:\\n\\n> I had the technician check the wifi. / He had them wait." }
+      ],
+      mistakes: [
+        { w: "I had my car repair.", r: "I had my car repaired.", n: "causative have + nesne + 3.hal." },
+        { w: "She had cut her hair (kendisi kestirmedi anlamında).", r: "She had her hair cut.", n: "Birisinin kestirmesi → had + hair + cut." },
+        { w: "We got the door fix.", r: "We got the door fixed.", n: "get + nesne + 3.hal." },
+        { w: "He had the technician to check the wifi.", r: "He had the technician check the wifi.", n: "have + kişi + yalın fiil (to'suz)." }
+      ],
+      practice: [
+        // Aşama 1
+        { q: "I need to have my phone ___ .", hint: "repair", a: ["repaired"] },
+        // Aşama 2
+        { q: "She had her hair ___ at the salon.", hint: "cut", a: ["cut"] },
+        { q: "We got the windows ___ last month.", hint: "clean (3.hal)", a: ["cleaned"] },
+        // Aşama 3
+        { q: "He had the plumber ___ the leak.", hint: "to'suz fiil", a: ["fix"] },
+        { q: "They are having a new kitchen ___ .", hint: "install", a: ["installed"] }
+      ]
+    },
+    {
+      id: "b2-20",
+      title: "unless / as long as / provided",
+      short: "'if' yerine geçenler",
+      slides: [
+        { h: "unless", b: "'...medikçe, ...mazsa' = if…not:\\n\\n> I won't come unless you invite me. (= if you don't invite me)" },
+        { h: "as long as", b: "'olduğu sürece' = koşul/şart:\\n\\n> You can borrow it as long as you return it." },
+        { h: "provided/providing (that)", b: "Resmî 'şartıyla':\\n\\n> You'll pass provided you study regularly." }
+      ],
+      mistakes: [
+        { w: "I won't go unless you don't invite me.", r: "I won't go unless you invite me.", n: "unless zaten olumsuzluk taşır; bir daha olumsuz yapma." },
+        { w: "We can start as long as everyone is here.", r: "(doğru)", n: "as long as koşul bildirir ve doğru kullanılmış." },
+        { w: "Unless he doesn't hurry, he will miss the bus.", r: "Unless he hurries, he will miss the bus.", n: "unless + olumlu fiil." },
+        { w: "You can stay provided you keep quiet.", r: "(doğru)", n: "provided + cümle şartı ifade eder." }
+      ],
+      practice: [
+        // Aşama 1
+        { q: "I won't go ___ you come with me.", hint: "olmadıkça", a: ["unless"] },
+        // Aşama 2
+        { q: "You may go out ___ you finish your homework.", hint: "olduğu sürece", a: ["as long as", "so long as"] },
+        { q: "She'll succeed ___ she works hard.", hint: "provided (that)", a: ["provided", "providing"] },
+        // Aşama 3
+        { q: "___ you leave now, you'll miss the last train.", hint: "eğer …mezsen / unless", a: ["Unless"] },
+        { q: "I'll lend you the car ___ you drive carefully.", hint: "as long as / provided", a: ["as long as", "so long as", "provided", "providing"] }
+      ]
+    },
+    {
+      id: "b2-21",
+      title: "Emphatic do/did & no sooner",
+      short: "'I do agree'",
+      slides: [
+        { h: "Emphatic do/did", b: "Vurgu yapmak için do/does/did, olumlu cümlede asıl fiilden önce gelir:\\n\\n> I do agree with you.\\n> She did finish the report on time." },
+        { h: "Kullanım", b: "Beklentiye karşı güçlü onay, ısrar ya da şaşırtıcı gerçek:\\n\\n> He didn't come, but he did call.\\n> Do sit down. (ısrarla)" },
+        { h: "no sooner…than", b: "Iki geçmiş eylem çok yakınsa ve vurgu istenirse:\\n\\n> No sooner had I arrived than the meeting ended." }
+      ],
+      mistakes: [
+        { w: "I do agrees with you.", r: "I do agree with you.", n: "Emphatic do'dan sonra fiil yalın kalır." },
+        { w: "She did finished the task.", r: "She did finish the task.", n: "did + yalın fiil (finished değil)." },
+        { w: "He didn't come, but he did call.", r: "(doğru)", n: "Zıt eylem vurgusu için did + call doğrudur." },
+        { w: "No sooner did I arrive than the meeting ended.", r: "No sooner had I arrived than the meeting ended.", n: "no sooner yapısında had past'ı tercih edilir." }
+      ],
+      practice: [
+        // Aşama 1
+        { q: "I ___ agree with your plan.", hint: "vurgu eki", a: ["do"] },
+        // Aşama 2
+        { q: "She ___ finish all the work before noon.", hint: "vurgu (geçmiş)", a: ["did"] },
+        { q: "He ___ call, but he sent a message instead.", hint: "did", a: ["did"] },
+        // Aşama 3
+        { q: "No sooner had they left ___ it started to rain.", hint: "than/when", a: ["than"] },
+        { q: "Please ___ sit down and make yourself at home.", hint: "do", a: ["do"] }
+      ]
+    },
+    {
+      id: "b2-22",
+      title: "used to / be / get used to",
+      short: "eski alışkanlık vs alışkın",
+      slides: [
+        { h: "used to + fiil", b: "Geçmişte yapılan, artık yapılmayan alışkanlık/eylem:\\n\\n> I used to play football. (eskiden oynardım)" },
+        { h: "be used to + -ing", b: "'...e alışkın olmak' (şimdiki durum):\\n\\n> I am used to waking up early." },
+        { h: "get used to + -ing", b: "'...e alışmak' (süreç):\\n\\n> I'm getting used to the noise." }
+      ],
+      mistakes: [
+        { w: "I am used to wake up early.", r: "I am used to waking up early.", n: "used to + -ing burada; gelenek haline gelmiş to+fiil değil." },
+        { w: "He used to smoked when he was young.", r: "He used to smoke when he was young.", n: "used to + yalın fiil." },
+        { w: "I used to live here. (artık yaşamıyorum)", r: "(doğru)", n: "Geçmiş alışkanlık için used to + live doğru." },
+        { w: "She is getting used to the cold winter.", r: "(doğru)", n: "get used to + -ing, alışma süreci." }
+      ],
+      practice: [
+        // Aşama 1
+        { q: "I used to ___ in this town.", hint: "live", a: ["live"] },
+        // Aşama 2
+        { q: "She is used to ___ early.", hint: "get up (İng)", a: ["getting up"] },
+        { q: "He is getting used to ___ in a big city.", hint: "live (İng)", a: ["living"] },
+        // Aşama 3
+        { q: "They used to ___ by bike to school.", hint: "go", a: ["go"] },
+        { q: "I am not used to ___ such spicy food.", hint: "eat (İng)", a: ["eating"] }
+      ]
     }
   ]
 };
