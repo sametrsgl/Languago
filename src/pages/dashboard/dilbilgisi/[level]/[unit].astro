@@ -106,13 +106,15 @@ const interactCount = quiz.length + practice.length + 5 + 6; // MCQ+boşluk+uygu
 // sekmeleri ve zamir eşleştirme etkinlikleri YALNIZCA zamir/iyelik konularına
 // aittir. Aksi hâlde (ör. To Be, Artikeller) bir öğretmen bu tabloyu göstermez.
 function isPronounUnit(): boolean {
-  const hay = [unit.title, unit.short, ...slides.map((s) => s.h + ' ' + s.b), ...(unit.slides ?? []).map((s: any) => s.h)]
+  // Yalnızca başlık + slayt başlıklarına bakılır (gövde değil): gövde örnek
+  // cümleleri 'me/him/her/my/them' gibi kelimeleri her konuda içerebilir ve
+  // yanlış eşleşme üretir. Karar güvenilir sinyale (başlık) dayanır.
+  const hay = [unit.title, unit.short, ...(unit.slides ?? []).map((s: any) => s.h)]
     .join(' ')
     .toLocaleLowerCase('tr');
   const markers = ['zamir', 'iyelik', 'pronoun', 'possessive', 'personal pron',
     'object pron', 'subject pron', 'benim', 'senin', 'onun', 'bizim', 'sizin',
-    'mine', 'yours', 'his', 'hers', 'ours', 'theirs', 'my ', 'your ', 'her ',
-    'him', 'me,', 'us,', 'them'];
+    'mine,', 'yours,', 'his,', 'hers,', 'ours,', 'theirs,', 'sahip', 'iyelik zamiri'];
   return markers.some((m) => hay.includes(m));
 }
 const pronounRelated = isPronounUnit();
