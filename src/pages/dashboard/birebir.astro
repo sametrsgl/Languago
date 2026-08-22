@@ -1,0 +1,251 @@
+---
+import AppLayout from '../../layouts/AppLayout.astro';
+import { createSupabaseClient, pageCookieSource } from '../../lib/supabase';
+import { getSessionUser } from '../../lib/auth';
+
+const supabase = createSupabaseClient(pageCookieSource(Astro));
+const user = await getSessionUser(pageCookieSource(Astro));
+if (!user) {
+  return Astro.redirect('/signin');
+}
+
+type OpenSlot = {
+  id: string;
+  starts_at: string;
+  duration_min: number | null;
+  room_token: string | null;
+  note: string | null;
+  status: string;
+};
+type MyBooking = {
+  slot_id: string;
+  starts_at: string;
+  duration_min: number | null;
+  note: string | null;
+  status: string;
+  booked_at: string;
+};
+
+let openSlots: OpenSlot[] = [];
+let myBookings: MyBooking[] = [];
+let openError: string | null = null;
+
+try {
+  // RLS `slots_student_read` returns only 'open' slots from the student's own
+  // enrolled teachers.
+  const [openRes, bookingsRes] = supabase
+    ? await Promise.all([
+        supabase
+          .from('tutor_slots')
+          .select('id, starts_at, duration_min, room_token, note, status')
+          .eq('status', 'open')
+          .order('starts_at', { ascending: true }),
+        supabase.rpc('get_my_tutor_bookings', { p_student: user.id }),
+      ])
+    : [null, null];
+
+  openSlots = ((openRes?.data ?? []) as OpenSlot[]).map((s) => ({
+    ...s,
+    // Defensive: students should never see non-open rows, but guard renders.
+    status: s.status === 'open' ? 'open' : s.status,
+  }));
+  myBookings = ((bookingsRes?.data ?? []) as MyBooking[]).sort(
+    (a, b) => new Date(b.starts_at).getTime() - new Date(a.starts_at).getTime()
+  );
+} catch {
+  openError = 'Takvim verileri okunamadı.';
+}
+
+// Only show booking buttons for slots the student has NOT already booked.
+const bookedSet = new Set(myBookings.map((b) => b.slot_id));
+
+function fmtWhen(iso: string, dur: number | null): string {
+  const d = new Date(iso);
+  const date = Number.isNaN(d.getTime()) ? iso : d.toLocaleString('tr-TR', { dateStyle: 'medium', timeStyle: 'short' });
+  return `${date} · ${dur ?? 30} dk`;
+}
+function bookingTone(s: string): string {
+  if (s === 'cancelled') return 'badge-muted';
+  return 'badge-teal';
+}
+function bookingLabel(s: string): string {
+  return s === 'cancelled' ? '⛔ İptal Edildi' : '🔵 Rezerve';
+}
+---
+
+<AppLayout
+  title="Birebir Ders — Öğrenci Paneli · Languago"
+  description="Languago öğrenci paneli: öğretmeninin açtığı birebir (1:1) ders slotlarına rezervasyon yap."
+>
+  <main class="study">
+    <div class="page-head">
+      <span class="page-eyebrow">Öğrenci Paneli</span>
+      <h1>Birebir Ders 💬</h1>
+      <p class="page-sub">
+        Öğretmeninin senin için açtığı birebir ders slotlarına rezervasyon yap ve
+        rezervasyonlarını tek yerden takip et.
+      </p>
+      <div class="barline"></div>
+    </div>
+
+    <section class="dash-section" aria-labelledby="uygun-heading">
+      <header class="section-head">
+        <h2 id="uygun-heading">
+          Müsait Slotlar <span class="section-head__icon">🗓️</span>
+        </h2>
+        <p class="muted">Öğretmeninin açtığı ve senin için uygun olan birebir ders saatleri.</p>
+      </header>
+
+      {
+        openError && (
+          <div class="panel" style="border-color:var(--red,#e53e3e);">
+            <p class="muted">{openError}</p>
+          </div>
+        )
+      }
+
+      {
+        openSlots.length ? (
+          <div class="wrap-table">
+            <table class="tbl">
+              <thead>
+                <tr>
+                  <th>Zaman</th>
+                  <th>Not</th>
+                  <th class="actions">İşlem</th>
+                </tr>
+              </thead>
+              <tbody>
+                {openSlots.map((s) => (
+                  <tr key={s.id}>
+                    <td>
+                      <strong>{fmtWhen(s.starts_at, s.duration_min)}</strong>
+                    </td>
+                    <td>
+                      {s.note ? <span class="muted">{s.note}</span> : <span class="muted">—</span>}
+                    </td>
+                    <td class="actions">
+                      {
+                        bookedSet.has(s.id) ? (
+                          <span class="badge badge-teal">Rezervasyonun var</span>
+                        ) : (
+                          <button class="btn primary sm" data-book={s.id}>
+                            Rezervasyon Yap
+                          </button>
+                        )
+                      }
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        ) : (
+          <div class="empty-state">
+            <div class="es-ico">🗓️</div>
+            <h3>Şu an müsait slot yok</h3>
+            <p>
+              Öğretmenin yeni bir birebir ders saati açtığında burada görünecek. Yakında tekrar
+              kontrol et.
+            </p>
+          </div>
+        )
+      }
+    </section>
+
+    <section class="dash-section" aria-labelledby="rezervlar-heading">
+      <header class="section-head">
+        <h2 id="rezervlar-heading">
+          Rezervasyonlarım <span class="section-head__icon">📌</span>
+        </h2>
+        <p class="muted">Yaptığın birebir ders rezervasyonları.</p>
+      </header>
+
+      {
+        myBookings.length ? (
+          <div class="wrap-table">
+            <table class="tbl">
+              <thead>
+                <tr>
+                  <th>Zaman</th>
+                  <th>Not</th>
+                  <th>Durum</th>
+                </tr>
+              </thead>
+              <tbody>
+                {myBookings.map((b) => (
+                  <tr key={b.slot_id}>
+                    <td>
+                      <strong>{fmtWhen(b.starts_at, b.duration_min)}</strong>
+                    </td>
+                    <td>
+                      {b.note ? <span class="muted">{b.note}</span> : <span class="muted">—</span>}
+                    </td>
+                    <td>
+                      <span class:list={['badge', bookingTone(b.status)]}>
+                        {bookingLabel(b.status)}
+                      </span>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        ) : (
+          <div class="empty-state">
+            <div class="es-ico">📌</div>
+            <h3>Henüz rezervasyonun yok</h3>
+            <p>Yukarıdaki müsait slotlardan birine rezervasyon yaptığında burada görünecek.</p>
+          </div>
+        )
+      }
+    </section>
+
+    <p class="dash-footer">Languago · Birebir Ders</p>
+  </main>
+
+  <style>
+    .badge-teal { background: var(--teal-soft); color: var(--teal-dark); }
+    .badge-muted { background: var(--bg-soft); color: var(--ink-soft); }
+  </style>
+</AppLayout>
+
+<script is:inline>
+  (function () {
+    function api(path, method, body) {
+      return fetch(path, {
+        method: method,
+        headers: { 'Content-Type': 'application/json' },
+        body: body ? JSON.stringify(body) : undefined,
+      }).then(function (r) { return r.json(); });
+    }
+    function readErr(res) {
+      if (res && res.error && res.error.message) return res.error.message;
+      return 'Bir hata oluştu.';
+    }
+
+    document.querySelectorAll('[data-book]').forEach(function (btn) {
+      btn.addEventListener('click', function () {
+        var slotId = btn.getAttribute('data-book');
+        if (!slotId) return;
+        if (!window.confirm('Bu ders için rezervasyon yapmak istediğine emin misin?')) return;
+        var orig = btn.textContent;
+        btn.disabled = true;
+        btn.textContent = 'Rezerve ediliyor…';
+        api('/api/student/tutor-book', 'POST', { slot_id: slotId }).then(function (res) {
+          if (res && res.ok) {
+            window.location.reload();
+          } else {
+            alert(readErr(res));
+            btn.disabled = false;
+            btn.textContent = orig;
+          }
+        }).catch(function () {
+          alert('Bağlantı hatası. Tekrar dene.');
+          btn.disabled = false;
+          btn.textContent = orig;
+        });
+      });
+    });
+  })();
+</script>
