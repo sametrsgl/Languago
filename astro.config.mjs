@@ -10,5 +10,9 @@ export default defineConfig({
   site: SITE_URL,
   output: 'server',
   adapter: vercel(),
-  integrations: [sitemap()],
+  integrations: [
+    sitemap({
+      customPages: [`${SITE_URL}/blog`],
+    }),
+  ],
 });
