@@ -31,6 +31,7 @@ html {
 }
 
 body {
+  overflow-x: hidden;
   margin: 0;
   font-family: var(--font);
   color: var(--ink);
@@ -1798,4 +1799,11 @@ footer.site .brand .footer-mascot {
 @media (max-width: 560px) {
   .vs-band__inner { padding: 22px 18px; }
   .vs-band__visual { order: -1; text-align: center; }
+}
+/* Ultra-small screen fixes */
+@media (max-width: 400px) {
+  .stat-chip { padding: 8px 12px; }
+  .stat-chip .stat-num { font-size: 1.2rem; }
+  .stat-chip .stat-label { font-size: 0.65rem; }
+  .step-badge { width: 38px; height: 38px; font-size: 1rem; }
 }

@@ -20,7 +20,7 @@ import { createSupabaseClient, pageCookieSource } from '../lib/supabase';
 
 const {
   title,
-  description = 'Samet Tıraşoğlu ile İngilizce öğrenin: kelime, dil bilgisi, okuma ve sınıf içi oyunlar.',
+  description = 'Languago ile İngilizce öğrenin: kelime, dil bilgisi, okuma ve sınıf içi oyunlar.',
   canonical,
   image,
 } = Astro.props;
@@ -159,7 +159,7 @@ const initial = displayName ? displayName.trim().charAt(0).toUpperCase() : 'H';
 
     <footer class="app-footer">
       <div class="container">
-        <span>© {new Date().getFullYear()} Languago — Samet Tıraşoğlu</span>
+        <span>© {new Date().getFullYear()} Languago</span>
         <a class="foot-link" href="/dashboard">Öğrenci Paneli</a>
       </div>
     </footer>
@@ -674,6 +674,21 @@ const initial = displayName ? displayName.trim().charAt(0).toUpperCase() : 'H';
     }
     .user-chip {
       padding: 6px 8px;
+      max-width: 120px;
+    }
+    .user-name {
+      max-width: 100px;
+    }
+    /* Signout button on small screens: icon-only or hide text */
+    .signout-btn {
+      padding: 8px 12px;
+      font-size: 0.8rem;
+    }
+    .app-bar {
+      gap: 8px;
+    }
+    .brand small {
+      display: none;
     }
   }
 </style>

@@ -692,10 +692,20 @@ const utilitiesVisible =
         flex-direction: column;
       }
       .dash-mascot {
-        width: 96px;
-        height: 96px;
-        margin-top: -6px;
+        width: 80px;
+        height: 80px;
+        margin-top: -4px;
       }
+      /* Stat chips: reduce padding and font on small screens so 3 fit */
+      .stat-chip {
+        padding: 10px 14px;
+        gap: 6px;
+      }
+      .stat-chip .stat-ico { font-size: 1.25rem; }
+      .stat-chip .stat-num { font-size: 1.4rem; }
+      .stat-chip .stat-label { font-size: 0.72rem; }
+      /* Tighten stat grid gap on small screens */
+      .stat-grid { gap: 10px; }
     }
   </style>
 </AppLayout>

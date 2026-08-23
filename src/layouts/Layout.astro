@@ -11,7 +11,7 @@ import '../styles/global.css';
 
 const {
   title,
-  description = 'Samet Tıraşoğlu ile İngilizce öğrenin: kelime, dil bilgisi, okuma ve sınıf içi oyunlar.',
+  description = 'Languago ile İngilizce öğrenin: kelime, dil bilgisi, okuma ve sınıf içi oyunlar.',
   canonical,
   image,
 } = Astro.props;
@@ -88,11 +88,10 @@ const ogImage = image || `${siteUrl}/og-cover.png`;
           "@id": "https://www.languago.site/#organization",
           "name": "Languago",
           "alternateName": "Languago İngilizce",
-          "description": "İngilizce öğrenme: kelime, dil bilgisi, okuma ve sınıf içi oyunlarla. Özel dersler temel öğretmen Samet Tıraşoğlu tarafından verilir.",
+          "description": "İngilizce öğrenme: kelime, dil bilgisi, okuma ve sınıf içi oyunlarla hem bireysel hem sınıf içi öğrenme deneyimi.",
           "url": "https://www.languago.site/",
           "logo": "https://www.languago.site/mascot.png",
           "email": "samettrol1@gmail.com",
-          "founder": { "@type": "Person", "name": "Samet Tıraşoğlu" },
           "teaches": "English",
           "inLanguage": ["tr", "en"],
           "areaServed": { "@type": "Place", "name": "Türkiye" }
@@ -176,7 +175,7 @@ const ogImage = image || `${siteUrl}/og-cover.png`;
         </div>
       </div>
       <div class="container footer-bottom">
-        <span>© {new Date().getFullYear()} Languago — Samet Tıraşoğlu. Tüm hakları saklıdır.</span>
+        <span>© {new Date().getFullYear()} Languago. Tüm hakları saklıdır.</span>
       </div>
     </footer>
   <script is:inline>
