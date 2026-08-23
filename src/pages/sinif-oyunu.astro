@@ -31,27 +31,25 @@ async function buildBank() {
       //    using the OTHER answers in the same lesson as plausible distractors
       const practice: any[] = (u.practice as any[]) || [];
       if (practice.length) {
-        // build a pool of the correct answers in this lesson for distractors
-        const answers = practice.map((p) => (p.a && p.a[0]) || p.hint || '').filter(Boolean);
-        practice.forEach((p, pi) => {
-          const ans = (p.a && p.a[0]) || p.hint || '';
-          if (!ans) return;
-          // distractors: other lessons answers (real verb forms) + a few wrong-form variants
-          const others = answers.filter((x, xi) => x !== ans && xi !== pi);
-          const dist = shuffleArr([...new Set(others)]).slice(0, 3);
-          while (dist.length < 3) {
-            const t = extraDistractors(p, ans);
-            if (!t || dist.indexOf(t) !== -1) break;
-            dist.push(t);
-          }
-          const options = [ans, ...dist.slice(0, 3)];
-          const shuffled = shuffleArr(options);
-          const aIdx = shuffled.indexOf(ans);
-          const why = shuffled.map((o) =>
-            o === ans ? `Doğru: '${ans}' — ipucu '${p.hint || ''}'.` : `'${o}' bu boşluk için uygun değil.`)
-          qs.push(makeQ(p.q, shuffled, aIdx, why, 2));
-        });
-      }
+              // build a pool of the correct answers in this lesson for distractors
+              const answers = practice.map((p) => (p.a && p.a[0]) || p.hint || '').filter(Boolean);
+              practice.forEach((p, pi) => {
+                const ans = (p.a && p.a[0]) || p.hint || '';
+                if (!ans) return;
+                // 1 genuinely-distinct MCQ per practice item; distractors = other lesson
+                // answers (real verb forms) + a wrong-form variant. No same-stem duplicates.
+                const others = answers.filter((x, xi) => x !== ans && xi !== pi);
+                const dist = shuffleArr([...new Set(others)]).slice(0, 3);
+                                const ex = extraDistractors(p, ans);
+                                if (dist.length < 3 && ex && dist.indexOf(ex) === -1) dist.push(ex);
+                                if (dist.length < 3) { const w = [...new Set(others), ex].filter((x) => x && x !== ans && dist.indexOf(x) === -1); if (w[0]) dist.push(w[0]); }
+                const options = shuffleArr([ans, ...dist.slice(0, 3)]);
+                const aIdx = options.indexOf(ans);
+                const why = options.map((o) =>
+                  o === ans ? `Doğru: '${ans}' — ipucu '${p.hint || ''}'.` : `'${o}' bu boşluk için uygun değil.`)
+                qs.push(makeQ(p.q, options, aIdx, why, 2));
+              });
+            }
       if (qs.length === 0) continue;
       topics.push({
         level: lv.key,
