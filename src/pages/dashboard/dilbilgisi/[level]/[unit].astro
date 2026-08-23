@@ -499,6 +499,19 @@ const TABS_ACTIVE = pronounRelated
     .gex { background: linear-gradient(180deg,#f3fbfa,#e6f5f2); color: var(--ink); border: 1px solid var(--teal-soft);
       padding: 9px 12px; border-radius: 10px; font-size: .96rem; box-shadow: 0 2px 6px -3px rgba(0,0,0,.2); }
     .gex b { color: var(--teal-dark); font-weight: 800; }
+    .gex--sin { background: linear-gradient(180deg,#eff6ff,#dbeafe); border-color: #bfdbfe; }
+    .gex--sin b { color: #1d4ed8; }
+    .gex--plu { background: linear-gradient(180deg,#fff7ed,#ffedd5); border-color: #fed7aa; }
+    .gex--plu b { color: #c2410c; }
+    .gex--fem { background: linear-gradient(180deg,#fdf2f8,#fce7f3); border-color: #fbcfe8; }
+    .gex--fem b { color: #be185d; }
+    .gex--mas { background: linear-gradient(180deg,#eef2ff,#e0e7ff); border-color: #c7d2fe; }
+    .gex--mas b { color: #4338ca; }
+    .gxtag { display: inline-block; margin-left: 8px; padding: 1px 8px; border-radius: 999px; font-size: .72rem; font-weight: 800; background: #cbd5e1; color: #fff; vertical-align: middle; }
+    .gxtag--plu { background: #c2410c; }
+    .gxtag--sin { background: #1d4ed8; }
+    .gxtag--fem { background: #be185d; }
+    .gxtag--mas { background: #4338ca; }
 
     .gram-analysis { margin-top: 24px; border-top: 6px solid var(--teal); }
     .gram-analysis__msg { font-size: 1.02rem; }
@@ -1074,7 +1087,21 @@ const TABS_ACTIVE = pronounRelated
             var parts = body.split(' / ');
             for (var p = 0; p < parts.length; p++) {
               var seg = parts[p].trim().replace(/^["']|["']$/g, '');
-              if (seg) exs.push('<span class="gex">💬 <b>' + escHole(seg) + '</b></span>');
+              if (!seg) continue;
+              // detect a category tag at the end: (tekil), (çoğul), (singular),
+              // (plural), (kadın/erkek)... → color-coded badge
+              var tagM = seg.match(/\(([^)]*)\)\s*$/);
+              var tag = tagM ? tagM[1].trim() : '';
+              var clean = tagM ? seg.slice(0, tagM.index).trim() : seg;
+              var cls = 'gex';
+              var tagCls = 'gxtag';
+              var low = tag.toLocaleLowerCase('tr');
+              if (low.indexOf('çoğul') !== -1 || low.indexOf('plural') !== -1) { cls += ' gex--plu'; tagCls += ' gxtag--plu'; }
+              else if (low.indexOf('tekil') !== -1 || low.indexOf('singular') !== -1) { cls += ' gex--sin'; tagCls += ' gxtag--sin'; }
+              else if (low.indexOf('dişil') !== -1 || low.indexOf('kadın') !== -1) { cls += ' gex--fem'; }
+              else if (low.indexOf('eril') !== -1 || low.indexOf('erkek') !== -1) { cls += ' gex--mas'; }
+              exs.push('<span class="' + cls + '"><b>' + escHole(clean) + '</b>' +
+                (tag ? '<span class="' + tagCls + '">' + esc(tag) + '</span>' : '') + '</span>');
             }
             continue;
           }
