@@ -23,7 +23,35 @@ async function buildBank() {
     const MCQM: any = mcqMod[`GRAMMAR_MCQ_${vid}`] || mcqMod.GRAMMAR_MCQ_A1 || null;
     const units: any[] = (GRAM && GRAM.units) || [];
     for (const u of units) {
-      const qs: any[] = (MCQM && MCQM[u.id]) || [];
+      const qs: any[] = [];
+      // 1. curated MCQs from the MCQ bank (tier 3 = harder, 🔥 badge)
+            const bank = (MCQM && MCQM[u.id]) || [];
+            bank.forEach((q: any) => qs.push(makeQ(q.q, q.options, q.a, q.why || null, 3)));
+      // 2. convert the unit's PRACTICE gap-fills into MCQs (big variety boost),
+      //    using the OTHER answers in the same lesson as plausible distractors
+      const practice: any[] = (u.practice as any[]) || [];
+      if (practice.length) {
+        // build a pool of the correct answers in this lesson for distractors
+        const answers = practice.map((p) => (p.a && p.a[0]) || p.hint || '').filter(Boolean);
+        practice.forEach((p, pi) => {
+          const ans = (p.a && p.a[0]) || p.hint || '';
+          if (!ans) return;
+          // distractors: other lessons answers (real verb forms) + a few wrong-form variants
+          const others = answers.filter((x, xi) => x !== ans && xi !== pi);
+          const dist = shuffleArr([...new Set(others)]).slice(0, 3);
+          while (dist.length < 3) {
+            const t = extraDistractors(p, ans);
+            if (!t || dist.indexOf(t) !== -1) break;
+            dist.push(t);
+          }
+          const options = [ans, ...dist.slice(0, 3)];
+          const shuffled = shuffleArr(options);
+          const aIdx = shuffled.indexOf(ans);
+          const why = shuffled.map((o) =>
+            o === ans ? `Doğru: '${ans}' — ipucu '${p.hint || ''}'.` : `'${o}' bu boşluk için uygun değil.`)
+          qs.push(makeQ(p.q, shuffled, aIdx, why, 2));
+        });
+      }
       if (qs.length === 0) continue;
       topics.push({
         level: lv.key,
@@ -31,11 +59,45 @@ async function buildBank() {
         id: u.id,
         title: u.title || u.short,
         short: u.short || u.title,
-        qs: qs.map((q: any) => ({ q: q.q, o: q.options, a: q.a, why: q.why || null })),
+        qs,
+        // questions tagged hard (tier 3) are from the curated bank when it's longer
+        hard: qs.filter((q: any) => q.t === 3),
       });
     }
   }
   return topics;
+}
+function makeQ(q: string, options: any[], a: number, why: any, tier: number): any {
+  return { q, o: options, a, why: why || null, t: tier };
+}
+// plausible wrong-form distractors for a gap-fill (tenses/agreement errors)
+function extraDistractors(p: any, ans: string): string | null {
+  const variations: Record<string, string[]> = {
+    am: ['are', 'is', 'be'],
+    is: ['are', 'am', 'be'],
+    are: ['is', 'am', 'be'],
+  };
+  const l = ans.toLowerCase();
+  // negate clearly wrong forms: am reading -> is reading / reading / was reading
+  const m = l.match(/^(am|is|are|was|were)\s+(.+)$/);
+  if (m) {
+    const aux = m[1], rest = m[2];
+    const wrongAux = ['am', 'is', 'are', 'was', 'were'].filter((x) => x !== aux);
+    for (const wa of wrongAux) {
+      const cand = (aux.match(/^(was|were)$/) ? wa + ' ' + rest : wa + ' ' + rest);
+      const capped = /^[A-Z]/.test(ans) ? cand.charAt(0).toUpperCase() + cand.slice(1) : cand;
+      return capped !== ans ? capped : null;
+    }
+  }
+  return variations[l] ? variations[l][0] : null;
+}
+function shuffleArr(a: any[]): any[] {
+  const arr = a.slice();
+  for (let i = arr.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    const t = arr[i]; arr[i] = arr[j]; arr[j] = t;
+  }
+  return arr;
 }
 
 const topics = await buildBank();
@@ -196,6 +258,7 @@ const diffJson = JSON.stringify(DIFF).replace(/</g, '\\u003c');
     @keyframes cmPop { from { transform: scale(.92); opacity: 0; } to { transform: scale(1); opacity: 1; } }
     .cm-q-topic { font-size: .8rem; font-weight: 700; color: var(--teal-dark); text-transform: uppercase; letter-spacing: .04em; }
     .cm-q-point { font-size: .85rem; font-weight: 800; color: var(--brand-dark); }
+    .cm-hard { display: inline-block; margin-left: 6px; padding: 1px 8px; border-radius: 999px; font-size: .72rem; background: #c2410c; color: #fff; font-weight: 800; }
     .cm-q-text { font-size: clamp(1.3rem, 3vw, 1.9rem); font-weight: 800; margin: 10px 0 16px; }
     .cm-q-opts { display: grid; gap: 8px; margin-bottom: 18px; }
     .cm-q-opt { border: 1px solid var(--line); border-radius: 10px; padding: 12px 14px; font-size: 1.05rem; font-weight: 600; background: var(--bg-soft); }
@@ -302,21 +365,31 @@ const diffJson = JSON.stringify(DIFF).replace(/</g, '\\u003c');
       }
 
       function startGame() {
-        state.scores = []; for (var i = 0; i < state.teams; i++) state.scores.push(0);
-        state.active = 0; state.used = {}; state.total = TILE_COUNT;
-        // 20% power-up tiles
-        state.power = {};
-        var pCount = Math.round(TILE_COUNT * 0.2);
-        var idx = shuffle(range(TILE_COUNT)).slice(0, pCount);
-        idx.forEach(function (x) {
-          state.power[x] = POWER_NAMES[Math.floor(Math.random() * POWER_NAMES.length)];
-        });
+              state.scores = []; for (var i = 0; i < state.teams; i++) state.scores.push(0);
+              state.active = 0; state.used = {}; state.total = TILE_COUNT;
+              // No-repeat question pool: shuffle the topic's full bank once, consume in order.
+              var topic = currentTopic();
+              state.pool = shuffle(topic ? topic.qs.slice() : []).slice(0, TILE_COUNT);
+              // 20% power-up tiles
+              state.power = {};
+              var pCount = Math.round(TILE_COUNT * 0.2);
+              var idx = shuffle(range(TILE_COUNT)).slice(0, pCount);
+              idx.forEach(function (x) {
+                state.power[x] = POWER_NAMES[Math.floor(Math.random() * POWER_NAMES.length)];
+              });
 
-        $('scrLobby').hidden = true; $('scrWin').hidden = true; $('scrBoard').hidden = false;
-        renderBoard();
-      }
-      function range(n) { var a = []; for (var i = 1; i <= n; i++) a.push(i); return a; }
-      function shuffle(a) { a = a.slice(); for (var i = a.length - 1; i > 0; i--) { var j = Math.floor(Math.random() * (i + 1)); var t = a[i]; a[i] = a[j]; a[j] = t; } return a; }
+              $('scrLobby').hidden = true; $('scrWin').hidden = true; $('scrBoard').hidden = false;
+              renderBoard();
+            }
+            // points by tile band: early=+5, mid=+10, late=+20 (harder = higher)
+            function pointsFor(n) {
+              var frac = n / TILE_COUNT;
+              if (frac <= 1 / 3) return 5;
+              if (frac <= 2 / 3) return 10;
+              return 20;
+            }
+            function range(n) { var a = []; for (var i = 1; i <= n; i++) a.push(i); return a; }
+            function shuffle(a) { a = a.slice(); for (var i = a.length - 1; i > 0; i--) { var j = Math.floor(Math.random() * (i + 1)); var t = a[i]; a[i] = a[j]; a[j] = t; } return a; }
 
       function renderBoard() {
         var bar = $('scorebar'); bar.innerHTML = '';
@@ -339,50 +412,56 @@ const diffJson = JSON.stringify(DIFF).replace(/</g, '\\u003c');
       }
 
       function openTile(n) {
-        if (state.used[n]) return;
-        state.used[n] = true;
-        if (state.power[n]) { openPower(state.power[n]); }
-        else { openQuestion(); }
-        renderBoard();
-      }
+              if (state.used[n]) return;
+              state.used[n] = true;
+              if (state.power[n]) { openPower(state.power[n]); }
+              else { openQuestion(n); }
+              renderBoard();
+            }
 
-      function openQuestion() {
-        var topic = currentTopic();
-        var q = topic ? topic.qs[Math.floor(Math.random() * topic.qs.length)] : null;
-        var req = state.powerDouble ? 2 : 1;
-        var vis = topic ? (topic.short || topic.title) : '';
-        $('modalCard').innerHTML =
-          '<div class="cm-q-topic">' + esc(topic ? topic.title : 'Soru') + ' · ' + (state.active + 1) + '. takım</div>' +
-          '<div class="cm-q-point">' + (req > 1 ? '2× ' : '') + '+10 puan</div>' +
-          '<div class="cm-q-text">' + esc(q ? q.q : 'Soru hazırlanamadı') + '</div>' +
-          (q && q.o ? '<div class="cm-q-opts">' + q.o.map(function (o, i) { return '<div class="cm-q-opt">' + String.fromCharCode(65 + i) + ') ' + esc(o) + '</div>'; }).join('') + '</div>' : '') +
-          '<button type="button" class="cm-hide-answer" id="revealBtn">💡 Cevabı Göster</button>' +
-          '<div style="display:none" id="answerBox">' +
-            '<div class="cm-answer">✅ Cevap: ' + esc(q && q.o ? q.o[q.a] : '') + '</div>' +
-            '<div class="cm-actions">' +
-              '<button type="button" class="cm-correct" data-act="ok">✓ Doğru</button>' +
-              '<button type="button" class="cm-skip" data-act="skip">↷ Geç</button>' +
-              '<button type="button" class="cm-wrong" data-act="no">✗ Yanlış</button>' +
-            '</div>' +
-          '</div>';
-        $('modal').hidden = false;
-        $('revealBtn').onclick = function () {
-          this.style.display = 'none';
-          $('answerBox').style.display = '';
-        };
-        $('modalCard').querySelectorAll('[data-act]').forEach(function (b) {
-          b.onclick = function () { resolveQuestion(b.getAttribute('data-act'), req); };
-        });
-      }
+      function openQuestion(n) {
+              var topic = currentTopic();
+              // consume from the shuffled no-repeat pool in order; re-shuffle the full
+              // bank only when the queue is exhausted (rare) so repeats are minimized
+              if (!state.pool.length && topic) state.pool = shuffle(topic.qs.slice());
+              var q = state.pool.length ? state.pool.shift() : (topic ? topic.qs[Math.floor(Math.random() * topic.qs.length)] : null);
+              var pts = pointsFor(n);
+              var req = state.powerDouble ? 2 : 1;
+              var vis = topic ? (topic.short || topic.title) : '';
+              var hardBadge = (q && q.t === 3) ? ' <span class="cm-hard">🔥 Zor</span>' : '';
+              $('modalCard').innerHTML =
+                '<div class="cm-q-topic">' + esc(topic ? topic.title : 'Soru') + ' · ' + (state.active + 1) + '. takım</div>' +
+                '<div class="cm-q-point">' + (req > 1 ? '2× ' : '') + '+' + (pts * req) + ' puan</div>' +
+                '<div class="cm-q-text">' + esc(q ? q.q : 'Soru hazırlanamadı') + '</div>' +
+                (q && q.o ? '<div class="cm-q-opts">' + q.o.map(function (o, i) { return '<div class="cm-q-opt">' + String.fromCharCode(65 + i) + ') ' + esc(o) + '</div>'; }).join('') + '</div>' : '') +
+                '<button type="button" class="cm-hide-answer" id="revealBtn">💡 Cevabı Göster</button>' +
+                '<div style="display:none" id="answerBox">' +
+                  '<div class="cm-answer">✅ Cevap: ' + esc(q && q.o ? q.o[q.a] : '') + '</div>' +
+                  '<div class="cm-actions">' +
+                    '<button type="button" class="cm-correct" data-act="ok">✓ Doğru</button>' +
+                    '<button type="button" class="cm-skip" data-act="skip">↷ Geç</button>' +
+                    '<button type="button" class="cm-wrong" data-act="no">✗ Yanlış</button>' +
+                  '</div>' +
+                '</div>';
+              state.curPts = pts; state.curMult = req;
+              $('modal').hidden = false;
+              $('revealBtn').onclick = function () {
+                this.style.display = 'none';
+                $('answerBox').style.display = '';
+              };
+              $('modalCard').querySelectorAll('[data-act]').forEach(function (b) {
+                b.onclick = function () { resolveQuestion(b.getAttribute('data-act')); };
+              });
+            }
 
-      function resolveQuestion(act, mult) {
-        var gain = 10 * mult;
-        if (act === 'ok') state.scores[state.active] += gain;
-        else if (act === 'skip') { /* no change */ }
-        // wrong: no gain
-        state.powerDouble = false;
-        advance();
-      }
+            function resolveQuestion(act) {
+              var pts = (state.curPts || 10) * (state.curMult || 1);
+              if (act === 'ok') state.scores[state.active] += pts;
+              else if (act === 'skip') { /* no change */ }
+              // wrong: no gain
+              state.powerDouble = false;
+              advance();
+            }
 
       function openPower(name) {
         var body = '<div class="cm-power-title">⚡ ' + esc(name) + '</div><div class="cm-power-desc">' + esc(POWER_DESC[name]) + '</div>';
