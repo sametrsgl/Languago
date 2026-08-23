@@ -46,6 +46,7 @@ function hasSiteChanged() {
         
         if (result === lastSync) {
             console.log('No site data changes since last sync (' + result.substring(0, 7) + ')');
+            console.log('{"wakeAgent": false}');
             return false;
         }
         
