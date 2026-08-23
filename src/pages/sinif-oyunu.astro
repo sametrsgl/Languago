@@ -28,32 +28,35 @@ async function buildBank() {
             const bank = (MCQM && MCQM[u.id]) || [];
             bank.forEach((q: any) => qs.push(makeQ(q.q, q.options, q.a, q.why || null, 3)));
       // 2. convert the unit's PRACTICE gap-fills into MCQs (big variety boost),
-      //    using the OTHER answers in the same lesson as plausible distractors
-      const practice: any[] = (u.practice as any[]) || [];
-      if (practice.length) {
-              // build a pool of the correct answers in this lesson for distractors
-              const answers = practice.map((p) => (p.a && p.a[0]) || p.hint || '').filter(Boolean);
-              practice.forEach((p, pi) => {
-                const ans = (p.a && p.a[0]) || p.hint || '';
-                if (!ans) return;
-                // 1 genuinely-distinct MCQ per practice item; distractors = other lesson
-                // answers (real verb forms) + a wrong-form variant. No same-stem duplicates.
-                const others = answers.filter((x, xi) => x !== ans && xi !== pi);
-                const dist = shuffleArr([...new Set(others)]).slice(0, 3);
-                                const ex = extraDistractors(p, ans);
-                                if (dist.length < 3 && ex && dist.indexOf(ex) === -1) dist.push(ex);
-                                if (dist.length < 3) { const w = [...new Set(others), ex].filter((x) => x && x !== ans && dist.indexOf(x) === -1); if (w[0]) dist.push(w[0]); }
-                const options = shuffleArr([ans, ...dist.slice(0, 3)]);
-                const aIdx = options.indexOf(ans);
-                const why = options.map((o) =>
-                  o === ans ? `Doğru: '${ans}' — ipucu '${p.hint || ''}'.` : `'${o}' bu boşluk için uygun değil.`)
-                qs.push(makeQ(p.q, options, aIdx, why, 2));
-              });
-            }
-      if (qs.length === 0) continue;
-      topics.push({
-        level: lv.key,
-        levelLabel: lv.label,
+            //    using the OTHER answers in the same lesson as plausible distractors
+            const practice: any[] = (u.practice as any[]) || [];
+            if (practice.length) {
+                    // build a pool of the correct answers in this lesson for distractors
+                    const answers = practice.map((p) => (p.a && p.a[0]) || p.hint || '').filter(Boolean);
+                    practice.forEach((p, pi) => {
+                      const ans = (p.a && p.a[0]) || p.hint || '';
+                      if (!ans) return;
+                      // 1 genuinely-distinct MCQ per practice item; distractors = other lesson
+                      // answers (real verb forms) + a wrong-form variant. No same-stem duplicates.
+                      const others = answers.filter((x, xi) => x !== ans && xi !== pi);
+                      const dist = shuffleArr([...new Set(others)]).slice(0, 3);
+                                      const ex = extraDistractors(p, ans);
+                                      if (dist.length < 3 && ex && dist.indexOf(ex) === -1) dist.push(ex);
+                                      if (dist.length < 3) { const w = [...new Set(others), ex].filter((x) => x && x !== ans && dist.indexOf(x) === -1); if (w[0]) dist.push(w[0]); }
+                      const options = shuffleArr([ans, ...dist.slice(0, 3)]);
+                      const aIdx = options.indexOf(ans);
+                      const why = options.map((o) =>
+                        o === ans ? `Doğru: '${ans}' — ipucu '${p.hint || ''}'.` : `'${o}' bu boşluk için uygun değil.`)
+                      // Some practice stems carry the ANSWER itself in a trailing parenthetical
+                      // (e.g. "He is an ___ man. (old)"). As an MCQ that gives the answer away,
+                      // so strip it and, when available, swap in the Turkish meaning clue instead.
+                      qs.push(makeQ(cleanPracticeStem(p.q, ans, p.hint), options, aIdx, why, 2));
+                    });
+                  }
+            if (qs.length === 0) continue;
+            topics.push({
+              level: lv.key,
+              levelLabel: lv.label,
         id: u.id,
         title: u.title || u.short,
         short: u.short || u.title,
@@ -67,6 +70,23 @@ async function buildBank() {
 }
 function makeQ(q: string, options: any[], a: number, why: any, tier: number): any {
   return { q, o: options, a, why: why || null, t: tier };
+}
+// If a practice stem ends with "(answer)" where the parenthetical IS the answer,
+// the MCQ would give the answer away. Strip it and, when a Turkish meaning hint
+// exists, show that as a non-revealing clue instead (user-requested behavior).
+function cleanPracticeStem(q: string, ans: string, hint?: string): string {
+  if (!q || !ans) return q;
+  const m = q.match(/\(([^)]*)\)\s*$/);
+  if (!m) return q;
+  const inner = (m[1] || '').trim();
+  const norm = (s: string) => s.toLowerCase().replace(/['’]/g, '');
+  if (norm(inner) === norm(ans)) {
+    // it's a giveaway — strip it; replace with Turkish meaning clue if available
+    const base = q.slice(0, m.index).trim();
+    const h = (hint || '').trim();
+    return h ? `${base} (ipucu: ${h})` : base;
+  }
+  return q;
 }
 // plausible wrong-form distractors for a gap-fill (tenses/agreement errors)
 function extraDistractors(p: any, ans: string): string | null {
