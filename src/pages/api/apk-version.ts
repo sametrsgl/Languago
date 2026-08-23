@@ -1,6 +1,4 @@
----
 // API endpoint: returns latest APK version info from GitHub releases
----
 export async function GET() {
   try {
     const res = await fetch('https://api.github.com/repos/sametrsgl/Languago/releases/latest');
