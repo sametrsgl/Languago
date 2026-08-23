@@ -513,6 +513,17 @@ const TABS_ACTIVE = pronounRelated
     .jub.used { background: rgba(13,148,136,.28); color: var(--teal-dark); box-shadow: none; cursor: default; }
     .gram-jumble__fb { margin-top: 10px; font-weight: 700; }
 
+    /* Teacher-style structured slide renderer */
+    .gdef { margin: 4px 0 10px; }
+    .gconj { width: 100%; border-collapse: collapse; margin: 10px 0 14px; border-radius: 12px; overflow: hidden; box-shadow: 0 3px 10px -6px rgba(0,0,0,.3); }
+    .gconj td { padding: 10px 14px; font-size: .98rem; border-bottom: 1px solid var(--teal-soft); }
+    .gconj td:first-child { color: var(--ink-soft); font-weight: 600; }
+    .gconj .gform { font-weight: 800; color: var(--teal-dark); background: var(--teal-soft); }
+    .gexamples { display: flex; flex-wrap: wrap; gap: 8px; margin: 8px 0 4px; }
+    .gex { background: linear-gradient(180deg,#f3fbfa,#e6f5f2); color: var(--ink); border: 1px solid var(--teal-soft);
+      padding: 9px 12px; border-radius: 10px; font-size: .96rem; box-shadow: 0 2px 6px -3px rgba(0,0,0,.2); }
+    .gex b { color: var(--teal-dark); font-weight: 800; }
+
     .gram-analysis { margin-top: 24px; border-top: 6px solid var(--teal); }
     .gram-analysis__msg { font-size: 1.02rem; }
     .gram-analysis__bars { display: grid; gap: 10px; margin: 14px 0; }
@@ -795,6 +806,13 @@ const TABS_ACTIVE = pronounRelated
       if (prev) prev.addEventListener('click', function () { show(cur - 1); });
       if (next) next.addEventListener('click', function () { show(cur + 1); });
 
+      // --- Enrich the static slide viewer bodies into structured tables/cards ---
+      (function () {
+        qsa('#slideItems [data-slide] .body').forEach(function (el) {
+          el.innerHTML = richBody(el.textContent);
+        });
+      })();
+
       // ---- ortak eşleştirme motoru (Uygulama + Eşleştirme) ----
       function buildPair(cfg) {
         // cfg: {left, right, done, si, fn}
@@ -1027,6 +1045,64 @@ const TABS_ACTIVE = pronounRelated
       function esc(s) {
         var d = document.createElement('div'); d.textContent = s == null ? '' : String(s); return d.innerHTML;
       }
+
+      // ---- Teacher-style structured slide renderer ----
+      // Parses a plain slide body into: intro text (gdef), an optional
+      // conjugation TABLE (rows from "X / Y ... → form" or "... → ..."),
+      // and EXAMPLE sentence cards (lines starting '>' ). Examples may carry a
+      // trailing "/TL: ..." hint and multiple sentences separated by '/'.
+      function richBody(b) {
+        if (!b) return '';
+        var lines = String(b).split('\n');
+        var out = [];
+        var rows = [];     // conjugation table rows
+        var exs = [];      // example cards
+        function flushTable() {
+          if (!rows.length) return;
+          out.push('<table class="gconj"><tbody>' + rows.join('') + '</tbody></table>');
+          rows = [];
+        }
+        function flushEx() {
+          if (!exs.length) return;
+          out.push('<div class="gexamples">' + exs.join('') + '</div>');
+          exs = [];
+        }
+        function escHole(s) {
+          return esc(s).replace(/\*\*(.*?)\*\*/g, '<b>$1</b>');
+        }
+        for (var i = 0; i < lines.length; i++) {
+          var ln = lines[i].replace(/\r/g, '').trim();
+          if (!ln) continue;
+          // example line
+          if (ln.charAt(0) === '>') {
+            var body = ln.slice(1).trim();
+            // "I / he / she / it → was"  => conjugation row
+            var arrow = body.indexOf('→');
+            if (arrow > -1) {
+              flushEx();
+              var left = body.slice(0, arrow).trim();
+              var right = body.slice(arrow + 1).trim();
+              var rightNoHint = right.split('/')[0].trim();
+              rows.push('<tr><td>' + escHole(left) + '</td><td class="gform">' + escHole(rightNoHint) + '</td></tr>');
+              continue;
+            }
+            // plain example sentence(s); allow multi via ' / ' but keep simple
+            flushTable();
+            // split on ' / ' only when it's clearly separate sentences ending with period
+            var parts = body.split(' / ');
+            for (var p = 0; p < parts.length; p++) {
+              var seg = parts[p].trim().replace(/^["']|["']$/g, '');
+              if (seg) exs.push('<span class="gex">💬 <b>' + escHole(seg) + '</b></span>');
+            }
+            continue;
+          }
+          // plain explanation text
+          flushTable(); flushEx();
+          out.push('<p class="gdef">' + escHole(ln) + '</p>');
+        }
+        flushTable(); flushEx();
+        return out.join('');
+      }
       var jumbleWordPool = (function () {
         var set = {}, out = [];
         function add(w) {
@@ -1155,7 +1231,7 @@ const TABS_ACTIVE = pronounRelated
         st.slides.forEach(function (s, i) {
           html += '<div class="guided-slide" data-gslide="' + i + '" style="' + (i === G.slide ? '' : 'display:none;') + '">';
           html += '<span class="guided-slide__badge" style="background:' + st.color + ';">' + st.emoji + ' ' + st.label + '</span>';
-          html += '<h3>' + esc(s.h || '') + '</h3><div class="body">' + (s.b || '') + '</div>';
+          html += '<h3>' + esc(s.h || '') + '</h3><div class="body">' + richBody(s.b || '') + '</div>';
           html += '</div>';
         });
         html += '</div>';
