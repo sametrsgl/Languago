@@ -174,32 +174,6 @@ const TABS_ACTIVE = pronounRelated
     </div>
       <div class="lesson-layout">
         <div class="lesson-col">
-    <!-- I. Çok sekmeli konu anlatımı -->
-    <h2 style="font-size:1.2rem;">📘 Konu Anlatımı</h2>
-    <div class="gram-tabs" id="tabBar" role="tablist">
-      {TABS_ACTIVE.map((t) => (
-        <button type="button" class="gram-tab" data-tab={t.k} role="tab" aria-selected={t.k === 'all' ? 'true' : 'false'}>{t.label}</button>
-      ))}
-    </div>
-
-    <div class="slide-box" id="slideBox">
-      <div id="slideItems" data-count={slides.length}>
-        {slides.map((s, i) => (
-          <div data-slide={i} data-cat={slideCat(s.h)} style={i === 0 ? '' : 'display:none;'}>
-            <h3>{s.h}</h3>
-            <div class="body">{s.b}</div>
-          </div>
-        ))}
-      </div>
-      <div class="gram-empty" id="tabEmpty" style="display:none;">Bu konu için ayrı bir slayt yok — alttaki karşılaştırma tablosunda inceleyebilir ya da <strong>Tümü</strong> sekmesine geçebilirsin 👇</div>
-      <div class="slidebox-nav">
-        <button type="button" id="prevSlide" class="btn ghost">← Önceki</button>
-        <span id="slidePos" class="muted">{slides.length ? `1 / ${slides.length}` : ''}</span>
-        <button type="button" id="nextSlide" class="btn primary">Sonraki →</button>
-      </div>
-    </div>
-        </div><!-- /lesson-col: açıklama -->
-        <div class="lesson-col">
     <!-- Karşılaştırmalı renk kodlu zamir matrisi (yalnızca zamir/iyelik ünitesinde) -->
     {pronounRelated && (
     <div class="gram-matrix card" id="matrixCard" data-emph="all">
@@ -238,9 +212,9 @@ const TABS_ACTIVE = pronounRelated
     </div>
     )}
     {!pronounRelated && (
-      <p class="muted" style="margin-top:18px;">Bu ünitede tablo kategorilerine ayrılmış özel bir konu yok — ders slaytlarını okuyup alıştırmaları çözerek ilerle. 💪</p>
+      <p class="muted" style="margin-top:18px;">Bu ünitede tablo kategorilerine ayrılmış özel bir konu yok — yukarıdaki rehberli anlatımı okuyup alıştırmaları çözerek ilerle. 💪</p>
     )}
-        </div><!-- /lesson-col: karşılaştırma -->
+    </div><!-- /lesson-col: karşılaştırma -->
       </div><!-- /lesson-layout -->
 
     <!-- Hızlı Uygulama (zamir eşleştirme — yalnızca zamir/iyelik ünitesinde) -->
@@ -764,7 +738,8 @@ const TABS_ACTIVE = pronounRelated
 
       showStep(stepOrder[0], false);
 
-      // ---- I. Sekmeler + kaydırma ----
+      // ---- I. Sekmeler + kaydırma (slayt görüntüleyici kaldırıldı;
+      //      sadece matris vurgusu için setTab korunur) ----
       var itemsAll = qsa('#slideItems [data-slide]');
       var posEl = document.getElementById('slidePos');
       var tabEmpty = document.getElementById('tabEmpty');
@@ -780,27 +755,25 @@ const TABS_ACTIVE = pronounRelated
       }
 
       var tabBar = document.getElementById('tabBar');
-      qsa('.gram-tab', tabBar).forEach(function (tab) {
-        tab.addEventListener('click', function () {
-          setTab(tab.getAttribute('data-tab'));
+      if (tabBar) {
+        qsa('.gram-tab', tabBar).forEach(function (tab) {
+          tab.addEventListener('click', function () {
+            setTab(tab.getAttribute('data-tab'));
+          });
         });
-      });
+      }
 
       function setTab(k) {
-        qsa('.gram-tab').forEach(function (t) {
-          var on = t.getAttribute('data-tab') === k;
-          t.classList.toggle('on', on);
-          t.setAttribute('aria-selected', on ? 'true' : 'false');
-          t.classList.add('done'); // açılan sekme tamamlanmış sayılır
-        });
         var mc = document.getElementById('matrixCard');
         if (mc) mc.setAttribute('data-emph', k);
-        visibleEls = itemsAll.filter(function (it) {
-          if (k === 'all') return true;
-          return (it.getAttribute('data-cat') || 'genel') === k;
-        });
-        if (tabEmpty) tabEmpty.style.display = (k !== 'all' && visibleEls.length === 0) ? '' : 'none';
-        if (visibleEls.length) cur = 0; show(cur);
+        if (itemsAll.length) {
+          visibleEls = itemsAll.filter(function (it) {
+            if (k === 'all') return true;
+            return (it.getAttribute('data-cat') || 'genel') === k;
+          });
+          if (tabEmpty) tabEmpty.style.display = (k !== 'all' && visibleEls.length === 0) ? '' : 'none';
+          if (visibleEls.length) cur = 0; show(cur);
+        }
       }
 
       var prev = document.getElementById('prevSlide');
