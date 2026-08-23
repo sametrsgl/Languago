@@ -19,6 +19,11 @@ if (!passage) return Astro.redirect(`/dashboard/okuma/${level}`);
 
 const questions = passage.questions || [];
 const total = questions.length;
+
+// Next passage in this level (for the "Sonraki Metin →" proceed button)
+const idx = (readings as { id: string; title: string }[])?.findIndex((p) => p.id === passageId) ?? -1;
+const nextPassage = idx >= 0 && idx < readings.length - 1 ? readings[idx + 1] : null;
+const nextHref = nextPassage ? `/dashboard/okuma/${level}/${(nextPassage as { id: string }).id}` : null;
 ---
 
 <AppLayout title={`${passage.title} — ${levelTitle(level)} · Languago`} description={`${levelTitle(level)} okuma metni`}>
@@ -61,6 +66,20 @@ const total = questions.length;
           <div class="reveal" data-reveal></div>
         </div>
       ))}
+    </div>
+
+    <div id="readDone" style="display:none;text-align:center;margin-top:26px;" data-next-href={nextHref ?? ''} data-next-title={nextPassage ? (nextPassage as { title: string }).title : ''} data-has-next={nextPassage ? '1' : '0'}>
+      <hr class="barline" />
+      {nextPassage ? (
+        <>
+          <p class="muted">Metni bitirdin! Şimdi sıradaki okumaya geçebilirsin 👉</p>
+          <a class="btn primary" id="readNextBtn" href={nextHref ?? `/dashboard/okuma/${level}`}>
+            Sonraki Metin: {(nextPassage as { title: string }).title} →
+          </a>
+        </>
+      ) : (
+        <p class="muted">Tebrikler — bu seviyede son okumayı da bitirdin 👏 Tüm okumalar tamam!</p>
+      )}
     </div>
 
     <script define:vars={{ level, passageId, passageTitle: passage.title, questions }}>
@@ -126,6 +145,8 @@ const total = questions.length;
             scoreLine.textContent = 'Test tamamlandı! Skor: ' + correct + ' / ' + total +
               (correct === total ? ' — Mükemmel! 🎉 Sen çok iyi bir okursun!' : correct >= Math.ceil(total / 2) ? ' — İyi iş! 💪 Harika gidiyorsun.' : ' — Olsun, metni tekrar okuyunca daha da iyi olacaksın 📖💪');
             saveProgress();
+            var doneBox = document.getElementById('readDone');
+            if (doneBox) doneBox.style.display = '';
           }
         });
 
