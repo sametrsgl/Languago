@@ -1,4 +1,3 @@
-// Languago — A2 MCQ
 window.GRAMMAR_MCQ_A2 = {
   "a2-01": [
     {
@@ -486,17 +485,17 @@ window.GRAMMAR_MCQ_A2 = {
     {
       "q": "She ___ not at work on Monday.",
       "options": [
-        "weren't",
-        "wasn't",
-        "aren't",
-        "isn't"
+        "were",
+        "was",
+        "are",
+        "is"
       ],
       "a": 1,
       "why": [
-        "'weren't' çoğul; she ile değil.",
-        "Correct: she ile geçmiş negatif 'wasn't'.",
-        "Şimdiki 'aren't' geçmiş 'on Monday' için değil.",
-        "'isn't' şimdiki; geçmiş için değil."
+        "'Were' çoğul; she ile değil.",
+        "Correct: 'was not' — she ile geçmiş olumsuz. Boşlukta 'was' + 'not'.",
+        "'Are' şimdiki; 'on Monday' geçmiş zaman.",
+        "'Is' şimdiki; geçmiş için değil."
       ]
     }
   ],
@@ -734,14 +733,14 @@ window.GRAMMAR_MCQ_A2 = {
       "options": [
         "Will",
         "Are",
-        "Do to",
+        "Does",
         "Is"
       ],
       "a": 0,
       "why": [
         "Correct: kibar istek/teklif için 'Will you …?'",
         "'Are' rica yapısı kurmaz.",
-        "'Do to' geçersiz.",
+        "'Does' 3. tekil geniş; özne 'you' + rica için uygun değil.",
         "'Is' bu yapıda olmaz."
       ]
     }
@@ -964,14 +963,14 @@ window.GRAMMAR_MCQ_A2 = {
       "options": [
         "Should",
         "Does",
-        "Will to",
+        "Will",
         "Am"
       ],
       "a": 0,
       "why": [
         "Correct: tavsiye sorma → Should I …?",
         "'Does' should ile değil.",
-        "'Will to' geçersiz.",
+        "'Will' gelecek zaman; tavsiye sorusu için değil.",
         "'Am' tavsiye sorusu kurmaz."
       ]
     },
@@ -1260,14 +1259,14 @@ window.GRAMMAR_MCQ_A2 = {
       "options": [
         "will",
         "would",
-        "won't not",
+        "will to",
         "are"
       ],
       "a": 0,
       "why": [
         "Correct: first conditional ana cümle → will.",
         "'would' second conditional içindir; first'te değil.",
-        "'won't not' çift olumsuz.",
+        "'will to' — will sonrası 'to' gelmez.",
         "'are' tek başına gelecek kurmaz."
       ]
     },
@@ -1307,16 +1306,16 @@ window.GRAMMAR_MCQ_A2 = {
       "q": "___ you study, you will pass the exam.",
       "options": [
         "If",
-        "When so",
+        "When",
         "Because of",
-        "Unless not"
+        "Unless"
       ],
       "a": 0,
       "why": [
         "Correct: koşul bağlacı → If.",
-        "'When so' geçersiz.",
-        "'Because of' neden/isim ister, cümle değil.",
-        "'Unless not' — 'unless' zaten 'olmazsa' (if not), 'not' fazla."
+        "'When' zaman bağlacı; koşul anlamı verir ama ne zaman sorusu taşır — 'if' daha doğru.",
+        "'Because of' neden/isim ister, tam cümle bağlamaz.",
+        "'Unless' olumsuz koşuldur; burada 'pass' ile mantıksal olarak çelişir."
       ]
     }
   ]

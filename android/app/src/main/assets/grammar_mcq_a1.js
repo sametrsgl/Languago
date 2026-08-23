@@ -1,4 +1,3 @@
-// Languago — A1 MCQ
 window.GRAMMAR_MCQ_A1 = {
   "a1-01": [
     {
@@ -108,7 +107,7 @@ window.GRAMMAR_MCQ_A1 = {
       "options": [
         "he",
         "him",
-        "him's",
+        "he's",
         "his"
       ],
       "a": 3
@@ -193,7 +192,7 @@ window.GRAMMAR_MCQ_A1 = {
         "book",
         "books",
         "bookes",
-        "bookies"
+        "book's"
       ],
       "a": 1
     },
@@ -575,7 +574,7 @@ window.GRAMMAR_MCQ_A1 = {
         "Ahmet",
         "Ahmet's",
         "Ahmet is",
-        "Ahmetes"
+        "Ahmets"
       ],
       "a": 1
     },
@@ -769,9 +768,9 @@ window.GRAMMAR_MCQ_A1 = {
       "q": "He is ___ happy.",
       "options": [
         "always",
-        "sometimes always",
-        "soon",
-        "twice"
+        "usually",
+        "often",
+        "never"
       ],
       "a": 0
     },
@@ -781,7 +780,7 @@ window.GRAMMAR_MCQ_A1 = {
         "always",
         "never",
         "sometimes",
-        "always never"
+        "often"
       ],
       "a": 2
     },
@@ -936,7 +935,7 @@ window.GRAMMAR_MCQ_A1 = {
       "options": [
         "can",
         "cans",
-        "can is",
+        "can to",
         "can's"
       ],
       "a": 0
@@ -947,7 +946,7 @@ window.GRAMMAR_MCQ_A1 = {
         "can't",
         "can nots",
         "cans",
-        "canes"
+        "don't"
       ],
       "a": 0
     },

@@ -1,4 +1,3 @@
-// Languago — B2 MCQ
 window.GRAMMAR_MCQ_B2 = {
   "b2-01": [
     {
@@ -907,14 +906,14 @@ window.GRAMMAR_MCQ_B2 = {
       "q": "It was my sister ___ borrowed my camera.",
       "options": [
         "who",
-        "that",
+        "whose",
         "which",
         "what"
       ],
       "a": 0,
       "why": [
-        "Correct: kişi öznesini vurgulamak için 'who' (veya that).",
-        "'That' kişi için de mümkün ama 'who' en doğru odak; burada da doğru kabul edilir.",
+        "Correct: kişi öznesini vurgulamak için 'who'.",
+        "'Whose' sahiplik (kimin) bildirir; burada eylemi yapan kişi öznesi gerekir.",
         "'Which' kişiler içindir.",
         "'What' it-cleft yapısında kullanılmaz."
       ]

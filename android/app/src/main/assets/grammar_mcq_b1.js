@@ -1,4 +1,3 @@
-// Languago — B1 MCQ
 window.GRAMMAR_MCQ_B1 = {
   "b1-01": [
     {
@@ -110,8 +109,8 @@ window.GRAMMAR_MCQ_B1 = {
       "options": [
         "will",
         "is going to",
-        "goes to",
-        "has"
+        "is going",
+        "will to"
       ],
       "a": 1
     },
@@ -120,8 +119,8 @@ window.GRAMMAR_MCQ_B1 = {
       "options": [
         "am going to",
         "will",
-        "do",
-        "am"
+        "will to",
+        "am going"
       ],
       "a": 1
     },
@@ -130,8 +129,8 @@ window.GRAMMAR_MCQ_B1 = {
       "options": [
         "will",
         "are going to",
-        "go to",
-        "shall"
+        "are going",
+        "will going to"
       ],
       "a": 1
     },
@@ -139,9 +138,9 @@ window.GRAMMAR_MCQ_B1 = {
       "q": "I think our team ___ win the match.",
       "options": [
         "will",
-        "is going to",
-        "was",
-        "be"
+        "is going",
+        "going to",
+        "will to"
       ],
       "a": 0
     },
@@ -420,9 +419,9 @@ window.GRAMMAR_MCQ_B1 = {
     {
       "q": "You look tired. You ___ go to bed early tonight.",
       "options": [
-        "must go to sleep",
+        "must to",
         "should",
-        "have to does",
+        "should to",
         "musts"
       ],
       "a": 1
@@ -442,8 +441,8 @@ window.GRAMMAR_MCQ_B1 = {
       "options": [
         "must not",
         "don't have to",
-        "should not to",
-        "musts not"
+        "must not to",
+        "doesn't have to"
       ],
       "a": 0
     },
@@ -452,8 +451,8 @@ window.GRAMMAR_MCQ_B1 = {
       "options": [
         "must",
         "should",
-        "has to does",
-        "musts"
+        "must to",
+        "should to"
       ],
       "a": 0
     },
@@ -495,7 +494,7 @@ window.GRAMMAR_MCQ_B1 = {
         "a lot of",
         "much",
         "a little",
-        "is a lot"
+        "little"
       ],
       "a": 0
     },
@@ -504,7 +503,7 @@ window.GRAMMAR_MCQ_B1 = {
       "options": [
         "some",
         "any",
-        "much many",
+        "many",
         "few"
       ],
       "a": 1
@@ -755,7 +754,7 @@ window.GRAMMAR_MCQ_B1 = {
         "might",
         "can't",
         "mustn't",
-        "doesn't"
+        "won't"
       ],
       "a": 0
     },
@@ -1067,7 +1066,7 @@ window.GRAMMAR_MCQ_B1 = {
         "somebody",
         "anything",
         "nothing",
-        "everywhere"
+        "anybody"
       ],
       "a": 1
     },

@@ -1,4 +1,3 @@
-// Languago — C1 MCQ
 window.GRAMMAR_MCQ_C1 = {
   "c1-01": [
     {
@@ -171,14 +170,14 @@ window.GRAMMAR_MCQ_C1 = {
         "arguably",
         "must",
         "without",
-        "perhaps error"
+        "obvious"
       ],
       "a": 0,
       "why": [
         "Doğru: arguably — savunulabilir iddiayı yumuşatır.",
         "Modal fiil; are + sıfat öncesi zarf gerekir.",
         "'Without' edat; sıfra uymaz.",
-        "Geçersiz seçenek; anlamsız ifade."
+        "'Obvious' sıfat; burada zarf gerekir — 'obvious significant' yanlış."
       ]
     },
     {
@@ -547,14 +546,14 @@ window.GRAMMAR_MCQ_C1 = {
         "health",
         "healthy",
         "health's",
-        "healthing"
+        "healthier"
       ],
       "a": 0,
       "why": [
         "Doğru: isim niteleyici zinciri → health policy committee.",
         "'Healthy' sıfat; burada isim niteleyici gerekir.",
         "'Health's' iyelik; niteleyici zincirinde -'s olmaz.",
-        "'Healthing' yok."
+        "'Healthier' karşılaştırma sıfatı; isim niteleyici zinciri gerekir."
       ]
     },
     {
