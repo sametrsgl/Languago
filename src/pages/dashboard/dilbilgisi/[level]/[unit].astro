@@ -497,6 +497,8 @@ const TABS_ACTIVE = pronounRelated
 
     .gram-matchcard { margin-top: 10px; }
     .gram-jumble__hint { font-size: 1.05rem; font-weight: 800; color: var(--teal-dark); margin: 6px 0 2px; }
+    .jumble-tip { margin-top: 6px; font-weight: 600; font-size: .98rem; color: var(--ink-soft); }
+    .jumble-tip em { color: var(--teal-dark); font-style: normal; background: #e6f5f2; padding: 2px 6px; border-radius: 6px; }
     .gram-jumble__word {
       display: flex; gap: 8px; flex-wrap: wrap; min-height: 56px; align-items: center;
       padding: 10px; background: var(--bg-soft); border: 2px dashed var(--line); border-radius: 12px;
@@ -1105,6 +1107,14 @@ const TABS_ACTIVE = pronounRelated
       }
       var jumbleWordPool = (function () {
         var set = {}, out = [];
+        // word (lowercase) -> example sentence tip (stem with blank filled)
+        var tips = {};
+        function fillTip(w, q) {
+          if (!w || !q) return;
+          var k = w.toLowerCase();
+          if (tips[k] || q.indexOf('___') === -1) return;
+          tips[k] = q.replace('___', w).replace(/^\s*[A-Za-z]/, function (m) { return m; });
+        }
         function add(w) {
           w = (w || '').trim();
           if (!w) return;
@@ -1112,13 +1122,22 @@ const TABS_ACTIVE = pronounRelated
           var k = w.toLowerCase();
           if (!set[k]) { set[k] = 1; out.push(w); }
         }
-        // practice (gap) correct answers
-        (practice || []).forEach(function (p) { (p.a || []).forEach(add); });
-        // MCQ correct answers
+        // practice (gap) correct answers with their sentence stems
+        (practice || []).forEach(function (p) {
+          (p.a || []).forEach(function (aw) {
+            add(aw);
+            fillTip(aw, p.q);
+          });
+        });
+        // MCQ correct answers with their stems
         (quiz || []).forEach(function (q) {
-          if (q && q.options && typeof q.a === 'number') add(q.options[q.a]);
+          if (q && q.options && typeof q.a === 'number') {
+            add(q.options[q.a]);
+            fillTip(q.options[q.a], q.q);
+          }
           (q.options || []).forEach(add);
         });
+        jumbleTips = tips;
         return out;
       })().slice(0, 10);
 
@@ -1140,7 +1159,10 @@ const TABS_ACTIVE = pronounRelated
         picked = [];
         curWord = jumbleWordPool[Math.floor(Math.random() * jumbleWordPool.length)];
         if (!curWord) { jumbleFb.textContent = 'Bu ünitede tıklanacak kelime yok.'; return; }
-        jumbleHint.textContent = 'Bu ünitenin kelimelerinden biri: ' + curWord.length + ' harf';
+        var tip = (jumbleTips || {})[curWord.toLowerCase()];
+        jumbleHint.innerHTML =
+          'Bu ünitenin kelimelerinden biri: <b>' + curWord.length + ' harf</b>' +
+          (tip ? '<div class="jumble-tip">💡 İpucu (cümle): <em>' + esc(tip) + '</em></div>' : '');
         var scrambled = shuffleString(curWord);
         var letters = '';
         for (var i = 0; i < scrambled.length; i++) {
