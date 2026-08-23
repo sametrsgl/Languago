@@ -106,13 +106,13 @@ export const GRAMMAR_MCQ_A2 = {
       "Şimdiki 'is' geçmiş bağlam için değil.",
       "'be' çekimsiz kalıptır."
     ] },
-    { "q": "She ___ not at work on Monday.", "options": ["weren't", "wasn't", "aren't", "isn't"], "a": 1, "why": [
-      "'weren't' çoğul; she ile değil.",
-      "Correct: she ile geçmiş negatif 'wasn't'.",
-      "Şimdiki 'aren't' geçmiş 'on Monday' için değil.",
-      "'isn't' şimdiki; geçmiş için değil."
-    ] }
-  ],
+    { "q": "She ___ not at work on Monday.", "options": ["were", "was", "are", "is"], "a": 1, "why": [
+          "'Were' çoğul; she ile değil.",
+          "Correct: 'was not' — she ile geçmiş olumsuz. Boşlukta 'was' + 'not'.",
+          "'Are' şimdiki; 'on Monday' geçmiş zaman.",
+          "'Is' şimdiki; geçmiş için değil."
+        ] }
+      ],
   "a2-11": [
     { "q": "I ___ my grandparents yesterday.", "options": ["visit", "visits", "visited", "visiting"], "a": 2, "why": [
       "Geniş 'visit' 'yesterday' ile uymaz.",
