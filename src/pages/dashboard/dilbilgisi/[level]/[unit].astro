@@ -829,6 +829,10 @@ const TABS_ACTIVE = pronounRelated
         var rightItems = [];
         var i;
 
+        // Left column keeps pair order; RIGHT column is SCRAMBLED so the two
+        // columns are NOT positionally aligned (otherwise students match rows).
+        var rightOrder = shuffle(pairs.slice());
+
         for (i = 0; i < n; i++) {
           var p = pairs[i];
           var li = document.createElement('button');
@@ -836,15 +840,8 @@ const TABS_ACTIVE = pronounRelated
           li.className = 'gram-match__item';
           li.dataset.id = p.en;
           li.textContent = cfg.leftLabel(p);
-          var ri = document.createElement('button');
-          ri.type = 'button';
-          ri.className = 'gram-match__item';
-          ri.dataset.id = p.en;
-          ri.textContent = cfg.rightLabel(p);
           leftItems.push({ btn: li, p: p });
-          rightItems.push({ btn: ri, p: p });
           leftBox.appendChild(li);
-          rightBox.appendChild(ri);
           li.addEventListener('click', (function (it) {
             return function () {
               if (it.btn.disabled) return;
@@ -853,13 +850,23 @@ const TABS_ACTIVE = pronounRelated
               sel = it;
             };
           })(leftItems[i]));
-          ri.addEventListener('click', (function (it) {
-            return function () {
+
+          // right column from the scrambled order
+          var rp = rightOrder[i];
+          var ri = document.createElement('button');
+          ri.type = 'button';
+          ri.className = 'gram-match__item';
+          ri.dataset.id = rp.en;
+          ri.textContent = cfg.rightLabel(rp);
+          rightItems.push({ btn: ri, p: rp });
+          rightBox.appendChild(ri);
+          (function (it) {
+            ri.addEventListener('click', function () {
               if (it.btn.disabled) return;
               if (!sel) { flash(fb, 'Önce soldan birini seç 👈'); return; }
               tryMatch(sel, it);
-            };
-          })(rightItems[i]));
+            });
+          })(rightItems[rightItems.length - 1]);
         }
 
         function tryMatch(l, r) {
