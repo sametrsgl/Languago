@@ -4,12 +4,20 @@ import Layout from '../layouts/Layout.astro';
 // Android APK download URL. Public route, so use a PUBLIC_* env var so it can
 // be swapped at deploy time without code changes. Falls back to the GitHub
 // release asset for the current version.
+// Fetch latest APK version from GitHub releases API
+let apkData = null;
+try {
+  const apkRes = await fetch('https://api.github.com/repos/sametrsgl/Languago/releases/latest');
+  apkData = await apkRes.json().catch(() => null);
+} catch { /* ignore */ }
+const latestTag = apkData?.tag_name || 'v2.5.0';
+const latestAssets = apkData?.assets || [];
+const latestApk = latestAssets.find(a => a.name && a.name.endsWith('.apk'));
 const apkUrl =
   import.meta.env.PUBLIC_APK_URL ||
-  'https://github.com/sametrsgl/Languago/releases/latest/download/Languago-v2.2.0.apk';
-
-const appVersion = 'v2.2.0';
-const apkFilename = 'Languago-v2.2.0.apk';
+  (latestApk ? latestApk.browser_download_url : 'https://github.com/sametrsgl/Languago/releases/latest');
+const appVersion = latestTag;
+const apkFilename = latestApk?.name || ('Languago-' + latestTag + '.apk');
 
 const features = [
   {
@@ -53,7 +61,7 @@ const installSteps = [
   {
     icon: '1',
     title: 'APK dosyasını indir',
-    desc: 'Aşağıdaki "Uygulamayı İndir" butonuna dokun. Dosya adı: Languago-v2.2.0.apk.',
+    desc: 'Aşağıdaki "Uygulamayı İndir" butonuna dokun. Dosya adı: Languago-v2.5.0.apk.',
   },
   {
     icon: '2',
@@ -75,7 +83,7 @@ const installSteps = [
 
 <Layout
   title="Languago Uygulamasını İndir — Android APK"
-  description="Languago Android uygulamasını indirin: kelime, dil bilgisi, okuma ve sınıf içi oyunlar %100 çevrimdışı çalışır. SRS tekrar sistemi ve telaffuz desteği. Android APK (v2.2.0) — ücretsiz ve reklamsız."
+  description="Languago Android uygulamasını indirin: kelime, dil bilgisi, okuma ve sınıf içi oyunlar %100 çevrimdışı çalışır. SRS tekrar sistemi ve telaffuz desteği. Android APK ({appVersion}) — ücretsiz ve reklamsız."
 >
   <section class="hero container">
     <span class="eyebrow">📲 Android uygulaması — Languago</span>
