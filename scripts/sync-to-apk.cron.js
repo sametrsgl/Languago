@@ -3,7 +3,7 @@ const path = require('path');
 const { execSync } = require('child_process');
 
 // === Site→APK Auto-Sync Cron Job ===
-// Runs every 6 hours, checks if site data has changed since last sync,
+// Checks if site data has changed since last sync,
 // and if so: syncs content → builds APK → creates GitHub release → commits
 
 const HOME = process.env.HOME || 'C:\\Users\\Samet Tıraşoğlu.DESKTOP-V1NEC06';
@@ -18,39 +18,30 @@ const LAST_SYNC_FILE = path.join(APK, '.cron', 'last_site_sync.txt');
 const LEVELS = ['a1', 'a2', 'b1', 'b2', 'c1'];
 const READING_SETS = ['a1', 'a2', 'b1', 'b2', 'c1', 'c2', 'ielts', 'toefl', 'yds', 'yokdil', 'gre'];
 
-// Helper: load JS object from export const format
 function loadJsObject(code, varName) {
     let clean = code.replace(/^export\s+const\s+/gm, 'const ').replace(/\s*;\s*$/, '').trim();
     try {
-        return eval(clean);
-    } catch(e) {
         const match = clean.match(new RegExp(varName + '\\s*=\\s*'));
         if (match) {
             const idx = match.index + match[0].length;
             return eval('(' + clean.substring(idx) + ')');
         }
+    } catch(e) {
+        // ignore
     }
 }
 
-// Check if site data has changed since last sync
 function hasSiteChanged() {
     try {
         const result = execSync('git log -1 --format=%H -- src/data/', {
             cwd: SITE, encoding: 'utf8'
         }).trim();
-        
-        let lastSync = '';
-        if (fs.existsSync(LAST_SYNC_FILE)) {
-            lastSync = fs.readFileSync(LAST_SYNC_FILE, 'utf8').trim();
-        }
-        
+        let lastSync = fs.existsSync(LAST_SYNC_FILE) ? fs.readFileSync(LAST_SYNC_FILE, 'utf8').trim() : '';
         if (result === lastSync) {
-            console.log('No site data changes since last sync (' + result.substring(0, 7) + ')');
-            console.log('{"wakeAgent": false}');
+            console.log('[SILENT]'); // No changes = silent
             return false;
         }
-        
-        console.log('Site data changed: ' + (lastSync ? lastSync.substring(0, 7) : 'never') + ' -> ' + result.substring(0, 7));
+        console.log('Site data changed: ' + (lastSync ? lastSync.substring(0,7) : 'never') + ' -> ' + result.substring(0,7));
         fs.mkdirSync(path.dirname(LAST_SYNC_FILE), { recursive: true });
         fs.writeFileSync(LAST_SYNC_FILE, result, 'utf8');
         return true;
@@ -60,7 +51,6 @@ function hasSiteChanged() {
     }
 }
 
-// Sync grammar data
 function syncGrammar() {
     LEVELS.forEach(lvl => {
         const upper = lvl.toUpperCase();
@@ -69,7 +59,6 @@ function syncGrammar() {
         const apkFile = path.join(ASSETS, 'grammar_' + lvl + '.js');
         const apkMcq = path.join(ASSETS, 'grammar_mcq_' + lvl + '.js');
         if (!fs.existsSync(siteFile)) return;
-
         const siteCode = fs.readFileSync(siteFile, 'utf8');
         let grammarObj = loadJsObject(siteCode, 'GRAMMAR_' + upper);
         let mcqObj = null;
@@ -128,14 +117,8 @@ function syncAppConfig() {
     if (fs.existsSync(indexPath)) {
         let html = fs.readFileSync(indexPath, 'utf8');
         if (!html.includes('grammar_c1.js')) {
-            html = html.replace(
-                '<script src="grammar_b2.js"></script>',
-                '<script src="grammar_b2.js"></script>\n  <script src="grammar_c1.js"></script>'
-            );
-            html = html.replace(
-                '<script src="grammar_mcq_b2.js"></script>',
-                '<script src="grammar_mcq_b2.js"></script>\n  <script src="grammar_mcq_c1.js"></script>'
-            );
+            html = html.replace('<script src="grammar_b2.js"></script>', '<script src="grammar_b2.js"></script>\n  <script src="grammar_c1.js"></script>');
+            html = html.replace('<script src="grammar_mcq_b2.js"></script>', '<script src="grammar_mcq_b2.js"></script>\n  <script src="grammar_mcq_c1.js"></script>');
             fs.writeFileSync(indexPath, html, 'utf8');
             console.log('  Updated: index.html (added C1 scripts)');
         }
@@ -158,46 +141,74 @@ function bumpVersion() {
 }
 
 function runTests() {
-    const result = execSync('node smoke.js', {
-        cwd: path.join(APK, '.test'),
-        encoding: 'utf8', timeout: 120000, stdio: 'pipe'
-    });
-    return { stdout: result.stdout, stderr: result.stderr };
+    return execSync('node smoke.js', { cwd: path.join(APK, '.test'), encoding: 'utf8', timeout: 120000, stdio: 'pipe' });
 }
 
 function buildApk() {
-    const env = Object.assign({}, process.env, {
-        JAVA_HOME: JDK, ANDROID_HOME: SDK, ANDROID_SDK_ROOT: SDK
+    const env = Object.assign({}, process.env, { JAVA_HOME: JDK, ANDROID_HOME: SDK, ANDROID_SDK_ROOT: SDK });
+    return execSync('"' + GRADLE + '/bin/gradle" assembleRelease --console=plain', {
+        cwd: path.join(APK, 'android'), env: env, encoding: 'utf8', timeout: 300000, stdio: 'pipe'
     });
-    const result = execSync('"' + GRADLE + '/bin/gradle" assembleRelease --console=plain', {
-        cwd: path.join(APK, 'android'), env: env,
-        encoding: 'utf8', timeout: 300000, stdio: 'pipe'
-    });
-    return { stdout: result.stdout, stderr: result.stderr };
 }
 
 function gitCommitAndTag(tag, message) {
     execSync('git add -A', { cwd: APK, encoding: 'utf8' });
     execSync('git commit -q -m "' + message + '"', { cwd: APK, encoding: 'utf8' });
     execSync('git tag v' + tag, { cwd: APK, encoding: 'utf8' });
-    execSync('git push --follow-tags', { cwd: APK, encoding: 'utf8' });
+    // Ensure remote is configured, then push with tags
+    try {
+        execSync('git remote get-url origin', { cwd: APK, encoding: 'utf8' });
+    } catch(e) {
+        execSync('git remote add origin https://github.com/sametrsgl/Languago.git', { cwd: APK, encoding: 'utf8' });
+    }
+    try {
+        execSync('git push --follow-tags', { cwd: APK, encoding: 'utf8' });
+    } catch(e) {
+        execSync('git push --set-upstream origin master --follow-tags', { cwd: APK, encoding: 'utf8' });
+    }
 }
 
+// Use GitHub API directly to avoid CLI rate limit issues
 function createGitHubRelease(tag, versionName, apkPath) {
-    const apkName = 'Languago-v' + versionName + '.apk';
-    const title = 'Languago v' + versionName;
-    const notes = 'APK sync from site content. Auto-built from latest grammar/readings data.';
-    execSync('gh release create v' + tag + ' "' + apkPath + '" --title "Languago v' + versionName + '" --notes "' + notes + '" --repo sametrsgl/Languago', {
-        encoding: 'utf8', timeout: 120000
-    });
-    console.log('  GitHub release created: v' + tag);
+    const ghToken = process.env.GITHUB_TOKEN || '';
+    if (!ghToken) {
+        console.log('  WARNING: GITHUB_TOKEN not set, skipping release creation');
+        return;
+    }
+    const fs2 = require('fs');
+    const apkSize = fs2.statSync(apkPath).size;
+    console.log('  APK size: ' + (apkSize / 1024 / 1024).toFixed(2) + ' MB');
+    console.log('  Release tag: v' + tag);
+    
+    // Use GitHub API to create release
+    const res = execSync(
+        'curl -sL -X POST "https://api.github.com/repos/sametrsgl/Languago/releases" ' +
+        '-H "Authorization: token ' + ghToken + '" ' +
+        '-H "Content-Type: application/json" ' +
+        '-d "{\"tag_name\":\"v' + tag + '\",\"name\":\"Languago v' + versionName + '\",\"body\":\"APK sync from site content. Auto-built.\",\"draft\":false,\"prerelease\":false}"',
+        { encoding: 'utf8', timeout: 30000, stdio: 'pipe' }
+    );
+    
+    const release = JSON.parse(res);
+    if (release.upload_url) {
+        // Upload APK asset
+        execSync(
+            'curl -sL -X POST "' + release.upload_url.replace('{?name,label}', '?name=Languago-v' + versionName + '.apk') + '" ' +
+            '-H "Authorization: token ' + ghToken + '" ' +
+            '-H "Content-Type: application/octet-stream" ' +
+            '--data-binary @' + apkPath,
+            { encoding: 'utf8', timeout: 120000, stdio: 'pipe' }
+        );
+        console.log('  GitHub release created: v' + tag);
+    } else {
+        console.log('  Release creation response: ' + JSON.stringify(release).substring(0, 200));
+    }
 }
 
 // === Main ===
 console.log('=== Site->APK Auto-Sync Check ===');
 
 if (!hasSiteChanged()) {
-    console.log('Nothing to do.');
     process.exit(0);
 }
 
@@ -208,10 +219,10 @@ syncWords();
 syncAppConfig();
 
 console.log('2. Running smoke tests...');
-const testResult = runTests();
-const passMatch = testResult.stdout.match(/RESULT: (\d+) passed, (\d+) failed/);
+const testOutput = runTests();
+const passMatch = testOutput.match(/RESULT: (\d+) passed, (\d+) failed/);
 if (!passMatch || parseInt(passMatch[2]) > 0) {
-    console.log('TEST FAILURE:\n' + testResult.stdout);
+    console.log('TEST FAILURE:\n' + testOutput);
     process.exit(1);
 }
 console.log('  ' + passMatch[0]);
@@ -219,9 +230,9 @@ console.log('  ' + passMatch[0]);
 console.log('3. Building APK...');
 const version = bumpVersion();
 console.log('  versionCode: ' + version.versionCode + '  versionName: ' + version.versionName);
-const buildResult = buildApk();
-if (buildResult.stdout.includes('BUILD FAILED')) {
-    console.log('BUILD FAILED:\n' + buildResult.stdout);
+const buildOutput = buildApk();
+if (buildOutput.includes('BUILD FAILED')) {
+    console.log('BUILD FAILED:\n' + buildOutput);
     process.exit(1);
 }
 console.log('  BUILD SUCCESS');
