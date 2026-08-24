@@ -401,15 +401,54 @@ footer.site .brand .footer-mascot {
 .auth {
   max-width: 420px;
   margin: 48px auto;
-  background: var(--bg);
+  background: #fff;
   border: 1px solid var(--line);
-  border-top: 6px solid var(--teal);
-  border-radius: var(--radius);
-  box-shadow: var(--shadow);
-  padding: 32px;
+  border-radius: 22px;
+  box-shadow: 0 24px 60px -30px rgba(13, 148, 136, 0.45);
+  padding: 34px 34px 30px;
+  position: relative;
+  overflow: hidden;
+}
+.auth::before {
+  content: "";
+  position: absolute;
+  inset: 0 0 auto 0;
+  height: 8px;
+  background: linear-gradient(90deg, var(--teal) 0%, var(--brand) 100%);
+}
+.auth .auth-mascot {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  margin: 4px 0 18px;
+}
+.auth .auth-mascot img {
+  width: 76px;
+  height: 76px;
+  object-fit: contain;
+  border-radius: 18px;
+  background: linear-gradient(180deg, #e6f5f2, #d1ede8);
+  padding: 6px;
+  box-shadow: 0 12px 24px -14px rgba(13, 148, 136, 0.7);
+}
+.auth .auth-mascot .brand-word {
+  margin-top: 10px;
+  font-weight: 800;
+  font-size: 1.2rem;
+  color: var(--ink);
+  letter-spacing: -0.01em;
 }
 .auth h1 {
-  font-size: 1.5rem;
+  font-size: 1.4rem;
+  text-align: center;
+  margin: 0 0 4px;
+}
+.auth .auth-sub {
+  text-align: center;
+  color: var(--ink-soft);
+  margin: 0 0 22px;
+  font-size: 0.95rem;
 }
 .field {
   margin-bottom: 18px;

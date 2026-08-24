@@ -21,10 +21,12 @@ const googleAuthUrl = `https://${SUPABASE_PROJECT_REF}.supabase.co/auth/v1/autho
   description="1 dakikada ücretsiz öğrenci hesabı oluşturun. İngilizce kelime, dil bilgisi, okuma ve oyunlarla öğrenmeye başlayın."
 >
   <main class="auth">
+    <div class="auth-mascot">
+      <img src="/mascot.png" alt="Kommo — Languago maskotu" width="76" height="76" />
+      <span class="brand-word">Languago</span>
+    </div>
     <h1>Öğrenci Kaydı</h1>
-    <p style="color: var(--ink-soft); margin-top: -8px;">
-      Languago'e başlamak için hesap oluştur.
-    </p>
+    <p class="auth-sub">Languago'e başlamak için hesap oluştur.</p>
 
     <div id="signup-feedback" aria-live="polite"></div>
 
