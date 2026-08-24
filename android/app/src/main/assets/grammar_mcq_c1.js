@@ -79,6 +79,246 @@ window.GRAMMAR_MCQ_C1 = {
         "'Is said rich' → to be rich gerekir; eksik.",
         "'They are saying' şimdiki süreç; rapor biçimi değil."
       ]
+    },
+    {
+      "q": "It ___ that the meeting has been postponed until Thursday.",
+      "options": [
+        "is rumoured",
+        "is rumouring",
+        "rumours",
+        "rumoured"
+      ],
+      "a": 0,
+      "why": [
+        "Doğru: kişisiz edilgen → It + is rumoured + that.",
+        "'Is rumouring' aktif; edilgen aktarım gerekir.",
+        "'Rumours' aktif fiil çekimi; uyumsuz.",
+        "'Rumoured' tek başına çekimsiz; is gerekir."
+      ]
+    },
+    {
+      "q": "The candidate ___ to have falsified her references.",
+      "options": [
+        "is alleged",
+        "alleges",
+        "is alleging",
+        "alleged"
+      ],
+      "a": 0,
+      "why": [
+        "Doğru: kişili edilgen → is alleged + to have + 3.hal.",
+        "'Alleges' aktif; iddia edilgen aktarılır.",
+        "'Is alleging' aktif süreç; edilgen gerekir.",
+        "'Alleged' çekimsiz; is gerekir."
+      ]
+    },
+    {
+      "q": "Profits are expected ___ sharply this quarter.",
+      "options": [
+        "to rise",
+        "rising",
+        "rise",
+        "rose"
+      ],
+      "a": 0,
+      "why": [
+        "Doğru: are expected + to-inf.",
+        "'Rising' -ing; be expected + to-inf.",
+        "'Rise' yalın; to gerekir.",
+        "'Rose' geçmiş; geniş gelecek beklenti uyumsuz."
+      ]
+    },
+    {
+      "q": "It is thought ___ the summit reached no agreement.",
+      "options": [
+        "that",
+        "to",
+        "which",
+        "for"
+      ],
+      "a": 0,
+      "why": [
+        "Doğru: It is thought + that + cümle.",
+        "'To' + cümle olmaz; that gerekir.",
+        "'Which' bağlamaz; that standart.",
+        "'For' edat; burada cümle bağlacı gerekir."
+      ]
+    },
+    {
+      "q": "He is believed ___ in the decision-making process.",
+      "options": [
+        "to have been involved",
+        "to be involved being",
+        "being involved",
+        "having involved"
+      ],
+      "a": 0,
+      "why": [
+        "Doğru: edilgen + perfect → to have been involved.",
+        "'To be involved being' çift pasif; bozuk.",
+        "'Being involved' is believed + to gerekir.",
+        "'Having involved' aktif; edilgen gerekir."
+      ]
+    },
+    {
+      "q": "The star is known ___ late to every premiere.",
+      "options": [
+        "to turn",
+        "turning",
+        "turned",
+        "to turning"
+      ],
+      "a": 0,
+      "why": [
+        "Doğru: is known + to-inf.",
+        "'Turning' -ing; to-inf gerekir.",
+        "'Turned' geçmiş; to-inf gerekir.",
+        "'To turning' çift; to + yalın gerekir."
+      ]
+    },
+    {
+      "q": "It ___ assumed that returns will not exceed 4%.",
+      "options": [
+        "is",
+        "has",
+        "was being",
+        "been"
+      ],
+      "a": 0,
+      "why": [
+        "Doğru: It + is assumed + that.",
+        "'Has' assumed + that kalıbına uymaz (has been olurdu).",
+        "'Was being' sürerken aktarım; geniş zaman gerekir.",
+        "'Been' çekimsiz; is gerekir."
+      ]
+    },
+    {
+      "q": "The policy is said ___ in response to public pressure.",
+      "options": [
+        "to have been introduced",
+        "to introduce",
+        "introducing",
+        "introduced"
+      ],
+      "a": 0,
+      "why": [
+        "Doğru: edilgen + bitmiş → said + to have been + 3.hal.",
+        "'To introduce' edilgen anlamı kaybeder.",
+        "'Introducing' -ing; to-inf gerekir.",
+        "'Introduced' çekimsiz; to have been gerekir."
+      ]
+    },
+    {
+      "q": "It is reported ___ the two leaders will meet in December.",
+      "options": [
+        "that",
+        "to",
+        "for",
+        "which"
+      ],
+      "a": 0,
+      "why": [
+        "Doğru: It is reported + that + cümle.",
+        "'To' + cümle olmaz.",
+        "'For' edat; that gerekir.",
+        "'Which' bağlama amacıyla here uymaz."
+      ]
+    },
+    {
+      "q": "The suspect ___ to have left the country.",
+      "options": [
+        "is said",
+        "says",
+        "is saying",
+        "said"
+      ],
+      "a": 0,
+      "why": [
+        "Doğru: kişili edilgen → is said + to have + 3.hal.",
+        "'Says' aktif özne; edilgen gerekir.",
+        "'Is saying' aktif süreç; uyumsuz.",
+        "'Said' çekimsiz; is gerekir."
+      ]
+    },
+    {
+      "q": "It ___ widely believed that inflation will ease.",
+      "options": [
+        "is",
+        "was being",
+        "has",
+        "does"
+      ],
+      "a": 0,
+      "why": [
+        "Doğru: It + is widely believed + that.",
+        "'Was being' geçmiş süreç; geniş zaman gerekir.",
+        "'Has' has believed edilgen değil; is gerekir.",
+        "'Does' + believed pasif yapısına uymaz."
+      ]
+    },
+    {
+      "q": "The reforms are reported ___ opposition in the cabinet.",
+      "options": [
+        "to have met",
+        "to meet",
+        "meeting",
+        "met"
+      ],
+      "a": 0,
+      "why": [
+        "Doğru: bitmiş aktarım → reported + to have met.",
+        "'To meet' geniş; olay zaten gerçekleşti.",
+        "'Meeting' -ing; to-inf gerekir.",
+        "'Met' çekimsiz; to have met gerekir."
+      ]
+    },
+    {
+      "q": "She is thought ___ the only applicant with the right credentials.",
+      "options": [
+        "to be",
+        "being",
+        "is",
+        "be"
+      ],
+      "a": 0,
+      "why": [
+        "Doğru: is thought + to be.",
+        "'Being' -ing; to-inf gerekir.",
+        "'Is' ikinci fiil; çift çekim yanlış.",
+        "'Be' çekimsiz; to be gerekir."
+      ]
+    },
+    {
+      "q": "It is assumed ___ the budget was approved in closed session.",
+      "options": [
+        "that",
+        "to",
+        "for",
+        "what"
+      ],
+      "a": 0,
+      "why": [
+        "Doğru: It is assumed + that + cümle.",
+        "'To' + cümle olmaz.",
+        "'For' edat; that gerekir.",
+        "'What' bağlaç değil; that kullanılır."
+      ]
+    },
+    {
+      "q": "Citizens are expected ___ their taxes online.",
+      "options": [
+        "to file",
+        "filing",
+        "file",
+        "filed"
+      ],
+      "a": 0,
+      "why": [
+        "Doğru: are expected + to-inf.",
+        "'Filing' -ing; to-inf gerekir.",
+        "'File' yalın; to gerekir.",
+        "'Filed' geçmiş; to gerekir."
+      ]
     }
   ],
   "c1-02": [
@@ -161,6 +401,246 @@ window.GRAMMAR_MCQ_C1 = {
         "'Dismissing' aktif; pasif gerekli.",
         "'Dismisses' çekim; got + 3.hal."
       ]
+    },
+    {
+      "q": "The car needs ___ before the long trip.",
+      "options": [
+        "servicing",
+        "service",
+        "to service",
+        "serviced"
+      ],
+      "a": 0,
+      "why": [
+        "Doğru: needs + -ing → pasif anlamda bakım.",
+        "'Service' yalın; needs + -ing.",
+        "'To service' needs + -ing; pasif anlam.",
+        "'Serviced' needs + -ing gerekir; 3.hal değil."
+      ]
+    },
+    {
+      "q": "They should have had the report ___ by Friday.",
+      "options": [
+        "checked",
+        "checking",
+        "to check",
+        "check"
+      ],
+      "a": 0,
+      "why": [
+        "Doğru: causative → have + the report + 3.hal.",
+        "'Checking' -ing; 3.hal gerekir.",
+        "'To check' 'have + 3.hal' yapısında to yoktur.",
+        "'Check' yalın; 3.hal gerekir."
+      ]
+    },
+    {
+      "q": "The proposal got ___ down in committee.",
+      "options": [
+        "turned",
+        "turning",
+        "to turn",
+        "turn"
+      ],
+      "a": 0,
+      "why": [
+        "Doğru: get-passive + phrasal → got turned down (reddedildi).",
+        "'Turning' aktif; pasif gerekir.",
+        "'To turn' got + 3.hal kalıbında to yok.",
+        "'Turn' yalın; 3.hal gerekir."
+      ]
+    },
+    {
+      "q": "She objected to ___ treated like a subordinate.",
+      "options": [
+        "being",
+        "be",
+        "to be",
+        "having"
+      ],
+      "a": 0,
+      "why": [
+        "Doğru: object to + being + 3.hal (pasif gerund).",
+        "'Be' -ing gerekir.",
+        "'To be' object to + -ing; to be değil.",
+        "'Having' + treated pasif anlamı vermez."
+      ]
+    },
+    {
+      "q": "The roof needs ___ before winter.",
+      "options": [
+        "repairing",
+        "repair",
+        "to repairing",
+        "repaired"
+      ],
+      "a": 0,
+      "why": [
+        "Doğru: needs + -ing → pasif anlamda tamir.",
+        "'Repair' yalın; needs + -ing.",
+        "'To repairing' çift; to + -ing yanlış.",
+        "'Repaired' needs + -ing gerekir."
+      ]
+    },
+    {
+      "q": "He risked ___ caught all the same.",
+      "options": [
+        "being",
+        "to be",
+        "be",
+        "been"
+      ],
+      "a": 0,
+      "why": [
+        "Doğru: risk + being + 3.hal (pasif gerund).",
+        "'To be' risk + to-inf değil.",
+        "'Be' -ing gerekir.",
+        "'Been' being gerekir."
+      ]
+    },
+    {
+      "q": "The data must be ___ before it is published.",
+      "options": [
+        "verified",
+        "verifying",
+        "verify",
+        "verification"
+      ],
+      "a": 0,
+      "why": [
+        "Doğru: must be + 3.hal (pasif).",
+        "'Verifying' -ing; 3.hal gerekir.",
+        "'Verify' yalın; be + 3.hal.",
+        "'Verification' isim; verifié fiil gerekir."
+      ]
+    },
+    {
+      "q": "I resent ___ blamed for her mistake.",
+      "options": [
+        "being",
+        "to be",
+        "be",
+        "having"
+      ],
+      "a": 0,
+      "why": [
+        "Doğru: resent + being + 3.hal (pasif gerund).",
+        "'To be' resent + to-inf değil.",
+        "'Be' -ing gerekir.",
+        "'Having' + blamed pasif anlam vermez."
+      ]
+    },
+    {
+      "q": "She had her passport ___ at the consulate.",
+      "options": [
+        "renewed",
+        "renewing",
+        "to renew",
+        "renew"
+      ],
+      "a": 0,
+      "why": [
+        "Doğru: causative → had + passport + 3.hal.",
+        "'Renewing' -ing; 3.hal gerekir.",
+        "'To renew' 'have + 3.hal' yapısında to yok.",
+        "'Renew' yalın; 3.hal gerekir."
+      ]
+    },
+    {
+      "q": "The offer still needs ___ by the board.",
+      "options": [
+        "approving",
+        "approve",
+        "to approving",
+        "approved"
+      ],
+      "a": 0,
+      "why": [
+        "Doğru: needs + -ing → pasif anlamda onay.",
+        "'Approve' yalın; needs + -ing.",
+        "'To approving' çift; to + -ing yanlış.",
+        "'Approved' needs + -ing gerekir."
+      ]
+    },
+    {
+      "q": "He admitted to ___ misled by the figures.",
+      "options": [
+        "having been",
+        "being had",
+        "be",
+        "to be had"
+      ],
+      "a": 0,
+      "why": [
+        "Doğru: admit to + having been + 3.hal (pasif perfect gerund).",
+        "'Being had' 'had' yanlış biçim.",
+        "'Be' -ing gerekir.",
+        "'To be had' to + -ing kalıbına uymaz."
+      ]
+    },
+    {
+      "q": "The contract is scheduled to be ___ next week.",
+      "options": [
+        "renewed",
+        "renewing",
+        "renew",
+        "renewal"
+      ],
+      "a": 0,
+      "why": [
+        "Doğru: to be + 3.hal (pasif mastar).",
+        "'Renewing' -ing; 3.hal gerekir.",
+        "'Renew' yalın; be + 3.hal.",
+        "'Renewal' isim; fiil gerekir."
+      ]
+    },
+    {
+      "q": "They got ___ in an argument over funding.",
+      "options": [
+        "involved",
+        "involving",
+        "to involve",
+        "involve"
+      ],
+      "a": 0,
+      "why": [
+        "Doğru: got + involved in (get-passive).",
+        "'Involving' aktif; pasif gerekir.",
+        "'To involve' got + 3.hal.",
+        "'Involve' yalın; 3.hal gerekir."
+      ]
+    },
+    {
+      "q": "The issue remains to be ___ at the next session.",
+      "options": [
+        "resolved",
+        "resolving",
+        "to resolve",
+        "resolve"
+      ],
+      "a": 0,
+      "why": [
+        "Doğru: remains to be + 3.hal (pasif mastar).",
+        "'Resolving' -ing; be + 3.hal.",
+        "'To resolve' çift to; yanlış.",
+        "'Resolve' yalın; 3.hal gerekir."
+      ]
+    },
+    {
+      "q": "Having ___ turned down once, she applied again.",
+      "options": [
+        "been",
+        "being",
+        "be",
+        "was"
+      ],
+      "a": 0,
+      "why": [
+        "Doğru: Having + been + 3.hal (perfect pasif participle).",
+        "'Being' having being çift; been gerekir.",
+        "'Be' çekimsiz.",
+        "'Was' participle biçimi değil."
+      ]
     }
   ],
   "c1-03": [
@@ -181,7 +661,7 @@ window.GRAMMAR_MCQ_C1 = {
       ]
     },
     {
-      "q": "You ___ be exhausted after that long flight.",
+      "q": "You ___ be hungry after skipping lunch.",
       "options": [
         "must",
         "might",
@@ -190,7 +670,7 @@ window.GRAMMAR_MCQ_C1 = {
       ],
       "a": 0,
       "why": [
-        "Doğru: must — kesin çıkarım (uzun uçuş sonrası).",
+        "Doğru: must — kesin çıkarım (öğle yemeğini atladıktan sonra).",
         "'Might' düşük olasılık; kesinlik bağlamına uymaz.",
         "'Can't' imkânsız; burada mümkün/sonucu.",
         "'Needn't' gerek yok; kesinlik çıkarımı değil."
@@ -242,6 +722,246 @@ window.GRAMMAR_MCQ_C1 = {
         "'Must not' yasak; olasılık değil.",
         "'Is' is not would require be; tamamlanmamış.",
         "'Has not be' uyumsuz edim biçimi."
+      ]
+    },
+    {
+      "q": "They ___ have missed the train; we saw them at the station.",
+      "options": [
+        "can't",
+        "must",
+        "might",
+        "should"
+      ],
+      "a": 0,
+      "why": [
+        "Doğru: can't have + 3.hal — imkânsız geçmiş çıkarım.",
+        "'Must' + missed istasyonda gördüğümüzle çelişir.",
+        "'Might' olasılık; kanıt kesin.",
+        "'Should' öneri; çıkarım değil."
+      ]
+    },
+    {
+      "q": "You ___ have told me you'd be late.",
+      "options": [
+        "should",
+        "can",
+        "must",
+        "need"
+      ],
+      "a": 0,
+      "why": [
+        "Doğru: should have + 3.hal — geçmişe yönelik eleştiri.",
+        "'Can' have told edilgen yapıya uymaz.",
+        "'Must' have told zorunluluk; eleştiri değil.",
+        "'Need' have told nadir; should standart."
+      ]
+    },
+    {
+      "q": "He ___ have overslept; he looked exhausted.",
+      "options": [
+        "might",
+        "can't",
+        "mustn't",
+        "shouldn't"
+      ],
+      "a": 0,
+      "why": [
+        "Doğru: might have — olası geçmiş tahmin.",
+        "'Can't' kesin imkânsız; tahmin uyumsuz.",
+        "'Mustn't' yasak; olasılık değil.",
+        "'Shouldn't' tavsiye; tahmin değil."
+      ]
+    },
+    {
+      "q": "It's raining now, so it ___ have been sunny all day.",
+      "options": [
+        "can't",
+        "must",
+        "may",
+        "could"
+      ],
+      "a": 0,
+      "why": [
+        "Doğru: can't have been — yağmurla çelişen kesin önerme.",
+        "'Must' yağmurla uyumsuz.",
+        "'May' olasılık; çelişki kesin.",
+        "'Could' zayıf olasılık; bağlam kesin."
+      ]
+    },
+    {
+      "q": "The door was locked from inside, so she ___ have left the room.",
+      "options": [
+        "couldn't",
+        "might",
+        "must",
+        "should"
+      ],
+      "a": 0,
+      "why": [
+        "Doğru: couldn't have + 3.hal — mantıksal imkânsızlık.",
+        "'Might' içeriden kilitliyken mümkün değil.",
+        "'Must' çelişir.",
+        "'Should' tavsiye; çıkarım değil."
+      ]
+    },
+    {
+      "q": "You ___ have waited so long; I arrived early.",
+      "options": [
+        "needn't",
+        "can't",
+        "must",
+        "should"
+      ],
+      "a": 0,
+      "why": [
+        "Doğru: needn't have + 3.hal — gereksiz yapılan geçmiş iş.",
+        "'Can't' imkânsız; uyumsuz.",
+        "'Must' zorunlu; bağlam tersi.",
+        "'Should' geçmişte 'shouldn't have' beklenir."
+      ]
+    },
+    {
+      "q": "The figures add up perfectly; they ___ have been checked twice.",
+      "options": [
+        "must",
+        "might",
+        "can't",
+        "needn't"
+      ],
+      "a": 0,
+      "why": [
+        "Doğru: must have been + 3.hal — kesin edilgen çıkarım.",
+        "'Might' düşük olasılık; kanıt kesin.",
+        "'Can't' çelişir.",
+        "'Needn't' gereksizlik; mantıksal sonuç değil."
+      ]
+    },
+    {
+      "q": "She ___ have been joking about the resignation.",
+      "options": [
+        "might",
+        "must",
+        "can't",
+        "should"
+      ],
+      "a": 0,
+      "why": [
+        "Doğru: might have been -ing — olası geçmiş yorum.",
+        "'Must' kesin; şaka olasılığı.",
+        "'Can't' kesin imkânsız; aşırı.",
+        "'Should' tavsiye; yorum değil."
+      ]
+    },
+    {
+      "q": "Given the traffic, they ___ have reached the airport on time.",
+      "options": [
+        "can't",
+        "must",
+        "should",
+        "needn't"
+      ],
+      "a": 0,
+      "why": [
+        "Doğru: can't have + 3.hal — trafikten çıkarılan imkânsızlık.",
+        "'Must' trafikle uyumsuz.",
+        "'Should' öneri; çıkarım değil.",
+        "'Needn't' gereksizlik; uyumsuz."
+      ]
+    },
+    {
+      "q": "The evidence is damning; the jury ___ have been in doubt for long.",
+      "options": [
+        "can't",
+        "must",
+        "might",
+        "needn't"
+      ],
+      "a": 0,
+      "why": [
+        "Doğru: can't have been — güçlü kanıtla imkânsız şüphe.",
+        "'Must' çelişir.",
+        "'Might' olası; kanıt kesin.",
+        "'Needn't' gereksizlik; uyumsuz."
+      ]
+    },
+    {
+      "q": "___, the proposal carries considerable merit.",
+      "options": [
+        "Arguably",
+        "Definitely",
+        "Certainly",
+        "Surely"
+      ],
+      "a": 0,
+      "why": [
+        "Doğru: Arguably — savunulabilir iddiayı yumuşatan küçülteç.",
+        "'Definitely' kesinlik; yumuşatma yok.",
+        "'Certainly' kesinlik; küçülteç değil.",
+        "'Surely' — sizin/karşı tarafın beklentisi; bağlamda yanlış."
+      ]
+    },
+    {
+      "q": "You ___ have borrowed my car without asking.",
+      "options": [
+        "shouldn't",
+        "might",
+        "can",
+        "must"
+      ],
+      "a": 0,
+      "why": [
+        "Doğru: shouldn't have + 3.hal — geçmiş yanlış davranış.",
+        "'Might' olasılık; eleştiri değil.",
+        "'Can' + have borrowed yapısı geçmiş eleştiri değil.",
+        "'Must' zorunluluk; eleştiri değil."
+      ]
+    },
+    {
+      "q": "It ___ be that simple, can it?",
+      "options": [
+        "can't",
+        "must",
+        "might",
+        "should"
+      ],
+      "a": 0,
+      "why": [
+        "Doğru: can't + can it? — olumsuz kuyruk dengesi.",
+        "'Must' + can it? uyumsuz.",
+        "'Might' + can it? uyumsuz.",
+        "'Should' + can it? uyumsuz."
+      ]
+    },
+    {
+      "q": "___, the results are encouraging.",
+      "options": [
+        "Broadly speaking",
+        "Broad speaking",
+        "Widely speaking",
+        "Openly speaking"
+      ],
+      "a": 0,
+      "why": [
+        "Doğru: Broadly speaking — küçülten çerçeve.",
+        "'Broad speaking' kalıp değil.",
+        "'Widely speaking' 'widely' hakkında; burada yanlış.",
+        "'Openly speaking' kalıp değil."
+      ]
+    },
+    {
+      "q": "He is ___ to be the front-runner.",
+      "options": [
+        "widely thought",
+        "wide thought",
+        "widely thinking",
+        "wide thinking"
+      ],
+      "a": 0,
+      "why": [
+        "Doğru: widely thought to be — yaygın ama yumuşatılmış iddia.",
+        "'Wide thought' zarf gerektirir.",
+        "'Widely thinking' edilgen aktarım değil.",
+        "'Wide thinking' biçim yanlış."
       ]
     }
   ],
@@ -325,6 +1045,246 @@ window.GRAMMAR_MCQ_C1 = {
         "'Would' 3.hal needed (been avoided).",
         "'Will have' koşul geçmişse would have gerekir."
       ]
+    },
+    {
+      "q": "Had the storm ___ earlier, the match would have been abandoned.",
+      "options": [
+        "been",
+        "be",
+        "being",
+        "was"
+      ],
+      "a": 0,
+      "why": [
+        "Doğru: Had + the storm + been (edilgen devrik koşul).",
+        "'Be' had + üçüncü hal gerekir.",
+        "'Being' had + been gerekir.",
+        "'Was' had + geçmiş çekim olmaz."
+      ]
+    },
+    {
+      "q": "Were the proposal ___ rejected, we would start over.",
+      "options": [
+        "to be",
+        "being",
+        "be",
+        "been"
+      ],
+      "a": 0,
+      "why": [
+        "Doğru: Were + özne + to be + 3.hal.",
+        "'Being' were + to-inf gerekir.",
+        "'Be' were + to be kalıbında tek be.",
+        "'Been' were + to be gerekir."
+      ]
+    },
+    {
+      "q": "Should you ___ any questions, do not hesitate to ask.",
+      "options": [
+        "have",
+        "has",
+        "had",
+        "having"
+      ],
+      "a": 0,
+      "why": [
+        "Doğru: Should + özne + yalın fiil.",
+        "'Has' -s gerekmez.",
+        "'Had' gelecek olasılık; yalın have.",
+        "'Having' yalın fiil gerekir."
+      ]
+    },
+    {
+      "q": "Were it not ___ your help, I'd be lost.",
+      "options": [
+        "for",
+        "to",
+        "that",
+        "of"
+      ],
+      "a": 0,
+      "why": [
+        "Doğru: Were it not for + isim = if it weren't for.",
+        "'To' kalıp değil.",
+        "'That' + cümle olurdu, isim değil.",
+        "'Of' kalıp değil."
+      ]
+    },
+    {
+      "q": "Should the terms ___ unacceptable, we can renegotiate.",
+      "options": [
+        "prove",
+        "proves",
+        "proved",
+        "proving"
+      ],
+      "a": 0,
+      "why": [
+        "Doğru: Should + özne + yalın fiil.",
+        "'Proves' -s gerekmez.",
+        "'Proved' geçmiş; olası şimdi.",
+        "'Proving' yalın fiil gerekir."
+      ]
+    },
+    {
+      "q": "Had the committee ___ earlier, the crisis might have been averted.",
+      "options": [
+        "acted",
+        "acting",
+        "act",
+        "to act"
+      ],
+      "a": 0,
+      "why": [
+        "Doğru: Had + özne + 3.hal.",
+        "'Acting' -ing; 3.hal gerekir.",
+        "'Act' yalın; 3.hal gerekir.",
+        "'To act' had + to-inf olmaz."
+      ]
+    },
+    {
+      "q": "Were you ___ given the choice, what would you do?",
+      "options": [
+        "to be",
+        "being",
+        "be",
+        "been"
+      ],
+      "a": 0,
+      "why": [
+        "Doğru: Were + özne + to be + 3.hal (edilgen).",
+        "'Being' were + to-inf gerekir.",
+        "'Be' + given edilgen değil.",
+        "'Been' were + to be gerekir."
+      ]
+    },
+    {
+      "q": "Had it not ___ for her quick thinking, the deal would have failed.",
+      "options": [
+        "been",
+        "be",
+        "being",
+        "was"
+      ],
+      "a": 0,
+      "why": [
+        "Doğru: Had it not been for + isim.",
+        "'Be' been gerekir.",
+        "'Being' had + been gerekir.",
+        "'Was' devrik koşulda geçmiş çekim olmaz."
+      ]
+    },
+    {
+      "q": "Should profits ___ the forecast, we expand.",
+      "options": [
+        "exceed",
+        "exceeds",
+        "exceeded",
+        "exceeding"
+      ],
+      "a": 0,
+      "why": [
+        "Doğru: Should + özne + yalın fiil.",
+        "'Exceeds' -s gerekmez.",
+        "'Exceeded' geçmiş; olası gelecek.",
+        "'Exceeding' yalın fiil gerekir."
+      ]
+    },
+    {
+      "q": "Had they ___ the warning, the accident would never have occurred.",
+      "options": [
+        "heeded",
+        "heed",
+        "heeding",
+        "to heed"
+      ],
+      "a": 0,
+      "why": [
+        "Doğru: Had + özne + 3.hal.",
+        "'Heed' yalın; 3.hal gerekir.",
+        "'Heeding' -ing; 3.hal gerekir.",
+        "'To heed' had + to-inf olmaz."
+      ]
+    },
+    {
+      "q": "Were he ___ the project, it would run smoothly.",
+      "options": [
+        "to lead",
+        "leading",
+        "lead",
+        "led"
+      ],
+      "a": 0,
+      "why": [
+        "Doğru: Were + özne + to-inf.",
+        "'Leading' were + to-inf.",
+        "'Lead' yalın; to gerekir.",
+        "'Led' geçmiş; to-inf gerekir."
+      ]
+    },
+    {
+      "q": "Had the evidence ___ falsified, the trial would have collapsed.",
+      "options": [
+        "been",
+        "be",
+        "being",
+        "was"
+      ],
+      "a": 0,
+      "why": [
+        "Doğru: Had + özne + been + 3.hal (edilgen).",
+        "'Be' been gerekir.",
+        "'Being' had + been gerekir.",
+        "'Was' devrik koşulda çekim olmaz."
+      ]
+    },
+    {
+      "q": "Should the article ___ with criticism, they'll rewrite it.",
+      "options": [
+        "be met",
+        "meets",
+        "met",
+        "meeting"
+      ],
+      "a": 0,
+      "why": [
+        "Doğru: Should + özne + be + 3.hal (edilgen).",
+        "'Meets' -s gerekmez.",
+        "'Met' be gerekir; edilgen.",
+        "'Meeting' yalın be + 3.hal gerekir."
+      ]
+    },
+    {
+      "q": "___ you to reconsider, the board would listen.",
+      "options": [
+        "Were",
+        "Had",
+        "Should",
+        "Would"
+      ],
+      "a": 0,
+      "why": [
+        "Doğru: Were + özne + to-inf devrik koşulu.",
+        "'Had' + to-inf olmaz; 3.hal gerekir.",
+        "'Should' + to-inf olmaz; yalın fiil gerekir.",
+        "'Would' devrik koşul kafası değil."
+      ]
+    },
+    {
+      "q": "Had she ___ earlier, I would have picked her up.",
+      "options": [
+        "called",
+        "call",
+        "calling",
+        "to call"
+      ],
+      "a": 0,
+      "why": [
+        "Doğru: Had + özne + 3.hal.",
+        "'Call' yalın; 3.hal gerekir.",
+        "'Calling' -ing; 3.hal gerekir.",
+        "'To call' had + to-inf olmaz."
+      ]
     }
   ],
   "c1-05": [
@@ -406,6 +1366,246 @@ window.GRAMMAR_MCQ_C1 = {
         "'Who' kişi içindir.",
         "'Whom' kişi nesnesi; soyut değil.",
         "'What' it-cleft yapısında yer almaz."
+      ]
+    },
+    {
+      "q": "It was in 2001 ___ the company first went public.",
+      "options": [
+        "that",
+        "when",
+        "which",
+        "where"
+      ],
+      "a": 0,
+      "why": [
+        "Doğru: it-cleft zaman vurgusunda that.",
+        "'When' 'it was + zaman + that' yapısını bozar.",
+        "'Which' it-cleft'te kullanılmaz.",
+        "'Where' yer; burada zaman."
+      ]
+    },
+    {
+      "q": "What surprised me ___ her utter disregard for the rules.",
+      "options": [
+        "was",
+        "were",
+        "is being",
+        "are"
+      ],
+      "a": 0,
+      "why": [
+        "Doğru: What + özne → tekil yüklem was.",
+        "'Were' çoğul; odak tekil.",
+        "'Is being' geçmiş anlatıda uyumsuz.",
+        "'Are' çoğul; tekil."
+      ]
+    },
+    {
+      "q": "It ___ the shareholders who forced him out.",
+      "options": [
+        "was",
+        "were",
+        "is",
+        "be"
+      ],
+      "a": 0,
+      "why": [
+        "Doğru: it-cleft öznesi It → was.",
+        "'Were' It tekil.",
+        "'Is' geçmiş olay; was gerekir.",
+        "'Be' çekimsiz; was gerekir."
+      ]
+    },
+    {
+      "q": "All ___ wanted was a straightforward answer.",
+      "options": [
+        "they",
+        "what",
+        "that",
+        "who"
+      ],
+      "a": 0,
+      "why": [
+        "Doğru: All + özne + fiil → vurgu kalıbı.",
+        "'What' all + what çift vurgu yanlış.",
+        "'That' bağlaç; özne gerekir.",
+        "'Who' kişi sorusu; özne 'they'."
+      ]
+    },
+    {
+      "q": "It is ___ you consult with the committee first.",
+      "options": [
+        "essential that",
+        "essential to",
+        "essentially that",
+        "essence that"
+      ],
+      "a": 0,
+      "why": [
+        "Doğru: It is essential + that + cümle.",
+        "'Essential to' + that gerekir.",
+        "'Essentially that' biçim yanlış.",
+        "'Essence that' isim; sıfat gerekir."
+      ]
+    },
+    {
+      "q": "What remains unclear ___ the exact cost of the project.",
+      "options": [
+        "is",
+        "are",
+        "being",
+        "were"
+      ],
+      "a": 0,
+      "why": [
+        "Doğru: What + özne → tekil is.",
+        "'Are' çoğul; odak tekil.",
+        "'Being' çekimli be gerekir.",
+        "'Were' geçmiş; geniş bağlam."
+      ]
+    },
+    {
+      "q": "It was the deputy prime minister ___ the negotiating team.",
+      "options": [
+        "who led",
+        "that led",
+        "which led",
+        "whom led"
+      ],
+      "a": 0,
+      "why": [
+        "Doğru: kişi öznesi it-cleft → who led.",
+        "'That led' teknik doğru ama öznede who doğal.",
+        "'Which' kişi için değil.",
+        "'Whom' nesne; burada özne."
+      ]
+    },
+    {
+      "q": "___ I appreciate most is their punctuality.",
+      "options": [
+        "What",
+        "That",
+        "Which",
+        "Who"
+      ],
+      "a": 0,
+      "why": [
+        "Doğru: What + özne + fiil → vurgu yapısı.",
+        "'That' + cümle kuramaz.",
+        "'Which' seçim sorusu; uyumsuz.",
+        "'Who' kişi; özellik değil."
+      ]
+    },
+    {
+      "q": "It is not the deadline ___ worries me but the budget.",
+      "options": [
+        "that",
+        "which",
+        "what",
+        "who"
+      ],
+      "a": 0,
+      "why": [
+        "Doğru: it-cleft olumsuz odak → that.",
+        "'Which' it-cleft'te standart değil.",
+        "'What' it-cleft'ta yer almaz.",
+        "'Who' soyut isim; kişi değil."
+      ]
+    },
+    {
+      "q": "What the report fails ___ note is the environmental cost.",
+      "options": [
+        "to",
+        "for",
+        "in",
+        "at"
+      ],
+      "a": 0,
+      "why": [
+        "Doğru: fail + to-inf.",
+        "'For' + in note olmaz.",
+        "'In' fail in kalıbı yok.",
+        "'At' fail at kalıbı yok."
+      ]
+    },
+    {
+      "q": "It was only later ___ the scale of the damage became clear.",
+      "options": [
+        "that",
+        "when",
+        "where",
+        "which"
+      ],
+      "a": 0,
+      "why": [
+        "Doğru: zaman it-cleft → only later + that.",
+        "'When' it-cleft zamanında that kullanılır.",
+        "'Where' yer; zaman değil.",
+        "'Which' it-cleft'ta yok."
+      ]
+    },
+    {
+      "q": "All it ___ was a single signature.",
+      "options": [
+        "took",
+        "takes",
+        "taking",
+        "taken"
+      ],
+      "a": 0,
+      "why": [
+        "Doğru: All it took was — geçmiş vurgu.",
+        "'Takes' geçmiş anlatıda uyumsuz.",
+        "'Taking' çekim gerekir.",
+        "'Taken' vurgu kalıbında took."
+      ]
+    },
+    {
+      "q": "It is by working together ___ we will succeed.",
+      "options": [
+        "that",
+        "how",
+        "which",
+        "what"
+      ],
+      "a": 0,
+      "why": [
+        "Doğru: it-cleft araç vurgusu → that.",
+        "'How' it-cleft'ta kullanılmaz.",
+        "'Which' yanlış.",
+        "'What' yanlış."
+      ]
+    },
+    {
+      "q": "What bothers me ___ the constant interruptions.",
+      "options": [
+        "are",
+        "is",
+        "being",
+        "be"
+      ],
+      "a": 0,
+      "why": [
+        "Doğru: 'constant interruptions' çoğul ama odak 'what' tekil → are.",
+        "İyi eleyici; odak çoğul olduğunda are.",
+        "'Is' çoğul özne ile uyumsuz.",
+        "'Being' çekim gerekir."
+      ]
+    },
+    {
+      "q": "It ___ the finance director herself who raised the objection.",
+      "options": [
+        "was",
+        "were",
+        "has",
+        "be"
+      ],
+      "a": 0,
+      "why": [
+        "Doğru: it-cleft geçmiş → was.",
+        "'Were' It tekil.",
+        "'Has' it-cleft'ta geçmiş was.",
+        "'Be' çekimsiz; was gerekir."
       ]
     }
   ],
@@ -489,6 +1689,246 @@ window.GRAMMAR_MCQ_C1 = {
         "'Was' + expand uyumsuz.",
         "'Has' + expand → has expanded gerekir."
       ]
+    },
+    {
+      "q": "Hardly ___ the lecture begun when the fire alarm went off.",
+      "options": [
+        "had",
+        "did",
+        "has",
+        "was"
+      ],
+      "a": 0,
+      "why": [
+        "Doğru: Hardly + had + özne + 3.hal…when.",
+        "'Did' + begun yanlış biçim.",
+        "'Has' geçmiş olayda had gerekir.",
+        "'Was' + begun uyumsuz."
+      ]
+    },
+    {
+      "q": "Under no circumstances ___ the visitor be left alone.",
+      "options": [
+        "should",
+        "does",
+        "is",
+        "was"
+      ],
+      "a": 0,
+      "why": [
+        "Doğru: Under no circumstances + should + özne + yalın fiil.",
+        "'Does' + be yanlış.",
+        "'Is' + be yanlış.",
+        "'Was' + be yanlış."
+      ]
+    },
+    {
+      "q": "Seldom ___ we see such commitment anymore.",
+      "options": [
+        "do",
+        "are",
+        "have",
+        "did"
+      ],
+      "a": 0,
+      "why": [
+        "Doğru: seldom + geniş zaman → do we see.",
+        "'Are' + see uyumsuz.",
+        "'Have' + see → have seen gerekir.",
+        "'Did' geçmiş; cümle geniş."
+      ]
+    },
+    {
+      "q": "Not until the final report ___ the team admit the error.",
+      "options": [
+        "did",
+        "does",
+        "had",
+        "was"
+      ],
+      "a": 0,
+      "why": [
+        "Doğru: Not until + özne + did + yalın fiil.",
+        "'Does' geniş; bağlam geçmiş.",
+        "'Had' + admit yanlış; had admitted gerekir.",
+        "'Was' + admit uyumsuz."
+      ]
+    },
+    {
+      "q": "At no point during the debate ___ he acknowledge his mistakes.",
+      "options": [
+        "did",
+        "does",
+        "had",
+        "was"
+      ],
+      "a": 0,
+      "why": [
+        "Doğru: At no point + did + özne + yalın fiil.",
+        "'Does' geniş; bağlam geçmiş.",
+        "'Had' + acknowledge yanlış.",
+        "'Was' + acknowledge uyumsuz."
+      ]
+    },
+    {
+      "q": "So ___ was the demand that stores sold out.",
+      "options": [
+        "great",
+        "greatly",
+        "greater",
+        "greatest"
+      ],
+      "a": 0,
+      "why": [
+        "Doğru: so + sıfat (great) + was + özne…that.",
+        "'Greatly' zarf; sıfat gerekir.",
+        "'Greater' karşılaştırma; bağlam derece.",
+        "'Greatest' en üstünlük; derece değil."
+      ]
+    },
+    {
+      "q": "Little ___ they know that trouble was ahead.",
+      "options": [
+        "did",
+        "do",
+        "have",
+        "were"
+      ],
+      "a": 0,
+      "why": [
+        "Doğru: Little + did + özne + yalın fiil (kalıp).",
+        "'Do' geniş; anlatı geçmiş.",
+        "'Have' + know yanlış.",
+        "'Were' + know uyumsuz."
+      ]
+    },
+    {
+      "q": "Only after months of planning ___ the trip take shape.",
+      "options": [
+        "did",
+        "does",
+        "has",
+        "was"
+      ],
+      "a": 0,
+      "why": [
+        "Doğru: Only after + did + özne + yalın fiil.",
+        "'Does' geniş; anlatı geçmiş.",
+        "'Has' + take yanlış.",
+        "'Was' + take uyumsuz."
+      ]
+    },
+    {
+      "q": "Such ___ the confusion that nobody acted.",
+      "options": [
+        "was",
+        "were",
+        "is",
+        "being"
+      ],
+      "a": 0,
+      "why": [
+        "Doğru: Such + was + özne…that.",
+        "'Were' tekil özne confusion.",
+        "'Is' geçmiş; was.",
+        "'Being' çekim gerekir."
+      ]
+    },
+    {
+      "q": "In no way ___ the results justify the cost.",
+      "options": [
+        "do",
+        "does",
+        "are",
+        "have"
+      ],
+      "a": 0,
+      "why": [
+        "Doğru: In no way + do + özne (çoğul) + yalın fiil.",
+        "'Does' çoğul özne uyumsuz.",
+        "'Are' + justify yanlış.",
+        "'Have' + justify yanlış; do gerekir."
+      ]
+    },
+    {
+      "q": "Barely ___ I closed my eyes when the phone rang.",
+      "options": [
+        "had",
+        "have",
+        "did",
+        "was"
+      ],
+      "a": 0,
+      "why": [
+        "Doğru: Barely + had + özne + 3.hal.",
+        "'Have' geçmiş olayda had.",
+        "'Did' + closed yanlış biçim.",
+        "'Was' + closed uyumsuz."
+      ]
+    },
+    {
+      "q": "So ___ was she that she couldn't speak.",
+      "options": [
+        "moved",
+        "moving",
+        "move",
+        "moves"
+      ],
+      "a": 0,
+      "why": [
+        "Doğru: so + -ed sıfat (moved) — kişinin duygusu.",
+        "'Moving' şey etkileyen; kişi moved olur.",
+        "'Move' sıfat gerekir.",
+        "'Moves' çekim; sıfat gerekir."
+      ]
+    },
+    {
+      "q": "Nowhere ___ the evidence point to fraud.",
+      "options": [
+        "does",
+        "do",
+        "is",
+        "has"
+      ],
+      "a": 0,
+      "why": [
+        "Doğru: Nowhere + does + özne (tekil) + yalın fiil.",
+        "'Do' tekil özne uyumsuz.",
+        "'Is' + point yanlış.",
+        "'Has' + point yanlış; does gerekir."
+      ]
+    },
+    {
+      "q": "Not only ___ the product cheap but it was reliable.",
+      "options": [
+        "was",
+        "were",
+        "does",
+        "did"
+      ],
+      "a": 0,
+      "why": [
+        "Doğru: Not only + was + özne + sıfat.",
+        "'Were' tekil product.",
+        "'Does' sıfat uyumsuz.",
+        "'Did' geçmiş 'was' yerine."
+      ]
+    },
+    {
+      "q": "So quickly ___ the news spread that within hours it was everywhere.",
+      "options": [
+        "did",
+        "does",
+        "was",
+        "has"
+      ],
+      "a": 0,
+      "why": [
+        "Doğru: so + zarf + did + özne + yalın fiil.",
+        "'Does' geçmiş anlatıda uyumsuz.",
+        "'Was' + spread uyumsuz.",
+        "'Has' + spread çelişir; did."
+      ]
     }
   ],
   "c1-07": [
@@ -570,6 +2010,246 @@ window.GRAMMAR_MCQ_C1 = {
         "'Unstable' sıfat; özne isim gerekir.",
         "'Instable' İngilizcede yaygın değil; unstable kullanılır.",
         "'Instabilities' çoğul; bağlam tekil soyut."
+      ]
+    },
+    {
+      "q": "The ___ of the bridge was completed ahead of schedule.",
+      "options": [
+        "construction",
+        "construct",
+        "constructing",
+        "constructed"
+      ],
+      "a": 0,
+      "why": [
+        "Doğru: adlaştırma → construction.",
+        "'Construct' fiil; özne isim.",
+        "'Constructing' gerund; hazır isim var.",
+        "'Constructed' geçmiş fiil; özne isim."
+      ]
+    },
+    {
+      "q": "The hotel is a ___ walk from the station.",
+      "options": [
+        "five-minute",
+        "five minutes",
+        "five-minutes",
+        "five minute's"
+      ],
+      "a": 0,
+      "why": [
+        "Doğru: sayı + tekil niteleyici → five-minute.",
+        "'Five minutes' süre; isim niteleyici değil.",
+        "'Five-minutes' -s yanlış.",
+        "'Five minute's' iyelik; niteleyici zinciri gerekir."
+      ]
+    },
+    {
+      "q": "Their ___ surprised everyone on the board.",
+      "options": [
+        "rejection",
+        "reject",
+        "rejecting",
+        "rejected"
+      ],
+      "a": 0,
+      "why": [
+        "Doğru: adlaştırma → rejection.",
+        "'Reject' fiil; özne isim.",
+        "'Rejecting' gerund; hazır isim.",
+        "'Rejected' geçmiş fiil; özne isim."
+      ]
+    },
+    {
+      "q": "The ___ of the new vaccine took years.",
+      "options": [
+        "development",
+        "develop",
+        "developing",
+        "developed"
+      ],
+      "a": 0,
+      "why": [
+        "Doğru: adlaştırma → development.",
+        "'Develop' fiil; özne isim.",
+        "'Developing' gerund; hazır isim.",
+        "'Developed' sıfat/çekim; özne isim."
+      ]
+    },
+    {
+      "q": "Public ___ of the plan remains divided.",
+      "options": [
+        "opinion",
+        "opining",
+        "opinioned",
+        "opinions"
+      ],
+      "a": 0,
+      "why": [
+        "Doğru: tekil soyut adla → opinion.",
+        "'Opining' fiil/gerund; uyumsuz.",
+        "'Opinioned' sıfat biçim; isim gerekir.",
+        "'Opinions' çoğul; tekil özne uyumsuz."
+      ]
+    },
+    {
+      "q": "She is a ___ figure in the field.",
+      "options": [
+        "well-known",
+        "well knowing",
+        "well knownly",
+        "well known-known"
+      ],
+      "a": 0,
+      "why": [
+        "Doğru: tireli birleşik sıfat → well-known.",
+        "'Well knowing' isn't sıfat zinciri.",
+        "'Well knownly' zarf; sıfat gerekir.",
+        "'Well known-known' tekrar; yanlış."
+      ]
+    },
+    {
+      "q": "Their ___ of the evidence was thorough.",
+      "options": [
+        "examination",
+        "examine",
+        "examining",
+        "examined"
+      ],
+      "a": 0,
+      "why": [
+        "Doğru: adlaştırma → examination.",
+        "'Examine' fiil; özne isim.",
+        "'Examining' gerund; hazır isim.",
+        "'Examined' geçmiş; özne isim."
+      ]
+    },
+    {
+      "q": "The report blamed the failure on a ___ in leadership.",
+      "options": [
+        "breakdown",
+        "break down",
+        "breaking-down",
+        "broken-down"
+      ],
+      "a": 0,
+      "why": [
+        "Doğru: adlaşmış deyim → breakdown.",
+        "'Break down' fiil öbeği; isim gerekir.",
+        "'Breaking-down' gerund; isim breakdown.",
+        "'Broken-down' sıfat (bozuk); kavram değil."
+      ]
+    },
+    {
+      "q": "The increase was driven by ___ demand.",
+      "options": [
+        "consumer",
+        "consumers'",
+        "consuming",
+        "consumed"
+      ],
+      "a": 0,
+      "why": [
+        "Doğru: isim niteleyici → consumer demand.",
+        "'Consumers'' iyelik; niteleyici zinciri tekil isim.",
+        "'Consuming' sıfat-fiil; isim niteleyici gerekir.",
+        "'Consumed' geçmiş; isim niteleyici."
+      ]
+    },
+    {
+      "q": "There are several ___ issues in the proposal.",
+      "options": [
+        "outstanding",
+        "outstand",
+        "standing-out",
+        "outstandingly"
+      ],
+      "a": 0,
+      "why": [
+        "Doğru: sıfat → outstanding (çözülmemiş).",
+        "'Outstand' fiil; sıfat gerekir.",
+        "'Standing-out' biçim; yanlış.",
+        "'Outstandingly' zarf; sıfat gerekir."
+      ]
+    },
+    {
+      "q": "Their ___ to resign came as a shock.",
+      "options": [
+        "decision",
+        "decide",
+        "deciding",
+        "decisive"
+      ],
+      "a": 0,
+      "why": [
+        "Doğru: adlaştırma → decision.",
+        "'Decide' fiil; özne isim.",
+        "'Deciding' gerund; hazır isim.",
+        "'Decisive' sıfat; isim gerekir."
+      ]
+    },
+    {
+      "q": "The ___ of the two policies is striking.",
+      "options": [
+        "similarity",
+        "similar",
+        "similarly",
+        "similarities"
+      ],
+      "a": 0,
+      "why": [
+        "Doğru: tekil soyut adla → similarity.",
+        "'Similar' sıfat; özne isim.",
+        "'Similarly' zarf; isim gerekir.",
+        "'Similarities' çoğul; tekil özne uyumsuz."
+      ]
+    },
+    {
+      "q": "It was a ___ decision on their part.",
+      "options": [
+        "joint",
+        "joined",
+        "joining",
+        "join"
+      ],
+      "a": 0,
+      "why": [
+        "Doğru: isim niteleyici/sıfat → joint decision.",
+        "'Joined' geçmiş; ortak anlamı yok.",
+        "'Joining' -ing; uyumsuz.",
+        "'Join' fiil; sıfat gerekir."
+      ]
+    },
+    {
+      "q": "The committee's ___ stalled the talks.",
+      "options": [
+        "reluctance",
+        "reluctant",
+        "reluctantly",
+        "reluctanting"
+      ],
+      "a": 0,
+      "why": [
+        "Doğru: adlaştırma → reluctance.",
+        "'Reluctant' sıfat; özne isim.",
+        "'Reluctantly' zarf; isim gerekir.",
+        "'Reluctanting' yok; yanlış biçim."
+      ]
+    },
+    {
+      "q": "Public ___ in the project has grown.",
+      "options": [
+        "confidence",
+        "confident",
+        "confidently",
+        "confide"
+      ],
+      "a": 0,
+      "why": [
+        "Doğru: adlaştırma → confidence in.",
+        "'Confident' sıfat; isim gerekir.",
+        "'Confidently' zarf; isim gerekir.",
+        "'Confide' fiil; özne isim."
       ]
     }
   ],
@@ -653,6 +2333,246 @@ window.GRAMMAR_MCQ_C1 = {
         "'Access' yalın; -ing gerekir.",
         "'Accessed' geçmiş; deny + -ing."
       ]
+    },
+    {
+      "q": "She accused him ___ sabotaging the project.",
+      "options": [
+        "of",
+        "to",
+        "on",
+        "for"
+      ],
+      "a": 0,
+      "why": [
+        "Doğru: accuse + kişi + of + -ing.",
+        "'To' accuse to yok.",
+        "'On' accuse on yok.",
+        "'For' accuse for yok."
+      ]
+    },
+    {
+      "q": "They suggested ___ the meeting to Friday.",
+      "options": [
+        "postponing",
+        "to postpone",
+        "postpone",
+        "postponed"
+      ],
+      "a": 0,
+      "why": [
+        "Doğru: suggest + -ing.",
+        "'To postpone' suggest + to-inf yanlış.",
+        "'Postpone' yalın; -ing gerekir.",
+        "'Postponed' geçmiş; suggest + -ing."
+      ]
+    },
+    {
+      "q": "He apologised ___ arriving late.",
+      "options": [
+        "for",
+        "of",
+        "to",
+        "about"
+      ],
+      "a": 0,
+      "why": [
+        "Doğru: apologise + for + -ing.",
+        "'Of' apologise of yok.",
+        "'To' + kişi olurdu; burada -ing.",
+        "'About' apologise about yok."
+      ]
+    },
+    {
+      "q": "The lawyer advised her client ___ the settlement.",
+      "options": [
+        "to accept",
+        "accepting",
+        "accept",
+        "accepted"
+      ],
+      "a": 0,
+      "why": [
+        "Doğru: advise + kişi + to-inf.",
+        "'Accepting' -ing; to gerekir.",
+        "'Accept' yalın; to gerekir.",
+        "'Accepted' geçmiş; to gerekir."
+      ]
+    },
+    {
+      "q": "She congratulated him ___ the promotion.",
+      "options": [
+        "on",
+        "for",
+        "to",
+        "about"
+      ],
+      "a": 0,
+      "why": [
+        "Doğru: congratulate + kişi + on.",
+        "'For' congratulate for yok.",
+        "'To' congratulate to yok.",
+        "'About' congratulate about yok."
+      ]
+    },
+    {
+      "q": "He objected ___ the terms of the contract.",
+      "options": [
+        "to",
+        "about",
+        "at",
+        "with"
+      ],
+      "a": 0,
+      "why": [
+        "Doğru: object + to.",
+        "'About' object about yok.",
+        "'At' object at yok.",
+        "'With' object with yok."
+      ]
+    },
+    {
+      "q": "They attributed the failure ___ poor planning.",
+      "options": [
+        "to",
+        "for",
+        "with",
+        "of"
+      ],
+      "a": 0,
+      "why": [
+        "Doğru: attribute + şey + to.",
+        "'For' attribute for yok.",
+        "'With' attribute with yok.",
+        "'Of' attribute of yok."
+      ]
+    },
+    {
+      "q": "I recommend ___ a backup of the data.",
+      "options": [
+        "making",
+        "to make",
+        "make",
+        "made"
+      ],
+      "a": 0,
+      "why": [
+        "Doğru: recommend + -ing.",
+        "'To make' recommend + to-inf yanlış.",
+        "'Make' yalın; -ing gerekir.",
+        "'Made' geçmiş; recommend + -ing."
+      ]
+    },
+    {
+      "q": "She charged him ___ misconduct.",
+      "options": [
+        "with",
+        "of",
+        "for",
+        "to"
+      ],
+      "a": 0,
+      "why": [
+        "Doğru: charge + kişi + with.",
+        "'Of' charge of yok.",
+        "'For' charge for yok.",
+        "'To' charge to yok."
+      ]
+    },
+    {
+      "q": "He warned them ___ underestimating the challenge.",
+      "options": [
+        "against",
+        "of",
+        "from",
+        "to"
+      ],
+      "a": 0,
+      "why": [
+        "Doğru: warn + kişi + against + -ing.",
+        "'Of' warn of + isim; -ing ile against.",
+        "'From' warn from yok.",
+        "'To' warn to + -ing yok."
+      ]
+    },
+    {
+      "q": "The minister declined ___ comment.",
+      "options": [
+        "to",
+        "making",
+        "for",
+        "about"
+      ],
+      "a": 0,
+      "why": [
+        "Doğru: decline + to-inf.",
+        "'Making' decline + -ing olmaz.",
+        "'For' decline for yok.",
+        "'About' decline about yok."
+      ]
+    },
+    {
+      "q": "She threatened ___ the contract if they refused.",
+      "options": [
+        "to cancel",
+        "cancelling",
+        "cancel",
+        "cancelled"
+      ],
+      "a": 0,
+      "why": [
+        "Doğru: threaten + to-inf.",
+        "'Cancelling' threaten + -ing değil.",
+        "'Cancel' yalın; to gerekir.",
+        "'Cancelled' geçmiş; to gerekir."
+      ]
+    },
+    {
+      "q": "He confessed ___ stealing the funds.",
+      "options": [
+        "to",
+        "of",
+        "for",
+        "at"
+      ],
+      "a": 0,
+      "why": [
+        "Doğru: confess + to + -ing.",
+        "'Of' confess of yok.",
+        "'For' confess for yok.",
+        "'At' confess at yok."
+      ]
+    },
+    {
+      "q": "The manager demanded to ___ the complaints.",
+      "options": [
+        "see",
+        "seeing",
+        "seen",
+        "saw"
+      ],
+      "a": 0,
+      "why": [
+        "Doğru: demand + to-inf.",
+        "'Seeing' demand + to-inf.",
+        "'Seen' yalın to + yalın gerekir.",
+        "'Saw' to + yalın gerekir."
+      ]
+    },
+    {
+      "q": "He wondered ___ the meeting had finished.",
+      "options": [
+        "whether",
+        "that",
+        "what",
+        "which"
+      ],
+      "a": 0,
+      "why": [
+        "Doğru: wonder + whether (dolaylı soru).",
+        "'That' wonder + that yok.",
+        "'What' cümlede boşluk değil; whether ister.",
+        "'Which' seçim sorusu; uyumsuz."
+      ]
     }
   ],
   "c1-09": [
@@ -734,6 +2654,246 @@ window.GRAMMAR_MCQ_C1 = {
         "'Known' pasif; bilmeyen kişi aktif.",
         "'To know' amaç; -ing gerekir.",
         "'Know' yalın; participle gerekir."
+      ]
+    },
+    {
+      "q": "___ by the storm, the team sought shelter.",
+      "options": [
+        "Caught",
+        "Catching",
+        "To catch",
+        "Catch"
+      ],
+      "a": 0,
+      "why": [
+        "Doğru: pasif participle → Caught by.",
+        "'Catching' aktif; ekip yakalandı.",
+        "'To catch' amaç; -ed gerekir.",
+        "'Catch' yalın; -ed gerekir."
+      ]
+    },
+    {
+      "q": "___ carefully, the instructions are easy to follow.",
+      "options": [
+        "Read",
+        "Reading",
+        "To read",
+        "Reads"
+      ],
+      "a": 0,
+      "why": [
+        "Doğru: pasif participle → Read (talimat okunur).",
+        "'Reading' aktif; talimatlar kendini okumaz.",
+        "'To read' amaç; -ed gerekir.",
+        "'Reads' çekim; participle değil."
+      ]
+    },
+    {
+      "q": "Having ___ the contract, we celebrated.",
+      "options": [
+        "signed",
+        "signing",
+        "to sign",
+        "sign"
+      ],
+      "a": 0,
+      "why": [
+        "Doğru: Having + 3.hal.",
+        "'Signing' -ing; 3.hal gerekir.",
+        "'To sign' Having + to-inf olmaz.",
+        "'Sign' yalın; 3.hal gerekir."
+      ]
+    },
+    {
+      "q": "___ along the coast, we saw several seals.",
+      "options": [
+        "Sailing",
+        "Sailed",
+        "To sail",
+        "Sail"
+      ],
+      "a": 0,
+      "why": [
+        "Doğru: aktif -ing participle → Sailing.",
+        "'Sailed' pasif; biz yelken açıyoruz.",
+        "'To sail' amaç; devam hâli -ing.",
+        "'Sail' yalın; participle gerekir."
+      ]
+    },
+    {
+      "q": "___ from a recent illness, she took a light workload.",
+      "options": [
+        "Recovering",
+        "Recovered",
+        "To recover",
+        "Recover"
+      ],
+      "a": 0,
+      "why": [
+        "Doğru: aktif -ing participle → Recovering.",
+        "'Recovered' pasif; kendisi iyileşiyor.",
+        "'To recover' amaç; -ing gerekir.",
+        "'Recover' yalın; participle gerekir."
+      ]
+    },
+    {
+      "q": "Having ___ the details, she redrew the diagram.",
+      "options": [
+        "checked",
+        "checking",
+        "checked be",
+        "to check"
+      ],
+      "a": 0,
+      "why": [
+        "Doğru: Having + 3.hal (öncelik).",
+        "'Checking' eş zamanlı; sonra çizim için having.",
+        "'Checked be' yanlış biçim.",
+        "'To check' Having + to-inf olmaz."
+      ]
+    },
+    {
+      "q": "___ up late, he missed the train.",
+      "options": [
+        "Waking",
+        "Woke",
+        "To wake",
+        "Wake"
+      ],
+      "a": 0,
+      "why": [
+        "Doğru: aktif -ing participle → Waking.",
+        "'Woke' geniş participle değil.",
+        "'To wake' amaç; -ing gerekir.",
+        "'Wake' yalın; participle gerekir."
+      ]
+    },
+    {
+      "q": "The museum, ___ in 1902, attracts many visitors.",
+      "options": [
+        "built",
+        "building",
+        "to build",
+        "builds"
+      ],
+      "a": 0,
+      "why": [
+        "Doğru: indirgenmiş ilgi cümlesi → built.",
+        "'Building' aktif; müze inşa edilmedi.",
+        "'To build' amaç; -ed gerekir.",
+        "'Builds' çekim; participle değil."
+      ]
+    },
+    {
+      "q": "___ the deadline, they submitted a partial draft.",
+      "options": [
+        "Fearing",
+        "Feared",
+        "To fear",
+        "Fear"
+      ],
+      "a": 0,
+      "why": [
+        "Doğru: aktif -ing participle → Fearing.",
+        "'Feared' pasif; kendileri korkuyor.",
+        "'To fear' amaç; -ing gerekir.",
+        "'Fear' yalın; participle gerekir."
+      ]
+    },
+    {
+      "q": "___ to the committee, the proposal was rejected.",
+      "options": [
+        "Presented",
+        "Presenting",
+        "To present",
+        "Present"
+      ],
+      "a": 0,
+      "why": [
+        "Doğru: pasif participle → Presented (öneri sunulur).",
+        "'Presenting' aktif; öneri sunulmaz.",
+        "'To present' amaç; -ed gerekir.",
+        "'Present' yalın; -ed gerekir."
+      ]
+    },
+    {
+      "q": "___ from the survey, most staff favour flexible hours.",
+      "options": [
+        "Judging",
+        "Judged",
+        "To judge",
+        "Judge"
+      ],
+      "a": 0,
+      "why": [
+        "Doğru: kalıp participle → Judging from.",
+        "'Judged' pasif; kalıp Judging from.",
+        "'To judge' amaç; kalıp -ing.",
+        "'Judge' yalın; kalıp -ing."
+      ]
+    },
+    {
+      "q": "Having ___ his arguments, the committee voted yes.",
+      "options": [
+        "heard",
+        "hearing",
+        "heard be",
+        "to hear"
+      ],
+      "a": 0,
+      "why": [
+        "Doğru: Having + 3.hal (önce dinleme).",
+        "'Hearing' eş zamanlı; dinledikten sonra having.",
+        "'Heard be' yanlış biçim.",
+        "'To hear' Having + to-inf olmaz."
+      ]
+    },
+    {
+      "q": "___ each sample, the technician recorded the result.",
+      "options": [
+        "Analysing",
+        "Analysed",
+        "To analyse",
+        "Analyse"
+      ],
+      "a": 0,
+      "why": [
+        "Doğru: eş zamanlı aktif participle → Analysing.",
+        "'Analysed' pasif; teknisyen analiz ediyor.",
+        "'To analyse' amaç; devam -ing.",
+        "'Analyse' yalın; participle gerekir."
+      ]
+    },
+    {
+      "q": "___ in the corridor, they waited quietly.",
+      "options": [
+        "Standing",
+        "Stood",
+        "To stand",
+        "Stand"
+      ],
+      "a": 0,
+      "why": [
+        "Doğru: aktif -ing participle → Standing.",
+        "'Stood' participle değil (stand→standing).",
+        "'To stand' amaç; devam -ing.",
+        "'Stand' yalın; participle gerekir."
+      ]
+    },
+    {
+      "q": "The book, ___ first in French, became a bestseller.",
+      "options": [
+        "published",
+        "publishing",
+        "to publish",
+        "publishes"
+      ],
+      "a": 0,
+      "why": [
+        "Doğru: indirgenmiş ilgi → published (kitap yayımlanır).",
+        "'Publishing' aktif; kitap kendini yayımlamadı.",
+        "'To publish' amaç; -ed gerekir.",
+        "'Publishes' çekim; participle değil."
       ]
     }
   ],
@@ -817,6 +2977,246 @@ window.GRAMMAR_MCQ_C1 = {
         "'Revealed' geçmiş; yalın gerekir.",
         "'Revealing' -ing; yalın gerekir."
       ]
+    },
+    {
+      "q": "It is important that the report ___ on time.",
+      "options": [
+        "be submitted",
+        "is submitted",
+        "was submitted",
+        "has submitted"
+      ],
+      "a": 0,
+      "why": [
+        "Doğru: subjunctive edilgen → that + be submitted.",
+        "'Is submitted' çekimli; be gerekir.",
+        "'Was submitted' geçmiş; be gerekir.",
+        "'Has submitted' aktif; edilgen be."
+      ]
+    },
+    {
+      "q": "The board insisted that the proposal ___ reconsidered.",
+      "options": [
+        "be",
+        "is",
+        "was",
+        "were"
+      ],
+      "a": 0,
+      "why": [
+        "Doğru: insist + that + be + 3.hal.",
+        "'Is' çekimli; be gerekir.",
+        "'Was' geçmiş; be gerekir.",
+        "'Were' subjunctive'te be kullanılır."
+      ]
+    },
+    {
+      "q": "It is recommended that all staff ___ the training.",
+      "options": [
+        "complete",
+        "completes",
+        "completed",
+        "completing"
+      ],
+      "a": 0,
+      "why": [
+        "Doğru: recommend + that + yalın fiil.",
+        "'Completes' -s subjunctive'te yok.",
+        "'Completed' geçmiş; yalın gerekir.",
+        "'Completing' -ing; yalın gerekir."
+      ]
+    },
+    {
+      "q": "She suggested that he ___ the matter carefully.",
+      "options": [
+        "consider",
+        "considers",
+        "considered",
+        "considering"
+      ],
+      "a": 0,
+      "why": [
+        "Doğru: suggest + that + yalın fiil.",
+        "'Considers' -s subjunctive'te yok.",
+        "'Considered' geçmiş; yalın gerekir.",
+        "'Considering' -ing; yalın gerekir."
+      ]
+    },
+    {
+      "q": "The judge ordered that the witness ___ brought in.",
+      "options": [
+        "be",
+        "is",
+        "was",
+        "being"
+      ],
+      "a": 0,
+      "why": [
+        "Doğru: order + that + be + 3.hal.",
+        "'Is' çekimli; be gerekir.",
+        "'Was' geçmiş; be gerekir.",
+        "'Being' 'be' yerine geçmez."
+      ]
+    },
+    {
+      "q": "It is essential that no mistakes ___ made.",
+      "options": [
+        "be",
+        "are",
+        "were",
+        "being"
+      ],
+      "a": 0,
+      "why": [
+        "Doğru: olumsuz subjunctive → that + no + be made.",
+        "'Are' çekimli; be gerekir.",
+        "'Were' geçmiş; be gerekir.",
+        "'Being' be gerekir."
+      ]
+    },
+    {
+      "q": "The regulations state that each member ___ one vote.",
+      "options": [
+        "have",
+        "has",
+        "had",
+        "is having"
+      ],
+      "a": 0,
+      "why": [
+        "Doğru: state + that + yalın fiil (have).",
+        "'Has' -s subjunctive'te yok.",
+        "'Had' geçmiş; yalın gerekir.",
+        "'Is having' süreklilik; yalın gerekir."
+      ]
+    },
+    {
+      "q": "It is imperative that we ___ now.",
+      "options": [
+        "act",
+        "acts",
+        "acted",
+        "acting"
+      ],
+      "a": 0,
+      "why": [
+        "Doğru: imperative + that + yalın fiil.",
+        "'Acts' -s gerekmez.",
+        "'Acted' geçmiş; yalın gerekir.",
+        "'Acting' -ing; yalın gerekir."
+      ]
+    },
+    {
+      "q": "They required that she ___ present at the ceremony.",
+      "options": [
+        "be",
+        "is",
+        "was",
+        "was being"
+      ],
+      "a": 0,
+      "why": [
+        "Doğru: require + that + be.",
+        "'Is' çekimli; be gerekir.",
+        "'Was' geçmiş; be gerekir.",
+        "'Was being' süreç; be gerekir."
+      ]
+    },
+    {
+      "q": "It is essential that the system ___ secure.",
+      "options": [
+        "be",
+        "is",
+        "was",
+        "being"
+      ],
+      "a": 0,
+      "why": [
+        "Doğru: essential + that + be.",
+        "'Is' çekimli; be gerekir.",
+        "'Was' geçmiş; be gerekir.",
+        "'Being' be gerekir."
+      ]
+    },
+    {
+      "q": "It was suggested that the meeting ___ postponed.",
+      "options": [
+        "be",
+        "was",
+        "were",
+        "is"
+      ],
+      "a": 0,
+      "why": [
+        "Doğru: geçmişte de subjunctive be.",
+        "'Was' çekimli; be gerekir.",
+        "'Were' subjunctive'te be kullanılır.",
+        "'Is' şimdiki; subjunctive be."
+      ]
+    },
+    {
+      "q": "His advice was that she ___ the job.",
+      "options": [
+        "take",
+        "takes",
+        "took",
+        "taking"
+      ],
+      "a": 0,
+      "why": [
+        "Doğru: advice + that + yalın fiil.",
+        "'Takes' -s yok.",
+        "'Took' geçmiş; yalın gerekir.",
+        "'Taking' -ing; yalın gerekir."
+      ]
+    },
+    {
+      "q": "It is preferable that the form ___ in English.",
+      "options": [
+        "be completed",
+        "is completed",
+        "was completed",
+        "completing"
+      ],
+      "a": 0,
+      "why": [
+        "Doğru: preferable + that + be completed.",
+        "'Is completed' çekimli; be.",
+        "'Was completed' geçmiş; be.",
+        "'Completing' edilgen be gerekir."
+      ]
+    },
+    {
+      "q": "I propose that the committee ___ a sub-group.",
+      "options": [
+        "form",
+        "forms",
+        "formed",
+        "forming"
+      ],
+      "a": 0,
+      "why": [
+        "Doğru: propose + that + yalın fiil.",
+        "'Forms' -s yok.",
+        "'Formed' geçmiş; yalın gerekir.",
+        "'Forming' -ing; yalın gerekir."
+      ]
+    },
+    {
+      "q": "It is vital that they not ___ the results early.",
+      "options": [
+        "publish",
+        "publishes",
+        "published",
+        "publishing"
+      ],
+      "a": 0,
+      "why": [
+        "Doğru: olumsuz subjunctive → they not + yalın fiil.",
+        "'Publishes' -s yok.",
+        "'Published' geçmiş; yalın gerekir.",
+        "'Publishing' -ing; yalın gerekir."
+      ]
     }
   ],
   "c1-11": [
@@ -899,6 +3299,246 @@ window.GRAMMAR_MCQ_C1 = {
         "'Done' did done çift 3.hal yanlış.",
         "'Did leaving' did + yalın fiil gerekir."
       ]
+    },
+    {
+      "q": "A: Will they agree?  B: I doubt ___.",
+      "options": [
+        "it",
+        "so",
+        "that",
+        "not"
+      ],
+      "a": 0,
+      "why": [
+        "Doğru: doubt + it (so kullanılmaz).",
+        "'So' doubt so yanlış; it gerekir.",
+        "'That' tamamsız nesne.",
+        "'Not' I doubt not saymaca değil."
+      ]
+    },
+    {
+      "q": "A: Do you think she'll come?  B: I think ___.",
+      "options": [
+        "so",
+        "it",
+        "that",
+        "yes"
+      ],
+      "a": 0,
+      "why": [
+        "Doğru: I think so.",
+        "'It' think it nesnesi tamamsız.",
+        "'That' kısa ikamede yok.",
+        "'Yes' kalıp I think so."
+      ]
+    },
+    {
+      "q": "A: Are they open?  B: I don't believe ___.",
+      "options": [
+        "so",
+        "it",
+        "that",
+        "not"
+      ],
+      "a": 0,
+      "why": [
+        "Doğru: don't believe so.",
+        "'It' durum göndermesi değil.",
+        "'That' tamamsız.",
+        "'Not' I don't believe not yanlış."
+      ]
+    },
+    {
+      "q": "A: Sorry I'm late.  B: You ___.",
+      "options": [
+        "didn't need to apologise",
+        "didn't need apologise",
+        "needn't to apologise",
+        "not need apologising"
+      ],
+      "a": 0,
+      "why": [
+        "Doğru: needn't/to didn't need + to-inf.",
+        "'Didn't need apologise' to eksik.",
+        "'Needn't to apologise' çift to.",
+        "'Not need apologising' biçim yanlış."
+      ]
+    },
+    {
+      "q": "A: She finished already?  B: So ___ I.",
+      "options": [
+        "did",
+        "have",
+        "had",
+        "was"
+      ],
+      "a": 0,
+      "why": [
+        "Doğru: So + did (geçmiş basit).",
+        "'Have' finished zamanda have beklense de did.",
+        "'Had' + I finished zaman uyumsuz.",
+        "'Was' + finished yanlış."
+      ]
+    },
+    {
+      "q": "A: I've never been to Tokyo.  B: Neither ___ I.",
+      "options": [
+        "have",
+        "do",
+        "am",
+        "did"
+      ],
+      "a": 0,
+      "why": [
+        "Doğru: Neither + have (present perfect).",
+        "'Do' have been uyumsuz.",
+        "'Am' been ile uyumsuz.",
+        "'Did' present perfect ile uyumsuz."
+      ]
+    },
+    {
+      "q": "A: We should leave now.  B: I agree; let's ___.",
+      "options": [
+        "do so",
+        "do",
+        "so",
+        "it"
+      ],
+      "a": 0,
+      "why": [
+        "Doğru: let's + do so (eylem ikamesi).",
+        "'Let's do' yalın kısa.",
+        "'Let's so' yanlış.",
+        "'Let's it' yanlış."
+      ]
+    },
+    {
+      "q": "A: Mum won't approve.  B: Nor ___ my father, I expect.",
+      "options": [
+        "will",
+        "would",
+        "does",
+        "won't"
+      ],
+      "a": 0,
+      "why": [
+        "Doğru: Nor + will (won't ile uyum).",
+        "'Would' won't ile uyumsuz.",
+        "'Does' gelecek not uyumsuz.",
+        "'Won't' Nor will, negatif çift."
+      ]
+    },
+    {
+      "q": "A: They raised prices.  B: So they ___.",
+      "options": [
+        "did",
+        "have",
+        "do",
+        "are"
+      ],
+      "a": 0,
+      "why": [
+        "Doğru: onaylayan eko (devrik değil) → So they did.",
+        "'Have' raised ile did.",
+        "'Do' geçmiş basit; did.",
+        "'Are' + raised yanlış."
+      ]
+    },
+    {
+      "q": "He can run fast, and she ___ too.",
+      "options": [
+        "can",
+        "does",
+        "is",
+        "did"
+      ],
+      "a": 0,
+      "why": [
+        "Doğru: kip ikamesi → she can.",
+        "'Does' can + do eylemi uyumsuz.",
+        "'Is' can uyumsuz.",
+        "'Did' can (kip) uyumsuz."
+      ]
+    },
+    {
+      "q": "A: Have they left?  B: I suppose ___.",
+      "options": [
+        "so",
+        "it",
+        "that",
+        "not"
+      ],
+      "a": 0,
+      "why": [
+        "Doğru: I suppose so.",
+        "'It' tamamsız nesne.",
+        "'That' kısa ikamede yok.",
+        "'Not' I suppose not da geçer ama 'so' bağlama uygun."
+      ]
+    },
+    {
+      "q": "A: Is the meeting still on?  B: I assume ___.",
+      "options": [
+        "so",
+        "it",
+        "that",
+        "yes"
+      ],
+      "a": 0,
+      "why": [
+        "Doğru: I assume so.",
+        "'It' tamamsız.",
+        "'That' kısa ikamede yok.",
+        "'Yes' kalıp assume so."
+      ]
+    },
+    {
+      "q": "A: Did you lock the door?  B: Yes, I ___.",
+      "options": [
+        "did",
+        "have",
+        "do",
+        "locked"
+      ],
+      "a": 0,
+      "why": [
+        "Doğru: do ikamesi → I did (geçmiş).",
+        "'Have' lock değil did.",
+        "'Do' geçmiş did.",
+        "'Locked' tekrar; did doğal."
+      ]
+    },
+    {
+      "q": "A: I don't like deadlines.  B: She does, but I ___.",
+      "options": [
+        "don't",
+        "not",
+        "didn't",
+        "do"
+      ],
+      "a": 0,
+      "why": [
+        "Doğru: karşılaştırmalı eksiltme → I don't.",
+        "'Not' fiil gerekir.",
+        "'Didn't' geniş zaman bağlam uyumsuz.",
+        "'Do' olumsuz karşıtlık değil."
+      ]
+    },
+    {
+      "q": "A: Will the plan work?  B: It might, but it also might ___.",
+      "options": [
+        "not",
+        "no",
+        "don't",
+        "n't be"
+      ],
+      "a": 0,
+      "why": [
+        "Doğru: kip + not (might not).",
+        "'No' kip ile uyumsuz.",
+        "'Don't' might ile uyumsuz.",
+        "'N't be' might not be yerine fazla."
+      ]
     }
   ],
   "c1-12": [
@@ -980,6 +3620,246 @@ window.GRAMMAR_MCQ_C1 = {
         "'Too' too calm → olumsuz; bağlam olumlu.",
         "'Such' + that cümlesi ister.",
         "'So' + that cümlesi ister, to-inf değil."
+      ]
+    },
+    {
+      "q": "The noise was ___ loud that we couldn't sleep.",
+      "options": [
+        "so",
+        "such",
+        "too",
+        "enough"
+      ],
+      "a": 0,
+      "why": [
+        "Doğru: so + sıfat + that.",
+        "'Such' isim öncesi; burada sıfat.",
+        "'Too' + that gerekmez; so.",
+        "'Enough' + that yok."
+      ]
+    },
+    {
+      "q": "It was ___ interesting a talk that we stayed late.",
+      "options": [
+        "so",
+        "such",
+        "too",
+        "enough"
+      ],
+      "a": 0,
+      "why": [
+        "Doğru: so + sıfat + a + isim + that.",
+        "'Such' such an + isim ister; burada 'a' konumu farklı.",
+        "'Too' + that uyumsuz.",
+        "'Enough' + that yok."
+      ]
+    },
+    {
+      "q": "The suitcase is ___ heavy for me to lift.",
+      "options": [
+        "too",
+        "enough",
+        "so",
+        "such"
+      ],
+      "a": 0,
+      "why": [
+        "Doğru: too + sıfat + to-inf.",
+        "'Enough' heavy enough → güç yetmez anlamını vermez.",
+        "'So' + to-inf yerine that ister.",
+        "'Such' isim öncesi."
+      ]
+    },
+    {
+      "q": "We have ___ many problems to solve all at once.",
+      "options": [
+        "too",
+        "so",
+        "such",
+        "enough"
+      ],
+      "a": 0,
+      "why": [
+        "Doğru: too + many + to-inf.",
+        "'So' so many + that ister.",
+        "'Such' isim öncesi many değil.",
+        "'Enough' many + to-inf olumsuz anlam vermez."
+      ]
+    },
+    {
+      "q": "He is ___ experienced to make such a mistake.",
+      "options": [
+        "too",
+        "enough",
+        "so",
+        "such"
+      ],
+      "a": 0,
+      "why": [
+        "Doğru: too + sıfat + to-inf (olumsuz sonuç).",
+        "'Enough' olumlu yeterlilik; bağlam tersi.",
+        "'So' + that ister.",
+        "'Such' isim öncesi."
+      ]
+    },
+    {
+      "q": "She spoke ___ softly that no one heard her.",
+      "options": [
+        "so",
+        "too",
+        "such",
+        "enough"
+      ],
+      "a": 0,
+      "why": [
+        "Doğru: so + zarf + that.",
+        "'Too' + that gerekmez; so.",
+        "'Such' isim öncesi zarf değil.",
+        "'Enough' + that yok."
+      ]
+    },
+    {
+      "q": "It was such ___ weather that school was cancelled.",
+      "options": [
+        "bad",
+        "badly",
+        "worse",
+        "worst"
+      ],
+      "a": 0,
+      "why": [
+        "Doğru: such + sıfat + isim.",
+        "'Badly' zarf; sıfat gerekir.",
+        "'Worse' karşılaştırma; bağlam derece değil.",
+        "'Worst' en üstünlük; derece değil."
+      ]
+    },
+    {
+      "q": "He isn't ___ to be trusted with the key.",
+      "options": [
+        "responsible enough",
+        "too responsible",
+        "so responsible",
+        "such responsible"
+      ],
+      "a": 0,
+      "why": [
+        "Doğru: sıfat + enough + to-inf.",
+        "'Too responsible' olumsuz; bağlam eksik yeterlilik.",
+        "'So responsible' + that ister.",
+        "'Such responsible' sıfat öncesi such değil."
+      ]
+    },
+    {
+      "q": "The results were such ___ that the committee dissolved.",
+      "options": [
+        "a disaster",
+        "disaster",
+        "a disastrous",
+        "disastrously"
+      ],
+      "a": 0,
+      "why": [
+        "Doğru: such + a + isim + that.",
+        "'Disaster' tekil sayılabilir; a gerekir.",
+        "'A disastrous' sıfat; isim gerekir.",
+        "'Disastrously' zarf; isim gerekir."
+      ]
+    },
+    {
+      "q": "She is too cautious ___ any real risks.",
+      "options": [
+        "to take",
+        "taking",
+        "of taking",
+        "for taking"
+      ],
+      "a": 0,
+      "why": [
+        "Doğru: too + sıfat + to-inf.",
+        "'Taking' -ing; to-inf gerekir.",
+        "'Of taking' too + sıfat + of yok.",
+        "'For taking' -ing; to gerekir."
+      ]
+    },
+    {
+      "q": "There was ___ food at the banquet that nobody went hungry.",
+      "options": [
+        "so much",
+        "such",
+        "too much",
+        "much"
+      ],
+      "a": 0,
+      "why": [
+        "Doğru: so + much + isim + that.",
+        "'Such' isim öncesi; so much kalıbı.",
+        "'Too much' + that gerekmez; so much.",
+        "'Much' that yapısı yok."
+      ]
+    },
+    {
+      "q": "It was too dark ___ see her face.",
+      "options": [
+        "to",
+        "for",
+        "so",
+        "that"
+      ],
+      "a": 0,
+      "why": [
+        "Doğru: too + sıfat + to-inf.",
+        "'For' to-inf gerekir; for + isim.",
+        "'So' + that ister.",
+        "'That' + cümle ister, to-inf değil."
+      ]
+    },
+    {
+      "q": "The climb was so ___ that we gave up.",
+      "options": [
+        "steep",
+        "steeply",
+        "steeper",
+        "steepness"
+      ],
+      "a": 0,
+      "why": [
+        "Doğru: so + sıfat + that.",
+        "'Steeply' zarf; sıfat gerekir.",
+        "'Steeper' karşılaştırma; derece değil.",
+        "'Steepness' isim; sıfat gerekir."
+      ]
+    },
+    {
+      "q": "She had too little time ___ the whole report.",
+      "options": [
+        "to finish",
+        "finishing",
+        "for finishing",
+        "finish"
+      ],
+      "a": 0,
+      "why": [
+        "Doğru: too + little + isim + to-inf.",
+        "'Finishing' -ing; to-inf gerekir.",
+        "'For finishing' -ing; to gerekir.",
+        "'Finish' yalın; to gerekir."
+      ]
+    },
+    {
+      "q": "Such ___ the demand that supplies ran out.",
+      "options": [
+        "was",
+        "were",
+        "is",
+        "being"
+      ],
+      "a": 0,
+      "why": [
+        "Doğru: Such + was + tekil özne + that.",
+        "'Were' tekil özne (demand).",
+        "'Is' geçmiş olay; was.",
+        "'Being' çekim gerekir."
       ]
     }
   ]

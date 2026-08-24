@@ -143,6 +143,262 @@ window.GRAMMAR_A1 = {
             "be"
           ],
           "a": 2
+        },
+        {
+          "q": "My sister ___ a doctor.",
+          "options": [
+            "am",
+            "is",
+            "are",
+            "be"
+          ],
+          "a": 1,
+          "why": [
+            "'am' seçeneği bu cümle için gramer açısından uygun değil.",
+            "Tekil üçüncü şahıs (my sister) için is kullanılır.",
+            "'are' seçeneği bu cümle için gramer açısından uygun değil.",
+            "'be' seçeneği bu cümle için gramer açısından uygun değil."
+          ]
+        },
+        {
+          "q": "Do you know where my keys ___?",
+          "options": [
+            "is",
+            "am",
+            "are",
+            "be"
+          ],
+          "a": 2,
+          "why": [
+            "'is' seçeneği bu cümle için gramer açısından uygun değil.",
+            "'am' seçeneği bu cümle için gramer açısından uygun değil.",
+            "keys çoğul olduğu için are kullanılır.",
+            "'be' seçeneği bu cümle için gramer açısından uygun değil."
+          ]
+        },
+        {
+          "q": "I ___ tired today.",
+          "options": [
+            "is",
+            "am",
+            "are",
+            "be"
+          ],
+          "a": 1,
+          "why": [
+            "'is' seçeneği bu cümle için gramer açısından uygun değil.",
+            "I öznesi her zaman am alır.",
+            "'are' seçeneği bu cümle için gramer açısından uygun değil.",
+            "'be' seçeneği bu cümle için gramer açısından uygun değil."
+          ]
+        },
+        {
+          "q": "You ___ my best friend.",
+          "options": [
+            "is",
+            "am",
+            "are",
+            "be"
+          ],
+          "a": 2,
+          "why": [
+            "'is' seçeneği bu cümle için gramer açısından uygun değil.",
+            "'am' seçeneği bu cümle için gramer açısından uygun değil.",
+            "You öznesi için are kullanılır.",
+            "'be' seçeneği bu cümle için gramer açısından uygun değil."
+          ]
+        },
+        {
+          "q": "___ she at home now?",
+          "options": [
+            "Is",
+            "Are",
+            "Am",
+            "Be"
+          ],
+          "a": 0,
+          "why": [
+            "she tekil üçüncü şahıs olduğu için soruda Is başa gelir.",
+            "'Are' seçeneği bu cümle için gramer açısından uygun değil.",
+            "'Am' seçeneği bu cümle için gramer açısından uygun değil.",
+            "'Be' seçeneği bu cümle için gramer açısından uygun değil."
+          ]
+        },
+        {
+          "q": "It ___ very cold outside.",
+          "options": [
+            "am",
+            "are",
+            "is",
+            "be"
+          ],
+          "a": 2,
+          "why": [
+            "'am' seçeneği bu cümle için gramer açısından uygun değil.",
+            "'are' seçeneği bu cümle için gramer açısından uygun değil.",
+            "It öznesi is alır.",
+            "'be' seçeneği bu cümle için gramer açısından uygun değil."
+          ]
+        },
+        {
+          "q": "We ___ not ready yet.",
+          "options": [
+            "is",
+            "am",
+            "are",
+            "be"
+          ],
+          "a": 2,
+          "why": [
+            "'is' seçeneği bu cümle için gramer açısından uygun değil.",
+            "'am' seçeneği bu cümle için gramer açısından uygun değil.",
+            "We öznesi are alır.",
+            "'be' seçeneği bu cümle için gramer açısından uygun değil."
+          ]
+        },
+        {
+          "q": "Those shoes ___ new.",
+          "options": [
+            "is",
+            "are",
+            "am",
+            "be"
+          ],
+          "a": 1,
+          "why": [
+            "'is' seçeneği bu cümle için gramer açısından uygun değil.",
+            "Those shoes çoğul özne, bu yüzden are kullanılır.",
+            "'am' seçeneği bu cümle için gramer açısından uygun değil.",
+            "'be' seçeneği bu cümle için gramer açısından uygun değil."
+          ]
+        },
+        {
+          "q": "The dog ___ under the table.",
+          "options": [
+            "are",
+            "am",
+            "is",
+            "be"
+          ],
+          "a": 2,
+          "why": [
+            "'are' seçeneği bu cümle için gramer açısından uygun değil.",
+            "'am' seçeneği bu cümle için gramer açısından uygun değil.",
+            "The dog tekil özne, bu yüzden is kullanılır.",
+            "'be' seçeneği bu cümle için gramer açısından uygun değil."
+          ]
+        },
+        {
+          "q": "He and I ___ good friends.",
+          "options": [
+            "is",
+            "are",
+            "am",
+            "be"
+          ],
+          "a": 1,
+          "why": [
+            "'is' seçeneği bu cümle için gramer açısından uygun değil.",
+            "He and I = we (çoğul), bu yüzden are kullanılır.",
+            "'am' seçeneği bu cümle için gramer açısından uygun değil.",
+            "'be' seçeneği bu cümle için gramer açısından uygun değil."
+          ]
+        },
+        {
+          "q": "___ your parents at work?",
+          "options": [
+            "Is",
+            "Am",
+            "Are",
+            "Be"
+          ],
+          "a": 2,
+          "why": [
+            "'Is' seçeneği bu cümle için gramer açısından uygun değil.",
+            "'Am' seçeneği bu cümle için gramer açısından uygun değil.",
+            "your parents çoğul olduğu için soruda Are kullanılır.",
+            "'Be' seçeneği bu cümle için gramer açısından uygun değil."
+          ]
+        },
+        {
+          "q": "My name ___ Ali.",
+          "options": [
+            "is",
+            "are",
+            "am",
+            "be"
+          ],
+          "a": 0,
+          "why": [
+            "My name tekil özne, is alır.",
+            "'are' seçeneği bu cümle için gramer açısından uygun değil.",
+            "'am' seçeneği bu cümle için gramer açısından uygun değil.",
+            "'be' seçeneği bu cümle için gramer açısından uygun değil."
+          ]
+        },
+        {
+          "q": "The oranges ___ on the table.",
+          "options": [
+            "am",
+            "is",
+            "are",
+            "be"
+          ],
+          "a": 2,
+          "why": [
+            "'am' seçeneği bu cümle için gramer açısından uygun değil.",
+            "'is' seçeneği bu cümle için gramer açısından uygun değil.",
+            "The oranges çoğul özne, are alır.",
+            "'be' seçeneği bu cümle için gramer açısından uygun değil."
+          ]
+        },
+        {
+          "q": "She ___ very kind to everyone.",
+          "options": [
+            "am",
+            "be",
+            "is",
+            "are"
+          ],
+          "a": 2,
+          "why": [
+            "'am' seçeneği bu cümle için gramer açısından uygun değil.",
+            "'be' seçeneği bu cümle için gramer açısından uygun değil.",
+            "She tekil üçüncü şahıs, is alır.",
+            "'are' seçeneği bu cümle için gramer açısından uygun değil."
+          ]
+        },
+        {
+          "q": "They ___ not at school today.",
+          "options": [
+            "is",
+            "am",
+            "are",
+            "be"
+          ],
+          "a": 2,
+          "why": [
+            "'is' seçeneği bu cümle için gramer açısından uygun değil.",
+            "'am' seçeneği bu cümle için gramer açısından uygun değil.",
+            "They öznesi are alır.",
+            "'be' seçeneği bu cümle için gramer açısından uygun değil."
+          ]
+        },
+        {
+          "q": "___ the door open?",
+          "options": [
+            "Is",
+            "Am",
+            "Are",
+            "Be"
+          ],
+          "a": 0,
+          "why": [
+            "the door tekil özne olduğu için soruda Is başa gelir.",
+            "'Am' seçeneği bu cümle için gramer açısından uygun değil.",
+            "'Are' seçeneği bu cümle için gramer açısından uygun değil.",
+            "'Be' seçeneği bu cümle için gramer açısından uygun değil."
+          ]
         }
       ]
     },
@@ -278,6 +534,262 @@ window.GRAMMAR_A1 = {
             "She's"
           ],
           "a": 1
+        },
+        {
+          "q": "___ mother is a teacher. (I)",
+          "options": [
+            "Me",
+            "My",
+            "I",
+            "Mine"
+          ],
+          "a": 1,
+          "why": [
+            "'Me' seçeneği bu cümle için gramer açısından uygun değil.",
+            "'Benim annem' için iyelik sıfatı my kullanılır.",
+            "'I' seçeneği bu cümle için gramer açısından uygun değil.",
+            "'Mine' seçeneği bu cümle için gramer açısından uygun değil."
+          ]
+        },
+        {
+          "q": "___ father works in a bank. (you)",
+          "options": [
+            "You",
+            "Your",
+            "Yours",
+            "You're"
+          ],
+          "a": 1,
+          "why": [
+            "'You' seçeneği bu cümle için gramer açısından uygun değil.",
+            "'Senin baban' için iyelik sıfatı your kullanılır.",
+            "'Yours' seçeneği bu cümle için gramer açısından uygun değil.",
+            "'You're' seçeneği bu cümle için gramer açısından uygun değil."
+          ]
+        },
+        {
+          "q": "___ house is near the park. (we)",
+          "options": [
+            "We",
+            "Us",
+            "Our",
+            "Ours"
+          ],
+          "a": 2,
+          "why": [
+            "'We' seçeneği bu cümle için gramer açısından uygun değil.",
+            "'Us' seçeneği bu cümle için gramer açısından uygun değil.",
+            "'Bizim evimiz' için iyelik sıfatı our kullanılır.",
+            "'Ours' seçeneği bu cümle için gramer açısından uygun değil."
+          ]
+        },
+        {
+          "q": "___ dog loves water. (they)",
+          "options": [
+            "They",
+            "Them",
+            "Their",
+            "Theirs"
+          ],
+          "a": 2,
+          "why": [
+            "'They' seçeneği bu cümle için gramer açısından uygun değil.",
+            "'Them' seçeneği bu cümle için gramer açısından uygun değil.",
+            "'Onların köpeği' için iyelik sıfatı their kullanılır.",
+            "'Theirs' seçeneği bu cümle için gramer açısından uygun değil."
+          ]
+        },
+        {
+          "q": "This is ___ sister. (I)",
+          "options": [
+            "Me",
+            "My",
+            "Mine",
+            "I"
+          ],
+          "a": 1,
+          "why": [
+            "'Me' seçeneği bu cümle için gramer açısından uygun değil.",
+            "İsimden önce iyelik sıfatı my gelir.",
+            "'Mine' seçeneği bu cümle için gramer açısından uygun değil.",
+            "'I' seçeneği bu cümle için gramer açısından uygun değil."
+          ]
+        },
+        {
+          "q": "I like ___ new phone. (you)",
+          "options": [
+            "your",
+            "you",
+            "yours",
+            "you're"
+          ],
+          "a": 0,
+          "why": [
+            "İsimden (new phone) önce iyelik sıfatı your gelir.",
+            "'you' seçeneği bu cümle için gramer açısından uygun değil.",
+            "'yours' seçeneği bu cümle için gramer açısından uygun değil.",
+            "'you're' seçeneği bu cümle için gramer açısından uygun değil."
+          ]
+        },
+        {
+          "q": "___ backpack is on the chair. (he)",
+          "options": [
+            "He",
+            "Him",
+            "His",
+            "He's"
+          ],
+          "a": 2,
+          "why": [
+            "'He' seçeneği bu cümle için gramer açısından uygun değil.",
+            "'Him' seçeneği bu cümle için gramer açısından uygun değil.",
+            "'Onun (erkeğin) sırt çantası' için his kullanılır.",
+            "'He's' seçeneği bu cümle için gramer açısından uygun değil."
+          ]
+        },
+        {
+          "q": "___ grandparents live in Izmir. (she)",
+          "options": [
+            "She",
+            "Her",
+            "Hers",
+            "She's"
+          ],
+          "a": 1,
+          "why": [
+            "'She' seçeneği bu cümle için gramer açısından uygun değil.",
+            "'Onun (kadının) büyükanneleri' için her kullanılır.",
+            "'Hers' seçeneği bu cümle için gramer açısından uygun değil.",
+            "'She's' seçeneği bu cümle için gramer açısından uygun değil."
+          ]
+        },
+        {
+          "q": "That is ___ bike. (we)",
+          "options": [
+            "We",
+            "Our",
+            "Ours",
+            "Us"
+          ],
+          "a": 1,
+          "why": [
+            "'We' seçeneği bu cümle için gramer açısından uygun değil.",
+            "İsimden önce iyelik sıfatı our kullanılır.",
+            "'Ours' seçeneği bu cümle için gramer açısından uygun değil.",
+            "'Us' seçeneği bu cümle için gramer açısından uygun değil."
+          ]
+        },
+        {
+          "q": "My cat sleeps on ___ bed. (I)",
+          "options": [
+            "me",
+            "my",
+            "mine",
+            "I"
+          ],
+          "a": 1,
+          "why": [
+            "'me' seçeneği bu cümle için gramer açısından uygun değil.",
+            "İsimden (bed) önce iyelik sıfatı my kullanılır.",
+            "'mine' seçeneği bu cümle için gramer açısından uygun değil.",
+            "'I' seçeneği bu cümle için gramer açısından uygun değil."
+          ]
+        },
+        {
+          "q": "___ shoes are very old. (they)",
+          "options": [
+            "Their",
+            "They",
+            "Them",
+            "Theirs"
+          ],
+          "a": 0,
+          "why": [
+            "İsimden (shoes) önce iyelik sıfatı their kullanılır.",
+            "'They' seçeneği bu cümle için gramer açısından uygun değil.",
+            "'Them' seçeneği bu cümle için gramer açısından uygun değil.",
+            "'Theirs' seçeneği bu cümle için gramer açısından uygun değil."
+          ]
+        },
+        {
+          "q": "Is this ___ jacket? (you)",
+          "options": [
+            "your",
+            "you",
+            "yours",
+            "you're"
+          ],
+          "a": 0,
+          "why": [
+            "İsimden (jacket) önce iyelik sıfatı your gelir.",
+            "'you' seçeneği bu cümle için gramer açısından uygun değil.",
+            "'yours' seçeneği bu cümle için gramer açısından uygun değil.",
+            "'you're' seçeneği bu cümle için gramer açısından uygun değil."
+          ]
+        },
+        {
+          "q": "Please give me ___ hand. (you)",
+          "options": [
+            "your",
+            "you",
+            "yours",
+            "you're"
+          ],
+          "a": 0,
+          "why": [
+            "İsimden (hand) önce iyelik sıfatı your kullanılır.",
+            "'you' seçeneği bu cümle için gramer açısından uygun değil.",
+            "'yours' seçeneği bu cümle için gramer açısından uygun değil.",
+            "'you're' seçeneği bu cümle için gramer açısından uygun değil."
+          ]
+        },
+        {
+          "q": "___ teacher is very funny. (we)",
+          "options": [
+            "We",
+            "Our",
+            "Ours",
+            "Us"
+          ],
+          "a": 1,
+          "why": [
+            "'We' seçeneği bu cümle için gramer açısından uygun değil.",
+            "'Bizim öğretmenimiz' için iyelik sıfatı our kullanılır.",
+            "'Ours' seçeneği bu cümle için gramer açısından uygun değil.",
+            "'Us' seçeneği bu cümle için gramer açısından uygun değil."
+          ]
+        },
+        {
+          "q": "___ bag is on the bus. (she)",
+          "options": [
+            "She",
+            "Her",
+            "Hers",
+            "She's"
+          ],
+          "a": 1,
+          "why": [
+            "'She' seçeneği bu cümle için gramer açısından uygun değil.",
+            "İsimden (bag) önce iyelik sıfatı her kullanılır.",
+            "'Hers' seçeneği bu cümle için gramer açısından uygun değil.",
+            "'She's' seçeneği bu cümle için gramer açısından uygun değil."
+          ]
+        },
+        {
+          "q": "This is ___ desk. (he)",
+          "options": [
+            "He",
+            "Him",
+            "His",
+            "He's"
+          ],
+          "a": 2,
+          "why": [
+            "'He' seçeneği bu cümle için gramer açısından uygun değil.",
+            "'Him' seçeneği bu cümle için gramer açısından uygun değil.",
+            "İsimden (desk) önce iyelik sıfatı his kullanılır.",
+            "'He's' seçeneği bu cümle için gramer açısından uygun değil."
+          ]
         }
       ]
     },
@@ -413,6 +925,262 @@ window.GRAMMAR_A1 = {
             "some"
           ],
           "a": 1
+        },
+        {
+          "q": "I ate ___ orange for lunch.",
+          "options": [
+            "a",
+            "an",
+            "the",
+            "some"
+          ],
+          "a": 1,
+          "why": [
+            "'a' seçeneği bu cümle için gramer açısından uygun değil.",
+            "orange ünlü sesle başlar, tekil sayılabilir → an.",
+            "'the' seçeneği bu cümle için gramer açısından uygun değil.",
+            "'some' seçeneği bu cümle için gramer açısından uygun değil."
+          ]
+        },
+        {
+          "q": "She has ___ umbrella in her bag.",
+          "options": [
+            "a",
+            "an",
+            "the",
+            "some"
+          ],
+          "a": 1,
+          "why": [
+            "'a' seçeneği bu cümle için gramer açısından uygun değil.",
+            "umbrella ünlü sesle başlar → an.",
+            "'the' seçeneği bu cümle için gramer açısından uygun değil.",
+            "'some' seçeneği bu cümle için gramer açısından uygun değil."
+          ]
+        },
+        {
+          "q": "We watched ___ movie last night.",
+          "options": [
+            "a",
+            "an",
+            "the",
+            "some"
+          ],
+          "a": 0,
+          "why": [
+            "İlk kez bahsedilen tekil isim için a kullanılır.",
+            "'an' seçeneği bu cümle için gramer açısından uygun değil.",
+            "'the' seçeneği bu cümle için gramer açısından uygun değil.",
+            "'some' seçeneği bu cümle için gramer açısından uygun değil."
+          ]
+        },
+        {
+          "q": "___ sun is very hot today.",
+          "options": [
+            "A",
+            "An",
+            "The",
+            "Some"
+          ],
+          "a": 2,
+          "why": [
+            "'A' seçeneği bu cümle için gramer açısından uygun değil.",
+            "'An' seçeneği bu cümle için gramer açısından uygun değil.",
+            "Tek olan evrensel varlıklar için the kullanılır.",
+            "'Some' seçeneği bu cümle için gramer açısından uygun değil."
+          ]
+        },
+        {
+          "q": "He wants ___ new shirt.",
+          "options": [
+            "a",
+            "an",
+            "the",
+            "some"
+          ],
+          "a": 0,
+          "why": [
+            "İlk kez bahsedilen tekil isim için a kullanılır.",
+            "'an' seçeneği bu cümle için gramer açısından uygun değil.",
+            "'the' seçeneği bu cümle için gramer açısından uygun değil.",
+            "'some' seçeneği bu cümle için gramer açısından uygun değil."
+          ]
+        },
+        {
+          "q": "I need ___ egg for this recipe.",
+          "options": [
+            "a",
+            "an",
+            "the",
+            "some"
+          ],
+          "a": 1,
+          "why": [
+            "'a' seçeneği bu cümle için gramer açısından uygun değil.",
+            "egg ünlü sesle başlar → an.",
+            "'the' seçeneği bu cümle için gramer açısından uygun değil.",
+            "'some' seçeneği bu cümle için gramer açısından uygun değil."
+          ]
+        },
+        {
+          "q": "I saw ___ elephant at the zoo.",
+          "options": [
+            "a",
+            "an",
+            "the",
+            "some"
+          ],
+          "a": 1,
+          "why": [
+            "'a' seçeneği bu cümle için gramer açısından uygun değil.",
+            "elephant ünlü sesle başlar → an.",
+            "'the' seçeneği bu cümle için gramer açısından uygun değil.",
+            "'some' seçeneği bu cümle için gramer açısından uygun değil."
+          ]
+        },
+        {
+          "q": "Can you close ___ door, please?",
+          "options": [
+            "a",
+            "an",
+            "the",
+            "some"
+          ],
+          "a": 2,
+          "why": [
+            "'a' seçeneği bu cümle için gramer açısından uygun değil.",
+            "'an' seçeneği bu cümle için gramer açısından uygun değil.",
+            "Bilinen, belirli bir kapı için the kullanılır.",
+            "'some' seçeneği bu cümle için gramer açısından uygun değil."
+          ]
+        },
+        {
+          "q": "She is ___ honest person.",
+          "options": [
+            "a",
+            "an",
+            "the",
+            "some"
+          ],
+          "a": 1,
+          "why": [
+            "'a' seçeneği bu cümle için gramer açısından uygun değil.",
+            "honest kelimesi 'h' sessiz okunur, ünlü sesle başlar → an.",
+            "'the' seçeneği bu cümle için gramer açısından uygun değil.",
+            "'some' seçeneği bu cümle için gramer açısından uygun değil."
+          ]
+        },
+        {
+          "q": "My brother wants ___ ice cream.",
+          "options": [
+            "a",
+            "an",
+            "the",
+            "some"
+          ],
+          "a": 1,
+          "why": [
+            "'a' seçeneği bu cümle için gramer açısından uygun değil.",
+            "ice ünlü sesle başlar → an.",
+            "'the' seçeneği bu cümle için gramer açısından uygun değil.",
+            "'some' seçeneği bu cümle için gramer açısından uygun değil."
+          ]
+        },
+        {
+          "q": "___ sky is blue today.",
+          "options": [
+            "A",
+            "An",
+            "The",
+            "Some"
+          ],
+          "a": 2,
+          "why": [
+            "'A' seçeneği bu cümle için gramer açısından uygun değil.",
+            "'An' seçeneği bu cümle için gramer açısından uygun değil.",
+            "Tek olan evrensel varlıklar (gökyüzü) için the kullanılır.",
+            "'Some' seçeneği bu cümle için gramer açısından uygun değil."
+          ]
+        },
+        {
+          "q": "I bought ___ newspaper from the shop.",
+          "options": [
+            "a",
+            "an",
+            "the",
+            "some"
+          ],
+          "a": 0,
+          "why": [
+            "İlk kez bahsedilen tekil isim için a kullanılır.",
+            "'an' seçeneği bu cümle için gramer açısından uygun değil.",
+            "'the' seçeneği bu cümle için gramer açısından uygun değil.",
+            "'some' seçeneği bu cümle için gramer açısından uygun değil."
+          ]
+        },
+        {
+          "q": "There is ___ apple on the table.",
+          "options": [
+            "a",
+            "an",
+            "the",
+            "some"
+          ],
+          "a": 1,
+          "why": [
+            "'a' seçeneği bu cümle için gramer açısından uygun değil.",
+            "apple ünlü sesle başlar → an.",
+            "'the' seçeneği bu cümle için gramer açısından uygun değil.",
+            "'some' seçeneği bu cümle için gramer açısından uygun değil."
+          ]
+        },
+        {
+          "q": "She works in ___ office.",
+          "options": [
+            "a",
+            "an",
+            "the",
+            "some"
+          ],
+          "a": 1,
+          "why": [
+            "'a' seçeneği bu cümle için gramer açısından uygun değil.",
+            "office ünlü sesle başlar → an.",
+            "'the' seçeneği bu cümle için gramer açısından uygun değil.",
+            "'some' seçeneği bu cümle için gramer açısından uygun değil."
+          ]
+        },
+        {
+          "q": "___ earth goes around the sun.",
+          "options": [
+            "A",
+            "An",
+            "The",
+            "Some"
+          ],
+          "a": 2,
+          "why": [
+            "'A' seçeneği bu cümle için gramer açısından uygun değil.",
+            "'An' seçeneği bu cümle için gramer açısından uygun değil.",
+            "Tek olan evrensel varlıklar (dünya) için the kullanılır.",
+            "'Some' seçeneği bu cümle için gramer açısından uygun değil."
+          ]
+        },
+        {
+          "q": "I have ___ idea for the project.",
+          "options": [
+            "a",
+            "an",
+            "the",
+            "some"
+          ],
+          "a": 1,
+          "why": [
+            "'a' seçeneği bu cümle için gramer açısından uygun değil.",
+            "idea ünlü sesle başlar → an.",
+            "'the' seçeneği bu cümle için gramer açısından uygun değil.",
+            "'some' seçeneği bu cümle için gramer açısından uygun değil."
+          ]
         }
       ]
     },
@@ -548,6 +1316,262 @@ window.GRAMMAR_A1 = {
             "knivies"
           ],
           "a": 1
+        },
+        {
+          "q": "I need two ___ for the cake. (egg)",
+          "options": [
+            "eggs",
+            "egges",
+            "eggies",
+            "egg"
+          ],
+          "a": 0,
+          "why": [
+            "egg düzenli çoğuldur → eggs.",
+            "'egges' seçeneği bu cümle için gramer açısından uygun değil.",
+            "'eggies' seçeneği bu cümle için gramer açısından uygun değil.",
+            "'egg' seçeneği bu cümle için gramer açısından uygun değil."
+          ]
+        },
+        {
+          "q": "There are three ___ in the kitchen. (dish)",
+          "options": [
+            "dishs",
+            "dishes",
+            "dishes'",
+            "dish"
+          ],
+          "a": 1,
+          "why": [
+            "'dishs' seçeneği bu cümle için gramer açısından uygun değil.",
+            "-sh ile biten isimlere -es eklenir → dishes.",
+            "'dishes'' seçeneği bu cümle için gramer açısından uygun değil.",
+            "'dish' seçeneği bu cümle için gramer açısından uygun değil."
+          ]
+        },
+        {
+          "q": "My mother bought two ___ at the market. (tomato)",
+          "options": [
+            "tomatos",
+            "tomatoes",
+            "tomato",
+            "tomatoe"
+          ],
+          "a": 1,
+          "why": [
+            "'tomatos' seçeneği bu cümle için gramer açısından uygun değil.",
+            "-o ile biten çoğu isme -es eklenir → tomatoes.",
+            "'tomato' seçeneği bu cümle için gramer açısından uygun değil.",
+            "'tomatoe' seçeneği bu cümle için gramer açısından uygun değil."
+          ]
+        },
+        {
+          "q": "The ___ are sleeping. (cat)",
+          "options": [
+            "cat",
+            "cats",
+            "cates",
+            "cat's"
+          ],
+          "a": 1,
+          "why": [
+            "'cat' seçeneği bu cümle için gramer açısından uygun değil.",
+            "cat düzenli çoğuldur → cats.",
+            "'cates' seçeneği bu cümle için gramer açısından uygun değil.",
+            "'cat's' seçeneği bu cümle için gramer açısından uygun değil."
+          ]
+        },
+        {
+          "q": "I brush my ___ every morning. (tooth)",
+          "options": [
+            "tooths",
+            "teeth",
+            "toothes",
+            "tooth"
+          ],
+          "a": 1,
+          "why": [
+            "'tooths' seçeneği bu cümle için gramer açısından uygun değil.",
+            "tooth düzensizdir → teeth.",
+            "'toothes' seçeneği bu cümle için gramer açısından uygun değil.",
+            "'tooth' seçeneği bu cümle için gramer açısından uygun değil."
+          ]
+        },
+        {
+          "q": "The ___ are in the field. (sheep)",
+          "options": [
+            "sheeps",
+            "sheep",
+            "sheepes",
+            "sheep's"
+          ],
+          "a": 1,
+          "why": [
+            "'sheeps' seçeneği bu cümle için gramer açısından uygun değil.",
+            "sheep tekil ve çoğulda aynıdır → sheep.",
+            "'sheepes' seçeneği bu cümle için gramer açısından uygun değil.",
+            "'sheep's' seçeneği bu cümle için gramer açısından uygun değil."
+          ]
+        },
+        {
+          "q": "I see two ___ in the park. (woman)",
+          "options": [
+            "womans",
+            "woman",
+            "women",
+            "womens"
+          ],
+          "a": 2,
+          "why": [
+            "'womans' seçeneği bu cümle için gramer açısından uygun değil.",
+            "'woman' seçeneği bu cümle için gramer açısından uygun değil.",
+            "woman düzensizdir → women.",
+            "'womens' seçeneği bu cümle için gramer açısından uygun değil."
+          ]
+        },
+        {
+          "q": "These ___ are very happy. (child)",
+          "options": [
+            "child",
+            "childs",
+            "children",
+            "childrens"
+          ],
+          "a": 2,
+          "why": [
+            "'child' seçeneği bu cümle için gramer açısından uygun değil.",
+            "'childs' seçeneği bu cümle için gramer açısından uygun değil.",
+            "child düzensizdir → children.",
+            "'childrens' seçeneği bu cümle için gramer açısından uygun değil."
+          ]
+        },
+        {
+          "q": "She has two ___ on her feet. (foot)",
+          "options": [
+            "foots",
+            "feets",
+            "foot",
+            "feet"
+          ],
+          "a": 3,
+          "why": [
+            "'foots' seçeneği bu cümle için gramer açısından uygun değil.",
+            "'feets' seçeneği bu cümle için gramer açısından uygun değil.",
+            "'foot' seçeneği bu cümle için gramer açısından uygun değil.",
+            "foot düzensizdir → feet."
+          ]
+        },
+        {
+          "q": "I bought some ___ for dinner. (potato)",
+          "options": [
+            "potatos",
+            "potatoes",
+            "potato",
+            "potatoe"
+          ],
+          "a": 1,
+          "why": [
+            "'potatos' seçeneği bu cümle için gramer açısından uygun değil.",
+            "-o ile biten çoğu isme -es eklenir → potatoes.",
+            "'potato' seçeneği bu cümle için gramer açısından uygun değil.",
+            "'potatoe' seçeneği bu cümle için gramer açısından uygun değil."
+          ]
+        },
+        {
+          "q": "The ___ are flying. (bird)",
+          "options": [
+            "bird",
+            "birds",
+            "brides",
+            "bird's"
+          ],
+          "a": 1,
+          "why": [
+            "'bird' seçeneği bu cümle için gramer açısından uygun değil.",
+            "bird düzenli çoğuldur → birds.",
+            "'brides' seçeneği bu cümle için gramer açısından uygun değil.",
+            "'bird's' seçeneği bu cümle için gramer açısından uygun değil."
+          ]
+        },
+        {
+          "q": "I hate ___ in the house. (mouse)",
+          "options": [
+            "mouses",
+            "mouse",
+            "mice",
+            "mouse's"
+          ],
+          "a": 2,
+          "why": [
+            "'mouses' seçeneği bu cümle için gramer açısından uygun değil.",
+            "'mouse' seçeneği bu cümle için gramer açısından uygun değil.",
+            "mouse düzensizdir → mice.",
+            "'mouse's' seçeneği bu cümle için gramer açısından uygun değil."
+          ]
+        },
+        {
+          "q": "The ___ are running fast. (horse)",
+          "options": [
+            "horse",
+            "horses",
+            "horsies",
+            "horse's"
+          ],
+          "a": 1,
+          "why": [
+            "'horse' seçeneği bu cümle için gramer açısından uygun değil.",
+            "horse düzenli çoğuldur → horses.",
+            "'horsies' seçeneği bu cümle için gramer açısından uygun değil.",
+            "'horse's' seçeneği bu cümle için gramer açısından uygun değil."
+          ]
+        },
+        {
+          "q": "These ___ belong to my aunt. (key)",
+          "options": [
+            "keys",
+            "keyes",
+            "keies",
+            "key"
+          ],
+          "a": 0,
+          "why": [
+            "Key önünde ünlü (ey) olduğu için sadece -s eklenir → keys.",
+            "'keyes' seçeneği bu cümle için gramer açısından uygun değil.",
+            "'keies' seçeneği bu cümle için gramer açısından uygun değil.",
+            "'key' seçeneği bu cümle için gramer açısından uygun değil."
+          ]
+        },
+        {
+          "q": "The ___ are shining at night. (star)",
+          "options": [
+            "star",
+            "stars",
+            "stares",
+            "star's"
+          ],
+          "a": 1,
+          "why": [
+            "'star' seçeneği bu cümle için gramer açısından uygun değil.",
+            "star düzenli çoğuldur → stars.",
+            "'stares' seçeneği bu cümle için gramer açısından uygun değil.",
+            "'star's' seçeneği bu cümle için gramer açısından uygun değil."
+          ]
+        },
+        {
+          "q": "My uncle has three ___ in his house. (radio)",
+          "options": [
+            "radios",
+            "radioes",
+            "radiois",
+            "radio"
+          ],
+          "a": 0,
+          "why": [
+            "-o ile bitip ünlüyle gelen bazı isimlere sadece -s eklenir → radios.",
+            "'radioes' seçeneği bu cümle için gramer açısından uygun değil.",
+            "'radiois' seçeneği bu cümle için gramer açısından uygun değil.",
+            "'radio' seçeneği bu cümle için gramer açısından uygun değil."
+          ]
         }
       ]
     },
@@ -683,6 +1707,262 @@ window.GRAMMAR_A1 = {
             "working"
           ],
           "a": 1
+        },
+        {
+          "q": "My father ___ in a factory. (work)",
+          "options": [
+            "work",
+            "works",
+            "worked",
+            "working"
+          ],
+          "a": 1,
+          "why": [
+            "'work' seçeneği bu cümle için gramer açısından uygun değil.",
+            "My father tekil üçüncü şahıs → fiile -s eklenir.",
+            "'worked' seçeneği bu cümle için gramer açısından uygun değil.",
+            "'working' seçeneği bu cümle için gramer açısından uygun değil."
+          ]
+        },
+        {
+          "q": "The students ___ English every day. (study)",
+          "options": [
+            "study",
+            "studies",
+            "studys",
+            "studying"
+          ],
+          "a": 1,
+          "why": [
+            "'study' seçeneği bu cümle için gramer açısından uygun değil.",
+            "-y'den önce sessiz harf varsa -y → -ies olur → studies.",
+            "'studys' seçeneği bu cümle için gramer açısından uygun değil.",
+            "'studying' seçeneği bu cümle için gramer açısından uygun değil."
+          ]
+        },
+        {
+          "q": "We ___ breakfast at seven. (eat)",
+          "options": [
+            "eat",
+            "eats",
+            "eated",
+            "eating"
+          ],
+          "a": 0,
+          "why": [
+            "We öznesinde fiil yalın kalır → eat.",
+            "'eats' seçeneği bu cümle için gramer açısından uygun değil.",
+            "'eated' seçeneği bu cümle için gramer açısından uygun değil.",
+            "'eating' seçeneği bu cümle için gramer açısından uygun değil."
+          ]
+        },
+        {
+          "q": "She ___ her homework after school. (do)",
+          "options": [
+            "do",
+            "does",
+            "doing",
+            "did"
+          ],
+          "a": 1,
+          "why": [
+            "'do' seçeneği bu cümle için gramer açısından uygun değil.",
+            "She üçüncü tekil şahıs → do → does olur.",
+            "'doing' seçeneği bu cümle için gramer açısından uygun değil.",
+            "'did' seçeneği bu cümle için gramer açısından uygun değil."
+          ]
+        },
+        {
+          "q": "The bus ___ at eight o'clock. (arrive)",
+          "options": [
+            "arrive",
+            "arrives",
+            "arriving",
+            "arrived"
+          ],
+          "a": 1,
+          "why": [
+            "'arrive' seçeneği bu cümle için gramer açısından uygun değil.",
+            "The bus tekil üçüncü şahıs → fiile -s eklenir.",
+            "'arriving' seçeneği bu cümle için gramer açısından uygun değil.",
+            "'arrived' seçeneği bu cümle için gramer açısından uygun değil."
+          ]
+        },
+        {
+          "q": "My brother ___ video games. (play)",
+          "options": [
+            "play",
+            "plays",
+            "played",
+            "playing"
+          ],
+          "a": 1,
+          "why": [
+            "'play' seçeneği bu cümle için gramer açısından uygun değil.",
+            "My brother tekil üçüncü şahıs → -s eklenir.",
+            "'played' seçeneği bu cümle için gramer açısından uygun değil.",
+            "'playing' seçeneği bu cümle için gramer açısından uygun değil."
+          ]
+        },
+        {
+          "q": "I ___ my teeth twice a day. (brush)",
+          "options": [
+            "brush",
+            "brushs",
+            "brushes",
+            "brushing"
+          ],
+          "a": 0,
+          "why": [
+            "I öznesinde fiil yalın kalır → brush.",
+            "'brushs' seçeneği bu cümle için gramer açısından uygun değil.",
+            "'brushes' seçeneği bu cümle için gramer açısından uygun değil.",
+            "'brushing' seçeneği bu cümle için gramer açısından uygun değil."
+          ]
+        },
+        {
+          "q": "He ___ Spanish very well. (speak)",
+          "options": [
+            "speak",
+            "speaks",
+            "speaking",
+            "spoke"
+          ],
+          "a": 1,
+          "why": [
+            "'speak' seçeneği bu cümle için gramer açısından uygun değil.",
+            "He tekil üçüncü şahıs → -s eklenir.",
+            "'speaking' seçeneği bu cümle için gramer açısından uygun değil.",
+            "'spoke' seçeneği bu cümle için gramer açısından uygun değil."
+          ]
+        },
+        {
+          "q": "They ___ in a small house. (live)",
+          "options": [
+            "live",
+            "lives",
+            "living",
+            "lived"
+          ],
+          "a": 0,
+          "why": [
+            "They öznesinde fiil yalın kalır → live.",
+            "'lives' seçeneği bu cümle için gramer açısından uygun değil.",
+            "'living' seçeneği bu cümle için gramer açısından uygun değil.",
+            "'lived' seçeneği bu cümle için gramer açısından uygun değil."
+          ]
+        },
+        {
+          "q": "My cat ___ milk every morning. (drink)",
+          "options": [
+            "drink",
+            "drinks",
+            "drinking",
+            "drank"
+          ],
+          "a": 1,
+          "why": [
+            "'drink' seçeneği bu cümle için gramer açısından uygun değil.",
+            "My cat tekil → -s eklenir.",
+            "'drinking' seçeneği bu cümle için gramer açısından uygun değil.",
+            "'drank' seçeneği bu cümle için gramer açısından uygun değil."
+          ]
+        },
+        {
+          "q": "She ___ her car on the weekend. (wash)",
+          "options": [
+            "wash",
+            "washes",
+            "washs",
+            "washing"
+          ],
+          "a": 1,
+          "why": [
+            "'wash' seçeneği bu cümle için gramer açısından uygun değil.",
+            "-sh ile biten fiile -es eklenir → washes.",
+            "'washs' seçeneği bu cümle için gramer açısından uygun değil.",
+            "'washing' seçeneği bu cümle için gramer açısından uygun değil."
+          ]
+        },
+        {
+          "q": "We ___ our homework together. (do)",
+          "options": [
+            "do",
+            "does",
+            "doing",
+            "done"
+          ],
+          "a": 0,
+          "why": [
+            "We öznesinde fiil yalın kalır → do.",
+            "'does' seçeneği bu cümle için gramer açısından uygun değil.",
+            "'doing' seçeneği bu cümle için gramer açısından uygun değil.",
+            "'done' seçeneği bu cümle için gramer açısından uygun değil."
+          ]
+        },
+        {
+          "q": "The teacher ___ our names. (know)",
+          "options": [
+            "know",
+            "knows",
+            "knowing",
+            "knew"
+          ],
+          "a": 1,
+          "why": [
+            "'know' seçeneği bu cümle için gramer açısından uygun değil.",
+            "The teacher tekil üçüncü şahıs → -s eklenir.",
+            "'knowing' seçeneği bu cümle için gramer açısından uygun değil.",
+            "'knew' seçeneği bu cümle için gramer açısından uygun değil."
+          ]
+        },
+        {
+          "q": "You ___ breakfast very early. (have)",
+          "options": [
+            "have",
+            "has",
+            "having",
+            "haves"
+          ],
+          "a": 0,
+          "why": [
+            "You öznesinde fiil yalın kalır → have.",
+            "'has' seçeneği bu cümle için gramer açısından uygun değil.",
+            "'having' seçeneği bu cümle için gramer açısından uygun değil.",
+            "'haves' seçeneği bu cümle için gramer açısından uygun değil."
+          ]
+        },
+        {
+          "q": "My grandmother ___ us stories. (tell)",
+          "options": [
+            "tell",
+            "tells",
+            "telling",
+            "told"
+          ],
+          "a": 1,
+          "why": [
+            "'tell' seçeneği bu cümle için gramer açısından uygun değil.",
+            "My grandmother tekil üçüncü şahıs → -s eklenir.",
+            "'telling' seçeneği bu cümle için gramer açısından uygun değil.",
+            "'told' seçeneği bu cümle için gramer açısından uygun değil."
+          ]
+        },
+        {
+          "q": "I ___ to the gym on Fridays. (go)",
+          "options": [
+            "go",
+            "goes",
+            "gose",
+            "going"
+          ],
+          "a": 0,
+          "why": [
+            "I öznesinde fiil yalın kalır → go.",
+            "'goes' seçeneği bu cümle için gramer açısından uygun değil.",
+            "'gose' seçeneği bu cümle için gramer açısından uygun değil.",
+            "'going' seçeneği bu cümle için gramer açısından uygun değil."
+          ]
         }
       ]
     },
@@ -821,6 +2101,262 @@ window.GRAMMAR_A1 = {
             "liked"
           ],
           "a": 1
+        },
+        {
+          "q": "___ they like fish?",
+          "options": [
+            "Does",
+            "Do",
+            "Is",
+            "Are"
+          ],
+          "a": 1,
+          "why": [
+            "'Does' seçeneği bu cümle için gramer açısından uygun değil.",
+            "they öznesi için soruda Do kullanılır.",
+            "'Is' seçeneği bu cümle için gramer açısından uygun değil.",
+            "'Are' seçeneği bu cümle için gramer açısından uygun değil."
+          ]
+        },
+        {
+          "q": "He ___ eat cheese.",
+          "options": [
+            "don't",
+            "doesn't",
+            "isn't",
+            "aren't"
+          ],
+          "a": 1,
+          "why": [
+            "'don't' seçeneği bu cümle için gramer açısından uygun değil.",
+            "he üçüncü tekil şahıs için doesn't kullanılır.",
+            "'isn't' seçeneği bu cümle için gramer açısından uygun değil.",
+            "'aren't' seçeneği bu cümle için gramer açısından uygun değil."
+          ]
+        },
+        {
+          "q": "___ your mother cook well?",
+          "options": [
+            "Do",
+            "Does",
+            "Is",
+            "Are"
+          ],
+          "a": 1,
+          "why": [
+            "'Do' seçeneği bu cümle için gramer açısından uygun değil.",
+            "your mother tekil üçüncü şahıs → soruda Does.",
+            "'Is' seçeneği bu cümle için gramer açısından uygun değil.",
+            "'Are' seçeneği bu cümle için gramer açısından uygun değil."
+          ]
+        },
+        {
+          "q": "They ___ play tennis on Mondays.",
+          "options": [
+            "doesn't",
+            "don't",
+            "isn't",
+            "aren't"
+          ],
+          "a": 1,
+          "why": [
+            "'doesn't' seçeneği bu cümle için gramer açısından uygun değil.",
+            "they öznesi için don't kullanılır.",
+            "'isn't' seçeneği bu cümle için gramer açısından uygun değil.",
+            "'aren't' seçeneği bu cümle için gramer açısından uygun değil."
+          ]
+        },
+        {
+          "q": "___ she speak French?",
+          "options": [
+            "Do",
+            "Does",
+            "Are",
+            "Is"
+          ],
+          "a": 1,
+          "why": [
+            "'Do' seçeneği bu cümle için gramer açısından uygun değil.",
+            "she tekil üçüncü şahıs → soruda Does.",
+            "'Are' seçeneği bu cümle için gramer açısından uygun değil.",
+            "'Is' seçeneği bu cümle için gramer açısından uygun değil."
+          ]
+        },
+        {
+          "q": "We ___ live in Ankara.",
+          "options": [
+            "doesn't",
+            "don't",
+            "isn't",
+            "aren't"
+          ],
+          "a": 1,
+          "why": [
+            "'doesn't' seçeneği bu cümle için gramer açısından uygun değil.",
+            "we öznesi için don't kullanılır.",
+            "'isn't' seçeneği bu cümle için gramer açısından uygun değil.",
+            "'aren't' seçeneği bu cümle için gramer açısından uygun değil."
+          ]
+        },
+        {
+          "q": "Does he ___ his car every week?",
+          "options": [
+            "wash",
+            "washes",
+            "washing",
+            "washed"
+          ],
+          "a": 0,
+          "why": [
+            "Does'tan sonra fiil yalın kalır → wash.",
+            "'washes' seçeneği bu cümle için gramer açısından uygun değil.",
+            "'washing' seçeneği bu cümle için gramer açısından uygun değil.",
+            "'washed' seçeneği bu cümle için gramer açısından uygun değil."
+          ]
+        },
+        {
+          "q": "I ___ watch TV in the morning.",
+          "options": [
+            "doesn't",
+            "don't",
+            "isn't",
+            "aren't"
+          ],
+          "a": 1,
+          "why": [
+            "'doesn't' seçeneği bu cümle için gramer açısından uygun değil.",
+            "I öznesi için don't kullanılır.",
+            "'isn't' seçeneği bu cümle için gramer açısından uygun değil.",
+            "'aren't' seçeneği bu cümle için gramer açısından uygun değil."
+          ]
+        },
+        {
+          "q": "___ they know the answer?",
+          "options": [
+            "Does",
+            "Do",
+            "Is",
+            "Are"
+          ],
+          "a": 1,
+          "why": [
+            "'Does' seçeneği bu cümle için gramer açısından uygun değil.",
+            "they öznesi için soruda Do kullanılır.",
+            "'Is' seçeneği bu cümle için gramer açısından uygun değil.",
+            "'Are' seçeneği bu cümle için gramer açısından uygun değil."
+          ]
+        },
+        {
+          "q": "My sister ___ drink coffee.",
+          "options": [
+            "don't",
+            "doesn't",
+            "isn't",
+            "aren't"
+          ],
+          "a": 1,
+          "why": [
+            "'don't' seçeneği bu cümle için gramer açısından uygun değil.",
+            "My sister tekil üçüncü şahıs → doesn't.",
+            "'isn't' seçeneği bu cümle için gramer açısından uygun değil.",
+            "'aren't' seçeneği bu cümle için gramer açısından uygun değil."
+          ]
+        },
+        {
+          "q": "Do you ___ football on TV?",
+          "options": [
+            "watch",
+            "watches",
+            "watching",
+            "watched"
+          ],
+          "a": 0,
+          "why": [
+            "Do'dan sonra fiil yalın kalır → watch.",
+            "'watches' seçeneği bu cümle için gramer açısından uygun değil.",
+            "'watching' seçeneği bu cümle için gramer açısından uygun değil.",
+            "'watched' seçeneği bu cümle için gramer açısından uygun değil."
+          ]
+        },
+        {
+          "q": "He ___ work on Sundays.",
+          "options": [
+            "don't",
+            "doesn't",
+            "isn't",
+            "aren't"
+          ],
+          "a": 1,
+          "why": [
+            "'don't' seçeneği bu cümle için gramer açısından uygun değil.",
+            "He tekil üçüncü şahıs → doesn't.",
+            "'isn't' seçeneği bu cümle için gramer açısından uygun değil.",
+            "'aren't' seçeneği bu cümle için gramer açısından uygun değil."
+          ]
+        },
+        {
+          "q": "___ the children play outside?",
+          "options": [
+            "Do",
+            "Does",
+            "Is",
+            "Are"
+          ],
+          "a": 0,
+          "why": [
+            "the children çoğul özne → soruda Do.",
+            "'Does' seçeneği bu cümle için gramer açısından uygun değil.",
+            "'Is' seçeneği bu cümle için gramer açısından uygun değil.",
+            "'Are' seçeneği bu cümle için gramer açısından uygun değil."
+          ]
+        },
+        {
+          "q": "She doesn't ___ to music in class.",
+          "options": [
+            "listen",
+            "listens",
+            "listening",
+            "listened"
+          ],
+          "a": 0,
+          "why": [
+            "doesn't'tan sonra fiil yalın kalır → listen.",
+            "'listens' seçeneği bu cümle için gramer açısından uygun değil.",
+            "'listening' seçeneği bu cümle için gramer açısından uygun değil.",
+            "'listened' seçeneği bu cümle için gramer açısından uygun değil."
+          ]
+        },
+        {
+          "q": "Why ___ he come to the party?",
+          "options": [
+            "do",
+            "does",
+            "is",
+            "are"
+          ],
+          "a": 1,
+          "why": [
+            "'do' seçeneği bu cümle için gramer açısından uygun değil.",
+            "he tekil üçüncü şahıs → yardımcı fiil does.",
+            "'is' seçeneği bu cümle için gramer açısından uygun değil.",
+            "'are' seçeneği bu cümle için gramer açısından uygun değil."
+          ]
+        },
+        {
+          "q": "They ___ eat meat, but we do.",
+          "options": [
+            "doesn't",
+            "don't",
+            "isn't",
+            "aren't"
+          ],
+          "a": 1,
+          "why": [
+            "'doesn't' seçeneği bu cümle için gramer açısından uygun değil.",
+            "they öznesi için don't kullanılır.",
+            "'isn't' seçeneği bu cümle için gramer açısından uygun değil.",
+            "'aren't' seçeneği bu cümle için gramer açısından uygun değil."
+          ]
         }
       ]
     },
@@ -951,6 +2487,262 @@ window.GRAMMAR_A1 = {
             "be"
           ],
           "a": 1
+        },
+        {
+          "q": "There ___ a cat under the chair.",
+          "options": [
+            "is",
+            "are",
+            "isn't",
+            "be"
+          ],
+          "a": 0,
+          "why": [
+            "a cat tekil → There is.",
+            "'are' seçeneği bu cümle için gramer açısından uygun değil.",
+            "'isn't' seçeneği bu cümle için gramer açısından uygun değil.",
+            "'be' seçeneği bu cümle için gramer açısından uygun değil."
+          ]
+        },
+        {
+          "q": "___ three birds in the tree.",
+          "options": [
+            "There is",
+            "There are",
+            "It is",
+            "There isn't"
+          ],
+          "a": 1,
+          "why": [
+            "'There is' seçeneği bu cümle için gramer açısından uygun değil.",
+            "three birds çoğul → There are.",
+            "'It is' seçeneği bu cümle için gramer açısından uygun değil.",
+            "'There isn't' seçeneği bu cümle için gramer açısından uygun değil."
+          ]
+        },
+        {
+          "q": "There ___ milk in the fridge.",
+          "options": [
+            "is",
+            "are",
+            "isn't",
+            "be"
+          ],
+          "a": 0,
+          "why": [
+            "milk sayılamaz isimdir → There is.",
+            "'are' seçeneği bu cümle için gramer açısından uygun değil.",
+            "'isn't' seçeneği bu cümle için gramer açısından uygun değil.",
+            "'be' seçeneği bu cümle için gramer açısından uygun değil."
+          ]
+        },
+        {
+          "q": "___ a problem with the car?",
+          "options": [
+            "Is there",
+            "Are there",
+            "There is",
+            "It is"
+          ],
+          "a": 0,
+          "why": [
+            "Tekil özne için soruda Is there kullanılır.",
+            "'Are there' seçeneği bu cümle için gramer açısından uygun değil.",
+            "'There is' seçeneği bu cümle için gramer açısından uygun değil.",
+            "'It is' seçeneği bu cümle için gramer açısından uygun değil."
+          ]
+        },
+        {
+          "q": "There ___ two parks in our city.",
+          "options": [
+            "is",
+            "are",
+            "isn't",
+            "be"
+          ],
+          "a": 1,
+          "why": [
+            "'is' seçeneği bu cümle için gramer açısından uygun değil.",
+            "two parks çoğul → There are.",
+            "'isn't' seçeneği bu cümle için gramer açısından uygun değil.",
+            "'be' seçeneği bu cümle için gramer açısından uygun değil."
+          ]
+        },
+        {
+          "q": "___ any water in the glass?",
+          "options": [
+            "Is there",
+            "Are there",
+            "There is",
+            "It is"
+          ],
+          "a": 0,
+          "why": [
+            "water sayılamaz → soruda Is there.",
+            "'Are there' seçeneği bu cümle için gramer açısından uygun değil.",
+            "'There is' seçeneği bu cümle için gramer açısından uygun değil.",
+            "'It is' seçeneği bu cümle için gramer açısından uygun değil."
+          ]
+        },
+        {
+          "q": "There ___ a hospital near the school.",
+          "options": [
+            "are",
+            "is",
+            "isn't",
+            "be"
+          ],
+          "a": 1,
+          "why": [
+            "'are' seçeneği bu cümle için gramer açısından uygun değil.",
+            "a hospital tekil → There is.",
+            "'isn't' seçeneği bu cümle için gramer açısından uygun değil.",
+            "'be' seçeneği bu cümle için gramer açısından uygun değil."
+          ]
+        },
+        {
+          "q": "___ many cars on this street.",
+          "options": [
+            "There is",
+            "There are",
+            "It is",
+            "There isn't"
+          ],
+          "a": 1,
+          "why": [
+            "'There is' seçeneği bu cümle için gramer açısından uygun değil.",
+            "many cars çoğul → There are.",
+            "'It is' seçeneği bu cümle için gramer açısından uygun değil.",
+            "'There isn't' seçeneği bu cümle için gramer açısından uygun değil."
+          ]
+        },
+        {
+          "q": "There ___ an apple in the bag.",
+          "options": [
+            "are",
+            "is",
+            "aren't",
+            "be"
+          ],
+          "a": 1,
+          "why": [
+            "'are' seçeneği bu cümle için gramer açısından uygun değil.",
+            "an apple tekil → There is.",
+            "'aren't' seçeneği bu cümle için gramer açısından uygun değil.",
+            "'be' seçeneği bu cümle için gramer açısından uygun değil."
+          ]
+        },
+        {
+          "q": "___ any chairs in the room?",
+          "options": [
+            "Is there",
+            "Are there",
+            "There is",
+            "It is"
+          ],
+          "a": 1,
+          "why": [
+            "'Is there' seçeneği bu cümle için gramer açısından uygun değil.",
+            "any chairs çoğul → soruda Are there.",
+            "'There is' seçeneği bu cümle için gramer açısından uygun değil.",
+            "'It is' seçeneği bu cümle için gramer açısından uygun değil."
+          ]
+        },
+        {
+          "q": "There ___ teachers in the classroom.",
+          "options": [
+            "is",
+            "are",
+            "isn't",
+            "be"
+          ],
+          "a": 1,
+          "why": [
+            "'is' seçeneği bu cümle için gramer açısından uygun değil.",
+            "teachers çoğul → There are.",
+            "'isn't' seçeneği bu cümle için gramer açısından uygun değil.",
+            "'be' seçeneği bu cümle için gramer açısından uygun değil."
+          ]
+        },
+        {
+          "q": "___ a bus stop near here.",
+          "options": [
+            "There are",
+            "There is",
+            "There aren't",
+            "It is"
+          ],
+          "a": 1,
+          "why": [
+            "'There are' seçeneği bu cümle için gramer açısından uygun değil.",
+            "a bus stop tekil → There is.",
+            "'There aren't' seçeneği bu cümle için gramer açısından uygun değil.",
+            "'It is' seçeneği bu cümle için gramer açısından uygun değil."
+          ]
+        },
+        {
+          "q": "There ___ some sugar in the cup.",
+          "options": [
+            "is",
+            "are",
+            "isn't",
+            "be"
+          ],
+          "a": 0,
+          "why": [
+            "sugar sayılamaz → There is.",
+            "'are' seçeneği bu cümle için gramer açısından uygun değil.",
+            "'isn't' seçeneği bu cümle için gramer açısından uygun değil.",
+            "'be' seçeneği bu cümle için gramer açısından uygun değil."
+          ]
+        },
+        {
+          "q": "___ two trees behind the house?",
+          "options": [
+            "Is there",
+            "Are there",
+            "There is",
+            "It is"
+          ],
+          "a": 1,
+          "why": [
+            "'Is there' seçeneği bu cümle için gramer açısından uygun değil.",
+            "two trees çoğul → soruda Are there.",
+            "'There is' seçeneği bu cümle için gramer açısından uygun değil.",
+            "'It is' seçeneği bu cümle için gramer açısından uygun değil."
+          ]
+        },
+        {
+          "q": "There ___ no students in the library.",
+          "options": [
+            "is",
+            "are",
+            "isn't",
+            "be"
+          ],
+          "a": 1,
+          "why": [
+            "'is' seçeneği bu cümle için gramer açısından uygun değil.",
+            "no students çoğul → There are.",
+            "'isn't' seçeneği bu cümle için gramer açısından uygun değil.",
+            "'be' seçeneği bu cümle için gramer açısından uygun değil."
+          ]
+        },
+        {
+          "q": "There ___ a big window in my room.",
+          "options": [
+            "are",
+            "is",
+            "aren't",
+            "be"
+          ],
+          "a": 1,
+          "why": [
+            "'are' seçeneği bu cümle için gramer açısından uygun değil.",
+            "a big window tekil → There is.",
+            "'aren't' seçeneği bu cümle için gramer açısından uygun değil.",
+            "'be' seçeneği bu cümle için gramer açısından uygun değil."
+          ]
         }
       ]
     },
@@ -1086,6 +2878,262 @@ window.GRAMMAR_A1 = {
             "to"
           ],
           "a": 2
+        },
+        {
+          "q": "The keys are ___ the box.",
+          "options": [
+            "in",
+            "on",
+            "at",
+            "under"
+          ],
+          "a": 0,
+          "why": [
+            "Kapalı bir yerin içi için in kullanılır.",
+            "'on' seçeneği bu cümle için gramer açısından uygun değil.",
+            "'at' seçeneği bu cümle için gramer açısından uygun değil.",
+            "'under' seçeneği bu cümle için gramer açısından uygun değil."
+          ]
+        },
+        {
+          "q": "My class starts ___ nine o'clock.",
+          "options": [
+            "in",
+            "on",
+            "at",
+            "to"
+          ],
+          "a": 2,
+          "why": [
+            "'in' seçeneği bu cümle için gramer açısından uygun değil.",
+            "'on' seçeneği bu cümle için gramer açısından uygun değil.",
+            "Saatler için at kullanılır.",
+            "'to' seçeneği bu cümle için gramer açısından uygun değil."
+          ]
+        },
+        {
+          "q": "We have a holiday ___ May.",
+          "options": [
+            "on",
+            "at",
+            "in",
+            "to"
+          ],
+          "a": 2,
+          "why": [
+            "'on' seçeneği bu cümle için gramer açısından uygun değil.",
+            "'at' seçeneği bu cümle için gramer açısından uygun değil.",
+            "Aylar için in kullanılır.",
+            "'to' seçeneği bu cümle için gramer açısından uygun değil."
+          ]
+        },
+        {
+          "q": "The picture is ___ the wall.",
+          "options": [
+            "in",
+            "on",
+            "at",
+            "under"
+          ],
+          "a": 1,
+          "why": [
+            "'in' seçeneği bu cümle için gramer açısından uygun değil.",
+            "Yüzeye tutturulan şeyler için on kullanılır.",
+            "'at' seçeneği bu cümle için gramer açısından uygun değil.",
+            "'under' seçeneği bu cümle için gramer açısından uygun değil."
+          ]
+        },
+        {
+          "q": "I go home ___ the evening.",
+          "options": [
+            "on",
+            "at",
+            "in",
+            "to"
+          ],
+          "a": 2,
+          "why": [
+            "'on' seçeneği bu cümle için gramer açısından uygun değil.",
+            "'at' seçeneği bu cümle için gramer açısından uygun değil.",
+            "Sabit ifade: in the evening.",
+            "'to' seçeneği bu cümle için gramer açısından uygun değil."
+          ]
+        },
+        {
+          "q": "She was born ___ 2005.",
+          "options": [
+            "on",
+            "at",
+            "in",
+            "to"
+          ],
+          "a": 2,
+          "why": [
+            "'on' seçeneği bu cümle için gramer açısından uygun değil.",
+            "'at' seçeneği bu cümle için gramer açısından uygun değil.",
+            "Yıllar için in kullanılır.",
+            "'to' seçeneği bu cümle için gramer açısından uygun değil."
+          ]
+        },
+        {
+          "q": "The shop opens ___ Saturday.",
+          "options": [
+            "in",
+            "on",
+            "at",
+            "to"
+          ],
+          "a": 1,
+          "why": [
+            "'in' seçeneği bu cümle için gramer açısından uygun değil.",
+            "Günler için on kullanılır.",
+            "'at' seçeneği bu cümle için gramer açısından uygun değil.",
+            "'to' seçeneği bu cümle için gramer açısından uygun değil."
+          ]
+        },
+        {
+          "q": "The milk is ___ the fridge.",
+          "options": [
+            "in",
+            "on",
+            "at",
+            "under"
+          ],
+          "a": 0,
+          "why": [
+            "Kapalı bir yerin içi için in kullanılır.",
+            "'on' seçeneği bu cümle için gramer açısından uygun değil.",
+            "'at' seçeneği bu cümle için gramer açısından uygun değil.",
+            "'under' seçeneği bu cümle için gramer açısından uygun değil."
+          ]
+        },
+        {
+          "q": "We eat dinner ___ night.",
+          "options": [
+            "in",
+            "on",
+            "at",
+            "to"
+          ],
+          "a": 2,
+          "why": [
+            "'in' seçeneği bu cümle için gramer açısından uygun değil.",
+            "'on' seçeneği bu cümle için gramer açısından uygun değil.",
+            "Sabit ifade: at night.",
+            "'to' seçeneği bu cümle için gramer açısından uygun değil."
+          ]
+        },
+        {
+          "q": "The meeting is ___ Monday morning.",
+          "options": [
+            "in",
+            "on",
+            "at",
+            "to"
+          ],
+          "a": 1,
+          "why": [
+            "'in' seçeneği bu cümle için gramer açısından uygun değil.",
+            "Gün + zaman dilimi için on kullanılır.",
+            "'at' seçeneği bu cümle için gramer açısından uygun değil.",
+            "'to' seçeneği bu cümle için gramer açısından uygun değil."
+          ]
+        },
+        {
+          "q": "She puts the books ___ her bag.",
+          "options": [
+            "in",
+            "on",
+            "at",
+            "under"
+          ],
+          "a": 0,
+          "why": [
+            "Kapalı bir yerin içi için in kullanılır.",
+            "'on' seçeneği bu cümle için gramer açısından uygun değil.",
+            "'at' seçeneği bu cümle için gramer açısından uygun değil.",
+            "'under' seçeneği bu cümle için gramer açısından uygun değil."
+          ]
+        },
+        {
+          "q": "I play football ___ the weekend.",
+          "options": [
+            "in",
+            "on",
+            "at",
+            "to"
+          ],
+          "a": 2,
+          "why": [
+            "'in' seçeneği bu cümle için gramer açısından uygun değil.",
+            "'on' seçeneği bu cümle için gramer açısından uygun değil.",
+            "Sabit ifade: at the weekend.",
+            "'to' seçeneği bu cümle için gramer açısından uygun değil."
+          ]
+        },
+        {
+          "q": "My phone is ___ my pocket.",
+          "options": [
+            "in",
+            "on",
+            "at",
+            "under"
+          ],
+          "a": 0,
+          "why": [
+            "Cebin içi için in kullanılır.",
+            "'on' seçeneği bu cümle için gramer açısından uygun değil.",
+            "'at' seçeneği bu cümle için gramer açısından uygun değil.",
+            "'under' seçeneği bu cümle için gramer açısından uygun değil."
+          ]
+        },
+        {
+          "q": "The party starts ___ 8 pm.",
+          "options": [
+            "in",
+            "on",
+            "at",
+            "to"
+          ],
+          "a": 2,
+          "why": [
+            "'in' seçeneği bu cümle için gramer açısından uygun değil.",
+            "'on' seçeneği bu cümle için gramer açısından uygun değil.",
+            "Saatler için at kullanılır.",
+            "'to' seçeneği bu cümle için gramer açısından uygun değil."
+          ]
+        },
+        {
+          "q": "He was born ___ spring.",
+          "options": [
+            "on",
+            "at",
+            "in",
+            "to"
+          ],
+          "a": 2,
+          "why": [
+            "'on' seçeneği bu cümle için gramer açısından uygun değil.",
+            "'at' seçeneği bu cümle için gramer açısından uygun değil.",
+            "Mevsimler için in kullanılır.",
+            "'to' seçeneği bu cümle için gramer açısından uygun değil."
+          ]
+        },
+        {
+          "q": "There is a letter ___ my desk.",
+          "options": [
+            "in",
+            "on",
+            "at",
+            "under"
+          ],
+          "a": 1,
+          "why": [
+            "'in' seçeneği bu cümle için gramer açısından uygun değil.",
+            "Yüzey üzerinde duran şey için on kullanılır.",
+            "'at' seçeneği bu cümle için gramer açısından uygun değil.",
+            "'under' seçeneği bu cümle için gramer açısından uygun değil."
+          ]
         }
       ]
     },
@@ -1221,6 +3269,262 @@ window.GRAMMAR_A1 = {
             "she's"
           ],
           "a": 1
+        },
+        {
+          "q": "I see ___ every day. (she)",
+          "options": [
+            "she",
+            "her",
+            "hers",
+            "she's"
+          ],
+          "a": 1,
+          "why": [
+            "'she' seçeneği bu cümle için gramer açısından uygun değil.",
+            "Fiilden sonra nesne zamiri her kullanılır.",
+            "'hers' seçeneği bu cümle için gramer açısından uygun değil.",
+            "'she's' seçeneği bu cümle için gramer açısından uygun değil."
+          ]
+        },
+        {
+          "q": "We help ___ with homework. (he)",
+          "options": [
+            "he",
+            "him",
+            "his",
+            "himself"
+          ],
+          "a": 1,
+          "why": [
+            "'he' seçeneği bu cümle için gramer açısından uygun değil.",
+            "Fiilden sonra nesne zamiri him kullanılır.",
+            "'his' seçeneği bu cümle için gramer açısından uygun değil.",
+            "'himself' seçeneği bu cümle için gramer açısından uygun değil."
+          ]
+        },
+        {
+          "q": "The teacher talks to ___. (they)",
+          "options": [
+            "they",
+            "them",
+            "their",
+            "theirs"
+          ],
+          "a": 1,
+          "why": [
+            "'they' seçeneği bu cümle için gramer açısından uygun değil.",
+            "Edattan sonra nesne zamiri them kullanılır.",
+            "'their' seçeneği bu cümle için gramer açısından uygun değil.",
+            "'theirs' seçeneği bu cümle için gramer açısından uygun değil."
+          ]
+        },
+        {
+          "q": "This gift is for ___. (I)",
+          "options": [
+            "I",
+            "me",
+            "my",
+            "mine"
+          ],
+          "a": 1,
+          "why": [
+            "'I' seçeneği bu cümle için gramer açısından uygun değil.",
+            "Edattan sonra nesne zamiri me kullanılır.",
+            "'my' seçeneği bu cümle için gramer açısından uygun değil.",
+            "'mine' seçeneği bu cümle için gramer açısından uygun değil."
+          ]
+        },
+        {
+          "q": "Do you know ___? (we)",
+          "options": [
+            "we",
+            "us",
+            "our",
+            "ours"
+          ],
+          "a": 1,
+          "why": [
+            "'we' seçeneği bu cümle için gramer açısından uygun değil.",
+            "Fiilden sonra nesne zamiri us kullanılır.",
+            "'our' seçeneği bu cümle için gramer açısından uygun değil.",
+            "'ours' seçeneği bu cümle için gramer açısından uygun değil."
+          ]
+        },
+        {
+          "q": "Listen to ___, please. (I)",
+          "options": [
+            "I",
+            "me",
+            "my",
+            "mine"
+          ],
+          "a": 1,
+          "why": [
+            "'I' seçeneği bu cümle için gramer açısından uygun değil.",
+            "Edattan sonra nesne zamiri me kullanılır.",
+            "'my' seçeneği bu cümle için gramer açısından uygun değil.",
+            "'mine' seçeneği bu cümle için gramer açısından uygun değil."
+          ]
+        },
+        {
+          "q": "My sister loves ___. (you)",
+          "options": [
+            "you",
+            "your",
+            "yours",
+            "you're"
+          ],
+          "a": 0,
+          "why": [
+            "you nesne zamirinde de you kalır.",
+            "'your' seçeneği bu cümle için gramer açısından uygun değil.",
+            "'yours' seçeneği bu cümle için gramer açısından uygun değil.",
+            "'you're' seçeneği bu cümle için gramer açısından uygun değil."
+          ]
+        },
+        {
+          "q": "The waiter serves ___ quickly. (they)",
+          "options": [
+            "they",
+            "them",
+            "their",
+            "theirs"
+          ],
+          "a": 1,
+          "why": [
+            "'they' seçeneği bu cümle için gramer açısından uygun değil.",
+            "Fiilden sonra nesne zamiri them kullanılır.",
+            "'their' seçeneği bu cümle için gramer açısından uygun değil.",
+            "'theirs' seçeneği bu cümle için gramer açısından uygun değil."
+          ]
+        },
+        {
+          "q": "I go to the park with ___. (she)",
+          "options": [
+            "she",
+            "her",
+            "hers",
+            "she's"
+          ],
+          "a": 1,
+          "why": [
+            "'she' seçeneği bu cümle için gramer açısından uygun değil.",
+            "Edattan sonra nesne zamiri her kullanılır.",
+            "'hers' seçeneği bu cümle için gramer açısından uygun değil.",
+            "'she's' seçeneği bu cümle için gramer açısından uygun değil."
+          ]
+        },
+        {
+          "q": "Please tell ___ the truth. (he)",
+          "options": [
+            "he",
+            "him",
+            "his",
+            "himself"
+          ],
+          "a": 1,
+          "why": [
+            "'he' seçeneği bu cümle için gramer açısından uygun değil.",
+            "Fiilden sonra nesne zamiri him kullanılır.",
+            "'his' seçeneği bu cümle için gramer açısından uygun değil.",
+            "'himself' seçeneği bu cümle için gramer açısından uygun değil."
+          ]
+        },
+        {
+          "q": "We waited for ___. (they)",
+          "options": [
+            "they",
+            "them",
+            "their",
+            "theirs"
+          ],
+          "a": 1,
+          "why": [
+            "'they' seçeneği bu cümle için gramer açısından uygun değil.",
+            "Edattan sonra nesne zamiri them kullanılır.",
+            "'their' seçeneği bu cümle için gramer açısından uygun değil.",
+            "'theirs' seçeneği bu cümle için gramer açısından uygun değil."
+          ]
+        },
+        {
+          "q": "She buys fruit for ___. (we)",
+          "options": [
+            "we",
+            "us",
+            "our",
+            "ours"
+          ],
+          "a": 1,
+          "why": [
+            "'we' seçeneği bu cümle için gramer açısından uygun değil.",
+            "Edattan sonra nesne zamiri us kullanılır.",
+            "'our' seçeneği bu cümle için gramer açısından uygun değil.",
+            "'ours' seçeneği bu cümle için gramer açısından uygun değil."
+          ]
+        },
+        {
+          "q": "Call ___ later. (we)",
+          "options": [
+            "we",
+            "us",
+            "our",
+            "ours"
+          ],
+          "a": 1,
+          "why": [
+            "'we' seçeneği bu cümle için gramer açısından uygun değil.",
+            "Fiilden sonra nesne zamiri us kullanılır.",
+            "'our' seçeneği bu cümle için gramer açısından uygun değil.",
+            "'ours' seçeneği bu cümle için gramer açısından uygun değil."
+          ]
+        },
+        {
+          "q": "The dog follows ___. (he)",
+          "options": [
+            "he",
+            "him",
+            "his",
+            "himself"
+          ],
+          "a": 1,
+          "why": [
+            "'he' seçeneği bu cümle için gramer açısından uygun değil.",
+            "Fiilden sonra nesne zamiri him kullanılır.",
+            "'his' seçeneği bu cümle için gramer açısından uygun değil.",
+            "'himself' seçeneği bu cümle için gramer açısından uygun değil."
+          ]
+        },
+        {
+          "q": "She writes to ___ every week. (I)",
+          "options": [
+            "I",
+            "me",
+            "my",
+            "mine"
+          ],
+          "a": 1,
+          "why": [
+            "'I' seçeneği bu cümle için gramer açısından uygun değil.",
+            "Edattan sonra nesne zamiri me kullanılır.",
+            "'my' seçeneği bu cümle için gramer açısından uygun değil.",
+            "'mine' seçeneği bu cümle için gramer açısından uygun değil."
+          ]
+        },
+        {
+          "q": "Can you drive ___ to school? (they)",
+          "options": [
+            "they",
+            "them",
+            "their",
+            "theirs"
+          ],
+          "a": 1,
+          "why": [
+            "'they' seçeneği bu cümle için gramer açısından uygun değil.",
+            "Fiilden sonra nesne zamiri them kullanılır.",
+            "'their' seçeneği bu cümle için gramer açısından uygun değil.",
+            "'theirs' seçeneği bu cümle için gramer açısından uygun değil."
+          ]
         }
       ]
     },
@@ -1356,6 +3660,262 @@ window.GRAMMAR_A1 = {
             "Amines"
           ],
           "a": 1
+        },
+        {
+          "q": "This is ___ book. (Leyla)",
+          "options": [
+            "Leyla",
+            "Leyla's",
+            "Leyla is",
+            "Leylas"
+          ],
+          "a": 1,
+          "why": [
+            "'Leyla' seçeneği bu cümle için gramer açısından uygun değil.",
+            "Aidiyet için isimden sonra 's eklenir → Leyla's.",
+            "'Leyla is' seçeneği bu cümle için gramer açısından uygun değil.",
+            "'Leylas' seçeneği bu cümle için gramer açısından uygun değil."
+          ]
+        },
+        {
+          "q": "___ room is very clean. (they)",
+          "options": [
+            "They",
+            "Them",
+            "Their",
+            "Theirs"
+          ],
+          "a": 2,
+          "why": [
+            "'They' seçeneği bu cümle için gramer açısından uygun değil.",
+            "'Them' seçeneği bu cümle için gramer açısından uygun değil.",
+            "'Onların odası' için iyelik sıfatı their kullanılır.",
+            "'Theirs' seçeneği bu cümle için gramer açısından uygun değil."
+          ]
+        },
+        {
+          "q": "It's my ___ phone. (brother)",
+          "options": [
+            "brother",
+            "brother's",
+            "brothers",
+            "brothers's"
+          ],
+          "a": 1,
+          "why": [
+            "'brother' seçeneği bu cümle için gramer açısından uygun değil.",
+            "Aidiyet için isimden sonra 's eklenir → brother's.",
+            "'brothers' seçeneği bu cümle için gramer açısından uygun değil.",
+            "'brothers's' seçeneği bu cümle için gramer açısından uygun değil."
+          ]
+        },
+        {
+          "q": "___ cat is on the roof. (she)",
+          "options": [
+            "She",
+            "Her",
+            "Hers",
+            "She's"
+          ],
+          "a": 1,
+          "why": [
+            "'She' seçeneği bu cümle için gramer açısından uygun değil.",
+            "'Onun (kadının) kedisi' için her kullanılır.",
+            "'Hers' seçeneği bu cümle için gramer açısından uygun değil.",
+            "'She's' seçeneği bu cümle için gramer açısından uygun değil."
+          ]
+        },
+        {
+          "q": "This is ___ bag. (mother)",
+          "options": [
+            "mother",
+            "mother's",
+            "mothers",
+            "mothers's"
+          ],
+          "a": 1,
+          "why": [
+            "'mother' seçeneği bu cümle için gramer açısından uygun değil.",
+            "Aidiyet için isimden sonra 's eklenir → mother's.",
+            "'mothers' seçeneği bu cümle için gramer açısından uygun değil.",
+            "'mothers's' seçeneği bu cümle için gramer açısından uygun değil."
+          ]
+        },
+        {
+          "q": "___ garden is full of flowers. (we)",
+          "options": [
+            "We",
+            "Us",
+            "Our",
+            "Ours"
+          ],
+          "a": 2,
+          "why": [
+            "'We' seçeneği bu cümle için gramer açısından uygun değil.",
+            "'Us' seçeneği bu cümle için gramer açısından uygun değil.",
+            "'Bizim bahçemiz' için iyelik sıfatı our kullanılır.",
+            "'Ours' seçeneği bu cümle için gramer açısından uygun değil."
+          ]
+        },
+        {
+          "q": "Whose shoes are these? — They're ___. (Mert)",
+          "options": [
+            "Mert",
+            "Mert's",
+            "Mert is",
+            "Merts"
+          ],
+          "a": 1,
+          "why": [
+            "'Mert' seçeneği bu cümle için gramer açısından uygun değil.",
+            "Aidiyet sorusuna 's ile cevap verilir → Mert's.",
+            "'Mert is' seçeneği bu cümle için gramer açısından uygun değil.",
+            "'Merts' seçeneği bu cümle için gramer açısından uygun değil."
+          ]
+        },
+        {
+          "q": "___ school is near here. (they)",
+          "options": [
+            "They",
+            "Them",
+            "Their",
+            "Theirs"
+          ],
+          "a": 2,
+          "why": [
+            "'They' seçeneği bu cümle için gramer açısından uygun değil.",
+            "'Them' seçeneği bu cümle için gramer açısından uygun değil.",
+            "'Onların okulu' için iyelik sıfatı their kullanılır.",
+            "'Theirs' seçeneği bu cümle için gramer açısından uygun değil."
+          ]
+        },
+        {
+          "q": "It's my ___ book. (friend)",
+          "options": [
+            "friend",
+            "friend's",
+            "friends",
+            "friends's"
+          ],
+          "a": 1,
+          "why": [
+            "'friend' seçeneği bu cümle için gramer açısından uygun değil.",
+            "Aidiyet için isimden sonra 's eklenir → friend's.",
+            "'friends' seçeneği bu cümle için gramer açısından uygun değil.",
+            "'friends's' seçeneği bu cümle için gramer açısından uygun değil."
+          ]
+        },
+        {
+          "q": "___ name is Zeynep. (she)",
+          "options": [
+            "She",
+            "Her",
+            "Hers",
+            "She's"
+          ],
+          "a": 1,
+          "why": [
+            "'She' seçeneği bu cümle için gramer açısından uygun değil.",
+            "'Onun (kadının) adı' için her kullanılır.",
+            "'Hers' seçeneği bu cümle için gramer açısından uygun değil.",
+            "'She's' seçeneği bu cümle için gramer açısından uygun değil."
+          ]
+        },
+        {
+          "q": "This is ___ desk. (teacher)",
+          "options": [
+            "teacher",
+            "teacher's",
+            "teachers",
+            "teachers's"
+          ],
+          "a": 1,
+          "why": [
+            "'teacher' seçeneği bu cümle için gramer açısından uygun değil.",
+            "Aidiyet için isimden sonra 's eklenir → teacher's.",
+            "'teachers' seçeneği bu cümle için gramer açısından uygun değil.",
+            "'teachers's' seçeneği bu cümle için gramer açısından uygun değil."
+          ]
+        },
+        {
+          "q": "___ team won the game. (we)",
+          "options": [
+            "We",
+            "Us",
+            "Our",
+            "Ours"
+          ],
+          "a": 2,
+          "why": [
+            "'We' seçeneği bu cümle için gramer açısından uygun değil.",
+            "'Us' seçeneği bu cümle için gramer açısından uygun değil.",
+            "'Bizim takımımız' için iyelik sıfatı our kullanılır.",
+            "'Ours' seçeneği bu cümle için gramer açısından uygun değil."
+          ]
+        },
+        {
+          "q": "Whose bag is this? — It's ___. (Deniz)",
+          "options": [
+            "Deniz",
+            "Deniz's",
+            "Deniz is",
+            "Denizes"
+          ],
+          "a": 1,
+          "why": [
+            "'Deniz' seçeneği bu cümle için gramer açısından uygun değil.",
+            "Aidiyet sorusuna 's ile cevap verilir → Deniz's.",
+            "'Deniz is' seçeneği bu cümle için gramer açısından uygun değil.",
+            "'Denizes' seçeneği bu cümle için gramer açısından uygun değil."
+          ]
+        },
+        {
+          "q": "___ phone is on the table. (he)",
+          "options": [
+            "He",
+            "Him",
+            "His",
+            "He's"
+          ],
+          "a": 2,
+          "why": [
+            "'He' seçeneği bu cümle için gramer açısından uygun değil.",
+            "'Him' seçeneği bu cümle için gramer açısından uygun değil.",
+            "'Onun (erkeğin) telefonu' için his kullanılır.",
+            "'He's' seçeneği bu cümle için gramer açısından uygun değil."
+          ]
+        },
+        {
+          "q": "It's my ___ room. (sister)",
+          "options": [
+            "sister",
+            "sister's",
+            "sisters",
+            "sisters's"
+          ],
+          "a": 1,
+          "why": [
+            "'sister' seçeneği bu cümle için gramer açısından uygun değil.",
+            "Aidiyet için isimden sonra 's eklenir → sister's.",
+            "'sisters' seçeneği bu cümle için gramer açısından uygun değil.",
+            "'sisters's' seçeneği bu cümle için gramer açısından uygun değil."
+          ]
+        },
+        {
+          "q": "___ parents are very kind. (they)",
+          "options": [
+            "They",
+            "Them",
+            "Their",
+            "Theirs"
+          ],
+          "a": 2,
+          "why": [
+            "'They' seçeneği bu cümle için gramer açısından uygun değil.",
+            "'Them' seçeneği bu cümle için gramer açısından uygun değil.",
+            "'Onların anne babası' için iyelik sıfatı their kullanılır.",
+            "'Theirs' seçeneği bu cümle için gramer açısından uygun değil."
+          ]
         }
       ]
     },
@@ -1491,6 +4051,262 @@ window.GRAMMAR_A1 = {
             "this"
           ],
           "a": 3
+        },
+        {
+          "q": "___ is my sister. (near me)",
+          "options": [
+            "This",
+            "These",
+            "That",
+            "Those"
+          ],
+          "a": 0,
+          "why": [
+            "Yakındaki tekil şey için this kullanılır.",
+            "'These' seçeneği bu cümle için gramer açısından uygun değil.",
+            "'That' seçeneği bu cümle için gramer açısından uygun değil.",
+            "'Those' seçeneği bu cümle için gramer açısından uygun değil."
+          ]
+        },
+        {
+          "q": "___ are new books. (near me)",
+          "options": [
+            "This",
+            "These",
+            "That",
+            "Those"
+          ],
+          "a": 1,
+          "why": [
+            "'This' seçeneği bu cümle için gramer açısından uygun değil.",
+            "Yakındaki çoğul şey için these kullanılır.",
+            "'That' seçeneği bu cümle için gramer açısından uygun değil.",
+            "'Those' seçeneği bu cümle için gramer açısından uygun değil."
+          ]
+        },
+        {
+          "q": "___ is a big tree. (over there)",
+          "options": [
+            "This",
+            "These",
+            "That",
+            "Those"
+          ],
+          "a": 2,
+          "why": [
+            "'This' seçeneği bu cümle için gramer açısından uygun değil.",
+            "'These' seçeneği bu cümle için gramer açısından uygun değil.",
+            "Uzaktaki tekil şey için that kullanılır.",
+            "'Those' seçeneği bu cümle için gramer açısından uygun değil."
+          ]
+        },
+        {
+          "q": "___ students are in my class. (near me)",
+          "options": [
+            "This",
+            "These",
+            "That",
+            "Those"
+          ],
+          "a": 1,
+          "why": [
+            "'This' seçeneği bu cümle için gramer açısından uygun değil.",
+            "Yakındaki çoğul isim için these kullanılır.",
+            "'That' seçeneği bu cümle için gramer açısından uygun değil.",
+            "'Those' seçeneği bu cümle için gramer açısından uygun değil."
+          ]
+        },
+        {
+          "q": "___ mountains are very high. (over there)",
+          "options": [
+            "This",
+            "That",
+            "These",
+            "Those"
+          ],
+          "a": 3,
+          "why": [
+            "'This' seçeneği bu cümle için gramer açısından uygun değil.",
+            "'That' seçeneği bu cümle için gramer açısından uygun değil.",
+            "'These' seçeneği bu cümle için gramer açısından uygun değil.",
+            "Uzaktaki çoğul isim için those kullanılır."
+          ]
+        },
+        {
+          "q": "___ is your seat. (the one near the door)",
+          "options": [
+            "This",
+            "These",
+            "That",
+            "Those"
+          ],
+          "a": 2,
+          "why": [
+            "'This' seçeneği bu cümle için gramer açısından uygun değil.",
+            "'These' seçeneği bu cümle için gramer açısından uygun değil.",
+            "Uzakta gösterilen tekil şey için that kullanılır.",
+            "'Those' seçeneği bu cümle için gramer açısından uygun değil."
+          ]
+        },
+        {
+          "q": "___ boys are my friends. (near me)",
+          "options": [
+            "This",
+            "These",
+            "That",
+            "Those"
+          ],
+          "a": 1,
+          "why": [
+            "'This' seçeneği bu cümle için gramer açısından uygun değil.",
+            "Yakındaki çoğul isim için these kullanılır.",
+            "'That' seçeneği bu cümle için gramer açısından uygun değil.",
+            "'Those' seçeneği bu cümle için gramer açısından uygun değil."
+          ]
+        },
+        {
+          "q": "Is ___ your coat? (the one far away)",
+          "options": [
+            "this",
+            "those",
+            "these",
+            "that"
+          ],
+          "a": 3,
+          "why": [
+            "'this' seçeneği bu cümle için gramer açısından uygun değil.",
+            "'those' seçeneği bu cümle için gramer açısından uygun değil.",
+            "'these' seçeneği bu cümle için gramer açısından uygun değil.",
+            "Uzaktaki tekil şey için that kullanılır."
+          ]
+        },
+        {
+          "q": "___ dogs are barking. (over there)",
+          "options": [
+            "This",
+            "That",
+            "These",
+            "Those"
+          ],
+          "a": 3,
+          "why": [
+            "'This' seçeneği bu cümle için gramer açısından uygun değil.",
+            "'That' seçeneği bu cümle için gramer açısından uygun değil.",
+            "'These' seçeneği bu cümle için gramer açısından uygun değil.",
+            "Uzaktaki çoğul isim için those kullanılır."
+          ]
+        },
+        {
+          "q": "___ is a beautiful picture. (here)",
+          "options": [
+            "That",
+            "Those",
+            "This",
+            "These"
+          ],
+          "a": 2,
+          "why": [
+            "'That' seçeneği bu cümle için gramer açısından uygun değil.",
+            "'Those' seçeneği bu cümle için gramer açısından uygun değil.",
+            "Yakındaki tekil şey için this kullanılır.",
+            "'These' seçeneği bu cümle için gramer açısından uygun değil."
+          ]
+        },
+        {
+          "q": "Are ___ your glasses? (near me)",
+          "options": [
+            "this",
+            "these",
+            "that",
+            "those"
+          ],
+          "a": 1,
+          "why": [
+            "'this' seçeneği bu cümle için gramer açısından uygun değil.",
+            "Yakındaki çoğul isim için these kullanılır.",
+            "'that' seçeneği bu cümle için gramer açısından uygun değil.",
+            "'those' seçeneği bu cümle için gramer açısından uygun değil."
+          ]
+        },
+        {
+          "q": "___ is my mother. (that woman over there)",
+          "options": [
+            "This",
+            "These",
+            "That",
+            "Those"
+          ],
+          "a": 2,
+          "why": [
+            "'This' seçeneği bu cümle için gramer açısından uygun değil.",
+            "'These' seçeneği bu cümle için gramer açısından uygun değil.",
+            "Uzaktaki tekil şey için that kullanılır.",
+            "'Those' seçeneği bu cümle için gramer açısından uygun değil."
+          ]
+        },
+        {
+          "q": "___ people are my neighbors. (near me)",
+          "options": [
+            "This",
+            "These",
+            "That",
+            "Those"
+          ],
+          "a": 1,
+          "why": [
+            "'This' seçeneği bu cümle için gramer açısından uygun değil.",
+            "Yakındaki çoğul isim için these kullanılır.",
+            "'That' seçeneği bu cümle için gramer açısından uygun değil.",
+            "'Those' seçeneği bu cümle için gramer açısından uygun değil."
+          ]
+        },
+        {
+          "q": "___ is very expensive. (that car over there)",
+          "options": [
+            "This",
+            "These",
+            "That",
+            "Those"
+          ],
+          "a": 2,
+          "why": [
+            "'This' seçeneği bu cümle için gramer açısından uygun değil.",
+            "'These' seçeneği bu cümle için gramer açısından uygun değil.",
+            "Uzaktaki tekil şey için that kullanılır.",
+            "'Those' seçeneği bu cümle için gramer açısından uygun değil."
+          ]
+        },
+        {
+          "q": "___ apples taste sweet. (near me)",
+          "options": [
+            "This",
+            "These",
+            "That",
+            "Those"
+          ],
+          "a": 1,
+          "why": [
+            "'This' seçeneği bu cümle için gramer açısından uygun değil.",
+            "Yakındaki çoğul isim için these kullanılır.",
+            "'That' seçeneği bu cümle için gramer açısından uygun değil.",
+            "'Those' seçeneği bu cümle için gramer açısından uygun değil."
+          ]
+        },
+        {
+          "q": "What is ___? (the thing far from us)",
+          "options": [
+            "this",
+            "these",
+            "that",
+            "those"
+          ],
+          "a": 2,
+          "why": [
+            "'this' seçeneği bu cümle için gramer açısından uygun değil.",
+            "'these' seçeneği bu cümle için gramer açısından uygun değil.",
+            "Uzaktaki tekil şey için that kullanılır.",
+            "'those' seçeneği bu cümle için gramer açısından uygun değil."
+          ]
         }
       ]
     },
@@ -1626,6 +4442,262 @@ window.GRAMMAR_A1 = {
             "beauties"
           ],
           "a": 1
+        },
+        {
+          "q": "She lives in a ___ flat. (small)",
+          "options": [
+            "small flat",
+            "flat small",
+            "smalls flat",
+            "flat smalls"
+          ],
+          "a": 0,
+          "why": [
+            "Sıfat isimden önce gelir → small flat.",
+            "'flat small' seçeneği bu cümle için gramer açısından uygun değil.",
+            "'smalls flat' seçeneği bu cümle için gramer açısından uygun değil.",
+            "'flat smalls' seçeneği bu cümle için gramer açısından uygun değil."
+          ]
+        },
+        {
+          "q": "He is a very ___ boy.",
+          "options": [
+            "wise",
+            "wises",
+            "wisely",
+            "wisdom"
+          ],
+          "a": 0,
+          "why": [
+            "Sıfat be fiilinden sonra yalın kalır → wise.",
+            "'wises' seçeneği bu cümle için gramer açısından uygun değil.",
+            "'wisely' seçeneği bu cümle için gramer açısından uygun değil.",
+            "'wisdom' seçeneği bu cümle için gramer açısından uygun değil."
+          ]
+        },
+        {
+          "q": "The soup is too ___. (hot)",
+          "options": [
+            "hot",
+            "hots",
+            "hotly",
+            "hot's"
+          ],
+          "a": 0,
+          "why": [
+            "Sıfat be fiilinden sonra yalın kalır → hot.",
+            "'hots' seçeneği bu cümle için gramer açısından uygun değil.",
+            "'hotly' seçeneği bu cümle için gramer açısından uygun değil.",
+            "'hot's' seçeneği bu cümle için gramer açısından uygun değil."
+          ]
+        },
+        {
+          "q": "My uncle drives a ___ car. (fast)",
+          "options": [
+            "fast car",
+            "car fast",
+            "fasts car",
+            "car fasts"
+          ],
+          "a": 0,
+          "why": [
+            "Sıfat isimden önce gelir → fast car.",
+            "'car fast' seçeneği bu cümle için gramer açısından uygun değil.",
+            "'fasts car' seçeneği bu cümle için gramer açısından uygun değil.",
+            "'car fasts' seçeneği bu cümle için gramer açısından uygun değil."
+          ]
+        },
+        {
+          "q": "That is a ___ idea.",
+          "options": [
+            "good",
+            "goods",
+            "goodly",
+            "goodness"
+          ],
+          "a": 0,
+          "why": [
+            "Sıfat isimden önce değişmeden gelir → good.",
+            "'goods' seçeneği bu cümle için gramer açısından uygun değil.",
+            "'goodly' seçeneği bu cümle için gramer açısından uygun değil.",
+            "'goodness' seçeneği bu cümle için gramer açısından uygun değil."
+          ]
+        },
+        {
+          "q": "The children look ___ today.",
+          "options": [
+            "happy",
+            "happily",
+            "happys",
+            "happiness"
+          ],
+          "a": 0,
+          "why": [
+            "Sıfat değişmeden kalır, çoğul eklenmez → happy.",
+            "'happily' seçeneği bu cümle için gramer açısından uygun değil.",
+            "'happys' seçeneği bu cümle için gramer açısından uygun değil.",
+            "'happiness' seçeneği bu cümle için gramer açısından uygun değil."
+          ]
+        },
+        {
+          "q": "She bought a ___ dress. (blue)",
+          "options": [
+            "blue",
+            "blues",
+            "bluely",
+            "blue's"
+          ],
+          "a": 0,
+          "why": [
+            "Sıfat isimden önce yalın gelir → blue.",
+            "'blues' seçeneği bu cümle için gramer açısından uygun değil.",
+            "'bluely' seçeneği bu cümle için gramer açısından uygun değil.",
+            "'blue's' seçeneği bu cümle için gramer açısından uygun değil."
+          ]
+        },
+        {
+          "q": "The room is very ___. (clean)",
+          "options": [
+            "clean",
+            "cleans",
+            "cleanly",
+            "cleaner"
+          ],
+          "a": 0,
+          "why": [
+            "Sıfat be fiilinden sonra yalın kalır → clean.",
+            "'cleans' seçeneği bu cümle için gramer açısından uygun değil.",
+            "'cleanly' seçeneği bu cümle için gramer açısından uygun değil.",
+            "'cleaner' seçeneği bu cümle için gramer açısından uygun değil."
+          ]
+        },
+        {
+          "q": "He gave me a ___ gift.",
+          "options": [
+            "beautiful",
+            "beautifully",
+            "beauties",
+            "beauty"
+          ],
+          "a": 0,
+          "why": [
+            "Sıfat isimden önce gelir → beautiful.",
+            "'beautifully' seçeneği bu cümle için gramer açısından uygun değil.",
+            "'beauties' seçeneği bu cümle için gramer açısından uygun değil.",
+            "'beauty' seçeneği bu cümle için gramer açısından uygun değil."
+          ]
+        },
+        {
+          "q": "I want a ___ table. (new)",
+          "options": [
+            "new",
+            "news",
+            "newly",
+            "new's"
+          ],
+          "a": 0,
+          "why": [
+            "Sıfat isimden önce yalın gelir → new.",
+            "'news' seçeneği bu cümle için gramer açısından uygun değil.",
+            "'newly' seçeneği bu cümle için gramer açısından uygun değil.",
+            "'new's' seçeneği bu cümle için gramer açısından uygun değil."
+          ]
+        },
+        {
+          "q": "This is a ___ restaurant.",
+          "options": [
+            "tasty",
+            "tastily",
+            "taste",
+            "tastes"
+          ],
+          "a": 0,
+          "why": [
+            "Sıfat isimden önce gelir → tasty.",
+            "'tastily' seçeneği bu cümle için gramer açısından uygun değil.",
+            "'taste' seçeneği bu cümle için gramer açısından uygun değil.",
+            "'tastes' seçeneği bu cümle için gramer açısından uygun değil."
+          ]
+        },
+        {
+          "q": "The movie was very ___. (funny)",
+          "options": [
+            "funny",
+            "funnily",
+            "funnys",
+            "funner"
+          ],
+          "a": 0,
+          "why": [
+            "Sıfat be fiilinden sonra yalın kalır → funny.",
+            "'funnily' seçeneği bu cümle için gramer açısından uygun değil.",
+            "'funnys' seçeneği bu cümle için gramer açısından uygun değil.",
+            "'funner' seçeneği bu cümle için gramer açısından uygun değil."
+          ]
+        },
+        {
+          "q": "She has ___ hair. (long)",
+          "options": [
+            "long",
+            "longs",
+            "longly",
+            "longer"
+          ],
+          "a": 0,
+          "why": [
+            "Sıfat isimden önce yalın gelir → long.",
+            "'longs' seçeneği bu cümle için gramer açısından uygun değil.",
+            "'longly' seçeneği bu cümle için gramer açısından uygun değil.",
+            "'longer' seçeneği bu cümle için gramer açısından uygun değil."
+          ]
+        },
+        {
+          "q": "It's a ___ day today. (sunny)",
+          "options": [
+            "sunny",
+            "sunnily",
+            "sunnys",
+            "sun"
+          ],
+          "a": 0,
+          "why": [
+            "Sıfat isimden önce gelir → sunny.",
+            "'sunnily' seçeneği bu cümle için gramer açısından uygun değil.",
+            "'sunnys' seçeneği bu cümle için gramer açısından uygun değil.",
+            "'sun' seçeneği bu cümle için gramer açısından uygun değil."
+          ]
+        },
+        {
+          "q": "The ice cream is very ___. (cold)",
+          "options": [
+            "cold",
+            "colds",
+            "coldly",
+            "cold's"
+          ],
+          "a": 0,
+          "why": [
+            "Sıfat be fiilinden sonra yalın kalır → cold.",
+            "'colds' seçeneği bu cümle için gramer açısından uygun değil.",
+            "'coldly' seçeneği bu cümle için gramer açısından uygun değil.",
+            "'cold's' seçeneği bu cümle için gramer açısından uygun değil."
+          ]
+        },
+        {
+          "q": "This orange is ___. (sweet)",
+          "options": [
+            "sweet",
+            "sweets",
+            "sweetly",
+            "sweetness"
+          ],
+          "a": 0,
+          "why": [
+            "Sıfat be fiilinden sonra yalın kalır → sweet.",
+            "'sweets' seçeneği bu cümle için gramer açısından uygun değil.",
+            "'sweetly' seçeneği bu cümle için gramer açısından uygun değil.",
+            "'sweetness' seçeneği bu cümle için gramer açısından uygun değil."
+          ]
         }
       ]
     },
@@ -1761,6 +4833,262 @@ window.GRAMMAR_A1 = {
             "never come"
           ],
           "a": 1
+        },
+        {
+          "q": "She ___ drinks tea. (0%)",
+          "options": [
+            "usually",
+            "never",
+            "often",
+            "always"
+          ],
+          "a": 1,
+          "why": [
+            "'usually' seçeneği bu cümle için gramer açısından uygun değil.",
+            "%0 sıklığı ifade eden zarf never'dir.",
+            "'often' seçeneği bu cümle için gramer açısından uygun değil.",
+            "'always' seçeneği bu cümle için gramer açısından uygun değil."
+          ]
+        },
+        {
+          "q": "I ___ eat breakfast. (90%)",
+          "options": [
+            "usually",
+            "never",
+            "sometimes",
+            "always"
+          ],
+          "a": 0,
+          "why": [
+            "Yaklaşık %90 sıklık için usually kullanılır.",
+            "'never' seçeneği bu cümle için gramer açısından uygun değil.",
+            "'sometimes' seçeneği bu cümle için gramer açısından uygun değil.",
+            "'always' seçeneği bu cümle için gramer açısından uygun değil."
+          ]
+        },
+        {
+          "q": "They are ___ late. (always)",
+          "options": [
+            "always",
+            "usually",
+            "never",
+            "sometimes"
+          ],
+          "a": 0,
+          "why": [
+            "Her zaman anlamı için always kullanılır.",
+            "'usually' seçeneği bu cümle için gramer açısından uygun değil.",
+            "'never' seçeneği bu cümle için gramer açısından uygun değil.",
+            "'sometimes' seçeneği bu cümle için gramer açısından uygun değil."
+          ]
+        },
+        {
+          "q": "My father ___ reads the news. (often)",
+          "options": [
+            "often",
+            "never",
+            "always",
+            "rarely"
+          ],
+          "a": 0,
+          "why": [
+            "Sık sık anlamı için often kullanılır.",
+            "'never' seçeneği bu cümle için gramer açısından uygun değil.",
+            "'always' seçeneği bu cümle için gramer açısından uygun değil.",
+            "'rarely' seçeneği bu cümle için gramer açısından uygun değil."
+          ]
+        },
+        {
+          "q": "We ___ visit our grandparents. (sometimes)",
+          "options": [
+            "always",
+            "sometimes",
+            "never",
+            "usually"
+          ],
+          "a": 1,
+          "why": [
+            "'always' seçeneği bu cümle için gramer açısından uygun değil.",
+            "Bazen anlamı için sometimes kullanılır.",
+            "'never' seçeneği bu cümle için gramer açısından uygun değil.",
+            "'usually' seçeneği bu cümle için gramer açısından uygun değil."
+          ]
+        },
+        {
+          "q": "He ___ plays basketball. (rarely)",
+          "options": [
+            "rarely",
+            "always",
+            "never",
+            "often"
+          ],
+          "a": 0,
+          "why": [
+            "Nadiren anlamı için rarely kullanılır.",
+            "'always' seçeneği bu cümle için gramer açısından uygun değil.",
+            "'never' seçeneği bu cümle için gramer açısından uygun değil.",
+            "'often' seçeneği bu cümle için gramer açısından uygun değil."
+          ]
+        },
+        {
+          "q": "I ___ get up early. (never)",
+          "options": [
+            "never",
+            "always",
+            "usually",
+            "often"
+          ],
+          "a": 0,
+          "why": [
+            "Asla anlamı için never kullanılır.",
+            "'always' seçeneği bu cümle için gramer açısından uygun değil.",
+            "'usually' seçeneği bu cümle için gramer açısından uygun değil.",
+            "'often' seçeneği bu cümle için gramer açısından uygun değil."
+          ]
+        },
+        {
+          "q": "She ___ cooks dinner. (every day)",
+          "options": [
+            "always",
+            "sometimes",
+            "never",
+            "rarely"
+          ],
+          "a": 0,
+          "why": [
+            "Her gün = her zaman, for always kullanılır.",
+            "'sometimes' seçeneği bu cümle için gramer açısından uygun değil.",
+            "'never' seçeneği bu cümle için gramer açısından uygun değil.",
+            "'rarely' seçeneği bu cümle için gramer açısından uygun değil."
+          ]
+        },
+        {
+          "q": "We ___ go on holiday in summer. (usually)",
+          "options": [
+            "usually",
+            "never",
+            "sometimes",
+            "always"
+          ],
+          "a": 0,
+          "why": [
+            "Genellikle anlamı için usually kullanılır.",
+            "'never' seçeneği bu cümle için gramer açısından uygun değil.",
+            "'sometimes' seçeneği bu cümle için gramer açısından uygun değil.",
+            "'always' seçeneği bu cümle için gramer açısından uygun değil."
+          ]
+        },
+        {
+          "q": "She ___ gets angry. (never)",
+          "options": [
+            "always",
+            "never",
+            "sometimes",
+            "often"
+          ],
+          "a": 1,
+          "why": [
+            "'always' seçeneği bu cümle için gramer açısından uygun değil.",
+            "Asla anlamı için never kullanılır.",
+            "'sometimes' seçeneği bu cümle için gramer açısından uygun değil.",
+            "'often' seçeneği bu cümle için gramer açısından uygun değil."
+          ]
+        },
+        {
+          "q": "I ___ forget my keys. (sometimes)",
+          "options": [
+            "sometimes",
+            "always",
+            "never",
+            "usually"
+          ],
+          "a": 0,
+          "why": [
+            "Bazen anlamı için sometimes kullanılır.",
+            "'always' seçeneği bu cümle için gramer açısından uygun değil.",
+            "'never' seçeneği bu cümle için gramer açısından uygun değil.",
+            "'usually' seçeneği bu cümle için gramer açısından uygun değil."
+          ]
+        },
+        {
+          "q": "They ___ eat out on weekends. (often)",
+          "options": [
+            "always",
+            "never",
+            "often",
+            "usually"
+          ],
+          "a": 2,
+          "why": [
+            "'always' seçeneği bu cümle için gramer açısından uygun değil.",
+            "'never' seçeneği bu cümle için gramer açısından uygun değil.",
+            "Sık sık anlamı için often kullanılır.",
+            "'usually' seçeneği bu cümle için gramer açısından uygun değil."
+          ]
+        },
+        {
+          "q": "He ___ eats vegetables. (90%)",
+          "options": [
+            "never",
+            "usually",
+            "always",
+            "sometimes"
+          ],
+          "a": 1,
+          "why": [
+            "'never' seçeneği bu cümle için gramer açısından uygun değil.",
+            "Yaklaşık %90 sıklık için usually kullanılır.",
+            "'always' seçeneği bu cümle için gramer açısından uygun değil.",
+            "'sometimes' seçeneği bu cümle için gramer açısından uygun değil."
+          ]
+        },
+        {
+          "q": "I ___ walk to work. (always)",
+          "options": [
+            "always",
+            "never",
+            "sometimes",
+            "rarely"
+          ],
+          "a": 0,
+          "why": [
+            "Her zaman anlamı için always kullanılır.",
+            "'never' seçeneği bu cümle için gramer açısından uygun değil.",
+            "'sometimes' seçeneği bu cümle için gramer açısından uygun değil.",
+            "'rarely' seçeneği bu cümle için gramer açısından uygun değil."
+          ]
+        },
+        {
+          "q": "She ___ sleeps early. (usually)",
+          "options": [
+            "never",
+            "sometimes",
+            "always",
+            "usually"
+          ],
+          "a": 3,
+          "why": [
+            "'never' seçeneği bu cümle için gramer açısından uygun değil.",
+            "'sometimes' seçeneği bu cümle için gramer açısından uygun değil.",
+            "'always' seçeneği bu cümle için gramer açısından uygun değil.",
+            "Genellikle anlamı için usually kullanılır."
+          ]
+        },
+        {
+          "q": "They ___ at school on time. (never)",
+          "options": [
+            "are never",
+            "never are",
+            "are always",
+            "always are"
+          ],
+          "a": 0,
+          "why": [
+            "Sıklık zarfları be fiilinden sonra gelir → are never.",
+            "'never are' seçeneği bu cümle için gramer açısından uygun değil.",
+            "'are always' seçeneği bu cümle için gramer açısından uygun değil.",
+            "'always are' seçeneği bu cümle için gramer açısından uygun değil."
+          ]
         }
       ]
     },
@@ -1896,6 +5224,262 @@ window.GRAMMAR_A1 = {
             "When"
           ],
           "a": 1
+        },
+        {
+          "q": "___ do you study English? — Because I love languages.",
+          "options": [
+            "Where",
+            "Why",
+            "When",
+            "What"
+          ],
+          "a": 1,
+          "why": [
+            "'Where' seçeneği bu cümle için gramer açısından uygun değil.",
+            "Sebep cevabı (because) → Why sorusu.",
+            "'When' seçeneği bu cümle için gramer açısından uygun değil.",
+            "'What' seçeneği bu cümle için gramer açısından uygun değil."
+          ]
+        },
+        {
+          "q": "___ is your birthday?",
+          "options": [
+            "What",
+            "Where",
+            "When",
+            "Who"
+          ],
+          "a": 2,
+          "why": [
+            "'What' seçeneği bu cümle için gramer açısından uygun değil.",
+            "'Where' seçeneği bu cümle için gramer açısından uygun değil.",
+            "Tarih/zaman sormak için When kullanılır.",
+            "'Who' seçeneği bu cümle için gramer açısından uygun değil."
+          ]
+        },
+        {
+          "q": "___ is your teacher? — Ms. Ayşe.",
+          "options": [
+            "Who",
+            "What",
+            "Where",
+            "When"
+          ],
+          "a": 0,
+          "why": [
+            "Kişiyi sormak için Who kullanılır.",
+            "'What' seçeneği bu cümle için gramer açısından uygun değil.",
+            "'Where' seçeneği bu cümle için gramer açısından uygun değil.",
+            "'When' seçeneği bu cümle için gramer açısından uygun değil."
+          ]
+        },
+        {
+          "q": "___ do you eat lunch?",
+          "options": [
+            "Where",
+            "When",
+            "Who",
+            "What"
+          ],
+          "a": 1,
+          "why": [
+            "'Where' seçeneği bu cümle için gramer açısından uygun değil.",
+            "Zaman sormak için When kullanılır.",
+            "'Who' seçeneği bu cümle için gramer açısından uygun değil.",
+            "'What' seçeneği bu cümle için gramer açısından uygun değil."
+          ]
+        },
+        {
+          "q": "___ is the station? — It's near the park.",
+          "options": [
+            "Where",
+            "What",
+            "Who",
+            "When"
+          ],
+          "a": 0,
+          "why": [
+            "Yer sormak için Where kullanılır.",
+            "'What' seçeneği bu cümle için gramer açısından uygun değil.",
+            "'Who' seçeneği bu cümle için gramer açısından uygun değil.",
+            "'When' seçeneği bu cümle için gramer açısından uygun değil."
+          ]
+        },
+        {
+          "q": "___ color is your car?",
+          "options": [
+            "What",
+            "Who",
+            "Where",
+            "When"
+          ],
+          "a": 0,
+          "why": [
+            "Nitelik sormak için What kullanılır.",
+            "'Who' seçeneği bu cümle için gramer açısından uygun değil.",
+            "'Where' seçeneği bu cümle için gramer açısından uygun değil.",
+            "'When' seçeneği bu cümle için gramer açısından uygun değil."
+          ]
+        },
+        {
+          "q": "___ did you go yesterday? — I went to the market.",
+          "options": [
+            "What",
+            "Where",
+            "Who",
+            "When"
+          ],
+          "a": 1,
+          "why": [
+            "'What' seçeneği bu cümle için gramer açısından uygun değil.",
+            "Yer sormak için Where kullanılır.",
+            "'Who' seçeneği bu cümle için gramer açısından uygun değil.",
+            "'When' seçeneği bu cümle için gramer açısından uygun değil."
+          ]
+        },
+        {
+          "q": "___ is she crying? — Because she is sad.",
+          "options": [
+            "Why",
+            "Where",
+            "When",
+            "What"
+          ],
+          "a": 0,
+          "why": [
+            "Sebep cevabı (because) → Why sorusu.",
+            "'Where' seçeneği bu cümle için gramer açısından uygun değil.",
+            "'When' seçeneği bu cümle için gramer açısından uygun değil.",
+            "'What' seçeneği bu cümle için gramer açısından uygun değil."
+          ]
+        },
+        {
+          "q": "___ do you come home? — At five.",
+          "options": [
+            "When",
+            "Where",
+            "Why",
+            "What"
+          ],
+          "a": 0,
+          "why": [
+            "Zaman sormak için When kullanılır.",
+            "'Where' seçeneği bu cümle için gramer açısından uygun değil.",
+            "'Why' seçeneği bu cümle için gramer açısından uygun değil.",
+            "'What' seçeneği bu cümle için gramer açısından uygun değil."
+          ]
+        },
+        {
+          "q": "___ is that woman? — She is my aunt.",
+          "options": [
+            "Who",
+            "What",
+            "Where",
+            "When"
+          ],
+          "a": 0,
+          "why": [
+            "Kişiyi sormak için Who kullanılır.",
+            "'What' seçeneği bu cümle için gramer açısından uygun değil.",
+            "'Where' seçeneği bu cümle için gramer açısından uygun değil.",
+            "'When' seçeneği bu cümle için gramer açısından uygun değil."
+          ]
+        },
+        {
+          "q": "___ time is it?",
+          "options": [
+            "What",
+            "Where",
+            "Who",
+            "When"
+          ],
+          "a": 0,
+          "why": [
+            "Saat sormak için What time kullanılır.",
+            "'Where' seçeneği bu cümle için gramer açısından uygun değil.",
+            "'Who' seçeneği bu cümle için gramer açısından uygun değil.",
+            "'When' seçeneği bu cümle için gramer açısından uygun değil."
+          ]
+        },
+        {
+          "q": "___ do you play tennis? — In the park.",
+          "options": [
+            "Where",
+            "What",
+            "Who",
+            "When"
+          ],
+          "a": 0,
+          "why": [
+            "Yer sormak için Where kullanılır.",
+            "'What' seçeneği bu cümle için gramer açısından uygun değil.",
+            "'Who' seçeneği bu cümle için gramer açısından uygun değil.",
+            "'When' seçeneği bu cümle için gramer açısından uygun değil."
+          ]
+        },
+        {
+          "q": "___ is your favorite sport?",
+          "options": [
+            "What",
+            "Who",
+            "Where",
+            "When"
+          ],
+          "a": 0,
+          "why": [
+            "Nitelik sormak için What kullanılır.",
+            "'Who' seçeneği bu cümle için gramer açısından uygun değil.",
+            "'Where' seçeneği bu cümle için gramer açısından uygun değil.",
+            "'When' seçeneği bu cümle için gramer açısından uygun değil."
+          ]
+        },
+        {
+          "q": "___ do you sleep so late? — Because I study.",
+          "options": [
+            "Why",
+            "Where",
+            "When",
+            "What"
+          ],
+          "a": 0,
+          "why": [
+            "Sebep cevabı (because) → Why sorusu.",
+            "'Where' seçeneği bu cümle için gramer açısından uygun değil.",
+            "'When' seçeneği bu cümle için gramer açısından uygun değil.",
+            "'What' seçeneği bu cümle için gramer açısından uygun değil."
+          ]
+        },
+        {
+          "q": "___ does the bus arrive? — At nine.",
+          "options": [
+            "When",
+            "Where",
+            "Why",
+            "What"
+          ],
+          "a": 0,
+          "why": [
+            "Zaman sormak için When kullanılır.",
+            "'Where' seçeneği bu cümle için gramer açısından uygun değil.",
+            "'Why' seçeneği bu cümle için gramer açısından uygun değil.",
+            "'What' seçeneği bu cümle için gramer açısından uygun değil."
+          ]
+        },
+        {
+          "q": "___ is your mother? — She is fine.",
+          "options": [
+            "How",
+            "What",
+            "Where",
+            "Who"
+          ],
+          "a": 0,
+          "why": [
+            "Durum sormak için How kullanılır.",
+            "'What' seçeneği bu cümle için gramer açısından uygun değil.",
+            "'Where' seçeneği bu cümle için gramer açısından uygun değil.",
+            "'Who' seçeneği bu cümle için gramer açısından uygun değil."
+          ]
         }
       ]
     },
@@ -2031,6 +5615,262 @@ window.GRAMMAR_A1 = {
             "wrote"
           ],
           "a": 2
+        },
+        {
+          "q": "We ___ watching a film now.",
+          "options": [
+            "is",
+            "am",
+            "are",
+            "be"
+          ],
+          "a": 2,
+          "why": [
+            "'is' seçeneği bu cümle için gramer açısından uygun değil.",
+            "'am' seçeneği bu cümle için gramer açısından uygun değil.",
+            "We öznesi are alır → are watching.",
+            "'be' seçeneği bu cümle için gramer açısından uygun değil."
+          ]
+        },
+        {
+          "q": "She is ___ a book.",
+          "options": [
+            "read",
+            "reads",
+            "reading",
+            "read"
+          ],
+          "a": 2,
+          "why": [
+            "'read' seçeneği bu cümle için gramer açısından uygun değil.",
+            "'reads' seçeneği bu cümle için gramer açısından uygun değil.",
+            "is'ten sonra fiile -ing eklenir → reading.",
+            "'read' seçeneği bu cümle için gramer açısından uygun değil."
+          ]
+        },
+        {
+          "q": "I am ___ in the pool.",
+          "options": [
+            "swim",
+            "swims",
+            "swimming",
+            "swam"
+          ],
+          "a": 2,
+          "why": [
+            "'swim' seçeneği bu cümle için gramer açısından uygun değil.",
+            "'swims' seçeneği bu cümle için gramer açısından uygun değil.",
+            "am'den sonra fiile -ing eklenir → swimming.",
+            "'swam' seçeneği bu cümle için gramer açısından uygun değil."
+          ]
+        },
+        {
+          "q": "The baby ___ sleeping.",
+          "options": [
+            "am",
+            "is",
+            "are",
+            "be"
+          ],
+          "a": 1,
+          "why": [
+            "'am' seçeneği bu cümle için gramer açısından uygun değil.",
+            "The baby tekil → is sleeping.",
+            "'are' seçeneği bu cümle için gramer açısından uygun değil.",
+            "'be' seçeneği bu cümle için gramer açısından uygun değil."
+          ]
+        },
+        {
+          "q": "They are ___ to music.",
+          "options": [
+            "listen",
+            "listens",
+            "listening",
+            "listened"
+          ],
+          "a": 2,
+          "why": [
+            "'listen' seçeneği bu cümle için gramer açısından uygun değil.",
+            "'listens' seçeneği bu cümle için gramer açısından uygun değil.",
+            "are'den sonra fiile -ing eklenir → listening.",
+            "'listened' seçeneği bu cümle için gramer açısından uygun değil."
+          ]
+        },
+        {
+          "q": "Are you ___ your homework?",
+          "options": [
+            "do",
+            "does",
+            "doing",
+            "did"
+          ],
+          "a": 2,
+          "why": [
+            "'do' seçeneği bu cümle için gramer açısından uygun değil.",
+            "'does' seçeneği bu cümle için gramer açısından uygun değil.",
+            "are'den sonra fiile -ing eklenir → doing.",
+            "'did' seçeneği bu cümle için gramer açısından uygun değil."
+          ]
+        },
+        {
+          "q": "He is ___ his car now.",
+          "options": [
+            "wash",
+            "washes",
+            "washing",
+            "washed"
+          ],
+          "a": 2,
+          "why": [
+            "'wash' seçeneği bu cümle için gramer açısından uygun değil.",
+            "'washes' seçeneği bu cümle için gramer açısından uygun değil.",
+            "is'ten sonra fiile -ing eklenir → washing.",
+            "'washed' seçeneği bu cümle için gramer açısından uygun değil."
+          ]
+        },
+        {
+          "q": "Look! The dog ___ running.",
+          "options": [
+            "is",
+            "am",
+            "are",
+            "be"
+          ],
+          "a": 0,
+          "why": [
+            "The dog tekil → is running.",
+            "'am' seçeneği bu cümle için gramer açısından uygun değil.",
+            "'are' seçeneği bu cümle için gramer açısından uygun değil.",
+            "'be' seçeneği bu cümle için gramer açısından uygun değil."
+          ]
+        },
+        {
+          "q": "We ___ eating dinner right now.",
+          "options": [
+            "is",
+            "am",
+            "are",
+            "be"
+          ],
+          "a": 2,
+          "why": [
+            "'is' seçeneği bu cümle için gramer açısından uygun değil.",
+            "'am' seçeneği bu cümle için gramer açısından uygun değil.",
+            "We öznesi are alır → are eating.",
+            "'be' seçeneği bu cümle için gramer açısından uygun değil."
+          ]
+        },
+        {
+          "q": "She is ___ a great time.",
+          "options": [
+            "have",
+            "has",
+            "having",
+            "haves"
+          ],
+          "a": 2,
+          "why": [
+            "'have' seçeneği bu cümle için gramer açısından uygun değil.",
+            "'has' seçeneği bu cümle için gramer açısından uygun değil.",
+            "is'ten sonra fiil -ing çeker → having.",
+            "'haves' seçeneği bu cümle için gramer açısından uygun değil."
+          ]
+        },
+        {
+          "q": "___ you sleeping?",
+          "options": [
+            "Is",
+            "Are",
+            "Am",
+            "Be"
+          ],
+          "a": 1,
+          "why": [
+            "'Is' seçeneği bu cümle için gramer açısından uygun değil.",
+            "you öznesi için soruda Are başa gelir.",
+            "'Am' seçeneği bu cümle için gramer açısından uygun değil.",
+            "'Be' seçeneği bu cümle için gramer açısından uygun değil."
+          ]
+        },
+        {
+          "q": "My mother ___ cooking dinner.",
+          "options": [
+            "is",
+            "am",
+            "are",
+            "be"
+          ],
+          "a": 0,
+          "why": [
+            "My mother tekil → is cooking.",
+            "'am' seçeneği bu cümle için gramer açısından uygun değil.",
+            "'are' seçeneği bu cümle için gramer açısından uygun değil.",
+            "'be' seçeneği bu cümle için gramer açısından uygun değil."
+          ]
+        },
+        {
+          "q": "The children ___ playing outside now.",
+          "options": [
+            "is",
+            "am",
+            "are",
+            "be"
+          ],
+          "a": 2,
+          "why": [
+            "'is' seçeneği bu cümle için gramer açısından uygun değil.",
+            "'am' seçeneği bu cümle için gramer açısından uygun değil.",
+            "The children çoğul → are playing.",
+            "'be' seçeneği bu cümle için gramer açısından uygun değil."
+          ]
+        },
+        {
+          "q": "I am ___ English now.",
+          "options": [
+            "learn",
+            "learns",
+            "learning",
+            "learned"
+          ],
+          "a": 2,
+          "why": [
+            "'learn' seçeneği bu cümle için gramer açısından uygun değil.",
+            "'learns' seçeneği bu cümle için gramer açısından uygun değil.",
+            "am'den sonra fiile -ing eklenir → learning.",
+            "'learned' seçeneği bu cümle için gramer açısından uygun değil."
+          ]
+        },
+        {
+          "q": "He ___ listening to the radio.",
+          "options": [
+            "am",
+            "are",
+            "is",
+            "be"
+          ],
+          "a": 2,
+          "why": [
+            "'am' seçeneği bu cümle için gramer açısından uygun değil.",
+            "'are' seçeneği bu cümle için gramer açısından uygun değil.",
+            "He tekil → is listening.",
+            "'be' seçeneği bu cümle için gramer açısından uygun değil."
+          ]
+        },
+        {
+          "q": "Where ___ you going?",
+          "options": [
+            "is",
+            "are",
+            "am",
+            "be"
+          ],
+          "a": 1,
+          "why": [
+            "'is' seçeneği bu cümle için gramer açısından uygun değil.",
+            "you öznesi are alır → are going.",
+            "'am' seçeneği bu cümle için gramer açısından uygun değil.",
+            "'be' seçeneği bu cümle için gramer açısından uygun değil."
+          ]
         }
       ]
     },
@@ -2168,6 +6008,262 @@ window.GRAMMAR_A1 = {
             "opened"
           ],
           "a": 0
+        },
+        {
+          "q": "My sister can ___ the piano.",
+          "options": [
+            "play",
+            "plays",
+            "playing",
+            "played"
+          ],
+          "a": 0,
+          "why": [
+            "can'den sonra fiil yalın kalır → play.",
+            "'plays' seçeneği bu cümle için gramer açısından uygun değil.",
+            "'playing' seçeneği bu cümle için gramer açısından uygun değil.",
+            "'played' seçeneği bu cümle için gramer açısından uygun değil."
+          ]
+        },
+        {
+          "q": "He can't ___ fast.",
+          "options": [
+            "run",
+            "runs",
+            "running",
+            "ran"
+          ],
+          "a": 0,
+          "why": [
+            "can't'tan sonra fiil yalın kalır → run.",
+            "'runs' seçeneği bu cümle için gramer açısından uygun değil.",
+            "'running' seçeneği bu cümle için gramer açısından uygun değil.",
+            "'ran' seçeneği bu cümle için gramer açısından uygun değil."
+          ]
+        },
+        {
+          "q": "___ I use your phone?",
+          "options": [
+            "Can",
+            "Cans",
+            "Is",
+            "Are"
+          ],
+          "a": 0,
+          "why": [
+            "İzin istemek için can kullanılır.",
+            "'Cans' seçeneği bu cümle için gramer açısından uygun değil.",
+            "'Is' seçeneği bu cümle için gramer açısından uygun değil.",
+            "'Are' seçeneği bu cümle için gramer açısından uygun değil."
+          ]
+        },
+        {
+          "q": "They can ___ Chinese.",
+          "options": [
+            "speak",
+            "speaks",
+            "speaking",
+            "spoke"
+          ],
+          "a": 0,
+          "why": [
+            "can'den sonra fiil yalın kalır → speak.",
+            "'speaks' seçeneği bu cümle için gramer açısından uygun değil.",
+            "'speaking' seçeneği bu cümle için gramer açısından uygun değil.",
+            "'spoke' seçeneği bu cümle için gramer açısından uygun değil."
+          ]
+        },
+        {
+          "q": "Can you ___ me the salt?",
+          "options": [
+            "give",
+            "gives",
+            "giving",
+            "gave"
+          ],
+          "a": 0,
+          "why": [
+            "Can'den sonra fiil yalın kalır → give.",
+            "'gives' seçeneği bu cümle için gramer açısından uygun değil.",
+            "'giving' seçeneği bu cümle için gramer açısından uygun değil.",
+            "'gave' seçeneği bu cümle için gramer açısından uygun değil."
+          ]
+        },
+        {
+          "q": "I can ___ very well.",
+          "options": [
+            "cook",
+            "cooks",
+            "cooking",
+            "cooked"
+          ],
+          "a": 0,
+          "why": [
+            "can'den sonra fiil yalın kalır → cook.",
+            "'cooks' seçeneği bu cümle için gramer açısından uygun değil.",
+            "'cooking' seçeneği bu cümle için gramer açısından uygun değil.",
+            "'cooked' seçeneği bu cümle için gramer açısından uygun değil."
+          ]
+        },
+        {
+          "q": "She can't ___ the guitar.",
+          "options": [
+            "play",
+            "plays",
+            "playing",
+            "played"
+          ],
+          "a": 0,
+          "why": [
+            "can't'tan sonra fiil yalın kalır → play.",
+            "'plays' seçeneği bu cümle için gramer açısından uygun değil.",
+            "'playing' seçeneği bu cümle için gramer açısından uygun değil.",
+            "'played' seçeneği bu cümle için gramer açısından uygun değil."
+          ]
+        },
+        {
+          "q": "You can ___ your coat here.",
+          "options": [
+            "leave",
+            "leaves",
+            "leaving",
+            "left"
+          ],
+          "a": 0,
+          "why": [
+            "can'den sonra fiil yalın kalır → leave.",
+            "'leaves' seçeneği bu cümle için gramer açısından uygun değil.",
+            "'leaving' seçeneği bu cümle için gramer açısından uygun değil.",
+            "'left' seçeneği bu cümle için gramer açısından uygun değil."
+          ]
+        },
+        {
+          "q": "___ you ride a bike?",
+          "options": [
+            "Can",
+            "Cans",
+            "Is",
+            "Are"
+          ],
+          "a": 0,
+          "why": [
+            "Yetenek sormak için can kullanılır.",
+            "'Cans' seçeneği bu cümle için gramer açısından uygun değil.",
+            "'Is' seçeneği bu cümle için gramer açısından uygun değil.",
+            "'Are' seçeneği bu cümle için gramer açısından uygun değil."
+          ]
+        },
+        {
+          "q": "We can ___ at home today.",
+          "options": [
+            "stay",
+            "stays",
+            "staying",
+            "stayed"
+          ],
+          "a": 0,
+          "why": [
+            "can'den sonra fiil yalın kalır → stay.",
+            "'stays' seçeneği bu cümle için gramer açısından uygun değil.",
+            "'staying' seçeneği bu cümle için gramer açısından uygun değil.",
+            "'stayed' seçeneği bu cümle için gramer açısından uygun değil."
+          ]
+        },
+        {
+          "q": "The baby can ___ now.",
+          "options": [
+            "walk",
+            "walks",
+            "walking",
+            "walked"
+          ],
+          "a": 0,
+          "why": [
+            "can'den sonra fiil yalın kalır → walk.",
+            "'walks' seçeneği bu cümle için gramer açısından uygun değil.",
+            "'walking' seçeneği bu cümle için gramer açısından uygun değil.",
+            "'walked' seçeneği bu cümle için gramer açısından uygun değil."
+          ]
+        },
+        {
+          "q": "I can't ___ this box; it's too heavy.",
+          "options": [
+            "lift",
+            "lifts",
+            "lifting",
+            "lifted"
+          ],
+          "a": 0,
+          "why": [
+            "can't'tan sonra fiil yalın kalır → lift.",
+            "'lifts' seçeneği bu cümle için gramer açısından uygun değil.",
+            "'lifting' seçeneği bu cümle için gramer açısından uygun değil.",
+            "'lifted' seçeneği bu cümle için gramer açısından uygun değil."
+          ]
+        },
+        {
+          "q": "He can ___ two languages.",
+          "options": [
+            "speak",
+            "speaks",
+            "speaking",
+            "spoke"
+          ],
+          "a": 0,
+          "why": [
+            "can'den sonra fiil yalın kalır → speak.",
+            "'speaks' seçeneği bu cümle için gramer açısından uygun değil.",
+            "'speaking' seçeneği bu cümle için gramer açısından uygun değil.",
+            "'spoke' seçeneği bu cümle için gramer açısından uygun değil."
+          ]
+        },
+        {
+          "q": "___ I sit here?",
+          "options": [
+            "Can",
+            "Cans",
+            "Is",
+            "Are"
+          ],
+          "a": 0,
+          "why": [
+            "İzin istemek için can kullanılır.",
+            "'Cans' seçeneği bu cümle için gramer açısından uygun değil.",
+            "'Is' seçeneği bu cümle için gramer açısından uygun değil.",
+            "'Are' seçeneği bu cümle için gramer açısından uygun değil."
+          ]
+        },
+        {
+          "q": "They can't ___ you.",
+          "options": [
+            "hear",
+            "hears",
+            "hearing",
+            "heard"
+          ],
+          "a": 0,
+          "why": [
+            "can't'tan sonra fiil yalın kalır → hear.",
+            "'hears' seçeneği bu cümle için gramer açısından uygun değil.",
+            "'hearing' seçeneği bu cümle için gramer açısından uygun değil.",
+            "'heard' seçeneği bu cümle için gramer açısından uygun değil."
+          ]
+        },
+        {
+          "q": "I can ___ the answer.",
+          "options": [
+            "know",
+            "knows",
+            "knowing",
+            "knew"
+          ],
+          "a": 0,
+          "why": [
+            "can'den sonra fiil yalın kalır → know.",
+            "'knows' seçeneği bu cümle için gramer açısından uygun değil.",
+            "'knowing' seçeneği bu cümle için gramer açısından uygun değil.",
+            "'knew' seçeneği bu cümle için gramer açısından uygun değil."
+          ]
         }
       ]
     },
@@ -2305,6 +6401,262 @@ window.GRAMMAR_A1 = {
             "To open"
           ],
           "a": 1
+        },
+        {
+          "q": "___ the window, please.",
+          "options": [
+            "Close",
+            "Closing",
+            "Closes",
+            "To close"
+          ],
+          "a": 0,
+          "why": [
+            "Emir cümlesi fiilin yalın haliyle başlar → Close.",
+            "'Closing' seçeneği bu cümle için gramer açısından uygun değil.",
+            "'Closes' seçeneği bu cümle için gramer açısından uygun değil.",
+            "'To close' seçeneği bu cümle için gramer açısından uygun değil."
+          ]
+        },
+        {
+          "q": "___ your homework now.",
+          "options": [
+            "Do",
+            "Doing",
+            "Does",
+            "To do"
+          ],
+          "a": 0,
+          "why": [
+            "Emir cümlesi yalın fiille kurulur → Do.",
+            "'Doing' seçeneği bu cümle için gramer açısından uygun değil.",
+            "'Does' seçeneği bu cümle için gramer açısından uygun değil.",
+            "'To do' seçeneği bu cümle için gramer açısından uygun değil."
+          ]
+        },
+        {
+          "q": "___ eat in the library.",
+          "options": [
+            "Don't",
+            "Not",
+            "No",
+            "Doesn't"
+          ],
+          "a": 0,
+          "why": [
+            "Olumsuz emir Don't ile başlar.",
+            "'Not' seçeneği bu cümle için gramer açısından uygun değil.",
+            "'No' seçeneği bu cümle için gramer açısından uygun değil.",
+            "'Doesn't' seçeneği bu cümle için gramer açısından uygun değil."
+          ]
+        },
+        {
+          "q": "___ your name on the paper.",
+          "options": [
+            "Write",
+            "Writing",
+            "Writes",
+            "To write"
+          ],
+          "a": 0,
+          "why": [
+            "Emir cümlesi yalın fiille kurulur → Write.",
+            "'Writing' seçeneği bu cümle için gramer açısından uygun değil.",
+            "'Writes' seçeneği bu cümle için gramer açısından uygun değil.",
+            "'To write' seçeneği bu cümle için gramer açısından uygun değil."
+          ]
+        },
+        {
+          "q": "___ quiet, please.",
+          "options": [
+            "Be",
+            "Being",
+            "To be",
+            "Is"
+          ],
+          "a": 0,
+          "why": [
+            "Be + sıfat emir yapısı için Be kullanılır.",
+            "'Being' seçeneği bu cümle için gramer açısından uygun değil.",
+            "'To be' seçeneği bu cümle için gramer açısından uygun değil.",
+            "'Is' seçeneği bu cümle için gramer açısından uygun değil."
+          ]
+        },
+        {
+          "q": "___ at the pictures.",
+          "options": [
+            "Look",
+            "Looking",
+            "Looks",
+            "To look"
+          ],
+          "a": 0,
+          "why": [
+            "Emir cümlesi yalın fiille kurulur → Look.",
+            "'Looking' seçeneği bu cümle için gramer açısından uygun değil.",
+            "'Looks' seçeneği bu cümle için gramer açısından uygun değil.",
+            "'To look' seçeneği bu cümle için gramer açısından uygun değil."
+          ]
+        },
+        {
+          "q": "___ late for class.",
+          "options": [
+            "Don't be",
+            "Not be",
+            "No be",
+            "Doesn't be"
+          ],
+          "a": 0,
+          "why": [
+            "Olumsuz emir Don't be şeklindedir.",
+            "'Not be' seçeneği bu cümle için gramer açısından uygun değil.",
+            "'No be' seçeneği bu cümle için gramer açısından uygun değil.",
+            "'Doesn't be' seçeneği bu cümle için gramer açısından uygun değil."
+          ]
+        },
+        {
+          "q": "___ me your phone.",
+          "options": [
+            "Give",
+            "Giving",
+            "Gives",
+            "To give"
+          ],
+          "a": 0,
+          "why": [
+            "Emir cümlesi yalın fiille kurulur → Give.",
+            "'Giving' seçeneği bu cümle için gramer açısından uygun değil.",
+            "'Gives' seçeneği bu cümle için gramer açısından uygun değil.",
+            "'To give' seçeneği bu cümle için gramer açısından uygun değil."
+          ]
+        },
+        {
+          "q": "___ from the window.",
+          "options": [
+            "Don't look",
+            "No look",
+            "Not look",
+            "Doesn't look"
+          ],
+          "a": 0,
+          "why": [
+            "Olumsuz emir Don't look şeklindedir.",
+            "'No look' seçeneği bu cümle için gramer açısından uygun değil.",
+            "'Not look' seçeneği bu cümle için gramer açısından uygun değil.",
+            "'Doesn't look' seçeneği bu cümle için gramer açısından uygun değil."
+          ]
+        },
+        {
+          "q": "___ the door after you.",
+          "options": [
+            "Close",
+            "Closing",
+            "Closes",
+            "To close"
+          ],
+          "a": 0,
+          "why": [
+            "Emir cümlesi yalın fiille kurulur → Close.",
+            "'Closing' seçeneği bu cümle için gramer açısından uygun değil.",
+            "'Closes' seçeneği bu cümle için gramer açısından uygun değil.",
+            "'To close' seçeneği bu cümle için gramer açısından uygun değil."
+          ]
+        },
+        {
+          "q": "___ up, please.",
+          "options": [
+            "Stand",
+            "Standing",
+            "Stands",
+            "To stand"
+          ],
+          "a": 0,
+          "why": [
+            "Emir cümlesi yalın fiille kurulur → Stand.",
+            "'Standing' seçeneği bu cümle için gramer açısından uygun değil.",
+            "'Stands' seçeneği bu cümle için gramer açısından uygun değil.",
+            "'To stand' seçeneği bu cümle için gramer açısından uygun değil."
+          ]
+        },
+        {
+          "q": "___ your toys in the box.",
+          "options": [
+            "Put",
+            "Putting",
+            "Puts",
+            "To put"
+          ],
+          "a": 0,
+          "why": [
+            "Emir cümlesi yalın fiille kurulur → Put.",
+            "'Putting' seçeneği bu cümle için gramer açısından uygun değil.",
+            "'Puts' seçeneği bu cümle için gramer açısından uygun değil.",
+            "'To put' seçeneği bu cümle için gramer açısından uygun değil."
+          ]
+        },
+        {
+          "q": "___ me about your holiday.",
+          "options": [
+            "Tell",
+            "Telling",
+            "Tells",
+            "To tell"
+          ],
+          "a": 0,
+          "why": [
+            "Emir cümlesi yalın fiille kurulur → Tell.",
+            "'Telling' seçeneği bu cümle için gramer açısından uygun değil.",
+            "'Tells' seçeneği bu cümle için gramer açısından uygun değil.",
+            "'To tell' seçeneği bu cümle için gramer açısından uygun değil."
+          ]
+        },
+        {
+          "q": "___ slowly, please.",
+          "options": [
+            "Speak",
+            "Speaking",
+            "Speaks",
+            "To speak"
+          ],
+          "a": 0,
+          "why": [
+            "Emir cümlesi yalın fiille kurulur → Speak.",
+            "'Speaking' seçeneği bu cümle için gramer açısından uygun değil.",
+            "'Speaks' seçeneği bu cümle için gramer açısından uygun değil.",
+            "'To speak' seçeneği bu cümle için gramer açısından uygun değil."
+          ]
+        },
+        {
+          "q": "___ play with fire!",
+          "options": [
+            "Don't",
+            "Not",
+            "No",
+            "Doesn't"
+          ],
+          "a": 0,
+          "why": [
+            "Yasaklama ifadesi Don't ile kurulur.",
+            "'Not' seçeneği bu cümle için gramer açısından uygun değil.",
+            "'No' seçeneği bu cümle için gramer açısından uygun değil.",
+            "'Doesn't' seçeneği bu cümle için gramer açısından uygun değil."
+          ]
+        },
+        {
+          "q": "___ your hands before dinner.",
+          "options": [
+            "Wash",
+            "Washing",
+            "Washes",
+            "To wash"
+          ],
+          "a": 0,
+          "why": [
+            "Emir cümlesi yalın fiille kurulur → Wash.",
+            "'Washing' seçeneği bu cümle için gramer açısından uygun değil.",
+            "'Washes' seçeneği bu cümle için gramer açısından uygun değil.",
+            "'To wash' seçeneği bu cümle için gramer açısından uygun değil."
+          ]
         }
       ]
     },
@@ -2440,6 +6792,262 @@ window.GRAMMAR_A1 = {
             "so"
           ],
           "a": 3
+        },
+        {
+          "q": "She likes apples ___ bananas.",
+          "options": [
+            "but",
+            "and",
+            "or",
+            "because"
+          ],
+          "a": 1,
+          "why": [
+            "'but' seçeneği bu cümle için gramer açısından uygun değil.",
+            "İkisini de sevdiği için and ile bağlanır.",
+            "'or' seçeneği bu cümle için gramer açısından uygun değil.",
+            "'because' seçeneği bu cümle için gramer açısından uygun değil."
+          ]
+        },
+        {
+          "q": "I wanted to go, ___ I stayed home.",
+          "options": [
+            "so",
+            "but",
+            "and",
+            "or"
+          ],
+          "a": 1,
+          "why": [
+            "'so' seçeneği bu cümle için gramer açısından uygun değil.",
+            "Zıtlık bildirir → but.",
+            "'and' seçeneği bu cümle için gramer açısından uygun değil.",
+            "'or' seçeneği bu cümle için gramer açısından uygun değil."
+          ]
+        },
+        {
+          "q": "Do you want juice ___ water?",
+          "options": [
+            "and",
+            "but",
+            "or",
+            "so"
+          ],
+          "a": 2,
+          "why": [
+            "'and' seçeneği bu cümle için gramer açısından uygun değil.",
+            "'but' seçeneği bu cümle için gramer açısından uygun değil.",
+            "Seçenek sunmak için or kullanılır.",
+            "'so' seçeneği bu cümle için gramer açısından uygun değil."
+          ]
+        },
+        {
+          "q": "He was hungry, ___ he ate a sandwich.",
+          "options": [
+            "because",
+            "so",
+            "but",
+            "and"
+          ],
+          "a": 1,
+          "why": [
+            "'because' seçeneği bu cümle için gramer açısından uygun değil.",
+            "Sonuç bildirir → so.",
+            "'but' seçeneği bu cümle için gramer açısından uygun değil.",
+            "'and' seçeneği bu cümle için gramer açısından uygun değil."
+          ]
+        },
+        {
+          "q": "She stayed home ___ she was ill.",
+          "options": [
+            "so",
+            "but",
+            "and",
+            "because"
+          ],
+          "a": 3,
+          "why": [
+            "'so' seçeneği bu cümle için gramer açısından uygun değil.",
+            "'but' seçeneği bu cümle için gramer açısından uygun değil.",
+            "'and' seçeneği bu cümle için gramer açısından uygun değil.",
+            "Sebep bildirir → because."
+          ]
+        },
+        {
+          "q": "We can go by bus ___ by taxi.",
+          "options": [
+            "and",
+            "but",
+            "or",
+            "so"
+          ],
+          "a": 2,
+          "why": [
+            "'and' seçeneği bu cümle için gramer açısından uygun değil.",
+            "'but' seçeneği bu cümle için gramer açısından uygun değil.",
+            "Seçenek sunmak için or kullanılır.",
+            "'so' seçeneği bu cümle için gramer açısından uygun değil."
+          ]
+        },
+        {
+          "q": "He is tall ___ strong.",
+          "options": [
+            "and",
+            "but",
+            "or",
+            "because"
+          ],
+          "a": 0,
+          "why": [
+            "İki olumlu özelliği and ile bağlarız.",
+            "'but' seçeneği bu cümle için gramer açısından uygun değil.",
+            "'or' seçeneği bu cümle için gramer açısından uygun değil.",
+            "'because' seçeneği bu cümle için gramer açısından uygun değil."
+          ]
+        },
+        {
+          "q": "I was cold, ___ I closed the window.",
+          "options": [
+            "so",
+            "but",
+            "and",
+            "because"
+          ],
+          "a": 0,
+          "why": [
+            "Sonuç bildirir → so.",
+            "'but' seçeneği bu cümle için gramer açısından uygun değil.",
+            "'and' seçeneği bu cümle için gramer açısından uygun değil.",
+            "'because' seçeneği bu cümle için gramer açısından uygun değil."
+          ]
+        },
+        {
+          "q": "She didn't come ___ she was busy.",
+          "options": [
+            "so",
+            "but",
+            "and",
+            "because"
+          ],
+          "a": 3,
+          "why": [
+            "'so' seçeneği bu cümle için gramer açısından uygun değil.",
+            "'but' seçeneği bu cümle için gramer açısından uygun değil.",
+            "'and' seçeneği bu cümle için gramer açısından uygun değil.",
+            "Sebep bildirir → because."
+          ]
+        },
+        {
+          "q": "It was sunny ___ hot.",
+          "options": [
+            "and",
+            "but",
+            "or",
+            "because"
+          ],
+          "a": 0,
+          "why": [
+            "İki özelliği and ile bağlarız.",
+            "'but' seçeneği bu cümle için gramer açısından uygun değil.",
+            "'or' seçeneği bu cümle için gramer açısından uygun değil.",
+            "'because' seçeneği bu cümle için gramer açısından uygun değil."
+          ]
+        },
+        {
+          "q": "I like dogs ___ not cats.",
+          "options": [
+            "and",
+            "so",
+            "but",
+            "or"
+          ],
+          "a": 2,
+          "why": [
+            "'and' seçeneği bu cümle için gramer açısından uygun değil.",
+            "'so' seçeneği bu cümle için gramer açısından uygun değil.",
+            "Zıtlık bildirir → but.",
+            "'or' seçeneği bu cümle için gramer açısından uygun değil."
+          ]
+        },
+        {
+          "q": "He ran fast, ___ he didn't win.",
+          "options": [
+            "so",
+            "but",
+            "and",
+            "because"
+          ],
+          "a": 1,
+          "why": [
+            "'so' seçeneği bu cümle için gramer açısından uygun değil.",
+            "Zıtlık bildirir → but.",
+            "'and' seçeneği bu cümle için gramer açısından uygun değil.",
+            "'because' seçeneği bu cümle için gramer açısından uygun değil."
+          ]
+        },
+        {
+          "q": "I missed the bus, ___ I was late.",
+          "options": [
+            "so",
+            "but",
+            "and",
+            "because"
+          ],
+          "a": 0,
+          "why": [
+            "Sonuç bildirir → so.",
+            "'but' seçeneği bu cümle için gramer açısından uygun değil.",
+            "'and' seçeneği bu cümle için gramer açısından uygun değil.",
+            "'because' seçeneği bu cümle için gramer açısından uygun değil."
+          ]
+        },
+        {
+          "q": "Do you prefer tea ___ coffee in the morning?",
+          "options": [
+            "so",
+            "but",
+            "and",
+            "or"
+          ],
+          "a": 3,
+          "why": [
+            "'so' seçeneği bu cümle için gramer açısından uygun değil.",
+            "'but' seçeneği bu cümle için gramer açısından uygun değil.",
+            "'and' seçeneği bu cümle için gramer açısından uygun değil.",
+            "Seçenek sunmak için or kullanılır."
+          ]
+        },
+        {
+          "q": "She works hard ___ she wants to pass.",
+          "options": [
+            "and",
+            "or",
+            "but",
+            "because"
+          ],
+          "a": 3,
+          "why": [
+            "'and' seçeneği bu cümle için gramer açısından uygun değil.",
+            "'or' seçeneği bu cümle için gramer açısından uygun değil.",
+            "'but' seçeneği bu cümle için gramer açısından uygun değil.",
+            "Sebep bildirir → because."
+          ]
+        },
+        {
+          "q": "It was raining, ___ we took an umbrella.",
+          "options": [
+            "so",
+            "but",
+            "and",
+            "or"
+          ],
+          "a": 0,
+          "why": [
+            "Sonuç bildirir → so.",
+            "'but' seçeneği bu cümle için gramer açısından uygun değil.",
+            "'and' seçeneği bu cümle için gramer açısından uygun değil.",
+            "'or' seçeneği bu cümle için gramer açısından uygun değil."
+          ]
         }
       ]
     },
@@ -2575,6 +7183,262 @@ window.GRAMMAR_A1 = {
             "swam"
           ],
           "a": 2
+        },
+        {
+          "q": "I hate ___ up early.",
+          "options": [
+            "get",
+            "gets",
+            "getting",
+            "got"
+          ],
+          "a": 2,
+          "why": [
+            "'get' seçeneği bu cümle için gramer açısından uygun değil.",
+            "'gets' seçeneği bu cümle için gramer açısından uygun değil.",
+            "hate'tan sonra fiile -ing eklenir → getting.",
+            "'got' seçeneği bu cümle için gramer açısından uygun değil."
+          ]
+        },
+        {
+          "q": "She enjoys ___ to music.",
+          "options": [
+            "listen",
+            "listens",
+            "listening",
+            "listened"
+          ],
+          "a": 2,
+          "why": [
+            "'listen' seçeneği bu cümle için gramer açısından uygun değil.",
+            "'listens' seçeneği bu cümle için gramer açısından uygun değil.",
+            "enjoy'tan sonra fiile -ing eklenir → listening.",
+            "'listened' seçeneği bu cümle için gramer açısından uygun değil."
+          ]
+        },
+        {
+          "q": "He likes ___ football on TV.",
+          "options": [
+            "watch",
+            "watches",
+            "watching",
+            "watched"
+          ],
+          "a": 2,
+          "why": [
+            "'watch' seçeneği bu cümle için gramer açısından uygun değil.",
+            "'watches' seçeneği bu cümle için gramer açısından uygun değil.",
+            "like'tan sonra fiile -ing eklenir → watching.",
+            "'watched' seçeneği bu cümle için gramer açısından uygun değil."
+          ]
+        },
+        {
+          "q": "My brother loves ___ video games.",
+          "options": [
+            "play",
+            "plays",
+            "playing",
+            "played"
+          ],
+          "a": 2,
+          "why": [
+            "'play' seçeneği bu cümle için gramer açısından uygun değil.",
+            "'plays' seçeneği bu cümle için gramer açısından uygun değil.",
+            "love'tan sonra fiile -ing eklenir → playing.",
+            "'played' seçeneği bu cümle için gramer açısından uygun değil."
+          ]
+        },
+        {
+          "q": "I don't like ___ in traffic.",
+          "options": [
+            "wait",
+            "waits",
+            "waiting",
+            "waited"
+          ],
+          "a": 2,
+          "why": [
+            "'wait' seçeneği bu cümle için gramer açısından uygun değil.",
+            "'waits' seçeneği bu cümle için gramer açısından uygun değil.",
+            "like'tan sonra fiile -ing eklenir → waiting.",
+            "'waited' seçeneği bu cümle için gramer açısından uygun değil."
+          ]
+        },
+        {
+          "q": "Do they enjoy ___ football?",
+          "options": [
+            "play",
+            "plays",
+            "playing",
+            "played"
+          ],
+          "a": 2,
+          "why": [
+            "'play' seçeneği bu cümle için gramer açısından uygun değil.",
+            "'plays' seçeneği bu cümle için gramer açısından uygun değil.",
+            "enjoy'tan sonra fiile -ing eklenir → playing.",
+            "'played' seçeneği bu cümle için gramer açısından uygun değil."
+          ]
+        },
+        {
+          "q": "She loves ___ photos.",
+          "options": [
+            "take",
+            "takes",
+            "taking",
+            "took"
+          ],
+          "a": 2,
+          "why": [
+            "'take' seçeneği bu cümle için gramer açısından uygun değil.",
+            "'takes' seçeneği bu cümle için gramer açısından uygun değil.",
+            "love'tan sonra fiile -ing eklenir → taking.",
+            "'took' seçeneği bu cümle için gramer açısından uygun değil."
+          ]
+        },
+        {
+          "q": "We like ___ in the sea.",
+          "options": [
+            "swim",
+            "swims",
+            "swimming",
+            "swam"
+          ],
+          "a": 2,
+          "why": [
+            "'swim' seçeneği bu cümle için gramer açısından uygun değil.",
+            "'swims' seçeneği bu cümle için gramer açısından uygun değil.",
+            "like'tan sonra fiile -ing eklenir → swimming.",
+            "'swam' seçeneği bu cümle için gramer açısından uygun değil."
+          ]
+        },
+        {
+          "q": "He hates ___ his teeth.",
+          "options": [
+            "brush",
+            "brushes",
+            "brushing",
+            "brushed"
+          ],
+          "a": 2,
+          "why": [
+            "'brush' seçeneği bu cümle için gramer açısından uygun değil.",
+            "'brushes' seçeneği bu cümle için gramer açısından uygun değil.",
+            "hate'tan sonra fiile -ing eklenir → brushing.",
+            "'brushed' seçeneği bu cümle için gramer açısından uygun değil."
+          ]
+        },
+        {
+          "q": "I enjoy ___ books at night.",
+          "options": [
+            "read",
+            "reads",
+            "reading",
+            "to read"
+          ],
+          "a": 2,
+          "why": [
+            "'read' seçeneği bu cümle için gramer açısından uygun değil.",
+            "'reads' seçeneği bu cümle için gramer açısından uygun değil.",
+            "enjoy'tan sonra fiile -ing eklenir → reading.",
+            "'to read' seçeneği bu cümle için gramer açısından uygun değil."
+          ]
+        },
+        {
+          "q": "She doesn't love ___ early.",
+          "options": [
+            "wake",
+            "wakes",
+            "waking",
+            "woke"
+          ],
+          "a": 2,
+          "why": [
+            "'wake' seçeneği bu cümle için gramer açısından uygun değil.",
+            "'wakes' seçeneği bu cümle için gramer açısından uygun değil.",
+            "love'tan sonra fiile -ing eklenir → waking.",
+            "'woke' seçeneği bu cümle için gramer açısından uygun değil."
+          ]
+        },
+        {
+          "q": "They like ___ English.",
+          "options": [
+            "learn",
+            "learns",
+            "learning",
+            "learned"
+          ],
+          "a": 2,
+          "why": [
+            "'learn' seçeneği bu cümle için gramer açısından uygun değil.",
+            "'learns' seçeneği bu cümle için gramer açısından uygun değil.",
+            "like'tan sonra fiile -ing eklenir → learning.",
+            "'learned' seçeneği bu cümle için gramer açısından uygun değil."
+          ]
+        },
+        {
+          "q": "My sister hates ___ spiders.",
+          "options": [
+            "see",
+            "sees",
+            "seeing",
+            "saw"
+          ],
+          "a": 2,
+          "why": [
+            "'see' seçeneği bu cümle için gramer açısından uygun değil.",
+            "'sees' seçeneği bu cümle için gramer açısından uygun değil.",
+            "hate'tan sonra fiile -ing eklenir → seeing.",
+            "'saw' seçeneği bu cümle için gramer açısından uygun değil."
+          ]
+        },
+        {
+          "q": "Do you like ___ football?",
+          "options": [
+            "play",
+            "plays",
+            "playing",
+            "played"
+          ],
+          "a": 2,
+          "why": [
+            "'play' seçeneği bu cümle için gramer açısından uygun değil.",
+            "'plays' seçeneği bu cümle için gramer açısından uygun değil.",
+            "like'tan sonra fiile -ing eklenir → playing.",
+            "'played' seçeneği bu cümle için gramer açısından uygun değil."
+          ]
+        },
+        {
+          "q": "I love ___ new places.",
+          "options": [
+            "visit",
+            "visits",
+            "visiting",
+            "visited"
+          ],
+          "a": 2,
+          "why": [
+            "'visit' seçeneği bu cümle için gramer açısından uygun değil.",
+            "'visits' seçeneği bu cümle için gramer açısından uygun değil.",
+            "love'tan sonra fiile -ing eklenir → visiting.",
+            "'visited' seçeneği bu cümle için gramer açısından uygun değil."
+          ]
+        },
+        {
+          "q": "He doesn't like ___ alone.",
+          "options": [
+            "eat",
+            "eats",
+            "eating",
+            "ate"
+          ],
+          "a": 2,
+          "why": [
+            "'eat' seçeneği bu cümle için gramer açısından uygun değil.",
+            "'eats' seçeneği bu cümle için gramer açısından uygun değil.",
+            "like'tan sonra fiile -ing eklenir → eating.",
+            "'ate' seçeneği bu cümle için gramer açısından uygun değil."
+          ]
         }
       ]
     },
@@ -2710,6 +7574,262 @@ window.GRAMMAR_A1 = {
             "they"
           ],
           "a": 1
+        },
+        {
+          "q": "This phone is ___. (I)",
+          "options": [
+            "my",
+            "mine",
+            "me",
+            "myself"
+          ],
+          "a": 1,
+          "why": [
+            "'my' seçeneği bu cümle için gramer açısından uygun değil.",
+            "İsim yoksa iyelik zamiri mine kullanılır.",
+            "'me' seçeneği bu cümle için gramer açısından uygun değil.",
+            "'myself' seçeneği bu cümle için gramer açısından uygun değil."
+          ]
+        },
+        {
+          "q": "Her bag is black, but ___ is brown. (I)",
+          "options": [
+            "my",
+            "mine",
+            "me",
+            "myself"
+          ],
+          "a": 1,
+          "why": [
+            "'my' seçeneği bu cümle için gramer açısından uygun değil.",
+            "İsim yoksa iyelik zamiri mine kullanılır.",
+            "'me' seçeneği bu cümle için gramer açısından uygun değil.",
+            "'myself' seçeneği bu cümle için gramer açısından uygun değil."
+          ]
+        },
+        {
+          "q": "The red car is ___. (you)",
+          "options": [
+            "your",
+            "yours",
+            "you",
+            "your's"
+          ],
+          "a": 1,
+          "why": [
+            "'your' seçeneği bu cümle için gramer açısından uygun değil.",
+            "İsim yoksa iyelik zamiri yours kullanılır.",
+            "'you' seçeneği bu cümle için gramer açısından uygun değil.",
+            "'your's' seçeneği bu cümle için gramer açısından uygun değil."
+          ]
+        },
+        {
+          "q": "These books are ___. (we)",
+          "options": [
+            "our",
+            "ours",
+            "us",
+            "our's"
+          ],
+          "a": 1,
+          "why": [
+            "'our' seçeneği bu cümle için gramer açısından uygun değil.",
+            "İsim yoksa iyelik zamiri ours kullanılır.",
+            "'us' seçeneği bu cümle için gramer açısından uygun değil.",
+            "'our's' seçeneği bu cümle için gramer açısından uygun değil."
+          ]
+        },
+        {
+          "q": "Is that dog ___. (they)",
+          "options": [
+            "their",
+            "theirs",
+            "them",
+            "they"
+          ],
+          "a": 1,
+          "why": [
+            "'their' seçeneği bu cümle için gramer açısından uygun değil.",
+            "İsim yoksa iyelik zamiri theirs kullanılır.",
+            "'them' seçeneği bu cümle için gramer açısından uygun değil.",
+            "'they' seçeneği bu cümle için gramer açısından uygun değil."
+          ]
+        },
+        {
+          "q": "My room is small; ___ is big. (he)",
+          "options": [
+            "his",
+            "him",
+            "he",
+            "he's"
+          ],
+          "a": 0,
+          "why": [
+            "his hem sıfat hem zamir olabilir; burada zamir → his.",
+            "'him' seçeneği bu cümle için gramer açısından uygun değil.",
+            "'he' seçeneği bu cümle için gramer açısından uygun değil.",
+            "'he's' seçeneği bu cümle için gramer açısından uygun değil."
+          ]
+        },
+        {
+          "q": "This scooter is ___. (she)",
+          "options": [
+            "her",
+            "hers",
+            "her's",
+            "she"
+          ],
+          "a": 1,
+          "why": [
+            "'her' seçeneği bu cümle için gramer açısından uygun değil.",
+            "İsim yoksa iyelik zamiri hers kullanılır.",
+            "'her's' seçeneği bu cümle için gramer açısından uygun değil.",
+            "'she' seçeneği bu cümle için gramer açısından uygun değil."
+          ]
+        },
+        {
+          "q": "Their garden is nice, but ___ has more flowers. (we)",
+          "options": [
+            "our",
+            "ours",
+            "us",
+            "we"
+          ],
+          "a": 1,
+          "why": [
+            "'our' seçeneği bu cümle için gramer açısından uygun değil.",
+            "İsim yoksa iyelik zamiri ours kullanılır.",
+            "'us' seçeneği bu cümle için gramer açısından uygun değil.",
+            "'we' seçeneği bu cümle için gramer açısından uygun değil."
+          ]
+        },
+        {
+          "q": "This pencil is ___. (you)",
+          "options": [
+            "your",
+            "yours",
+            "you",
+            "you're"
+          ],
+          "a": 1,
+          "why": [
+            "'your' seçeneği bu cümle için gramer açısından uygun değil.",
+            "İsim yoksa iyelik zamiri yours kullanılır.",
+            "'you' seçeneği bu cümle için gramer açısından uygun değil.",
+            "'you're' seçeneği bu cümle için gramer açısından uygun değil."
+          ]
+        },
+        {
+          "q": "My shoes are here; ___ are over there. (they)",
+          "options": [
+            "their",
+            "theirs",
+            "them",
+            "they"
+          ],
+          "a": 1,
+          "why": [
+            "'their' seçeneği bu cümle için gramer açısından uygun değil.",
+            "İsim yoksa iyelik zamiri theirs kullanılır.",
+            "'them' seçeneği bu cümle için gramer açısından uygun değil.",
+            "'they' seçeneği bu cümle için gramer açısından uygun değil."
+          ]
+        },
+        {
+          "q": "Is this umbrella ___. (I)",
+          "options": [
+            "my",
+            "mine",
+            "me",
+            "I"
+          ],
+          "a": 1,
+          "why": [
+            "'my' seçeneği bu cümle için gramer açısından uygun değil.",
+            "İsim yoksa iyelik zamiri mine kullanılır.",
+            "'me' seçeneği bu cümle için gramer açısından uygun değil.",
+            "'I' seçeneği bu cümle için gramer açısından uygun değil."
+          ]
+        },
+        {
+          "q": "His bike is new, but ___ is old. (she)",
+          "options": [
+            "her",
+            "hers",
+            "she",
+            "her's"
+          ],
+          "a": 1,
+          "why": [
+            "'her' seçeneği bu cümle için gramer açısından uygun değil.",
+            "İsim yoksa iyelik zamiri hers kullanılır.",
+            "'she' seçeneği bu cümle için gramer açısından uygun değil.",
+            "'her's' seçeneği bu cümle için gramer açısından uygun değil."
+          ]
+        },
+        {
+          "q": "The blue jacket is ___. (we)",
+          "options": [
+            "our",
+            "ours",
+            "us",
+            "we"
+          ],
+          "a": 1,
+          "why": [
+            "'our' seçeneği bu cümle için gramer açısından uygun değil.",
+            "İsim yoksa iyelik zamiri ours kullanılır.",
+            "'us' seçeneği bu cümle için gramer açısından uygun değil.",
+            "'we' seçeneği bu cümle için gramer açısından uygun değil."
+          ]
+        },
+        {
+          "q": "Those keys are ___. (you)",
+          "options": [
+            "your",
+            "yours",
+            "you",
+            "your's"
+          ],
+          "a": 1,
+          "why": [
+            "'your' seçeneği bu cümle için gramer açısından uygun değil.",
+            "İsim yoksa iyelik zamiri yours kullanılır.",
+            "'you' seçeneği bu cümle için gramer açısından uygun değil.",
+            "'your's' seçeneği bu cümle için gramer açısından uygun değil."
+          ]
+        },
+        {
+          "q": "My computer is slow; ___ is fast. (he)",
+          "options": [
+            "his",
+            "him",
+            "he",
+            "he's"
+          ],
+          "a": 0,
+          "why": [
+            "his burada zamir olarak isimsiz kullanılır → his.",
+            "'him' seçeneği bu cümle için gramer açısından uygun değil.",
+            "'he' seçeneği bu cümle için gramer açısından uygun değil.",
+            "'he's' seçeneği bu cümle için gramer açısından uygun değil."
+          ]
+        },
+        {
+          "q": "This game is ___. (they)",
+          "options": [
+            "their",
+            "theirs",
+            "them",
+            "they"
+          ],
+          "a": 1,
+          "why": [
+            "'their' seçeneği bu cümle için gramer açısından uygun değil.",
+            "İsim yoksa iyelik zamiri theirs kullanılır.",
+            "'them' seçeneği bu cümle için gramer açısından uygun değil.",
+            "'they' seçeneği bu cümle için gramer açısından uygun değil."
+          ]
         }
       ]
     },
@@ -2845,6 +7965,262 @@ window.GRAMMAR_A1 = {
             "be"
           ],
           "a": 1
+        },
+        {
+          "q": "___ is your brother? — He is at home.",
+          "options": [
+            "Where",
+            "What",
+            "Who",
+            "When"
+          ],
+          "a": 0,
+          "why": [
+            "Yer sormak için Where kullanılır.",
+            "'What' seçeneği bu cümle için gramer açısından uygun değil.",
+            "'Who' seçeneği bu cümle için gramer açısından uygun değil.",
+            "'When' seçeneği bu cümle için gramer açısından uygun değil."
+          ]
+        },
+        {
+          "q": "___ is that girl? — She is my cousin.",
+          "options": [
+            "What",
+            "Where",
+            "Who",
+            "When"
+          ],
+          "a": 2,
+          "why": [
+            "'What' seçeneği bu cümle için gramer açısından uygun değil.",
+            "'Where' seçeneği bu cümle için gramer açısından uygun değil.",
+            "Kişiyi sormak için Who kullanılır.",
+            "'When' seçeneği bu cümle için gramer açısından uygun değil."
+          ]
+        },
+        {
+          "q": "Where ___ she from?",
+          "options": [
+            "is",
+            "are",
+            "am",
+            "be"
+          ],
+          "a": 0,
+          "why": [
+            "she tekil üçüncü şahıs → is.",
+            "'are' seçeneği bu cümle için gramer açısından uygun değil.",
+            "'am' seçeneği bu cümle için gramer açısından uygun değil.",
+            "'be' seçeneği bu cümle için gramer açısından uygun değil."
+          ]
+        },
+        {
+          "q": "How ___ your parents?",
+          "options": [
+            "is",
+            "are",
+            "am",
+            "be"
+          ],
+          "a": 1,
+          "why": [
+            "'is' seçeneği bu cümle için gramer açısından uygun değil.",
+            "your parents çoğul → are.",
+            "'am' seçeneği bu cümle için gramer açısından uygun değil.",
+            "'be' seçeneği bu cümle için gramer açısından uygun değil."
+          ]
+        },
+        {
+          "q": "___ is the weather today?",
+          "options": [
+            "What",
+            "Where",
+            "Who",
+            "When"
+          ],
+          "a": 0,
+          "why": [
+            "Durum sormak için What kullanılır.",
+            "'Where' seçeneği bu cümle için gramer açısından uygun değil.",
+            "'Who' seçeneği bu cümle için gramer açısından uygun değil.",
+            "'When' seçeneği bu cümle için gramer açısından uygun değil."
+          ]
+        },
+        {
+          "q": "When ___ your birthday?",
+          "options": [
+            "is",
+            "are",
+            "am",
+            "be"
+          ],
+          "a": 0,
+          "why": [
+            "your birthday tekil → is.",
+            "'are' seçeneği bu cümle için gramer açısından uygun değil.",
+            "'am' seçeneği bu cümle için gramer açısından uygun değil.",
+            "'be' seçeneği bu cümle için gramer açısından uygun değil."
+          ]
+        },
+        {
+          "q": "Why ___ they angry?",
+          "options": [
+            "is",
+            "are",
+            "am",
+            "be"
+          ],
+          "a": 1,
+          "why": [
+            "'is' seçeneği bu cümle için gramer açısından uygun değil.",
+            "they çoğul → are.",
+            "'am' seçeneği bu cümle için gramer açısından uygun değil.",
+            "'be' seçeneği bu cümle için gramer açısından uygun değil."
+          ]
+        },
+        {
+          "q": "___ is your favorite color?",
+          "options": [
+            "What",
+            "Where",
+            "Who",
+            "When"
+          ],
+          "a": 0,
+          "why": [
+            "Nitelik sormak için What kullanılır.",
+            "'Where' seçeneği bu cümle için gramer açısından uygun değil.",
+            "'Who' seçeneği bu cümle için gramer açısından uygun değil.",
+            "'When' seçeneği bu cümle için gramer açısından uygun değil."
+          ]
+        },
+        {
+          "q": "Where ___ the keys?",
+          "options": [
+            "is",
+            "are",
+            "am",
+            "be"
+          ],
+          "a": 1,
+          "why": [
+            "'is' seçeneği bu cümle için gramer açısından uygun değil.",
+            "the keys çoğul → are.",
+            "'am' seçeneği bu cümle için gramer açısından uygun değil.",
+            "'be' seçeneği bu cümle için gramer açısından uygun değil."
+          ]
+        },
+        {
+          "q": "Who ___ at the door?",
+          "options": [
+            "is",
+            "are",
+            "am",
+            "be"
+          ],
+          "a": 0,
+          "why": [
+            "Singular özne sorusu → is.",
+            "'are' seçeneği bu cümle için gramer açısından uygun değil.",
+            "'am' seçeneği bu cümle için gramer açısından uygun değil.",
+            "'be' seçeneği bu cümle için gramer açısından uygun değil."
+          ]
+        },
+        {
+          "q": "How ___ your sister today?",
+          "options": [
+            "is",
+            "are",
+            "am",
+            "be"
+          ],
+          "a": 0,
+          "why": [
+            "your sister tekil → is.",
+            "'are' seçeneği bu cümle için gramer açısından uygun değil.",
+            "'am' seçeneği bu cümle için gramer açısından uygun değil.",
+            "'be' seçeneği bu cümle için gramer açısından uygun değil."
+          ]
+        },
+        {
+          "q": "___ is your house? — It's near the school.",
+          "options": [
+            "Where",
+            "What",
+            "Who",
+            "When"
+          ],
+          "a": 0,
+          "why": [
+            "Yer sormak için Where kullanılır.",
+            "'What' seçeneği bu cümle için gramer açısından uygun değil.",
+            "'Who' seçeneği bu cümle için gramer açısından uygun değil.",
+            "'When' seçeneği bu cümle için gramer açısından uygun değil."
+          ]
+        },
+        {
+          "q": "What ___ those?",
+          "options": [
+            "is",
+            "are",
+            "am",
+            "be"
+          ],
+          "a": 1,
+          "why": [
+            "'is' seçeneği bu cümle için gramer açısından uygun değil.",
+            "those çoğul → are.",
+            "'am' seçeneği bu cümle için gramer açısından uygun değil.",
+            "'be' seçeneği bu cümle için gramer açısından uygun değil."
+          ]
+        },
+        {
+          "q": "Why ___ the baby crying?",
+          "options": [
+            "is",
+            "are",
+            "am",
+            "be"
+          ],
+          "a": 0,
+          "why": [
+            "the baby tekil → is.",
+            "'are' seçeneği bu cümle için gramer açısından uygun değil.",
+            "'am' seçeneği bu cümle için gramer açısından uygun değil.",
+            "'be' seçeneği bu cümle için gramer açısından uygun değil."
+          ]
+        },
+        {
+          "q": "Where ___ your friends now?",
+          "options": [
+            "is",
+            "are",
+            "am",
+            "be"
+          ],
+          "a": 1,
+          "why": [
+            "'is' seçeneği bu cümle için gramer açısından uygun değil.",
+            "your friends çoğul → are.",
+            "'am' seçeneği bu cümle için gramer açısından uygun değil.",
+            "'be' seçeneği bu cümle için gramer açısından uygun değil."
+          ]
+        },
+        {
+          "q": "Who ___ your teacher? — Ms. Elif.",
+          "options": [
+            "What",
+            "Where",
+            "Who",
+            "When"
+          ],
+          "a": 2,
+          "why": [
+            "'What' seçeneği bu cümle için gramer açısından uygun değil.",
+            "'Where' seçeneği bu cümle için gramer açısından uygun değil.",
+            "Kişiyi sormak için Who kullanılır.",
+            "'When' seçeneği bu cümle için gramer açısından uygun değil."
+          ]
         }
       ]
     }
