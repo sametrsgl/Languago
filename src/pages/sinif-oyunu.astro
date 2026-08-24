@@ -85,20 +85,39 @@ function makeQ(q: string, options: any[], a: number, why: any, tier: number): an
 // If a practice stem ends with "(answer)" where the parenthetical IS the answer,
 // the MCQ would give the answer away. Strip it and, when a Turkish meaning hint
 // exists, show that as a non-revealing clue instead (user-requested behavior).
+// ALSO: for structurally ambiguous patterns (demonstrative + possessive, e.g.
+// "That is ___ pen." — every possessive fits), append the practice hint as a
+// disambiguating clue so the question has a single intended answer.
 function cleanPracticeStem(q: string, ans: string, hint?: string): string {
   if (!q || !ans) return q;
   const m = q.match(/\(([^)]*)\)\s*$/);
-  if (!m) return q;
-  const inner = (m[1] || '').trim();
+  const h = (hint || '').trim();
   const norm = (s: string) => s.toLowerCase().replace(/['’]/g, '');
-  if (norm(inner) === norm(ans)) {
-    // it's a giveaway — strip it; replace with Turkish meaning clue if available
-    const base = q.slice(0, m.index).trim();
-    const h = (hint || '').trim();
-    return h ? `${base} (ipucu: ${h})` : base;
+  if (m) {
+    const inner = (m[1] || '').trim();
+    if (norm(inner) === norm(ans)) {
+      // it's a giveaway — strip it; replace with Turkish meaning clue if available
+      const base = q.slice(0, m.index).trim();
+      return h ? `${base} (ipucu: ${h})` : base;
+    }
+    // has a legit, non-answer parenthetical already — keep as-is
+    return q;
   }
-  return q;
-}
+  // No parenthetical. Detect structurally ambiguous patterns where MANY options
+    // are grammatically valid completions and there is no way to pick one without
+    // context — these MUST carry the hint to have a single intended answer:
+    //   (a) demonstrative + possessive: "That is ___ pen."
+    //   (b) possessive/pronoun-object referential hints: "___ name is John."
+    //       (hint like "you → senin", "he → onun", "I → benim", "we → nesne")
+    // Verb-conjugation hints ("he → is") are NOT ambiguous, so they are left alone.
+    var isDemonstr = /^(this|that)\s+is\s+___\s+[a-z]/i.test(q.trim()) ||
+                     /^(these|those)\s+are\s+___\s+[a-z]/i.test(q.trim());
+    var isReferent = /(benim|senin|onun|bizim|sizin|onların|nesne|onunki|seninki|benimki|bizimki|sizinki|kendi)/i.test(h);
+    if (isDemonstr || isReferent) {
+      return h ? `${q.trim()} (ipucu: ${h})` : q;
+    }
+    return q;
+  }
 // plausible wrong-form distractors for a gap-fill (tenses/agreement errors)
 function extraDistractors(p: any, ans: string): string | null {
   const variations: Record<string, string[]> = {
