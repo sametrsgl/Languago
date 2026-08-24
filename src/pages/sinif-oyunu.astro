@@ -368,7 +368,6 @@ const diffJson = JSON.stringify(DIFF).replace(/</g, '\\u003c');
       }
 
       // ---- board ----
-      var TILE_COUNT = 24;
       var POWER_NAMES = ['Puanları Takas Et', 'İki Katı Puan', 'Puan Çal', 'Sıfırla'];
       var POWER_DESC = {
         'Puanları Takas Et': 'Bu takım ile rakibinin puanları yer değiştirir!',
@@ -384,14 +383,22 @@ const diffJson = JSON.stringify(DIFF).replace(/</g, '\\u003c');
 
       function startGame() {
               state.scores = []; for (var i = 0; i < state.teams; i++) state.scores.push(0);
-              state.active = 0; state.used = {}; state.total = TILE_COUNT;
-              // No-repeat question pool: shuffle the topic's full bank once, consume in order.
+              state.active = 0; state.used = {}; state.pool = [];
               var topic = currentTopic();
-              state.pool = shuffle(topic ? topic.qs.slice() : []).slice(0, TILE_COUNT);
-              // 20% power-up tiles
+              var U = topic ? topic.qs.length : 0;
+              // GUARANTEE no repeats: total tiles are sized so the number of QUESTION
+              // tiles never exceeds the topic's unique-question count U. Pulling ten
+              // unique questions onto a 24-tile board would otherwise force repeats.
+              var maxTotal = 24;
+              // solve N - round(0.2*N) <= U  =>  ~0.8*N <= U  =>  N <= U/0.8
+              var N = Math.min(maxTotal, Math.max(4, Math.round(U / 0.8)));
+              state.total = N;
+              // no-repeat pool = the topic's FULL question list, shuffled once in order
+              state.pool = shuffle(topic ? topic.qs.slice() : []);
+              // 20% power-up tiles (of the SIZED board)
               state.power = {};
-              var pCount = Math.round(TILE_COUNT * 0.2);
-              var idx = shuffle(range(TILE_COUNT)).slice(0, pCount);
+              var pCount = Math.max(1, Math.round(N * 0.2));
+              var idx = shuffle(range(N)).slice(0, pCount);
               idx.forEach(function (x) {
                 state.power[x] = POWER_NAMES[Math.floor(Math.random() * POWER_NAMES.length)];
               });
@@ -401,7 +408,7 @@ const diffJson = JSON.stringify(DIFF).replace(/</g, '\\u003c');
             }
             // points by tile band: early=+5, mid=+10, late=+20 (harder = higher)
             function pointsFor(n) {
-              var frac = n / TILE_COUNT;
+              var frac = n / state.total;
               if (frac <= 1 / 3) return 5;
               if (frac <= 2 / 3) return 10;
               return 20;
@@ -438,11 +445,12 @@ const diffJson = JSON.stringify(DIFF).replace(/</g, '\\u003c');
             }
 
       function openQuestion(n) {
-              var topic = currentTopic();
-              // consume from the shuffled no-repeat pool in order; re-shuffle the full
-              // bank only when the queue is exhausted (rare) so repeats are minimized
-              if (!state.pool.length && topic) state.pool = shuffle(topic.qs.slice());
-              var q = state.pool.length ? state.pool.shift() : (topic ? topic.qs[Math.floor(Math.random() * topic.qs.length)] : null);
+                    var topic = currentTopic();
+                    // consume from the shuffled no-repeat pool in order. The pool holds
+                    // EVERY unique question of the topic and the board is sized so question
+                    // tiles never exceed it — so a repeat is impossible, never re-shuffle.
+                    var q = state.pool.length ? state.pool.shift() : null;
+                    if (!q) { $('modal').hidden = true; return; }
               var pts = pointsFor(n);
               var req = state.powerDouble ? 2 : 1;
               var vis = topic ? (topic.short || topic.title) : '';
