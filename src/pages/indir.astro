@@ -7,17 +7,15 @@ import Layout from '../layouts/Layout.astro';
 // Fetch latest APK version from GitHub releases API
 let apkData = null;
 try {
-  const apkRes = await fetch('https://api.github.com/repos/sametrsgl/Languago/releases/latest');
+  const apkRes = await fetch('/api/apk-version');
   apkData = await apkRes.json().catch(() => null);
 } catch { /* ignore */ }
-const latestTag = apkData?.tag_name || 'v2.5.0';
-const latestAssets = apkData?.assets || [];
-const latestApk = latestAssets.find(a => a.name && a.name.endsWith('.apk'));
+const latestTag = apkData?.version || 'v2.5.2';
 const apkUrl =
   import.meta.env.PUBLIC_APK_URL ||
-  (latestApk ? latestApk.browser_download_url : 'https://github.com/sametrsgl/Languago/releases/latest');
+  (apkData?.apkUrl || 'https://github.com/sametrsgl/Languago/releases/latest');
 const appVersion = latestTag;
-const apkFilename = latestApk?.name || ('Languago-' + latestTag + '.apk');
+const apkFilename = apkData?.apkFilename || ('Languago-' + latestTag + '.apk');
 
 const features = [
   {
@@ -61,7 +59,7 @@ const installSteps = [
   {
     icon: '1',
     title: 'APK dosyasını indir',
-    desc: 'Aşağıdaki "Uygulamayı İndir" butonuna dokun. Dosya adı: Languago-v2.5.0.apk.',
+    desc: 'Aşağıdaki "İndir" butonuna dokun. Dosya adı: ' + apkFilename + '.',
   },
   {
     icon: '2',
