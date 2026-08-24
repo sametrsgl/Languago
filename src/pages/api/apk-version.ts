@@ -19,10 +19,10 @@ export async function GET() {
     });
   } catch {
     return new Response(JSON.stringify({
-      version: 'v2.5.0',
-      versionCode: 18,
+      version: 'v2.5.2',
+      versionCode: 20,
       apkUrl: 'https://github.com/sametrsgl/Languago/releases/latest',
-      apkFilename: 'Languago-v2.5.0.apk'
+      apkFilename: 'Languago-v2.5.2.apk'
     }), {
       status: 200,
       headers: { 'Content-Type': 'application/json' }
