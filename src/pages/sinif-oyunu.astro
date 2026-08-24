@@ -120,6 +120,14 @@ function cleanPracticeStem(q: string, ans: string, hint?: string): string {
   }
 // plausible wrong-form distractors for a gap-fill (tenses/agreement errors)
 function extraDistractors(p: any, ans: string): string | null {
+  const hint = (p.hint || '').toLowerCase();
+  // Present continuous "be" practice items: "He ___ watching TV. (be)" / ans="is"
+  // Generate distractors testing the FULL am/is/are + -ing structure so students
+  // can't just guess the be-verb — they must apply the whole form.
+  // Examples: "are watching" (wrong aux), "is watch" (no -ing), "is watched" (passive)
+  if (['am', 'is', 'are', 'be'].includes(ans.toLowerCase()) && hint.includes('→')) {
+    return extraDistractorPc(p, ans);
+  }
   const variations: Record<string, string[]> = {
     am: ['are', 'is', 'be'],
     is: ['are', 'am', 'be'],
@@ -138,6 +146,63 @@ function extraDistractors(p: any, ans: string): string | null {
     }
   }
   return variations[l] ? variations[l][0] : null;
+}
+
+// For present continuous "be" practice items — distractors that test the
+// full am/is/are + -ing structure (not just the be-verb alone).
+// e.g. answer="is", verb=watch → distractors: "are watching", "is watch", "is watched"
+function extraDistractorPc(p: any, ans: string): string | null {
+  const q = (p.q || '').toLowerCase();
+  // Extract the -ing verb from the stem: "He ___ watching TV. (be)"
+  const ingMatch = q.match(/(\w+ing)\b/);
+  if (!ingMatch) {
+    // No -ing verb visible — fall back to simple be variations
+    const variations: Record<string, string[]> = {
+      am: ['are', 'is', 'be'],
+      is: ['are', 'am', 'be'],
+      are: ['is', 'am', 'be'],
+    };
+    const l = ans.toLowerCase();
+    return variations[l] ? variations[l][0] : null;
+  }
+  const verbIng = ingMatch[1];           // e.g. "watching"
+  const verbRoot = verbIng.replace(/ing$/, ''); // e.g. "watch"
+  // Determine subject to pick correct auxiliary
+  const subjMatch = q.match(/^(he|she|it|we|they|i)\s/);
+  const subject = subjMatch ? subjMatch[1] : 'they';
+  const lower = ans.toLowerCase();
+
+  // Build candidate distractor sets based on which be-verb is correct:
+  //   correct: "is watching"  — answer is "is"
+  //   distractors:
+  //     - wrong aux + -ing:  "are watching", "am watching"
+  //     - correct aux + no -ing: "is watch"
+  //     - passive:           "is watched"
+  //     - third-person -s:   "watches"
+  //     - base verb:         "watch" / "watching" (bare)
+  const allBe = ['am', 'is', 'are'];
+  const shuffled = [...allBe].sort(() => Math.random() - 0.5);
+
+  // Pick 1 distractor from the shuffled pool each call (the caller calls
+  // extraDistractors() up to 3x to fill 3 slots; each call returns a
+  // different candidate by consuming the array). Since we can't persist state,
+  // use the answer + verb to deterministically pick a "wrong but plausible" option:
+  const wrongAux = shuffled.filter((b) => b !== lower);
+  const distractorTypes = [
+    () => wrongAux[0] + ' ' + verbIng,          // e.g. "are watching"
+    () => lower + ' ' + verbRoot,               // e.g. "is watch" (no -ing)
+    () => lower + ' ' + verbRoot + 'ed',        // e.g. "is watched" (passive)
+    () => verbRoot + 's',                       // e.g. "watches" (simple present)
+    () => verbRoot,                             // e.g. "watch" (bare infinitive)
+  ];
+
+  // Return one deterministic distractor based on ans+verb so retries are diverse
+  const idx = (lower.charCodeAt(0) + verbRoot.length) % distractorTypes.length;
+  const picked = distractorTypes[idx]();
+  const capped = /^[A-Z]/.test(ans)
+    ? picked.charAt(0).toUpperCase() + picked.slice(1)
+    : picked;
+  return capped !== ans ? capped : null;
 }
 function shuffleArr(a: any[]): any[] {
   const arr = a.slice();
