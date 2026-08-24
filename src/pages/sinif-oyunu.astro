@@ -54,16 +54,27 @@ async function buildBank() {
                     });
                   }
             if (qs.length === 0) continue;
-            topics.push({
-              level: lv.key,
-              levelLabel: lv.label,
-        id: u.id,
-        title: u.title || u.short,
-        short: u.short || u.title,
-        qs,
-        // questions tagged hard (tier 3) are from the curated bank when it's longer
-        hard: qs.filter((q: any) => q.t === 3),
-      });
+                        // HARD GUARANTEE — dedupe by normalized question TEXT, not just array
+                        // index. The curated MCQ bank and the practice→MCQ conversion can both
+                        // produce e.g. "___ name is John."; consuming each index once would still
+                        // show the same sentence twice. Keep the FIRST occurrence per unique stem.
+                        const seenQ = new Set<string>();
+                        const uniq: any[] = [];
+                        for (const q of qs) {
+                          const k = (q.q || '').toLowerCase().trim().replace(/\s+/g, ' ');
+                          if (seenQ.has(k)) continue;
+                          seenQ.add(k); uniq.push(q);
+                        }
+                        topics.push({
+                          level: lv.key,
+                          levelLabel: lv.label,
+                    id: u.id,
+                    title: u.title || u.short,
+                    short: u.short || u.title,
+                    qs: uniq,
+                    // questions tagged hard (tier 3) are from the curated bank when it's longer
+                    hard: uniq.filter((q: any) => q.t === 3),
+                  });
     }
   }
   return topics;
