@@ -8,48 +8,13 @@ import AppLayout from '../../layouts/AppLayout.astro';
 import TeacherNav from '../../components/TeacherNav.astro';
 import { authorizeTeacher } from '../../lib/teacher';
 import { pageCookieSource } from '../../lib/supabase';
-import { loadGrammar, loadGrammarMcq } from '../../lib/study';
 
 const auth = await authorizeTeacher(pageCookieSource(Astro));
 if (!auth.ok && auth.reason !== 'forbidden') {
   return Astro.redirect('/signin');
 }
 
-const levels = [
-  { key: 'a1', bank: 'a1', label: 'A1 · Başlangıç' },
-  { key: 'a2', bank: 'a2', label: 'A2 · Temel' },
-  { key: 'b1', bank: 'b1', label: 'B1 · Orta' },
-  { key: 'b2', bank: 'b2', label: 'B2 · Orta-Üstü' },
-  { key: 'c1', bank: 'c1', label: 'C1 · İleri' },
-];
-
-// Collect one tutorial block per grammar unit: id/title/level + MCQs + practice.
-type U = {
-  id: string; title: string; short: string; level: string;
-  mcq: { q: string; options: string[]; a: number; why?: string[] }[];
-  practice: { q: string; a: string[]; hint?: string }[];
-};
-const units: U[] = [];
-for (const lv of levels) {
-  const gmod: any = await loadGrammar(lv.bank);
-  const GRAM: any = gmod?.[`GRAMMAR_${lv.bank.toUpperCase()}`] || null;
-  const mcqmod: any = await loadGrammarMcq(lv.bank);
-  const MCQM: any = mcqmod?.[`GRAMMAR_MCQ_${lv.bank.toUpperCase()}`] || null;
-  if (!GRAM?.units) continue;
-  for (const u of GRAM.units) {
-    units.push({
-      id: u.id,
-      title: u.title || u.short,
-      short: u.short || u.title,
-      level: lv.bank,
-      mcq: (MCQM?.[u.id] || []).map((q: any) => ({
-        q: q.q, options: q.options, a: q.a, why: q.why || undefined,
-      })),
-      practice: (u.practice || []).map((p: any) => ({ q: p.q, a: p.a || [], hint: p.hint })),
-    });
-  }
-}
-const unitsJson = JSON.stringify(units).replace(/</g, '\\u003c');
+const canUse = auth.ok;
 ---
 
 <AppLayout
@@ -118,16 +83,9 @@ const unitsJson = JSON.stringify(units).replace(/</g, '\\u003c');
     </div>
   </main>
 
-  <script type="application/json" id="mat-units" set:html={unitsJson}></script>
-
   <script is:inline>
     (function () {
       var UNITS = [];
-      try {
-        var s = document.getElementById('mat-units');
-        UNITS = s ? (JSON.parse(s.textContent) || []) : [];
-      } catch (e) { UNITS = []; }
-
       var $ = function (id) { return document.getElementById(id); };
       var out = $('mat-out'), topicSel = $('mat-topic'), levelSel = $('mat-level'),
           typeSel = $('mat-type'), countIn = $('mat-count'), shuffleIn = $('mat-shuffle');
@@ -144,29 +102,24 @@ const unitsJson = JSON.stringify(units).replace(/</g, '\\u003c');
 
       function renderTopics() {
         var lv = levelSel.value;
-        var list = byLevel(lv);
-        topicSel.innerHTML = list.map(function (u) {
+        topicSel.innerHTML = byLevel(lv).map(function (u) {
           return '<option value="' + esc(u.id) + '">' + esc(u.title) + '</option>';
-        }).join('');
+        }).join('') || '<option value="">Konu yok</option>';
       }
 
       function currentUnit() {
-        var lv = levelSel.value, id = topicSel.value;
-        return byLevel(lv).find(function (u) { return u.id === id; }) || null;
+        return byLevel(levelSel.value).find(function (u) { return u.id === topicSel.value; }) || null;
       }
 
-      // ---- generate ----
       function gen() {
         var u = currentUnit();
         if (!u) { $('mat-note').textContent = 'Konu yüklenemedi.'; return; }
         var n = Math.max(3, Math.min(20, parseInt(countIn.value, 10) || 10));
         var shuffleOn = shuffleIn.checked;
-        var type = typeSel.value; // mcu | gap | mixed | key
+        var type = typeSel.value;
 
-        // collect pools
         var mcq = u.mcq.map(function (m) { return { kind: 'mcq', q: m.q, options: m.options, a: m.a, why: m.why }; });
         var gap = u.practice.map(function (p) { return { kind: 'gap', q: p.q, a: (p.a && p.a[0]) || '', hint: p.hint }; });
-        // dedupe stems
         var seen = {}, pool = [];
         var add = function (it) {
           var k = it.q.toLowerCase().trim().replace(/\s+/g, ' ');
@@ -175,36 +128,24 @@ const unitsJson = JSON.stringify(units).replace(/</g, '\\u003c');
         mcq.forEach(add); gap.forEach(add);
         if (shuffleOn) pool = shuffle(pool);
 
-        // build answer key
-        function keyLine(it) {
-          if (it.kind === 'mcq') return (it.options[it.a] || '');
-          return (it.a || '');
-        }
+        function keyLine(it) { return it.kind === 'mcq' ? (it.options[it.a] || '') : (it.a || ''); }
 
-        var html = '';
-        var head = '<div class="mat-title"><strong>Languago · </strong><span>' + esc(u.title) + '</span> — Seviye ' + esc(u.level.toUpperCase()) + '</div>';
-        html += head;
+        var html = '<div class="mat-title"><strong>Languago · </strong><span>' + esc(u.title) + '</span> — Seviye ' + esc(u.level.toUpperCase()) + '</div>';
 
         if (type === 'key') {
           html += '<h3>Cevap Anahtarı 🔑</h3><ol class="mat-list">';
-          pool.slice(0, n).forEach(function (it, i) {
-            html += '<li>' + (i + 1) + ') ' + esc(keyLine(it)) + '</li>';
-          });
+          pool.slice(0, n).forEach(function (it, i) { html += '<li>' + (i + 1) + ') ' + esc(keyLine(it)) + '</li>'; });
           html += '</ol>';
         } else if (type === 'gap') {
           html += '<h3>Çalışma Kağıdı ✍️</h3><p class="muted">Aşağıdaki boşluklara doğru biçimi yaz.</p><ol class="mat-list">';
           pool.slice(0, n).forEach(function (it) {
-            var g = it.kind === 'gap' ? it.q : it.q;
-            html += '<li><div class="mat-q">' + esc(g) + '</div><div class="mat-line"></div></li>';
+            html += '<li><div class="mat-q">' + esc(it.q) + '</div><div class="mat-line"></div></li>';
           });
           html += '</ol>';
         } else {
-          // mcu or mixed
           var label = type === 'mixed' ? 'Karma Test 🧩' : 'Quiz (Çoktan Seçmeli) 🎯';
-          html += '<h3>' + label + '</h3>';
-          var items = pool.slice(0, n);
-          html += '<ol class="mat-list">';
-          items.forEach(function (it, i) {
+          html += '<h3>' + label + '</h3><ol class="mat-list">';
+          pool.slice(0, n).forEach(function (it, i) {
             html += '<li><div class="mat-q">' + (i + 1) + ') ' + esc(it.q) + '</div>';
             if (it.kind === 'mcq' && it.options) {
               html += '<div class="mat-opts">' + it.options.map(function (o, oi) {
@@ -213,19 +154,15 @@ const unitsJson = JSON.stringify(units).replace(/</g, '\\u003c');
             } else if (it.kind === 'gap') {
               html += '<div class="mat-line"></div>';
             }
-            html += '<div class="mat-key">Cevap: ' + esc(keyLine(it)) + '</div>';
-            html += '</li>';
+            html += '<div class="mat-key">Cevap: ' + esc(keyLine(it)) + '</div></li>';
           });
           html += '</ol>';
         }
 
         out.innerHTML = html;
         out.style.display = '';
-        $('mat-note').textContent = pickTypeLabel(type) + ' · ' + Math.min(n, pool.length) + ' soru üretildi (' + u.title + ').';
-      }
-
-      function pickTypeLabel(t) {
-        return t === 'mcu' ? 'Quiz' : t === 'gap' ? 'Çalışma Kağıdı' : t === 'mixed' ? 'Karma Test' : 'Cevap Anahtarı';
+        var tlabel = type === 'mcu' ? 'Quiz' : type === 'gap' ? 'Çalışma Kağıdı' : type === 'mixed' ? 'Karma Test' : 'Cevap Anahtarı';
+        $('mat-note').textContent = tlabel + ' · ' + Math.min(n, pool.length) + ' soru üretildi (' + u.title + ').';
       }
 
       levelSel.addEventListener('change', renderTopics);
@@ -233,17 +170,21 @@ const unitsJson = JSON.stringify(units).replace(/</g, '\\u003c');
       $('mat-print').addEventListener('click', function () { window.print(); });
       $('mat-copy').addEventListener('click', function () {
         var t = out.textContent || '';
+        var done = function () { $('mat-note').textContent = 'Kopyalandı ✓'; };
         if (navigator.clipboard && t) {
-          navigator.clipboard.writeText(t).then(function () { $('mat-note').textContent = 'Kopyalandı ✓'; },
-            function () { $('mat-note').textContent = 'Kopyalanamadı.'; });
+          navigator.clipboard.writeText(t).then(done, function () { $('mat-note').textContent = 'Kopyalanamadı.'; });
         } else if (t) {
           var ta = document.createElement('textarea'); ta.value = t; document.body.appendChild(ta); ta.select();
-          try { document.execCommand('copy'); $('mat-note').textContent = 'Kopyalandı ✓'; } catch (e) {}
+          try { document.execCommand('copy'); done(); } catch (e) {}
           document.body.removeChild(ta);
         }
       });
 
-      renderTopics();
+      // load the bank from the API endpoint, then enable the level selector
+      fetch('/api/teacher/material-bank', { credentials: 'same-origin' })
+        .then(function (r) { return r.json(); })
+        .then(function (data) { UNITS = Array.isArray(data) ? data : []; renderTopics(); $('mat-note').textContent = 'Hazır: ' + UNITS.length + ' konu yüklendi.'; })
+        .catch(function () { $('mat-note').textContent = 'Soru bankası yüklenemedi.'; });
     })();
   </script>
   <style>
