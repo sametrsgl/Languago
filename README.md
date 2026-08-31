@@ -20,6 +20,26 @@ Built with **Astro (SSR)** + **Supabase** + deployed on **Vercel** free tier.
 - **`@supabase/ssr`** — cookie-based SSR auth
 - **Jitsi (planned)** — self-hosted video classroom (Phase 4; will need a VPS)
 
+## Material Maker
+
+A public, LLM-driven material generator at `/materyal-uretici`: pick a type (worksheet,
+homework, speaking-club plan, quiz), level and topic, and Languago returns a print-ready,
+branded **PDF** (Kommo logo in the header + footer, on-brand teal/orange print CSS, answer
+key included).
+
+- **Page:** `src/pages/materyal-uretici.astro` (public, no auth) → `POST /api/materials/generate`
+- **LLM:** an OpenAI-compatible chat endpoint, configured via env vars
+- **PDF:** `puppeteer-core` + `@sparticuz/chromium` (local dev falls back to system Chrome)
+
+Run it locally:
+
+```bash
+cp .env.example .env   # set LLM_API_KEY (and LLM_BASE_URL / LLM_MODEL if not defaulting)
+npm run dev            # open http://localhost:4321/materyal-uretici
+```
+
+Requires three env vars (see below): `LLM_BASE_URL`, `LLM_API_KEY`, `LLM_MODEL`.
+
 ## Env vars (production / preview)
 
 Set on Vercel → Settings → Environment Variables:
@@ -29,6 +49,9 @@ Set on Vercel → Settings → Environment Variables:
 | `SITE_URL` | `https://www.languago.site` |
 | `SUPABASE_URL` | Supabase project URL |
 | `SUPABASE_ANON_KEY` | Supabase anon/public key |
+| `LLM_BASE_URL` | OpenAI-compatible base (default `https://opencode.ai/zen/go/v1`) |
+| `LLM_MODEL` | model id (default `deepseek-v4-pro`) |
+| `LLM_API_KEY` | the key for the LLM endpoint (required for Material Maker) |
 
 ## Quickstart (local)
 

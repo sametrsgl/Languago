@@ -66,3 +66,5 @@ vanilla JS.
 
 **Why:** zero dependency, offline-friendly, consistent with the existing Languago game
 approach.
+
+## 8. Material Maker — LLM via OpenAI-compatible endpoint + HTML→PDF via puppeteer-core + @sparticuz/chromium (research-first: Playwright's bundled Chromium exceeds Vercel's ~50MB function limit; @sparticuz/chromium is the maintained Lambda/Vercel build)

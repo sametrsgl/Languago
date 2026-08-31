@@ -50,6 +50,24 @@ import Layout from '../layouts/Layout.astro';
     </div>
   </section>
 
+  <section class="container mm-band">
+    <div class="mm-band__inner">
+      <div class="mm-band__text">
+        <span class="vs-kicker">🤖 Materyal Üretici</span>
+        <h2>Öğretmenler için yapay zekâ ile materyal</h2>
+        <p>
+          Konu ve seviye seç; Languago sana yazdırılabilir çalışma kağıdı, ödev,
+          quiz ve speaking club planını PDF olarak hazırlasın — logolu ve cevap
+          anahtarlı.
+        </p>
+        <div class="btn-row">
+          <a class="btn primary" href="/materyal-uretici">✨ Materyal Üret</a>
+        </div>
+      </div>
+      <div class="mm-band__visual" aria-hidden="true">📄🤖🎓</div>
+    </div>
+  </section>
+
   <section class="section container">
     <div class="section-head">
       <span class="kicker">Nasıl çalışır?</span>
@@ -127,4 +145,35 @@ import Layout from '../layouts/Layout.astro';
       </div>
     </div>
   </section>
+
+  <style>
+    .mm-band { margin: 4px auto 8px; }
+    .mm-band__inner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 22px;
+      flex-wrap: wrap;
+      background: linear-gradient(120deg, #b45309 0%, #f59e0b 55%, #fbbf24 100%);
+      color: #fff;
+      border-radius: 22px;
+      padding: 28px 30px;
+      box-shadow: 0 24px 48px -24px rgba(245, 158, 11, 0.75);
+      border: 1px solid rgba(255, 255, 255, 0.22);
+    }
+    .mm-band__text { flex: 1 1 360px; max-width: 720px; }
+    .mm-band__text h2 { margin: 2px 0 8px; font-size: clamp(1.5rem, 3.5vw, 2.1rem); color: #fff; }
+    .mm-band__text p { margin: 0 0 16px; color: rgba(255, 255, 255, 0.95); font-size: 1.02rem; max-width: 620px; }
+    .mm-band .btn.primary { background: #fff; color: #b45309; box-shadow: 0 10px 20px -10px rgba(0, 0, 0, 0.4); }
+    .mm-band .vs-kicker { background: rgba(255, 255, 255, 0.2); }
+    .mm-band__visual {
+      font-size: clamp(2.6rem, 6vw, 4rem);
+      letter-spacing: 6px;
+      filter: drop-shadow(0 6px 12px rgba(0, 0, 0, 0.3));
+    }
+    @media (max-width: 560px) {
+      .mm-band__inner { padding: 22px 18px; }
+      .mm-band__visual { order: -1; text-align: center; }
+    }
+  </style>
 </Layout>

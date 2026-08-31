@@ -1,0 +1,285 @@
+---
+// Languago — Material Maker (public). LLM-driven, print-ready ESL material
+// generator: describe what you want, get back a branded Languago PDF.
+// No auth required — anyone can use it. The client island POSTs to
+// /api/materials/generate and renders the "PDF'i İndir" result.
+import Layout from '../layouts/Layout.astro';
+---
+
+<Layout
+  title="Materyal Üretici — İngilizce Öğretim Materyali Üret · Languago"
+  description="Yapay zekâ destekli Materyal Üretici: konu, seviye ve tür seç — yazdırılabilir çalışma kağıdı, ödev, quiz ve speaking club planı PDF'i üret."
+>
+  <section class="container mm-page">
+    <div class="mm-head">
+      <span class="kicker">✨ Materyal Üretici</span>
+      <h1>İngilizce öğretim materyalini saniyeler içinde üret</h1>
+      <p>
+        Konu, seviye ve tür seç; Languago sana Languago logolu, yazdırılabilir
+        bir PDF hazırlasın. Çalışma kağıdı, ödev, quiz veya speaking club planı —
+        cevap anahtarıyla birlikte.
+      </p>
+      <div class="barline"></div>
+    </div>
+
+    <div class="mm-panel">
+      <form id="mm-form" novalidate>
+        <div class="mm-grid">
+          <div class="field">
+            <label for="mm-type">Materyal Türü</label>
+            <select id="mm-type">
+              <option value="worksheet">Çalışma Kağıdı</option>
+              <option value="homework">Ödev</option>
+              <option value="speaking">Speaking Club</option>
+              <option value="quiz">Quiz</option>
+            </select>
+          </div>
+
+          <div class="field">
+            <label for="mm-level">Seviye</label>
+            <select id="mm-level">
+              <option value="A1">A1</option>
+              <option value="A2">A2</option>
+              <option value="B1" selected>B1</option>
+              <option value="B2">B2</option>
+              <option value="C1">C1</option>
+              <option value="C2">C2</option>
+              <option value="IELTS">IELTS</option>
+              <option value="TOEFL">TOEFL</option>
+              <option value="YDS">YDS</option>
+              <option value="PTE">PTE</option>
+              <option value="Üniversite Proficiency">Üniversite Proficiency</option>
+            </select>
+          </div>
+
+          <div class="field">
+            <label for="mm-pages">Sayfa Sayısı</label>
+            <input id="mm-pages" type="number" min="1" max="12" value="2" />
+          </div>
+
+          <div class="field" id="mm-duration-field" hidden>
+            <label for="mm-duration">Süre</label>
+            <input id="mm-duration" type="text" value="2 saat" placeholder="örn. 2 saat" />
+          </div>
+        </div>
+
+        <div class="field">
+          <label for="mm-topic">Konu / İstek</label>
+          <textarea
+            id="mm-topic"
+            rows="3"
+            placeholder="örn. 'there is / there are + prepositions of place' veya 'past simple'"
+          ></textarea>
+          <span class="hint">Üretmek istediğin konuyu veya materyali kısaca yaz.</span>
+        </div>
+
+        <div class="btn-row">
+          <button type="submit" class="btn primary" id="mm-submit">✨ Materyal Üret</button>
+        </div>
+      </form>
+
+      <div class="alert error" id="mm-error" hidden role="alert"></div>
+      <p class="mm-loading" id="mm-loading" hidden>
+        ⏳ Materyalin hazırlanıyor — bu birkaç saniye sürebilir…
+      </p>
+      <div class="mm-result" id="mm-result" hidden>
+        <span class="mm-result__label">✅ Materyalin hazır!</span>
+        <a class="btn primary" id="mm-download" href="#" download>📥 PDF'i İndir</a>
+      </div>
+    </div>
+  </section>
+</Layout>
+
+<script is:inline>
+  (function () {
+    var form = document.getElementById('mm-form');
+    var typeSel = document.getElementById('mm-type');
+    var levelSel = document.getElementById('mm-level');
+    var pagesIn = document.getElementById('mm-pages');
+    var durationField = document.getElementById('mm-duration-field');
+    var durationIn = document.getElementById('mm-duration');
+    var topicIn = document.getElementById('mm-topic');
+    var submitBtn = document.getElementById('mm-submit');
+    var errorBox = document.getElementById('mm-error');
+    var loadingBox = document.getElementById('mm-loading');
+    var resultBox = document.getElementById('mm-result');
+    var downloadLink = document.getElementById('mm-download');
+
+    var lastUrl = null;
+
+    function toggleDuration() {
+      durationField.hidden = typeSel.value !== 'speaking';
+    }
+    typeSel.addEventListener('change', toggleDuration);
+    toggleDuration();
+
+    function setError(msg) {
+      errorBox.textContent = msg;
+      errorBox.hidden = !msg;
+    }
+
+    function resetStates() {
+      setError('');
+      loadingBox.hidden = true;
+      resultBox.hidden = true;
+    }
+
+    form.addEventListener('submit', function (e) {
+      e.preventDefault();
+
+      var topic = topicIn.value.trim();
+      if (!topic) {
+        setError('Lütfen üretmek istediğin konuyu / materyali yaz.');
+        topicIn.focus();
+        return;
+      }
+
+      var pages = parseInt(pagesIn.value, 10);
+      if (!Number.isFinite(pages) || pages < 1) pages = 2;
+      pages = Math.min(Math.max(pages, 1), 12);
+
+      var payload = {
+        type: typeSel.value,
+        level: levelSel.value,
+        topic: topic,
+        pages: pages,
+        duration: typeSel.value === 'speaking' ? durationIn.value.trim() : undefined,
+      };
+
+      setError('');
+      loadingBox.hidden = false;
+      resultBox.hidden = true;
+      submitBtn.disabled = true;
+      submitBtn.textContent = 'Üretiliyor…';
+
+      fetch('/api/materials/generate', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload),
+      })
+        .then(function (res) {
+          if (!res.ok) {
+            return res
+              .json()
+              .catch(function () {
+                return { error: 'Materyal üretilirken bir hata oluştu. Lütfen tekrar dene.' };
+              })
+              .then(function (data) {
+                throw new Error(data && data.error ? data.error : 'Beklenmeyen bir hata oluştu.');
+              });
+          }
+          return res.blob().then(function (blob) {
+            var disposition = res.headers.get('Content-Disposition') || '';
+            var nameMatch = disposition.match(/filename="?([^";]+)"?/i);
+            var filename = nameMatch ? nameMatch[1] : 'Languago_Materyal.pdf';
+            if (lastUrl) URL.revokeObjectURL(lastUrl);
+            lastUrl = URL.createObjectURL(blob);
+            downloadLink.href = lastUrl;
+            downloadLink.download = filename;
+            resultBox.hidden = false;
+          });
+        })
+        .catch(function (err) {
+          setError(err.message || 'Materyal üretilirken bir hata oluştu. Lütfen tekrar dene.');
+        })
+        .finally(function () {
+          loadingBox.hidden = true;
+          submitBtn.disabled = false;
+          submitBtn.textContent = '✨ Materyal Üret';
+        });
+    });
+  })();
+</script>
+
+<style>
+  .mm-page {
+    max-width: 760px;
+    margin: 40px auto 64px;
+  }
+  .mm-head {
+    text-align: center;
+    margin-bottom: 26px;
+  }
+  .mm-head .barline {
+    margin-left: auto;
+    margin-right: auto;
+  }
+  .mm-head p {
+    color: var(--ink-soft);
+    max-width: 560px;
+    margin: 0 auto;
+  }
+  .mm-panel {
+    background: var(--bg);
+    border: 1px solid var(--line);
+    border-radius: 22px;
+    box-shadow: 0 24px 60px -30px rgba(13, 148, 136, 0.45);
+    padding: 28px 28px 26px;
+    position: relative;
+    overflow: hidden;
+  }
+  .mm-panel::before {
+    content: '';
+    position: absolute;
+    inset: 0 0 auto 0;
+    height: 8px;
+    background: linear-gradient(90deg, var(--teal) 0%, var(--brand) 100%);
+  }
+  .mm-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0 16px;
+  }
+  .mm-grid .field:last-child {
+    margin-bottom: 0;
+  }
+  .mm-panel select,
+  .mm-panel textarea {
+    width: 100%;
+    padding: 12px 14px;
+    border: 1px solid var(--line);
+    border-radius: 10px;
+    font-size: 1rem;
+    font-family: inherit;
+    background: #fff;
+    color: var(--ink);
+  }
+  .mm-panel select:focus,
+  .mm-panel textarea:focus {
+    outline: 2px solid var(--teal);
+    border-color: transparent;
+  }
+  .mm-panel textarea {
+    resize: vertical;
+    min-height: 78px;
+  }
+  .mm-loading {
+    margin: 16px 0 0;
+    color: var(--teal-dark);
+    font-weight: 600;
+  }
+  .mm-result {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    flex-wrap: wrap;
+    margin-top: 16px;
+    background: var(--teal-soft);
+    border: 1px solid var(--teal-soft);
+    border-radius: var(--radius);
+    padding: 14px 16px;
+  }
+  .mm-result__label {
+    font-weight: 700;
+    color: var(--teal-dark);
+  }
+  @media (max-width: 560px) {
+    .mm-grid {
+      grid-template-columns: 1fr;
+      gap: 0;
+    }
+    .mm-panel {
+      padding: 24px 18px 22px;
+    }
+  }
+</style>

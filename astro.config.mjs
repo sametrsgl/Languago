@@ -10,7 +10,21 @@ const SITE_URL = process.env.SITE_URL || 'https://www.languago.site';
 export default defineConfig({
   site: SITE_URL,
   output: 'server',
-  adapter: vercel(),
+  adapter: vercel({
+    // Material Maker renders HTML→PDF server-side (puppeteer-core +
+    // @sparticuz/chromium); a typical render is < 10s, but give the
+    // function headroom on cold starts / slow LLM responses.
+    maxDuration: 60,
+    // @sparticuz/chromium ships its Linux Chromium binary in `bin/` and must
+    // stay in node_modules at runtime (it resolves that path at run time, so
+    // nft's require-tracing misses the .br files). Force-include them.
+    includeFiles: [
+      'node_modules/@sparticuz/chromium/bin/chromium.br',
+      'node_modules/@sparticuz/chromium/bin/fonts.tar.br',
+      'node_modules/@sparticuz/chromium/bin/swiftshader.tar.br',
+      'node_modules/@sparticuz/chromium/bin/al2023.tar.br',
+    ],
+  }),
   integrations: [
     sitemap({
       customPages: [`${SITE_URL}/blog`],
@@ -21,5 +35,11 @@ export default defineConfig({
   // never resets existing global.css / AppLayout styles.
   vite: {
     plugins: [tailwindcss()],
+    ssr: {
+      // Both packages must NOT be bundled: puppeteer-core is huge and does
+      // dynamic requires; @sparticuz/chromium resolves its `bin/` dir relative
+      // to its own files, which breaks when Vite relocates them into the bundle.
+      external: ['puppeteer-core', '@sparticuz/chromium'],
+    },
   },
 });
