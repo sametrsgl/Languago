@@ -2,8 +2,6 @@ import type { APIRoute } from 'astro';
 import puppeteer from 'puppeteer-core';
 import chromium from '@sparticuz/chromium';
 import { existsSync } from 'node:fs';
-import { pathToFileURL } from 'node:url';
-import path from 'node:path';
 
 // Material Maker — LLM-driven printable ESL material generator (PUBLIC route).
 // Flow: validate → call an OpenAI-compatible chat endpoint → wrap the returned
@@ -12,7 +10,7 @@ import path from 'node:path';
 export const prerender = false;
 
 const MAX_TOPIC_LENGTH = 400;
-const LLM_TIMEOUT_MS = 60_000;
+const LLM_TIMEOUT_MS = 120_000;
 const PDF_TIMEOUT_MS = 60_000;
 
 // Verbatim material-maker system prompt (see MATERIAL_MAKER.md).
@@ -166,13 +164,11 @@ async function callLLM(input: {
   }
 }
 
-// Resolve the Kommo logo to a URL puppeteer can load: a local file:// URL when
-// public/mascot.png is on disk (local dev), else a base-URL-resolved path.
+// Resolve the Kommo logo to an absolute HTTP(S) URL on the site origin. A
+// file:// URL does NOT load from a document rendered via page.setContent()
+// (Chrome blocks file:// subresources from non-file pages → broken-image icon),
+// so always use the origin, which serves public/mascot.png in both dev and prod.
 function resolveLogoUrl(baseOrigin: string): string {
-  const localFile = path.join(process.cwd(), 'public', 'mascot.png');
-  if (existsSync(localFile)) {
-    return pathToFileURL(localFile).href;
-  }
   return `${baseOrigin}/mascot.png`;
 }
 

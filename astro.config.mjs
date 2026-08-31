@@ -12,9 +12,10 @@ export default defineConfig({
   output: 'server',
   adapter: vercel({
     // Material Maker renders HTML→PDF server-side (puppeteer-core +
-    // @sparticuz/chromium); a typical render is < 10s, but give the
-    // function headroom on cold starts / slow LLM responses.
-    maxDuration: 60,
+    // @sparticuz/chromium). The LLM call (OpenCode Go / deepseek-v4-pro) is
+    // the bottleneck — measured ~40–60s per generation — so give the function
+    // headroom. Vercel Pro allows up to 300s; Hobby clamps to 60s.
+    maxDuration: 300,
     // @sparticuz/chromium ships its Linux Chromium binary in `bin/` and must
     // stay in node_modules at runtime (it resolves that path at run time, so
     // nft's require-tracing misses the .br files). Force-include them.
