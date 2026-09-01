@@ -158,11 +158,14 @@ import Layout from '../layouts/Layout.astro';
         body: JSON.stringify(payload),
       })
         .then(function (res) {
-          if (!res.ok) {
+          // Guard: if the server returned HTML (e.g. Vercel error page), don't download it
+          var ctype = (res.headers.get('Content-Type') || '').toLowerCase();
+          if (!res.ok || !ctype.includes('application/pdf')) {
             return res
               .json()
               .catch(function () {
-                return { error: 'Materyal üretilirken bir hata oluştu. Lütfen tekrar dene.' };
+                // If it's not JSON either, it's likely an HTML error page
+                return { error: 'Sunucu hatası. Lütfen tekrar dene. (HTML yanıt alındı)' };
               })
               .then(function (data) {
                 throw new Error(data && data.error ? data.error : 'Beklenmeyen bir hata oluştu.');
@@ -176,7 +179,11 @@ import Layout from '../layouts/Layout.astro';
             lastUrl = URL.createObjectURL(blob);
             downloadLink.href = lastUrl;
             downloadLink.download = filename;
+            downloadLink.target = '_blank';
             resultBox.hidden = false;
+            // On some mobile browsers the download attribute is ignored;
+            // the href now points to the blob URL which will open in a new
+            // tab where the user can save the PDF from the viewer.
           });
         })
         .catch(function (err) {
