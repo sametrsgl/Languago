@@ -285,6 +285,13 @@ import Layout from '../layouts/Layout.astro';
     color: var(--teal-dark);
     font-weight: 600;
   }
+  /* The `hidden` attribute must beat any display rule (e.g. .mm-result's flex) */
+  #mm-result[hidden],
+  #mm-loading[hidden],
+  #mm-error[hidden],
+  #mm-duration-field[hidden] {
+    display: none !important;
+  }
   .mm-result {
     display: flex;
     align-items: center;
