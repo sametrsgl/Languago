@@ -1,7 +1,8 @@
 import type { APIRoute } from 'astro';
 import puppeteer from 'puppeteer-core';
 import chromium from '@sparticuz/chromium';
-import { existsSync } from 'node:fs';
+import { existsSync, readFileSync } from 'node:fs';
+import path from 'node:path';
 
 // Material Maker — LLM-driven printable ESL material generator (PUBLIC route).
 // Flow: validate → call an OpenAI-compatible chat endpoint → wrap the returned
@@ -187,22 +188,20 @@ async function callLLM(input: {
   }
 }
 
-// Inline the Kommo logo as a base64 data URL so the PDF render never depends on
-// a self-referential network fetch (which intermittently leaves a broken-image
-// icon in the header/footer). Falls back to the plain origin URL on any error.
+// Inline the Kommo logo as a base64 data URL so the PDF render has zero network
+// dependency. A self-referential fetch of the site's own /mascot.png fails inside
+// the Vercel function (leaving a broken-image icon), so we read a bundled/local
+// copy from disk instead and only fall back to the origin URL if that's missing.
 async function resolveLogoDataUrl(baseOrigin: string): Promise<string> {
-  const url = `${baseOrigin}/mascot.png`;
-  try {
-    const controller = new AbortController();
-    const timer = setTimeout(() => controller.abort(), 5000);
-    const res = await fetch(url, { cache: 'no-store', signal: controller.signal });
-    clearTimeout(timer);
-    if (!res.ok) return url;
-    const bytes = Buffer.from(await res.arrayBuffer());
-    return `data:image/png;base64,${bytes.toString('base64')}`;
-  } catch {
-    return url;
+  const local = path.join(process.cwd(), 'public', 'mascot.png');
+  if (existsSync(local)) {
+    try {
+      return `data:image/png;base64,${readFileSync(local).toString('base64')}`;
+    } catch {
+      // fall through to the URL
+    }
   }
+  return `${baseOrigin}/mascot.png`;
 }
 
 function buildDocument(input: {

@@ -24,6 +24,7 @@ export default defineConfig({
       'node_modules/@sparticuz/chromium/bin/fonts.tar.br',
       'node_modules/@sparticuz/chromium/bin/swiftshader.tar.br',
       'node_modules/@sparticuz/chromium/bin/al2023.tar.br',
+      'public/mascot.png',
     ],
   }),
   integrations: [
