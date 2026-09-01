@@ -28,8 +28,10 @@ these rules:
   daily-life contexts for A1–A2.
 - 30-point scoring system: show "Score: ____ / 30" and split points across sections.
 - Include ⚠️ CAUTION boxes and 🚫 KEY TRAP warnings for high-frequency mistakes.
-- Student version must contain NO answer marks (no ✓). Put all answers in a clearly
-  separated "ANSWER KEY" section at the end.
+- Student version must contain NO answer marks (no ✓). Put all answers in a single
+  "ANSWER KEY" section at the very end (nothing after it), introduced by an
+  <h2> heading reading exactly "ANSWER KEY" and wrapped in
+  <section class="answer-key">. It must print on its own separate page.
 - Use emoji section markers (📖 ⚠️ 🚫 ✍️ 🎯) and clear numbered exercises.
 - Speaking-club plans are timed (WARM-UP / language focus / controlled / semi-controlled /
   free practice / wrap-up) and activity-based, not a gap-fill sheet.
@@ -123,6 +125,27 @@ function isRefusal(content: string): boolean {
   return /Languago Material Maker only creates English teaching materials/i.test(content);
 }
 
+// The LLM rarely applies our `.answer-key` class, so the answer key ends up
+// split across pages (a few lines at the bottom of one page, the rest on the
+// next). Force it onto its own page: find the heading that introduces it and
+// wrap it — plus everything after it — in a page-break section.
+function forceAnswerKeyPageBreak(bodyHtml: string): string {
+  const re = /<h([1-4])\b[^>]*>([\s\S]*?)<\/h\1>/gi;
+  let m;
+  while ((m = re.exec(bodyHtml))) {
+    if (/answer\s*key/i.test(m[2])) {
+      const idx = m.index;
+      return (
+        bodyHtml.slice(0, idx) +
+        '<section class="answer-key" style="page-break-before:always;break-before:page;">' +
+        bodyHtml.slice(idx) +
+        '</section>'
+      );
+    }
+  }
+  return bodyHtml;
+}
+
 async function callLLM(input: {
   baseUrl: string;
   apiKey: string;
@@ -164,12 +187,22 @@ async function callLLM(input: {
   }
 }
 
-// Resolve the Kommo logo to an absolute HTTP(S) URL on the site origin. A
-// file:// URL does NOT load from a document rendered via page.setContent()
-// (Chrome blocks file:// subresources from non-file pages → broken-image icon),
-// so always use the origin, which serves public/mascot.png in both dev and prod.
-function resolveLogoUrl(baseOrigin: string): string {
-  return `${baseOrigin}/mascot.png`;
+// Inline the Kommo logo as a base64 data URL so the PDF render never depends on
+// a self-referential network fetch (which intermittently leaves a broken-image
+// icon in the header/footer). Falls back to the plain origin URL on any error.
+async function resolveLogoDataUrl(baseOrigin: string): Promise<string> {
+  const url = `${baseOrigin}/mascot.png`;
+  try {
+    const controller = new AbortController();
+    const timer = setTimeout(() => controller.abort(), 5000);
+    const res = await fetch(url, { cache: 'no-store', signal: controller.signal });
+    clearTimeout(timer);
+    if (!res.ok) return url;
+    const bytes = Buffer.from(await res.arrayBuffer());
+    return `data:image/png;base64,${bytes.toString('base64')}`;
+  } catch {
+    return url;
+  }
 }
 
 function buildDocument(input: {
@@ -452,10 +485,10 @@ export const POST: APIRoute = async ({ request }) => {
   }
 
   const origin = new URL(request.url).origin;
-  const logoUrl = resolveLogoUrl(origin);
+  const logoUrl = await resolveLogoDataUrl(origin);
   const title = `${TYPE_LABELS[type]} — ${level || 'Genel'}`;
   const fullHtml = buildDocument({
-    bodyHtml: html,
+    bodyHtml: forceAnswerKeyPageBreak(html),
     title,
     logoUrl,
     baseUrl: `${origin}/`,
