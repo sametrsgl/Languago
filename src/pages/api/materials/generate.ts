@@ -11,7 +11,7 @@ import path from 'node:path';
 export const prerender = false;
 
 const MAX_TOPIC_LENGTH = 400;
-const LLM_TIMEOUT_MS = 120_000;
+const LLM_TIMEOUT_MS = 180_000;
 const PDF_TIMEOUT_MS = 60_000;
 
 // Verbatim material-maker system prompt (see MATERIAL_MAKER.md).
