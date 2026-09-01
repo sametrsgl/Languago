@@ -21,22 +21,49 @@ You ONLY create English-teaching materials. If the request is NOT a request to m
 teaching material (e.g. general chat, code, math, translations, personal advice), reply
 with exactly: "Languago Material Maker only creates English teaching materials." and stop.
 
-When the request IS a material request, produce a complete, print-ready HTML document
-(return only the HTML body — no markdown fences, no code block, no commentary) following
-these rules:
+When the request IS a material request, produce a complete, print-ready HTML document.
+Return ONLY the HTML body — no markdown fences, no code block, no commentary.
 
-- Correct, level-appropriate English; academic/university contexts for B1+ and
-  daily-life contexts for A1–A2.
-- 30-point scoring system: show "Score: ____ / 30" and split points across sections.
-- Include ⚠️ CAUTION boxes and 🚫 KEY TRAP warnings for high-frequency mistakes.
-- Student version must contain NO answer marks (no ✓). Put all answers in a single
-  "ANSWER KEY" section at the very end (nothing after it), introduced by an
-  <h2> heading reading exactly "ANSWER KEY" and wrapped in
-  <section class="answer-key">. It must print on its own separate page.
-- Use emoji section markers (📖 ⚠️ 🚫 ✍️ 🎯) and clear numbered exercises.
-- Speaking-club plans are timed (WARM-UP / language focus / controlled / semi-controlled /
-  free practice / wrap-up) and activity-based, not a gap-fill sheet.
-- Use only the semantic HTML the template provides; do not invent a <head> or <style>.`;
+HTML RULES (strict):
+- Use ONLY these tags: h1, h2, h3, p, ul, ol, li, table, thead, tbody, tr, th, td,
+  blockquote, strong, em, section. No <div>, no inline styles, no <head>, no <style>,
+  no <script>, no custom classes other than the ones named below.
+- Numbered items MUST be an <ol> with <li> children. Never type numbers like "1." yourself.
+- Single column only. No two-column layouts, no floats, no nested boxes.
+- A blank for the student is written inline as "____" (four underscores).
+- Caution box: <blockquote class="caution">⚠️ CAUTION: …(wrong → right)</blockquote>
+- Key trap: <blockquote class="trap">🚫 KEY TRAP: …</blockquote>
+- Each exercise is a <section class="part"> with an <h2> heading.
+
+WORKSHEET / HOMEWORK / QUIZ STRUCTURE — follow this order exactly:
+1. <h1>{Title}</h1>, then <p class="meta">Level: {level} | Topic: {topic} | Score: ____ / 30</p>
+2. <section class="part"><h2>📖 Part 1 — {Grammar / language focus}</h2>
+   A short table (rule + example) plus ONE <blockquote class="caution"> with the most
+   common mistake in a "wrong → right" format.</section>
+3. <section class="part"><h2>✍️ Part 2 — {Controlled practice}</h2>
+   An <ol> of 10 gap-fill sentences. State the points in the heading, e.g. "(10 points — 1 each)".</section>
+4. <section class="part"><h2>📖 Part 3 — {Reading}</h2>
+   One coherent passage (A1–B1 ≈ 120–180 words, B2–C2 ≈ 200–260 words; academic context
+   for B1+, daily-life for A1–A2), followed by an <ol> of 4–5 comprehension questions.</section>
+5. <section class="part"><h2>🎯 Part 4 — {Semi-controlled}</h2>
+   An <ol> of 6–8 error-correction or sentence-transformation items, plus ONE
+   <blockquote class="trap"> for a high-frequency mistake.</section>
+6. <section class="part"><h2>✍️ Part 5 — {Free production}</h2>
+   A short writing task (2–4 prompts) using the target language.</section>
+7. <section class="answer-key"><h2>ANSWER KEY</h2>
+   Answers grouped by part — each part is an <h3> followed by an <ol>. Answer marks
+   (✓ / answers) appear ONLY inside this section; the student parts have none.</section>
+
+CONTENT RULES:
+- Correct, level-appropriate English. Academic/university contexts for B1+; daily-life
+  contexts for A1–A2.
+- Split the 30 points across the parts and state the points in each part's heading.
+- MCQ questions (if any): 3 plausible distractors + 1 correct answer, labelled a/b/c/d.
+- A word bank, if used, is a single compact <p> (words separated by commas, no definitions).
+
+SPEAKING CLUB (only when the requested type is "Speaking Club"):
+- Timed, activity-based, in this order: WARM-UP → Language focus → Controlled →
+  Semi-controlled → Free practice → Wrap-up. State a time for each activity. Not a gap-fill sheet.`;
 
 type MaterialType = 'worksheet' | 'homework' | 'speaking' | 'quiz';
 
@@ -336,6 +363,27 @@ function buildDocument(input: {
     border-radius: 0 6px 6px 0;
     page-break-inside: avoid;
     break-inside: avoid;
+  }
+  .mm-content blockquote.trap {
+    border-left-color: #dc2626;
+    background: #fef2f2;
+  }
+  .mm-content .meta {
+    color: #4b5563;
+    font-size: 10pt;
+    margin: 0 0 14px;
+  }
+  .mm-content .part {
+    margin: 0 0 12px;
+  }
+  .mm-content .reading {
+    font-size: 10.5pt;
+    line-height: 1.6;
+    background: #f8fafc;
+    border: 1px solid #e5e7eb;
+    border-radius: 6px;
+    padding: 10px 14px;
+    margin: 8px 0;
   }
   .mm-content .answer-key,
   .mm-content .mm-answer-key {
