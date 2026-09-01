@@ -218,7 +218,7 @@ function buildDocument(input: {
 <base href="${baseUrl}" />
 <title>${escapeHtml(title)}</title>
 <style>
-  @page { size: A4; margin: 0; }
+  @page { size: A4; margin: 24mm 16mm 16mm 16mm; }
   * { box-sizing: border-box; }
   html, body {
     margin: 0;
@@ -285,7 +285,7 @@ function buildDocument(input: {
     border-radius: 4px;
   }
   .mm-content {
-    padding: 24mm 16mm 16mm;
+    padding: 0;
   }
   .mm-content h1 {
     font-size: 19pt;
