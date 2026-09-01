@@ -43,8 +43,9 @@ WORKSHEET / HOMEWORK / QUIZ STRUCTURE — follow this order exactly:
 3. <section class="part"><h2>✍️ Part 2 — {Controlled practice}</h2>
    An <ol> of 10 gap-fill sentences. State the points in the heading, e.g. "(10 points — 1 each)".</section>
 4. <section class="part"><h2>📖 Part 3 — {Reading}</h2>
-   One coherent passage (A1–B1 ≈ 120–180 words, B2–C2 ≈ 200–260 words; academic context
-   for B1+, daily-life for A1–A2), followed by an <ol> of 4–5 comprehension questions.</section>
+   One coherent passage wrapped in <section class="reading"> … </section> (A1–B1 ≈ 120–180
+   words, B2–C2 ≈ 200–260 words; academic context for B1+, daily-life for A1–A2),
+   followed by an <ol> of 4–5 comprehension questions.</section>
 5. <section class="part"><h2>🎯 Part 4 — {Semi-controlled}</h2>
    An <ol> of 6–8 error-correction or sentence-transformation items, plus ONE
    <blockquote class="trap"> for a high-frequency mistake.</section>
@@ -384,6 +385,12 @@ function buildDocument(input: {
     border-radius: 6px;
     padding: 10px 14px;
     margin: 8px 0;
+    page-break-inside: avoid;
+    break-inside: avoid;
+  }
+  .mm-content p, .mm-content li {
+    page-break-inside: avoid;
+    break-inside: avoid;
   }
   .mm-content .answer-key,
   .mm-content .mm-answer-key {
