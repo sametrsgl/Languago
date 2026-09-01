@@ -80,11 +80,11 @@ import Layout from '../layouts/Layout.astro';
 
       <div class="alert error" id="mm-error" hidden role="alert"></div>
       <p class="mm-loading" id="mm-loading" hidden>
-        ⏳ Materyalin hazırlanıyor — bu birkaç saniye sürebilir…
+        ⏳ Materyalin hazırlanıyor — bu bir dakika kadar sürebilir, lütfen bekleyin…
       </p>
       <div class="mm-result" id="mm-result" hidden>
         <span class="mm-result__label">✅ Materyalin hazır!</span>
-        <a class="btn primary" id="mm-download" href="#" download>📥 PDF'i İndir</a>
+        <a class="btn primary" id="mm-download" href="#">📥 PDF'i İndir</a>
       </div>
     </div>
   </section>
@@ -105,7 +105,25 @@ import Layout from '../layouts/Layout.astro';
     var resultBox = document.getElementById('mm-result');
     var downloadLink = document.getElementById('mm-download');
 
-    var lastUrl = null;
+    var currentBlob = null;
+    var currentFilename = '';
+    var loadingTimer = null;
+
+    // Robust download: on click, build a fresh <a> and trigger a programmatic
+    // click. A persistent href/target on the link is unreliable (target=_blank
+    // and href="#" both break the download and were producing .htm saves).
+    downloadLink.addEventListener('click', function (e) {
+      e.preventDefault();
+      if (!currentBlob) return;
+      var url = URL.createObjectURL(currentBlob);
+      var a = document.createElement('a');
+      a.href = url;
+      a.download = currentFilename;
+      document.body.appendChild(a);
+      a.click();
+      a.remove();
+      setTimeout(function () { URL.revokeObjectURL(url); }, 2000);
+    });
 
     function toggleDuration() {
       durationField.hidden = typeSel.value !== 'speaking';
@@ -152,6 +170,14 @@ import Layout from '../layouts/Layout.astro';
       submitBtn.disabled = true;
       submitBtn.textContent = 'Üretiliyor…';
 
+      var startedAt = Date.now();
+      if (loadingTimer) clearInterval(loadingTimer);
+      loadingBox.textContent = '⏳ Materyalin hazırlanıyor — 0 saniye…';
+      loadingTimer = setInterval(function () {
+        var s = Math.floor((Date.now() - startedAt) / 1000);
+        loadingBox.textContent = '⏳ Materyalin hazırlanıyor — ' + s + ' saniye geçti (bir dakika kadar sürebilir)…';
+      }, 1000);
+
       fetch('/api/materials/generate', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -174,22 +200,16 @@ import Layout from '../layouts/Layout.astro';
           return res.blob().then(function (blob) {
             var disposition = res.headers.get('Content-Disposition') || '';
             var nameMatch = disposition.match(/filename="?([^";]+)"?/i);
-            var filename = nameMatch ? nameMatch[1] : 'Languago_Materyal.pdf';
-            if (lastUrl) URL.revokeObjectURL(lastUrl);
-            lastUrl = URL.createObjectURL(blob);
-            downloadLink.href = lastUrl;
-            downloadLink.download = filename;
-            downloadLink.target = '_blank';
+            currentFilename = nameMatch ? nameMatch[1] : 'Languago_Materyal.pdf';
+            currentBlob = blob;
             resultBox.hidden = false;
-            // On some mobile browsers the download attribute is ignored;
-            // the href now points to the blob URL which will open in a new
-            // tab where the user can save the PDF from the viewer.
           });
         })
         .catch(function (err) {
           setError(err.message || 'Materyal üretilirken bir hata oluştu. Lütfen tekrar dene.');
         })
         .finally(function () {
+          if (loadingTimer) { clearInterval(loadingTimer); loadingTimer = null; }
           loadingBox.hidden = true;
           submitBtn.disabled = false;
           submitBtn.textContent = '✨ Materyal Üret';
