@@ -31,15 +31,15 @@ HTML RULES (strict):
 - Numbered items MUST be an <ol> with <li> children. Never type numbers like "1." yourself.
 - Single column only. No two-column layouts, no floats, no nested boxes.
 - A blank for the student is written inline as "____" (four underscores).
-- Caution box: <blockquote class="caution">⚠️ CAUTION: …(wrong → right)</blockquote>
-- Key trap: <blockquote class="trap">🚫 KEY TRAP: …</blockquote>
+- Caution box: &lt;blockquote class="caution"&gt;⚠️ CAUTION: …(wrong → correct, NO checkmarks) — use ✗ for wrong, → for correct&lt;/blockquote&gt;
+- Key trap: &lt;blockquote class="trap"&gt;🚫 KEY TRAP: …(NO checkmarks — use ✗ → correct)&lt;/blockquote&gt;
 - Each exercise is a <section class="part"> with an <h2> heading.
 
 WORKSHEET / HOMEWORK / QUIZ STRUCTURE — follow this order exactly:
 1. <h1>{Title}</h1>, then <p class="meta">Topic: {topic} | Score: ____ / 30</p>
 2. <section class="part"><h2>📖 Part 1 — {Grammar / language focus}</h2>
-   A short table (rule + example) plus ONE <blockquote class="caution"> with the most
-   common mistake in a "wrong → right" format.</section>
+   A short table (rule + example) plus ONE <blockquote class="caution"> showing the most
+   common mistake in a "WRONG → CORRECT" format (no checkmarks; use ✗ for wrong, → for correct).</section>
 3. <section class="part"><h2>✍️ Part 2 — {Controlled practice}</h2>
    An <ol> of 10 gap-fill sentences. State the points in the heading, e.g. "(10 points — 1 each)".</section>
 4. <section class="part"><h2>📖 Part 3 — {Reading}</h2>
@@ -548,7 +548,21 @@ export const POST: APIRoute = async ({ request }) => {
     return jsonError(502, 'Yapay zekâ içerik üretemedi. Lütfen tekrar dene.');
   }
 
-  if (isRefusal(html)) {
+  // Strip any checkmark/✓ marks from the student version body (they belong
+  // only in the ANSWER KEY section). Split at the answer-key heading and
+  // only sanitize the student portion.
+  const answerKeyMatch = html.match(/<h[1-4][^>]*>\s*[A]NSWER\s+[K]EY[\s\S]*$/i);
+  const answerKeyIdx = answerKeyMatch ? html.indexOf(answerKeyMatch[0]) : -1;
+  let bodyHtml: string;
+  if (answerKeyIdx > 0) {
+    const studentPart = html.slice(0, answerKeyIdx);
+    const keyPart = html.slice(answerKeyIdx);
+    bodyHtml = studentPart.replace(/[✓✔√]/g, '') + keyPart;
+  } else {
+    bodyHtml = html.replace(/[✓✔√]/g, '');
+  }
+
+  if (isRefusal(bodyHtml)) {
     return jsonError(400, 'Languago Materyal Üretici yalnızca İngilizce öğretim materyali üretir. Lütfen bir materyal isteği yaz.');
   }
 
@@ -556,7 +570,7 @@ export const POST: APIRoute = async ({ request }) => {
   const logoUrl = await resolveLogoDataUrl(origin);
   const title = `${TYPE_LABELS[type]} — ${level || 'Genel'}`;
   const fullHtml = buildDocument({
-    bodyHtml: forceAnswerKeyPageBreak(html),
+    bodyHtml: forceAnswerKeyPageBreak(bodyHtml),
     title,
     logoUrl,
     baseUrl: `${origin}/`,
