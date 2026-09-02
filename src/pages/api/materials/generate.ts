@@ -36,7 +36,7 @@ HTML RULES (strict):
 - Each exercise is a <section class="part"> with an <h2> heading.
 
 WORKSHEET / HOMEWORK / QUIZ STRUCTURE — follow this order exactly:
-1. <h1>{Title}</h1>, then <p class="meta">Level: {level} | Topic: {topic} | Score: ____ / 30</p>
+1. <h1>{Title}</h1>, then <p class="meta">Topic: {topic} | Score: ____ / 30</p>
 2. <section class="part"><h2>📖 Part 1 — {Grammar / language focus}</h2>
    A short table (rule + example) plus ONE <blockquote class="caution"> with the most
    common mistake in a "wrong → right" format.</section>
@@ -58,6 +58,20 @@ WORKSHEET / HOMEWORK / QUIZ STRUCTURE — follow this order exactly:
 CONTENT RULES:
 - Correct, level-appropriate English. Academic/university contexts for B1+; daily-life
   contexts for A1–A2.
+- VOCABULARY BY LEVEL (strict):
+  • A1–A2: high-frequency everyday words (wake up, breakfast, school, family, home).
+  • B1: university/college contexts — lecture, assignment, thesis, research, seminar,
+    department, scholarship, laboratory, experiment, analysis, professor, campus,
+    internship, CV, module, tutorial, deadline, presentation, peer review, citation.
+  • B2: advanced academic — hypothesis, methodology, phenomenon, curriculum,
+    pedagogy, assessment, rubric, competency, interdisciplinary, empirical,
+    convention, synthesis, annotation, bibliography, discourse, rationale, paradigm.
+  • C1–C2: research-level — epistemology, hermeneutics, dialectic, praxis,
+    ontological, methodological, axiomatic, heuristic, substantiation,
+    hermeneutic, exegesis, phenomenology, dialectical, axiological.
+- Context examples by topic:
+  • Past tenses (B1): \"While the research assistant was analysing the data, the professor entered the lab...\"
+  • Past tenses (B2): \"During the lecture, the visiting scholar was presenting her doctoral research when the fire alarm interrupted the symposium...\"
 - Split the 30 points across the parts and state the points in each part's heading.
 - MCQ questions (if any): 3 plausible distractors + 1 correct answer, labelled a/b/c/d.
 - A word bank, if used, is a single compact <p> (words separated by commas, no definitions).
