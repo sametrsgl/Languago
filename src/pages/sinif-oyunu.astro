@@ -614,7 +614,15 @@ const diffJson = JSON.stringify(DIFF).replace(/</g, '\\u003c');
         if (name === 'İki Katı Puan') {
           extra = '<button type="button" class="cm-skip" data-power-ok="1">Onayla — sıradaki soru 2×</button>';
         } else if (name === 'Sıfırla') {
-          extra = '<div class="cm-actions"><button type="button" class="cm-wrong" data-power-t="1">Takım 1’i Sıfırla</button>' + (state.teams >= 2 ? '<button type="button" class="cm-wrong" data-power-t="2">Takım 2’yi Sıfırla</button>' : '') + '</div>';
+          // One button per OPPONENT team (0-based data-power-t matches the
+          // state.scores index — the old 1-based values reset the wrong team).
+          var resetBtns = '';
+          for (var ti = 0; ti < state.teams; ti++) {
+            if (ti === state.active) continue;
+            var tName = (state.teamNames && state.teamNames[ti]) ? state.teamNames[ti] : ('Takım ' + (ti + 1));
+            resetBtns += '<button type="button" class="cm-wrong" data-power-t="' + ti + '">' + esc(tName) + ' · Sıfırla</button>';
+          }
+          extra = '<div class="cm-actions">' + resetBtns + '</div>';
         } else if (name === 'Puan Çal') {
           extra = '<div class="cm-actions"><button type="button" class="cm-correct" data-power-ok="1">Rakipten 10% çal</button></div>';
         } else { // swap

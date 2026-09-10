@@ -751,55 +751,13 @@ const TABS_ACTIVE = pronounRelated
 
       showStep(stepOrder[0], false);
 
-      // ---- I. Sekmeler + kaydırma (slayt görüntüleyici kaldırıldı;
-      //      sadece matris vurgusu için setTab korunur) ----
-      var itemsAll = qsa('#slideItems [data-slide]');
-      var posEl = document.getElementById('slidePos');
-      var tabEmpty = document.getElementById('tabEmpty');
-      var cur = 0;
-      var visibleEls = itemsAll.slice();
-
-      function show(i) {
-        if (!visibleEls.length) return;
-        if (i < 0) i = 0; if (i >= visibleEls.length) i = visibleEls.length - 1;
-        cur = i;
-        visibleEls.forEach(function (it, idx) { it.style.display = idx === cur ? '' : 'none'; });
-        if (posEl) posEl.textContent = (cur + 1) + ' / ' + visibleEls.length;
-      }
-
-      var tabBar = document.getElementById('tabBar');
-      if (tabBar) {
-        qsa('.gram-tab', tabBar).forEach(function (tab) {
-          tab.addEventListener('click', function () {
-            setTab(tab.getAttribute('data-tab'));
-          });
-        });
-      }
-
+      // ---- I. Zamir matrisi vurgusu (slayt görüntüleyici ve #slideItems/
+      //      #tabBar/#slidePos/#prevSlide kalıntıları kaldırıldı — hiçbiri
+      //      artık markup'ta yoktu; yalnızca data-emph vurgusu çalışıyor) ----
       function setTab(k) {
         var mc = document.getElementById('matrixCard');
         if (mc) mc.setAttribute('data-emph', k);
-        if (itemsAll.length) {
-          visibleEls = itemsAll.filter(function (it) {
-            if (k === 'all') return true;
-            return (it.getAttribute('data-cat') || 'genel') === k;
-          });
-          if (tabEmpty) tabEmpty.style.display = (k !== 'all' && visibleEls.length === 0) ? '' : 'none';
-          if (visibleEls.length) cur = 0; show(cur);
-        }
       }
-
-      var prev = document.getElementById('prevSlide');
-      var next = document.getElementById('nextSlide');
-      if (prev) prev.addEventListener('click', function () { show(cur - 1); });
-      if (next) next.addEventListener('click', function () { show(cur + 1); });
-
-      // --- Enrich the static slide viewer bodies into structured tables/cards ---
-      (function () {
-        qsa('#slideItems [data-slide] .body').forEach(function (el) {
-          el.innerHTML = richBody(el.textContent);
-        });
-      })();
 
       // ---- ortak eşleştirme motoru (Uygulama + Eşleştirme) ----
       function buildPair(cfg) {
@@ -1012,8 +970,17 @@ const TABS_ACTIVE = pronounRelated
           slot.addEventListener('dragover', function (e) { e.preventDefault(); });
           slot.addEventListener('drop', function (e) {
             e.preventDefault();
-            // basit: ilk boş çipi dene
-            for (var k = 0; k < chipBtns.length; k++) { if (!chipBtns[k].disabled) { tryChip(chipBtns[k]); break; } }
+            // Grade the chip that was actually DRAGGED (dragstart stores its
+            // index as 'v<i>'). The old code ignored the payload and graded
+            // the first non-disabled chip, so dragging a wrong chip could be
+            // scored against a different (possibly correct) chip.
+            var d = e.dataTransfer.getData('text/plain') || '';
+            var dragged = d.indexOf('v') === 0 ? parseInt(d.slice(1), 10) : -1;
+            var chip = dragged >= 0 && dragged < chipBtns.length && !chipBtns[dragged].disabled ? chipBtns[dragged] : null;
+            if (!chip) {
+              for (var k = 0; k < chipBtns.length; k++) { if (!chipBtns[k].disabled) { chip = chipBtns[k]; break; } }
+            }
+            if (chip) tryChip(chip);
           });
           slot.addEventListener('click', function () {
             for (var k = 0; k < chipBtns.length; k++) { if (!chipBtns[k].disabled) { tryChip(chipBtns[k]); break; } }
@@ -1450,12 +1417,15 @@ const TABS_ACTIVE = pronounRelated
         }
       }
 
-      // ---- Uygulama Listesi: sekmeye git + kaydır ----
+      // ---- Uygulama Listesi: ders adımına dön + matrisi vurgula + kaydır ----
+      // (eski kod ölü bir #slideBox hedefine kaydırıyordu; matris gizli bir
+      //  sihirbaz adımında kaldığı için buton görünürde hiçbir şey yapmıyordu)
       qsa('[data-gotab]').forEach(function (b) {
         b.addEventListener('click', function () {
           setTab(b.getAttribute('data-gotab'));
-          var box = document.getElementById('slideBox');
-          if (box) box.scrollIntoView({ behavior: 'smooth', block: 'start' });
+          showStep('lesson', true);
+          var mc = document.getElementById('matrixCard');
+          if (mc) mc.scrollIntoView({ behavior: 'smooth', block: 'start' });
         });
       });
 

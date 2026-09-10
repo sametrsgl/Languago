@@ -222,14 +222,13 @@ export async function getOrCreateSubscription(source: SupabaseSource): Promise<{
       return { row, view: toSubscriptionView(row), userId };
     }
 
-    // No row yet → best-effort default 'free' subscription upsert. Explicit
-    // tier + status (never rely on the schema default) so it satisfies the
-    // status check constraint. Fails silently on any error.
+    // No row yet → seed a default 'free' subscription via the locked-down
+    // RPC (RLS is SELECT-only for owners; the RPC can only insert a
+    // free/free row bound to the caller and never updates an existing one).
+    // Fails silently — the in-memory default is returned regardless.
     const defaultRow: SubscriptionRow = { tier: 'free', status: 'free' };
     try {
-      await supabase
-        .from('subscriptions')
-        .upsert({ user_id: userId, tier: 'free', status: 'free' }, { onConflict: 'user_id' });
+      await supabase.rpc('seed_own_free_subscription');
     } catch {
       /* best-effort — the in-memory default is returned regardless */
     }

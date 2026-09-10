@@ -27,3 +27,17 @@ index f3fb62cd0a9be9314860e540ad7cdbc9b057af59..78b920ef9472090aebeba5c5c10355dd
                recursive: true
              });
            }
+
+diff --git a/node_modules/@astrojs/vercel/dist/serverless/entrypoint.js b/node_modules/@astrojs/vercel/dist/serverless/entrypoint.js
+index 0f08dc6..fc49427 100644
+--- a/node_modules/@astrojs/vercel/dist/serverless/entrypoint.js
++++ b/node_modules/@astrojs/vercel/dist/serverless/entrypoint.js
+@@ -19,7 +19,7 @@ const createExports = (manifest, {
+     const localsHeader = req.headers[ASTRO_LOCALS_HEADER];
+     const middlewareSecretHeader = req.headers[ASTRO_MIDDLEWARE_SECRET_HEADER];
+     const realPath = req.headers[ASTRO_PATH_HEADER] ?? url.searchParams.get(ASTRO_PATH_PARAM);
+-    if (typeof realPath === "string") {
++    if (typeof realPath === "string" && typeof middlewareSecret === "string" && middlewareSecretHeader === middlewareSecret) {
+       req.url = realPath;
+     }
+     let locals = {};

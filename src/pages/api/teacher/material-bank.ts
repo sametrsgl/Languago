@@ -1,8 +1,15 @@
 // Languago — teacher material generator: serve the grammar unit bank as JSON
 // (used by /teacher/materyal to build printable materials). Server-side, so the
 // heavy data is not inlined into any page; the client fetches it once.
+//
+// TEACHER-ONLY: the bank embeds answer keys (mcq answers + practice answers),
+// so it must never be served to anonymous users or students. Authorization is
+// resolved server-side from profiles.role (RLS-authoritative).
 export const prerender = false;
 import { loadGrammar, loadGrammarMcq } from '../../../lib/study';
+import { authorizeTeacher } from '../../../lib/teacher';
+import { pageCookieSource } from '../../../lib/supabase';
+import type { APIRoute } from 'astro';
 
 const levels = [
   { key: 'a1', bank: 'a1', label: 'A1 · Başlangıç' },
@@ -12,7 +19,22 @@ const levels = [
   { key: 'c1', bank: 'c1', label: 'C1 · İleri' },
 ];
 
-export async function GET() {
+export const GET: APIRoute = async ({ request, cookies }) => {
+  const auth = await authorizeTeacher(pageCookieSource({ request, cookies }));
+  if (!auth.ok) {
+    const status = auth.reason === 'signed_out' ? 401 : 403;
+    const message =
+      auth.reason === 'no_supabase'
+        ? 'Kimlik doğrulama yapılandırılmamış.'
+        : auth.reason === 'signed_out'
+          ? 'Bu içerik için giriş yapmalısınız.'
+          : 'Bu içerik yalnızca öğretmen hesapları içindir.';
+    return new Response(JSON.stringify({ error: message }), {
+      status,
+      headers: { 'content-type': 'application/json; charset=utf-8' },
+    });
+  }
+
   const units: any[] = [];
   for (const lv of levels) {
     const gmod: any = await loadGrammar(lv.bank);
@@ -34,6 +56,11 @@ export async function GET() {
     }
   }
   return new Response(JSON.stringify(units), {
-    headers: { 'content-type': 'application/json; charset=utf-8', 'cache-control': 'public, max-age=3600' },
+    headers: {
+      'content-type': 'application/json; charset=utf-8',
+      // Contains answer keys: never cache in shared/browser caches behind an
+      // auth wall. Private + no-store keeps it scoped to this response only.
+      'cache-control': 'private, no-store',
+    },
   });
-}
+};

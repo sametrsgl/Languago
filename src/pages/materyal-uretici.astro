@@ -13,7 +13,7 @@ import Layout from '../layouts/Layout.astro';
   <section class="container mm-page">
     <div class="mm-head">
       <span class="kicker">✨ Materyal Üretici</span>
-      <h1>İngilizce öğretim materyalini saniyeler içinde üret</h1>
+      <h1>İngilizce öğretim materyalini 30–90 saniyede üret</h1>
       <p>
         Konu, seviye ve tür seç; Languago sana Languago logolu, yazdırılabilir
         bir PDF hazırlasın. Çalışma kağıdı, ödev, quiz veya speaking club planı —
@@ -80,7 +80,7 @@ import Layout from '../layouts/Layout.astro';
 
       <div class="alert error" id="mm-error" hidden role="alert"></div>
       <p class="mm-loading" id="mm-loading" hidden>
-        ⏳ Materyalin hazırlanıyor — bu bir dakika kadar sürebilir, lütfen bekleyin…
+        ⏳ Materyalin hazırlanıyor — bu genellikle 30–90 saniye sürer, lütfen bekleyin…
       </p>
       <div class="mm-result" id="mm-result" hidden>
         <span class="mm-result__label">✅ Materyalin hazır!</span>
@@ -175,7 +175,7 @@ import Layout from '../layouts/Layout.astro';
       loadingBox.textContent = '⏳ Materyalin hazırlanıyor — 0 saniye…';
       loadingTimer = setInterval(function () {
         var s = Math.floor((Date.now() - startedAt) / 1000);
-        loadingBox.textContent = '⏳ Materyalin hazırlanıyor — ' + s + ' saniye geçti (bir dakika kadar sürebilir)…';
+        loadingBox.textContent = '⏳ Materyalin hazırlanıyor — ' + s + ' saniye geçti (genellikle 30–90 saniye sürer)…';
       }, 1000);
 
       fetch('/api/materials/generate', {

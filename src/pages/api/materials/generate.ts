@@ -11,8 +11,55 @@ import path from 'node:path';
 export const prerender = false;
 
 const MAX_TOPIC_LENGTH = 400;
+const MAX_DURATION_LENGTH = 60;
 const LLM_TIMEOUT_MS = 180_000;
 const PDF_TIMEOUT_MS = 60_000;
+
+// Strict payload allowlists — the public form only offers these values, so
+// anything else is rejected instead of being passed to the prompt.
+const ALLOWED_LEVELS = new Set([
+  'A1', 'A2', 'B1', 'B2', 'C1', 'C2',
+  'IELTS', 'TOEFL', 'YDS', 'PTE', 'Üniversite Proficiency',
+]);
+
+// ---------------------------------------------------------------------------
+// Anonymous abuse throttling (best-effort, in-memory per server instance).
+// A durable limiter needs shared state (Upstash/KV); until that infra exists
+// this still cuts casual abuse on warm instances and every response carries
+// explicit rate-limit headers so honest clients can back off.
+// ---------------------------------------------------------------------------
+const RATE_LIMIT_MAX = 5;              // generations…
+const RATE_LIMIT_WINDOW_MS = 10 * 60_000; // …per 10 minutes per client
+const rateBuckets = new Map<string, number[]>();
+
+function clientKey(request: Request): string {
+  const fwd = request.headers.get('x-forwarded-for') ?? '';
+  const ip = fwd.split(',')[0]?.trim() || request.headers.get('x-real-ip') || 'unknown';
+  return ip;
+}
+
+function checkRateLimit(key: string): { allowed: boolean; retryAfterSec: number; remaining: number } {
+  const now = Date.now();
+  const bucket = (rateBuckets.get(key) ?? []).filter((t) => now - t < RATE_LIMIT_WINDOW_MS);
+  if (bucket.length >= RATE_LIMIT_MAX) {
+    const retryAfterMs = RATE_LIMIT_WINDOW_MS - (now - bucket[0]);
+    rateBuckets.set(key, bucket);
+    // Opportunistic cleanup so the map cannot grow unbounded.
+    if (rateBuckets.size > 5000) {
+      for (const [k, v] of rateBuckets) {
+        if (!v.some((t) => now - t < RATE_LIMIT_WINDOW_MS)) rateBuckets.delete(k);
+      }
+    }
+    return {
+      allowed: false,
+      retryAfterSec: Math.max(1, Math.ceil(retryAfterMs / 1000)),
+      remaining: 0,
+    };
+  }
+  bucket.push(now);
+  rateBuckets.set(key, bucket);
+  return { allowed: true, retryAfterSec: 0, remaining: RATE_LIMIT_MAX - bucket.length };
+}
 
 // Verbatim material-maker system prompt (see MATERIAL_MAKER.md).
 const SYSTEM_PROMPT = `You are Languago's "Material Maker" — an expert English (ESL/EFL) materials designer.
@@ -166,6 +213,71 @@ function cleanHtml(raw: string): string {
 
 function isRefusal(content: string): boolean {
   return /Languago Material Maker only creates English teaching materials/i.test(content);
+}
+
+// ---------------------------------------------------------------------------
+// MODEL-HTML SANITIZER (allowlist). The LLM is prompted to emit a tiny tag
+// set, but prompts are not security boundaries: sanitize everything it
+// returns BEFORE the HTML is rendered by Chromium.
+//
+// Blocks: <script>/<style> blocks, <iframe>/<object>/<embed>/<link>/<meta>,
+// event-handler attributes, javascript:/vbscript:/data: URLs, ALL src/href
+// attributes (remote + data resources), inline style attributes, HTML
+// comments, and any tag outside the allowlist. Only a validated `class`
+// attribute survives.
+// ---------------------------------------------------------------------------
+const ALLOWED_TAGS = new Set([
+  'h1', 'h2', 'h3', 'h4', 'p', 'ul', 'ol', 'li',
+  'table', 'thead', 'tbody', 'tfoot', 'tr', 'th', 'td',
+  'blockquote', 'strong', 'em', 'b', 'i', 'u', 'section',
+  'br', 'hr', 'span',
+]);
+const SAFE_CLASS_RE = /^[a-zA-Z0-9 _-]{1,80}$/;
+
+function sanitizeModelHtml(raw: string): string {
+  let s = raw;
+
+  // 1) Drop dangerous container/block elements with their contents.
+  s = s.replace(/<script\b[\s\S]*?<\/script\s*>/gi, '');
+  s = s.replace(/<style\b[\s\S]*?<\/style\s*>/gi, '');
+  s = s.replace(/<iframe\b[\s\S]*?<\/iframe\s*>/gi, '');
+  s = s.replace(/<iframe\b[^>]*\/?>/gi, '');
+  s = s.replace(/<object\b[\s\S]*?<\/object\s*>/gi, '');
+  s = s.replace(/<embed\b[^>]*\/?>/gi, '');
+  s = s.replace(/<form\b[\s\S]*?<\/form\s*>/gi, '');
+  s = s.replace(/<svg\b[\s\S]*?<\/svg\s*>/gi, '');
+  s = s.replace(/<math\b[\s\S]*?<\/math\s*>/gi, '');
+
+  // 2) Drop void/standalone dangerous tags and HTML comments.
+  s = s.replace(/<(?:script|style|iframe|object|embed|link|meta|base|input|button|textarea|select|video|audio|source|track|img)\b[^>]*\/?>/gi, '');
+  s = s.replace(/<!--[\s\S]*?-->/g, '');
+
+  // 3) Attribute-level scrub on every remaining tag: keep only a validated
+  //    class attribute. This removes event handlers (on*), style, src, href
+  //    (covers javascript:/data:/remote URLs), and anything else.
+  s = s.replace(/<\/?([a-zA-Z][a-zA-Z0-9]*)((?:\s+[^>]*)?)(\/?)>/g, (whole, tag: string, attrs: string, slash: string) => {
+    const lower = tag.toLowerCase();
+    if (!ALLOWED_TAGS.has(lower)) {
+      // Not in the allowlist: drop the tag itself, keep children (text and
+      // allowed nested tags survive; dangerous ones were already removed).
+      return '';
+    }
+    const classMatch = attrs.match(/\sclass\s*=\s*(?:"([^"]*)"|'([^']*)'|([^\s>]+))/i);
+    let safeAttrs = '';
+    if (classMatch) {
+      const cls = (classMatch[1] ?? classMatch[2] ?? classMatch[3] ?? '').trim();
+      if (cls && SAFE_CLASS_RE.test(cls)) {
+        safeAttrs = ` class="${cls.replace(/"/g, '')}"`;
+      }
+    }
+    return whole.startsWith('</') ? `</${lower}>` : `<${lower}${safeAttrs}${slash ? ' /' : ''}>`;
+  });
+
+  // 4) Defensive: neutralize residual scheme-like URLs (e.g. text that
+  //    looks like an attribute inside a mangled leftover tag).
+  s = s.replace(/(javascript|vbscript|data)\s*:/gi, '$1\u00b7');
+
+  return s;
 }
 
 // The LLM rarely applies our `.answer-key` class, so the answer key ends up
@@ -502,10 +614,38 @@ async function renderPdf(html: string): Promise<Buffer> {
 }
 
 export const POST: APIRoute = async ({ request }) => {
+  // Best-effort anonymous throttle FIRST — the LLM call is the expensive part.
+  const rl = checkRateLimit(clientKey(request));
+  const antiAbuseHeaders: Record<string, string> = {
+    'X-RateLimit-Limit': String(RATE_LIMIT_MAX),
+    'X-RateLimit-Remaining': String(Math.max(0, rl.remaining)),
+    'X-RateLimit-Window-Seconds': String(RATE_LIMIT_WINDOW_MS / 1000),
+  };
+  if (!rl.allowed) {
+    return new Response(
+      JSON.stringify({
+        error: `Çok fazla materyal isteği gönderdin. Lütfen ${Math.ceil(rl.retryAfterSec / 60)} dakika sonra tekrar dene.`,
+      }),
+      {
+        status: 429,
+        headers: {
+          'Content-Type': 'application/json; charset=utf-8',
+          'Retry-After': String(rl.retryAfterSec),
+          ...antiAbuseHeaders,
+        },
+      }
+    );
+  }
+
   let body: Record<string, unknown> = {};
   try {
     body = (await request.json()) as Record<string, unknown>;
   } catch {
+    return jsonError(400, 'Geçersiz istek. Lütfen tekrar dene.');
+  }
+
+  // Reject payloads that are not plain objects (arrays/strings/null).
+  if (!body || typeof body !== 'object' || Array.isArray(body)) {
     return jsonError(400, 'Geçersiz istek. Lütfen tekrar dene.');
   }
 
@@ -521,6 +661,13 @@ export const POST: APIRoute = async ({ request }) => {
   }
   if (topic.length > MAX_TOPIC_LENGTH) {
     return jsonError(400, `Konu çok uzun. En fazla ${MAX_TOPIC_LENGTH} karakter kullanabilirsin.`);
+  }
+  // Strict level allowlist — matches the options the public form offers.
+  if (!ALLOWED_LEVELS.has(level)) {
+    return jsonError(400, 'Geçersiz seviye seçimi. Lütfen listeden bir seviye seç.');
+  }
+  if (type === 'speaking' && duration.length > MAX_DURATION_LENGTH) {
+    return jsonError(400, `Süre alanı çok uzun. En fazla ${MAX_DURATION_LENGTH} karakter kullanabilirsin.`);
   }
 
   const baseUrl = (import.meta.env.LLM_BASE_URL || 'https://opencode.ai/zen/go/v1').replace(/\/+$/, '');
@@ -543,7 +690,7 @@ export const POST: APIRoute = async ({ request }) => {
     return jsonError(502, 'Yapay zekâ yanıtı alınamadı. Lütfen birkaç dakika sonra tekrar dene.');
   }
 
-  const html = cleanHtml(rawHtml);
+  const html = sanitizeModelHtml(cleanHtml(rawHtml));
   if (!html) {
     return jsonError(502, 'Yapay zekâ içerik üretemedi. Lütfen tekrar dene.');
   }
@@ -590,6 +737,7 @@ export const POST: APIRoute = async ({ request }) => {
       'Content-Type': 'application/pdf',
       'Content-Disposition': `attachment; filename="${filename}"`,
       'Cache-Control': 'no-store',
+      ...antiAbuseHeaders,
     },
   });
 };

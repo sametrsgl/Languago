@@ -4,16 +4,10 @@ import Layout from '../layouts/Layout.astro';
 // Signup is submitted client-side via fetch (accept:'json') to bypass Astro's
 // origin-check middleware on the live custom domain.
 
-// Supabase auth base (derive project ref from SUPABASE_URL, fallback to known ref).
-// Google OAuth is handled by Supabase Auth: the user clicks this link, Supabase
-// redirects back with a session cookie.
-const supabaseUrl = import.meta.env.SUPABASE_URL;
-const SUPABASE_PROJECT_REF =
-  supabaseUrl && supabaseUrl.includes('.supabase.co')
-    ? supabaseUrl.replace(/^https?:\/\//, '').split('.')[0]
-    : 'wkhjmgfmnmmagsrsdmnz';
-const siteUrl = import.meta.env.SITE_URL || 'https://www.languago.site';
-const googleAuthUrl = `https://${SUPABASE_PROJECT_REF}.supabase.co/auth/v1/authorize?provider=google&redirect_to=${encodeURIComponent(siteUrl)}`;
+// Google OAuth goes through our server-driven PKCE route: it generates the
+// verifier cookie, redirects to Supabase/Google, and lands on
+// /api/auth/callback which exchanges the code for session cookies.
+const googleAuthUrl = '/api/auth/oauth/google';
 ---
 
 <Layout

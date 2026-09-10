@@ -10,6 +10,11 @@ const SITE_URL = process.env.SITE_URL || 'https://www.languago.site';
 export default defineConfig({
   site: SITE_URL,
   output: 'server',
+  // Convenience alias: tools commonly probe /sitemap.xml while @astrojs/sitemap
+  // publishes /sitemap-index.xml.
+  redirects: {
+    '/sitemap.xml': { status: 302, destination: '/sitemap-index.xml' },
+  },
   adapter: vercel({
     // Material Maker renders HTML→PDF server-side (puppeteer-core +
     // @sparticuz/chromium). The LLM call (OpenCode Go / deepseek-v4-pro) is
@@ -30,6 +35,12 @@ export default defineConfig({
   integrations: [
     sitemap({
       customPages: [`${SITE_URL}/blog`],
+      // Keep private/authenticated areas out of the sitemap — they are
+      // noindex pages behind a session and must not be advertised to crawlers.
+      filter: (page) =>
+        !/\/(admin|dashboard|teacher|parent|ders)(\/|$)/.test(
+          new URL(page).pathname
+        ),
     }),
   ],
   // Scoped Tailwind (v4) wiring — used only by the vocab flashcards page via

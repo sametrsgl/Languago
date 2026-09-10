@@ -182,8 +182,21 @@ const canUse = auth.ok;
 
       // load the bank from the API endpoint, then enable the level selector
       fetch('/api/teacher/material-bank', { credentials: 'same-origin' })
-        .then(function (r) { return r.json(); })
-        .then(function (data) { UNITS = Array.isArray(data) ? data : []; renderTopics(); $('mat-note').textContent = 'Hazır: ' + UNITS.length + ' konu yüklendi.'; })
+        .then(function (r) {
+          return r.json().then(function (data) {
+            return { ok: r.ok, data: data };
+          });
+        })
+        .then(function (res) {
+          if (!res.ok || !Array.isArray(res.data)) {
+            UNITS = [];
+            $('mat-note').textContent = (res.data && res.data.error) || 'Soru bankası yüklenemedi (öğretmen yetkisi gerekir).';
+            return;
+          }
+          UNITS = res.data;
+          renderTopics();
+          $('mat-note').textContent = 'Hazır: ' + UNITS.length + ' konu yüklendi.';
+        })
         .catch(function () { $('mat-note').textContent = 'Soru bankası yüklenemedi.'; });
     })();
   </script>

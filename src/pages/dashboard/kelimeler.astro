@@ -350,7 +350,10 @@ const levelLabel = (lv: string) => sets.find((s) => s.key === lv)?.label ?? lv;
         var SET_SIZE = 20;
         var uid = userId || 'anon';
         // Persisted per-level set progress + current set (survives reload).
-        var progKey = 'languago_setprog_' + uid;   // { level: { setIdx: count } }
+        // v2 shape: { level: { setIdx: { word: 1 } } } — UNIQUE words seen per
+        // set. v1 stored raw flip counts, so flipping one card 20 times marked
+        // the whole set complete; v2 uses a fresh key and v1 data is ignored.
+        var progKey = 'languago_setprog2_' + uid;  // { level: { setIdx: { word: 1 } } }
         var curKey  = 'languago_curset_' + uid;     // { level: setIdx }
         var setProg = {};
         var setCur  = {};
@@ -363,12 +366,18 @@ const levelLabel = (lv: string) => sets.find((s) => s.key === lv)?.label ?? lv;
           try { localStorage.setItem(curKey,  JSON.stringify(setCur));  } catch (e) {}
         }
         function levelSetProg(lvl) { return (setProg[lvl] = setProg[lvl] || {}); }
-        function setCountFor(lvl, idx) { return levelSetProg(lvl)[idx] || 0; }
+        function seenWordsFor(lvl, idx) {
+          var seen = levelSetProg(lvl)[idx];
+          return seen && typeof seen === 'object' ? seen : null;
+        }
+        function setCountFor(lvl, idx) {
+          var seen = seenWordsFor(lvl, idx);
+          return seen ? Object.keys(seen).length : 0;
+        }
         function setDoneFor(chunk, count) { return count >= chunk.length; }
         // First incomplete set index for a level (from all its chunks' saved counts).
         function firstIncomplete(lvl, totalSets) {
-          var prog = setProg[lvl] || {};
-          for (var i = 0; i < totalSets; i++) if (!prog[i] || prog[i] < SET_SIZE) return i;
+          for (var i = 0; i < totalSets; i++) if (setCountFor(lvl, i) < SET_SIZE) return i;
           return 0;
         }
 
@@ -502,13 +511,17 @@ const levelLabel = (lv: string) => sets.find((s) => s.key === lv)?.label ?? lv;
         function opened(w) {
           if (!viewed[w.w]) viewed[w.w] = 1;
           else viewed[w.w] += 1;
-          // Record 20-word-set progress for the current level + set (only in chunked mode).
+          // Record 20-word-set progress for the current level + set (only in
+          // chunked mode). UNIQUE words only — flipping the same card over
+          // and over must not complete a set.
           if (!query && activeSet !== 'all') {
             var lvl = activeSet;
             var idx = setCur[lvl] || 0;
-            var prog = levelSetProg(lvl);
-            prog[idx] = Math.min(prog[idx] || 0, 100000) + 1; // view count for this set
-            persistSetState();
+            var seen = (levelSetProg(lvl)[idx] = seenWordsFor(lvl, idx) || {});
+            if (!seen[w.w]) {
+              seen[w.w] = 1;
+              persistSetState();
+            }
           }
           // Fire-and-forget progress upsert on every card open (guarded).
           saveProgress(w);
