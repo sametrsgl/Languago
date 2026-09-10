@@ -1981,3 +1981,30 @@ footer.site .brand .footer-mascot { filter: grayscale(1); opacity: .8; }
   .app-content { padding-bottom: 68px; }
 }
 @media (min-width: 761px) { .app-nav { display: none; } }
+
+/* Cross-page normalization: page-scoped V2 surfaces inherit Atelier tokens. */
+.hero, .vs-band__inner, .mm-band__inner, .stat-chip, .start-path, .resume,
+.tile.done, .step-ribbon, .auth::before, .auth .auth-mascot img,
+.study.teacher .tstat__card::before, .yp-global-fill, .setbar-fill {
+  background-image: none !important;
+}
+.vs-band__inner, .mm-band__inner { background: var(--surface, #faf9f5) !important; color: var(--ink); border: 1px solid var(--line); box-shadow: var(--shadow); }
+.vs-band__text h2, .mm-band__text h2 { color: var(--ink); }
+.vs-band__text p, .mm-band__text p { color: var(--ink-soft); }
+.vs-band .btn.primary, .mm-band .btn.primary { background: var(--brand); color: #fff; box-shadow: none; }
+.vs-band .btn.ghost, .mm-band .btn.ghost { color: var(--ink); border-color: var(--line); }
+.vs-band__visual, .mm-band__visual { filter: grayscale(1); opacity: .65; }
+
+.btn, .btn-google, .start-pill, .resume .go, .fc-cta { border-radius: 7px; }
+.btn:hover, .card:hover, .feat:hover, .study-card:hover, .tile:hover { transform: none; }
+.study-subnav a.pill, .chip { border-radius: 6px; }
+.option.correct { background: #edf5f0; border-color: #a9c8b5; color: #315b45; }
+.option.wrong { background: #fbefef; border-color: #dbb0b0; color: #7c3838; }
+.stat-chip, .start-path, .resume { background: var(--bg-soft); border-color: var(--line); box-shadow: none; }
+
+@media (max-width: 760px) {
+  .hero .btn-row, .mm-band__inner .btn-row, .vs-band__inner .btn-row { flex-direction: column; align-items: stretch; }
+  .hero .btn, .mm-band__inner .btn, .vs-band__inner .btn { width: 100%; text-align: center; }
+  .feat-grid { grid-template-columns: 1fr; gap: 12px; }
+  .user-email { display: none; }
+}
