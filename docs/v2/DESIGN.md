@@ -1,100 +1,100 @@
 ---
 version: alpha
-name: Languago V2
-description: Clear Turkish-first learning navigation for students and teacher tools.
+name: Languago Atelier
+description: A calm, editorial learning workstation for serious English study.
 colors:
-  primary: "#0d9488"
-  primary-dark: "#0f766e"
-  accent: "#f59e0b"
-  accent-text: "#111827"
-  ink: "#111827"
-  ink-soft: "#4b5563"
-  surface: "#ffffff"
-  surface-soft: "#f6f8fb"
-  line: "#e5e7eb"
+  ink: "#1D2323"
+  ink-soft: "#58615F"
+  canvas: "#F6F4EF"
+  surface: "#FAF9F5"
+  surface-muted: "#EEECE6"
+  line: "#D7D4CC"
+  primary: "#314B4A"
+  primary-dark: "#243938"
+  accent: "#A24F32"
+  accent-dark: "#7F3926"
+  focus: "#B65D38"
+  success: "#28664D"
+  danger: "#A33F3F"
 typography:
-  h1:
-    fontFamily: system-ui
-    fontSize: 3.5rem
-    fontWeight: 850
-    lineHeight: 1.02
-    letterSpacing: "-0.04em"
-  h2:
-    fontFamily: system-ui
-    fontSize: 2rem
-    fontWeight: 800
-    lineHeight: 1.15
-  body-md:
-    fontFamily: system-ui
-    fontSize: 1rem
+  display:
+    fontFamily: "Iowan Old Style, Palatino Linotype, Georgia, serif"
+    fontSize: "clamp(2.15rem, 4.2vw, 4rem)"
+    fontWeight: 700
+    lineHeight: 1.03
+    letterSpacing: "-0.025em"
+  body:
+    fontFamily: "DM Sans, Avenir Next, Segoe UI, sans-serif"
+    fontSize: "1rem"
     fontWeight: 400
     lineHeight: 1.65
+  label:
+    fontFamily: "DM Sans, Avenir Next, Segoe UI, sans-serif"
+    fontSize: "0.78rem"
+    fontWeight: 700
+    lineHeight: 1.2
+    letterSpacing: "0.05em"
 rounded:
-  md: 14px
-  lg: 22px
-  xl: 30px
+  sm: "6px"
+  md: "8px"
+  lg: "12px"
 spacing:
-  sm: 8px
-  md: 16px
-  lg: 24px
-  xl: 40px
+  xs: "8px"
+  sm: "12px"
+  md: "20px"
+  lg: "32px"
+  xl: "56px"
 components:
   button-primary:
     backgroundColor: "{colors.accent}"
-    textColor: "{colors.accent-text}"
-    rounded: "999px"
-    padding: 12px
-  card-learning:
+    textColor: "#FFFFFF"
+    rounded: "{rounded.sm}"
+    padding: "11px 20px"
+    height: "44px"
+  card:
     backgroundColor: "{colors.surface}"
     textColor: "{colors.ink}"
-    rounded: "{rounded.lg}"
-    padding: 24px
+    rounded: "{rounded.md}"
+    padding: "24px"
 ---
 
 ## Overview
 
-Languago V2 is a visible, coherent product layout for Turkish English learners. The homepage sells one primary student action first, then separates teacher tools. The signed-in dashboard uses a recommended path, not a mastery score, because existing progress data is partial and module-specific.
+Languago Atelier makes English study feel credible, focused, and adult. The product uses an
+editorial learning surface: warm paper, ink, quiet borders, restrained copper actions, and
+clear typographic hierarchy. The mascot remains a brand anchor for the landing page and empty
+states, never a repeated sticker or navigation icon.
 
 ## Colors
 
-- **Teal #0d9488:** primary navigation, links, progress, and calm learning surfaces.
-- **Orange #f59e0b:** high-emphasis actions only. Use dark text on orange for contrast.
-- **Ink #111827:** default text, including text on amber/orange CTAs.
-- **Soft surfaces:** use #f6f8fb and teal/amber tints for cards, guide blocks, and empty states.
+Ink carries structure and reading contrast. Warm canvas and surface tones separate content
+without artificial shadows. Copper is reserved for primary action, progress emphasis, and
+focus-adjacent highlights. Teal is retained only as a dark structural color so existing
+semantic classes continue to work during migration.
 
 ## Typography
 
-Use the system font stack for fast Turkish rendering. Headlines are short, heavy, and high contrast. Body copy should state what exists now: A1-C1 grammar, C2/exam reading, games with distinct objectives, and teacher material tooling.
+Display headings use a serif fallback stack to make lessons and section titles feel editorial.
+DM Sans handles controls, metadata, navigation, and long UI text. Headings are compact and
+intentional; scale is not used as decoration.
 
 ## Layout
 
-- Public pages keep one `<main id="main-content">` landmark in `Layout.astro`.
-- App pages provide their own `<main>` landmarks; `AppLayout.astro` must not nest another main around the slot.
-- Mobile navigation remains available as horizontal scroll tabs; links are never hidden without a replacement.
-- Spacing uses 8/16/24/40px rhythm with large rounded cards and visible section grouping.
-
-## Elevation & Depth
-
-Cards use a soft teal shadow and a 1px border. Hover lift must be subtle and disabled for reduced-motion users. Focus rings are more important than hover treatments.
-
-## Shapes
-
-Primary cards use 22-30px radii. Pills and CTAs use full radius. Learning path badges are circular and numbered/check-marked, but labels must say recommended/touched, not mastered.
+Public marketing pages use a left-aligned Decide/Learn composition. Student dashboards use a
+Monitor/Operate composition: next action first, learning path second, utilities below. Desktop
+content is capped at 1180px; mobile uses 18px gutters and a 44px minimum touch target.
 
 ## Components
 
-- `MobilePublicNav.astro`: public horizontal mobile navigation.
-- `MobileAppNav.astro`: app learning-area navigation with `aria-current`.
-- `LearningPath.astro`: recommended path component; does not claim mastery.
-- `LearningGuideCard.astro`: reusable guide/empty-state panel with links.
+Cards are flat, lightly bordered surfaces. Buttons use a 6px radius rather than pills. Navigation
+is text-led and uppercase only for compact metadata labels. Hover never carries the only state;
+focus, active, selected, error, and success states must remain visible without a pointer.
 
 ## Do's and Don'ts
 
-- Do say **A1-C1 grammar** and **C2/exam reading**.
-- Do keep student and teacher tracks visually distinct.
-- Do show valid vocabulary activity from distinct known word keys.
-- Do keep skip links, visible keyboard focus, and reduced-motion behavior.
-- Don't show placeholder social links.
-- Don't say every game is vocabulary-only.
-- Don't promise unfinished student material-maker features.
-- Don't infer mastery from the current `/dashboard/yol` data.
+- Do use one primary action per viewport and real progress data.
+- Do preserve Turkish-first copy and existing routes.
+- Do expose keyboard and touch alternatives for every learning interaction.
+- Do honor `prefers-reduced-motion`.
+- Don't use gradients, glassmorphism, emoji as navigation, fake metrics, or decorative card grids.
+- Don't imply mastery from completion or inferred counts.
