@@ -1,0 +1,610 @@
+{
+  "lessons": [
+    {
+      "slug": "a1-present-simple-routines",
+      "level": "A1",
+      "title": "Present Simple: daily routines",
+      "objective": "By the end, learners can talk about habits and routines.",
+      "explanation": "Use the Present Simple for routines. Add -s with he, she and it.",
+      "examples": [
+        "I walk to school.",
+        "She walks to work.",
+        "Use the pattern in a short real-life sentence."
+      ],
+      "nextSteps": [
+        "Try the related practice in your dashboard.",
+        "Review the examples tomorrow."
+      ],
+      "practice": [
+        {
+          "id": "a1-present-simple-routines-q01",
+          "prompt": "Mia ___ breakfast at seven.",
+          "options": [
+            "eat",
+            "eats",
+            "eating",
+            "is eat"
+          ],
+          "answerIndex": 1,
+          "why": "Use -s with she. This is the correct present choice.",
+          "feedback": {
+            "correct": "Correct — good choice.",
+            "incorrect": "Not quite. Try again and check the clue."
+          }
+        },
+        {
+          "id": "a1-present-simple-routines-q02",
+          "prompt": "We ___ English on Mondays.",
+          "options": [
+            "study",
+            "studies",
+            "studying",
+            "is study"
+          ],
+          "answerIndex": 0,
+          "why": "Use the base verb with we. This is the correct present choice.",
+          "feedback": {
+            "correct": "Correct — good choice.",
+            "incorrect": "Not quite. Try again and check the clue."
+          }
+        },
+        {
+          "id": "a1-present-simple-routines-q03",
+          "prompt": "Choose the routine sentence.",
+          "options": [
+            "He is sleeping now.",
+            "He sleeps at ten every night.",
+            "He slept yesterday.",
+            "He will sleep later."
+          ],
+          "answerIndex": 1,
+          "why": "Every night shows a routine. This is the correct present choice.",
+          "feedback": {
+            "correct": "Correct — good choice.",
+            "incorrect": "Not quite. Try again and check the clue."
+          }
+        },
+        {
+          "id": "a1-present-simple-routines-q04",
+          "prompt": "___ your brother play tennis?",
+          "options": [
+            "Do",
+            "Does",
+            "Is",
+            "Has"
+          ],
+          "answerIndex": 1,
+          "why": "Use Does with he, she or it. This is the correct present choice.",
+          "feedback": {
+            "correct": "Correct — good choice.",
+            "incorrect": "Not quite. Try again and check the clue."
+          }
+        },
+        {
+          "id": "a1-present-simple-routines-q05",
+          "prompt": "I ___ coffee before work.",
+          "options": [
+            "drink",
+            "drinks",
+            "am drink",
+            "drank"
+          ],
+          "answerIndex": 0,
+          "why": "Use the base verb with I. This is the correct present choice.",
+          "feedback": {
+            "correct": "Correct — good choice.",
+            "incorrect": "Not quite. Try again and check the clue."
+          }
+        }
+      ],
+      "skill": "grammar",
+      "type": "grammar-practice"
+    },
+    {
+      "slug": "a1-place-prepositions",
+      "level": "A1",
+      "title": "Prepositions of place",
+      "objective": "By the end, learners can describe where people and things are.",
+      "explanation": "Use in for an enclosed space, on for a surface and under for a lower position.",
+      "examples": [
+        "The keys are on the table.",
+        "The bag is under the chair.",
+        "Use the pattern in a short real-life sentence."
+      ],
+      "nextSteps": [
+        "Try the related practice in your dashboard.",
+        "Review the examples tomorrow."
+      ],
+      "practice": [
+        {
+          "id": "a1-place-prepositions-q01",
+          "prompt": "The book is ___ the desk.",
+          "options": [
+            "on",
+            "at",
+            "to",
+            "from"
+          ],
+          "answerIndex": 0,
+          "why": "A book rests on a surface. This is the correct present choice.",
+          "feedback": {
+            "correct": "Correct — good choice.",
+            "incorrect": "Not quite. Try again and check the clue."
+          }
+        },
+        {
+          "id": "a1-place-prepositions-q02",
+          "prompt": "The shoes are ___ the bed.",
+          "options": [
+            "under",
+            "on",
+            "at",
+            "into"
+          ],
+          "answerIndex": 0,
+          "why": "Under means in a lower position. This is the correct present choice.",
+          "feedback": {
+            "correct": "Correct — good choice.",
+            "incorrect": "Not quite. Try again and check the clue."
+          }
+        },
+        {
+          "id": "a1-place-prepositions-q03",
+          "prompt": "The children are ___ the classroom.",
+          "options": [
+            "in",
+            "on",
+            "to",
+            "by"
+          ],
+          "answerIndex": 0,
+          "why": "A classroom is an enclosed space. This is the correct present choice.",
+          "feedback": {
+            "correct": "Correct — good choice.",
+            "incorrect": "Not quite. Try again and check the clue."
+          }
+        },
+        {
+          "id": "a1-place-prepositions-q04",
+          "prompt": "The picture is ___ the wall.",
+          "options": [
+            "on",
+            "in",
+            "under",
+            "between"
+          ],
+          "answerIndex": 0,
+          "why": "A picture is attached to a surface. This is the correct present choice.",
+          "feedback": {
+            "correct": "Correct — good choice.",
+            "incorrect": "Not quite. Try again and check the clue."
+          }
+        },
+        {
+          "id": "a1-place-prepositions-q05",
+          "prompt": "The lamp is ___ the sofa and the table.",
+          "options": [
+            "between",
+            "under",
+            "in",
+            "at"
+          ],
+          "answerIndex": 0,
+          "why": "Between describes a position in the middle of two things. This is the correct present choice.",
+          "feedback": {
+            "correct": "Correct — good choice.",
+            "incorrect": "Not quite. Try again and check the clue."
+          }
+        }
+      ],
+      "skill": "grammar",
+      "type": "grammar-practice"
+    },
+    {
+      "slug": "a2-past-simple",
+      "level": "A2",
+      "title": "Past Simple: finished events",
+      "objective": "By the end, learners can talk about completed events in the past.",
+      "explanation": "Use the Past Simple for finished events. Regular verbs often end in -ed; some verbs are irregular.",
+      "examples": [
+        "We visited Bursa last summer.",
+        "She went home early.",
+        "Use the pattern in a short real-life sentence."
+      ],
+      "nextSteps": [
+        "Try the related practice in your dashboard.",
+        "Review the examples tomorrow."
+      ],
+      "practice": [
+        {
+          "id": "a2-past-simple-q01",
+          "prompt": "They ___ a film last night.",
+          "options": [
+            "watch",
+            "watched",
+            "are watching",
+            "watches"
+          ],
+          "answerIndex": 1,
+          "why": "Last night refers to a finished past event. This is the correct present choice.",
+          "feedback": {
+            "correct": "Correct — good choice.",
+            "incorrect": "Not quite. Try again and check the clue."
+          }
+        },
+        {
+          "id": "a2-past-simple-q02",
+          "prompt": "I ___ my friend on Saturday.",
+          "options": [
+            "meet",
+            "met",
+            "meeting",
+            "meets"
+          ],
+          "answerIndex": 1,
+          "why": "Meet has the irregular past form met. This is the correct present choice.",
+          "feedback": {
+            "correct": "Correct — good choice.",
+            "incorrect": "Not quite. Try again and check the clue."
+          }
+        },
+        {
+          "id": "a2-past-simple-q03",
+          "prompt": "___ you call the hotel?",
+          "options": [
+            "Did",
+            "Do",
+            "Were",
+            "Have"
+          ],
+          "answerIndex": 0,
+          "why": "Use Did for Past Simple questions. This is the correct present choice.",
+          "feedback": {
+            "correct": "Correct — good choice.",
+            "incorrect": "Not quite. Try again and check the clue."
+          }
+        },
+        {
+          "id": "a2-past-simple-q04",
+          "prompt": "She did not ___ the bus.",
+          "options": [
+            "miss",
+            "missed",
+            "missing",
+            "misses"
+          ],
+          "answerIndex": 0,
+          "why": "After did not, use the base verb. This is the correct present choice.",
+          "feedback": {
+            "correct": "Correct — good choice.",
+            "incorrect": "Not quite. Try again and check the clue."
+          }
+        },
+        {
+          "id": "a2-past-simple-q05",
+          "prompt": "Which sentence describes a finished event?",
+          "options": [
+            "I cook every day.",
+            "I am cooking now.",
+            "I cooked yesterday.",
+            "I will cook tomorrow."
+          ],
+          "answerIndex": 2,
+          "why": "Yesterday places the event in finished past time. This is the correct present choice.",
+          "feedback": {
+            "correct": "Correct — good choice.",
+            "incorrect": "Not quite. Try again and check the clue."
+          }
+        }
+      ],
+      "skill": "grammar",
+      "type": "grammar-practice"
+    },
+    {
+      "slug": "b1-present-perfect-vs-past",
+      "level": "B1",
+      "title": "Present Perfect and Past Simple",
+      "objective": "By the end, learners can choose between a life experience and a finished past time.",
+      "explanation": "Use Present Perfect when the time is unfinished or not stated. Use Past Simple with a finished time such as last year.",
+      "examples": [
+        "I have visited Rome.",
+        "I visited Rome in 2022.",
+        "Use the pattern in a short real-life sentence."
+      ],
+      "nextSteps": [
+        "Try the related practice in your dashboard.",
+        "Review the examples tomorrow."
+      ],
+      "practice": [
+        {
+          "id": "b1-present-perfect-vs-past-q01",
+          "prompt": "I ___ this book twice.",
+          "options": [
+            "read",
+            "have read",
+            "am reading",
+            "was read"
+          ],
+          "answerIndex": 1,
+          "why": "The experience is not tied to a finished time. This is the correct present choice.",
+          "feedback": {
+            "correct": "Correct — good choice.",
+            "incorrect": "Not quite. Try again and check the clue."
+          }
+        },
+        {
+          "id": "b1-present-perfect-vs-past-q02",
+          "prompt": "We ___ there last summer.",
+          "options": [
+            "have stayed",
+            "stayed",
+            "stay",
+            "are staying"
+          ],
+          "answerIndex": 1,
+          "why": "Last summer is a finished time. This is the correct present choice.",
+          "feedback": {
+            "correct": "Correct — good choice.",
+            "incorrect": "Not quite. Try again and check the clue."
+          }
+        },
+        {
+          "id": "b1-present-perfect-vs-past-q03",
+          "prompt": "Have you ever ___ sushi?",
+          "options": [
+            "eat",
+            "ate",
+            "eaten",
+            "eating"
+          ],
+          "answerIndex": 2,
+          "why": "Have is followed by the past participle eaten. This is the correct present choice.",
+          "feedback": {
+            "correct": "Correct — good choice.",
+            "incorrect": "Not quite. Try again and check the clue."
+          }
+        },
+        {
+          "id": "b1-present-perfect-vs-past-q04",
+          "prompt": "She ___ her keys, so she cannot open the door.",
+          "options": [
+            "lost",
+            "has lost",
+            "loses",
+            "was losing"
+          ],
+          "answerIndex": 1,
+          "why": "The present result is important. This is the correct present choice.",
+          "feedback": {
+            "correct": "Correct — good choice.",
+            "incorrect": "Not quite. Try again and check the clue."
+          }
+        },
+        {
+          "id": "b1-present-perfect-vs-past-q05",
+          "prompt": "I met him ___ Monday.",
+          "options": [
+            "since",
+            "for",
+            "on",
+            "already"
+          ],
+          "answerIndex": 2,
+          "why": "Use on with a day of the week. This is the correct present choice.",
+          "feedback": {
+            "correct": "Correct — good choice.",
+            "incorrect": "Not quite. Try again and check the clue."
+          }
+        }
+      ],
+      "skill": "grammar",
+      "type": "grammar-practice"
+    },
+    {
+      "slug": "b1-restaurant-communication",
+      "level": "B1",
+      "title": "Restaurant English",
+      "objective": "By the end, learners can order food and handle a simple restaurant conversation.",
+      "explanation": "Use polite requests such as Could I have…? and ask for the bill when you are ready to pay.",
+      "examples": [
+        "Could I have the menu, please?",
+        "Could we have the bill?",
+        "Use the pattern in a short real-life sentence."
+      ],
+      "nextSteps": [
+        "Try the related practice in your dashboard.",
+        "Review the examples tomorrow."
+      ],
+      "practice": [
+        {
+          "id": "b1-restaurant-communication-q01",
+          "prompt": "You want to see the food choices. What do you say?",
+          "options": [
+            "Could I have the menu, please?",
+            "Give food.",
+            "Where cook?",
+            "I see bill yesterday."
+          ],
+          "answerIndex": 0,
+          "why": "This is a polite request for the menu. This is the correct present choice.",
+          "feedback": {
+            "correct": "Correct — good choice.",
+            "incorrect": "Not quite. Try again and check the clue."
+          }
+        },
+        {
+          "id": "b1-restaurant-communication-q02",
+          "prompt": "You cannot eat peanuts. What should you tell the server?",
+          "options": [
+            "I am allergic to peanuts.",
+            "I have peanuts yesterday.",
+            "Peanuts are bill.",
+            "I want the table."
+          ],
+          "answerIndex": 0,
+          "why": "This clearly communicates an allergy. This is the correct present choice.",
+          "feedback": {
+            "correct": "Correct — good choice.",
+            "incorrect": "Not quite. Try again and check the clue."
+          }
+        },
+        {
+          "id": "b1-restaurant-communication-q03",
+          "prompt": "You are ready to pay. What do you ask for?",
+          "options": [
+            "The bill, please.",
+            "The kitchen, please.",
+            "The menu yesterday.",
+            "A reservation last week."
+          ],
+          "answerIndex": 0,
+          "why": "The bill is the amount to pay. This is the correct present choice.",
+          "feedback": {
+            "correct": "Correct — good choice.",
+            "incorrect": "Not quite. Try again and check the clue."
+          }
+        },
+        {
+          "id": "b1-restaurant-communication-q04",
+          "prompt": "How do you politely order water?",
+          "options": [
+            "Could I have some water, please?",
+            "Water now.",
+            "You water me.",
+            "I water yesterday."
+          ],
+          "answerIndex": 0,
+          "why": "Could I have…? is a polite ordering phrase. This is the correct present choice.",
+          "feedback": {
+            "correct": "Correct — good choice.",
+            "incorrect": "Not quite. Try again and check the clue."
+          }
+        },
+        {
+          "id": "b1-restaurant-communication-q05",
+          "prompt": "The meal is not what you ordered. What is a useful response?",
+          "options": [
+            "Excuse me, I ordered the soup.",
+            "I am the restaurant.",
+            "Soup was tomorrow.",
+            "You ordered my table."
+          ],
+          "answerIndex": 0,
+          "why": "This politely explains the problem. This is the correct present choice.",
+          "feedback": {
+            "correct": "Correct — good choice.",
+            "incorrect": "Not quite. Try again and check the clue."
+          }
+        }
+      ],
+      "skill": "speaking",
+      "type": "situational-communication"
+    },
+    {
+      "slug": "b2-inference-reading",
+      "level": "B2",
+      "title": "Reading: evidence and inference",
+      "objective": "By the end, learners can make a supported inference from a short text.",
+      "explanation": "An inference must be supported by details in the text; do not choose an answer based only on outside knowledge.",
+      "reading": "The community library extended its opening hours after a survey showed that many residents worked late. Three months later, evening attendance had doubled, while daytime attendance remained stable. The library now plans to add more study desks rather than reduce its daytime services.",
+      "examples": [
+        "Look for a detail that supports each conclusion.",
+        "Use the pattern in a short real-life sentence."
+      ],
+      "nextSteps": [
+        "Try the related practice in your dashboard.",
+        "Review the examples tomorrow."
+      ],
+      "practice": [
+        {
+          "id": "b2-inference-reading-q01",
+          "prompt": "Why did the library extend its hours?",
+          "options": [
+            "Many residents worked late.",
+            "The building became smaller.",
+            "Daytime attendance fell.",
+            "The library closed on weekends."
+          ],
+          "answerIndex": 0,
+          "why": "The text directly gives this reason. This is the correct evidence choice.",
+          "feedback": {
+            "correct": "Correct — good choice.",
+            "incorrect": "Not quite. Try again and check the clue."
+          }
+        },
+        {
+          "id": "b2-inference-reading-q02",
+          "prompt": "What can we infer about evening attendance?",
+          "options": [
+            "It increased substantially.",
+            "It disappeared.",
+            "It stayed exactly the same.",
+            "It was never measured."
+          ],
+          "answerIndex": 0,
+          "why": "The text says it doubled. This is the correct evidence choice.",
+          "feedback": {
+            "correct": "Correct — good choice.",
+            "incorrect": "Not quite. Try again and check the clue."
+          }
+        },
+        {
+          "id": "b2-inference-reading-q03",
+          "prompt": "What will the library probably do next?",
+          "options": [
+            "Add study desks.",
+            "Remove all daytime services.",
+            "Shorten the opening hours.",
+            "Stop conducting surveys."
+          ],
+          "answerIndex": 0,
+          "why": "The final sentence states this plan. This is the correct evidence choice.",
+          "feedback": {
+            "correct": "Correct — good choice.",
+            "incorrect": "Not quite. Try again and check the clue."
+          }
+        },
+        {
+          "id": "b2-inference-reading-q04",
+          "prompt": "Which statement best summarizes the passage?",
+          "options": [
+            "A schedule change responded to residents' needs.",
+            "A library moved to a new building.",
+            "Residents stopped using a library.",
+            "A survey measured only daytime visitors."
+          ],
+          "answerIndex": 0,
+          "why": "This combines the reason, change and result. This is the correct evidence choice.",
+          "feedback": {
+            "correct": "Correct — good choice.",
+            "incorrect": "Not quite. Try again and check the clue."
+          }
+        },
+        {
+          "id": "b2-inference-reading-q05",
+          "prompt": "What does ‘stable’ mean in the passage?",
+          "options": [
+            "Not changing much.",
+            "Completely empty.",
+            "Very expensive.",
+            "Open only at night."
+          ],
+          "answerIndex": 0,
+          "why": "Daytime attendance remained stable, so it did not change much. This is the correct evidence choice.",
+          "feedback": {
+            "correct": "Correct — good choice.",
+            "incorrect": "Not quite. Try again and check the clue."
+          }
+        }
+      ],
+      "skill": "reading",
+      "type": "reading-strategy",
+      "readingText": "Look for evidence; an inference is not directly stated, but it is supported by details."
+    }
+  ],
+  "meta": {
+    "newlyAuthoredLessons": 6,
+    "newlyAuthoredPracticeQuestions": 25,
+    "pendingIndependentEslQa": true
+  }
+}

@@ -1,0 +1,93 @@
+{
+  "schemaVersion": "lesson-enrichment.v1",
+  "reviewStatus": "pending_specialist_approval",
+  "reviewRequirement": {
+    "requiredPasses": 4,
+    "completedPasses": 0,
+    "status": "pending_specialist_approval"
+  },
+  "pedagogicalBasis": [
+    "Context before production: short meaningful prompts anchor target grammar in a situation.",
+    "Controlled-to-freer progression: tasks ask learners to notice, complete, then personalise language.",
+    "No bulk filler: each task targets one unit objective and includes a model answer plus explanation."
+  ],
+  "tasks": [
+    {
+      "id": "a1-01-prod-01",
+      "unitId": "a1-01",
+      "level": "A1",
+      "taskType": "guidedProduction",
+      "objective": "Use am/is/are to introduce people and give basic identity information.",
+      "prompt": "Write three sentences about you and two people you know. Use am, is, and are once each.",
+      "modelAnswer": "I am a student. My brother is at home. My friends are happy today.",
+      "explanation": "The verb changes with the subject: I am, he/she/it is, you/we/they are.",
+      "reviewStatus": "pending_specialist_approval"
+    },
+    {
+      "id": "a1-03-context-01",
+      "unitId": "a1-03",
+      "level": "A1",
+      "taskType": "contextualizedGapFill",
+      "objective": "Choose a, an, or the from first mention, vowel sound, and known object clues.",
+      "prompt": "Complete the mini-dialogue: A: I want ___ apple and ___ sandwich. B: OK. Put ___ sandwich in this bag.",
+      "modelAnswer": "an; a; the",
+      "explanation": "Use an before the vowel sound in apple, a before the consonant sound in sandwich, and the when the sandwich is now known.",
+      "reviewStatus": "pending_specialist_approval"
+    },
+    {
+      "id": "a1-08-map-01",
+      "unitId": "a1-08",
+      "level": "A1",
+      "taskType": "microDescription",
+      "objective": "Describe simple places with in, on, and at using visible cues.",
+      "prompt": "Look at your classroom. Write three true sentences with in, on, and at. Mention a real object or place.",
+      "modelAnswer": "My book is on the desk. My pencils are in my bag. I am at my desk.",
+      "explanation": "Use on for a surface, in for inside a container or place, and at for a point or position.",
+      "reviewStatus": "pending_specialist_approval"
+    },
+    {
+      "id": "a1-15-now-01",
+      "unitId": "a1-15",
+      "level": "A1",
+      "taskType": "picturePromptProduction",
+      "objective": "Use am/is/are + -ing to describe actions happening now.",
+      "prompt": "Imagine a family photo right now. Write four sentences: one with I am, one with he/she is, one with we are, and one with they are.",
+      "modelAnswer": "I am smiling. My sister is reading. We are sitting in the kitchen. My parents are cooking dinner.",
+      "explanation": "Present continuous needs the correct be verb plus an -ing verb for actions happening now.",
+      "reviewStatus": "pending_specialist_approval"
+    },
+    {
+      "id": "b1-03-plans-01",
+      "unitId": "b1-03",
+      "level": "B1",
+      "taskType": "scenarioChoiceAndProduction",
+      "objective": "Choose will or going to for instant decisions, plans, and evidence-based predictions.",
+      "prompt": "For each situation, write one sentence: 1) You see black clouds. 2) Your friend drops books. 3) You bought tickets for Friday.",
+      "modelAnswer": "It is going to rain. I will help you. I am going to see a film on Friday.",
+      "explanation": "Use going to when there is evidence or a plan; use will for an instant offer or decision.",
+      "reviewStatus": "pending_specialist_approval"
+    },
+    {
+      "id": "b1-05-advice-01",
+      "unitId": "b1-05",
+      "level": "B1",
+      "taskType": "guidedConditionalProduction",
+      "objective": "Use the first conditional to connect a realistic future condition with its result.",
+      "prompt": "A classmate has an English exam tomorrow. Write three helpful first-conditional sentences for them.",
+      "modelAnswer": "If you review the vocabulary tonight, you will remember more words. If you sleep early, you will feel fresh. If you panic, you will make small mistakes.",
+      "explanation": "First conditional uses if + present simple for the condition and will + base verb for the future result.",
+      "reviewStatus": "pending_specialist_approval"
+    },
+    {
+      "id": "b1-15-deduction-01",
+      "unitId": "b1-15",
+      "level": "B1",
+      "taskType": "evidenceBasedDeduction",
+      "objective": "Use must, might, and can't to make deductions from evidence.",
+      "prompt": "Read the clues and write one deduction for each: 1) The lights are on and music is playing. 2) I am not sure, but her bag is here. 3) Ali is in Izmir, so the person at the door is not Ali.",
+      "modelAnswer": "They must be at home. She might be in the building. That can't be Ali at the door.",
+      "explanation": "Use must for a strong positive deduction, might for uncertainty, and can't when the evidence makes something impossible.",
+      "reviewStatus": "pending_specialist_approval"
+    }
+  ]
+}

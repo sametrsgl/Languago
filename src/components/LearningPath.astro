@@ -1,0 +1,64 @@
+---
+interface LearningStep {
+  href: string;
+  emoji: string;
+  stepTitle: string;
+  desc: string;
+  done?: boolean;
+  ctaLabel?: string;
+}
+
+interface Props {
+  steps: LearningStep[];
+  firstPendingIndex?: number;
+  hasProgress?: boolean;
+  title?: string;
+  description?: string;
+  mapHref?: string;
+}
+
+const {
+  steps,
+  firstPendingIndex = -1,
+  hasProgress = false,
+  title = 'Önerilen çalışma yolu',
+  description = 'Bu sıra bir ustalık ölçümü değil; kelime, dilbilgisi, okuma ve oyun tekrarını dengeli götürmen için önerilen yol.',
+  mapHref = '/dashboard/yol',
+} = Astro.props;
+
+const activeIndex = firstPendingIndex >= 0 ? firstPendingIndex : hasProgress ? -1 : 0;
+---
+
+<section class="dash-section" aria-labelledby="ogrenim-yolu-heading">
+  <header class="section-head section-head--split">
+    <div>
+      <p class="kicker">Önerilen yol</p>
+      <h2 id="ogrenim-yolu-heading">{title} <span class="section-head__icon" aria-hidden="true">🧭</span></h2>
+      <p class="muted">{description}</p>
+    </div>
+    <a class="btn ghost sm" href={mapHref}>Yol rehberi →</a>
+  </header>
+
+  <ol class="study-path" aria-label="Önerilen öğrenme adımları">
+    {steps.map((s, i) => (
+      <li
+        class:list={[
+          'study-step',
+          s.done && 'study-step--done',
+          i === activeIndex && 'study-step--now',
+        ]}
+      >
+        <a class="study-card" href={s.href}>
+          <span class="study-card__row">
+            <span class="step-badge" aria-hidden="true">{s.done ? '✓' : String(i + 1)}</span>
+            <span class="step-emoji" aria-hidden="true">{s.emoji}</span>
+            {i === activeIndex && <span class="step-ribbon">Önerilen sonraki adım</span>}
+          </span>
+          <span class="step-title">{s.stepTitle}</span>
+          <span class="step-desc">{s.desc}</span>
+          <span class:list={['start-pill', s.done && 'start-pill--done']}>{s.ctaLabel ?? (s.done ? 'Devam Et →' : 'Başla →')}</span>
+        </a>
+      </li>
+    ))}
+  </ol>
+</section>

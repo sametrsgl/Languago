@@ -17,6 +17,7 @@ interface Props {
 
 import '../styles/global.css';
 import { createSupabaseClient, pageCookieSource } from '../lib/supabase';
+import MobileAppNav from '../components/MobileAppNav.astro';
 
 const {
   title,
@@ -96,6 +97,7 @@ const initial = displayName ? displayName.trim().charAt(0).toUpperCase() : 'H';
     <slot name="head" />
   </head>
   <body>
+    <a class="skip-link" href="#app-content">İçeriğe geç</a>
     <header class="app-header">
       <div class="container app-bar">
         <a class="brand" href="/dashboard">
@@ -154,10 +156,19 @@ const initial = displayName ? displayName.trim().charAt(0).toUpperCase() : 'H';
         </div>
       </div>
     </header>
+    <nav class="app-primary-nav" aria-label="Öğrenme alanları">
+      <a href="/dashboard">Panel</a>
+      <a href="/dashboard/yol">Önerilen yol</a>
+      <a href="/dashboard/kelimeler">Kelimeler</a>
+      <a href="/dashboard/dilbilgisi">Dilbilgisi</a>
+      <a href="/dashboard/okuma">Okuma</a>
+      <a href="/dashboard/oyunlar">Oyunlar</a>
+    </nav>
+    <MobileAppNav />
 
-    <main>
+    <div id="app-content" class="app-content" tabindex="-1">
       <slot />
-    </main>
+    </div>
 
     <footer class="app-footer">
       <div class="container">

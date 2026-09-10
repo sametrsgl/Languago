@@ -1,11 +1,5 @@
 ---
-// Languago — Public Pricing page (DESIGN/TEST MODE — no real payments).
-// ----------------------------------------------------------------
-// Renders the 4 seeded `pricing_tiers` as comparison cards (price + features
-// from the jsonb), marks the paid tiers "Yakında" (coming soon / design-mode)
-// and shows a DISABLED 7-day-trial CTA. This page is the "design it now,
-// charge later" surface: real Stripe/Iyzico checkout will replace these
-// "Yakında" badges once gateway keys are wired. NO billing is performed here.
+// Public beta pricing information. Ödeme akışı is intentionally not offered until the payment and legal review is complete.
 import Layout from '../layouts/Layout.astro';
 import { createSupabaseClient, pageCookieSource } from '../lib/supabase';
 import {
@@ -129,7 +123,7 @@ const paidCards = rows.filter((r) => r.key !== 'free');
               class="card"
               style={`position:relative;display:flex;flex-direction:column;gap:14px;padding:22px;height:100%;${featured ? 'border-top:4px solid var(--brand);' : ''}`}
             >
-              <span class="fc-yakinda">⏳ Yakında</span>
+              <span class="fc-yakinda">⏳ Beta bilgi</span>
               <div>
                 <h3 style="margin:0 0 2px;font-size:1.25rem;">{meta.label}</h3>
                 <p class="muted" style="margin:0;font-size:.88rem;">{meta.tagline}</p>
@@ -155,10 +149,10 @@ const paidCards = rows.filter((r) => r.key !== 'free');
               </ul>
               <span
                 class="fc-cta fc-cta--paid"
-                aria-disabled="true"
+                aria-unavailable="true"
                 title="Ödeme altyapısı yakında aktif olacak"
               >
-                7 Gün Ücretsiz Dene · Yakında
+                İlgi formu yakında açılacak
               </span>
             </article>
           );
@@ -167,22 +161,11 @@ const paidCards = rows.filter((r) => r.key !== 'free');
     </div>
   </section>
 
-  <!-- Trial / design-mode CTA -->
   <section class="section container fc-wrap" style="text-align:center;max-width:680px;">
     <div class="panel" style="padding:26px;background:var(--bg-soft);border:1px solid var(--line);">
-      <h2 style="margin:0 0 8px;font-size:1.35rem;">🕖 7 Gün Ücretsiz Deneme</h2>
-      <p class="muted" style="margin:0 0 16px;font-size:.95rem;">
-        Premium'u ücretsiz denemek için sabırsızlanıyor olabilirsin. Deneme
-        başlatma altyapısı (Stripe/Iyzico) henüz bağlanmadığı için bu özellik
-        <strong>şu an kurgu aşamasında</strong>. Aktif olduğunda burada
-        duyurusunu yapacağız. 🙈
-      </p>
-      <button class="fc-cta fc-cta--paid" type="button" disabled style="max-width:320px;margin-inline:auto;cursor:not-allowed;">
-        🚧 7 Gün Ücretsiz Dene — Yakında
-      </button>
-      <p class="muted" style="margin:14px 0 0;font-size:.82rem;">
-        Gerçek bir ödeme alınmaz · fiyatlar ve trial yalnızca tasarım amaçlıdır.
-      </p>
+      <h2 style="margin:0 0 8px;font-size:1.35rem;">Ücretsiz beta</h2>
+      <p class="muted" style="margin:0;font-size:.95rem;">Languago şu anda ücretsiz beta olarak gelişiyor. Planlar ve ödeme seçenekleri hazır olduğunda iletişim sayfasından duyuracağız.</p>
+      <a class="btn primary" href="/iletisim" style="margin-top:16px;">Bize ulaş</a>
     </div>
   </section>
 </Layout>

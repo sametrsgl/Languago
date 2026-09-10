@@ -36,7 +36,7 @@ const items = Object.values(WORD_DATA.words).map((w: any) => ({
   t: w.t,
   lv: byLevel[w.w] || [],
 }));
-// Escape "<" so the JSON can never break out of its <script> tag.
+// Escape "<" so JSON cannot break out of the embedding script tag.
 const vocabJson = JSON.stringify(items).replace(/</g, '\\u003c');
 const setMetaJson = JSON.stringify(sets).replace(/</g, '\\u003c');
 

@@ -16,9 +16,22 @@ import { createSupabaseClient, pageCookieSource } from '../../../../lib/supabase
  */
 export const prerender = false;
 
-const SITE = import.meta.env.SITE_URL || 'https://www.languago.site';
+function resolveAllowedOrigin(request: Request): string | null {
+  const requestOrigin = new URL(request.url).origin;
+  const configured = import.meta.env.SITE_URL;
+  const allowed = new Set<string>();
+  if (configured) {
+    try { allowed.add(new URL(configured).origin); } catch { /* invalid config is ignored */ }
+  }
+  if (requestOrigin.startsWith('http://localhost:') || requestOrigin.startsWith('http://127.0.0.1:')) {
+    allowed.add(requestOrigin);
+  }
+  return allowed.has(requestOrigin) ? requestOrigin : null;
+}
 
 export const GET: APIRoute = async ({ request, cookies, redirect }) => {
+  const origin = resolveAllowedOrigin(request);
+  if (!origin) return redirect('/signin?oauth=origin_error', 302);
   const supabase = createSupabaseClient(pageCookieSource({ request, cookies }));
   if (!supabase) {
     return redirect('/signin?oauth=unconfigured', 302);
@@ -28,7 +41,7 @@ export const GET: APIRoute = async ({ request, cookies, redirect }) => {
     const { data, error } = await supabase.auth.signInWithOAuth({
       provider: 'google',
       options: {
-        redirectTo: `${SITE}/api/auth/callback`,
+        redirectTo: `${origin}/api/auth/callback`,
         // Do not follow the authorize URL server-side; we return it as a
         // redirect so the verifier cookie travels with this response.
         skipBrowserRedirect: true,

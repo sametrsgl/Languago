@@ -7,7 +7,7 @@ import Layout from '../layouts/Layout.astro';
 // Fetch latest APK version from GitHub releases API
 let apkData = null;
 try {
-  const apkRes = await fetch('/api/apk-version');
+  const apkRes = await fetch(new URL('/api/apk-version', Astro.url));
   apkData = await apkRes.json().catch(() => null);
 } catch { /* ignore */ }
 const latestTag = apkData?.version || 'v2.5.2';
@@ -101,7 +101,7 @@ const installSteps = [
       <a class="btn ghost" href="/signup">Web'den Başla</a>
     </div>
     <p class="meta muted">
-      Android • {appVersion} • ~ver. Ücretsiz ve reklamsız. iOS ve diğer cihazlar için
+      Android • {appVersion} • Ücretsiz ve reklamsız. iOS ve diğer cihazlar için
       tarayıcıdan web sürümünü kullan.
     </p>
   </section>

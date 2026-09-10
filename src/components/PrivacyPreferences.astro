@@ -1,0 +1,197 @@
+---
+interface Props {
+  id?: string;
+}
+
+const { id = 'privacy-preferences' } = Astro.props;
+---
+
+<section class="privacy-preferences" id={id} data-privacy-preferences>
+  <div class="privacy-preferences__copy">
+    <p class="eyebrow">Gizlilik tercihleri</p>
+    <h2>Veri kullanımını sen yönet</h2>
+    <p>
+      Analitik ve gelecekteki reklam ölçümü varsayılan olarak kapalıdır. Açık rıza vermeden
+      harici betik yüklenmez, istek gönderilmez ve etkinlik kuyruğu tutulmaz.
+    </p>
+    <p class="privacy-preferences__signal" data-privacy-signal hidden>
+      Tarayıcı gizlilik sinyalin algılandı; analitik izni kapalı tutulur.
+    </p>
+  </div>
+
+  <form class="privacy-preferences__form" data-privacy-form>
+    <label class="privacy-preferences__choice">
+      <input type="checkbox" name="analytics" />
+      <span>
+        <strong>Analitik</strong>
+        <small>Sadece seviye, beceri, öğe ve deneme sayıları gibi güvenli öğrenme ölçümleri.</small>
+      </span>
+    </label>
+
+    <label class="privacy-preferences__choice">
+      <input type="checkbox" name="advertising" />
+      <span>
+        <strong>Gelecekte reklam hazırlığı</strong>
+        <small>Şu anda canlı reklam yoktur; sağlayıcı eklenmeden önce yeni inceleme gerekir.</small>
+      </span>
+    </label>
+
+    <div class="privacy-preferences__actions">
+      <button type="button" class="btn ghost" data-privacy-reject>Tümünü reddet</button>
+      <button type="submit" class="btn primary">Tercihleri kaydet</button>
+      <button type="button" class="btn ghost" data-privacy-accept>Tümünü kabul et</button>
+    </div>
+
+    <button type="button" class="privacy-preferences__revoke" data-privacy-revoke>
+      İzni geri çek
+    </button>
+
+    <p class="privacy-preferences__status" data-privacy-status role="status" aria-live="polite"></p>
+  </form>
+</section>
+
+<script>
+  import {
+    acceptAllPrivacyPreferences,
+    getBrowserPrivacySignals,
+    getPrivacyPreferences,
+    rejectAllPrivacyPreferences,
+    savePrivacyPreferences,
+  } from '../lib/privacy-preferences.mjs';
+
+  const root = document.querySelector('[data-privacy-preferences]');
+  if (root) {
+    const form = root.querySelector('[data-privacy-form]');
+    const analytics = form?.elements.namedItem('analytics');
+    const advertising = form?.elements.namedItem('advertising');
+    const status = root.querySelector('[data-privacy-status]');
+    const signal = root.querySelector('[data-privacy-signal]');
+
+    function setStatus(message) {
+      if (status) status.textContent = message;
+    }
+
+    function paint(prefs) {
+      if (analytics instanceof HTMLInputElement) analytics.checked = prefs.consent.analytics === true;
+      if (advertising instanceof HTMLInputElement) advertising.checked = prefs.consent.advertising === true;
+      const privacySignals = getBrowserPrivacySignals(navigator);
+      if (signal instanceof HTMLElement) signal.hidden = !(privacySignals.doNotTrack || privacySignals.globalPrivacyControl);
+    }
+
+    paint(getPrivacyPreferences());
+
+    form?.addEventListener('submit', (event) => {
+      event.preventDefault();
+      const prefs = savePrivacyPreferences({
+        analytics: analytics instanceof HTMLInputElement ? analytics.checked : false,
+        advertising: advertising instanceof HTMLInputElement ? advertising.checked : false,
+      });
+      paint(prefs);
+      setStatus('Tercihlerin kaydedildi.');
+    });
+
+    root.querySelector('[data-privacy-reject]')?.addEventListener('click', () => {
+      paint(rejectAllPrivacyPreferences());
+      setStatus('Tüm tercihler reddedildi.');
+    });
+
+    root.querySelector('[data-privacy-revoke]')?.addEventListener('click', () => {
+      paint(rejectAllPrivacyPreferences());
+      setStatus('İzin geri çekildi.');
+    });
+
+    root.querySelector('[data-privacy-accept]')?.addEventListener('click', () => {
+      paint(acceptAllPrivacyPreferences());
+      setStatus('Tercihlerin kabul edildi.');
+    });
+  }
+</script>
+
+<style>
+  .privacy-preferences {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    gap: 1rem;
+    margin: 2rem auto;
+    padding: 1.25rem;
+    border: 1px solid rgba(13, 148, 136, 0.2);
+    border-radius: 24px;
+    background: linear-gradient(135deg, rgba(13, 148, 136, 0.08), rgba(249, 115, 22, 0.08));
+  }
+
+  .privacy-preferences .eyebrow {
+    margin: 0 0 0.25rem;
+    color: #0d9488;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    font-size: 0.78rem;
+  }
+
+  .privacy-preferences h2 {
+    margin: 0 0 0.5rem;
+  }
+
+  .privacy-preferences p {
+    margin: 0.35rem 0;
+    color: #475569;
+  }
+
+  .privacy-preferences__form {
+    display: grid;
+    gap: 0.85rem;
+  }
+
+  .privacy-preferences__choice {
+    display: flex;
+    gap: 0.75rem;
+    align-items: flex-start;
+    padding: 0.85rem;
+    border: 1px solid rgba(15, 23, 42, 0.08);
+    border-radius: 18px;
+    background: #fff;
+  }
+
+  .privacy-preferences__choice input {
+    margin-top: 0.25rem;
+    accent-color: #0d9488;
+  }
+
+  .privacy-preferences__choice strong,
+  .privacy-preferences__choice small {
+    display: block;
+  }
+
+  .privacy-preferences__choice small {
+    color: #64748b;
+  }
+
+  .privacy-preferences__actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.6rem;
+  }
+
+  .privacy-preferences__revoke {
+    justify-self: start;
+    border: 0;
+    background: transparent;
+    color: #b45309;
+    font-weight: 700;
+    text-decoration: underline;
+    cursor: pointer;
+  }
+
+  .privacy-preferences__status {
+    min-height: 1.4em;
+    font-weight: 700;
+    color: #0f766e;
+  }
+
+  @media (min-width: 800px) {
+    .privacy-preferences {
+      grid-template-columns: 0.9fr 1.1fr;
+      align-items: start;
+    }
+  }
+</style>

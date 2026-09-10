@@ -1,0 +1,25 @@
+---
+const links = [
+  { href: '/ogren', label: 'Öğren' },
+  { href: '/materyal-uretici', label: 'Materyal' },
+  { href: '/blog', label: 'Blog' },
+  { href: '/indir', label: 'İndir' },
+  { href: '/fiyatlandirma', label: 'Fiyatlar' },
+  { href: '/iletisim', label: 'İletişim' },
+];
+const currentPath = Astro.url.pathname.replace(/\/$/, '') || '/';
+---
+
+<nav class="mobile-public-nav" aria-label="Mobil ana gezinme">
+  <div class="container mobile-public-nav__scroller" role="list">
+    {links.map((link) => (
+      <a
+        role="listitem"
+        href={link.href}
+        aria-current={currentPath === link.href ? 'page' : undefined}
+      >
+        {link.label}
+      </a>
+    ))}
+  </div>
+</nav>

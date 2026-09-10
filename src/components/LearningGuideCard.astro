@@ -1,0 +1,35 @@
+---
+interface GuideLink {
+  href: string;
+  label: string;
+}
+
+interface Props {
+  eyebrow?: string;
+  title: string;
+  description: string;
+  links?: GuideLink[];
+  tone?: 'teal' | 'amber' | 'plain';
+}
+
+const {
+  eyebrow = 'Öğrenme rehberi',
+  title,
+  description,
+  links = [],
+  tone = 'teal',
+} = Astro.props;
+---
+
+<aside class:list={['learning-guide-card', `learning-guide-card--${tone}`]} aria-label={eyebrow}>
+  <div>
+    <p class="learning-guide-card__eyebrow">{eyebrow}</p>
+    <h2>{title}</h2>
+    <p>{description}</p>
+  </div>
+  {links.length > 0 && (
+    <div class="learning-guide-card__links" aria-label="Rehber bağlantıları">
+      {links.map((link) => <a href={link.href}>{link.label}</a>)}
+    </div>
+  )}
+</aside>

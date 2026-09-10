@@ -1,0 +1,90 @@
+---
+interface Props {
+  enabled?: boolean;
+  placement?: 'after-learning' | 'after-results';
+  label?: string;
+  minHeightMobile?: string;
+  minHeightDesktop?: string;
+}
+
+const {
+  enabled = false,
+  placement = 'after-learning',
+  label = 'Reklam alanı',
+  minHeightMobile = '96px',
+  minHeightDesktop = '120px',
+} = Astro.props;
+
+const allowedPlacements = new Set(['after-learning', 'after-results']);
+const safePlacement = allowedPlacements.has(placement) ? placement : 'after-learning';
+const ariaLabel = label;
+const state = enabled ? 'reserved' : 'disabled';
+---
+
+<aside
+  class="ad-slot"
+  data-ad-slot
+  data-ad-state={enabled ? 'reserved' : 'disabled'}
+  data-empty
+  data-loaded="false"
+  data-placement={safePlacement}
+  data-policy="after-learning after-results never-between-question-answer"
+  aria-label={ariaLabel}
+  role="complementary"
+  style={`--ad-min-height: ${minHeightMobile}; --ad-min-height-desktop: ${minHeightDesktop};`}
+>
+  {enabled && <span class="ad-slot__label">{ariaLabel}</span>}
+  <div class="ad-slot__surface" data-ad-state="reserved" aria-hidden="true"></div>
+</aside>
+
+<style>
+  .ad-slot[data-ad-state="disabled"] {
+    display: none;
+  }
+
+  .ad-slot[data-ad-state="reserved"],
+  .ad-slot[data-loaded="true"],
+  .ad-slot[data-empty] {
+    box-sizing: border-box;
+    width: 100%;
+    min-height: var(--ad-min-height);
+    margin: 1.5rem auto;
+    border-radius: 20px;
+  }
+
+  .ad-slot[data-ad-state="reserved"] {
+    display: grid;
+    align-items: center;
+    overflow: hidden;
+    background: transparent;
+  }
+
+  .ad-slot[data-empty] {
+    min-height: var(--ad-min-height);
+  }
+
+  .ad-slot__label {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0 0 0 0);
+    white-space: nowrap;
+    border: 0;
+  }
+
+  .ad-slot__surface {
+    min-height: var(--ad-min-height);
+  }
+
+  @media (min-width: 720px) {
+    .ad-slot[data-ad-state="reserved"],
+    .ad-slot[data-loaded="true"],
+    .ad-slot[data-empty],
+    .ad-slot__surface {
+      min-height: var(--ad-min-height-desktop);
+    }
+  }
+</style>

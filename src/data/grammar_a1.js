@@ -179,7 +179,7 @@ export const GRAMMAR_A1 = {
         { q: "I go to work ___ Monday.", hint: "in / on / at", a: ["on"] },
         { q: "My birthday is ___ July.", hint: "in / on / at", a: ["in"] },
         { q: "We meet ___ 5 o'clock.", hint: "in / on / at", a: ["at"] },
-        { q: "The cat is ___ the table.", hint: "in / on / at", a: ["on"] },
+        { q: "The cat is sleeping ___ the table, on the flat top.", hint: "in / on / at", a: ["on"] },
         { q: "She lives ___ Istanbul.", hint: "in / on / at", a: ["in"] }
       ]
     },

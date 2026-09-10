@@ -1217,8 +1217,21 @@ footer.site .brand .footer-mascot {
   }
 }
 @media (max-width: 860px) {
+  header.site .container {
+    height: auto;
+    min-height: 64px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    align-items: flex-start;
+  }
+  nav.site {
+    max-width: 100%;
+    overflow-x: auto;
+    padding-bottom: 6px;
+    scrollbar-width: thin;
+  }
   nav.site a.nav {
-    display: none;
+    white-space: nowrap;
   }
 }
 @media (max-width: 720px) {
@@ -1846,3 +1859,7 @@ footer.site .brand .footer-mascot {
   .stat-chip .stat-label { font-size: 0.65rem; }
   .step-badge { width: 38px; height: 38px; font-size: 1rem; }
 }
+
+:focus-visible { outline: 3px solid var(--brand); outline-offset: 3px; }
+.app-primary-nav { display:flex; gap:1rem; justify-content:center; flex-wrap:wrap; padding:.7rem 1rem; border-bottom:1px solid var(--line); }
+@media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation-duration:.01ms !important; animation-iteration-count:1 !important; scroll-behavior:auto !important; transition-duration:.01ms !important; } }

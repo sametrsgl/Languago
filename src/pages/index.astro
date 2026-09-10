@@ -1,179 +1,146 @@
 ---
 import Layout from '../layouts/Layout.astro';
 ---
+
 <Layout
-  title="İngilizce Öğrenmenin Oyunlu Yolu — Languago"
-  description="Languago ile İngilizce öğren: kelime dağarcığı, dil bilgisi, okuma becerileri ve sınıf içi oyunlar. Temel öğretmenden canlı online dersler. Hemen kayıt olun."
+  title="Languago V2 — İngilizce öğrenme yolu"
+  description="Languago V2; öğrenciler için önerilen İngilizce çalışma yolu, A1-C1 dilbilgisi, C2 ve sınav okuma metinleri, kelime kartları ve öğretmen materyal araçları sunar."
 >
-  <section class="hero container">
-    <div class="deco d1">📚</div>
-    <div class="deco d2">💬</div>
-    <div class="deco d3">🎓</div>
-    <div class="deco d4">✏️</div>
-    <img
-      src="/mascot.png"
-      alt="Languago maskotu — İngilizce kitabı okuyan sıcakkanlı bir Komodo ejderi"
-      class="mascot"
-      width="1024"
-      height="1024"
-      loading="eager"
-    />
-    <span class="eyebrow">🎉 İngilizce öğrenmenin en eğlenceli yolu</span>
-    <h1>İngilizce öğrenmenin eğlenceli yolu</h1>
-    <p class="lead">
-      Languago; kelime dağarcığı, dil bilgisi, okuma ve sınıf içi oyunlarla
-      İngilizceyi oyun gibi öğrenmeni sağlar. Temel öğretmeninle birebir ilerle,
-      kendi hızında çalış, oyunlarla pekiştir.
-    </p>
-    <div class="btn-row">
-      <a class="btn primary" href="/signup">Ücretsiz Kayıt Ol</a>
-      <a class="btn ghost" href="/dashboard">Göz At</a>
+  <section class="home-hero container" aria-labelledby="home-title">
+    <div class="home-hero__copy">
+      <p class="kicker">Languago V2 öğrenme deneyimi</p>
+      <h1 id="home-title">Öğrenci için net yol, öğretmen için hazır araçlar.</h1>
+      <p class="lead">
+        Kelime, A1-C1 dilbilgisi, C2 ve sınav odaklı okuma metinleri aynı öğrenme
+        akışında birleşir. Nereden başlayacağını gör, çalış, tekrar et ve sınıf
+        oyunlarıyla pekiştir.
+      </p>
+      <div class="btn-row home-hero__actions" aria-label="Ana işlemler">
+        <a class="btn primary" href="/ogren">Öğrenmeye Başla</a>
+        <a class="btn ghost" href="/signin">Panelime Gir</a>
+      </div>
+      <ul class="home-hero__facts" aria-label="Kapsam özeti">
+        <li><strong>A1-C1</strong><span>Dilbilgisi dersleri ve testler</span></li>
+        <li><strong>C2 + sınav</strong><span>Okuma metinleri ve anlama soruları</span></li>
+        <li><strong>Tekrar</strong><span>Kelime kartları, yazım ve quiz oyunları</span></li>
+      </ul>
+    </div>
+    <div class="home-hero__visual" aria-label="Languago öğrenme kartı">
+      <img src="/logo/kommo-192.png" alt="Kommo — Languago maskotu" width="192" height="192" />
+      <div class="route-card route-card--active">
+        <span>1</span>
+        <strong>Kelimeyi tanı</strong>
+        <small>Kart, örnek cümle, ses</small>
+      </div>
+      <div class="route-card">
+        <span>2</span>
+        <strong>Yapıyı öğren</strong>
+        <small>A1-C1 dilbilgisi</small>
+      </div>
+      <div class="route-card">
+        <span>3</span>
+        <strong>Metinde kullan</strong>
+        <small>C2 ve sınav okumaları</small>
+      </div>
     </div>
   </section>
 
-  <section class="vs-band container">
-    <div class="vs-band__inner">
-      <div class="vs-band__text">
-        <span class="vs-kicker">⚡ Sınıf için kuruldu</span>
-        <h2>Sınıf İçi Karşılaşma</h2>
+  <section class="section container" aria-labelledby="tracks-title">
+    <div class="section-head">
+      <span class="kicker">İki ayrı kullanım yolu</span>
+      <h2 id="tracks-title">Öğrenci çalışması ve öğretmen araçları birbirine karışmaz.</h2>
+      <p>Öğrenci akışı öğrenmeye, öğretmen akışı sınıf hazırlığına odaklanır.</p>
+    </div>
+    <div class="track-grid">
+      <article class="track-card track-card--student">
+        <div class="track-card__icon" aria-hidden="true">🧭</div>
+        <p class="kicker">Öğrenci yolu</p>
+        <h3>Bugün ne çalışacağını gör.</h3>
         <p>
-          takım temelli canlı bilgi yarışması — projeksiyonda
-          aç, tahtayı böl, soruları çöz, güç kartlarıyla fark at. İlkokuldan
-          yetişkine her seviyeye uygun.
+          /ogren sayfası herkese açık öğrenme rehberi olarak hazırlanıyor. Panelde ise
+          önerilen sıran, son etkinliğin ve geçerli kelime çalışman ayrı gösterilir.
         </p>
         <div class="btn-row">
-          <a class="btn primary" href="/sinif-oyunu">🎮 Hemen Karşılaşma Başlat</a>
-          <a class="btn ghost" href="/dashboard/oyunlar">Diğer Oyunlar</a>
+          <a class="btn primary" href="/ogren">Öğrenci yolunu aç</a>
+          <a class="btn ghost" href="/dashboard">Panele git</a>
+        </div>
+      </article>
+      <article class="track-card track-card--teacher">
+        <div class="track-card__icon" aria-hidden="true">🧰</div>
+        <p class="kicker">Öğretmen araçları</p>
+        <h3>Ders öncesi materyali hızlandır.</h3>
+        <p>
+          Materyal üretici; konu, seviye ve etkinlik türüne göre sınıfta kullanabileceğin
+          PDF taslakları üretmeye odaklanır. Öğretmen paneli ayrı bir çalışma alanıdır.
+        </p>
+        <div class="btn-row">
+          <a class="btn ghost" href="/materyal-uretici">Materyal üretici</a>
+          <a class="btn ghost" href="/teacher">Öğretmen paneli</a>
+        </div>
+      </article>
+    </div>
+  </section>
+
+  <section class="coverage-band" aria-labelledby="coverage-title">
+    <div class="container">
+      <div class="section-head section-head--left">
+        <span class="kicker">Kapsam netliği</span>
+        <h2 id="coverage-title">Neyi kapsadığını açık söyler.</h2>
+        <p>V2 tasarım dili pazarlama iddiasını değil, mevcut öğrenme alanlarını öne çıkarır.</p>
+      </div>
+      <div class="coverage-grid">
+        <article class="coverage-card">
+          <span class="badge badge--teal">A1-C1</span>
+          <h3>Dilbilgisi</h3>
+          <p>A1, A2, B1, B2 ve C1 düzeylerinde konu slaytları ve pekiştirme soruları.</p>
+          <a href="/dashboard/dilbilgisi">Dilbilgisine git →</a>
+        </article>
+        <article class="coverage-card">
+          <span class="badge badge--amber">C2 + sınav</span>
+          <h3>Okuma</h3>
+          <p>A1-C2 okuma koleksiyonlarına ek olarak IELTS, TOEFL, YDS, YÖKDİL ve GRE metinleri.</p>
+          <a href="/dashboard/okuma">Okumaya git →</a>
+        </article>
+        <article class="coverage-card">
+          <span class="badge badge--teal">Oyun + tekrar</span>
+          <h3>Pekiştirme</h3>
+          <p>Yazım, kelime quiz’i ve sınıf içi karşılaşma; her biri farklı hedef ve tekrar akışına sahiptir.</p>
+          <a href="/dashboard/oyunlar">Oyunları aç →</a>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <section class="section container" aria-labelledby="maker-title">
+    <div class="maker-card">
+      <div>
+        <p class="kicker">Materyal üretici</p>
+        <h2 id="maker-title">Sınıf materyali üretirken cevap anahtarı öğrenciden ayrı kalır.</h2>
+        <p>
+          Öğretmen kullanımı için konu ve seviyeye göre çalışma sayfası taslağı hazırlanır;
+          öğrenci kopyası ve cevap anahtarı ayrı düşünülür. Henüz tamamlanmamış öğrenci
+          tarafı özellikleri vaat edilmez.
+        </p>
+      </div>
+      <a class="btn primary" href="/materyal-uretici">Materyal aracını incele</a>
+    </div>
+  </section>
+
+  <section class="vs-band container" aria-labelledby="class-game-title">
+    <div class="vs-band__inner">
+      <div class="vs-band__text">
+        <span class="vs-kicker">⚡ Sınıf etkinliği</span>
+        <h2 id="class-game-title">Sınıf İçi Karşılaşma</h2>
+        <p>
+          Takım temelli canlı bilgi yarışması: projeksiyonda aç, soruları çöz,
+          güç kartlarıyla oyunu hareketlendir. Öğrenme yolundan ayrı bir sınıf etkinliğidir.
+        </p>
+        <div class="btn-row">
+          <a class="btn primary" href="/sinif-oyunu">Karşılaşma başlat</a>
+          <a class="btn ghost" href="/dashboard/oyunlar">Oyun merkezine git</a>
         </div>
       </div>
       <div class="vs-band__visual" aria-hidden="true">🏆⚔️🎲</div>
     </div>
   </section>
-
-  <section class="container mm-band">
-    <div class="mm-band__inner">
-      <div class="mm-band__text">
-        <span class="vs-kicker">🤖 Materyal Üretici</span>
-        <h2>Öğretmenler için yapay zekâ ile materyal</h2>
-        <p>
-          Konu ve seviye seç; Languago sana yazdırılabilir çalışma kağıdı, ödev,
-          quiz ve speaking club planını PDF olarak hazırlasın — logolu ve cevap
-          anahtarlı.
-        </p>
-        <div class="btn-row">
-          <a class="btn primary" href="/materyal-uretici">✨ Materyal Üret</a>
-        </div>
-      </div>
-      <div class="mm-band__visual" aria-hidden="true">📄🤖🎓</div>
-    </div>
-  </section>
-
-  <section class="section container">
-    <div class="section-head">
-      <span class="kicker">Nasıl çalışır?</span>
-      <h2>Nasıl öğreniyorsun?</h2>
-      <p>Sana özel dört temel adımla İngilizceyi kalıcı, oyun gibi öğren.</p>
-    </div>
-    <div class="feat-grid">
-      <div class="feat">
-        <div class="feat-emoji">📚</div>
-        <h3>Kelime &amp; Dil Bilgisi</h3>
-        <p>
-          Aralıklı tekrar (SRS) ile kalıcı kelime öğrenimi ve adım adım dil
-          bilgisi konuları. Seviyene göre özelleşir (A1–C2).
-        </p>
-      </div>
-      <div class="feat">
-        <div class="feat-emoji">📖</div>
-        <h3>Okuma Becerileri</h3>
-        <p>
-          Gerçek hayattan okuma parçaları ve anlama sorularıyla okuma hızını ve
-          kelime dağarcığını geliştir.
-        </p>
-      </div>
-      <div class="feat">
-        <div class="feat-emoji">🎮</div>
-        <h3>Sınıf İçi Oyunlar</h3>
-        <p>
-          Yazım, kelime ve bilgi yarışması oyunlarıyla öğrendiklerini eğlenerek
-          pekiştir — tek başına veya arkadaşlarınla.
-        </p>
-        <a class="btn ghost" href="/sinif-oyunu" style="margin-top:10px;">Sınıf İçi Karşılaşma Başlat →</a>
-      </div>
-      <div class="feat">
-        <div class="feat-emoji">💻</div>
-        <h3>Online Canlı Dersler</h3>
-        <p>
-          Öğretmeninle kendi içinde barındırılan görüntülü sınıfta (ekran paylaşımı
-          ve kamera) birebir veya grup dersleri.
-        </p>
-      </div>
-    </div>
-  </section>
-
-  <section class="split-wrap">
-    <div class="container split">
-      <div class="split__panel">
-        <div class="big">📚 🗣️ 🧠 🏆</div>
-        <p>Sınavdan önce mi? Yoksa sıfırdan mı başlıyorsun?</p>
-        <p>Her seviyeye, her hedefe uygun bir yol var.</p>
-      </div>
-      <div class="split__body">
-        <span class="kicker">Kimler için?</span>
-        <h2>İngilizceyi gerçekten öğrenmek isteyen herkes için</h2>
-        <ul>
-          <li>
-            <strong>Sınavlara hazırlanan öğrenciler:</strong> LGS, YDS, YKS ve
-            uluslararası sınavlara yönelik hedefe odaklı çalışma.
-          </li>
-          <li>
-            <strong>Kelimede takılanlar:</strong> SRS tekrar sistemiyle unutmadan,
-            kalıcı kelime öğrenimi.
-          </li>
-          <li>
-            <strong>Konuşma pratiği arayanlar:</strong> Canlı derslerde öğretmeninle
-            birebir ve grupla pratik şansı.
-          </li>
-          <li>
-            <strong>Eğlenceli yöntem isteyenler:</strong> Oyunlu ve adım adım
-            ilerleyen bir İngilizce deneyimi.
-          </li>
-        </ul>
-        <div class="btn-row">
-          <a class="btn primary" href="/signup">Ücretsiz Kayıt Ol</a>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <style>
-    .mm-band { margin: 4px auto 8px; }
-    .mm-band__inner {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 22px;
-      flex-wrap: wrap;
-      background: linear-gradient(120deg, #b45309 0%, #f59e0b 55%, #fbbf24 100%);
-      color: #fff;
-      border-radius: 22px;
-      padding: 28px 30px;
-      box-shadow: 0 24px 48px -24px rgba(245, 158, 11, 0.75);
-      border: 1px solid rgba(255, 255, 255, 0.22);
-    }
-    .mm-band__text { flex: 1 1 360px; max-width: 720px; }
-    .mm-band__text h2 { margin: 2px 0 8px; font-size: clamp(1.5rem, 3.5vw, 2.1rem); color: #fff; }
-    .mm-band__text p { margin: 0 0 16px; color: rgba(255, 255, 255, 0.95); font-size: 1.02rem; max-width: 620px; }
-    .mm-band .btn.primary { background: #fff; color: #b45309; box-shadow: 0 10px 20px -10px rgba(0, 0, 0, 0.4); }
-    .mm-band .vs-kicker { background: rgba(255, 255, 255, 0.2); }
-    .mm-band__visual {
-      font-size: clamp(2.6rem, 6vw, 4rem);
-      letter-spacing: 6px;
-      filter: drop-shadow(0 6px 12px rgba(0, 0, 0, 0.3));
-    }
-    @media (max-width: 560px) {
-      .mm-band__inner { padding: 22px 18px; }
-      .mm-band__visual { order: -1; text-align: center; }
-    }
-  </style>
 </Layout>

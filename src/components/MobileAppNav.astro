@@ -1,0 +1,30 @@
+---
+const links = [
+  { href: '/dashboard', label: 'Panel', icon: '🏠' },
+  { href: '/dashboard/yol', label: 'Yol', icon: '🧭' },
+  { href: '/dashboard/kelimeler', label: 'Kelime', icon: '🪪' },
+  { href: '/dashboard/dilbilgisi', label: 'Dilbilgisi', icon: '🧩' },
+  { href: '/dashboard/okuma', label: 'Okuma', icon: '📖' },
+  { href: '/dashboard/oyunlar', label: 'Oyunlar', icon: '🎮' },
+];
+const currentPath = Astro.url.pathname.replace(/\/$/, '') || '/dashboard';
+const isActive = (href: string) => href === '/dashboard'
+  ? currentPath === '/dashboard'
+  : currentPath === href || currentPath.startsWith(`${href}/`);
+---
+
+<nav class="app-nav" aria-label="Öğrenme alanları">
+  <div class="container app-nav__scroller" role="list">
+    {links.map((link) => (
+      <a
+        role="listitem"
+        class:list={['app-nav__link', isActive(link.href) && 'app-nav__link--active']}
+        href={link.href}
+        aria-current={isActive(link.href) ? 'page' : undefined}
+      >
+        <span aria-hidden="true">{link.icon}</span>
+        <span>{link.label}</span>
+      </a>
+    ))}
+  </div>
+</nav>

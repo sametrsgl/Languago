@@ -1,0 +1,17 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import lessonsData from '../../data/public-lessons.json';
+const lessons = lessonsData.lessons;
+const siteUrl = Astro.site?.origin || 'https://www.languago.site';
+---
+<Layout title="Ücretsiz İngilizce Mini Dersler — Languago" description="A1-B2 seviyelerinde ücretsiz İngilizce grammar, vocabulary ve reading mini dersleri." canonical="https://www.languago.site/ogren">
+  <main id="main-content" class="container section">
+    <span class="kicker">Ücretsiz mini dersler</span>
+    <h1>İngilizce öğrenmeye bugün başla</h1>
+    <p class="muted">Seviyene uygun kısa açıklamalar, örnekler ve anında geri bildirimli pratikler.</p>
+    <div class="card-grid" style="margin-top:2rem;">
+      {lessons.map((lesson) => <a class="card" href={`/ogren/${lesson.slug}`}><strong>{lesson.level}</strong><h2>{lesson.title}</h2><p>{lesson.objective}</p><span class="btn secondary">Dersi aç →</span></a>)}
+    </div>
+  </main>
+  <script type="application/ld+json" set:html={JSON.stringify({ '@context': 'https://schema.org', '@type': 'ItemList', itemListElement: lessons.map((lesson, position) => ({ '@type': 'ListItem', position: position + 1, url: `${siteUrl}/ogren/${lesson.slug}` })) })} />
+</Layout>

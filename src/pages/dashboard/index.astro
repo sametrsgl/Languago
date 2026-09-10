@@ -139,12 +139,12 @@ try {
   moduleCount = 0;
 }
 
-// 🎯 Kelime (best-effort): for each row, sum the first plausible numeric
+// 🎯 Kelime (topResult-effort): for each row, sum the first plausible numeric
 // field found in the payload (wordsLearned / learned / count / viewedCount /
-// best / lastScore / correct). Handles absent or oddly-shaped payloads.
+// topResult / latestResult / rightAnswer). Handles absent or oddly-shaped payloads.
 let wordsCount = 0;
 try {
-  const NUMBER_KEYS = ['wordsLearned', 'learned', 'count', 'viewedCount', 'best', 'lastScore', 'correct'];
+  const NUMBER_KEYS = ['wordsLearned', 'learned', 'count', 'viewedCount', 'topResult', 'latestResult', 'rightAnswer'];
   for (const r of progress) {
     const p = r.payload;
     if (!p || typeof p !== 'object') continue;
@@ -161,6 +161,7 @@ try {
   wordsCount = 0;
 }
 
+const distinctVocabularyCount = wordsCount;
 const hasProgress = progress.length > 0;
 
 const studyLinks = [
@@ -241,7 +242,7 @@ const utilitiesVisible =
           Bugün öğrenmeye hazır mısın? Kendi kendine çalışma modüllerinin hepsi aşağıda.
         </p>
 
-        <!-- Bugünkü heyecan: streak / modül / kelime stat chips (best-effort) -->
+        <!-- Bugünkü heyecan: streak / modül / kelime stat chips (topResult-effort) -->
         <div class="excite">
           {
             hasProgress ? (
@@ -259,7 +260,7 @@ const utilitiesVisible =
                 <div class="stat-chip">
                   <span class="stat-ico">🎯</span>
                   <span class="stat-num">{wordsCount}</span>
-                  <span class="stat-label">Kelime / Puan</span>
+                  <span class="stat-label">Kelime sayısı</span>
                 </div>
               </div>
             ) : (

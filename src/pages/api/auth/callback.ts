@@ -40,6 +40,10 @@ export const GET: APIRoute = async ({ request, url, cookies, redirect }) => {
     if (error) {
       return redirect('/signin?oauth=error', 302);
     }
+    const { data: userData, error: userError } = await supabase.auth.getUser();
+    if (userError || !userData.user) {
+      return redirect('/signin?oauth=error', 302);
+    }
     return redirect(next, 302);
   } catch {
     return redirect('/signin?oauth=error', 302);
