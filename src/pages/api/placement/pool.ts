@@ -1,0 +1,11 @@
+import type { APIRoute } from 'astro';
+import pool from '../../../data/placement-question-pool.json';
+
+export const prerender = true;
+
+export const GET: APIRoute = () => new Response(JSON.stringify(pool), {
+  headers: {
+    'Content-Type': 'application/json; charset=utf-8',
+    'Cache-Control': 'public, max-age=3600',
+  },
+});

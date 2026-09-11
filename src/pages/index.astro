@@ -45,6 +45,43 @@ import Layout from '../layouts/Layout.astro';
     </div>
   </section>
 
+  <section class="placement-section container" aria-labelledby="placement-title" id="level-test">
+    <div class="placement-card">
+      <div class="placement-card__intro">
+        <span class="kicker">Kişisel başlangıç noktası</span>
+        <h2 id="placement-title">İngilizce seviyeni tahmin etmeyelim.</h2>
+        <p>
+          A1’den C2’ye ilerleyen kısa seviye testi, doğru ve yanlış cevaplarına göre bir sonraki
+          soruyu seçer. Sonuç hesabına kaydedilir ve sonraki adımın için temel oluşturur.
+        </p>
+        <div class="placement-levels" aria-label="CEFR seviyeleri">
+          <span>A1</span><span>A2</span><span>B1</span><span>B2</span><span>C1</span><span>C2</span>
+        </div>
+        <button class="btn primary" type="button" id="placement-start">Seviye testini başlat</button>
+        <p class="placement-note">Yaklaşık 8–24 soru · Her cevap bir sonraki sorunun zorluğunu etkiler.</p>
+      </div>
+      <div class="placement-test" id="placement-test" hidden>
+        <div class="placement-test__topline">
+          <span id="placement-step">Hazırlanıyor…</span>
+          <span class="placement-current" id="placement-current">A1</span>
+        </div>
+        <div class="placement-progress" aria-hidden="true"><span id="placement-progress-bar"></span></div>
+        <p class="placement-source" id="placement-source"></p>
+        <h3 id="placement-question"></h3>
+        <div class="placement-options" id="placement-options" role="group" aria-label="Cevap seçenekleri"></div>
+        <p class="placement-feedback" id="placement-feedback" aria-live="polite"></p>
+        <button class="btn ghost" type="button" id="placement-next" hidden>Sonraki soru</button>
+      </div>
+      <div class="placement-result" id="placement-result" hidden>
+        <span class="kicker">İlk profilin hazır</span>
+        <h3 id="placement-result-title"></h3>
+        <p id="placement-result-copy"></p>
+        <a class="btn primary" href="/signup?from=placement">Ücretsiz kayıt ol ve yolunu kaydet</a>
+        <p class="placement-note">Hesabın varsa <a href="/signin?from=placement">giriş yap</a>; sonuç hesabına aktarılır.</p>
+      </div>
+    </div>
+  </section>
+
   <section class="section container" aria-labelledby="tracks-title">
     <div class="section-head">
       <span class="kicker">İki ayrı kullanım yolu</span>
@@ -144,3 +181,137 @@ import Layout from '../layouts/Layout.astro';
     </div>
   </section>
 </Layout>
+
+<script>
+  import {
+    createPlacementState,
+    placementResult,
+    recordPlacementAnswer,
+    selectNextPlacementQuestion,
+    shouldFinishPlacement,
+  } from '../lib/placement-test.mjs';
+
+  const startButton = document.querySelector('#placement-start');
+  const testPanel = document.querySelector('#placement-test');
+  const resultPanel = document.querySelector('#placement-result');
+  const intro = document.querySelector('.placement-card__intro');
+  const questionEl = document.querySelector('#placement-question');
+  const optionsEl = document.querySelector('#placement-options');
+  const feedbackEl = document.querySelector('#placement-feedback');
+  const nextButton = document.querySelector('#placement-next');
+  const stepEl = document.querySelector('#placement-step');
+  const currentEl = document.querySelector('#placement-current');
+  const sourceEl = document.querySelector('#placement-source');
+  const progressBar = document.querySelector('#placement-progress-bar');
+  const resultTitle = document.querySelector('#placement-result-title');
+  const resultCopy = document.querySelector('#placement-result-copy');
+  const draftKey = 'languago:placement-draft';
+
+  let pool = [];
+  let state = createPlacementState();
+  let currentQuestion = null;
+
+  function setText(element, value) {
+    if (element) element.textContent = value;
+  }
+
+  function saveDraft() {
+    const result = placementResult(state);
+    localStorage.setItem(draftKey, JSON.stringify({
+      level: result.level,
+      confidence: result.confidence,
+      answers: state.questions,
+    }));
+  }
+
+  function showResult() {
+    const result = placementResult(state);
+    saveDraft();
+    testPanel.hidden = true;
+    resultPanel.hidden = false;
+    setText(resultTitle, `Tahmini başlangıç seviyen: ${result.level}`);
+    setText(resultCopy, `Test ${result.questionsAnswered} cevap ve %${Math.round(result.confidence * 100)} güven ile tamamlandı. Kayıt olduğunda bu sonuç öğrenci profilinle eşleştirilir.`);
+  }
+
+  function renderQuestion() {
+    if (shouldFinishPlacement(state)) return showResult();
+    currentQuestion = selectNextPlacementQuestion({ state, pool });
+    if (!currentQuestion) return showResult();
+    setText(stepEl, `Soru ${state.questions.length + 1}`);
+    setText(currentEl, currentQuestion.level);
+    setText(sourceEl, currentQuestion.source === 'reading' ? 'Okuma ve anlam' : 'Dil bilgisi');
+    setText(questionEl, currentQuestion.prompt);
+    setText(feedbackEl, '');
+    nextButton.hidden = true;
+    optionsEl.innerHTML = '';
+    currentQuestion.options.forEach((option, index) => {
+      const button = document.createElement('button');
+      button.type = 'button';
+      button.className = 'placement-option';
+      button.textContent = option;
+      button.addEventListener('click', () => answer(index, button));
+      optionsEl.append(button);
+    });
+    progressBar.style.width = `${Math.min(100, (state.questions.length / 12) * 100)}%`;
+  }
+
+  function answer(index, selectedButton) {
+    if (!currentQuestion || state.questions.some((row) => row.id === currentQuestion.id)) return;
+    const correct = index === currentQuestion.answer;
+    state = recordPlacementAnswer(state, currentQuestion, correct);
+    optionsEl.querySelectorAll('button').forEach((button) => { button.disabled = true; });
+    selectedButton.classList.add(correct ? 'is-correct' : 'is-wrong');
+    if (!correct) optionsEl.children[currentQuestion.answer]?.classList.add('is-correct');
+    setText(feedbackEl, correct ? 'Doğru. Bir sonraki soru buna göre seçiliyor.' : 'Bu cevap hedef seviyeyi yeniden ayarladı.');
+    saveDraft();
+    nextButton.hidden = false;
+    if (shouldFinishPlacement(state)) setText(nextButton, 'Sonucu gör');
+  }
+
+  startButton?.addEventListener('click', async () => {
+    startButton.disabled = true;
+    startButton.textContent = 'Soru havuzu hazırlanıyor…';
+    try {
+      const response = await fetch('/api/placement/pool');
+      if (!response.ok) throw new Error('pool');
+      const data = await response.json();
+      pool = Array.isArray(data.questions) ? data.questions : [];
+      if (!pool.length) throw new Error('empty');
+      state = createPlacementState();
+      intro.hidden = true;
+      testPanel.hidden = false;
+      renderQuestion();
+    } catch {
+      startButton.disabled = false;
+      startButton.textContent = 'Tekrar dene';
+      setText(feedbackEl, 'Soru havuzu şu anda yüklenemedi. Lütfen tekrar dene.');
+    }
+  });
+
+  nextButton?.addEventListener('click', renderQuestion);
+</script>
+
+<style>
+  .placement-section { padding-top: 2rem; }
+  .placement-card { display: grid; grid-template-columns: minmax(0, .8fr) minmax(0, 1.2fr); gap: 2rem; padding: clamp(1.25rem, 3vw, 2.4rem); border: 1px solid var(--line, #d8e2e1); border-radius: 1.5rem; background: linear-gradient(135deg, rgba(13,148,136,.08), rgba(255,255,255,.8)); }
+  .placement-card h2 { max-width: 14ch; margin: .35rem 0 .8rem; }
+  .placement-card h3 { margin: .6rem 0 1rem; line-height: 1.35; }
+  .placement-card p { max-width: 62ch; }
+  .placement-levels { display: flex; flex-wrap: wrap; gap: .4rem; margin: 1.2rem 0; }
+  .placement-levels span, .placement-current { display: inline-flex; align-items: center; justify-content: center; min-width: 2.2rem; padding: .35rem .55rem; border-radius: 999px; background: rgba(13,148,136,.12); color: var(--ink, #123); font-size: .78rem; font-weight: 800; letter-spacing: .04em; }
+  .placement-note { color: var(--ink-soft, #627); font-size: .86rem; }
+  .placement-test, .placement-result { align-self: center; padding: clamp(1rem, 2.5vw, 1.6rem); border-radius: 1rem; background: var(--surface, #fff); box-shadow: 0 14px 40px rgba(15, 45, 45, .08); }
+  .placement-test__topline { display: flex; align-items: center; justify-content: space-between; gap: 1rem; color: var(--ink-soft, #627); font-size: .85rem; font-weight: 700; }
+  .placement-progress { height: .4rem; margin: 1rem 0 1.25rem; overflow: hidden; border-radius: 999px; background: rgba(13,148,136,.12); }
+  .placement-progress span { display: block; height: 100%; width: 0; border-radius: inherit; background: #0d9488; transition: width .25s ease; }
+  .placement-source { margin: 0; color: var(--ink-soft, #627); font-size: .8rem; }
+  .placement-options { display: grid; gap: .6rem; }
+  .placement-option { width: 100%; padding: .8rem 1rem; border: 1px solid var(--line, #d8e2e1); border-radius: .75rem; background: transparent; color: inherit; text-align: left; cursor: pointer; transition: border-color .15s ease, background .15s ease; }
+  .placement-option:hover:not(:disabled) { border-color: #0d9488; background: rgba(13,148,136,.06); }
+  .placement-option:disabled { cursor: default; opacity: .9; }
+  .placement-option.is-correct { border-color: #0d9488; background: rgba(13,148,136,.14); }
+  .placement-option.is-wrong { border-color: #c2410c; background: rgba(194,65,12,.1); }
+  .placement-feedback { min-height: 1.5rem; margin: .9rem 0; font-size: .9rem; }
+  .placement-result { grid-column: 1 / -1; }
+  @media (max-width: 760px) { .placement-card { grid-template-columns: 1fr; } .placement-card h2 { max-width: none; } }
+</style>

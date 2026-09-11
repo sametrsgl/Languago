@@ -71,6 +71,20 @@ if (supabase) {
     var feedback = document.getElementById('signin-feedback');
     var submitBtn = document.getElementById('signin-submit');
 
+    function savePlacementDraft() {
+      var draft = localStorage.getItem('languago:placement-draft');
+      if (!draft) return Promise.resolve();
+      var parsed;
+      try { parsed = JSON.parse(draft); } catch (_) { return Promise.resolve(); }
+      return fetch('/api/placement/save', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(parsed),
+      }).then(function (res) {
+        if (res.ok) localStorage.removeItem('languago:placement-draft');
+      }).catch(function () {});
+    }
+
     form.addEventListener('submit', function (e) {
       e.preventDefault();
 
@@ -92,7 +106,7 @@ if (supabase) {
         })
         .then(function (result) {
           if (result && result.ok) {
-            window.location.href = '/dashboard';
+            savePlacementDraft().then(function () { window.location.href = '/dashboard'; });
             return;
           }
 
