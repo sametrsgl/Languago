@@ -4,12 +4,7 @@ import { pageCookieSource } from '../../lib/supabase';
 
 /**
  * Best-effort student progress persistence.
- * POST /dashboard/progress  body: { module: 'vocab' | 'grammar' | 'reading'
- *                                    | 'game', payload: { ...any } }
- * Result is written into `student_progress` (unique per student+module).
- * Everything degrades gracefully: if Supabase is not configured or the
- * session is missing we still return a well-formed JSON response — the
- * client treats a non-ok result as silent (offline) progress.
+ * POST /dashboard/progress body: { module, payload }.
  */
 export const POST: APIRoute = async ({ request, cookies }) => {
   const respond = (status: number, body: Record<string, unknown>) =>
@@ -29,23 +24,10 @@ export const POST: APIRoute = async ({ request, cookies }) => {
   const payload = body.payload && typeof body.payload === 'object'
     ? body.payload as Record<string, unknown>
     : {};
+  const allowed = new Set(['vocab', 'grammar', 'reading', 'game', 'vocab-path']);
+  if (!allowed.has(module)) return respond(400, { ok: false, error: 'invalid_module' });
 
-  if (
-    module !== 'vocab' &&
-    module !== 'grammar' &&
-    module !== 'reading' &&
-    module !== 'game'
-  ) {
-    return respond(400, { ok: false, error: 'invalid_module' });
-  }
-
-  const result = await saveProgress(
-    pageCookieSource({ request, cookies }),
-    module,
-    payload
-  );
-  if (!result.ok && result.error === 'unauthenticated') {
-    return respond(401, result);
-  }
+  const result = await saveProgress(pageCookieSource({ request, cookies }), module, payload);
+  if (!result.ok && result.error === 'unauthenticated') return respond(401, result);
   return respond(result.ok ? 200 : 500, result);
 };
