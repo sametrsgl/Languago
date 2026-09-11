@@ -5,6 +5,7 @@ import {
   createVocabularyDiagnostic,
   scoreVocabularyDiagnostic,
   buildVocabularyPath,
+  buildMeaningOptions,
   pathStepTypes,
 } from '../src/lib/vocab-path.mjs';
 
@@ -44,6 +45,14 @@ test('diagnostic score returns a defensible level from per-band evidence', () =>
   assert.ok(result.confidence > 0);
 });
 
+test('meaning options exclude duplicate target meanings while preserving four choices when possible', () => {
+  const target = { w: 'target', t: 'hedef anlam' };
+  const words = [target, { w: 'other', t: 'başka anlam' }, { w: 'third', t: 'üçüncü anlam' }, { w: 'fourth', t: 'dördüncü anlam' }];
+  const options = buildMeaningOptions(target, words);
+  assert.equal(options.length, 4);
+  assert.equal(options.filter((option) => option === target.t).length, 1);
+  assert.deepEqual(new Set(options).size, options.length);
+});
 test('path has ten varied, contextual learning steps and limited words', () => {
   const path = buildVocabularyPath(words, 'B1');
   assert.equal(path.steps.length, 10);
