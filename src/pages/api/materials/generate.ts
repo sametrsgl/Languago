@@ -3,6 +3,9 @@ import puppeteer from 'puppeteer-core';
 import chromium from '@sparticuz/chromium';
 import { existsSync, readFileSync } from 'node:fs';
 import path from 'node:path';
+import { parseFragment, serialize } from 'parse5';
+import { getSessionUser } from '../../../lib/auth';
+import { pageCookieSource } from '../../../lib/supabase';
 
 // Material Maker — LLM-driven printable ESL material generator (PUBLIC route).
 // Flow: validate → call an OpenAI-compatible chat endpoint → wrap the returned
@@ -12,6 +15,8 @@ export const prerender = false;
 
 const MAX_TOPIC_LENGTH = 400;
 const MAX_DURATION_LENGTH = 60;
+const MAX_REQUEST_BYTES = 4096;
+const MAX_PAGES = 6;
 const LLM_TIMEOUT_MS = 180_000;
 const PDF_TIMEOUT_MS = 60_000;
 
@@ -234,50 +239,25 @@ const ALLOWED_TAGS = new Set([
 ]);
 const SAFE_CLASS_RE = /^[a-zA-Z0-9 _-]{1,80}$/;
 
-function sanitizeModelHtml(raw: string): string {
-  let s = raw;
-
-  // 1) Drop dangerous container/block elements with their contents.
-  s = s.replace(/<script\b[\s\S]*?<\/script\s*>/gi, '');
-  s = s.replace(/<style\b[\s\S]*?<\/style\s*>/gi, '');
-  s = s.replace(/<iframe\b[\s\S]*?<\/iframe\s*>/gi, '');
-  s = s.replace(/<iframe\b[^>]*\/?>/gi, '');
-  s = s.replace(/<object\b[\s\S]*?<\/object\s*>/gi, '');
-  s = s.replace(/<embed\b[^>]*\/?>/gi, '');
-  s = s.replace(/<form\b[\s\S]*?<\/form\s*>/gi, '');
-  s = s.replace(/<svg\b[\s\S]*?<\/svg\s*>/gi, '');
-  s = s.replace(/<math\b[\s\S]*?<\/math\s*>/gi, '');
-
-  // 2) Drop void/standalone dangerous tags and HTML comments.
-  s = s.replace(/<(?:script|style|iframe|object|embed|link|meta|base|input|button|textarea|select|video|audio|source|track|img)\b[^>]*\/?>/gi, '');
-  s = s.replace(/<!--[\s\S]*?-->/g, '');
-
-  // 3) Attribute-level scrub on every remaining tag: keep only a validated
-  //    class attribute. This removes event handlers (on*), style, src, href
-  //    (covers javascript:/data:/remote URLs), and anything else.
-  s = s.replace(/<\/?([a-zA-Z][a-zA-Z0-9]*)((?:\s+[^>]*)?)(\/?)>/g, (whole, tag: string, attrs: string, slash: string) => {
-    const lower = tag.toLowerCase();
-    if (!ALLOWED_TAGS.has(lower)) {
-      // Not in the allowlist: drop the tag itself, keep children (text and
-      // allowed nested tags survive; dangerous ones were already removed).
-      return '';
-    }
-    const classMatch = attrs.match(/\sclass\s*=\s*(?:"([^"]*)"|'([^']*)'|([^\s>]+))/i);
-    let safeAttrs = '';
-    if (classMatch) {
-      const cls = (classMatch[1] ?? classMatch[2] ?? classMatch[3] ?? '').trim();
-      if (cls && SAFE_CLASS_RE.test(cls)) {
-        safeAttrs = ` class="${cls.replace(/"/g, '')}"`;
-      }
-    }
-    return whole.startsWith('</') ? `</${lower}>` : `<${lower}${safeAttrs}${slash ? ' /' : ''}>`;
-  });
-
-  // 4) Defensive: neutralize residual scheme-like URLs (e.g. text that
-  //    looks like an attribute inside a mangled leftover tag).
-  s = s.replace(/(javascript|vbscript|data)\s*:/gi, '$1\u00b7');
-
-  return s;
+async function sanitizeModelHtml(raw: string): Promise<string> {
+  const ALLOWED_TAGS = new Set([
+    'h1', 'h2', 'h3', 'h4', 'p', 'ul', 'ol', 'li', 'table', 'thead', 'tbody',
+    'tfoot', 'tr', 'th', 'td', 'blockquote', 'strong', 'em', 'b', 'i', 'u',
+    'section', 'br', 'hr', 'span',
+  ]);
+  const fragment = parseFragment(raw) as any;
+  const visit = (node: any): string => {
+    if (node.nodeName === '#text') return serialize(node);
+    if (node.nodeName === '#comment') return '';
+    const tag = String(node.tagName || '').toLowerCase();
+    const children = (node.childNodes ?? []).map(visit).join('');
+    if (!ALLOWED_TAGS.has(tag)) return children;
+    const classAttr = (node.attrs ?? []).find((attr: any) => attr.name === 'class');
+    const cls = typeof classAttr?.value === 'string' ? classAttr.value.trim() : '';
+    const safeClass = cls && SAFE_CLASS_RE.test(cls) ? ` class="${cls}"` : '';
+    return `<${tag}${safeClass}>${children}</${tag}>`;
+  };
+  return (fragment.childNodes ?? []).map(visit).join('');
 }
 
 // The LLM rarely applies our `.answer-key` class, so the answer key ends up
@@ -595,12 +575,10 @@ async function renderPdf(html: string): Promise<Buffer> {
 
   try {
     const page = await browser.newPage();
-    try {
-      await page.setContent(html, { waitUntil: 'networkidle0', timeout: PDF_TIMEOUT_MS });
-    } catch {
-      // Fall back to a best-effort render even if the logo fetch stalls.
-      await page.setContent(html, { waitUntil: 'load', timeout: PDF_TIMEOUT_MS });
-    }
+    await page.setJavaScriptEnabled(false);
+    await page.setRequestInterception(true);
+    page.on('request', (request) => request.abort());
+    await page.setContent(html, { waitUntil: 'load', timeout: PDF_TIMEOUT_MS });
     await page.emulateMediaType('print');
     const pdf = await page.pdf({
       format: 'A4',
@@ -613,7 +591,10 @@ async function renderPdf(html: string): Promise<Buffer> {
   }
 }
 
-export const POST: APIRoute = async ({ request }) => {
+export const POST: APIRoute = async ({ request, cookies }) => {
+  const user = await getSessionUser(pageCookieSource({ request, cookies }));
+  if (!user) return jsonError(401, 'Oturum açman gerekiyor.');
+
   // Best-effort anonymous throttle FIRST — the LLM call is the expensive part.
   const rl = checkRateLimit(clientKey(request));
   const antiAbuseHeaders: Record<string, string> = {
@@ -637,9 +618,16 @@ export const POST: APIRoute = async ({ request }) => {
     );
   }
 
+  const declaredLength = Number(request.headers.get('content-length') ?? 0);
+  if (declaredLength > MAX_REQUEST_BYTES) return jsonError(413, 'İstek gövdesi çok büyük.');
+
   let body: Record<string, unknown> = {};
   try {
-    body = (await request.json()) as Record<string, unknown>;
+    const rawBody = await request.text();
+    if (new TextEncoder().encode(rawBody).byteLength > MAX_REQUEST_BYTES) {
+      return jsonError(413, 'İstek gövdesi çok büyük.');
+    }
+    body = JSON.parse(rawBody) as Record<string, unknown>;
   } catch {
     return jsonError(400, 'Geçersiz istek. Lütfen tekrar dene.');
   }
@@ -653,7 +641,7 @@ export const POST: APIRoute = async ({ request }) => {
   const level = typeof body.level === 'string' ? body.level.trim() : '';
   const topic = typeof body.topic === 'string' ? body.topic.trim() : '';
   const pagesRaw = typeof body.pages === 'number' ? body.pages : Number.parseInt(String(body.pages ?? ''), 10);
-  const pages = Number.isFinite(pagesRaw) && pagesRaw > 0 ? Math.min(Math.round(pagesRaw), 12) : 2;
+  const pages = Number.isFinite(pagesRaw) && pagesRaw > 0 ? Math.min(Math.round(pagesRaw), MAX_PAGES) : 2;
   const duration = typeof body.duration === 'string' ? body.duration.trim() : '';
 
   if (!topic) {
@@ -690,7 +678,7 @@ export const POST: APIRoute = async ({ request }) => {
     return jsonError(502, 'Yapay zekâ yanıtı alınamadı. Lütfen birkaç dakika sonra tekrar dene.');
   }
 
-  const html = sanitizeModelHtml(cleanHtml(rawHtml));
+  const html = await sanitizeModelHtml(cleanHtml(rawHtml));
   if (!html) {
     return jsonError(502, 'Yapay zekâ içerik üretemedi. Lütfen tekrar dene.');
   }

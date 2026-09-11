@@ -24,8 +24,12 @@ const games = [
     href: '/dashboard/oyunlar/yazim',
     emoji: '🔤',
     title: 'Yazım',
-    desc: 'Eksik harfleri tamamla: İngilizce ya da Türkçe kelimeleri ipucundan çıkar.',
+    desc: 'Eksik harfleri tamamla: İngilizce kelimeleri ipucundan çıkar.',
     tag: 'Kelime + Harf',
+    objective: 'Yazım doğruluğunu ve aktif kelime hatırlamayı güçlendir.',
+    cefr: 'A1–B2',
+    replay: 'Yanlış yazılan kelimeleri yeni bir turda tekrar et.',
+    nextAction: 'Bir kelime seti seç ve kısa bir tur oyna.',
   },
   {
     href: '/dashboard/oyunlar/quiz',
@@ -33,6 +37,10 @@ const games = [
     title: 'Kelime Yarışması',
     desc: 'Zamana karşı çoktan seçmeli test: kelime ↔ anlam eşleştir, doğru şıkkı bul.',
     tag: 'Zamanlı + Seçmeli',
+    objective: 'Kelime anlamını hızlı ve doğru biçimde hatırlamayı pekiştir.',
+    cefr: 'A1–C1',
+    replay: 'Karıştırılmış sorularla tekrar oyna; puanı tek başına başarı ölçüsü sayma.',
+    nextAction: 'Seviyene uygun bir quiz başlat.',
   },
   {
     href: '/sinif-oyunu',
@@ -40,6 +48,10 @@ const games = [
     title: 'Sınıf İçi Karşılaşma',
     desc: 'Tahtada takımlar yarışır: konu seç, 20% karoda sürpriz güç kartlarıyla puan topla. Projektörde sınıfla oyna.',
     tag: 'Sınıf + Ortak Oyun',
+    objective: 'Sınıf içi iletişim, geri çağırma ve takım kararlarını destekle.',
+    cefr: 'A1–C1',
+    replay: 'Yeni konu ve takımlarla yeniden oyna; sorular tekrar etmemelidir.',
+    nextAction: 'Öğretmen ekranından bir sınıf oyunu başlat.',
   },
 ];
 ---
@@ -50,9 +62,10 @@ const games = [
   <main class="study">
     <a class="back" href="/dashboard">← Öğrenci Paneli</a>
     <h1>Oyunlar 🎮</h1>
+    <p class="muted"><a href="/dashboard/yol">Öğrenme rehberi: oyunlar nasıl çalışılır? →</a></p>
     <p class="muted">
-      Oynayarak öğren. Her oyun, seçtiğin kelime setinden sorular üretir; sonunda
-      skorun kaydedilir.
+      Oynayarak öğren. Oyun türüne göre kelime, yazım veya sınıf içi görevleri
+      seç; skor yalnızca geri bildirimdir, öğrenme hedefi değildir.
     </p>
     <div class="barline"></div>
 

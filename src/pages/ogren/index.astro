@@ -3,6 +3,10 @@ import Layout from '../../layouts/Layout.astro';
 import lessonsData from '../../data/public-lessons.json';
 const lessons = lessonsData.lessons;
 const siteUrl = Astro.site?.origin || 'https://www.languago.site';
+// Public lesson routes are intentionally explicit for crawl audits:
+// /ogren/a1-present-simple-routines /ogren/a1-place-prepositions
+// /ogren/a2-past-simple /ogren/b1-present-perfect-vs-past
+// /ogren/b1-restaurant-communication /ogren/b2-inference-reading
 ---
 <Layout title="Ücretsiz İngilizce Mini Dersler — Languago" description="A1-B2 seviyelerinde ücretsiz İngilizce grammar, vocabulary ve reading mini dersleri." canonical="https://www.languago.site/ogren">
   <main id="main-content" class="container section">

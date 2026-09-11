@@ -116,8 +116,8 @@ export function masteryFromPct(pct: unknown): MasteryInfo {
 }
 
 /** "YYYY-MM-DD" for a Date, or for "now" when omitted. */
-export function dateStr(d?: Date): string {
-  const t = d || new Date();
+export function dateStr(d?: Date | string): string {
+  const t = d instanceof Date ? d : d ? new Date(d) : new Date();
   const m = String(t.getMonth() + 1).padStart(2, '0');
   const day = String(t.getDate()).padStart(2, '0');
   return `${t.getFullYear()}-${m}-${day}`;
@@ -138,7 +138,7 @@ function dayNum(s: string): number {
 export function nextStreak(
   streak: unknown,
   lastPlayed: unknown,
-  today?: string
+  today?: string | Date
 ): number {
   const t = dateStr(today instanceof Date ? today : undefined);
   const prev = num(streak, 1);
@@ -156,7 +156,7 @@ export function nextStreak(
  * is available). Counts consecutive days ending today (or the most recent day)
  * among unique dates. Handles missing/duplicate/malformed rows gracefully.
  */
-export function streakFromRows(rows: unknown[], today?: string): number {
+export function streakFromRows(rows: unknown[], today?: string | Date): number {
   const t = dateStr(today);
   const seen = new Set<number>();
   for (const r of rows) {

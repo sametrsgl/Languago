@@ -26,7 +26,9 @@ export const POST: APIRoute = async ({ request, cookies }) => {
   }
 
   const module = String(body.module ?? '');
-  const payload = body.payload && typeof body.payload === 'object' ? body.payload : {};
+  const payload = body.payload && typeof body.payload === 'object'
+    ? body.payload as Record<string, unknown>
+    : {};
 
   if (
     module !== 'vocab' &&

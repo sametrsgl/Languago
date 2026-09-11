@@ -14,18 +14,22 @@
   },
   "dependencies": {
     "@astrojs/sitemap": "^3.4.0",
-    "@astrojs/vercel": "^8.2.11",
+    "@astrojs/vercel": "^11.0.10",
     "@sparticuz/chromium": "^149.0.0",
     "@supabase/ssr": "^0.12.4",
     "@supabase/supabase-js": "^2.112.3",
-    "astro": "^5.18.2",
+    "astro": "^7.3.2",
+    "parse5": "^7.3.0",
     "puppeteer-core": "^25.9.0"
   },
   "devDependencies": {
     "@tailwindcss/vite": "^4.3.3",
     "patch-package": "^8.0.1",
-    "tailwindcss": "^4.3.3",
-    "vercel": "^59.3.0"
+    "tailwindcss": "^4.3.3"
+  },
+  "overrides": {
+    "path-to-regexp": "6.3.0",
+    "tar": "7.5.22"
   },
   "allowScripts": {
     "sharp@0.34.5": true,

@@ -16,6 +16,9 @@ const apkUrl =
   (apkData?.apkUrl || 'https://github.com/sametrsgl/Languago/releases/latest');
 const appVersion = latestTag;
 const apkFilename = apkData?.apkFilename || ('Languago-' + latestTag + '.apk');
+const apkMetadataNotice = apkData?.version
+  ? 'Yayın metadatası doğrulandı.'
+  : 'Yayın metadatası alınamadı; sürüm bilgisi doğrulanamadı.';
 
 const features = [
   {
@@ -104,6 +107,7 @@ const installSteps = [
       Android • {appVersion} • Ücretsiz ve reklamsız. iOS ve diğer cihazlar için
       tarayıcıdan web sürümünü kullan.
     </p>
+    <p class="meta muted">{apkMetadataNotice}</p>
   </section>
 
   <section class="section container">

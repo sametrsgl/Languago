@@ -65,12 +65,13 @@ export function levelByKey(key: string | undefined) {
   return V2_LEVELS.find((level) => level.key === key);
 }
 
-export function skillByKey(key: SkillKey) {
-  return V2_SKILLS.find((skill) => skill.key === key)!;
+export function skillByKey(key: SkillKey | string | undefined): LearningSkill | undefined {
+  return V2_SKILLS.find((skill) => skill.key === key);
 }
 
-export function nextStepForSkill(key: SkillKey) {
+export function nextStepForSkill(key: SkillKey | string | undefined) {
   const skill = skillByKey(key);
+  if (!skill) return null;
   if (key === 'vocabulary') return { label: 'Dilbilgisiyle pekiştir', href: '/dashboard/dilbilgisi' };
   if (key === 'grammar') return { label: 'Okumada kullan', href: '/dashboard/okuma' };
   if (key === 'reading') return { label: 'Oyunla tekrar et', href: '/dashboard/oyunlar' };

@@ -52,10 +52,43 @@ create policy "subs_owner_select" on public.subscriptions for select
   using (auth.uid() = user_id);
 
 -- Reassert bounded SECURITY DEFINER access through the existing hardened definitions.
--- The production function bodies must bind p_teacher to auth.uid() and roster joins.
--- These comments are intentional operational guardrails for future edits.
-comment on function public.get_teacher_students(uuid) is 'V2: caller must be the teacher and results are restricted to that teacher roster.';
-comment on function public.get_booking_students(uuid) is 'V2: caller must be the requested teacher; no cross-teacher enumeration.';
+create or replace function public.get_teacher_students(p_teacher uuid)
+returns table (student_id uuid, full_name text, email text, level text, created_at timestamptz, progress jsonb)
+language plpgsql security definer set search_path = public
+as $$
+begin
+  if p_teacher is null or p_teacher <> auth.uid() then return; end if;
+  return query
+    select p.id, p.full_name, au.email::text, p.level, p.created_at,
+      coalesce(jsonb_object_agg(sp.module, jsonb_build_object('payload', sp.payload, 'updated_at', sp.updated_at)) filter (where sp.student_id is not null), '{}'::jsonb)
+    from public.profiles p
+    join auth.users au on au.id = p.id
+    join public.roster_members rm on rm.student_id = p.id
+    join public.class_roster cr on cr.id = rm.class_id and cr.teacher_id = p_teacher
+    left join public.student_progress sp on sp.student_id = p.id
+    where p.role = 'student'
+    group by p.id, au.email;
+end;
+$$;
+
+create or replace function public.get_booking_students(p_teacher uuid)
+returns table(slot_id uuid, student_id uuid, full_name text, email text)
+language plpgsql security definer set search_path = public
+as $$
+begin
+  if p_teacher is null or p_teacher <> auth.uid() then return; end if;
+  return query
+    select b.slot_id, b.student_id, pr.full_name, u.email::text
+    from public.tutor_bookings b
+    join public.tutor_slots s on s.id = b.slot_id and s.teacher_id = p_teacher
+    join public.profiles pr on pr.id = b.student_id
+    join auth.users u on u.id = b.student_id;
+end;
+$$;
+revoke execute on function public.get_teacher_students(uuid) from public;
+grant execute on function public.get_teacher_students(uuid) to authenticated;
+revoke execute on function public.get_booking_students(uuid) from public;
+grant execute on function public.get_booking_students(uuid) to authenticated;
 
 revoke execute on function public.get_child_by_email(uuid, text) from authenticated;
 revoke execute on function public.get_child_by_email(uuid, text) from public;
@@ -63,10 +96,10 @@ revoke execute on function public.get_child_by_email(uuid, text) from public;
 drop policy if exists "family_parent_all" on public.family_links;
 create policy "family_parent_all" on public.family_links for all
   using (
-    auth.uid() = parent_id
+    auth.uid() = family_links.parent_id
     and exists (select 1 from public.profiles p where p.id = auth.uid() and p.role = 'parent')
   )
   with check (
-    auth.uid() = parent_id
+    auth.uid() = family_links.parent_id
     and exists (select 1 from public.profiles p where p.id = auth.uid() and p.role = 'parent')
   );

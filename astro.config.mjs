@@ -5,6 +5,7 @@ import tailwindcss from '@tailwindcss/vite';
 
 // Public site URL placeholder — override at deploy time with SITE_URL.
 const SITE_URL = process.env.SITE_URL || 'https://www.languago.site';
+const PRIVATE_PATH_SEGMENTS = ['admin', 'dashboard', 'teacher', 'parent', 'ders'];
 
 // https://astro.build/config
 export default defineConfig({
@@ -39,16 +40,14 @@ export default defineConfig({
         `${SITE_URL}/ogren/a1-present-simple-routines`,
         `${SITE_URL}/ogren/a1-place-prepositions`,
         `${SITE_URL}/ogren/a2-past-simple`,
-        `${SITE_URL}/ogren/b1-present-perfect-past`,
+        `${SITE_URL}/ogren/b1-present-perfect-vs-past`,
         `${SITE_URL}/ogren/b1-restaurant-communication`,
-        `${SITE_URL}/ogren/b2-reading-inference`,
+        `${SITE_URL}/ogren/b2-inference-reading`,
       ],
-      // Keep private/authenticated areas out of the sitemap — they are
-      // noindex pages behind a session and must not be advertised to crawlers.
-      filter: (page) =>
-        !/\/(admin|dashboard|teacher|parent|ders)(\/|$)/.test(
-          new URL(page).pathname
-        ),
+      // Keep private/authenticated areas out of the sitemap.
+      filter: (page) => !PRIVATE_PATH_SEGMENTS.some((segment) =>
+        new URL(page).pathname.split('/').includes(segment)
+      ),
     }),
   ],
   // Scoped Tailwind (v4) wiring — used only by the vocab flashcards page via
