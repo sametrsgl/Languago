@@ -6,45 +6,45 @@ import Layout from '../layouts/Layout.astro';
   title="Languago V2 — İngilizce öğrenme yolu"
   description="Languago V2; öğrenciler için önerilen İngilizce çalışma yolu, A1-C1 dilbilgisi, C2 ve sınav okuma metinleri, kelime kartları ve öğretmen materyal araçları sunar."
 >
-  <section class="home-hero container" aria-labelledby="home-title">
-    <div class="home-hero__copy">
-      <p class="kicker">Languago V2 öğrenme deneyimi</p>
-      <h1 id="home-title">Öğrenci için net yol, öğretmen için hazır araçlar.</h1>
-      <p class="lead">
-        Kelime, A1-C1 dilbilgisi, C2 ve sınav odaklı okuma metinleri aynı öğrenme
-        akışında birleşir. Nereden başlayacağını gör, çalış, tekrar et ve sınıf
-        oyunlarıyla pekiştir.
-      </p>
-      <div class="btn-row home-hero__actions" aria-label="Ana işlemler">
-        <a class="btn primary" href="/ogren">Öğrenmeye Başla</a>
-        <a class="btn ghost" href="/signin">Panelime Gir</a>
+  <section class="reference-hero" aria-labelledby="home-title">
+    <div class="container reference-hero__inner">
+      <div class="reference-hero__copy">
+        <span class="reference-eyebrow">DAHA İYİ BİR İNGİLİZCE, DAHA PARLAK BİR GELECEK</span>
+        <h1 id="home-title">Öğrenci için net yol,<br />öğretmen için hazır<span class="mobile-heading-break"><br /></span> araçlar.</h1>
+        <p>Kelime, dil bilgisi, okuma ve sınav odaklı içerikler aynı öğrenme akışında birleşir. Nereden başlayacağını gör, çalış, tekrar et ve sınıf oyunlarıyla pekiştir.</p>
+        <div class="btn-row" aria-label="Ana işlemler">
+          <a class="btn primary" href="/ogren">▶ &nbsp; Öğrenmeye Başla</a>
+          <a class="btn ghost" href="/signin">Panelime Gir</a>
+        </div>
+        <div class="learning-pillars" aria-label="Öğrenme alanları">
+          <a href="/dashboard/kelimeler"><span>▮</span><strong>Kelime</strong><small>Binlerce kelime ile dağarcığını geliştir.</small></a>
+          <a href="/dashboard/dilbilgisi"><span>▤</span><strong>Dil Bilgisi</strong><small>A1-C2 seviyelerine uygun konu anlatımı.</small></a>
+          <a href="/dashboard/okuma"><span>▥</span><strong>Okuma</strong><small>Gerçek metinlerle anlama becerini artır.</small></a>
+          <a href="/dashboard/oyunlar"><span>♧</span><strong>Tekrar Et</strong><small>Quiz ve oyunlarla öğrendiklerini pekiştir.</small></a>
+        </div>
       </div>
-      <ul class="home-hero__facts" aria-label="Kapsam özeti">
-        <li><strong>A1-C1</strong><span>Dilbilgisi dersleri ve testler</span></li>
-        <li><strong>C2 + sınav</strong><span>Okuma metinleri ve anlama soruları</span></li>
-        <li><strong>Tekrar</strong><span>Kelime kartları, yazım ve quiz oyunları</span></li>
-      </ul>
+      <div class="reference-hero__art" aria-label="Kitap okuyan Kommo">
+        <div class="hero-window"></div>
+        <img class="hero-mascot" src="/assets/languago/mascot-reading-books.png" alt="Kommo kitap okuyor" width="768" height="1024" />
+        <img class="hero-books" src="/assets/languago/books-stack.png" alt="Learn Practice Improve Grow kitapları" width="1024" height="768" />
+        <img class="hero-plant" src="/assets/languago/plant-decorations.png" alt="" aria-hidden="true" />
+        <span class="hero-note">A Brighter<br />You Starts<br />Here ♡</span>
+      </div>
     </div>
-    <div class="home-hero__visual" aria-label="Languago öğrenme kartı">
-      <div class="home-hero__art">
-        <img src="/assets/languago/mascot-reading-books.png" alt="Kommo: Small Steps, Big Progress sloganıyla kitap okuyor" width="768" height="1024" />
-        <img class="home-hero__books" src="/assets/languago/books-stack.png" alt="LEARN, PRACTICE, IMPROVE, GROW yazılı kitap yığını" width="1024" height="768" loading="lazy" />
-      </div>
-      <div class="route-card route-card--active">
-        <span>1</span>
-        <strong>Kelimeyi tanı</strong>
-        <small>Kart, örnek cümle, ses</small>
-      </div>
-      <div class="route-card">
-        <span>2</span>
-        <strong>Yapıyı öğren</strong>
-        <small>A1-C1 dilbilgisi</small>
-      </div>
-      <div class="route-card">
-        <span>3</span>
-        <strong>Metinde kullan</strong>
-        <small>C2 ve sınav okumaları</small>
-      </div>
+  </section>
+
+  <section class="progress-story container" aria-labelledby="progress-story-title">
+    <div class="diagnostic-preview" aria-label="Örnek seviye sorusu">
+      <div class="diagnostic-preview__top"><strong>Soru 1</strong><span>A1</span></div>
+      <p>Dil bilgisi</p><h3>She ___ a teacher.</h3>
+      <div class="answer-line">am</div><div class="answer-line answer-line--selected">is <b>✓</b></div><div class="answer-line">are</div><div class="answer-line">be</div>
+      <a class="btn primary" href="#level-test">Sonraki soru →</a>
+    </div>
+    <div class="progress-story__copy">
+      <span class="reference-eyebrow">ETKİLİ VE KEYİFLİ ÖĞRENME</span>
+      <h2 id="progress-story-title">Küçük adımlar,<br />büyük ilerleme.</h2>
+      <p>Seviyene uygun içerikler, anında geri bildirim ve oyunlaştırılmış alıştırmalarla İngilizce öğrenmek hiç bu kadar kolay ve keyifli olmamıştı.</p>
+      <ul><li>A1-C2 seviyeleri için dersler ve testler</li><li>Sınav odaklı okuma metinleri ve sorular</li><li>Etkileşimli alıştırmalar, kelime kartları ve sınıf oyunları</li></ul>
     </div>
   </section>
 
