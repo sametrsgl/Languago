@@ -64,6 +64,23 @@ function distractors(word, candidates, count = 3) {
   return ordered.slice(0, count).map(meaningFor);
 }
 
+export function buildMeaningOptions(target, candidates = [], count = 4) {
+  const correct = meaningFor(target);
+  const distractorMeanings = [];
+  const seen = new Set([correct]);
+  const ordered = candidates
+    .filter((item) => item.w !== target.w && meaningFor(item))
+    .sort((a, b) => hash(`${target.w}:${a.w}`) - hash(`${target.w}:${b.w}`));
+  for (const item of ordered) {
+    const meaning = meaningFor(item);
+    if (seen.has(meaning)) continue;
+    seen.add(meaning);
+    distractorMeanings.push(meaning);
+    if (distractorMeanings.length >= Math.max(0, count - 1)) break;
+  }
+  return [correct, ...distractorMeanings];
+}
+
 function makeQuestion(word, level, index, candidates) {
   const mode = index % 4;
   const correct = meaningFor(word);
