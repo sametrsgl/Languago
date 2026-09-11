@@ -27,7 +27,7 @@ export function createPlacementState() {
   };
 }
 
-export function recordPlacementAnswer(inputState, question, correct) {
+export function recordPlacementAnswer(inputState, question, correct, selectedIndex = null) {
   const state = structuredClone(inputState || createPlacementState());
   const level = CEFR_LEVELS.includes(question?.level) ? question.level : state.nextLevel;
   const id = String(question?.id || '').trim();
@@ -37,7 +37,13 @@ export function recordPlacementAnswer(inputState, question, correct) {
   stat.asked += 1;
   if (correct) stat.correct += 1;
   state.stats[level] = stat;
-  state.questions.push({ id, level, source: question.source || 'grammar', correct: Boolean(correct) });
+  state.questions.push({
+    id,
+    level,
+    source: question.source || 'grammar',
+    selectedIndex: Number.isInteger(selectedIndex) ? selectedIndex : null,
+    correct: Boolean(correct),
+  });
 
   if (correct) {
     state.streak += 1;

@@ -1,6 +1,7 @@
 import type { APIRoute } from 'astro';
 import { createSupabaseClient, pageCookieSource } from '../../lib/supabase';
 import { getSessionUser } from '../../lib/auth';
+import { readJsonBody, RequestBodyError } from '../../lib/request-body';
 
 const respond = (status: number, body: Record<string, unknown>) =>
   new Response(JSON.stringify(body), {
@@ -62,8 +63,11 @@ export const POST: APIRoute = async ({ request, cookies }) => {
 
   let body: { id?: unknown; all?: unknown } = {};
   try {
-    body = await request.json();
-  } catch {
+    body = await readJsonBody(request, 4_096);
+  } catch (error) {
+    if (error instanceof RequestBodyError && error.status === 413) {
+      return respond(413, { ok: false, error: { message: error.message } });
+    }
     return respond(400, { ok: false, error: { message: 'Geçersiz istek.' } });
   }
 

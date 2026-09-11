@@ -1,6 +1,7 @@
 import type { APIRoute } from 'astro';
 import { createSupabaseClient, pageCookieSource } from '../../../lib/supabase';
 import { getSessionUser } from '../../../lib/auth';
+import { readJsonBody, RequestBodyError } from '../../../lib/request-body';
 
 /**
  * POST /api/student/tutor-book
@@ -23,8 +24,11 @@ export const POST: APIRoute = async ({ request, cookies }) => {
 
   let body: { slot_id?: string } = {};
   try {
-    body = await request.json();
-  } catch {
+    body = await readJsonBody(request, 4_096);
+  } catch (error) {
+    if (error instanceof RequestBodyError && error.status === 413) {
+      return respond(413, { ok: false, error: { message: error.message } });
+    }
     return respond(400, { ok: false, error: { message: 'Geçersiz istek.' } });
   }
   const slot_id = typeof body.slot_id === 'string' ? body.slot_id.trim() : '';
@@ -42,49 +46,12 @@ export const POST: APIRoute = async ({ request, cookies }) => {
     return respond(401, { ok: false, error: { message: 'Bu işlem için giriş yapmalısın.' } });
   }
 
-  // 1) Confirm the slot actually exists, is open, and is eligible for this
-  //    student (RLS `slots_student_read` already limits visibility).
-  const { data: slot } = await supabase
-    .from('tutor_slots')
-    .select('id, starts_at, duration_min, status')
-    .eq('id', slot_id)
-    .eq('status', 'open')
-    .maybeSingle();
-
-  if (!slot) {
-    return respond(409, {
-      ok: false,
-      error: { message: 'Bu slot artık müsait değil veya öğretmeninle eşleşmiyor.' },
-    });
-  }
-
-  // 2) Insert the booking (unique(slot_id, student_id) blocks duplicates).
-  const { error: insertErr } = await supabase
-    .from('tutor_bookings')
-    .insert({ slot_id, student_id: user.id });
-
-  if (insertErr) {
-    if (String(insertErr.code ?? '').match(/23505|unique/)) {
-      return respond(409, {
-        ok: false,
-        error: { message: 'Bu ders için zaten rezervasyonun var.' },
-      });
+  const { data, error } = await supabase.rpc('book_tutor_slot', { p_slot_id: slot_id });
+  if (error) {
+    if (String(error.code ?? '').match(/23505|P0001|unique|no longer available/i)) {
+      return respond(409, { ok: false, error: { message: 'Bu slot artık müsait değil veya daha önce rezerve edildi.' } });
     }
-    return respond(500, { ok: false, error: { message: insertErr.message } });
+    return respond(500, { ok: false, error: { message: 'Rezervasyon tamamlanamadı.' } });
   }
-
-  // 3) Best-effort: mark the slot booked (RLS scopes to this teacher's slot,
-  //    and we only flip it if it is still open).
-  const { error: updateErr } = await supabase
-    .from('tutor_slots')
-    .update({ status: 'booked' })
-    .eq('id', slot_id)
-    .eq('status', 'open');
-
-  if (updateErr) {
-    // Booking succeeded even if the status flip raced; treat as success but
-    // surface the note so the teacher still sees it in their slots.
-    return respond(200, { ok: true, slot, note: 'booking_recorded' });
-  }
-  return respond(200, { ok: true, slot });
+  return respond(200, { ok: true, slot: Array.isArray(data) ? data[0] : data });
 };

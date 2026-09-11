@@ -1,5 +1,6 @@
 import type { APIRoute } from 'astro';
 import { createSupabaseClient, pageCookieSource } from '../../../lib/supabase';
+import { readJsonBody, RequestBodyError } from '../../../lib/request-body';
 
 /**
  * POST /api/auth/signup
@@ -15,8 +16,11 @@ import { createSupabaseClient, pageCookieSource } from '../../../lib/supabase';
 export const POST: APIRoute = async ({ request, cookies }) => {
   let body: { fullName?: string | null; email?: string; password?: string } = {};
   try {
-    body = await request.json();
-  } catch {
+    body = await readJsonBody(request, 8_192);
+  } catch (error) {
+    if (error instanceof RequestBodyError && error.status === 413) {
+      return json({ error: { message: error.message } }, 413);
+    }
     return json(
       { error: { message: 'Geçersiz istek. Lütfen tekrar dene.' } },
       400

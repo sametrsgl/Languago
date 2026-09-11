@@ -83,4 +83,19 @@ test('follow-up SQL migration closes launch-blocker RLS/RPC gaps without silent 
   assert.match(executable, /revoke\s+execute\s+on\s+function\s+public\.get_child_by_email\(uuid,\s*text\)\s+from\s+authenticated/is, 'child email lookup must not let clients self-authorize arbitrary links');
   assert.doesNotMatch(executable, /with\s+check\s*\([^;]*auth\.uid\(\)\s*=\s*parent_id[^;]*\)[^;]*;/is, 'family_links must not keep direct parent self-insert authorization');
   assert.doesNotMatch(executable, /raw_user_meta_data|user_metadata/i, 'migration must not grant parent/teacher role from client metadata');
+  assert.match(executable, /create\s+or\s+replace\s+function\s+public\.book_tutor_slot\(/is, 'booking RPC must exist');
+  assert.match(executable, /book_tutor_slot[\s\S]*update\s+public\.tutor_slots[\s\S]*insert\s+into\s+public\.tutor_bookings/is, 'booking RPC must close the slot and insert the booking in one transaction');
+});
+
+test('state-changing JSON endpoints bound request bodies before parsing', () => {
+  for (const rel of [
+    'src/pages/api/auth/signin.ts',
+    'src/pages/api/auth/signup.ts',
+    'src/pages/api/student/tutor-book.ts',
+    'src/pages/api/notifications.ts',
+  ]) {
+    const source = read(rel);
+    assert.match(source, /readJsonBody\(request,/, `${rel} uses the shared bounded JSON parser`);
+    assert.match(source, /RequestBodyError/, `${rel} handles oversized bodies`);
+  }
 });

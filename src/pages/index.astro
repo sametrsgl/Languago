@@ -218,9 +218,8 @@ import Layout from '../layouts/Layout.astro';
   function saveDraft() {
     const result = placementResult(state);
     localStorage.setItem(draftKey, JSON.stringify({
-      level: result.level,
-      confidence: result.confidence,
       answers: state.questions,
+      clientResult: { level: result.level, confidence: result.confidence },
     }));
   }
 
@@ -258,7 +257,7 @@ import Layout from '../layouts/Layout.astro';
   function answer(index, selectedButton) {
     if (!currentQuestion || state.questions.some((row) => row.id === currentQuestion.id)) return;
     const correct = index === currentQuestion.answer;
-    state = recordPlacementAnswer(state, currentQuestion, correct);
+    state = recordPlacementAnswer(state, currentQuestion, correct, index);
     optionsEl.querySelectorAll('button').forEach((button) => { button.disabled = true; });
     selectedButton.classList.add(correct ? 'is-correct' : 'is-wrong');
     if (!correct) optionsEl.children[currentQuestion.answer]?.classList.add('is-correct');

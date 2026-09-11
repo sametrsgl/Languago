@@ -37,6 +37,46 @@ $$;
 revoke execute on function public.claim_tutor_slot(uuid) from public;
 grant execute on function public.claim_tutor_slot(uuid) to authenticated;
 
+-- Book and close a slot in one transaction. This prevents two students from
+-- both seeing an open slot and one booking succeeding after the other.
+create or replace function public.book_tutor_slot(p_slot_id uuid)
+returns public.tutor_slots
+language plpgsql
+security definer
+set search_path = public
+as $$
+declare
+  claimed public.tutor_slots;
+begin
+  if auth.uid() is null then
+    raise exception 'authentication required' using errcode = '42501';
+  end if;
+
+  update public.tutor_slots ts
+     set status = 'booked'
+   where ts.id = p_slot_id
+     and ts.status = 'open'
+     and exists (
+       select 1
+       from public.class_roster cr
+       join public.roster_members rm on rm.class_id = cr.id
+       where cr.teacher_id = ts.teacher_id
+         and rm.student_id = auth.uid()
+     )
+   returning ts.* into claimed;
+
+  if claimed.id is null then
+    raise exception 'tutor slot is no longer available' using errcode = 'P0001';
+  end if;
+
+  insert into public.tutor_bookings (slot_id, student_id)
+  values (claimed.id, auth.uid());
+  return claimed;
+end;
+$$;
+revoke execute on function public.book_tutor_slot(uuid) from public;
+grant execute on function public.book_tutor_slot(uuid) to authenticated;
+
 -- Preserve profile role on self-edits; trusted role management remains server-only.
 drop policy if exists "profiles_update_own" on public.profiles;
 create policy "profiles_update_own_safe" on public.profiles for update

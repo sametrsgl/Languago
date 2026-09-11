@@ -46,6 +46,8 @@ test('public lesson page supports keyboard practice feedback without declaring m
   assert.match(detailPage, /keydown/);
   assert.match(detailPage, /Enter| /);
   assert.doesNotMatch(detailPage, /mastery|ustalık|tamamladın|konuyu bitirdin/i);
+  assert.match(detailPage, /lesson\.readingText \|\| lesson\.reading/);
+  assert.match(detailPage, /lesson\.nextSteps\.map/);
 });
 
 test('launch copy is honest about beta pricing and unverified download metadata', () => {

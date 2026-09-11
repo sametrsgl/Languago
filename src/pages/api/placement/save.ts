@@ -1,5 +1,7 @@
 import type { APIRoute } from 'astro';
 import { createSupabaseClient, pageCookieSource } from '../../../lib/supabase';
+import pool from '../../../data/placement-question-pool.json';
+import { createPlacementState, placementResult, recordPlacementAnswer } from '../../../lib/placement-test.mjs';
 
 const LEVELS = new Set(['A1', 'A2', 'B1', 'B2', 'C1', 'C2']);
 const MAX_BODY_BYTES = 16_384;
@@ -23,30 +25,37 @@ export const POST: APIRoute = async ({ request, cookies }) => {
     return json({ error: 'Geçersiz istek.' }, 400);
   }
 
-  const level = typeof body?.level === 'string' ? body.level.toUpperCase() : '';
-  const confidence = Number(body?.confidence);
   const answers = Array.isArray(body?.answers) ? body.answers.slice(0, MAX_ANSWERS) : [];
-  if (!LEVELS.has(level) || !Number.isFinite(confidence) || confidence < 0 || confidence > 1) {
-    return json({ error: 'Seviye sonucu geçersiz.' }, 400);
-  }
 
   const { data: authData, error: authError } = await supabase.auth.getUser();
   const user = authData.user;
   if (authError || !user) return json({ error: 'Oturum açman gerekiyor.' }, 401);
 
-  const cleanAnswers = answers
-    .filter((row: any) => typeof row?.id === 'string' && LEVELS.has(String(row.level).toUpperCase()))
-    .map((row: any) => ({
-      id: row.id.slice(0, 100),
-      level: String(row.level).toUpperCase(),
-      correct: Boolean(row.correct),
-      source: typeof row.source === 'string' ? row.source.slice(0, 30) : 'grammar',
-    }));
+  const questionById = new Map((pool.questions || []).map((question) => [question.id, question]));
+  let state = createPlacementState();
+  const cleanAnswers = [];
+  for (const row of answers) {
+    if (typeof row?.id !== 'string' || !Number.isInteger(row?.selectedIndex)) continue;
+    const question = questionById.get(row.id);
+    if (!question || !LEVELS.has(String(question.level).toUpperCase())) continue;
+    if (row.selectedIndex < 0 || row.selectedIndex >= question.options.length) continue;
+    const correct = row.selectedIndex === question.answer;
+    state = recordPlacementAnswer(state, question, correct, row.selectedIndex);
+    cleanAnswers.push({
+      id: question.id,
+      level: question.level,
+      source: question.source || 'grammar',
+      selectedIndex: row.selectedIndex,
+      correct,
+    });
+  }
+  const result = placementResult(state);
+  if (!cleanAnswers.length) return json({ error: 'Seviye sonucu geçersiz.' }, 400);
 
   const payload = {
     version: 1,
-    level,
-    confidence: Math.round(confidence * 100) / 100,
+    level: result.level,
+    confidence: result.confidence,
     questionsAnswered: cleanAnswers.length,
     completedAt: new Date().toISOString(),
     answers: cleanAnswers,
@@ -57,13 +66,13 @@ export const POST: APIRoute = async ({ request, cookies }) => {
       { student_id: user.id, module: 'placement-test', payload },
       { onConflict: 'student_id,module' },
     ),
-    supabase.from('profiles').update({ level }).eq('id', user.id),
+    supabase.from('profiles').update({ level: result.level }).eq('id', user.id),
   ]);
 
   if (progressResult.error || profileResult.error) {
     return json({ error: 'Seviye sonucu kaydedilemedi.' }, 500);
   }
-  return json({ ok: true, level, confidence: payload.confidence }, 200);
+  return json({ ok: true, level: payload.level, confidence: payload.confidence }, 200);
 };
 
 function json(payload: unknown, status: number) {
