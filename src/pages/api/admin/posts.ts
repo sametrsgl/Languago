@@ -1,6 +1,7 @@
 import type { APIRoute } from 'astro';
 import { createSupabaseClient, pageCookieSource } from '../../../lib/supabase';
 import { authorizeAdmin } from '../../../lib/admin';
+import { sanitizeBlogHtml } from '../../../lib/sanitize-html.mjs';
 
 type Respond = (status: number, body: Record<string, unknown>) => Response;
 const respond: Respond = (status, body) =>
@@ -67,7 +68,7 @@ export const POST: APIRoute = async ({ request, cookies }) => {
   const id = typeof body.id === 'string' && body.id.trim() ? body.id.trim() : null;
   const title = (typeof body.title === 'string' ? body.title : '').trim();
   const summary = (typeof body.summary === 'string' ? body.summary : '').trim();
-  const content = typeof body.body === 'string' ? body.body : '';
+  const content = sanitizeBlogHtml(typeof body.body === 'string' ? body.body : '');
   const coverUrl = (typeof body.cover_url === 'string' ? body.cover_url : '').trim();
   const author = (typeof body.author === 'string' ? body.author : '').trim();
 

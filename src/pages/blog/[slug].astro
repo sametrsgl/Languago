@@ -1,5 +1,6 @@
 ---
 import Layout from '../../layouts/Layout.astro';
+import { sanitizeBlogHtml } from '../../lib/sanitize-html.mjs';
 import { createSupabaseClient, pageCookieSource } from '../../lib/supabase';
 
 type PostRow = {
@@ -68,7 +69,7 @@ function longDate(iso: string | null | undefined): string {
             <img class="blog-post__cover" src={post.cover_url} alt={post.title} loading="lazy" />
           )}
 
-          <div class="blog-post__content" set:html={post.body || ''} />
+          <div class="blog-post__content" set:html={sanitizeBlogHtml(post.body || '')} />
 
           <div class="btn-row" style="margin-top:32px;">
             <a class="btn" href="/blog">← Tüm Yazılar</a>

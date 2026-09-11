@@ -63,7 +63,7 @@ const diagnosticJson = JSON.stringify(publicDiagnostic).replace(/</g, '\\u003c')
 <script is:inline id="vocab-diagnostic" type="application/json" set:html={diagnosticJson}></script>
 
 <script>
-  import { buildMeaningOptions } from '../../lib/vocab-path.mjs';
+  import { buildMeaningOptions, learnerExample } from '../../lib/vocab-path.mjs';
 
   const diagnostic = JSON.parse(document.querySelector('#vocab-diagnostic')?.textContent || '[]');
   const startButton = document.querySelector('#diagnostic-start');
@@ -173,7 +173,7 @@ const diagnosticJson = JSON.stringify(publicDiagnostic).replace(/</g, '\\u003c')
 
     if (step.type === 'preview') {
       const article = document.createElement('article'); article.className = 'reading-box';
-      article.innerHTML = `<p>${step.words.slice(0, 3).map((word) => esc(word.e || `Today I use ${word.w} in a real situation.`)).join(' ')}</p><p class="muted">Hedef kelimeleri metinde bulduktan sonra “Hazırım” seç.</p>`;
+      article.innerHTML = `<p>${step.words.slice(0, 3).map((word) => esc(learnerExample(word))).join(' ')}</p><p class="muted">Hedef kelimeleri metinde bulduktan sonra “Hazırım” seç.</p>`;
       workspace.append(article);
       addCompleteButton('Hazırım — bu bağlamı anladım'); return;
     }
@@ -193,7 +193,7 @@ const diagnosticJson = JSON.stringify(publicDiagnostic).replace(/</g, '\\u003c')
     const options = document.createElement('div'); options.className = 'answer-grid';
     const candidates = buildMeaningOptions(target, step.words);
     const prompt = document.createElement('p'); prompt.className = 'prompt-box';
-    prompt.textContent = step.type === 'cloze' ? (target.e || `I need to ___ this word in context.`).replace(new RegExp(target.w, 'i'), '______') : step.type === 'dialogue' ? `${step.scenario} En uygun kelime hangisi?` : step.type === 'sorting' ? `Bu kelimenin anlamını doğru görevde seç: ${target.w}` : `“${target.w}” için doğru anlamı seç.`;
+    prompt.textContent = step.type === 'cloze' ? learnerExample(target).replace(new RegExp(target.w, 'i'), '______') : step.type === 'dialogue' ? `${step.scenario} En uygun kelime hangisi?` : step.type === 'sorting' ? `Bu kelimenin anlamını doğru görevde seç: ${target.w}` : `“${target.w}” için doğru anlamı seç.`;
     workspace.append(prompt);
     candidates.forEach((option) => { const answer = button(option, 'answer-button'); answer.addEventListener('click', () => { if (option === target.t) completeStep(); else { answer.classList.add('is-wrong'); showStepMessage('Henüz değil. Cümledeki anlam ipucunu tekrar oku.'); } }); options.append(answer); });
     workspace.append(options);

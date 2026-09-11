@@ -23,3 +23,11 @@ const currentPath = Astro.url.pathname.replace(/\/$/, '') || '/';
     ))}
   </div>
 </nav>
+
+<style>
+  .mobile-public-nav { display: none; }
+  @media (max-width: 760px) {
+    .mobile-public-nav { display: block; }
+    .mobile-public-nav__scroller { display: flex; overflow-x: auto; overscroll-behavior-inline: contain; scrollbar-width: thin; }
+  }
+</style>

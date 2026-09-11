@@ -6,6 +6,7 @@ import {
   scoreVocabularyDiagnostic,
   buildVocabularyPath,
   buildMeaningOptions,
+  learnerExample,
   pathStepTypes,
 } from '../src/lib/vocab-path.mjs';
 
@@ -52,6 +53,11 @@ test('meaning options exclude duplicate target meanings while preserving four ch
   assert.equal(options.length, 4);
   assert.equal(options.filter((option) => option === target.t).length, 1);
   assert.deepEqual(new Set(options).size, options.length);
+});
+test('learner examples replace dictionary fragments and sensitive source artifacts', () => {
+  assert.doesNotMatch(learnerExample({ w: 'allow', e: 'allow somebody/something to do something, Example.' }), /somebody|something/i);
+  assert.doesNotMatch(learnerExample({ w: 'addiction', e: 'cocaine addiction' }), /cocaine/i);
+  assert.match(learnerExample({ w: 'visit', e: 'My parents visit me.' }), /My parents visit me/);
 });
 test('path has ten varied, contextual learning steps and limited words', () => {
   const path = buildVocabularyPath(words, 'B1');

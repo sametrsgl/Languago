@@ -87,6 +87,13 @@ test('follow-up SQL migration closes launch-blocker RLS/RPC gaps without silent 
   assert.doesNotMatch(executable, /raw_user_meta_data|user_metadata/i, 'migration must not grant parent/teacher role from client metadata');
   assert.match(executable, /create\s+or\s+replace\s+function\s+public\.book_tutor_slot\(/is, 'booking RPC must exist');
   assert.match(executable, /book_tutor_slot[\s\S]*update\s+public\.tutor_slots[\s\S]*insert\s+into\s+public\.tutor_bookings/is, 'booking RPC must close the slot and insert the booking in one transaction');
+  assert.match(executable, /drop\s+policy\s+if\s+exists\s+"bookings_student_insert"[\s\S]*create\s+policy\s+"bookings_student_insert_safe"[\s\S]*rm\.student_id\s*=\s*auth\.uid\(\)/is, 'direct booking inserts must require roster membership through the replacement policy');
+  assert.match(executable, /get_teacher_students[\s\S]*me\.role\s+in\s*\(\s*'teacher'\s*,\s*'admin'\s*\)/is, 'teacher student RPC must preserve teacher/admin role authorization');
+  const posts = read('src/pages/api/admin/posts.ts');
+  assert.match(posts, /sanitizeBlogHtml\(/, 'blog writes must be sanitized before persistence');
+  assert.match(read('src/lib/sanitize-html.mjs'), /from ['"]parse5['"]/, 'blog sanitizer must use a structural HTML parser');
+  const blog = read('src/pages/blog/[slug].astro');
+  assert.doesNotMatch(blog, /set:html=\{post\.body/, 'blog page must not render unsanitized body HTML');
 });
 
 test('state-changing JSON endpoints bound request bodies before parsing', () => {

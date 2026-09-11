@@ -86,7 +86,21 @@ $$;
 revoke execute on function public.book_tutor_slot(uuid) from public;
 grant execute on function public.book_tutor_slot(uuid) to authenticated;
 
--- Preserve profile role on self-edits; trusted role management remains server-only.
+drop policy if exists "bookings_student_insert" on public.tutor_bookings;
+create policy "bookings_student_insert_safe" on public.tutor_bookings for insert to authenticated
+  with check (
+    auth.uid() = student_id
+    and exists (select 1 from public.profiles p where p.id = auth.uid() and p.role = 'student')
+    and exists (
+      select 1
+      from public.tutor_slots ts
+      join public.class_roster cr on cr.teacher_id = ts.teacher_id
+      join public.roster_members rm on rm.class_id = cr.id and rm.student_id = auth.uid()
+      where ts.id = slot_id and ts.status = 'open'
+    )
+  );
+
+-- Preserve explicit role authorization on SECURITY DEFINER teacher RPCs.
 drop policy if exists "profiles_update_own" on public.profiles;
 create policy "profiles_update_own_safe" on public.profiles for update
   using (auth.uid() = id)
@@ -106,7 +120,8 @@ returns table (student_id uuid, full_name text, email text, level text, created_
 language plpgsql security definer set search_path = public
 as $$
 begin
-  if p_teacher is null or p_teacher <> auth.uid() then return; end if;
+  if p_teacher is null or p_teacher <> auth.uid()
+     or not exists (select 1 from public.profiles me where me.id = auth.uid() and me.role in ('teacher', 'admin')) then return; end if;
   return query
     select p.id, p.full_name, au.email::text, p.level, p.created_at,
       coalesce(jsonb_object_agg(sp.module, jsonb_build_object('payload', sp.payload, 'updated_at', sp.updated_at)) filter (where sp.student_id is not null), '{}'::jsonb)
@@ -125,7 +140,8 @@ returns table(slot_id uuid, student_id uuid, full_name text, email text)
 language plpgsql security definer set search_path = public
 as $$
 begin
-  if p_teacher is null or p_teacher <> auth.uid() then return; end if;
+  if p_teacher is null or p_teacher <> auth.uid()
+     or not exists (select 1 from public.profiles me where me.id = auth.uid() and me.role in ('teacher', 'admin')) then return; end if;
   return query
     select b.slot_id, b.student_id, pr.full_name, u.email::text
     from public.tutor_bookings b

@@ -16,6 +16,13 @@ function meaningFor(word) {
   return DIAGNOSTIC_MEANINGS[word.w] || word.t;
 }
 
+export function learnerExample(word = {}) {
+  const value = String(word.e || '').trim();
+  const looksLikeDictionaryArtifact = /somebody|something|\(\s*=|\b(?:cocaine|suicide|terrorist|blood)\b|\/[a-z]/i.test(value);
+  if (value && !looksLikeDictionaryArtifact && /[.!?]/.test(value)) return value;
+  return `I use ${String(word.w || 'this word')} in a real-life situation.`;
+}
+
 const STEP_META = [
   ['Ön izleme', 'Kısa bağlamı oku ve kelimeleri fark et.', 'Bir günün planını ve hedef kelimeleri birlikte gör.'],
   ['Eşleştir', 'İngilizce kelimeleri anlamlarıyla eşleştir.', 'Bir kafede sipariş verirken doğru ifadeyi bul.'],
@@ -87,7 +94,7 @@ function makeQuestion(word, level, index, candidates) {
   const options = rotate([correct, ...distractors(word, candidates)], index);
   const answer = options.indexOf(correct);
   const prompt = mode === 2
-    ? `Bu kelimeyi doğru bağlamda seç: ${word.e || `I used the word “${word.w}” in a sentence.`}`
+    ? `Bu kelimeyi doğru bağlamda seç: ${learnerExample(word)}`
     : `“${word.w}” kelimesinin Türkçe karşılığı hangisi?`;
   return { id: `vocab-diagnostic-${level.toLowerCase()}-${index}`, level, word: word.w, prompt, options, answer, mode };
 }

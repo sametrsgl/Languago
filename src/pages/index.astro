@@ -61,6 +61,7 @@ import Layout from '../layouts/Layout.astro';
           <span>A1</span><span>A2</span><span>B1</span><span>B2</span><span>C1</span><span>C2</span>
         </div>
         <button class="btn primary" type="button" id="placement-start">Seviye testini başlat</button>
+        <p class="placement-note" id="placement-start-feedback" role="alert" aria-live="polite" tabindex="-1"></p>
         <p class="placement-note">Yaklaşık 8–24 soru · Her cevap bir sonraki sorunun zorluğunu etkiler.</p>
       </div>
       <div class="placement-test" id="placement-test" hidden>
@@ -68,16 +69,16 @@ import Layout from '../layouts/Layout.astro';
           <span id="placement-step">Hazırlanıyor…</span>
           <span class="placement-current" id="placement-current">A1</span>
         </div>
-        <div class="placement-progress" aria-hidden="true"><span id="placement-progress-bar"></span></div>
+        <div class="placement-progress" role="progressbar" aria-label="Seviye testi ilerlemesi" aria-valuemin="0" aria-valuemax="12" aria-valuenow="0"><span id="placement-progress-bar"></span></div>
         <p class="placement-source" id="placement-source"></p>
-        <h3 id="placement-question"></h3>
+        <h3 id="placement-question" tabindex="-1" aria-live="polite"></h3>
         <div class="placement-options" id="placement-options" role="group" aria-label="Cevap seçenekleri"></div>
         <p class="placement-feedback" id="placement-feedback" aria-live="polite"></p>
         <button class="btn ghost" type="button" id="placement-next" hidden>Sonraki soru</button>
       </div>
       <div class="placement-result" id="placement-result" hidden>
         <span class="kicker">İlk profilin hazır</span>
-        <h3 id="placement-result-title"></h3>
+        <h3 id="placement-result-title" tabindex="-1" aria-live="polite"></h3>
         <p id="placement-result-copy"></p>
         <a class="btn primary" href="/signup?from=placement">Ücretsiz kayıt ol ve yolunu kaydet</a>
         <p class="placement-note">Hesabın varsa <a href="/signin?from=placement">giriş yap</a>; sonuç hesabına aktarılır.</p>
@@ -195,6 +196,7 @@ import Layout from '../layouts/Layout.astro';
   } from '../lib/placement-test.mjs';
 
   const startButton = document.querySelector('#placement-start');
+  const startFeedback = document.querySelector('#placement-start-feedback');
   const testPanel = document.querySelector('#placement-test');
   const resultPanel = document.querySelector('#placement-result');
   const intro = document.querySelector('.placement-card__intro');
@@ -233,6 +235,7 @@ import Layout from '../layouts/Layout.astro';
     resultPanel.hidden = false;
     setText(resultTitle, `Tahmini başlangıç seviyen: ${result.level}`);
     setText(resultCopy, `Test ${result.questionsAnswered} cevap ve %${Math.round(result.confidence * 100)} güven ile tamamlandı. Kayıt olduğunda bu sonuç öğrenci profilinle eşleştirilir.`);
+    resultTitle?.focus();
   }
 
   function renderQuestion() {
@@ -255,6 +258,8 @@ import Layout from '../layouts/Layout.astro';
       optionsEl.append(button);
     });
     progressBar.style.width = `${Math.min(100, (state.questions.length / 12) * 100)}%`;
+    progressBar.parentElement?.setAttribute('aria-valuenow', String(Math.min(12, state.questions.length)));
+    questionEl?.focus();
   }
 
   function answer(index, selectedButton) {
@@ -286,7 +291,8 @@ import Layout from '../layouts/Layout.astro';
     } catch {
       startButton.disabled = false;
       startButton.textContent = 'Tekrar dene';
-      setText(feedbackEl, 'Soru havuzu şu anda yüklenemedi. Lütfen tekrar dene.');
+      setText(startFeedback, 'Soru havuzu şu anda yüklenemedi. Lütfen tekrar dene.');
+      startFeedback?.focus();
     }
   });
 
