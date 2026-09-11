@@ -69,7 +69,9 @@ test('follow-up SQL migration closes launch-blocker RLS/RPC gaps without silent 
   assert.match(executable, /raise\s+exception[^;]*duplicate[^;]*tutor_bookings[^;]*slot_id/is, 'unique(slot_id) migration must fail clearly when duplicate slot bookings already exist');
   assert.match(executable, /alter\s+table\s+public\.tutor_bookings\s+add\s+constraint\s+tutor_bookings_slot_id_unique\s+unique\s*\(slot_id\)/is, 'one booking per slot must be enforced by a unique(slot_id) constraint');
   assert.match(executable, /create\s+or\s+replace\s+function\s+public\.claim_tutor_slot\(/is, 'atomic slot-claim RPC must exist');
-  assert.match(executable, /update\s+public\.tutor_slots[\s\S]*where[\s\S]*status\s*=\s*'open'[\s\S]*returning/is, 'claim RPC must atomically update only open slots and use RETURNING');
+  const claimBody = executable.match(/create\s+or\s+replace\s+function\s+public\.claim_tutor_slot\([\s\S]*?\$\$;\s*/i)?.[0] || '';
+  assert.match(claimBody, /join\s+public\.roster_members[\s\S]*rm\.student_id\s*=\s*auth\.uid\(\)/is, 'claim RPC must restrict booking to an enrolled student');
+  assert.match(claimBody, /insert\s+into\s+public\.tutor_bookings/is, 'claim RPC must create the booking atomically');
   assert.doesNotMatch(executable, /delete\s+from\s+public\.tutor_bookings/i, 'migration must never delete duplicate booking data silently');
 
   assert.match(executable, /drop\s+policy\s+if\s+exists\s+"profiles_update_own"/is, 'profile owner update policy must be replaced');

@@ -25,12 +25,21 @@ as $$
 declare claimed public.tutor_slots;
 begin
   if auth.uid() is null then raise exception 'authentication required' using errcode = '42501'; end if;
-  update public.tutor_slots
+  update public.tutor_slots ts
      set status = 'booked'
-   where id = p_slot_id
-     and status = 'open'
-   returning * into claimed;
+   where ts.id = p_slot_id
+     and ts.status = 'open'
+     and exists (
+       select 1
+       from public.class_roster cr
+       join public.roster_members rm on rm.class_id = cr.id
+       where cr.teacher_id = ts.teacher_id
+         and rm.student_id = auth.uid()
+     )
+   returning ts.* into claimed;
   if claimed.id is null then raise exception 'tutor slot is no longer available' using errcode = 'P0001'; end if;
+  insert into public.tutor_bookings (slot_id, student_id)
+  values (claimed.id, auth.uid());
   return claimed;
 end;
 $$;
