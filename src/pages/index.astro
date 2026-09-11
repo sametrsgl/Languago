@@ -26,7 +26,10 @@ import Layout from '../layouts/Layout.astro';
       </ul>
     </div>
     <div class="home-hero__visual" aria-label="Languago öğrenme kartı">
-      <img src="/logo/kommo-192.png" alt="Kommo — Languago maskotu" width="192" height="192" />
+      <div class="home-hero__art">
+        <img src="/assets/languago/mascot-reading-books.png" alt="Kommo: Small Steps, Big Progress sloganıyla kitap okuyor" width="768" height="1024" />
+        <img class="home-hero__books" src="/assets/languago/books-stack.png" alt="LEARN, PRACTICE, IMPROVE, GROW yazılı kitap yığını" width="1024" height="768" loading="lazy" />
+      </div>
       <div class="route-card route-card--active">
         <span>1</span>
         <strong>Kelimeyi tanı</strong>
@@ -313,4 +316,21 @@ import Layout from '../layouts/Layout.astro';
   .placement-feedback { min-height: 1.5rem; margin: .9rem 0; font-size: .9rem; }
   .placement-result { grid-column: 1 / -1; }
   @media (max-width: 760px) { .placement-card { grid-template-columns: 1fr; } .placement-card h2 { max-width: none; } }
+
+  /* V2 visual asset layer: real artwork, editable HTML remains the source of truth for UI copy. */
+  .home-hero { display: grid; grid-template-columns: minmax(0, 1.05fr) minmax(340px, .95fr); gap: clamp(1.5rem, 5vw, 4.5rem); align-items: center; padding-top: clamp(2rem, 6vw, 5rem); padding-bottom: clamp(2rem, 5vw, 4rem); }
+  .home-hero__copy h1 { max-width: 13ch; font-size: clamp(2.7rem, 6vw, 5.1rem); letter-spacing: -.045em; color: #08383b; }
+  .home-hero__copy .lead { max-width: 58ch; font-size: clamp(1rem, 1.4vw, 1.18rem); color: var(--ink-soft); }
+  .home-hero__visual { position: relative; min-height: 590px; padding: 1rem 0 0; }
+  .home-hero__art { position: relative; min-height: 520px; border-radius: 2rem; background: linear-gradient(145deg, #eaf8f4, #fffaf3); overflow: hidden; box-shadow: 0 30px 70px rgba(8,56,59,.14); }
+  .home-hero__art > img:first-child { display: block; width: 100%; height: 560px; object-fit: contain; object-position: center bottom; mix-blend-mode: multiply; }
+  .home-hero__books { position: absolute; right: -2.5rem; bottom: -1.2rem; width: 48%; height: auto; object-fit: contain; filter: drop-shadow(0 16px 12px rgba(8,56,59,.18)); mix-blend-mode: multiply; }
+  .route-card { position: relative; z-index: 2; display: grid; grid-template-columns: 2.25rem 1fr; gap: .15rem .7rem; align-items: center; max-width: 310px; margin: -2.2rem 1rem 0 auto; padding: .85rem 1rem; border: 1px solid rgba(8,56,59,.12); border-radius: 1rem; background: rgba(255,255,255,.94); box-shadow: 0 18px 38px rgba(8,56,59,.12); }
+  .route-card + .route-card { margin-top: .65rem; }
+  .route-card > span { grid-row: 1 / span 2; display: grid; place-items: center; width: 2.1rem; height: 2.1rem; border-radius: 50%; background: #dff4ed; color: #0b6b66; font-weight: 800; }
+  .route-card strong { color: #08383b; font-size: .95rem; }
+  .route-card small { color: var(--ink-soft); font-size: .78rem; }
+  .route-card--active { border-color: #e86a39; }
+  .route-card--active > span { background: #e86a39; color: #fff; }
+  @media (max-width: 760px) { .home-hero { grid-template-columns: 1fr; padding-top: 1.5rem; } .home-hero__copy h1 { max-width: 16ch; } .home-hero__visual { min-height: 0; } .home-hero__art { min-height: 390px; } .home-hero__art > img:first-child { height: 420px; } .home-hero__books { width: 45%; } .route-card { margin-top: -1.25rem; } }
 </style>
