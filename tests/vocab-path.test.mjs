@@ -22,8 +22,16 @@ test('diagnostic contains exactly 80 questions ordered from easier to harder CEF
   assert.equal(questions.length, 80);
   assert.deepEqual([...new Set(questions.map((q) => q.level))], CEFR_LEVELS);
   for (const q of questions) {
-    assert.ok(q.options.length === 4);
+    assert.equal(q.options.length, 4);
     assert.ok(q.answer >= 0 && q.answer < 4);
+  }
+});
+
+test('every diagnostic option is a Turkish meaning, never an English dictionary definition', () => {
+  const questions = createVocabularyDiagnostic(words);
+  const TurkishMeanings = new Set(words.map((word) => word.t));
+  for (const question of questions) {
+    assert.ok(question.options.every((option) => TurkishMeanings.has(option)), `${question.id} leaked a non-Turkish option`);
   }
 });
 

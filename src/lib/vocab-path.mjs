@@ -3,6 +3,19 @@ export const CEFR_LEVELS = ['A1', 'A2', 'B1', 'B2', 'C1', 'C2'];
 const QUESTION_COUNTS = [16, 16, 14, 14, 10, 10];
 export const pathStepTypes = ['preview', 'matching', 'meaning', 'cloze', 'collocation', 'dialogue', 'sorting', 'recall', 'reading', 'mission'];
 
+const DIAGNOSTIC_MEANINGS = {
+  a: 'bir; herhangi bir', about: 'hakkında', above: 'üstünde; yukarıda', across: 'bir yandan diğer yana', action: 'eylem; harekete geçme', activity: 'etkinlik; faaliyet', actor: 'oyuncu', actress: 'kadın oyuncu', add: 'eklemek; ilave etmek', adult: 'yetişkin', advice: 'tavsiye; öğüt', afraid: 'korkmuş; korkan', after: 'sonra; ardından', afternoon: 'öğleden sonra', again: 'tekrar; yeniden', ago: 'önce; ... önce',
+  act: 'harekete geçmek; davranmak', active: 'aktif; hareketli', actually: 'aslında; gerçekte', advantage: 'avantaj; üstünlük', adventure: 'macera', advertise: 'reklamını yapmak; tanıtmak', advertisement: 'reklam; ilan', advertising: 'reklamcılık', affect: 'etkilemek', against: 'karşı; aleyhinde', ah: 'şaşkınlık, memnuniyet veya sempati ünlemi', airline: 'havayolu şirketi', alive: 'hayatta; canlı', 'all right': 'tamam mı; anlaşıldı mı', allow: 'izin vermek', almost: 'neredeyse; az kalsın',
+  agreement: 'anlaşma; mutabakat', ahead: 'ileride; önde', aim: 'amaçlamak; hedeflemek', album: 'fotoğraf veya pul albümü', alcohol: 'alkol; alkollü içecek', alcoholic: 'alkollü; alkol içeren', amazed: 'çok şaşırmış', ambition: 'hırs; ulaşılmak istenen hedef', ambitious: 'hırslı; başarılı olmaya kararlı', analyse: 'analiz etmek; incelemek', analysis: 'analiz; ayrıntılı inceleme', announce: 'duyurmak; ilan etmek', announcement: 'duyuru; ilan', annoy: 'canını sıkmak; kızdırmak',
+  actual: 'gerçek; fiilî', adapt: 'uyum sağlamak; uyarlamak', addiction: 'bağımlılık', additional: 'ek; ilave', additionally: 'ayrıca; ek olarak', address: 'bir sorunu ele almak', adequate: 'yeterli; amaca uygun', adequately: 'yeterli biçimde', adjust: 'ayarlamak; uyarlamak', administration: 'yönetim; idare', adopt: 'evlat edinmek', advance: 'ilerlemek; gelişmek', affair: 'kamuya açık olay; siyasi mesele', affordable: 'uygun fiyatlı; karşılanabilir',
+  adjustment: 'ayarlama; küçük düzeltme', administer: 'yönetmek; idare etmek', administrative: 'idari; yönetimle ilgili', administrator: 'yönetici; idareci', admission: 'kabul; giriş izni', adolescent: 'ergen', adoption: 'evlat edinme', adverse: 'olumsuz; ters', advocate: 'kamuya açıkça desteklemek; savunmak', aesthetic: 'estetikle ilgili',
+  merger: 'birleşme; şirket birleşmesi', merit: 'liyakat; övgü veya ödülü hak eden nitelik', methodology: 'yöntem bilimi; yöntemler bütünü', notorious: 'kötü şöhretli', parameter: 'parametre; sınırlandırıcı ölçüt', phase: 'aşama; evre', plane: 'uçak', practitioner: 'meslek uygulayıcısı; özellikle doktor veya hukukçu', predecessor: 'önceki görev sahibi; selef', proposition: 'öneri; özellikle iş alanında eylem planı',
+};
+
+function meaningFor(word) {
+  return DIAGNOSTIC_MEANINGS[word.w] || word.t;
+}
+
 const STEP_META = [
   ['Ön izleme', 'Kısa bağlamı oku ve kelimeleri fark et.', 'Bir günün planını ve hedef kelimeleri birlikte gör.'],
   ['Eşleştir', 'İngilizce kelimeleri anlamlarıyla eşleştir.', 'Bir kafede sipariş verirken doğru ifadeyi bul.'],
@@ -15,6 +28,7 @@ const STEP_META = [
   ['Okuma', 'Kısa, anlaşılır bir metinde kelimeleri çöz.', 'Bir ev ilanını ve mahalle duyurusunu oku.'],
   ['Görev', 'Kelimeyi gerçek bir iletişim amacında kullan.', 'Bir rezervasyonu değiştir, yardım iste veya kararını açıkla.'],
 ];
+
 
 function cleanWord(word) {
   return {
@@ -42,33 +56,27 @@ function rotate(items, offset) {
   return items.slice(start).concat(items.slice(0, start));
 }
 
-function distractors(word, candidates, field, count = 3) {
-  const value = word[field];
+function distractors(word, candidates, count = 3) {
+  const value = meaningFor(word);
   const ordered = candidates
-    .filter((item) => item.w !== word.w && item[field] && item[field] !== value)
+    .filter((item) => item.w !== word.w && meaningFor(item) && meaningFor(item) !== value)
     .sort((a, b) => hash(`${word.w}:${a.w}`) - hash(`${word.w}:${b.w}`));
-  return ordered.slice(0, count).map((item) => item[field]);
+  return ordered.slice(0, count).map(meaningFor);
 }
 
 function makeQuestion(word, level, index, candidates) {
   const mode = index % 4;
-  const fields = mode === 0 ? ['t', 'd'] : mode === 1 ? ['d', 't'] : mode === 2 ? ['t', 'd'] : ['t', 'd'];
-  const field = fields[0];
-  const correct = word[field] || word.t || word.d;
-  const options = rotate([correct, ...distractors(word, candidates, field)], index);
+  const correct = meaningFor(word);
+  const options = rotate([correct, ...distractors(word, candidates)], index);
   const answer = options.indexOf(correct);
-  const prompt = mode === 0
-    ? `“${word.w}” kelimesinin Türkçe karşılığı hangisi?`
-    : mode === 1
-      ? `“${word.w}” kelimesini en iyi açıklayan anlam hangisi?`
-      : mode === 2
-        ? `Bu kelimeyi doğru bağlamda seç: ${word.e || `I used the word “${word.w}” in a sentence.`}`
-        : `“${word.w}” kelimesini günlük bir durumda tanımak için doğru anlamı seç.`;
+  const prompt = mode === 2
+    ? `Bu kelimeyi doğru bağlamda seç: ${word.e || `I used the word “${word.w}” in a sentence.`}`
+    : `“${word.w}” kelimesinin Türkçe karşılığı hangisi?`;
   return { id: `vocab-diagnostic-${level.toLowerCase()}-${index}`, level, word: word.w, prompt, options, answer, mode };
 }
 
 export function createVocabularyDiagnostic(inputWords = []) {
-  const words = inputWords.map(cleanWord).filter((word) => word.w && (word.t || word.d));
+  const words = inputWords.map(cleanWord).filter((word) => word.w && word.t);
   const questions = [];
   CEFR_LEVELS.forEach((level, levelIndex) => {
     const candidates = words.filter((word) => word.levels.includes(level));
