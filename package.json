@@ -9,6 +9,9 @@
     "build": "astro build",
     "preview": "astro preview",
     "start": "node ./dist/server/entry.mjs",
+    "test": "node --test tests/**/*.mjs tests/**/*.test.mjs",
+    "typecheck": "tsc --noEmit",
+    "content:check": "node scripts/validate-content.mjs",
     "postinstall": "patch-package",
     "port:content": "node scripts/port_content.mjs"
   },
