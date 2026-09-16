@@ -2,6 +2,7 @@
 import AppLayout from '../../layouts/AppLayout.astro';
 import { createSupabaseClient, pageCookieSource } from '../../lib/supabase';
 import { getNextLearningAction } from '../../lib/dashboard-next-action.mjs';
+import { summarizeLearningEvidence } from '../../lib/learning-evidence.mjs';
 
 // Protected route: read the session server-side and redirect if not signed in.
 const supabase = createSupabaseClient(pageCookieSource(Astro));
@@ -132,38 +133,11 @@ try {
   streak = 0;
 }
 
-// 📚 Modül count: distinct modules the student has touched.
-let moduleCount = 0;
-try {
-  moduleCount = new Set(progress.map((r) => r.module).filter(Boolean)).size;
-} catch {
-  moduleCount = 0;
-}
-
-// 🎯 Kelime (topResult-effort): for each row, sum the first plausible numeric
-// field found in the payload (wordsLearned / learned / count / viewedCount /
-// topResult / latestResult / rightAnswer). Handles absent or oddly-shaped payloads.
-let wordsCount = 0;
-try {
-  const NUMBER_KEYS = ['wordsLearned', 'learned', 'count', 'viewedCount', 'topResult', 'latestResult', 'rightAnswer'];
-  for (const r of progress) {
-    const p = r.payload;
-    if (!p || typeof p !== 'object') continue;
-    for (const k of NUMBER_KEYS) {
-      const v = (p as Record<string, unknown>)[k];
-      const n = typeof v === 'number' ? v : typeof v === 'string' ? Number(v) : NaN;
-      if (Number.isFinite(n) && n >= 0) {
-        wordsCount += n;
-        break; // first numeric-looking field per row
-      }
-    }
-  }
-} catch {
-  wordsCount = 0;
-}
-
-const distinctVocabularyCount = wordsCount;
-const hasProgress = progress.length > 0;
+// Evidence is deliberately separated: exposure is not accuracy, and a single
+// result is not a durable skill claim. The summary tolerates legacy payload shapes.
+const evidence = summarizeLearningEvidence(progress);
+const moduleCount = evidence.modules.length;
+const hasProgress = moduleCount > 0;
 
 const studyLinks = [
   {
@@ -261,8 +235,8 @@ const nextAction = getNextLearningAction({ progress, steps });
                 </div>
                 <div class="stat-chip">
                   <span class="stat-ico">🎯</span>
-                  <span class="stat-num">{wordsCount}</span>
-                  <span class="stat-label">Kelime sayısı</span>
+                  <span class="stat-num">{evidence.accuracyPct === null ? (evidence.exposure || '—') : `%${evidence.accuracyPct}`}</span>
+                  <span class="stat-label">{evidence.accuracyPct === null ? (evidence.exposure ? 'Görülen kart' : 'Kanıt bekleniyor') : 'Doğruluk'}</span>
                 </div>
               </div>
             ) : (

@@ -33,7 +33,7 @@ assert.match(home, /C2[^.]{0,100}(okuma|metin)|sınav[^.]{0,100}(okuma|metin)/is
 assert.match(home, /öğrenci[^.]{0,140}(cevap anahtarı|ayrı anahtar)|cevap anahtarı[^.]{0,140}öğrenci/is, 'material maker promise keeps student version/key separate without overclaiming');
 
 assert.doesNotMatch(dashboard, /best|lastScore|correct|Kelime \/ Puan/, 'dashboard does not treat arbitrary game points as words');
-assert.match(dashboard, /distinctVocabularyCount|Geçerli kelime/, 'dashboard shows distinct valid vocabulary activity separately');
+assert.match(dashboard, /evidence\.accuracyPct|evidence\.exposure/, 'dashboard shows explicit learning evidence instead of a synthetic word count');
 assert.match(dashboard, /Önerilen yol|önerilen çalışma yolu/i, 'dashboard treats the path as recommended, not mastery');
 assert.doesNotMatch(dashboard, /mastery|ustalık/i, 'dashboard avoids mastery claims for flawed path data');
 

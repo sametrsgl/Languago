@@ -80,6 +80,20 @@ const diagnosticJson = JSON.stringify(publicDiagnostic).replace(/</g, '\\u003c')
   let path = null;
   let currentStep = 0;
   let completedSteps = [];
+  const diagnosticDraftKey = 'languago:vocab-diagnostic:v1';
+
+  function loadDiagnosticDraft() {
+    try {
+      const draft = JSON.parse(localStorage.getItem(diagnosticDraftKey) || 'null');
+      if (!draft || !Array.isArray(draft.answers) || draft.answers.length >= diagnostic.length) return null;
+      if (draft.answers.some((answer) => !Number.isInteger(answer) || answer < 0 || answer > 3)) return null;
+      return draft.answers;
+    } catch { return null; }
+  }
+
+  function saveDiagnosticDraft() {
+    try { localStorage.setItem(diagnosticDraftKey, JSON.stringify({ answers })); } catch { /* private mode/storage limits */ }
+  }
 
   function text(value) { return String(value ?? ''); }
   function esc(value) {
@@ -115,6 +129,7 @@ const diagnosticJson = JSON.stringify(publicDiagnostic).replace(/</g, '\\u003c')
       const answer = button(option, 'answer-button');
       answer.addEventListener('click', () => {
         answers[diagnosticIndex] = index;
+        saveDiagnosticDraft();
         options.querySelectorAll('button').forEach((item) => { item.disabled = true; });
         answer.classList.add('is-selected');
         const next = button(diagnosticIndex === diagnostic.length - 1 ? 'Sonucu hesapla' : 'Sonraki soru →', 'btn primary');
@@ -134,6 +149,7 @@ const diagnosticJson = JSON.stringify(publicDiagnostic).replace(/</g, '\\u003c')
       });
       const result = await resultResponse.json();
       if (!resultResponse.ok) throw new Error(result.error || 'diagnostic');
+      try { localStorage.removeItem(diagnosticDraftKey); } catch { /* ignore storage errors */ }
       diagnosticLevel.textContent = `${result.level} · %${Math.round(result.confidence * 100)} güven`;
       body.innerHTML = `<div class="result-banner"><strong>Başlangıç seviyen: ${esc(result.level)}</strong><span>${result.questionsAnswered} cevap üzerinden kişisel yolun hazırlanıyor.</span></div>`;
       const pathResponse = await fetch(`/api/vocab/path?level=${encodeURIComponent(result.level)}`);
@@ -245,7 +261,12 @@ const diagnosticJson = JSON.stringify(publicDiagnostic).replace(/</g, '\\u003c')
   function addCompleteButton(label) { const done = button(label, 'btn primary'); done.addEventListener('click', completeStep); workspace.append(done); }
   function completeStep() { if (!completedSteps.includes(currentStep)) completedSteps.push(currentStep); if (currentStep < path.steps.length - 1) currentStep += 1; savePathProgress(); renderPath(); }
 
-  startButton?.addEventListener('click', () => { startButton.remove(); renderDiagnostic(); });
+  const savedDraft = loadDiagnosticDraft();
+  if (savedDraft?.length) {
+    answers = savedDraft;
+    startButton.textContent = `Teste devam et (${answers.length}/${diagnostic.length})`;
+  }
+  startButton?.addEventListener('click', () => { startButton.remove(); diagnosticIndex = answers.length; renderDiagnostic(); });
 
   async function hydrateSavedDiagnostic() {
     try {
