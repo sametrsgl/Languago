@@ -8,6 +8,7 @@ import {
   moduleSummary,
   shortDate,
   levelLabel,
+  moduleEvidence,
 } from '../../../lib/teacher';
 
 const auth = await authorizeTeacher(pageCookieSource(Astro));
@@ -126,6 +127,7 @@ if (auth.ok && id) {
                           | Entry
                           | undefined;
                         const sum = moduleSummary(entry);
+                        const evidence = moduleEvidence(entry);
                         return (
                           <tr>
                             <td>
@@ -144,6 +146,7 @@ if (auth.ok && id) {
                               {entry?.updated_at
                                 ? shortDate(entry.updated_at)
                                 : '—'}
+                              <div class="teacher-next-action">{evidence.next}</div>
                             </td>
                           </tr>
                         );

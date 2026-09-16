@@ -89,6 +89,7 @@ if (auth.ok) {
           </header>
           <div id="create-class" class="panel" style="background:var(--bg-soft);">
             <form id="class-form" class="class-form">
+              <label class="sr-only" for="class-name">Sınıf adı</label>
               <input
                 id="class-name"
                 type="text"
@@ -99,7 +100,7 @@ if (auth.ok) {
               />
               <button class="btn primary" type="submit">Sınıfı Oluştur</button>
             </form>
-            <p id="class-msg" class="class-msg" role="status"></p>
+            <p id="class-msg" class="class-msg" role="status" aria-live="polite"></p>
           </div>
         </section>
 

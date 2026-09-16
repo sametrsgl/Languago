@@ -1,6 +1,7 @@
 import type { APIRoute } from 'astro';
 import { createSupabaseClient, pageCookieSource } from '../../../lib/supabase';
 import { authorizeTeacher, makeJoinCode } from '../../../lib/teacher';
+import { readJsonBody, RequestBodyError } from '../../../lib/request-body';
 
 /**
  * POST /api/teacher/classes
@@ -21,8 +22,11 @@ export const POST: APIRoute = async ({ request, cookies }) => {
 
   let body: { class_name?: string } = {};
   try {
-    body = await request.json();
-  } catch {
+    body = await readJsonBody(request, 8_192);
+  } catch (error) {
+    if (error instanceof RequestBodyError && error.status === 413) {
+      return respond(413, { ok: false, error: { message: 'İstek çok büyük.' } });
+    }
     return respond(400, { ok: false, error: { message: 'Geçersiz istek.' } });
   }
 

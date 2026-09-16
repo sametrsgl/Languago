@@ -116,6 +116,8 @@ if (auth.ok) {
                                       'mod',
                                       { on: Boolean(sum) },
                                     ]}
+                                    role="img"
+                                    aria-label={`${m.label}: ${sum ?? 'kanıt bekleniyor'}`}
                                     title={`${m.label}${sum ? ' · ' + sum : ''}${
                                       entry?.updated_at
                                         ? ' · ' + shortDate(entry.updated_at)

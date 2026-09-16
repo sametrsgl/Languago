@@ -1063,10 +1063,30 @@ footer.site .brand .footer-mascot {
 }
 .wrap-table {
   overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: thin;
   border: 1px solid var(--line);
   border-radius: var(--radius);
   background: var(--bg);
   box-shadow: var(--shadow);
+}
+.teacher-next-action {
+  margin-top: 6px;
+  color: var(--ink-soft);
+  font-size: 0.82rem;
+  line-height: 1.4;
+  max-width: 34rem;
+}
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
 }
 .tbl {
   width: 100%;

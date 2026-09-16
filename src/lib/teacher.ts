@@ -1,5 +1,7 @@
 import { randomInt } from 'node:crypto';
 import { createSupabaseClient, type SupabaseSource } from './supabase';
+import { moduleEvidence as getModuleEvidence } from './teacher-evidence.mjs';
+import { moduleSummary as getModuleSummary } from './teacher-summary.mjs';
 
 /**
  * Role-gated teacher/admin authorization for Languago — SERVER-side only.
@@ -67,16 +69,19 @@ export type ModuleKey = (typeof MODULES)[number]['key'];
 export function moduleSummary(
   entry: { payload?: Record<string, unknown>; updated_at?: string } | undefined
 ): string | null {
-  if (!entry) return null;
-  const p = entry.payload && typeof entry.payload === 'object' ? entry.payload : null;
-  if (!p) return null;
-  if (typeof p.percent === 'number') {
-    return `${Math.round(p.percent)}%`;
-  }
-  if (typeof p.correct === 'number' && typeof p.total === 'number') {
-    return `${p.correct}/${p.total}`;
-  }
-  return 'Aktif';
+  return getModuleSummary(entry);
+}
+
+export function moduleEvidence(entry: { payload?: Record<string, unknown>; updated_at?: string } | undefined): {
+  label: string;
+  tone: 'neutral' | 'progress' | 'complete';
+  next: string;
+} {
+  return getModuleEvidence(entry) as {
+    label: string;
+    tone: 'neutral' | 'progress' | 'complete';
+    next: string;
+  };
 }
 
 /** Turkish-friendly short date (e.g. "21 Ağu"). Best-effort; fallback to ISO. */
