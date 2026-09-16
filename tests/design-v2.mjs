@@ -21,6 +21,7 @@ assert.doesNotMatch(appLayout, /<main[^>]*>\s*<slot\s*\/>\s*<\/main>/s, 'app lay
 assert.match(appLayout, /<nav[^>]+aria-label="Öğrenme alanları"/s, 'app layout has an accessible replacement nav for mobile and desktop app navigation');
 assert.match(globalCss, /:focus-visible/, 'global focus-visible styles are defined');
 assert.match(globalCss, /prefers-reduced-motion:\s*reduce/, 'reduced-motion preference is respected');
+assert.match(globalCss, /\[hidden\]\s*\{[^}]*display:\s*none\s*!important/s, 'native hidden state cannot be overridden by component display rules');
 assert.doesNotMatch(globalCss, /nav\.site a\.nav\s*\{[^}]*display:\s*none/s, 'public nav links are not hidden on mobile without a replacement');
 
 assert.doesNotMatch(layout + home, /https:\/\/(instagram|x|discord|youtube)\.com/, 'placeholder social destinations are hidden/removed');

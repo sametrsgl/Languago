@@ -110,3 +110,10 @@ test('durable vocabulary review reports unavailable persistence instead of prete
   assert.match(source, /review_unavailable/, 'review migration failures have a distinct client-visible error');
   assert.match(source, /status\s*===\s*503|,\s*503\)/, 'unavailable review persistence returns 503');
 });
+
+test('vocabulary review UI distinguishes unavailable persistence from a transient failure', () => {
+  const source = read('src/pages/dashboard/kelimeler.astro');
+  assert.match(source, /result\.error\s*===\s*['"]review_unavailable['"]/, 'client handles the server unavailable marker');
+  assert.match(source, /Kalıcı tekrar kaydı henüz kullanılamıyor/, 'client tells learners that durable review is unavailable');
+  assert.match(source, /role['"]?,\s*['"]status['"]|setAttribute\(['"]role['"],\s*['"]status['"]/, 'review feedback is announced to assistive technology');
+});

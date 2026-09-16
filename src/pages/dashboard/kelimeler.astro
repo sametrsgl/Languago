@@ -193,10 +193,20 @@ const diagnosticJson = JSON.stringify(publicDiagnostic).replace(/</g, '\\u003c')
           ratings.querySelectorAll('button').forEach((item) => { item.disabled = true; });
           try {
             const response = await fetch('/api/vocab/review', { method: 'POST', headers: { 'content-type': 'application/json' }, body: JSON.stringify({ itemId: targetForCard.itemId || `word:${targetForCard.w}`, skill: 'vocabulary', rating }) });
-            if (!response.ok) throw new Error('review');
+            const result = await response.json().catch(() => ({}));
+            if (!response.ok) {
+              if (result.error === 'review_unavailable') {
+                throw new Error('Kalıcı tekrar kaydı henüz kullanılamıyor. Bu oturumdaki ilerlemen kaybolmadı; daha sonra tekrar dene.');
+              }
+              if (response.status === 401) throw new Error('Tekrar kaydetmek için yeniden giriş yapmalısın.');
+              throw new Error(result.error || 'Tekrar kaydedilemedi.');
+            }
             showStepMessage('Kaydedildi. Sonraki çalışmada bu kelimenin zamanı ve zorluğu dikkate alınacak.');
             completeStep();
-          } catch { showStepMessage('Tekrar kaydedilemedi; bağlantını kontrol edip yeniden dene.'); ratings.querySelectorAll('button').forEach((item) => { item.disabled = false; }); }
+          } catch (error) {
+            showStepMessage(error instanceof Error ? error.message : 'Tekrar kaydedilemedi; bağlantını kontrol edip yeniden dene.');
+            ratings.querySelectorAll('button').forEach((item) => { item.disabled = false; });
+          }
         });
         ratings.append(rate);
       });
@@ -231,7 +241,7 @@ const diagnosticJson = JSON.stringify(publicDiagnostic).replace(/</g, '\\u003c')
     workspace.append(options);
   }
 
-  function showStepMessage(message) { let node = workspace.querySelector('.step-message'); if (!node) { node = document.createElement('p'); node.className = 'step-message'; workspace.append(node); } node.textContent = message; }
+  function showStepMessage(message) { let node = workspace.querySelector('.step-message'); if (!node) { node = document.createElement('p'); node.className = 'step-message'; node.setAttribute('role', 'status'); node.setAttribute('aria-live', 'polite'); workspace.append(node); } node.textContent = message; }
   function addCompleteButton(label) { const done = button(label, 'btn primary'); done.addEventListener('click', completeStep); workspace.append(done); }
   function completeStep() { if (!completedSteps.includes(currentStep)) completedSteps.push(currentStep); if (currentStep < path.steps.length - 1) currentStep += 1; savePathProgress(); renderPath(); }
 
