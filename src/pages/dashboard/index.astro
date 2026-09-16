@@ -1,6 +1,7 @@
 ---
 import AppLayout from '../../layouts/AppLayout.astro';
 import { createSupabaseClient, pageCookieSource } from '../../lib/supabase';
+import { getNextLearningAction } from '../../lib/dashboard-next-action.mjs';
 
 // Protected route: read the session server-side and redirect if not signed in.
 const supabase = createSupabaseClient(pageCookieSource(Astro));
@@ -227,6 +228,7 @@ const steps: StudyStep[] = studyLinks.map((l, i) => {
 const firstPendingIndex = steps.findIndex((s) => !s.done);
 const utilitiesVisible =
   (studentLessons.length > 0 && !isTeacher) || birebirCount > 0 || isTeacher || isParent;
+const nextAction = getNextLearningAction({ progress, steps });
 ---
 
 <AppLayout
@@ -286,6 +288,15 @@ const utilitiesVisible =
         loading="lazy"
       />
     </div>
+
+    <section class="next-action" aria-labelledby="next-action-title">
+      <div>
+        <p class="eyebrow">Bugün için öneri</p>
+        <h2 id="next-action-title">{nextAction.label}</h2>
+        <p class="muted" role="status">{nextAction.reason}</p>
+      </div>
+      <a class="btn primary" href={nextAction.href}>Şimdi başla →</a>
+    </section>
 
     <div class="barline"></div>
 
@@ -459,6 +470,23 @@ const utilitiesVisible =
     .dash-hero__text {
       flex: 1 1 auto;
       min-width: 0;
+    }
+    .next-action {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 18px;
+      margin-top: 22px;
+      padding: 18px 20px;
+      background: linear-gradient(120deg, rgba(13, 148, 136, 0.1), rgba(245, 158, 11, 0.1));
+      border: 1px solid rgba(13, 148, 136, 0.24);
+      border-radius: var(--radius);
+    }
+    .next-action h2 { margin: 0 0 4px; font-size: 1.15rem; }
+    .next-action p { margin: 0; }
+    @media (max-width: 560px) {
+      .next-action { align-items: stretch; flex-direction: column; }
+      .next-action .btn { width: 100%; text-align: center; }
     }
     /* Small, contained Komodo-dragon mascot on the right of the welcome header */
     .dash-mascot {

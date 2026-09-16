@@ -1,6 +1,7 @@
 import type { APIRoute } from 'astro';
 import { saveProgress } from '../../lib/auth';
 import { pageCookieSource } from '../../lib/supabase';
+import { readJsonBody, RequestBodyError } from '../../lib/request-body';
 
 /**
  * Best-effort student progress persistence.
@@ -15,8 +16,11 @@ export const POST: APIRoute = async ({ request, cookies }) => {
 
   let body: Record<string, unknown>;
   try {
-    body = await request.json();
-  } catch {
+    const parsed = await readJsonBody<unknown>(request, 32_768);
+    if (!parsed || typeof parsed !== 'object' || Array.isArray(parsed)) return respond(400, { ok: false, error: 'invalid_body' });
+    body = parsed as Record<string, unknown>;
+  } catch (error) {
+    if (error instanceof RequestBodyError) return respond(error.status, { ok: false, error: error.status === 413 ? 'body_too_large' : 'invalid_json' });
     return respond(400, { ok: false, error: 'invalid_json' });
   }
 

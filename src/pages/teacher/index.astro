@@ -25,6 +25,7 @@ const stats = { students: 0, classes: 0, monthNew: 0 };
 let recent: Student[] = [];
 let moduleActive: Record<string, number> = {};
 let teacherName: string | null = null;
+let needsAttention: Student[] = [];
 
 if (auth.ok) {
   // Best-effort reads — every query is guarded so the panel renders usefully
@@ -54,6 +55,14 @@ if (auth.ok) {
     for (const m of MODULES) {
       moduleActive[m.key] = students.filter((s) => s.progress?.[m.key]).length;
     }
+
+    const attentionCutoff = Date.now() - 14 * 24 * 60 * 60 * 1000;
+    needsAttention = students.filter((student) => {
+      const entries = Object.values(student.progress ?? {});
+      if (entries.length === 0) return true;
+      const latest = Math.max(...entries.map((entry) => Date.parse(entry.updated_at ?? '')).filter(Number.isFinite));
+      return !Number.isFinite(latest) || latest < attentionCutoff;
+    }).slice(0, 6);
 
     const classRows = (classesRes?.data ?? []) as { id: string }[];
     stats.classes = classRows.length;
@@ -134,6 +143,29 @@ if (auth.ok) {
               ))
             }
           </div>
+        </section>
+
+        <section class="dash-section" aria-labelledby="attention-heading">
+          <header class="section-head">
+            <h2 id="attention-heading">İlgi bekleyenler <span class="section-head__icon">🧭</span></h2>
+            <p class="muted">Son 14 günde etkinlik kaydı olmayan veya henüz başlamamış öğrenciler.</p>
+          </header>
+          {
+            needsAttention.length ? (
+              <div class="dash-nav">
+                {needsAttention.map((student) => (
+                  <a class="card tile card-link" href={`/teacher/ogrenci/${student.student_id}`}>
+                    <div>
+                      <div class="tt">{student.full_name || student.email}</div>
+                      <div class="bb">Sonraki adımı ve kanıtı görmek için profili aç →</div>
+                    </div>
+                  </a>
+                ))}
+              </div>
+            ) : (
+              <div class="empty-state"><h3>Şu an ilgi bekleyen öğrenci yok</h3><p class="muted">Son 14 günde tüm öğrencilerinden etkinlik kaydı geldi.</p></div>
+            )
+          }
         </section>
 
         <section class="dash-section" aria-labelledby="kayit-heading">

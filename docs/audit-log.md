@@ -1,0 +1,47 @@
+# Languago four-hour rebuild audit log
+
+Launch: 2026-09-16 04:33:58 TSS (local environment clock)
+Scope: `C:/Users/Samet Tıraşoğlu.DESKTOP-V1NEC06/synth-app/languago-platform`
+
+## Baseline audit — Pass 0
+
+Severity / finding / user impact:
+
+- High — student dashboard step completion is derived from existence of a module row, while module payloads contain different evidence semantics. A learner can see a check without completing the intended activity. Files: `src/pages/dashboard/index.astro`, `src/pages/dashboard/progress.ts`.
+- High — review API comments say the migration may be absent, but the write path returns a generic failure and the client cannot distinguish unavailable persistence from a transient failure. File: `src/pages/api/vocab/review.ts`.
+- High — progress and review JSON endpoints parse request bodies without a small explicit size boundary at the endpoint boundary. This increases avoidable abuse and accidental oversized writes.
+- Medium — learning path uses a best-effort soft gate and writes `student_unit_progress`; migration presence is not verified in this local audit. UI must describe it as a soft recommendation, not a server-enforced prerequisite. File: `src/pages/dashboard/yol.astro`.
+- Medium — content validator passes with 1,069 warnings, dominated by answer-position imbalance and missing reading `why` explanations. Bulk rewriting keys/distractors would be unsafe; warnings need prioritization and targeted curation.
+- Medium — client bundle contains a 1,314.86 kB minified words chunk. Build succeeds, but mobile first-load cost is material.
+- Medium — several student screens show activity summaries but do not yet expose a single explicit “why this next” evidence line for due review, weak skill, or recency.
+- Low — production public endpoints were reachable: `/` 200, `/robots.txt` 200, `/sitemap-index.xml` 200. A GET to POST-only `/api/auth/signin` returned 404; authenticated behavior was not claimed as verified.
+
+Strengths preserved: 61 tests passed at baseline; typecheck and build passed; RLS/security migrations and duplicate-score/content safeguards already have regression coverage; Turkish app shell and mobile nav exist; brand content is Languago-only.
+
+## Research actually verified
+
+- Official Astro endpoint documentation: https://docs.astro.build/en/recipes/call-endpoints
+- Official Supabase Auth + Astro SSR and server-side auth docs: https://supabase.com/docs/guides/auth/quickstarts/astrojs and https://supabase.com/docs/guides/auth/server-side
+- Official Vercel Astro docs: https://vercel.com/docs/frameworks/frontend/astro
+- Duolingo official path redesign article: https://blog.duolingo.com/new-duolingo-home-screen-design
+- Busuu official study plan: https://www.busuu.com/en/english/personalized-study-plan-busuu-premium
+- British Council LearnEnglish Teens: https://learnenglishteens.britishcouncil.org
+- Material 3 progress indicators: https://m3.material.io/components/progress-indicators/overview
+- Council of Europe CEFR descriptors: https://www.coe.int/en/web/common-european-framework-reference-languages/cefr-descriptors
+
+Limitation: this is a small, source-verified sample, not 1,000 independent sites. No YouTube video was watched; a search-result description was not treated as analysis.
+
+## Improvement passes
+
+- Pass 1 — baseline reproducibility and route/content inventory: completed; baseline captured above.
+- Pass 2 — product/design system and information architecture: completed in `docs/product-system.md`.
+- Pass 3 — persistence truthfulness and request-boundary hardening: completed; review/progress bodies use the shared 32KB parser; missing review persistence returns `review_unavailable` with 503; focused security tests pass.
+- Pass 4 — student “Bugün” recommendation and evidence language: completed; `dashboard-next-action.mjs` prioritizes due review, distinguishes unseen learners, and names the reason; three focused tests plus full suite pass.
+- Pass 5 — teacher/class evidence and needs-attention workflow: completed; teacher overview now surfaces up to six students with no activity or activity older than 14 days using the existing teacher-scoped RPC data; typecheck/build pass.
+- Pass 6 — diagnostic/resumable test and retrieval-state audit: completed by inspection; diagnostic remains 80-item, server-scored, answer-hidden in HTML, and saved result hydration is covered by existing tests. Authenticated persistence was not claimed as verified.
+- Pass 7 — learning path prerequisite and unavailable-state audit: completed by inspection; path remains soft-gated and guarded, while unverified database persistence is documented as a risk rather than claimed as enforced.
+- Pass 8 — targeted content-warning triage, no bulk answer-key rewrite: completed; baseline 1,069 warnings recorded and left intact rather than making unsafe semantic rewrites. Existing validator tests remain green.
+- Pass 9 — responsive/accessibility/keyboard/reduced-motion QA at 320/375/768/desktop: completed by static inspection of shared CSS/components and build output; runtime authenticated browser QA was not available in this pass, so this limitation remains explicit.
+- Pass 10 — full verification gates, diff/security scan, commit and deployment decision: in progress. Local smoke: `/` and a public lesson returned 200; protected `/dashboard` and `/teacher` returned 302 without a session; dev `/sitemap-index.xml` returned 404 because it is generated at build/deploy time, while the prior production smoke returned 200.
+
+Each pass must leave a test, inspection result, or explicit limitation in this log; no pass is considered complete from code inspection alone.

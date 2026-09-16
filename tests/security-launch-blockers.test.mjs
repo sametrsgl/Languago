@@ -96,9 +96,17 @@ test('state-changing JSON endpoints bound request bodies before parsing', () => 
     'src/pages/api/auth/signup.ts',
     'src/pages/api/student/tutor-book.ts',
     'src/pages/api/notifications.ts',
+    'src/pages/api/vocab/review.ts',
+    'src/pages/dashboard/progress.ts',
   ]) {
     const source = read(rel);
-    assert.match(source, /readJsonBody\(request,/, `${rel} uses the shared bounded JSON parser`);
+    assert.match(source, /readJsonBody(?:<[^>]+>)?\(request,/, `${rel} uses the shared bounded JSON parser`);
     assert.match(source, /RequestBodyError/, `${rel} handles oversized bodies`);
   }
+});
+
+test('durable vocabulary review reports unavailable persistence instead of pretending to save', () => {
+  const source = read('src/pages/api/vocab/review.ts');
+  assert.match(source, /review_unavailable/, 'review migration failures have a distinct client-visible error');
+  assert.match(source, /status\s*===\s*503|,\s*503\)/, 'unavailable review persistence returns 503');
 });
