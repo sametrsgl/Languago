@@ -43,7 +43,14 @@ export const POST: APIRoute = async ({ request, cookies }) => {
   return json({ ok: true, ...result }, 200);
 };
 
-export const GET: APIRoute = () => json({ total: questions.length, levels: Array.from(LEVELS) }, 200);
+export const GET: APIRoute = async ({ cookies, request }) => {
+  const supabase = createSupabaseClient(pageCookieSource({ request, cookies }));
+  if (!supabase) return json({ total: questions.length, levels: Array.from(LEVELS), result: null }, 200);
+  const { data: authData } = await supabase.auth.getUser();
+  if (!authData.user) return json({ total: questions.length, levels: Array.from(LEVELS), result: null }, 200);
+  const { data } = await supabase.from('student_progress').select('payload').eq('student_id', authData.user.id).eq('module', 'vocab-path').maybeSingle();
+  return json({ total: questions.length, levels: Array.from(LEVELS), result: data?.payload ?? null }, 200);
+};
 
 function json(payload: unknown, status: number) {
   return new Response(JSON.stringify(payload), { status, headers: { 'content-type': 'application/json' } });

@@ -5,6 +5,7 @@ import {
   createVocabularyDiagnostic,
   scoreVocabularyDiagnostic,
   buildVocabularyPath,
+  buildPersonalizedVocabularyPath,
   buildMeaningOptions,
   pathStepTypes,
 } from '../src/lib/vocab-path.mjs';
@@ -60,4 +61,18 @@ test('path has ten varied, contextual learning steps and limited words', () => {
   assert.ok(path.words.length <= 100);
   assert.ok(path.steps.every((step) => step.words.length > 0));
   assert.ok(path.steps.some((step) => /Diyalog|Görev|situation/i.test(`${step.title} ${step.scenario}`)));
+});
+
+test('personalized path prioritizes due and lapsed words over unseen words', () => {
+  const dueWord = words.find((word) => word.levels[0] === 'B1');
+  const unseenWord = words.find((word) => word.levels[0] === 'B1' && word !== dueWord);
+  const path = buildPersonalizedVocabularyPath(words, 'B1', {
+    now: 1000,
+    reviews: [{ itemId: `word:${dueWord.w}`, dueAt: 1, lapses: 2, repetitions: 1, lastRating: 0 }],
+  });
+  assert.equal(path.personalized, true);
+  assert.ok(path.focus.due >= 1);
+  assert.equal(path.words[0].w, dueWord.w);
+  assert.notEqual(path.words[0].w, unseenWord.w);
+  assert.ok(path.steps.every((step) => step.words.length > 0));
 });

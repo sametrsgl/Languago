@@ -160,3 +160,58 @@ export function buildVocabularyPath(inputWords = [], level = 'A1') {
   }).filter((step) => step.words.length);
   return { level, steps, words: safeWords };
 }
+
+/**
+ * Build a path from evidence, not just the student's nominal level.
+ * Review rows are deliberately optional: a new student still gets a useful
+ * route when the review_items migration has not been applied yet.
+ *
+ * The ranking favors due/lapsed items, then unseen items, and finally items
+ * that have been repeatedly answered easily. This makes the next session
+ * useful without pretending that a single diagnostic is mastery evidence.
+ */
+export function buildPersonalizedVocabularyPath(inputWords = [], level = 'A1', activity = {}) {
+  const base = buildVocabularyPath(inputWords, level);
+  const reviews = Array.isArray(activity.reviews) ? activity.reviews : [];
+  const reviewById = new Map(reviews.map((item) => [String(item.itemId ?? item.item_id ?? ''), item]));
+  const now = Number(activity.now ?? Date.now());
+  const ranked = base.words.map((word, index) => {
+    const item = reviewById.get(`word:${word.w}`) || reviewById.get(word.w);
+    const rawDue = item?.dueAt ?? item?.due_at ?? 0;
+    const dueTime = typeof rawDue === 'string' ? Date.parse(rawDue) : Number(rawDue);
+    const due = item && Number.isFinite(dueTime) && dueTime <= now;
+    const lapses = Math.max(0, Number(item?.lapses ?? 0));
+    const repetitions = Math.max(0, Number(item?.repetitions ?? 0));
+    const lastRating = item?.lastRating ?? item?.last_rating;
+    const unseen = !item;
+    const priority = (due ? 100 : 0) + (lapses * 12) + (unseen ? 20 : 0) + (lastRating === 0 ? 25 : 0) - (lastRating === 3 ? 8 : 0) - (repetitions * 0.1) - index * 0.001;
+    return {
+      ...word,
+      itemId: `word:${word.w}`,
+      review: item ? { due, lapses, repetitions, lastRating } : null,
+      priority,
+      reason: due || lapses > 0 || lastRating === 0 ? 'Öncelikli tekrar' : unseen ? 'Yeni kelime' : 'Pekiştirme',
+    };
+  }).sort((a, b) => b.priority - a.priority || a.w.localeCompare(b.w));
+  const selected = ranked.slice(0, Math.min(60, Math.max(20, ranked.length)));
+  const chunkSize = Math.max(1, Math.ceil(selected.length / pathStepTypes.length));
+  const steps = pathStepTypes.map((type, index) => ({
+    index: index + 1,
+    type,
+    title: STEP_META[index][0],
+    objective: STEP_META[index][1],
+    scenario: STEP_META[index][2],
+    words: selected.slice(index * chunkSize, index * chunkSize + chunkSize),
+  })).filter((step) => step.words.length);
+  return {
+    ...base,
+    words: selected,
+    steps,
+    personalized: true,
+    focus: {
+      due: selected.filter((word) => word.review?.due).length,
+      lapsed: selected.filter((word) => (word.review?.lapses ?? 0) > 0).length,
+      new: selected.filter((word) => !word.review).length,
+    },
+  };
+}

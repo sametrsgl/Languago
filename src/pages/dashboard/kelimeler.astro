@@ -141,7 +141,8 @@ const diagnosticJson = JSON.stringify(publicDiagnostic).replace(/</g, '\\u003c')
       path = await pathResponse.json();
       pathCard.hidden = false;
       pathLevel.textContent = result.level;
-      pathIntro.textContent = `Bu rota ${path.words.length} kelimeyi 10 farklı görev türünde kullandırır. Bir adımı tamamlamadan sonraki adım açılmaz.`;
+      const focus = path.focus || {};
+      pathIntro.textContent = `Bugünkü rota ${path.words.length} kelimeyi kanıtına göre seçti: ${focus.due || 0} zamanı gelen tekrar, ${focus.lapsed || 0} zorlanan kelime ve ${focus.new || 0} yeni kelime. Her adımda kelimeyi gör, hatırla ve kullan.`;
       currentStep = 0; completedSteps = [];
       renderPath();
       pathCard.scrollIntoView({ behavior: 'smooth', block: 'start' });
@@ -170,6 +171,37 @@ const diagnosticJson = JSON.stringify(publicDiagnostic).replace(/</g, '\\u003c')
     const wordStrip = document.createElement('div'); wordStrip.className = 'word-strip';
     step.words.forEach((word) => { const chip = document.createElement('span'); chip.textContent = word.w; wordStrip.append(chip); });
     workspace.append(wordStrip);
+
+    const targetForCard = step.words[step.index % step.words.length];
+    if (targetForCard) {
+      const card = document.createElement('article'); card.className = 'vocab-card';
+      const cardTop = document.createElement('div'); cardTop.className = 'vocab-card__top';
+      const word = document.createElement('strong'); word.className = 'vocab-card__word'; word.textContent = targetForCard.w;
+      const reason = document.createElement('span'); reason.className = 'scenario-tag'; reason.textContent = targetForCard.reason || 'Bugünkü kelime';
+      cardTop.append(word, reason); card.append(cardTop);
+      const definition = document.createElement('p'); definition.className = 'vocab-card__meaning'; definition.textContent = 'Anlamı görmek için aç.'; card.append(definition);
+      const reveal = button('Anlamı ve örneği göster', 'btn ghost');
+      reveal.addEventListener('click', () => {
+        definition.textContent = `${targetForCard.t || ''}${targetForCard.e ? ` · ${targetForCard.e}` : ''}`;
+        reveal.disabled = true;
+      });
+      card.append(reveal);
+      const ratings = document.createElement('div'); ratings.className = 'review-actions';
+      [['Tekrar', 0], ['Zor', 1], ['İyi', 2], ['Kolay', 3]].forEach(([label, rating]) => {
+        const rate = button(label, 'review-action');
+        rate.addEventListener('click', async () => {
+          ratings.querySelectorAll('button').forEach((item) => { item.disabled = true; });
+          try {
+            const response = await fetch('/api/vocab/review', { method: 'POST', headers: { 'content-type': 'application/json' }, body: JSON.stringify({ itemId: targetForCard.itemId || `word:${targetForCard.w}`, skill: 'vocabulary', rating }) });
+            if (!response.ok) throw new Error('review');
+            showStepMessage('Kaydedildi. Sonraki çalışmada bu kelimenin zamanı ve zorluğu dikkate alınacak.');
+            completeStep();
+          } catch { showStepMessage('Tekrar kaydedilemedi; bağlantını kontrol edip yeniden dene.'); ratings.querySelectorAll('button').forEach((item) => { item.disabled = false; }); }
+        });
+        ratings.append(rate);
+      });
+      card.append(ratings); workspace.append(card);
+    }
 
     if (step.type === 'preview') {
       const article = document.createElement('article'); article.className = 'reading-box';
@@ -204,6 +236,32 @@ const diagnosticJson = JSON.stringify(publicDiagnostic).replace(/</g, '\\u003c')
   function completeStep() { if (!completedSteps.includes(currentStep)) completedSteps.push(currentStep); if (currentStep < path.steps.length - 1) currentStep += 1; savePathProgress(); renderPath(); }
 
   startButton?.addEventListener('click', () => { startButton.remove(); renderDiagnostic(); });
+
+  async function hydrateSavedDiagnostic() {
+    try {
+      const response = await fetch('/api/vocab/diagnostic');
+      const saved = await response.json();
+      const result = saved?.result;
+      if (!response.ok || !result || result.status !== 'diagnosed' || !result.level) return;
+      diagnosticLevel.textContent = `${result.level} · önceki sonuç`;
+      body.innerHTML = `<div class="result-banner"><strong>Son tanılama: ${esc(result.level)}</strong><span>${Number(result.questionsAnswered || 0)} cevap üzerinden kaydedildi. Yeni test çözmeden kaldığın yerden devam edebilirsin.</span></div>`;
+      const continueButton = button('Kişisel yoluma devam et →', 'btn primary');
+      continueButton.addEventListener('click', async () => {
+        continueButton.disabled = true;
+        const pathResponse = await fetch(`/api/vocab/path?level=${encodeURIComponent(result.level)}`);
+        if (!pathResponse.ok) { continueButton.disabled = false; return; }
+        path = await pathResponse.json();
+        pathCard.hidden = false;
+        pathLevel.textContent = result.level;
+        const focus = path.focus || {};
+        pathIntro.textContent = `Bugünkü rota kanıtına göre seçildi: ${focus.due || 0} zamanı gelen tekrar, ${focus.lapsed || 0} zorlanan kelime ve ${focus.new || 0} yeni kelime.`;
+        currentStep = 0; completedSteps = [];
+        renderPath(); pathCard.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      });
+      body.append(continueButton);
+    } catch { /* new or offline student: keep the diagnostic start screen */ }
+  }
+  hydrateSavedDiagnostic();
 </script>
 
 <style>
@@ -236,8 +294,15 @@ const diagnosticJson = JSON.stringify(publicDiagnostic).replace(/</g, '\\u003c')
   .step-button.is-locked { opacity: .45; cursor: not-allowed; }
   .word-strip { display: flex; flex-wrap: wrap; gap: .4rem; margin: 1rem 0; }
   .word-strip span { padding: .35rem .55rem; border-radius: .5rem; background: #f1f5f4; color: #315; font-size: .8rem; font-weight: 700; }
+  .vocab-card { display: grid; gap: .75rem; margin: 1rem 0; padding: 1rem; border: 1px solid rgba(13,148,136,.25); border-radius: 1rem; background: linear-gradient(135deg, rgba(13,148,136,.08), rgba(245,158,11,.08)); }
+  .vocab-card__top { display: flex; align-items: center; justify-content: space-between; gap: .75rem; flex-wrap: wrap; }
+  .vocab-card__word { font-size: clamp(1.5rem, 4vw, 2.2rem); color: #123b3b; }
+  .vocab-card__meaning { min-height: 2.5rem; margin: 0; color: var(--ink-soft, #637); line-height: 1.55; }
+  .review-actions { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: .5rem; }
+  .review-action { padding: .65rem .5rem; border: 1px solid var(--line, #d8e2e1); border-radius: .65rem; background: white; color: #123b3b; font-weight: 800; cursor: pointer; }
+  .review-action:hover:not(:disabled), .review-action:focus-visible { border-color: #0d9488; background: rgba(13,148,136,.1); }
   .path-input { width: 100%; margin: .75rem 0; padding: .8rem; border: 1px solid var(--line, #d8e2e1); border-radius: .7rem; }
   .step-message, .error-copy { color: #b45309; font-weight: 700; }
   .research-note { margin-top: 1rem; }
-  @media (max-width: 720px) { .path-hero { display: grid; } .method-card { min-width: 0; } .step-nav { grid-template-columns: repeat(5, minmax(0, 1fr)); } .path-card__head, .step-heading { display: grid; } }
+  @media (max-width: 720px) { .path-hero { display: grid; } .method-card { min-width: 0; } .step-nav { grid-template-columns: repeat(5, minmax(0, 1fr)); } .path-card__head, .step-heading { display: grid; } .review-actions { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
 </style>

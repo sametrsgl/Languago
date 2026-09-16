@@ -1394,6 +1394,15 @@ const TABS_ACTIVE = pronounRelated
         // un-addressed alanlar (o konu test edilmedi) "nötr" olarak listede
         var bars = document.getElementById('anaBars');
         bars.innerHTML = '';
+        var attempted = results.length;
+        var correct = results.filter(function (r) { return r.ok; }).length;
+        var overallPct = attempted ? Math.round((correct / attempted) * 100) : 0;
+        var summary = document.createElement('div');
+        summary.className = 'analysis-summary';
+        summary.textContent = attempted
+          ? 'Kanıt: ' + attempted + ' etkinlik denendi · ' + correct + ' doğru · %' + overallPct + ' doğruluk · tamamlanma %' + Math.round((Math.min(attempted, grandTotal) / Math.max(1, grandTotal)) * 100)
+          : 'Henüz cevap kaydı yok. Önce birkaç etkinlik tamamla; öneri burada oluşacak.';
+        bars.appendChild(summary);
         var best = null, bestScore = -1, weak = null, weakScore = 2;
         Object.keys(AREA_LABEL).forEach(function (k) {
           var d = byArea[k];
@@ -1414,21 +1423,22 @@ const TABS_ACTIVE = pronounRelated
           }
         });
         // hiçbir alan test edilmediyse en zayıf olarak genel öneri
-        var already = Object.keys(byArea).some(function (k) { return byArea[k].tried > 0; });
+        var already = attempted > 0 || Object.keys(byArea).some(function (k) { return byArea[k].tried > 0; });
         var msgEl = document.getElementById('anaMsg');
         if (!already) {
-          msgEl.innerHTML = pronounRelated
-            ? '<strong>Zamirlerine güzel başladın!</strong> 📘 Biraz etkileşim tamamladıktan sonra burada konuya göre güçlü ve zayıf yönlerini göreceksin.'
-            : '<strong>Konuda güzel bir başlangıç yaptın!</strong> 📘 Alıştırmaları tamamladıkça ilerlemen burada izlenebilir.';
+          msgEl.innerHTML = attempted
+            ? '<strong>İlk kanıtların oluştu.</strong> 📘 Bu ünite için daha güvenilir bir öneri üretmek üzere farklı etkinlik türlerini de dene.'
+            : '<strong>Henüz analiz için yeterli veri yok.</strong> 📘 Testi tahminle değil, birkaç gerçek etkinlik cevabıyla başlat.';
         } else {
           var parts = [];
-          parts.push(pronounRelated ? '<strong>Zamirlerini güçlendirdin!</strong> 🎉' : '<strong>Çalışmayı tamamladın!</strong> 🎉');
+          parts.push('<strong>' + (overallPct >= 80 ? 'Bu konuda sağlam ilerliyorsun!' : overallPct >= 60 ? 'Temel oluşuyor; hedefli tekrar yapalım.' : 'Bu konu için yeniden öğretim ve kısa tekrar gerekiyor.') + '</strong> 🎯');
+          parts.push('Şu anki kanıt: <strong>' + correct + '/' + attempted + '</strong> doğru.');
           if (best) parts.push('En iyi konun: <strong>' + AREA_LABEL[best] + '</strong>.');
           var weakLabel = weak ? AREA_LABEL[weak] : 'İyelik biçimleri';
-          if (pronounRelated) {
+          if (pronounRelated && weak) {
             parts.push('<strong>' + weakLabel + '</strong> üzerinde biraz daha pratik yapabilirsin. Aşağıdaki <em>Uygulama Listesi</em>den ilgili konuyu tekrar açabilirsin.');
           } else {
-            parts.push('Aynı ünitedeki alıştırmaları tekrar çözerek kalıcılaştırabilirsin.');
+            parts.push(overallPct >= 80 ? 'Bir sonraki adım: bu yapıyı okuma veya kısa yazma içinde kullan.' : 'Bir sonraki adım: yanlış yaptığın biçimi yeniden öğren, sonra benzer ama yeni bir soruyu çöz.');
           }
           msgEl.innerHTML = parts.join(' ');
         }
@@ -1480,7 +1490,7 @@ const TABS_ACTIVE = pronounRelated
           fetch('/dashboard/progress', {
             method: 'POST',
             headers: { 'content-type': 'application/json' },
-            body: JSON.stringify({ module: 'grammar', payload: { level: level, unit: unitId, title: unitTitle, correct: quiz.length ? doneC.mcq : 0, total: quiz.length } })
+            body: JSON.stringify({ module: 'grammar', payload: { version: 2, level: level, unit: unitId, title: unitTitle, attempted: results.length, correct: results.filter(function (r) { return r.ok; }).length, total: grandTotal, completionPct: grandTotal ? Math.round((Math.min(results.length, grandTotal) / grandTotal) * 100) : 0, results: results.slice(-100) } })
           }).catch(function () {});
         } catch (e) {}
       }
