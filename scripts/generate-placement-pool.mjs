@@ -77,6 +77,18 @@ function rotateOptions(item, variant) {
   return { options, answer: order.indexOf(item.answer) };
 }
 
+// Send each original passage once, not once per question/option-order variant.
+// Existing sourceId values retain the passage ID plus a question-index suffix.
+const passages = {};
+for (const [, source, data] of pools) {
+  if (source !== 'reading') continue;
+  for (const passage of data) {
+    if (Object.hasOwn(passages, passage.id)) throw new Error(`Duplicate passage ID: ${passage.id}`);
+    if (typeof passage.text !== 'string' || !passage.text.trim()) throw new Error(`Missing passage text: ${passage.id}`);
+    passages[passage.id] = { title: passage.title, text: passage.text };
+  }
+}
+
 const base = flatten();
 if (base.length === 0) throw new Error('The source bank is empty');
 const pool = [];
@@ -103,12 +115,13 @@ while (pool.length < TARGET) {
 
 const counts = Object.fromEntries(['A1', 'A2', 'B1', 'B2', 'C1', 'C2'].map((level) => [level, pool.filter((q) => q.level === level).length]));
 const output = {
-  version: 1,
+  version: 2,
   generatedAt: new Date().toISOString(),
   total: pool.length,
   baseItems: base.length,
   variants: variant,
   counts,
+  passages,
   questions: pool,
 };
 await writeFile(new URL('../src/data/placement-question-pool.json', import.meta.url), `${JSON.stringify(output)}\n`);

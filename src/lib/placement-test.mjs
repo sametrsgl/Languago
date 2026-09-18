@@ -108,6 +108,13 @@ export function shouldFinishPlacement(stateInput) {
   return result.confidence >= 0.68 && target.asked >= 2;
 }
 
+export function getPlacementPassage(question, passages = {}) {
+  if (question?.source !== 'reading') return null;
+  const match = String(question.sourceId || '').match(/^(.+)-\d+$/);
+  const passage = match ? passages?.[match[1]] : null;
+  return typeof passage?.text === 'string' && passage.text.trim() ? passage : null;
+}
+
 // Reading source IDs are `${passage.id}-${questionIndex}`. Keep that passage
 // context: a generic stem in another passage is a different reading task.
 function placementQuestionIdentity(question) {

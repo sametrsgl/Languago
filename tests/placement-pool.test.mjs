@@ -2,7 +2,7 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import pool from '../src/data/placement-question-pool.json' with { type: 'json' };
 
-test('placement pool has exactly 10,000 calibrated items across CEFR levels', () => {
+test('placement pool has exactly 10,000 stored records across CEFR levels (not calibrated items)', () => {
   assert.equal(pool.total, 10_000);
   assert.equal(pool.questions.length, 10_000);
   const ids = new Set(pool.questions.map((question) => question.id));
