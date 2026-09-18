@@ -1,11 +1,9 @@
 import type { APIRoute } from 'astro';
 import { createSupabaseClient, pageCookieSource } from '../../../lib/supabase';
 import pool from '../../../data/placement-question-pool.json';
-import { createPlacementState, placementResult, recordPlacementAnswer } from '../../../lib/placement-test.mjs';
+import { placementResult, replayPlacementAnswers } from '../../../lib/placement-test.mjs';
 
-const LEVELS = new Set(['A1', 'A2', 'B1', 'B2', 'C1', 'C2']);
 const MAX_BODY_BYTES = 16_384;
-const MAX_ANSWERS = 40;
 
 export const prerender = false;
 
@@ -25,40 +23,21 @@ export const POST: APIRoute = async ({ request, cookies }) => {
     return json({ error: 'Geçersiz istek.' }, 400);
   }
 
-  const answers = Array.isArray(body?.answers) ? body.answers.slice(0, MAX_ANSWERS) : [];
-
   const { data: authData, error: authError } = await supabase.auth.getUser();
   const user = authData.user;
   if (authError || !user) return json({ error: 'Oturum açman gerekiyor.' }, 401);
 
-  const questionById = new Map((pool.questions || []).map((question) => [question.id, question]));
-  let state = createPlacementState();
-  const cleanAnswers = [];
-  for (const row of answers) {
-    if (typeof row?.id !== 'string' || !Number.isInteger(row?.selectedIndex)) continue;
-    const question = questionById.get(row.id);
-    if (!question || !LEVELS.has(String(question.level).toUpperCase())) continue;
-    if (row.selectedIndex < 0 || row.selectedIndex >= question.options.length) continue;
-    const correct = row.selectedIndex === question.answer;
-    state = recordPlacementAnswer(state, question, correct, row.selectedIndex);
-    cleanAnswers.push({
-      id: question.id,
-      level: question.level,
-      source: question.source || 'grammar',
-      selectedIndex: row.selectedIndex,
-      correct,
-    });
-  }
+  const state = replayPlacementAnswers(body?.answers, pool.questions);
   const result = placementResult(state);
-  if (!cleanAnswers.length) return json({ error: 'Seviye sonucu geçersiz.' }, 400);
+  if (!state.completed) return json({ error: 'Seviye testini tamamlaman gerekiyor.' }, 400);
 
   const payload = {
     version: 1,
     level: result.level,
     confidence: result.confidence,
-    questionsAnswered: cleanAnswers.length,
+    questionsAnswered: result.questionsAnswered,
     completedAt: new Date().toISOString(),
-    answers: cleanAnswers,
+    answers: state.questions,
   };
 
   const [progressResult, profileResult] = await Promise.all([

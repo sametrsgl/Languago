@@ -150,4 +150,25 @@ export function selectNextPlacementQuestion({ state: stateInput, pool = [] } = {
   return ranked[0];
 }
 
+// Drafts and API submissions are untrusted. Rebuild both from the same pool,
+// counting a task only once even when its options have been reordered.
+export function replayPlacementAnswers(answers, pool = []) {
+  let state = createPlacementState();
+  if (!Array.isArray(answers)) return state;
+  const byId = new Map(pool.map((question) => [question.id, question]));
+  const seenContent = new Set();
+  for (const row of answers.slice(0, 40)) {
+    if (state.completed) break;
+    if (typeof row?.id !== 'string' || !Number.isInteger(row?.selectedIndex)) continue;
+    const question = byId.get(row.id);
+    if (!question || !CEFR_LEVELS.includes(question.level)) continue;
+    if (row.selectedIndex < 0 || row.selectedIndex >= question.options.length) continue;
+    const identity = placementQuestionIdentity(question);
+    if (!identity || seenContent.has(identity)) continue;
+    seenContent.add(identity);
+    state = recordPlacementAnswer(state, question, row.selectedIndex === question.answer, row.selectedIndex);
+  }
+  return state;
+}
+
 export const PLACEMENT_LIMITS = Object.freeze({ min: MIN_QUESTIONS, max: MAX_QUESTIONS });

@@ -84,7 +84,7 @@ import MiniLessonPreview from '../components/home/MiniLessonPreview.astro';
 </Layout>
 
 <script>
-  import { createPlacementState, getPlacementPassage, placementResult, recordPlacementAnswer, selectNextPlacementQuestion, shouldFinishPlacement } from '../lib/placement-test.mjs';
+  import { createPlacementState, getPlacementPassage, placementResult, recordPlacementAnswer, replayPlacementAnswers, selectNextPlacementQuestion, shouldFinishPlacement } from '../lib/placement-test.mjs';
   const $ = (selector) => document.querySelector(selector);
   const startButton = $('#placement-start'); const resumeButton = $('#placement-resume'); const testPanel = $('#placement-test'); const resultPanel = $('#placement-result'); const intro = document.querySelector('.placement-card__intro');
   const questionEl = $('#placement-question'); const optionsEl = $('#placement-options'); const feedbackEl = $('#placement-feedback'); const nextButton = $('#placement-next'); const stepEl = $('#placement-step'); const currentEl = $('#placement-current'); const sourceEl = $('#placement-source'); const progressBar = $('#placement-progress-bar'); const progress = document.querySelector('.placement-progress'); const saveEl = $('#placement-save'); const resultTitle = $('#placement-result-title'); const resultCopy = $('#placement-result-copy'); const resultStats = $('#placement-result-stats'); const resultNext = $('#placement-result-next'); const restartButton = $('#placement-restart'); const draftKey = 'languago:placement-draft';
@@ -127,11 +127,8 @@ import MiniLessonPreview from '../components/home/MiniLessonPreview.astro';
       if (pool.some((question) => question.source === 'reading' && !getPlacementPassage(question, passages))) throw new Error('missing passage');
       state = createPlacementState();
       if (resume) {
-        const draft = readDraft(); const byId = new Map(pool.map((question) => [question.id, question]));
-        for (const answer of draft?.answers || []) {
-          const question = byId.get(answer.id);
-          if (question && Number.isInteger(answer.selectedIndex)) state = recordPlacementAnswer(state, question, answer.selectedIndex === question.answer, answer.selectedIndex);
-        }
+        state = replayPlacementAnswers(readDraft()?.answers, pool);
+        saveDraft();
       }
       intro.hidden = true; resultPanel.hidden = true; testPanel.hidden = false; renderQuestion();
     } catch {
