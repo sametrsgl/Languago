@@ -1,0 +1,101 @@
+<section class="mini-lesson" aria-labelledby="mini-lesson-title">
+  <div class="mini-lesson__header">
+    <div>
+      <p class="eyebrow">Şimdi dene</p>
+      <h2 id="mini-lesson-title">Kısa bir ders önizlemesi</h2>
+    </div>
+    <span class="lesson-status" id="lesson-status">3 dakikalık pratik</span>
+  </div>
+  <div class="lesson-tabs" role="tablist" aria-label="Ders türü seç">
+    <button class="lesson-tab is-active" type="button" role="tab" aria-selected="true" aria-controls="lesson-panel-grammar" data-lesson-tab="grammar">Dil bilgisi</button>
+    <button class="lesson-tab" type="button" role="tab" aria-selected="false" aria-controls="lesson-panel-word" data-lesson-tab="word">Kelime</button>
+    <button class="lesson-tab" type="button" role="tab" aria-selected="false" aria-controls="lesson-panel-reading" data-lesson-tab="reading">Okuma</button>
+  </div>
+  <div class="lesson-panel" id="lesson-panel-grammar" role="tabpanel" data-lesson-panel="grammar">
+    <span class="lesson-label">A2 · Present perfect</span>
+    <p class="lesson-prompt">I ___ this film before.</p>
+    <div class="lesson-options" data-lesson-options>
+      <button type="button" data-answer="wrong">saw</button><button type="button" data-answer="correct">have seen</button><button type="button" data-answer="wrong">see</button>
+    </div>
+    <p class="lesson-feedback" data-lesson-feedback aria-live="polite">Bir seçenek seç.</p>
+  </div>
+  <div class="lesson-panel" id="lesson-panel-word" role="tabpanel" data-lesson-panel="word" hidden>
+    <span class="lesson-label">B1 · Kelimeyi bağlamda kullan</span>
+    <p class="lesson-prompt">“Reliable” kelimesine en yakın anlam hangisi?</p>
+    <div class="lesson-options" data-lesson-options>
+      <button type="button" data-answer="correct">güvenilir</button><button type="button" data-answer="wrong">geçici</button><button type="button" data-answer="wrong">karmaşık</button>
+    </div>
+    <p class="lesson-feedback" data-lesson-feedback aria-live="polite">Bir seçenek seç.</p>
+  </div>
+  <div class="lesson-panel" id="lesson-panel-reading" role="tabpanel" data-lesson-panel="reading" hidden>
+    <span class="lesson-label">B2 · Kısa okuma</span>
+    <p class="lesson-prompt">“The train was delayed, so Maya took a bus.” Maya neden otobüse bindi?</p>
+    <div class="lesson-options" data-lesson-options>
+      <button type="button" data-answer="correct">Tren gecikti.</button><button type="button" data-answer="wrong">Otobüs daha hızlıydı.</button><button type="button" data-answer="wrong">Treni kaçırdı.</button>
+    </div>
+    <p class="lesson-feedback" data-lesson-feedback aria-live="polite">Bir seçenek seç.</p>
+  </div>
+  <button class="lesson-reset" type="button" data-lesson-reset>Yanıtı sıfırla</button>
+</section>
+
+<script>
+  const lesson = document.querySelector('.mini-lesson');
+  if (lesson) {
+    const tabs = [...lesson.querySelectorAll('[data-lesson-tab]')];
+    const panels = [...lesson.querySelectorAll('[data-lesson-panel]')];
+    const selectTab = (name) => {
+      tabs.forEach((tab) => {
+        const active = tab.dataset.lessonTab === name;
+        tab.classList.toggle('is-active', active);
+        tab.setAttribute('aria-selected', String(active));
+      });
+      panels.forEach((panel) => { panel.hidden = panel.dataset.lessonPanel !== name; });
+    };
+    tabs.forEach((tab, index) => {
+      tab.addEventListener('click', () => selectTab(tab.dataset.lessonTab));
+      tab.addEventListener('keydown', (event) => {
+        if (event.key !== 'ArrowRight' && event.key !== 'ArrowLeft') return;
+        event.preventDefault();
+        const next = (index + (event.key === 'ArrowRight' ? 1 : -1) + tabs.length) % tabs.length;
+        tabs[next].focus();
+        selectTab(tabs[next].dataset.lessonTab);
+      });
+    });
+    lesson.querySelectorAll('[data-lesson-options]').forEach((options) => {
+      const feedback = options.parentElement?.querySelector('[data-lesson-feedback]');
+      options.querySelectorAll('button').forEach((button) => button.addEventListener('click', () => {
+        options.querySelectorAll('button').forEach((choice) => { choice.disabled = true; choice.classList.remove('is-correct', 'is-wrong'); });
+        const correct = button.dataset.answer === 'correct';
+        button.classList.add(correct ? 'is-correct' : 'is-wrong');
+        if (!correct) options.querySelector('[data-answer="correct"]')?.classList.add('is-correct');
+        if (feedback) feedback.textContent = correct ? 'Doğru — kısa açıklamayı görüp devam edebilirsin.' : 'Henüz değil — doğru seçeneği işaretledik.';
+      }));
+    });
+    lesson.querySelector('[data-lesson-reset]')?.addEventListener('click', () => {
+      lesson.querySelectorAll('[data-lesson-options] button').forEach((button) => { button.disabled = false; button.classList.remove('is-correct', 'is-wrong'); });
+      lesson.querySelectorAll('[data-lesson-feedback]').forEach((feedback) => { feedback.textContent = 'Bir seçenek seç.'; });
+    });
+  }
+</script>
+
+<style>
+  .mini-lesson { border: 1px solid #cfe1df; border-radius: 1.25rem; background: #fffdf9; padding: clamp(1.25rem, 3vw, 2rem); box-shadow: 0 20px 55px rgba(21, 63, 63, .1); }
+  .mini-lesson__header { display: flex; align-items: start; justify-content: space-between; gap: 1rem; }
+  .mini-lesson h2 { margin: .25rem 0 0; font-size: clamp(1.35rem, 2.4vw, 2rem); color: #123b3d; }
+  .eyebrow, .lesson-label { color: #0b746d; font-size: .72rem; font-weight: 800; letter-spacing: .08em; text-transform: uppercase; }
+  .eyebrow { margin: 0; }
+  .lesson-status { color: #5b6d6c; font-size: .78rem; white-space: nowrap; }
+  .lesson-tabs { display: flex; gap: .25rem; margin: 1.5rem 0 1.25rem; padding-bottom: .35rem; border-bottom: 1px solid #dbe7e4; }
+  .lesson-tab { border: 0; border-bottom: 2px solid transparent; margin-bottom: -.4rem; padding: .55rem .7rem; background: none; color: #607271; font: inherit; font-size: .88rem; font-weight: 700; cursor: pointer; }
+  .lesson-tab.is-active { border-color: #0b8a7f; color: #075f5a; }
+  .lesson-prompt { color: #163f40; font-size: clamp(1.15rem, 2vw, 1.45rem); line-height: 1.45; }
+  .lesson-options { display: grid; gap: .55rem; }
+  .lesson-options button { border: 1px solid #cfe1df; border-radius: .7rem; padding: .7rem .85rem; background: #fff; color: #173c3e; text-align: left; font: inherit; cursor: pointer; }
+  .lesson-options button:hover:not(:disabled), .lesson-options button:focus-visible { border-color: #0b8a7f; outline: 3px solid rgba(11,138,127,.14); }
+  .lesson-options button:disabled { cursor: default; }
+  .lesson-options button.is-correct { border-color: #0b8a7f; background: #e5f5ef; }
+  .lesson-options button.is-wrong { border-color: #b84b35; background: #fff0eb; }
+  .lesson-feedback { min-height: 1.4rem; color: #536665; font-size: .86rem; }
+  .lesson-reset { margin-top: .25rem; border: 0; padding: .25rem 0; background: none; color: #0b746d; font: inherit; font-size: .82rem; font-weight: 700; cursor: pointer; }
+  @media (max-width: 540px) { .mini-lesson__header { display: block; } .lesson-status { display: block; margin-top: .45rem; } }
+</style>

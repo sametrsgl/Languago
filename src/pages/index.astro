@@ -1,427 +1,151 @@
 ---
 import Layout from '../layouts/Layout.astro';
+import MiniLessonPreview from '../components/home/MiniLessonPreview.astro';
 ---
 
-<Layout
-  title="Languago V2 — İngilizce öğrenme yolu"
-  description="Languago V2; öğrenciler için önerilen İngilizce çalışma yolu, A1-C1 dilbilgisi, C2 ve sınav okuma metinleri, kelime kartları ve öğretmen materyal araçları sunar."
->
-  <section class="home-hero container" aria-labelledby="home-title">
-    <div class="home-hero__copy">
-      <p class="kicker">Languago V2 öğrenme deneyimi</p>
-      <h1 id="home-title">Öğrenci için net yol, öğretmen için hazır araçlar.</h1>
-      <p class="lead">
-        Kelime, A1-C1 dilbilgisi, C2 ve sınav odaklı okuma metinleri aynı öğrenme
-        akışında birleşir. Nereden başlayacağını gör, çalış, tekrar et ve sınıf
-        oyunlarıyla pekiştir.
-      </p>
-      <div class="btn-row home-hero__actions" aria-label="Ana işlemler">
-        <a class="btn primary" href="/ogren">Öğrenmeye Başla</a>
-        <a class="btn ghost" href="/signin">Panelime Gir</a>
+<Layout title="Languago — İngilizce için net bir sonraki adım" description="İngilizce öğrenmek için seviyeni gör, kısa bir ders dene ve kendine uygun yoldan devam et.">
+  <main class="home-page">
+    <section class="home-hero container" aria-labelledby="home-title">
+      <div class="home-hero__copy">
+        <p class="eyebrow">İngilizce öğrenmek için sade bir başlangıç</p>
+        <h1 id="home-title">Bugün ne çalışacağını bil.</h1>
+        <p class="home-hero__lead">Seviyeni tahmin etmek yerine kısa bir testle başla. Sonra dil bilgisi, kelime ve okuma çalışmalarını tek bir öğrenme yolunda sırala.</p>
+        <div class="home-actions" aria-label="Ana işlemler">
+          <a class="home-button home-button--primary" href="#level-test">Seviyeni gör</a>
+          <a class="home-button home-button--quiet" href="/ogren">Öğrenme yolunu incele</a>
+        </div>
+        <p class="home-trust">Kısa adımlar · Açık geri bildirim · Resmi sınav yerine başlangıç tahmini</p>
       </div>
-      <ul class="home-hero__facts" aria-label="Kapsam özeti">
-        <li><strong>A1-C1</strong><span>Dilbilgisi dersleri ve testler</span></li>
-        <li><strong>C2 + sınav</strong><span>Okuma metinleri ve anlama soruları</span></li>
-        <li><strong>Tekrar</strong><span>Kelime kartları, yazım ve quiz oyunları</span></li>
-      </ul>
-    </div>
-    <div class="home-hero__visual" aria-label="Languago öğrenme kartı">
-      <div class="home-hero__art">
-        <img src="/assets/languago/mascot-reading-books.png" alt="Kommo: Small Steps, Big Progress sloganıyla kitap okuyor" width="768" height="1024" />
-        <img class="home-hero__books" src="/assets/languago/books-stack.png" alt="LEARN, PRACTICE, IMPROVE, GROW yazılı kitap yığını" width="1024" height="768" loading="lazy" />
-      </div>
-      <div class="route-card route-card--active">
-        <span>1</span>
-        <strong>Kelimeyi tanı</strong>
-        <small>Kart, örnek cümle, ses</small>
-      </div>
-      <div class="route-card">
-        <span>2</span>
-        <strong>Yapıyı öğren</strong>
-        <small>A1-C1 dilbilgisi</small>
-      </div>
-      <div class="route-card">
-        <span>3</span>
-        <strong>Metinde kullan</strong>
-        <small>C2 ve sınav okumaları</small>
-      </div>
-    </div>
-  </section>
+      <MiniLessonPreview />
+    </section>
 
-  <section class="placement-section container" aria-labelledby="placement-title" id="level-test">
-    <div class="placement-card">
-      <div class="placement-card__intro">
-        <span class="kicker">Kişisel başlangıç noktası</span>
-        <h2 id="placement-title">İngilizce seviyeni tahmin etmeyelim.</h2>
-        <p>
-          A1’den C2’ye ilerleyen kısa seviye testi, doğru ve yanlış cevaplarına göre bir sonraki
-          soruyu seçer. Sonuç hesabına kaydedilir ve sonraki adımın için temel oluşturur.
-        </p>
-        <div class="placement-levels" aria-label="CEFR seviyeleri">
-          <span>A1</span><span>A2</span><span>B1</span><span>B2</span><span>C1</span><span>C2</span>
-        </div>
-        <button class="btn primary" type="button" id="placement-start">Seviye testini başlat</button>
-        <button class="btn ghost placement-resume" type="button" id="placement-resume" hidden>Teste devam et</button>
-        <p class="placement-note">Yaklaşık 8–24 soru · Her cevap bir sonraki sorunun zorluğunu etkiler. Sonucun tahminidir; resmi sınav değildir.</p>
+    <section class="audience container" aria-labelledby="audience-title">
+      <div class="section-heading">
+        <p class="eyebrow">Sana göre bir akış</p>
+        <h2 id="audience-title">İhtiyacın değişirse yolun da değişsin.</h2>
       </div>
-      <div class="placement-test" id="placement-test" hidden>
-        <div class="placement-test__topline">
-          <span id="placement-step">Hazırlanıyor…</span>
-          <span class="placement-current" id="placement-current">A1</span>
-        </div>
-        <div class="placement-progress" role="progressbar" aria-label="Seviye testi ilerlemesi" aria-valuemin="0" aria-valuemax="24" aria-valuenow="0"><span id="placement-progress-bar"></span></div>
-        <p class="placement-source" id="placement-source"></p>
-        <h3 id="placement-question"></h3>
-        <div class="placement-options" id="placement-options" role="group" aria-label="Cevap seçenekleri"></div>
-        <p class="placement-feedback" id="placement-feedback" aria-live="polite"></p>
-        <p class="placement-save" id="placement-save" role="status"></p>
-        <button class="btn ghost" type="button" id="placement-next" hidden>Sonraki soru</button>
+      <div class="audience-switch" role="tablist" aria-label="Kullanım amacı seç">
+        <button class="audience-switch__button is-active" type="button" role="tab" aria-selected="true" data-audience="learner">Öğrenciyim</button>
+        <button class="audience-switch__button" type="button" role="tab" aria-selected="false" data-audience="teacher">Öğretmenim</button>
       </div>
-      <div class="placement-result" id="placement-result" hidden>
-        <span class="kicker">İlk profilin hazır</span>
-        <h3 id="placement-result-title"></h3>
-        <p id="placement-result-copy"></p>
-        <div class="placement-result__stats" id="placement-result-stats" aria-label="Seviye testi özeti"></div>
-        <p class="placement-result__next" id="placement-result-next"></p>
-        <a class="btn primary" href="/signup?from=placement">Ücretsiz kayıt ol ve yolunu kaydet</a>
-        <button class="btn ghost" type="button" id="placement-restart">Testi yeniden başlat</button>
-        <p class="placement-note">Hesabın varsa <a href="/signin?from=placement">giriş yap</a>; sonuç hesabına aktarılır.</p>
+      <div class="audience-card" data-audience-panel="learner">
+        <div><span class="eyebrow">Öğrenci akışı</span><h3>Bir sonraki çalışmayı seçmek kolay olsun.</h3><p>Seviye testinden sonra önerilen başlangıç konunu aç, kısa pratik yap ve kelimeleri tekrar et. Nerede kaldığını panelinden takip edebilirsin.</p></div>
+        <a class="home-button home-button--primary" href="/ogren">Öğrenmeye başla <span aria-hidden="true">→</span></a>
       </div>
-    </div>
-  </section>
+      <div class="audience-card" data-audience-panel="teacher" hidden>
+        <div><span class="eyebrow">Öğretmen akışı</span><h3>Ders öncesi hazırlığı tek yerde toparla.</h3><p>Seviye ve konuya göre materyal taslağı oluştur, öğrenci kopyasını cevap anahtarından ayrı tut ve öğretmen paneline geç.</p></div>
+        <a class="home-button home-button--primary" href="/materyal-uretici">Materyal üreticiyi aç <span aria-hidden="true">→</span></a>
+      </div>
+    </section>
 
-  <section class="section container" aria-labelledby="tracks-title">
-    <div class="section-head">
-      <span class="kicker">İki ayrı kullanım yolu</span>
-      <h2 id="tracks-title">Öğrenci çalışması ve öğretmen araçları birbirine karışmaz.</h2>
-      <p>Öğrenci akışı öğrenmeye, öğretmen akışı sınıf hazırlığına odaklanır.</p>
-    </div>
-    <div class="track-grid">
-      <article class="track-card track-card--student">
-        <div class="track-card__icon" aria-hidden="true">🧭</div>
-        <p class="kicker">Öğrenci yolu</p>
-        <h3>Bugün ne çalışacağını gör.</h3>
-        <p>
-          /ogren sayfası herkese açık öğrenme rehberi olarak hazırlanıyor. Panelde ise
-          önerilen sıran, son etkinliğin ve geçerli kelime çalışman ayrı gösterilir.
-        </p>
-        <div class="btn-row">
-          <a class="btn primary" href="/ogren">Öğrenci yolunu aç</a>
-          <a class="btn ghost" href="/dashboard">Panele git</a>
+    <section class="placement-section container" aria-labelledby="placement-title" id="level-test">
+      <div class="placement-card">
+        <div class="placement-card__intro">
+          <p class="eyebrow">Başlangıç noktan</p>
+          <h2 id="placement-title">İngilizce seviyeni tahmin etmeyelim.</h2>
+          <p>A1’den C2’ye ilerleyen kısa seviye testi, verdiğin yanıtlara göre sıradaki soruyu seçer. Sonuç resmi sınav değildir; nereden başlaman gerektiğine dair bir çalışma tahminidir.</p>
+          <div class="placement-levels" aria-label="CEFR seviyeleri"><span>A1</span><span>A2</span><span>B1</span><span>B2</span><span>C1</span><span>C2</span></div>
+          <div class="placement-actions"><button class="home-button home-button--primary" type="button" id="placement-start">Seviye testini başlat</button><button class="home-button home-button--quiet placement-resume" type="button" id="placement-resume" hidden>Teste devam et</button></div>
+          <p class="placement-note">Yaklaşık 8–24 soru · Yanıtların bu cihazda taslak olarak saklanabilir.</p>
         </div>
-      </article>
-      <article class="track-card track-card--teacher">
-        <div class="track-card__icon" aria-hidden="true">🧰</div>
-        <p class="kicker">Öğretmen araçları</p>
-        <h3>Ders öncesi materyali hızlandır.</h3>
-        <p>
-          Materyal üretici; konu, seviye ve etkinlik türüne göre sınıfta kullanabileceğin
-          PDF taslakları üretmeye odaklanır. Öğretmen paneli ayrı bir çalışma alanıdır.
-        </p>
-        <div class="btn-row">
-          <a class="btn ghost" href="/materyal-uretici">Materyal üretici</a>
-          <a class="btn ghost" href="/teacher">Öğretmen paneli</a>
+        <div class="placement-test" id="placement-test" hidden>
+          <div class="placement-test__topline"><span id="placement-step">Soru 1</span><span class="placement-current" id="placement-current">A1</span></div>
+          <div class="placement-progress" role="progressbar" aria-label="Seviye testi ilerlemesi" aria-valuemin="0" aria-valuemax="24" aria-valuenow="0"><span id="placement-progress-bar"></span></div>
+          <p class="placement-source" id="placement-source"></p><h3 id="placement-question"></h3>
+          <div class="placement-options" id="placement-options" role="group" aria-label="Cevap seçenekleri"></div>
+          <p class="placement-feedback" id="placement-feedback" aria-live="polite"></p><button class="home-button home-button--quiet" type="button" id="placement-next" hidden>Sonraki soru</button>
         </div>
-      </article>
-    </div>
-  </section>
-
-  <section class="coverage-band" aria-labelledby="coverage-title">
-    <div class="container">
-      <div class="section-head section-head--left">
-        <span class="kicker">Kapsam netliği</span>
-        <h2 id="coverage-title">Neyi kapsadığını açık söyler.</h2>
-        <p>V2 tasarım dili pazarlama iddiasını değil, mevcut öğrenme alanlarını öne çıkarır.</p>
+        <div class="placement-result" id="placement-result" hidden>
+          <p class="eyebrow">İlk profilin hazır</p><h3 id="placement-result-title"></h3><p id="placement-result-copy"></p>
+          <div class="placement-result__stats" id="placement-result-stats" aria-label="Seviye testi özeti"></div>
+          <p class="placement-result__next" id="placement-result-next"></p><p class="placement-save" id="placement-save" role="status" aria-live="polite"></p>
+          <div class="placement-actions"><a class="home-button home-button--primary" href="/signup?from=placement">Yolunu kaydet</a><button class="home-button home-button--quiet" type="button" id="placement-restart">Testi yeniden başlat</button></div>
+          <p class="placement-note">Hesabın varsa <a href="/signin?from=placement">giriş yap</a>; sonucu hesabına aktarabilirsin.</p>
+        </div>
       </div>
+    </section>
+
+    <section class="coverage container" aria-labelledby="coverage-title">
+      <div class="section-heading"><p class="eyebrow">Çalışma alanları</p><h2 id="coverage-title">Tek bir hedefe değil, gerçek ihtiyacına çalış.</h2></div>
       <div class="coverage-grid">
-        <article class="coverage-card">
-          <span class="badge badge--teal">A1-C1</span>
-          <h3>Dilbilgisi</h3>
-          <p>A1, A2, B1, B2 ve C1 düzeylerinde konu slaytları ve pekiştirme soruları.</p>
-          <a href="/dashboard/dilbilgisi">Dilbilgisine git →</a>
-        </article>
-        <article class="coverage-card">
-          <span class="badge badge--amber">C2 + sınav</span>
-          <h3>Okuma</h3>
-          <p>A1-C2 okuma koleksiyonlarına ek olarak IELTS, TOEFL, YDS, YÖKDİL ve GRE metinleri.</p>
-          <a href="/dashboard/okuma">Okumaya git →</a>
-        </article>
-        <article class="coverage-card">
-          <span class="badge badge--teal">Oyun + tekrar</span>
-          <h3>Pekiştirme</h3>
-          <p>Yazım, kelime quiz’i ve sınıf içi karşılaşma; her biri farklı hedef ve tekrar akışına sahiptir.</p>
-          <a href="/dashboard/oyunlar">Oyunları aç →</a>
-        </article>
+        <a class="coverage-card" href="/dashboard/dilbilgisi"><span class="coverage-card__number">01</span><h3>Dil bilgisi</h3><p>A1–C1 konuları, örnekler ve pekiştirme soruları.</p><span class="coverage-card__link">Dersleri gör →</span></a>
+        <a class="coverage-card" href="/dashboard/kelimeler"><span class="coverage-card__number">02</span><h3>Kelime</h3><p>Bağlam içinde kelime, yazım pratiği ve tekrar.</p><span class="coverage-card__link">Kelime çalış →</span></a>
+        <a class="coverage-card" href="/dashboard/okuma"><span class="coverage-card__number">03</span><h3>Okuma</h3><p>A1–C2 ve sınav odaklı metinlerle anlama pratiği.</p><span class="coverage-card__link">Metinleri aç →</span></a>
       </div>
-    </div>
-  </section>
-
-  <section class="section container" aria-labelledby="maker-title">
-    <div class="maker-card">
-      <div>
-        <p class="kicker">Materyal üretici</p>
-        <h2 id="maker-title">Sınıf materyali üretirken cevap anahtarı öğrenciden ayrı kalır.</h2>
-        <p>
-          Öğretmen kullanımı için konu ve seviyeye göre çalışma sayfası taslağı hazırlanır;
-          öğrenci kopyası ve cevap anahtarı ayrı düşünülür. Henüz tamamlanmamış öğrenci
-          tarafı özellikleri vaat edilmez.
-        </p>
-      </div>
-      <a class="btn primary" href="/materyal-uretici">Materyal aracını incele</a>
-    </div>
-  </section>
-
-  <section class="vs-band container" aria-labelledby="class-game-title">
-    <div class="vs-band__inner">
-      <div class="vs-band__text">
-        <span class="vs-kicker">⚡ Sınıf etkinliği</span>
-        <h2 id="class-game-title">Sınıf İçi Karşılaşma</h2>
-        <p>
-          Takım temelli canlı bilgi yarışması: projeksiyonda aç, soruları çöz,
-          güç kartlarıyla oyunu hareketlendir. Öğrenme yolundan ayrı bir sınıf etkinliğidir.
-        </p>
-        <div class="btn-row">
-          <a class="btn primary" href="/sinif-oyunu">Karşılaşma başlat</a>
-          <a class="btn ghost" href="/dashboard/oyunlar">Oyun merkezine git</a>
-        </div>
-      </div>
-      <div class="vs-band__visual" aria-hidden="true">🏆⚔️🎲</div>
-    </div>
-  </section>
+    </section>
+  </main>
 </Layout>
 
 <script>
-  import {
-    createPlacementState,
-    placementResult,
-    recordPlacementAnswer,
-    selectNextPlacementQuestion,
-    shouldFinishPlacement,
-  } from '../lib/placement-test.mjs';
+  import { createPlacementState, placementResult, recordPlacementAnswer, selectNextPlacementQuestion, shouldFinishPlacement } from '../lib/placement-test.mjs';
+  const $ = (selector) => document.querySelector(selector);
+  const startButton = $('#placement-start'); const resumeButton = $('#placement-resume'); const testPanel = $('#placement-test'); const resultPanel = $('#placement-result'); const intro = document.querySelector('.placement-card__intro');
+  const questionEl = $('#placement-question'); const optionsEl = $('#placement-options'); const feedbackEl = $('#placement-feedback'); const nextButton = $('#placement-next'); const stepEl = $('#placement-step'); const currentEl = $('#placement-current'); const sourceEl = $('#placement-source'); const progressBar = $('#placement-progress-bar'); const progress = document.querySelector('.placement-progress'); const saveEl = $('#placement-save'); const resultTitle = $('#placement-result-title'); const resultCopy = $('#placement-result-copy'); const resultStats = $('#placement-result-stats'); const resultNext = $('#placement-result-next'); const restartButton = $('#placement-restart'); const draftKey = 'languago:placement-draft';
+  let pool = []; let state = createPlacementState(); let currentQuestion = null;
+  const setText = (element, value) => { if (element) element.textContent = value; };
+  function saveDraft() { try { localStorage.setItem(draftKey, JSON.stringify({ answers: state.questions })); } catch { setText(saveEl, 'Taslak bu cihazda saklanamadı; teste devam edebilirsin.'); } }
+  function readDraft() { try { const draft = JSON.parse(localStorage.getItem(draftKey) || 'null'); return Array.isArray(draft?.answers) && draft.answers.length ? draft : null; } catch { try { localStorage.removeItem(draftKey); } catch {} return null; } }
+  function clearDraft() { try { localStorage.removeItem(draftKey); } catch {} }
+  function renderResultStats(result) { if (!resultStats) return; resultStats.innerHTML = ''; [[`${result.accuracy}%`, 'genel doğruluk'], [`${result.correctAnswers}/${result.questionsAnswered}`, 'doğru cevap'], ['Tahmini', 'sonuç türü']].forEach(([value, label]) => { const item = document.createElement('div'); item.className = 'placement-stat'; const strong = document.createElement('strong'); strong.textContent = value; const span = document.createElement('span'); span.textContent = label; item.append(strong, span); resultStats.append(item); }); }
+  async function saveResult() { setText(saveEl, 'Sonucun hesabına kaydediliyor…'); try { const response = await fetch('/api/placement/save', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ answers: state.questions }) }); if (!response.ok) throw new Error('save'); clearDraft(); setText(saveEl, 'Sonuç kaydedildi. Öğrenme yolun hazır.'); } catch { setText(saveEl, 'Sonuç bu cihazda tutuldu. Hesabına aktarmak için giriş yapıp testi yeniden açabilirsin.'); } }
+  function showResult() { const result = placementResult(state); testPanel.hidden = true; resultPanel.hidden = false; setText(resultTitle, `Tahmini başlangıç seviyen: ${result.level}`); setText(resultCopy, `${result.questionsAnswered} soruda ${result.accuracy}% doğruluk. Bu sonuç yalnızca başlangıç için bir tahmindir; tüm dil becerilerini tek başına ölçmez.`); renderResultStats(result); setText(resultNext, `Önerilen ilk adım: ${result.level} seviyesindeki temel konularla başla, ardından kısa bir okuma ve kelime çalışmasıyla sonucu doğrula.`); void saveResult(); }
+  function renderQuestion() { if (shouldFinishPlacement(state)) return showResult(); currentQuestion = selectNextPlacementQuestion({ state, pool }); if (!currentQuestion) return showResult(); setText(stepEl, `Soru ${state.questions.length + 1}`); setText(currentEl, currentQuestion.level); setText(sourceEl, currentQuestion.source === 'reading' ? 'Okuma ve anlam' : 'Dil bilgisi'); setText(questionEl, currentQuestion.prompt); setText(feedbackEl, ''); nextButton.hidden = true; optionsEl.innerHTML = ''; currentQuestion.options.forEach((option, index) => { const button = document.createElement('button'); button.type = 'button'; button.className = 'placement-option'; button.textContent = option; button.addEventListener('click', () => answer(index, button)); optionsEl.append(button); }); const percent = Math.min(100, (state.questions.length / 24) * 100); progressBar.style.width = `${percent}%`; progress?.setAttribute('aria-valuenow', String(state.questions.length)); }
+  function answer(index, selectedButton) { if (!currentQuestion || state.questions.some((row) => row.id === currentQuestion.id)) return; const correct = index === currentQuestion.answer; state = recordPlacementAnswer(state, currentQuestion, correct, index); optionsEl.querySelectorAll('button').forEach((button) => { button.disabled = true; }); selectedButton.classList.add(correct ? 'is-correct' : 'is-wrong'); if (!correct) optionsEl.children[currentQuestion.answer]?.classList.add('is-correct'); setText(feedbackEl, correct ? 'Doğru. Bir sonraki soru buna göre seçiliyor.' : (currentQuestion.why || 'Bu cevap hedef seviyeyi yeniden ayarladı.')); saveDraft(); nextButton.hidden = false; if (shouldFinishPlacement(state)) setText(nextButton, 'Sonucu gör'); }
+  async function startTest(resume = false) { startButton.disabled = true; resumeButton.disabled = true; setText(startButton, 'Soru havuzu hazırlanıyor…'); try { const response = await fetch('/api/placement/pool'); if (!response.ok) throw new Error('pool'); const data = await response.json(); pool = Array.isArray(data.questions) ? data.questions : []; if (!pool.length) throw new Error('empty'); state = createPlacementState(); if (resume) { const draft = readDraft(); const byId = new Map(pool.map((question) => [question.id, question])); for (const answer of draft?.answers || []) { const question = byId.get(answer.id); if (question && Number.isInteger(answer.selectedIndex)) state = recordPlacementAnswer(state, question, answer.selectedIndex === question.answer, answer.selectedIndex); } } intro.hidden = true; resultPanel.hidden = true; testPanel.hidden = false; renderQuestion(); } catch { startButton.disabled = false; resumeButton.disabled = false; setText(startButton, 'Tekrar dene'); setText(feedbackEl, 'Soru havuzu şu anda yüklenemedi. Lütfen tekrar dene.'); } }
+  startButton?.addEventListener('click', () => startTest(false)); resumeButton?.addEventListener('click', () => startTest(true)); nextButton?.addEventListener('click', renderQuestion); restartButton?.addEventListener('click', () => { clearDraft(); state = createPlacementState(); resultPanel.hidden = true; testPanel.hidden = true; intro.hidden = false; startButton.disabled = false; setText(startButton, 'Seviye testini başlat'); resumeButton.hidden = true; setText(saveEl, ''); }); if (readDraft()) resumeButton.hidden = false;
 
-  const startButton = document.querySelector('#placement-start');
-  const resumeButton = document.querySelector('#placement-resume');
-  const testPanel = document.querySelector('#placement-test');
-  const resultPanel = document.querySelector('#placement-result');
-  const intro = document.querySelector('.placement-card__intro');
-  const questionEl = document.querySelector('#placement-question');
-  const optionsEl = document.querySelector('#placement-options');
-  const feedbackEl = document.querySelector('#placement-feedback');
-  const nextButton = document.querySelector('#placement-next');
-  const stepEl = document.querySelector('#placement-step');
-  const currentEl = document.querySelector('#placement-current');
-  const sourceEl = document.querySelector('#placement-source');
-  const progressBar = document.querySelector('#placement-progress-bar');
-  const saveEl = document.querySelector('#placement-save');
-  const resultTitle = document.querySelector('#placement-result-title');
-  const resultCopy = document.querySelector('#placement-result-copy');
-  const resultStats = document.querySelector('#placement-result-stats');
-  const resultNext = document.querySelector('#placement-result-next');
-  const restartButton = document.querySelector('#placement-restart');
-  const draftKey = 'languago:placement-draft';
-
-  let pool = [];
-  let state = createPlacementState();
-  let currentQuestion = null;
-
-  function setText(element, value) {
-    if (element) element.textContent = value;
-  }
-
-  function saveDraft() {
-    const result = placementResult(state);
-    localStorage.setItem(draftKey, JSON.stringify({
-      answers: state.questions,
-      clientResult: { level: result.level, confidence: result.confidence },
-    }));
-  }
-
-  function readDraft() {
-    try {
-      const draft = JSON.parse(localStorage.getItem(draftKey) || 'null');
-      return Array.isArray(draft?.answers) && draft.answers.length ? draft : null;
-    } catch {
-      localStorage.removeItem(draftKey);
-      return null;
-    }
-  }
-
-  function renderResultStats(result) {
-    if (!resultStats) return;
-    resultStats.innerHTML = '';
-    [
-      [`${result.accuracy}%`, 'genel doğruluk'],
-      [`${result.correctAnswers}/${result.questionsAnswered}`, 'doğru cevap'],
-      [`%${Math.round(result.confidence * 100)}`, 'sonuç güveni'],
-    ].forEach(([value, label]) => {
-      const item = document.createElement('div');
-      item.className = 'placement-stat';
-      item.innerHTML = `<strong>${value}</strong><span>${label}</span>`;
-      resultStats.append(item);
-    });
-  }
-
-  async function saveResult(result) {
-    setText(saveEl, 'Sonucun hesabına kaydediliyor…');
-    try {
-      const response = await fetch('/api/placement/save', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ answers: state.questions }),
-      });
-      if (!response.ok) throw new Error('save');
-      localStorage.removeItem(draftKey);
-      setText(saveEl, 'Sonuç kaydedildi. Öğrenme yolun hazır.');
-    } catch {
-      setText(saveEl, 'Sonuç bu cihazda tutuldu. Hesabına aktarmak için giriş yapıp testi yeniden açabilirsin.');
-    }
-  }
-
-  function showResult() {
-    const result = placementResult(state);
-    saveDraft();
-    testPanel.hidden = true;
-    resultPanel.hidden = false;
-    setText(resultTitle, `Tahmini başlangıç seviyen: ${result.level}`);
-    setText(resultCopy, `${result.questionsAnswered} soruda ${result.accuracy}% doğruluk. Bu, nereden başlaman gerektiğini görmek için hazırlanmış bir tahmindir; tüm dil becerilerini tek başına ölçmez.`);
-    renderResultStats(result);
-    setText(resultNext, `Önerilen ilk adım: ${result.level} seviyesindeki temel konularla başla, ardından kısa bir okuma ve kelime çalışmasıyla sonucu doğrula.`);
-    void saveResult(result);
-  }
-
-  function renderQuestion() {
-    if (shouldFinishPlacement(state)) return showResult();
-    currentQuestion = selectNextPlacementQuestion({ state, pool });
-    if (!currentQuestion) return showResult();
-    setText(stepEl, `Soru ${state.questions.length + 1}`);
-    setText(currentEl, currentQuestion.level);
-    setText(sourceEl, currentQuestion.source === 'reading' ? 'Okuma ve anlam' : 'Dil bilgisi');
-    setText(questionEl, currentQuestion.prompt);
-    setText(feedbackEl, '');
-    nextButton.hidden = true;
-    optionsEl.innerHTML = '';
-    currentQuestion.options.forEach((option, index) => {
-      const button = document.createElement('button');
-      button.type = 'button';
-      button.className = 'placement-option';
-      button.textContent = option;
-      button.addEventListener('click', () => answer(index, button));
-      optionsEl.append(button);
-    });
-    progressBar.style.width = `${Math.min(100, (state.questions.length / 12) * 100)}%`;
-    progressBar.parentElement?.setAttribute('aria-valuenow', String(state.questions.length));
-  }
-
-  function answer(index, selectedButton) {
-    if (!currentQuestion || state.questions.some((row) => row.id === currentQuestion.id)) return;
-    const correct = index === currentQuestion.answer;
-    state = recordPlacementAnswer(state, currentQuestion, correct, index);
-    optionsEl.querySelectorAll('button').forEach((button) => { button.disabled = true; });
-    selectedButton.classList.add(correct ? 'is-correct' : 'is-wrong');
-    if (!correct) optionsEl.children[currentQuestion.answer]?.classList.add('is-correct');
-    setText(feedbackEl, correct ? 'Doğru. Bir sonraki soru buna göre seçiliyor.' : (currentQuestion.why || 'Bu cevap hedef seviyeyi yeniden ayarladı.'));
-    saveDraft();
-    nextButton.hidden = false;
-    if (shouldFinishPlacement(state)) setText(nextButton, 'Sonucu gör');
-  }
-
-  async function startTest(resume = false) {
-    startButton.disabled = true;
-    resumeButton.disabled = true;
-    startButton.textContent = 'Soru havuzu hazırlanıyor…';
-    try {
-      const response = await fetch('/api/placement/pool');
-      if (!response.ok) throw new Error('pool');
-      const data = await response.json();
-      pool = Array.isArray(data.questions) ? data.questions : [];
-      if (!pool.length) throw new Error('empty');
-      state = createPlacementState();
-      if (resume) {
-        const draft = readDraft();
-        const byId = new Map(pool.map((question) => [question.id, question]));
-        for (const answer of draft?.answers || []) {
-          const question = byId.get(answer.id);
-          if (question && Number.isInteger(answer.selectedIndex)) {
-            state = recordPlacementAnswer(state, question, answer.correct === true, answer.selectedIndex);
-          }
-        }
-      }
-      intro.hidden = true;
-      testPanel.hidden = false;
-      renderQuestion();
-    } catch {
-      startButton.disabled = false;
-      resumeButton.disabled = false;
-      startButton.textContent = 'Tekrar dene';
-      setText(feedbackEl, 'Soru havuzu şu anda yüklenemedi. Lütfen tekrar dene.');
-    }
-  }
-
-  startButton?.addEventListener('click', () => startTest(false));
-  resumeButton?.addEventListener('click', () => startTest(true));
-  restartButton?.addEventListener('click', () => {
-    localStorage.removeItem(draftKey);
-    state = createPlacementState();
-    resultPanel.hidden = true;
-    intro.hidden = false;
-    startButton.disabled = false;
-    startButton.textContent = 'Seviye testini başlat';
-    resumeButton.hidden = true;
-    setText(saveEl, '');
-  });
-
-  if (readDraft()) resumeButton.hidden = false;
-
-  nextButton?.addEventListener('click', renderQuestion);
+  document.querySelectorAll('[data-audience]').forEach((button) => button.addEventListener('click', () => { const target = button.dataset.audience; document.querySelectorAll('[data-audience]').forEach((item) => { const active = item === button; item.classList.toggle('is-active', active); item.setAttribute('aria-selected', String(active)); }); document.querySelectorAll('[data-audience-panel]').forEach((panel) => { panel.hidden = panel.dataset.audiencePanel !== target; }); }));
 </script>
 
 <style>
-  .placement-section { padding-top: 2rem; }
-  .placement-card { display: grid; grid-template-columns: minmax(0, .8fr) minmax(0, 1.2fr); gap: 2rem; padding: clamp(1.25rem, 3vw, 2.4rem); border: 1px solid var(--line, #d8e2e1); border-radius: 1.5rem; background: linear-gradient(135deg, rgba(13,148,136,.08), rgba(255,255,255,.8)); }
-  .placement-card h2 { max-width: 14ch; margin: .35rem 0 .8rem; }
-  .placement-card h3 { margin: .6rem 0 1rem; line-height: 1.35; }
-  .placement-card p { max-width: 62ch; }
-  .placement-levels { display: flex; flex-wrap: wrap; gap: .4rem; margin: 1.2rem 0; }
-  .placement-levels span, .placement-current { display: inline-flex; align-items: center; justify-content: center; min-width: 2.2rem; padding: .35rem .55rem; border-radius: 999px; background: rgba(13,148,136,.12); color: var(--ink, #123); font-size: .78rem; font-weight: 800; letter-spacing: .04em; }
-  .placement-note { color: var(--ink-soft, #627); font-size: .86rem; }
-  .placement-test, .placement-result { align-self: center; padding: clamp(1rem, 2.5vw, 1.6rem); border-radius: 1rem; background: var(--surface, #fff); box-shadow: 0 14px 40px rgba(15, 45, 45, .08); }
-  .placement-test__topline { display: flex; align-items: center; justify-content: space-between; gap: 1rem; color: var(--ink-soft, #627); font-size: .85rem; font-weight: 700; }
-  .placement-progress { height: .4rem; margin: 1rem 0 1.25rem; overflow: hidden; border-radius: 999px; background: rgba(13,148,136,.12); }
-  .placement-progress span { display: block; height: 100%; width: 0; border-radius: inherit; background: #0d9488; transition: width .25s ease; }
-  .placement-source { margin: 0; color: var(--ink-soft, #627); font-size: .8rem; }
-  .placement-options { display: grid; gap: .6rem; }
-  .placement-option { width: 100%; padding: .8rem 1rem; border: 1px solid var(--line, #d8e2e1); border-radius: .75rem; background: transparent; color: inherit; text-align: left; cursor: pointer; transition: border-color .15s ease, background .15s ease; }
-  .placement-option:hover:not(:disabled) { border-color: #0d9488; background: rgba(13,148,136,.06); }
-  .placement-option:disabled { cursor: default; opacity: .9; }
-  .placement-option.is-correct { border-color: #0d9488; background: rgba(13,148,136,.14); }
-  .placement-option.is-wrong { border-color: #c2410c; background: rgba(194,65,12,.1); }
-  .placement-feedback { min-height: 1.5rem; margin: .9rem 0; font-size: .9rem; }
-  .placement-save { min-height: 1.25rem; margin: .25rem 0 .75rem; color: var(--ink-soft, #627); font-size: .8rem; }
-  .placement-resume { margin-left: .5rem; }
+  .home-page { background: #fbfaf6; color: #173c3e; }
+  .container { width: min(1120px, calc(100% - 2rem)); margin-inline: auto; }
+  .home-hero { display: grid; grid-template-columns: minmax(0, .9fr) minmax(360px, .8fr); gap: clamp(2rem, 6vw, 6rem); align-items: center; padding-block: clamp(3.5rem, 8vw, 7rem); }
+  .eyebrow { margin: 0; color: #0b746d; font-size: .74rem; font-weight: 800; letter-spacing: .1em; text-transform: uppercase; }
+  .home-hero h1 { max-width: 9ch; margin: .6rem 0 1rem; color: #123b3d; font-size: clamp(3rem, 7vw, 5.9rem); line-height: .98; letter-spacing: -.06em; }
+  .home-hero__lead { max-width: 54ch; color: #526664; font-size: clamp(1rem, 1.5vw, 1.2rem); line-height: 1.65; }
+  .home-actions, .placement-actions { display: flex; flex-wrap: wrap; align-items: center; gap: .7rem; margin-top: 1.6rem; }
+  .home-button { display: inline-flex; align-items: center; justify-content: center; gap: .45rem; border: 1px solid transparent; border-radius: .65rem; padding: .72rem 1rem; font: inherit; font-size: .9rem; font-weight: 750; text-decoration: none; cursor: pointer; }
+  .home-button--primary { background: #0b746d; color: #fff; }
+  .home-button--primary:hover, .home-button--primary:focus-visible { background: #075f5a; }
+  .home-button--quiet { border-color: #cfe1df; background: transparent; color: #0b635f; }
+  .home-trust, .placement-note { color: #70807d; font-size: .8rem; }
+  .audience, .placement-section, .coverage { padding-block: clamp(3.5rem, 7vw, 6rem); }
+  .section-heading { max-width: 660px; margin-bottom: 1.5rem; }
+  .section-heading h2 { margin: .45rem 0 0; color: #123b3d; font-size: clamp(1.9rem, 4vw, 3rem); letter-spacing: -.04em; }
+  .audience-switch { display: inline-flex; gap: .2rem; border: 1px solid #dbe7e4; border-radius: 999px; padding: .25rem; background: #f3f7f3; }
+  .audience-switch__button { border: 0; border-radius: 999px; padding: .6rem .9rem; background: transparent; color: #647572; font: inherit; font-size: .86rem; font-weight: 700; cursor: pointer; }
+  .audience-switch__button.is-active { background: #fff; color: #075f5a; box-shadow: 0 2px 10px rgba(21,63,63,.08); }
+  .audience-card { display: flex; align-items: center; justify-content: space-between; gap: 2rem; margin-top: 1rem; border: 1px solid #d8e6e2; border-radius: 1rem; padding: clamp(1.2rem, 3vw, 2rem); background: #f0f7f3; }
+  .audience-card h3 { margin: .35rem 0 .45rem; color: #163f40; font-size: clamp(1.25rem, 2.5vw, 1.8rem); }
+  .audience-card p { max-width: 65ch; margin: 0; color: #5d716e; line-height: 1.6; }
+  .placement-card { display: grid; grid-template-columns: minmax(0, .78fr) minmax(0, 1.22fr); gap: clamp(1.3rem, 4vw, 3.5rem); border: 1px solid #cfe1df; border-radius: 1.25rem; padding: clamp(1.3rem, 4vw, 3rem); background: #eef7f3; }
+  .placement-card h2 { max-width: 13ch; margin: .5rem 0 .8rem; color: #123b3d; font-size: clamp(1.9rem, 4vw, 3rem); line-height: 1.04; letter-spacing: -.04em; }
+  .placement-card__intro > p:not(.eyebrow):not(.placement-note) { max-width: 52ch; color: #536765; line-height: 1.6; }
+  .placement-levels { display: flex; flex-wrap: wrap; gap: .35rem; margin: 1.2rem 0; }
+  .placement-levels span, .placement-current { display: inline-flex; align-items: center; justify-content: center; min-width: 2.15rem; border-radius: 999px; padding: .35rem .55rem; background: #dcefe8; color: #075f5a; font-size: .75rem; font-weight: 800; }
+  .placement-test, .placement-result { align-self: center; border: 1px solid #d7e5e1; border-radius: .95rem; padding: clamp(1rem, 2.5vw, 1.6rem); background: #fffdf9; box-shadow: 0 12px 30px rgba(21,63,63,.07); }
+  .placement-test__topline { display: flex; justify-content: space-between; color: #61726f; font-size: .84rem; font-weight: 700; }
+  .placement-progress { height: .4rem; margin: 1rem 0 1.25rem; overflow: hidden; border-radius: 999px; background: #dcefe8; }
+  .placement-progress span { display: block; height: 100%; width: 0; border-radius: inherit; background: #0b8a7f; transition: width .25s ease; }
+  .placement-source { margin: 0; color: #70807d; font-size: .78rem; }
+  .placement-test h3 { margin: .6rem 0 1rem; color: #163f40; line-height: 1.4; }
+  :global(.placement-options) { display: grid; gap: .55rem; }
+  :global(.placement-option) { width: 100%; border: 1px solid #cfe1df; border-radius: .7rem; padding: .75rem .9rem; background: #fff; color: #173c3e; text-align: left; font: inherit; cursor: pointer; }
+  :global(.placement-option:hover:not(:disabled)), :global(.placement-option:focus-visible) { border-color: #0b8a7f; outline: 3px solid rgba(11,138,127,.14); }
+  :global(.placement-option:disabled) { cursor: default; opacity: .9; }
+  :global(.placement-option.is-correct) { border-color: #0b8a7f; background: #e5f5ef; }
+  :global(.placement-option.is-wrong) { border-color: #b84b35; background: #fff0eb; }
+  .placement-feedback { min-height: 1.5rem; color: #536665; font-size: .86rem; }
   .placement-result { grid-column: 1 / -1; }
-  .placement-result__stats { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: .6rem; margin: 1rem 0; }
-  .placement-stat { padding: .75rem; border: 1px solid var(--line, #d8e2e1); border-radius: .75rem; background: rgba(13,148,136,.05); }
-  .placement-stat strong, .placement-stat span { display: block; }
-  .placement-stat strong { color: #0d6f69; font-size: 1.25rem; }
-  .placement-stat span { color: var(--ink-soft, #627); font-size: .75rem; }
-  .placement-result__next { padding: .75rem 1rem; border-left: 3px solid #f59e0b; background: rgba(245,158,11,.08); }
-  #placement-restart { margin: .75rem 0 0; }
-  @media (max-width: 760px) { .placement-card { grid-template-columns: 1fr; } .placement-card h2 { max-width: none; } .placement-resume { display: block; margin: .6rem 0 0; } .placement-result__stats { grid-template-columns: 1fr; } }
-
-  /* V2 visual asset layer: real artwork, editable HTML remains the source of truth for UI copy. */
-  .home-hero { display: grid; grid-template-columns: minmax(0, 1.05fr) minmax(340px, .95fr); gap: clamp(1.5rem, 5vw, 4.5rem); align-items: center; padding-top: clamp(2rem, 6vw, 5rem); padding-bottom: clamp(2rem, 5vw, 4rem); }
-  .home-hero__copy h1 { max-width: 13ch; font-size: clamp(2.7rem, 6vw, 5.1rem); letter-spacing: -.045em; color: #08383b; }
-  .home-hero__copy .lead { max-width: 58ch; font-size: clamp(1rem, 1.4vw, 1.18rem); color: var(--ink-soft); }
-  .home-hero__visual { position: relative; min-height: 590px; padding: 1rem 0 0; }
-  .home-hero__art { position: relative; min-height: 520px; border-radius: 2rem; background: linear-gradient(145deg, #eaf8f4, #fffaf3); overflow: hidden; box-shadow: 0 30px 70px rgba(8,56,59,.14); }
-  .home-hero__art > img:first-child { display: block; width: 100%; height: 560px; object-fit: contain; object-position: center bottom; mix-blend-mode: multiply; }
-  .home-hero__books { position: absolute; right: -2.5rem; bottom: -1.2rem; width: 48%; height: auto; object-fit: contain; filter: drop-shadow(0 16px 12px rgba(8,56,59,.18)); mix-blend-mode: multiply; }
-  .route-card { position: relative; z-index: 2; display: grid; grid-template-columns: 2.25rem 1fr; gap: .15rem .7rem; align-items: center; max-width: 310px; margin: -2.2rem 1rem 0 auto; padding: .85rem 1rem; border: 1px solid rgba(8,56,59,.12); border-radius: 1rem; background: rgba(255,255,255,.94); box-shadow: 0 18px 38px rgba(8,56,59,.12); }
-  .route-card + .route-card { margin-top: .65rem; }
-  .route-card > span { grid-row: 1 / span 2; display: grid; place-items: center; width: 2.1rem; height: 2.1rem; border-radius: 50%; background: #dff4ed; color: #0b6b66; font-weight: 800; }
-  .route-card strong { color: #08383b; font-size: .95rem; }
-  .route-card small { color: var(--ink-soft); font-size: .78rem; }
-  .route-card--active { border-color: #e86a39; }
-  .route-card--active > span { background: #e86a39; color: #fff; }
-  @media (max-width: 760px) { .home-hero { grid-template-columns: 1fr; padding-top: 1.5rem; } .home-hero__copy h1 { max-width: 16ch; } .home-hero__visual { min-height: 0; } .home-hero__art { min-height: 390px; } .home-hero__art > img:first-child { height: 420px; } .home-hero__books { width: 45%; } .route-card { margin-top: -1.25rem; } }
+  .placement-result h3 { margin: .4rem 0; color: #123b3d; font-size: clamp(1.4rem, 3vw, 2.1rem); }
+  .placement-result__stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: .6rem; margin: 1rem 0; }
+  .placement-stat { border: 1px solid #d8e6e2; border-radius: .65rem; padding: .7rem; background: #f6faf7; }
+  .placement-stat strong, .placement-stat span { display: block; }.placement-stat strong { color: #075f5a; font-size: 1.15rem; }.placement-stat span { color: #6a7b78; font-size: .72rem; }
+  .placement-result__next { border-left: 3px solid #c28a36; padding: .7rem .9rem; background: #fff8e9; color: #596966; }
+  .placement-save { min-height: 1.25rem; color: #0b746d; font-size: .82rem; }
+  .coverage-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; }
+  .coverage-card { display: block; border-top: 2px solid #0b8a7f; padding: 1.2rem 1rem 1rem 0; color: inherit; text-decoration: none; }.coverage-card:hover h3 { color: #0b746d; }.coverage-card__number { color: #8a9a96; font-size: .75rem; font-weight: 800; }.coverage-card h3 { margin: .65rem 0 .35rem; color: #163f40; font-size: 1.3rem; }.coverage-card p { margin: 0 0 1rem; color: #60716e; line-height: 1.55; }.coverage-card__link { color: #0b746d; font-size: .85rem; font-weight: 800; }
+  @media (max-width: 800px) { .home-hero, .placement-card { grid-template-columns: 1fr; }.home-hero h1 { max-width: 11ch; }.audience-card { align-items: start; flex-direction: column; }.coverage-grid { grid-template-columns: 1fr; } }
+  @media (max-width: 520px) { .home-hero { padding-block: 2.5rem 3rem; }.home-actions, .placement-actions { align-items: stretch; flex-direction: column; }.home-button { width: 100%; }.placement-result__stats { grid-template-columns: 1fr; } }
 </style>

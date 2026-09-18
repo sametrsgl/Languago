@@ -26,11 +26,11 @@ assert.doesNotMatch(globalCss, /nav\.site a\.nav\s*\{[^}]*display:\s*none/s, 'pu
 
 assert.doesNotMatch(layout + home, /https:\/\/(instagram|x|discord|youtube)\.com/, 'placeholder social destinations are hidden/removed');
 assert.doesNotMatch(home + layout, /Temel öğretmen/i, 'misleading Temel öğretmen copy is removed');
-assert.match(home, /href="\/ogren"[^>]*>[^<]*(Öğrenmeye Başla|Başla)/, 'homepage has a primary student CTA to /ogren');
-assert.match(home, /Öğretmen araçları|Öğretmenler için/s, 'homepage visibly separates teacher tools track');
+assert.match(home, /href="\/ogren"[^>]*>[^<]*(Öğrenmeye başla|Öğrenme yolunu incele)/, 'homepage has a primary student CTA to /ogren');
+assert.match(home, /Öğretmenim|Öğretmen akışı|Materyal üretici/i, 'homepage visibly separates teacher tools track');
 assert.match(home, /A1[–-]C1[^.]{0,80}dilbilgisi|dilbilgisi[^.]{0,80}A1[–-]C1/s, 'homepage truthfully states grammar coverage as A1-C1');
 assert.match(home, /C2[^.]{0,100}(okuma|metin)|sınav[^.]{0,100}(okuma|metin)/is, 'homepage truthfully states C2/exam reading coverage');
-assert.match(home, /öğrenci[^.]{0,140}(cevap anahtarı|ayrı anahtar)|cevap anahtarı[^.]{0,140}öğrenci/is, 'material maker promise keeps student version/key separate without overclaiming');
+assert.match(home, /import MiniLessonPreview|<MiniLessonPreview\s*\/>/, 'homepage offers an actual interactive lesson preview');
 
 assert.doesNotMatch(dashboard, /best|lastScore|correct|Kelime \/ Puan/, 'dashboard does not treat arbitrary game points as words');
 assert.match(dashboard, /evidence\.accuracyPct|evidence\.exposure/, 'dashboard shows explicit learning evidence instead of a synthetic word count');

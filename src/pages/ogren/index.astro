@@ -2,20 +2,89 @@
 import Layout from '../../layouts/Layout.astro';
 import lessonsData from '../../data/public-lessons.json';
 const lessons = lessonsData.lessons;
+const levels = [...new Set(lessons.map((lesson) => lesson.level))];
 const siteUrl = Astro.site?.origin || 'https://www.languago.site';
-// Public lesson routes are intentionally explicit for crawl audits:
+// Public lesson routes remain explicit for crawl audits:
 // /ogren/a1-present-simple-routines /ogren/a1-place-prepositions
 // /ogren/a2-past-simple /ogren/b1-present-perfect-vs-past
 // /ogren/b1-restaurant-communication /ogren/b2-inference-reading
 ---
 <Layout title="Ücretsiz İngilizce Mini Dersler — Languago" description="A1-B2 seviyelerinde ücretsiz İngilizce grammar, vocabulary ve reading mini dersleri." canonical="https://www.languago.site/ogren">
-  <main id="main-content" class="container section">
-    <span class="kicker">Ücretsiz mini dersler</span>
-    <h1>İngilizce öğrenmeye bugün başla</h1>
-    <p class="muted">Seviyene uygun kısa açıklamalar, örnekler ve anında geri bildirimli pratikler.</p>
-    <div class="card-grid" style="margin-top:2rem;">
-      {lessons.map((lesson) => <a class="card" href={`/ogren/${lesson.slug}`}><strong>{lesson.level}</strong><h2>{lesson.title}</h2><p>{lesson.objective}</p><span class="btn secondary">Dersi aç →</span></a>)}
+  <section class="container section lesson-explorer" aria-labelledby="lessons-title">
+    <div class="lesson-explorer__intro">
+      <span class="kicker">Ücretsiz mini dersler</span>
+      <h1 id="lessons-title">İngilizce öğrenmeye bugün başla</h1>
+      <p class="muted">Seviyene uygun kısa açıklamalar, örnekler ve anında geri bildirimli pratikler.</p>
     </div>
-  </main>
+    <div class="lesson-filters" aria-label="Dersleri filtrele">
+      <div class="lesson-search">
+        <label for="lesson-search">Ders ara</label>
+        <input id="lesson-search" type="search" placeholder="Örn. past simple" autocomplete="off" />
+      </div>
+      <div class="lesson-levels" role="group" aria-label="Seviye filtresi">
+        <button class="lesson-filter is-active" type="button" data-level="all" aria-pressed="true">Tümü</button>
+        {levels.map((level) => <button class="lesson-filter" type="button" data-level={level} aria-pressed="false">{level}</button>)}
+      </div>
+      <div class="lesson-filter-actions">
+        <p id="lesson-count" class="lesson-count" role="status" aria-live="polite">{lessons.length} ders</p>
+        <button id="lesson-reset" class="btn ghost" type="button">Filtreleri sıfırla</button>
+      </div>
+    </div>
+    <div id="lesson-list" class="card-grid lesson-grid">
+      {lessons.map((lesson) => (
+        <a class="card lesson-card" data-level={lesson.level} data-search={`${lesson.title} ${lesson.objective} ${lesson.skill}`} href={`/ogren/${lesson.slug}`}>
+          <div class="lesson-card__meta"><span class="lesson-level">{lesson.level}</span><span>{lesson.skill === 'grammar' ? 'Grammar' : lesson.skill}</span></div>
+          <h2>{lesson.title}</h2>
+          <p>{lesson.objective}</p>
+          <span class="lesson-card__link">Dersi aç <span aria-hidden="true">→</span></span>
+        </a>
+      ))}
+    </div>
+    <div id="lesson-empty" class="lesson-empty" hidden>
+      <h2>Ders bulunamadı</h2>
+      <p>Arama kelimesini veya seviye filtresini değiştirerek tekrar dene.</p>
+      <button class="btn secondary" type="button" id="lesson-empty-reset">Filtreleri sıfırla</button>
+    </div>
+  </section>
   <script type="application/ld+json" set:html={JSON.stringify({ '@context': 'https://schema.org', '@type': 'ItemList', itemListElement: lessons.map((lesson, position) => ({ '@type': 'ListItem', position: position + 1, url: `${siteUrl}/ogren/${lesson.slug}` })) })} />
 </Layout>
+
+<script is:inline>
+  (function () {
+    var cards = Array.prototype.slice.call(document.querySelectorAll('.lesson-card'));
+    var buttons = Array.prototype.slice.call(document.querySelectorAll('.lesson-filter'));
+    var search = document.getElementById('lesson-search');
+    var count = document.getElementById('lesson-count');
+    var empty = document.getElementById('lesson-empty');
+    var reset = document.getElementById('lesson-reset');
+    var emptyReset = document.getElementById('lesson-empty-reset');
+    var selectedLevel = 'all';
+    function render() {
+      var query = (search.value || '').trim().toLocaleLowerCase('tr-TR');
+      var visible = 0;
+      cards.forEach(function (card) {
+        var matchesLevel = selectedLevel === 'all' || card.dataset.level === selectedLevel;
+        var matchesSearch = !query || card.dataset.search.toLocaleLowerCase('tr-TR').indexOf(query) !== -1;
+        var show = matchesLevel && matchesSearch;
+        card.hidden = !show;
+        if (show) visible += 1;
+      });
+      count.textContent = visible + ' ders';
+      empty.hidden = visible !== 0;
+    }
+    function setLevel(level) {
+      selectedLevel = level;
+      buttons.forEach(function (button) {
+        var active = button.dataset.level === level;
+        button.classList.toggle('is-active', active);
+        button.setAttribute('aria-pressed', String(active));
+      });
+      render();
+    }
+    function resetFilters() { search.value = ''; setLevel('all'); search.focus(); }
+    buttons.forEach(function (button) { button.addEventListener('click', function () { setLevel(button.dataset.level); }); });
+    search.addEventListener('input', render);
+    reset.addEventListener('click', resetFilters);
+    emptyReset.addEventListener('click', resetFilters);
+  })();
+</script>
