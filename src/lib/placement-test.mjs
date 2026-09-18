@@ -77,10 +77,24 @@ export function placementResult(stateInput) {
   const levelRow = state.stats[level] || { asked: 0, correct: 0 };
   const local = levelRow.asked ? Math.abs(mastery(state.stats, level) - 0.5) * 2 : 0;
   const confidence = Math.round(Math.min(0.99, evidence * 0.65 + local * 0.35) * 100) / 100;
+  const answered = state.questions.length;
+  const correct = state.questions.filter((question) => question.correct).length;
+  const bands = CEFR_LEVELS.map((band) => {
+    const bandStats = state.stats[band] || { asked: 0, correct: 0 };
+    return {
+      level: band,
+      asked: bandStats.asked,
+      correct: bandStats.correct,
+      accuracy: bandStats.asked ? Math.round((bandStats.correct / bandStats.asked) * 100) : null,
+    };
+  });
   return {
     level,
     confidence,
-    questionsAnswered: state.questions.length,
+    questionsAnswered: answered,
+    correctAnswers: correct,
+    accuracy: answered ? Math.round((correct / answered) * 100) : 0,
+    bands,
     stats: state.stats,
   };
 }

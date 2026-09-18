@@ -58,5 +58,15 @@ test('the result reports a level and confidence after enough evidence', () => {
   const result = placementResult(state);
   assert.ok(CEFR_LEVELS.includes(result.level));
   assert.ok(result.confidence > 0);
+  assert.equal(result.questionsAnswered, 9);
+  assert.equal(result.correctAnswers, 6);
+  assert.equal(result.accuracy, 67);
+  assert.equal(result.bands.find((band) => band.level === 'A1').accuracy, 100);
   assert.equal(shouldFinishPlacement(state), true);
+});
+
+test('the result exposes an honest empty-band state', () => {
+  const result = placementResult(createPlacementState());
+  assert.equal(result.accuracy, 0);
+  assert.equal(result.bands.find((band) => band.level === 'C2').accuracy, null);
 });
