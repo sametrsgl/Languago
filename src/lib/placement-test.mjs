@@ -108,10 +108,30 @@ export function shouldFinishPlacement(stateInput) {
   return result.confidence >= 0.68 && target.asked >= 2;
 }
 
+// Reading source IDs are `${passage.id}-${questionIndex}`. Keep that passage
+// context: a generic stem in another passage is a different reading task.
+function placementQuestionIdentity(question) {
+  const prompt = String(question?.prompt || '').trim().toLowerCase().replace(/\s+/g, ' ');
+  if (!prompt) return null;
+  const source = question.source || 'grammar';
+  const passage = source === 'reading'
+    ? String(question.sourceId || '').replace(/-\d+$/, '') || question.passageTitle || ''
+    : '';
+  return JSON.stringify([source, passage, prompt]);
+}
+
 export function selectNextPlacementQuestion({ state: stateInput, pool = [] } = {}) {
   const state = stateInput || createPlacementState();
   const seen = new Set(state.questions.map((row) => row.id));
-  const available = pool.filter((question) => question?.id && !seen.has(question.id));
+  // Resolve legacy/draft histories against the real pool; never trust stored
+  // prompt text, and never treat an option-order variant as new evidence.
+  const seenContent = new Set(pool
+    .filter((question) => seen.has(question?.id))
+    .map(placementQuestionIdentity)
+    .filter(Boolean));
+  const available = pool.filter((question) => question?.id
+    && !seen.has(question.id)
+    && !seenContent.has(placementQuestionIdentity(question)));
   if (!available.length) return null;
 
   const targetIndex = levelIndex(state.nextLevel);
