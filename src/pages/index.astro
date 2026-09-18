@@ -117,8 +117,8 @@ import MiniLessonPreview from '../components/home/MiniLessonPreview.astro';
     startButton.disabled = true; resumeButton.disabled = true;
     setText(loadError, ''); setText(startButton, 'Soru havuzu hazırlanıyor…');
     try {
-      // A versioned URL avoids using an older cached pool without reading text.
-      const response = await fetch('/api/placement/pool?v=2');
+      // Invalidate cached answer keys after the A1 subject-agreement correction.
+      const response = await fetch('/api/placement/pool?v=3');
       if (!response.ok) throw new Error('pool');
       const data = await response.json();
       pool = Array.isArray(data.questions) ? data.questions : [];

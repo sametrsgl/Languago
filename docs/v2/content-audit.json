@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-09-11T11:13:01.341Z",
+  "generatedAt": "2026-09-18T08:42:06.889Z",
   "status": "pass",
   "totals": {
     "grammarLevels": 5,
@@ -11,7 +11,7 @@
     "wordEntries": 5726,
     "registeredQuestions": 3167,
     "errors": 0,
-    "warnings": 1069
+    "warnings": 1068
   },
   "grammar": [
     {
@@ -76,8 +76,8 @@
       "uniqueRawPrompts": 22,
       "uniqueNormalizedPrompts": 22,
       "answerDistribution": {
-        "0": 7,
-        "1": 12,
+        "0": 8,
+        "1": 11,
         "2": 3
       }
     },
@@ -1306,10 +1306,6 @@
     {
       "scope": "grammar_mcq_a1.a1-04",
       "message": "answer distribution is imbalanced: {\"0\":3,\"1\":14,\"2\":4,\"3\":1}"
-    },
-    {
-      "scope": "grammar_mcq_a1.a1-05",
-      "message": "answer distribution is imbalanced: {\"0\":7,\"1\":12,\"2\":3}"
     },
     {
       "scope": "grammar_mcq_a1.a1-06",
