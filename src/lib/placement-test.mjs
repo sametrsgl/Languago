@@ -1,7 +1,20 @@
 export const CEFR_LEVELS = ['A1', 'A2', 'B1', 'B2', 'C1', 'C2'];
 
-const MIN_QUESTIONS = 8;
-const MAX_QUESTIONS = 24;
+const MIN_QUESTIONS = 30;
+const MAX_QUESTIONS = 40;
+
+const GOALS = Object.freeze({
+  general: 'Genel İngilizce',
+  ielts: 'IELTS',
+  toefl: 'TOEFL',
+  yds: 'YDS / YÖKDİL',
+  other: 'Diğer sınav / hedef',
+});
+
+function normalizeGoal(goal) {
+  const key = String(goal || 'general').toLowerCase();
+  return Object.hasOwn(GOALS, key) ? key : 'general';
+}
 
 function levelIndex(level) {
   const index = CEFR_LEVELS.indexOf(String(level || '').toUpperCase());
@@ -16,9 +29,11 @@ function emptyStats() {
   return Object.fromEntries(CEFR_LEVELS.map((level) => [level, { asked: 0, correct: 0 }]));
 }
 
-export function createPlacementState() {
+export function createPlacementState(profile = {}) {
   return {
-    version: 1,
+    version: 2,
+    learnerName: String(profile.learnerName || '').trim().slice(0, 120),
+    goal: normalizeGoal(profile.goal),
     nextLevel: 'A1',
     streak: 0,
     questions: [],
@@ -65,6 +80,21 @@ function mastery(stats, level) {
   return (row.correct + 1) / (row.asked + 2);
 }
 
+function estimatedExamScore(goal, level, accuracy) {
+  if (goal === 'general') return null;
+  const normalized = Math.max(0, Math.min(100, Number(accuracy) || 0));
+  const levelBonus = levelIndex(level) * 5;
+  if (goal === 'ielts') return Math.max(0, Math.min(9, Math.round((normalized / 100 * 6 + levelBonus / 10) * 2) / 2));
+  if (goal === 'toefl') return Math.max(0, Math.min(120, Math.round(normalized * 1.2 + levelBonus)));
+  if (goal === 'yds') return Math.max(0, Math.min(100, Math.round(normalized * 0.82 + levelBonus)));
+  return Math.max(0, Math.min(100, Math.round(normalized * 0.9 + levelBonus)));
+}
+
+function scoreLabel(goal, score) {
+  if (score == null) return 'Genel İngilizce · CEFR tahmini';
+  return `${GOALS[goal]} tahmini · ${score}`;
+}
+
 export function placementResult(stateInput) {
   const state = stateInput || createPlacementState();
   let level = 'A1';
@@ -88,12 +118,20 @@ export function placementResult(stateInput) {
       accuracy: bandStats.asked ? Math.round((bandStats.correct / bandStats.asked) * 100) : null,
     };
   });
+  const accuracy = answered ? Math.round((correct / answered) * 100) : 0;
+  const goal = normalizeGoal(state.goal);
+  const estimatedScore = estimatedExamScore(goal, level, accuracy);
   return {
+    learnerName: String(state.learnerName || '').trim(),
+    goal,
+    goalLabel: GOALS[goal],
     level,
     confidence,
     questionsAnswered: answered,
     correctAnswers: correct,
-    accuracy: answered ? Math.round((correct / answered) * 100) : 0,
+    accuracy,
+    estimatedScore,
+    scoreLabel: scoreLabel(goal, estimatedScore),
     bands,
     stats: state.stats,
   };
@@ -103,9 +141,7 @@ export function shouldFinishPlacement(stateInput) {
   const state = stateInput || createPlacementState();
   if (state.questions.length >= MAX_QUESTIONS) return true;
   if (state.questions.length < MIN_QUESTIONS) return false;
-  const result = placementResult(state);
-  const target = state.stats[state.nextLevel] || { asked: 0 };
-  return result.confidence >= 0.68 && target.asked >= 2;
+  return state.questions.length >= MIN_QUESTIONS;
 }
 
 export function getPlacementPassage(question, passages = {}) {
@@ -142,10 +178,23 @@ export function selectNextPlacementQuestion({ state: stateInput, pool = [] } = {
   if (!available.length) return null;
 
   const targetIndex = levelIndex(state.nextLevel);
+  const sourceCounts = state.questions.reduce((counts, row) => {
+    counts[row.source || 'grammar'] = (counts[row.source || 'grammar'] || 0) + 1;
+    return counts;
+  }, {});
+  const examGoal = ['ielts', 'toefl', 'yds', 'other'].includes(normalizeGoal(state.goal));
+  const sources = ['grammar', 'vocabulary', 'reading'];
+  const preferredSource = [...sources].sort((a, b) => {
+    const scoreA = (sourceCounts[a] || 0) + (examGoal && a === 'reading' ? -1 : 0);
+    const scoreB = (sourceCounts[b] || 0) + (examGoal && b === 'reading' ? -1 : 0);
+    return scoreA - scoreB || sources.indexOf(a) - sources.indexOf(b);
+  })[0];
   const ranked = [...available].sort((a, b) => {
     const distanceA = Math.abs(levelIndex(a.level) - targetIndex);
     const distanceB = Math.abs(levelIndex(b.level) - targetIndex);
-    return distanceA - distanceB || String(a.id).localeCompare(String(b.id));
+    const sourceA = a.source === preferredSource ? 0 : 1;
+    const sourceB = b.source === preferredSource ? 0 : 1;
+    return distanceA - distanceB || sourceA - sourceB || String(a.id).localeCompare(String(b.id));
   });
   return ranked[0];
 }

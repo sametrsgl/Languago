@@ -78,8 +78,8 @@ test('real-pool adaptive attempts retain gradual levels, stop and never reuse co
       state = recordPlacementAnswer(state, question, pattern(state.questions.length));
       const nextLevel = ['A1', 'A2', 'B1', 'B2', 'C1', 'C2'].indexOf(state.nextLevel);
       assert.ok(Math.abs(nextLevel - previousLevel) <= 1);
-      assert.ok(state.questions.length <= 24);
+      assert.ok(state.questions.length <= 40);
     }
-    assert.ok(state.questions.length >= 8);
+    assert.ok(state.questions.length >= 30);
   }
 });

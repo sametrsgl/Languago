@@ -62,11 +62,36 @@ test('the result reports a level and confidence after enough evidence', () => {
   assert.equal(result.correctAnswers, 6);
   assert.equal(result.accuracy, 67);
   assert.equal(result.bands.find((band) => band.level === 'A1').accuracy, 100);
-  assert.equal(shouldFinishPlacement(state), true);
+  assert.equal(shouldFinishPlacement(state), false);
 });
 
 test('the result exposes an honest empty-band state', () => {
   const result = placementResult(createPlacementState());
   assert.equal(result.accuracy, 0);
   assert.equal(result.bands.find((band) => band.level === 'C2').accuracy, null);
+});
+
+test('assessment requires at least 30 answered questions and retains learner goal metadata', () => {
+  const state = createPlacementState({ learnerName: 'Ada', goal: 'ielts' });
+  assert.equal(state.learnerName, 'Ada');
+  assert.equal(state.goal, 'ielts');
+  for (let i = 0; i < 29; i += 1) {
+    const question = { id: `q-${i}`, level: i % 2 ? 'A2' : 'A1', source: 'grammar' };
+    Object.assign(state, recordPlacementAnswer(state, question, true));
+  }
+  assert.equal(shouldFinishPlacement(state), false);
+  const completed = recordPlacementAnswer(state, { id: 'q-29', level: 'A2', source: 'grammar' }, true);
+  assert.equal(shouldFinishPlacement(completed), true);
+  assert.equal(placementResult(completed).goal, 'ielts');
+});
+
+test('estimated exam scores are bounded and goal-specific', () => {
+  let state = createPlacementState({ goal: 'toefl' });
+  for (let i = 0; i < 30; i += 1) {
+    state = recordPlacementAnswer(state, { id: `t-${i}`, level: 'B1', source: 'grammar' }, i % 3 !== 0);
+  }
+  const result = placementResult(state);
+  assert.equal(result.goal, 'toefl');
+  assert.ok(result.estimatedScore >= 0 && result.estimatedScore <= 120);
+  assert.match(result.scoreLabel, /TOEFL/);
 });

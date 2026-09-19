@@ -1,6 +1,6 @@
 import type { APIRoute } from 'astro';
 import { createSupabaseClient, pageCookieSource } from '../../../lib/supabase';
-import pool from '../../../data/placement-question-pool.json';
+import { assessmentQuestions } from '../../../lib/assessment-pool';
 import { placementResult, replayPlacementAnswers } from '../../../lib/placement-test.mjs';
 
 const MAX_BODY_BYTES = 16_384;
@@ -27,14 +27,24 @@ export const POST: APIRoute = async ({ request, cookies }) => {
   const user = authData.user;
   if (authError || !user) return json({ error: 'Oturum açman gerekiyor.' }, 401);
 
-  const state = replayPlacementAnswers(body?.answers, pool.questions);
+  const requestedName = typeof body?.learnerName === 'string' ? body.learnerName.trim().slice(0, 120) : '';
+  const requestedGoal = ['general', 'ielts', 'toefl', 'yds', 'other'].includes(body?.goal) ? body.goal : 'general';
+  const state = replayPlacementAnswers(body?.answers, assessmentQuestions);
+  state.learnerName = requestedName;
+  state.goal = requestedGoal;
   const result = placementResult(state);
   if (!state.completed) return json({ error: 'Seviye testini tamamlaman gerekiyor.' }, 400);
 
   const payload = {
-    version: 1,
+    version: 2,
+    learnerName: result.learnerName,
+    goal: result.goal,
+    goalLabel: result.goalLabel,
     level: result.level,
     confidence: result.confidence,
+    accuracy: result.accuracy,
+    estimatedScore: result.estimatedScore,
+    scoreLabel: result.scoreLabel,
     questionsAnswered: result.questionsAnswered,
     completedAt: new Date().toISOString(),
     answers: state.questions,

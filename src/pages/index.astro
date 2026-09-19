@@ -45,13 +45,25 @@ import MiniLessonPreview from '../components/home/MiniLessonPreview.astro';
           <h2 id="placement-title">İngilizce seviyeni tahmin etmeyelim.</h2>
           <p>A1’den C2’ye ilerleyen kısa seviye testi, verdiğin yanıtlara göre sıradaki soruyu seçer. Sonuç resmi sınav değildir; nereden başlaman gerektiğine dair bir çalışma tahminidir.</p>
           <div class="placement-levels" aria-label="CEFR seviyeleri"><span>A1</span><span>A2</span><span>B1</span><span>B2</span><span>C1</span><span>C2</span></div>
-          <div class="placement-actions"><button class="home-button home-button--primary" type="button" id="placement-start">Seviye testini başlat</button><button class="home-button home-button--quiet placement-resume" type="button" id="placement-resume" hidden>Teste devam et</button></div>
-          <p class="placement-note">Yaklaşık 8–24 soru · Yanıtların bu cihazda taslak olarak saklanabilir.</p>
+          <div class="placement-profile" aria-labelledby="placement-profile-title">
+            <h3 id="placement-profile-title">Önce öğrenciyi tanıyalım</h3>
+            <div class="placement-fields">
+              <label for="placement-name">Öğrencinin adı</label>
+              <input id="placement-name" name="placement-name" maxlength="120" autocomplete="name" placeholder="Örn. Deniz" />
+              <label for="placement-goal">Ne için hazırlanıyor?</label>
+              <select id="placement-goal" name="placement-goal">
+                <option value="general">Genel İngilizce</option><option value="ielts">IELTS</option><option value="toefl">TOEFL</option><option value="yds">YDS / YÖKDİL</option><option value="other">Diğer sınav / hedef</option>
+              </select>
+            </div>
+            <p class="placement-note">En az 30 soru sorulur. Doğru cevaplarda seviye yükselir, yanlış cevaplarda daha temel bir maddeye dönülür.</p>
+          </div>
+          <div class="placement-actions"><button class="home-button home-button--primary" type="button" id="placement-start" disabled>Seviye analizini başlat</button><button class="home-button home-button--quiet placement-resume" type="button" id="placement-resume" hidden>Teste devam et</button></div>
+          <p class="placement-note">30–40 soru · Yanıtların bu cihazda taslak olarak saklanabilir.</p>
           <p class="placement-feedback" id="placement-load-error" role="alert"></p>
         </div>
         <div class="placement-test" id="placement-test" hidden>
           <div class="placement-test__topline"><span id="placement-step">Soru 1</span><span class="placement-current" id="placement-current">A1</span></div>
-          <div class="placement-progress" role="progressbar" aria-label="Seviye testi ilerlemesi" aria-valuemin="0" aria-valuemax="24" aria-valuenow="0"><span id="placement-progress-bar"></span></div>
+          <div class="placement-progress" role="progressbar" aria-label="Seviye testi ilerlemesi" aria-valuemin="0" aria-valuemax="40" aria-valuenow="0"><span id="placement-progress-bar"></span></div>
           <p class="placement-source" id="placement-source"></p>
           <section class="placement-passage" id="placement-passage" aria-labelledby="placement-passage-label" hidden>
             <h3 id="placement-passage-label" tabindex="-1">Okuma metni</h3>
@@ -84,14 +96,17 @@ import MiniLessonPreview from '../components/home/MiniLessonPreview.astro';
 </Layout>
 
 <script>
-  import { createPlacementState, getPlacementPassage, placementResult, recordPlacementAnswer, replayPlacementAnswers, selectNextPlacementQuestion, shouldFinishPlacement } from '../lib/placement-test.mjs';
+  import { createPlacementState, getPlacementPassage, placementResult, recordPlacementAnswer, selectNextPlacementQuestion, shouldFinishPlacement } from '../lib/placement-test.mjs';
   const $ = (selector) => document.querySelector(selector);
   const startButton = $('#placement-start'); const resumeButton = $('#placement-resume'); const testPanel = $('#placement-test'); const resultPanel = $('#placement-result'); const intro = document.querySelector('.placement-card__intro');
-  const questionEl = $('#placement-question'); const optionsEl = $('#placement-options'); const feedbackEl = $('#placement-feedback'); const nextButton = $('#placement-next'); const stepEl = $('#placement-step'); const currentEl = $('#placement-current'); const sourceEl = $('#placement-source'); const progressBar = $('#placement-progress-bar'); const progress = document.querySelector('.placement-progress'); const saveEl = $('#placement-save'); const resultTitle = $('#placement-result-title'); const resultCopy = $('#placement-result-copy'); const resultStats = $('#placement-result-stats'); const resultNext = $('#placement-result-next'); const restartButton = $('#placement-restart'); const draftKey = 'languago:placement-draft';
+  const questionEl = $('#placement-question'); const optionsEl = $('#placement-options'); const feedbackEl = $('#placement-feedback'); const nextButton = $('#placement-next'); const stepEl = $('#placement-step'); const currentEl = $('#placement-current'); const sourceEl = $('#placement-source'); const progressBar = $('#placement-progress-bar'); const progress = document.querySelector('.placement-progress'); const saveEl = $('#placement-save'); const resultTitle = $('#placement-result-title'); const resultCopy = $('#placement-result-copy'); const resultStats = $('#placement-result-stats'); const resultNext = $('#placement-result-next'); const restartButton = $('#placement-restart'); const nameInput = $('#placement-name'); const goalInput = $('#placement-goal'); const draftKey = 'languago:placement-draft';
   const passageEl = $('#placement-passage'); const passageLabel = $('#placement-passage-label'); const passageTitle = $('#placement-passage-title'); const passageText = $('#placement-passage-text'); const loadError = $('#placement-load-error');
   let pool = []; let passages = {}; let state = createPlacementState(); let currentQuestion = null;
   const setText = (element, value) => { if (element) element.textContent = value; };
-  function saveDraft() { try { localStorage.setItem(draftKey, JSON.stringify({ answers: state.questions })); } catch { setText(saveEl, 'Taslak bu cihazda saklanamadı; teste devam edebilirsin.'); } }
+  function profile() { return { learnerName: String(nameInput?.value || '').trim().slice(0, 120), goal: String(goalInput?.value || 'general') }; }
+  function saveDraft() { try { localStorage.setItem(draftKey, JSON.stringify({ ...profile(), answers: state.questions })); } catch { setText(saveEl, 'Taslak bu cihazda saklanamadı; teste devam edebilirsin.'); } }
+  async function checkAnswer(id, selectedIndex) { const response = await fetch('/api/placement/check', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ id, selectedIndex }) }); if (!response.ok) throw new Error('check'); return response.json(); }
+  async function replayDraft(draft) { let replayed = createPlacementState(draft || {}); for (const row of (draft?.answers || []).slice(0, 40)) { const question = pool.find((item) => item.id === row.id); if (!question) continue; const checked = await checkAnswer(question.id, row.selectedIndex); replayed = recordPlacementAnswer(replayed, question, Boolean(checked.correct), row.selectedIndex); } return replayed; }
   function readDraft() { try { const draft = JSON.parse(localStorage.getItem(draftKey) || 'null'); return Array.isArray(draft?.answers) && draft.answers.length ? draft : null; } catch { try { localStorage.removeItem(draftKey); } catch {} return null; } }
   function clearDraft() { try { localStorage.removeItem(draftKey); } catch {} }
   function renderPassage() {
@@ -108,11 +123,11 @@ import MiniLessonPreview from '../components/home/MiniLessonPreview.astro';
     }
     (passage ? passageLabel : questionEl)?.focus();
   }
-  function renderResultStats(result) { if (!resultStats) return; resultStats.innerHTML = ''; [[`${result.accuracy}%`, 'genel doğruluk'], [`${result.correctAnswers}/${result.questionsAnswered}`, 'doğru cevap'], ['Tahmini', 'sonuç türü']].forEach(([value, label]) => { const item = document.createElement('div'); item.className = 'placement-stat'; const strong = document.createElement('strong'); strong.textContent = value; const span = document.createElement('span'); span.textContent = label; item.append(strong, span); resultStats.append(item); }); }
-  async function saveResult() { setText(saveEl, 'Sonucun hesabına kaydediliyor…'); try { const response = await fetch('/api/placement/save', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ answers: state.questions }) }); if (!response.ok) throw new Error('save'); clearDraft(); setText(saveEl, 'Sonuç kaydedildi. Öğrenme yolun hazır.'); } catch { setText(saveEl, 'Sonuç bu cihazda tutuldu. Hesabına aktarmak için giriş yapıp testi yeniden açabilirsin.'); } }
-  function showResult() { const result = placementResult(state); testPanel.hidden = true; resultPanel.hidden = false; setText(resultTitle, `Tahmini başlangıç seviyen: ${result.level}`); setText(resultCopy, `${result.questionsAnswered} soruda ${result.accuracy}% doğruluk. Bu sonuç yalnızca başlangıç için bir tahmindir; tüm dil becerilerini tek başına ölçmez.`); renderResultStats(result); setText(resultNext, `Önerilen ilk adım: ${result.level} seviyesindeki temel konularla başla, ardından kısa bir okuma ve kelime çalışmasıyla sonucu doğrula.`); void saveResult(); }
-  function renderQuestion() { if (shouldFinishPlacement(state)) return showResult(); currentQuestion = selectNextPlacementQuestion({ state, pool }); if (!currentQuestion) return showResult(); setText(stepEl, `Soru ${state.questions.length + 1}`); setText(currentEl, currentQuestion.level); setText(sourceEl, currentQuestion.source === 'reading' ? 'Okuma ve anlam' : 'Dil bilgisi'); setText(questionEl, currentQuestion.prompt); renderPassage(); setText(feedbackEl, ''); nextButton.hidden = true; optionsEl.innerHTML = ''; currentQuestion.options.forEach((option, index) => { const button = document.createElement('button'); button.type = 'button'; button.className = 'placement-option'; button.textContent = option; button.addEventListener('click', () => answer(index, button)); optionsEl.append(button); }); const percent = Math.min(100, (state.questions.length / 24) * 100); progressBar.style.width = `${percent}%`; progress?.setAttribute('aria-valuenow', String(state.questions.length)); }
-  function answer(index, selectedButton) { if (!currentQuestion || state.questions.some((row) => row.id === currentQuestion.id)) return; const correct = index === currentQuestion.answer; state = recordPlacementAnswer(state, currentQuestion, correct, index); optionsEl.querySelectorAll('button').forEach((button) => { button.disabled = true; }); selectedButton.classList.add(correct ? 'is-correct' : 'is-wrong'); if (!correct) optionsEl.children[currentQuestion.answer]?.classList.add('is-correct'); setText(feedbackEl, correct ? 'Doğru. Bir sonraki soru buna göre seçiliyor.' : (currentQuestion.why || 'Bu cevap hedef seviyeyi yeniden ayarladı.')); saveDraft(); nextButton.hidden = false; if (shouldFinishPlacement(state)) setText(nextButton, 'Sonucu gör'); }
+  function renderResultStats(result) { if (!resultStats) return; resultStats.innerHTML = ''; [[`${result.accuracy}%`, 'genel doğruluk'], [`${result.correctAnswers}/${result.questionsAnswered}`, 'doğru cevap'], [result.estimatedScore == null ? result.level : result.estimatedScore, result.scoreLabel]].forEach(([value, label]) => { const item = document.createElement('div'); item.className = 'placement-stat'; const strong = document.createElement('strong'); strong.textContent = value; const span = document.createElement('span'); span.textContent = label; item.append(strong, span); resultStats.append(item); }); }
+  async function saveResult() { setText(saveEl, 'Sonucun hesabına kaydediliyor…'); try { const response = await fetch('/api/placement/save', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ ...profile(), answers: state.questions }) }); if (!response.ok) throw new Error('save'); clearDraft(); setText(saveEl, 'Sonuç kaydedildi. Öğrenme yolun hazır.'); } catch { setText(saveEl, 'Sonuç bu cihazda tutuldu. Hesabına aktarmak için giriş yapıp testi yeniden açabilirsin.'); } }
+  function showResult() { const result = placementResult(state); testPanel.hidden = true; resultPanel.hidden = false; setText(resultTitle, `${result.learnerName ? `${result.learnerName}, ` : ''}tahmini seviyen: ${result.level}`); setText(resultCopy, `${result.goalLabel} için ${result.questionsAnswered} soruda %${result.accuracy} doğruluk. Bu skor resmi sınav sonucu değildir; öğrenme başlangıcı için gerçekçi bir tahmindir.`); renderResultStats(result); setText(resultNext, `Önerilen ilk adım: ${result.level} seviyesindeki temel konularla başla, ardından kısa bir okuma ve kelime çalışmasıyla sonucu doğrula.`); void saveResult(); }
+  function renderQuestion() { if (shouldFinishPlacement(state)) return showResult(); currentQuestion = selectNextPlacementQuestion({ state, pool }); if (!currentQuestion) return showResult(); setText(stepEl, `Soru ${state.questions.length + 1}`); setText(currentEl, currentQuestion.level); setText(sourceEl, currentQuestion.source === 'reading' ? 'Okuma ve anlam' : currentQuestion.source === 'vocabulary' ? 'Kelime ve anlam' : 'Dil bilgisi'); setText(questionEl, currentQuestion.prompt); renderPassage(); setText(feedbackEl, ''); nextButton.hidden = true; optionsEl.innerHTML = ''; currentQuestion.options.forEach((option, index) => { const button = document.createElement('button'); button.type = 'button'; button.className = 'placement-option'; button.textContent = option; button.addEventListener('click', () => answer(index, button)); optionsEl.append(button); }); const percent = Math.min(100, (state.questions.length / 40) * 100); progressBar.style.width = `${percent}%`; progress?.setAttribute('aria-valuenow', String(state.questions.length)); }
+  async function answer(index, selectedButton) { if (!currentQuestion || state.questions.some((row) => row.id === currentQuestion.id)) return; optionsEl.querySelectorAll('button').forEach((button) => { button.disabled = true; }); setText(feedbackEl, 'Cevabın değerlendiriliyor…'); try { const checked = await checkAnswer(currentQuestion.id, index); const correct = Boolean(checked.correct); state = recordPlacementAnswer(state, currentQuestion, correct, index); selectedButton.classList.add(correct ? 'is-correct' : 'is-wrong'); if (!correct) optionsEl.children[checked.correctIndex]?.classList.add('is-correct'); setText(feedbackEl, correct ? 'Doğru. Bir sonraki soru buna göre seçiliyor.' : (checked.why || 'Bu cevap hedef seviyeyi yeniden ayarladı.')); saveDraft(); nextButton.hidden = false; if (shouldFinishPlacement(state)) setText(nextButton, 'Sonucu gör'); } catch { setText(feedbackEl, 'Cevap doğrulanamadı. Bağlantını kontrol edip tekrar dene.'); optionsEl.querySelectorAll('button').forEach((button) => { button.disabled = false; }); } }
   async function startTest(resume = false) {
     startButton.disabled = true; resumeButton.disabled = true;
     setText(loadError, ''); setText(startButton, 'Soru havuzu hazırlanıyor…');
@@ -125,9 +140,12 @@ import MiniLessonPreview from '../components/home/MiniLessonPreview.astro';
       passages = data.passages || {};
       if (!pool.length) throw new Error('empty');
       if (pool.some((question) => question.source === 'reading' && !getPlacementPassage(question, passages))) throw new Error('missing passage');
-      state = createPlacementState();
+      state = createPlacementState(resume ? (readDraft() || profile()) : profile());
       if (resume) {
-        state = replayPlacementAnswers(readDraft()?.answers, pool);
+        const draft = readDraft();
+        if (draft?.learnerName && nameInput) nameInput.value = draft.learnerName;
+        if (draft?.goal && goalInput) goalInput.value = draft.goal;
+        state = await replayDraft(draft);
         saveDraft();
       }
       intro.hidden = true; resultPanel.hidden = true; testPanel.hidden = false; renderQuestion();
@@ -138,7 +156,7 @@ import MiniLessonPreview from '../components/home/MiniLessonPreview.astro';
       setText(loadError, 'Soru havuzu veya okuma metinleri yüklenemedi. Lütfen tekrar dene.');
     }
   }
-  startButton?.addEventListener('click', () => startTest(false)); resumeButton?.addEventListener('click', () => startTest(true)); nextButton?.addEventListener('click', renderQuestion); restartButton?.addEventListener('click', () => { clearDraft(); state = createPlacementState(); resultPanel.hidden = true; testPanel.hidden = true; intro.hidden = false; startButton.disabled = false; setText(startButton, 'Seviye testini başlat'); resumeButton.hidden = true; setText(saveEl, ''); }); if (readDraft()) resumeButton.hidden = false;
+  startButton?.addEventListener('click', () => startTest(false)); resumeButton?.addEventListener('click', () => startTest(true)); nextButton?.addEventListener('click', renderQuestion); restartButton?.addEventListener('click', () => { clearDraft(); state = createPlacementState(); resultPanel.hidden = true; testPanel.hidden = true; intro.hidden = false; startButton.disabled = !String(nameInput?.value || '').trim(); setText(startButton, 'Seviye analizini başlat'); resumeButton.hidden = true; setText(saveEl, ''); }); nameInput?.addEventListener('input', () => { startButton.disabled = !String(nameInput.value || '').trim(); }); if (readDraft()) resumeButton.hidden = false;
 
   document.querySelectorAll('[data-audience]').forEach((button) => button.addEventListener('click', () => { const target = button.dataset.audience; document.querySelectorAll('[data-audience]').forEach((item) => { const active = item === button; item.classList.toggle('is-active', active); item.setAttribute('aria-selected', String(active)); }); document.querySelectorAll('[data-audience-panel]').forEach((panel) => { panel.hidden = panel.dataset.audiencePanel !== target; }); }));
 </script>
@@ -197,7 +215,14 @@ import MiniLessonPreview from '../components/home/MiniLessonPreview.astro';
   .placement-stat strong, .placement-stat span { display: block; }.placement-stat strong { color: #075f5a; font-size: 1.15rem; }.placement-stat span { color: #6a7b78; font-size: .72rem; }
   .placement-result__next { border-left: 3px solid #c28a36; padding: .7rem .9rem; background: #fff8e9; color: #596966; }
   .placement-save { min-height: 1.25rem; color: #0b746d; font-size: .82rem; }
-  .coverage-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; }
+  .placement-profile { margin-top: 1.25rem; border: 1px solid #d1e4df; border-radius: .8rem; padding: .9rem; background: rgba(255,255,255,.55); }
+  .placement-profile h3 { margin: 0 0 .75rem; color: #163f40; font-size: 1rem; }
+  .placement-fields { display: grid; gap: .35rem; }
+  .placement-fields label { color: #536765; font-size: .78rem; font-weight: 750; }
+  .placement-fields input, .placement-fields select { width: 100%; min-height: 2.6rem; border: 1px solid #bdd7d2; border-radius: .55rem; padding: .55rem .65rem; background: #fffdf9; color: #173c3e; font: inherit; }
+  .placement-fields input:focus-visible, .placement-fields select:focus-visible { outline: 3px solid rgba(11,138,127,.2); outline-offset: 2px; border-color: #0b8a7f; }
+  .home-button:disabled { cursor: not-allowed; opacity: .55; }
+
   .coverage-card { display: block; border-top: 2px solid #0b8a7f; padding: 1.2rem 1rem 1rem 0; color: inherit; text-decoration: none; }.coverage-card:hover h3 { color: #0b746d; }.coverage-card__number { color: #8a9a96; font-size: .75rem; font-weight: 800; }.coverage-card h3 { margin: .65rem 0 .35rem; color: #163f40; font-size: 1.3rem; }.coverage-card p { margin: 0 0 1rem; color: #60716e; line-height: 1.55; }.coverage-card__link { color: #0b746d; font-size: .85rem; font-weight: 800; }
   @media (max-width: 800px) { .home-hero, .placement-card { grid-template-columns: 1fr; }.home-hero h1 { max-width: 11ch; }.audience-card { align-items: start; flex-direction: column; }.coverage-grid { grid-template-columns: 1fr; } }
   @media (max-width: 520px) { .home-hero { padding-block: 2.5rem 3rem; }.home-actions, .placement-actions { align-items: stretch; flex-direction: column; }.home-button { width: 100%; }.placement-result__stats { grid-template-columns: 1fr; } }

@@ -103,6 +103,33 @@ export function createVocabularyDiagnostic(inputWords = []) {
   return questions;
 }
 
+export function createAssessmentVocabulary(wordData = {}, limit = 5000) {
+  const records = recordsFromWordData(wordData)
+    .filter((word) => word.w && word.t && word.levels.length)
+    .sort((a, b) => hash(`assessment:${a.w}`) - hash(`assessment:${b.w}`));
+  const selected = records.slice(0, Math.max(0, Math.min(5000, Number(limit) || 0)));
+  const questions = [];
+  for (const [index, word] of selected.entries()) {
+    const level = word.levels.find((item) => CEFR_LEVELS.includes(item)) || 'A1';
+    const candidates = records.filter((item) => item.levels.includes(level));
+    const options = buildMeaningOptions(word, candidates, 4);
+    if (options.length < 2) continue;
+    const rotated = rotate(options, index);
+    questions.push({
+      id: `assessment-vocab-${String(index + 1).padStart(5, '0')}`,
+      sourceId: `vocabulary-${word.w}`,
+      level,
+      source: 'vocabulary',
+      passageTitle: null,
+      prompt: `“${word.w}” kelimesinin Türkçe karşılığı hangisi?`,
+      options: rotated,
+      answer: rotated.indexOf(options[0]),
+      why: word.e ? `Bağlam örneği: ${word.e}` : '',
+    });
+  }
+  return questions;
+}
+
 export function scoreVocabularyDiagnostic(questions, answers) {
   const stats = Object.fromEntries(CEFR_LEVELS.map((level) => [level, { asked: 0, correct: 0 }]));
   questions.forEach((question, index) => {

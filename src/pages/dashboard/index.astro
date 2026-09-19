@@ -138,6 +138,8 @@ try {
 const evidence = summarizeLearningEvidence(progress);
 const moduleCount = evidence.modules.length;
 const hasProgress = moduleCount > 0;
+const placementProgress = progress.find((row) => row.module === 'placement-test');
+const hasAssessment = Number(placementProgress?.payload?.questionsAnswered) >= 30;
 
 const studyLinks = [
   {
@@ -244,8 +246,8 @@ const nextAction = getNextLearningAction({ progress, steps });
                 <div class="start-path__head">Bugün nasıl başlarsın? 🌅</div>
                 <p class="start-path__body">
                   Yeni başlıyorsun — bu harika! 🎉 İlk adım olarak
-                  <a href="/dashboard/kelimeler">Kelime modülüyle</a> birkaç kelime öğrenmeyi dene.
-                  Serini burada görmeye başlayacaksın 🔥
+                  <a href={hasAssessment ? '/dashboard/kelimeler' : '/#level-test'}>{hasAssessment ? 'Kelime modülüyle' : '30 soruluk seviye analizini tamamlayarak'}</a> birkaç dakika ayır.
+                  {hasAssessment ? 'Serini burada görmeye başlayacaksın 🔥' : 'Sonuçtan sonra sana uygun öğrenme yolu açılacak.'}
                 </p>
               </div>
             )
@@ -271,6 +273,17 @@ const nextAction = getNextLearningAction({ progress, steps });
       </div>
       <a class="btn primary" href={nextAction.href}>Şimdi başla →</a>
     </section>
+
+    {!isTeacher && !hasAssessment && (
+      <section class="assessment-callout" aria-labelledby="assessment-callout-title">
+        <div>
+          <p class="eyebrow">Kişisel başlangıç haritası</p>
+          <h2 id="assessment-callout-title">Öğrenme yolunu açmak için seviye analizini tamamla.</h2>
+          <p class="muted">Adını ve hedefini seç; en az 30 uyarlanabilir sorudan sonra CEFR seviyeni ve hedef sınavın için gerçekçi bir tahmin al.</p>
+        </div>
+        <a class="btn primary" href="/#level-test">Analizi başlat →</a>
+      </section>
+    )}
 
     <div class="barline"></div>
 
@@ -431,7 +444,20 @@ const nextAction = getNextLearningAction({ progress, steps });
   </main>
 
   <style>
-    /* ===== Redesign of the student dashboard (additive — only new classes) ===== */
+    .assessment-callout {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 24px;
+      margin: 20px 0;
+      border: 1px solid #cfe1df;
+      border-radius: 16px;
+      padding: 20px 24px;
+      background: #eef7f3;
+    }
+    .assessment-callout h2 { margin: 4px 0 8px; color: #123b3d; font-size: clamp(1.2rem, 2vw, 1.7rem); }
+    @media (max-width: 600px) { .assessment-callout { align-items: flex-start; flex-direction: column; } }
+
     .dash-hero {
       display: flex;
       align-items: flex-start;

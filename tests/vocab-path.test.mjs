@@ -3,6 +3,7 @@ import assert from 'node:assert/strict';
 import {
   CEFR_LEVELS,
   createVocabularyDiagnostic,
+  createAssessmentVocabulary,
   scoreVocabularyDiagnostic,
   buildVocabularyPath,
   buildPersonalizedVocabularyPath,
@@ -19,6 +20,18 @@ const words = CEFR_LEVELS.flatMap((level) => Array.from({ length: 20 }, (_, i) =
   levels: [level],
 })));
 
+test('assessment vocabulary bank is capped, deterministic, and keeps Turkish options', () => {
+  const questions = createAssessmentVocabulary({
+    sets: Object.fromEntries(CEFR_LEVELS.map((level) => [level, words.filter((word) => word.levels[0] === level).map((word) => word.w)])),
+    words: Object.fromEntries(words.map((word) => [word.w, word])),
+  }, 5000);
+  assert.equal(questions.length, words.length);
+  assert.deepEqual(questions.map((q) => q.id), createAssessmentVocabulary({
+    sets: Object.fromEntries(CEFR_LEVELS.map((level) => [level, words.filter((word) => word.levels[0] === level).map((word) => word.w)])),
+    words: Object.fromEntries(words.map((word) => [word.w, word])),
+  }, 5000).map((q) => q.id));
+  assert.ok(questions.every((q) => q.source === 'vocabulary' && q.options.includes(words.find((word) => word.w === q.sourceId.replace('vocabulary-', '')).t)));
+});
 test('diagnostic contains exactly 80 questions ordered from easier to harder CEFR bands', () => {
   const questions = createVocabularyDiagnostic(words);
   assert.equal(questions.length, 80);
