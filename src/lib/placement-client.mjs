@@ -1,3 +1,17 @@
+import { createPlacementState, placementAnswerEntries, recordPlacementAnswer } from './placement-test.mjs';
+
+export async function replayPlacementDraft(draft, pool, checkAnswer) {
+  let state = createPlacementState(draft || {});
+  for (const { question, selectedIndex } of placementAnswerEntries(draft?.answers, pool)) {
+    if (state.completed) break;
+    // Public questions have no key. Regrade only valid, distinct tasks on the server.
+    // Let network failures reject: the caller must retain the original draft for retry.
+    const checked = await checkAnswer(question.id, selectedIndex);
+    state = recordPlacementAnswer(state, question, Boolean(checked.correct), selectedIndex);
+  }
+  return state;
+}
+
 export const PLACEMENT_CHECK_TIMEOUT_MS = 8_000;
 
 export async function checkPlacementAnswer(fetchImpl, id, selectedIndex, {

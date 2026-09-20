@@ -203,15 +203,13 @@ export function selectNextPlacementQuestion({ state: stateInput, pool = [] } = {
   return ranked[0];
 }
 
-// Drafts and API submissions are untrusted. Rebuild both from the same pool,
-// counting a task only once even when its options have been reordered.
-export function replayPlacementAnswers(answers, pool = []) {
-  let state = createPlacementState();
-  if (!Array.isArray(answers)) return state;
+// The browser and save route must accept the same bounded, unique evidence.
+// Resolve metadata from the pool; stored correctness and content keys are untrusted.
+export function* placementAnswerEntries(answers, pool = []) {
+  if (!Array.isArray(answers)) return;
   const byId = new Map(pool.map((question) => [question.id, question]));
   const seenContent = new Set();
-  for (const row of answers.slice(0, 40)) {
-    if (state.completed) break;
+  for (const row of answers.slice(0, MAX_QUESTIONS)) {
     if (typeof row?.id !== 'string' || !Number.isInteger(row?.selectedIndex)) continue;
     const question = byId.get(row.id);
     if (!question || !CEFR_LEVELS.includes(question.level)) continue;
@@ -219,7 +217,15 @@ export function replayPlacementAnswers(answers, pool = []) {
     const identity = placementQuestionIdentity(question);
     if (!identity || seenContent.has(identity)) continue;
     seenContent.add(identity);
-    state = recordPlacementAnswer(state, question, row.selectedIndex === question.answer, row.selectedIndex);
+    yield { question, selectedIndex: row.selectedIndex };
+  }
+}
+
+export function replayPlacementAnswers(answers, pool = []) {
+  let state = createPlacementState();
+  for (const { question, selectedIndex } of placementAnswerEntries(answers, pool)) {
+    if (state.completed) break;
+    state = recordPlacementAnswer(state, question, selectedIndex === question.answer, selectedIndex);
   }
   return state;
 }

@@ -98,7 +98,7 @@ import MiniLessonPreview from '../components/home/MiniLessonPreview.astro';
 
 <script>
   import { createPlacementState, getPlacementPassage, placementResult, recordPlacementAnswer, selectNextPlacementQuestion, shouldFinishPlacement } from '../lib/placement-test.mjs';
-  import { checkPlacementAnswer } from '../lib/placement-client.mjs';
+  import { checkPlacementAnswer, replayPlacementDraft } from '../lib/placement-client.mjs';
   const $ = (selector) => document.querySelector(selector);
   const startButton = $('#placement-start'); const resumeButton = $('#placement-resume'); const testPanel = $('#placement-test'); const resultPanel = $('#placement-result'); const intro = document.querySelector('.placement-card__intro');
   const questionEl = $('#placement-question'); const optionsEl = $('#placement-options'); const feedbackEl = $('#placement-feedback'); const nextButton = $('#placement-next'); const stepEl = $('#placement-step'); const currentEl = $('#placement-current'); const sourceEl = $('#placement-source'); const progressBar = $('#placement-progress-bar'); const progress = document.querySelector('.placement-progress'); const saveEl = $('#placement-save'); const resultTitle = $('#placement-result-title'); const resultCopy = $('#placement-result-copy'); const resultStats = $('#placement-result-stats'); const resultNext = $('#placement-result-next'); const restartButton = $('#placement-restart'); const nameInput = $('#placement-name'); const goalInput = $('#placement-goal'); const draftKey = 'languago:placement-draft';
@@ -108,7 +108,7 @@ import MiniLessonPreview from '../components/home/MiniLessonPreview.astro';
   function profile() { return { learnerName: String(nameInput?.value || '').trim().slice(0, 120), goal: String(goalInput?.value || 'general') }; }
   function saveDraft() { try { localStorage.setItem(draftKey, JSON.stringify({ ...profile(), answers: state.questions })); } catch { setText(saveEl, 'Taslak bu cihazda saklanamadı; teste devam edebilirsin.'); } }
   async function checkAnswer(id, selectedIndex) { return checkPlacementAnswer(fetch, id, selectedIndex); }
-  async function replayDraft(draft) { let replayed = createPlacementState(draft || {}); for (const row of (draft?.answers || []).slice(0, 40)) { const question = pool.find((item) => item.id === row.id); if (!question) continue; const checked = await checkAnswer(question.id, row.selectedIndex); replayed = recordPlacementAnswer(replayed, question, Boolean(checked.correct), row.selectedIndex); } return replayed; }
+  async function replayDraft(draft) { return replayPlacementDraft(draft, pool, checkAnswer); }
   function readDraft() { try { const draft = JSON.parse(localStorage.getItem(draftKey) || 'null'); return Array.isArray(draft?.answers) && draft.answers.length ? draft : null; } catch { try { localStorage.removeItem(draftKey); } catch {} return null; } }
   function clearDraft() { try { localStorage.removeItem(draftKey); } catch {} }
   function renderPassage() {
