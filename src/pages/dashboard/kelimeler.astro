@@ -9,7 +9,7 @@ const user = await getSessionUser(pageCookieSource(Astro));
 if (!user) return Astro.redirect('/signin');
 
 const diagnostic = createVocabularyDiagnostic(recordsFromWordData(WORD_DATA));
-const publicDiagnostic = diagnostic.map(({ answer: _answer, ...question }) => question);
+const publicDiagnostic = diagnostic;
 const diagnosticJson = JSON.stringify(publicDiagnostic).replace(/</g, '\\u003c');
 ---
 
@@ -63,7 +63,7 @@ const diagnosticJson = JSON.stringify(publicDiagnostic).replace(/</g, '\\u003c')
 <script is:inline id="vocab-diagnostic" type="application/json" set:html={diagnosticJson}></script>
 
 <script>
-  import { buildMeaningOptions } from '../../lib/vocab-path.mjs';
+  import { buildMeaningOptions, selectNextVocabularyQuestion } from '../../lib/vocab-path.mjs';
 
   const diagnostic = JSON.parse(document.querySelector('#vocab-diagnostic')?.textContent || '[]');
   const startButton = document.querySelector('#diagnostic-start');
@@ -75,24 +75,24 @@ const diagnosticJson = JSON.stringify(publicDiagnostic).replace(/</g, '\\u003c')
   const pathIntro = document.querySelector('#path-intro');
   const stepNav = document.querySelector('#step-nav');
   const workspace = document.querySelector('#step-workspace');
-  let diagnosticIndex = 0;
-  let answers = [];
+  let diagnosticQuestion = null;
+  let responses = [];
   let path = null;
   let currentStep = 0;
   let completedSteps = [];
-  const diagnosticDraftKey = 'languago:vocab-diagnostic:v1';
+  const diagnosticDraftKey = 'languago:vocab-diagnostic:v2';
 
   function loadDiagnosticDraft() {
     try {
       const draft = JSON.parse(localStorage.getItem(diagnosticDraftKey) || 'null');
-      if (!draft || !Array.isArray(draft.answers) || draft.answers.length >= diagnostic.length) return null;
-      if (draft.answers.some((answer) => !Number.isInteger(answer) || answer < 0 || answer > 3)) return null;
-      return draft.answers;
+      if (!draft || !Array.isArray(draft.responses) || draft.responses.length >= diagnostic.length) return null;
+      if (draft.responses.some((response) => !response?.id || !Number.isInteger(response.answer) || response.answer < 0 || response.answer > 3)) return null;
+      return draft.responses;
     } catch { return null; }
   }
 
   function saveDiagnosticDraft() {
-    try { localStorage.setItem(diagnosticDraftKey, JSON.stringify({ answers })); } catch { /* private mode/storage limits */ }
+    try { localStorage.setItem(diagnosticDraftKey, JSON.stringify({ responses })); } catch { /* private mode/storage limits */ }
   }
 
   function text(value) { return String(value ?? ''); }
@@ -117,24 +117,26 @@ const diagnosticJson = JSON.stringify(publicDiagnostic).replace(/</g, '\\u003c')
   }
 
   function renderDiagnostic() {
-    const question = diagnostic[diagnosticIndex];
-    if (!question) return finishDiagnostic();
-    diagnosticLevel.textContent = `${question.level} · ${diagnosticIndex + 1}/80`;
-    progressBar.style.width = `${(diagnosticIndex / diagnostic.length) * 100}%`;
+    diagnosticQuestion = selectNextVocabularyQuestion(diagnostic, responses, responses.map((response) => response.id));
+    if (!diagnosticQuestion) return finishDiagnostic();
+    diagnosticLevel.textContent = `${diagnosticQuestion.level} · ${responses.length + 1}/${diagnostic.length}`;
+    progressBar.style.width = `${(responses.length / diagnostic.length) * 100}%`;
     body.innerHTML = '';
-    const source = document.createElement('p'); source.className = 'muted small'; source.textContent = 'Kelime tanılaması'; body.append(source);
-    const title = document.createElement('h3'); title.textContent = question.prompt; body.append(title);
+    const source = document.createElement('p'); source.className = 'muted small'; source.textContent = `Kelime tanılaması · ${diagnosticQuestion.mode === 2 ? 'bağlamdan anlam' : 'anlamı geri çağırma'}`; body.append(source);
+    const title = document.createElement('h3'); title.textContent = diagnosticQuestion.prompt; body.append(title);
     const options = document.createElement('div'); options.className = 'answer-grid'; body.append(options);
-    question.options.forEach((option, index) => {
+    diagnosticQuestion.options.forEach((option, index) => {
       const answer = button(option, 'answer-button');
       answer.addEventListener('click', () => {
-        answers[diagnosticIndex] = index;
+        const correct = index === diagnosticQuestion.answer;
+        responses.push({ id: diagnosticQuestion.id, answer: index, correct });
         saveDiagnosticDraft();
         options.querySelectorAll('button').forEach((item) => { item.disabled = true; });
-        answer.classList.add('is-selected');
-        const next = button(diagnosticIndex === diagnostic.length - 1 ? 'Sonucu hesapla' : 'Sonraki soru →', 'btn primary');
-        next.addEventListener('click', () => { diagnosticIndex += 1; renderDiagnostic(); });
-        body.append(next);
+        answer.classList.add(correct ? 'is-selected' : 'is-wrong');
+        if (!correct) options.children[diagnosticQuestion.answer]?.classList.add('is-selected');
+        const feedback = document.createElement('p'); feedback.className = 'step-message'; feedback.textContent = correct ? 'Doğru. Sonraki kelime kanıtına göre seçilecek.' : 'Bu cevap da ölçümün bir parçası. Sonraki soru seviyeni yeniden ayarlayacak.'; body.append(feedback);
+        const next = button(responses.length >= diagnostic.length ? 'Sonucu hesapla' : 'Sonraki soru →', 'btn primary');
+        next.addEventListener('click', renderDiagnostic); body.append(next);
       });
       options.append(answer);
     });
@@ -145,7 +147,7 @@ const diagnosticJson = JSON.stringify(publicDiagnostic).replace(/</g, '\\u003c')
     body.innerHTML = '<p class="muted">Cevapların değerlendiriliyor…</p>';
     try {
       const resultResponse = await fetch('/api/vocab/diagnostic', {
-        method: 'POST', headers: { 'content-type': 'application/json' }, body: JSON.stringify({ answers }),
+        method: 'POST', headers: { 'content-type': 'application/json' }, body: JSON.stringify({ responses }),
       });
       const result = await resultResponse.json();
       if (!resultResponse.ok) throw new Error(result.error || 'diagnostic');
@@ -263,10 +265,10 @@ const diagnosticJson = JSON.stringify(publicDiagnostic).replace(/</g, '\\u003c')
 
   const savedDraft = loadDiagnosticDraft();
   if (savedDraft?.length) {
-    answers = savedDraft;
-    startButton.textContent = `Teste devam et (${answers.length}/${diagnostic.length})`;
+    responses = savedDraft;
+    startButton.textContent = `Teste devam et (${responses.length}/${diagnostic.length})`;
   }
-  startButton?.addEventListener('click', () => { startButton.remove(); diagnosticIndex = answers.length; renderDiagnostic(); });
+  startButton?.addEventListener('click', () => { startButton.remove(); renderDiagnostic(); });
 
   async function hydrateSavedDiagnostic() {
     try {

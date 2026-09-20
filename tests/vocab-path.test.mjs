@@ -9,6 +9,7 @@ import {
   buildPersonalizedVocabularyPath,
   buildMeaningOptions,
   pathStepTypes,
+  selectNextVocabularyQuestion,
 } from '../src/lib/vocab-path.mjs';
 
 const words = CEFR_LEVELS.flatMap((level) => Array.from({ length: 20 }, (_, i) => ({
@@ -49,6 +50,28 @@ test('every diagnostic option is a Turkish meaning, never an English dictionary 
     assert.ok(question.options.every((option) => TurkishMeanings.has(option)), `${question.id} leaked a non-Turkish option`);
   }
 });
+test('diagnostic is deterministically shuffled within each CEFR band and context prompts name the target word', () => {
+  const questions = createVocabularyDiagnostic(words);
+  assert.notEqual(questions[0].word, 'a1word0');
+  const contextual = questions.find((question) => question.mode === 2);
+  assert.match(contextual.prompt, new RegExp(contextual.word));
+});
+
+test('adaptive vocabulary selection covers CEFR anchors before following performance', () => {
+  const questions = createVocabularyDiagnostic(words);
+  const responses = [];
+  const asked = [];
+  for (let i = 0; i < 24; i += 1) {
+    const next = selectNextVocabularyQuestion(questions, responses, asked);
+    assert.ok(next);
+    asked.push(next.id);
+    responses.push({ id: next.id, answer: next.answer, correct: true });
+  }
+  assert.deepEqual(CEFR_LEVELS.map((level) => questions.filter((q) => q.level === level && asked.includes(q.id)).length), [4, 4, 4, 4, 4, 4]);
+  const harder = selectNextVocabularyQuestion(questions, responses, asked);
+  assert.ok(harder && ['A1', 'A2', 'B1', 'B2', 'C1', 'C2'].includes(harder.level));
+});
+
 
 test('diagnostic score returns a defensible level from per-band evidence', () => {
   const questions = createVocabularyDiagnostic(words);

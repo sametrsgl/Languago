@@ -18,13 +18,20 @@ export const POST: APIRoute = async ({ request, cookies }) => {
   if (new TextEncoder().encode(raw).byteLength > 16_384) return json({ error: 'İstek gövdesi çok büyük.' }, 413);
   let body: any;
   try { body = JSON.parse(raw); } catch { return json({ error: 'Geçersiz istek.' }, 400); }
-  const answers = Array.isArray(body?.answers) ? body.answers : [];
-  if (answers.length !== questions.length) return json({ error: 'Test tamamlanmadı.' }, 400);
-  if (answers.some((answer: unknown) => !Number.isInteger(answer) || Number(answer) < 0 || Number(answer) > 3)) {
+  const responses = Array.isArray(body?.responses)
+    ? body.responses
+    : Array.isArray(body?.answers)
+      ? body.answers.map((answer: number, index: number) => ({ id: questions[index]?.id, answer }))
+      : [];
+  if (responses.length !== questions.length) return json({ error: 'Test tamamlanmadı.' }, 400);
+  const ids: string[] = responses.map((response: any) => response?.id);
+  const uniqueIds = new Set<string>(ids);
+  if (responses.some((response: any) => !response || typeof response.id !== 'string' || !Number.isInteger(response.answer) || response.answer < 0 || response.answer > 3)) {
     return json({ error: 'Cevaplar geçersiz.' }, 400);
   }
+  if (uniqueIds.size !== questions.length || ids.some((id) => !questions.some((question) => question.id === id))) return json({ error: 'Test soruları geçersiz.' }, 400);
 
-  const result = scoreVocabularyDiagnostic(questions, answers);
+  const result = scoreVocabularyDiagnostic(questions, responses);
   const payload = {
     version: 1,
     status: 'diagnosed',

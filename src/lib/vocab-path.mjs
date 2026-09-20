@@ -81,13 +81,18 @@ export function buildMeaningOptions(target, candidates = [], count = 4) {
   return [correct, ...distractorMeanings];
 }
 
+function seededOrder(items, seed) {
+  return [...items].sort((a, b) => hash(`${seed}:${a.w}`) - hash(`${seed}:${b.w}`));
+}
+
 function makeQuestion(word, level, index, candidates) {
   const mode = index % 4;
   const correct = meaningFor(word);
-  const options = rotate([correct, ...distractors(word, candidates)], index);
+  const options = rotate([correct, ...distractors(word, candidates)], hash(`options:${word.w}:${index}`));
   const answer = options.indexOf(correct);
+  const example = word.e || `I used the word “${word.w}” in a sentence.`;
   const prompt = mode === 2
-    ? `Bu kelimeyi doğru bağlamda seç: ${word.e || `I used the word “${word.w}” in a sentence.`}`
+    ? `“${word.w}” kelimesi bu cümlede hangi anlamda kullanılmıştır? ${example}`
     : `“${word.w}” kelimesinin Türkçe karşılığı hangisi?`;
   return { id: `vocab-diagnostic-${level.toLowerCase()}-${index}`, level, word: word.w, prompt, options, answer, mode };
 }
@@ -97,10 +102,39 @@ export function createVocabularyDiagnostic(inputWords = []) {
   const questions = [];
   CEFR_LEVELS.forEach((level, levelIndex) => {
     const candidates = words.filter((word) => word.levels.includes(level));
-    const selected = rotate(candidates, levelIndex * 7).slice(0, QUESTION_COUNTS[levelIndex]);
+    const selected = seededOrder(candidates, `diagnostic:${level}`).slice(0, QUESTION_COUNTS[levelIndex]);
     selected.forEach((word, index) => questions.push(makeQuestion(word, level, index, candidates)));
   });
   return questions;
+}
+
+/**
+ * Select the next vocabulary diagnostic item from evidence rather than array order.
+ * The first 24 items provide four anchor items per CEFR band; the remaining items
+ * follow the learner's recent performance one band at a time. This gives broad
+ * coverage while still adapting difficulty.
+ */
+export function selectNextVocabularyQuestion(questions = [], responses = [], askedIds = []) {
+  const asked = new Set(askedIds.map(String));
+  const available = questions.filter((question) => !asked.has(String(question.id)));
+  if (!available.length) return null;
+  const counts = Object.fromEntries(CEFR_LEVELS.map((level) => [level, 0]));
+  for (const response of responses) {
+    const question = questions.find((item) => item.id === response.id);
+    if (question && counts[question.level] !== undefined) counts[question.level] += 1;
+  }
+  const anchorLevel = CEFR_LEVELS.find((level) => counts[level] < 4);
+  const last = responses.at(-1);
+  let targetIndex = anchorLevel ? CEFR_LEVELS.indexOf(anchorLevel) : 0;
+  if (!anchorLevel && last) {
+    const lastQuestion = questions.find((item) => item.id === last.id);
+    const lastIndex = lastQuestion ? CEFR_LEVELS.indexOf(lastQuestion.level) : 0;
+    targetIndex = Math.max(0, Math.min(CEFR_LEVELS.length - 1, lastIndex + (last.correct ? 1 : -1)));
+  }
+  const targetLevel = CEFR_LEVELS[targetIndex];
+  return available.find((question) => question.level === targetLevel)
+    || available.find((question) => Math.abs(CEFR_LEVELS.indexOf(question.level) - targetIndex) === 1)
+    || available[0];
 }
 
 export function createAssessmentVocabulary(wordData = {}, limit = 5000) {
@@ -132,12 +166,21 @@ export function createAssessmentVocabulary(wordData = {}, limit = 5000) {
 
 export function scoreVocabularyDiagnostic(questions, answers) {
   const stats = Object.fromEntries(CEFR_LEVELS.map((level) => [level, { asked: 0, correct: 0 }]));
-  questions.forEach((question, index) => {
+  const responseRows = Array.isArray(answers) && answers.every((answer) => answer && typeof answer === 'object')
+    ? answers
+    : questions.map((question, index) => ({ id: question.id, answer: answers?.[index] }));
+  const questionById = new Map(questions.map((question) => [question.id, question]));
+  let answered = 0;
+  for (const response of responseRows) {
+    const question = questionById.get(response?.id);
+    const selected = Number(response?.answer);
+    if (!question || !Number.isInteger(selected) || selected < 0 || selected > 3) continue;
     const row = stats[question.level];
-    if (!row) return;
+    if (!row) continue;
     row.asked += 1;
-    if (Number(answers?.[index]) === question.answer) row.correct += 1;
-  });
+    answered += 1;
+    if (selected === question.answer) row.correct += 1;
+  }
   let level = 'A1';
   for (const candidate of CEFR_LEVELS) {
     const row = stats[candidate];
@@ -145,9 +188,9 @@ export function scoreVocabularyDiagnostic(questions, answers) {
   }
   const target = stats[level];
   const ratio = target.asked ? target.correct / target.asked : 0;
-  const evidence = Math.min(1, questions.length / 80);
+  const evidence = Math.min(1, answered / 80);
   const confidence = Math.round(Math.min(0.99, evidence * 0.55 + Math.abs(ratio - 0.5) * 0.9) * 100) / 100;
-  return { level, confidence, questionsAnswered: questions.length, stats };
+  return { level, confidence, questionsAnswered: answered, stats };
 }
 
 export function recordsFromWordData(wordData = {}) {
