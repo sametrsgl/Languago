@@ -80,20 +80,7 @@ function mastery(stats, level) {
   return (row.correct + 1) / (row.asked + 2);
 }
 
-function estimatedExamScore(goal, level, accuracy) {
-  const normalized = Math.max(0, Math.min(100, Number(accuracy) || 0));
-  const levelBonus = levelIndex(level) * 5;
-  if (goal === 'general') return Math.max(0, Math.min(100, Math.round(normalized * 0.7 + levelBonus)));
-  if (goal === 'ielts') return Math.max(0, Math.min(9, Math.round((normalized / 100 * 6 + levelBonus / 10) * 2) / 2));
-  if (goal === 'toefl') return Math.max(0, Math.min(120, Math.round(normalized * 1.2 + levelBonus)));
-  if (goal === 'yds') return Math.max(0, Math.min(100, Math.round(normalized * 0.82 + levelBonus)));
-  return Math.max(0, Math.min(100, Math.round(normalized * 0.9 + levelBonus)));
-}
-
-function scoreLabel(goal, score) {
-  if (score == null) return 'Genel İngilizce · CEFR tahmini';
-  return `${GOALS[goal]} tahmini · ${score}`;
-}
+// Exam score mappings require outcome calibration; a CEFR estimate is not one.
 
 export function placementResult(stateInput) {
   const state = stateInput || createPlacementState();
@@ -103,10 +90,8 @@ export function placementResult(stateInput) {
     if ((row?.asked || 0) >= 2 && mastery(state.stats, candidate) >= 0.6) level = candidate;
   }
 
-  const evidence = Math.min(1, state.questions.length / 12);
-  const levelRow = state.stats[level] || { asked: 0, correct: 0 };
-  const local = levelRow.asked ? Math.abs(mastery(state.stats, level) - 0.5) * 2 : 0;
-  const confidence = Math.round(Math.min(0.99, evidence * 0.65 + local * 0.35) * 100) / 100;
+  // Unknown is not zero: preserve the payload field without inventing a probability.
+  const confidence = null;
   const answered = state.questions.length;
   const correct = state.questions.filter((question) => question.correct).length;
   const bands = CEFR_LEVELS.map((band) => {
@@ -120,7 +105,7 @@ export function placementResult(stateInput) {
   });
   const accuracy = answered ? Math.round((correct / answered) * 100) : 0;
   const goal = normalizeGoal(state.goal);
-  const estimatedScore = estimatedExamScore(goal, level, accuracy);
+  const estimatedScore = null;
   return {
     learnerName: String(state.learnerName || '').trim(),
     goal,
@@ -131,7 +116,7 @@ export function placementResult(stateInput) {
     correctAnswers: correct,
     accuracy,
     estimatedScore,
-    scoreLabel: scoreLabel(goal, estimatedScore),
+    scoreLabel: 'Başlangıç için CEFR tahmini',
     bands,
     stats: state.stats,
   };

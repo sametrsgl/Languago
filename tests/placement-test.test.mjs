@@ -48,7 +48,7 @@ test('a wrong answer moves the target down but never below A1', () => {
   assert.equal(state.nextLevel, 'B1');
 });
 
-test('the result reports a level and confidence after enough evidence', () => {
+test('the result reports observed evidence without invented confidence', () => {
   let state = createPlacementState();
   for (let i = 0; i < 3; i += 1) {
     state = recordPlacementAnswer(state, { id: `a1-${i}`, level: 'A1', source: 'grammar' }, true);
@@ -57,7 +57,7 @@ test('the result reports a level and confidence after enough evidence', () => {
   }
   const result = placementResult(state);
   assert.ok(CEFR_LEVELS.includes(result.level));
-  assert.ok(result.confidence > 0);
+  assert.equal(result.confidence, null);
   assert.equal(result.questionsAnswered, 9);
   assert.equal(result.correctAnswers, 6);
   assert.equal(result.accuracy, 67);
@@ -85,13 +85,22 @@ test('assessment requires at least 30 answered questions and retains learner goa
   assert.equal(placementResult(completed).goal, 'ielts');
 });
 
-test('estimated exam scores are bounded and goal-specific', () => {
-  let state = createPlacementState({ goal: 'toefl' });
-  for (let i = 0; i < 30; i += 1) {
-    state = recordPlacementAnswer(state, { id: `t-${i}`, level: 'B1', source: 'grammar' }, i % 3 !== 0);
+test('all goals retain observed accuracy and a CEFR estimate, never an exam score', () => {
+  for (const goal of ['general', 'ielts', 'toefl', 'yds', 'other']) {
+    for (const pattern of ['correct', 'incorrect', 'mixed', 'empty']) {
+      let state = createPlacementState({ learnerName: 'Alex', goal });
+      for (let i = 0; i < (pattern === 'empty' ? 0 : 30); i += 1) {
+        const correct = pattern === 'correct' || (pattern === 'mixed' && i % 3 !== 0);
+        state = recordPlacementAnswer(state, { id: `t-${i}`, level: 'B1', source: 'grammar' }, correct);
+      }
+      const result = placementResult(state);
+      assert.equal(result.goal, goal);
+      assert.equal(result.learnerName, 'Alex');
+      assert.equal(result.estimatedScore, null, `${goal}/${pattern}: no calibrated exam mapping exists`);
+      assert.equal(result.confidence, null, `${goal}/${pattern}: no calibrated probability exists`);
+      assert.equal(result.scoreLabel, 'Başlangıç için CEFR tahmini');
+      assert.equal(result.accuracy, { correct: 100, incorrect: 0, mixed: 67, empty: 0 }[pattern]);
+      assert.ok(CEFR_LEVELS.includes(result.level));
+    }
   }
-  const result = placementResult(state);
-  assert.equal(result.goal, 'toefl');
-  assert.ok(result.estimatedScore >= 0 && result.estimatedScore <= 120);
-  assert.match(result.scoreLabel, /TOEFL/);
 });

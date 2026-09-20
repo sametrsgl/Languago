@@ -71,7 +71,7 @@ const compiled = await build({ entryPoints: ['src/pages/api/placement/save.ts'],
     },
   }] });
 const { POST } = await import(`data:text/javascript;base64,${Buffer.from(compiled.outputFiles[0].text).toString('base64')}`);
-async function request(answers, authenticated = true) {
+async function request(answers, authenticated = true, profile = {}) {
   const writes = [];
   const client = {
     auth: { getUser: async () => ({ data: { user: authenticated ? { id: 'test-user' } : null }, error: null }) },
@@ -81,7 +81,7 @@ async function request(answers, authenticated = true) {
     }),
   };
   const response = await POST({ cookies: client, request: new Request('https://example.invalid/api/placement/save', {
-    method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ answers }),
+    method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ ...profile, answers }),
   }) });
   return { response, writes };
 }
@@ -103,6 +103,24 @@ test('save persists exactly the deduplicated completed history and its count', a
   assert.equal(payload.questionsAnswered, expected.questions.length);
   assert.equal(payload.level, placement.placementResult(expected).level);
   assert.equal(writes.find((write) => write.table === 'profiles').id, 'test-user');
+});
+
+test('save retains goals but never persists client-supplied scores or numeric confidence', async () => {
+  const completed = completedAttempt();
+  for (const goal of ['general', 'ielts', 'toefl', 'yds', 'other']) {
+    const { response, writes } = await request(completed.questions, true, {
+      learnerName: 'Alex', goal, estimatedScore: 120, confidence: 0.99, scoreLabel: 'Injected score',
+    });
+    assert.equal(response.status, 200);
+    const payload = writes.find((write) => write.table === 'student_progress').row.payload;
+    assert.equal(payload.goal, goal);
+    assert.equal(payload.learnerName, 'Alex');
+    assert.equal(payload.estimatedScore, null);
+    assert.equal(payload.confidence, null);
+    assert.equal(payload.scoreLabel, 'Başlangıç için CEFR tahmini');
+    assert.equal(payload.accuracy, 100);
+    assert.equal((await response.json()).confidence, null);
+  }
 });
 
 test('replay bounds oversized drafts and retains the existing 40-row API limit', () => {

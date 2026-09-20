@@ -15,13 +15,13 @@ Two consecutive correct answers move the target up one CEFR band. A wrong answer
 
 Every result reports:
 
-- CEFR estimate (A1–C2);
-- answered/correct counts and accuracy;
-- target label;
-- confidence based on answered volume and band evidence;
-- an estimated target score for IELTS, TOEFL, YDS/YÖKDİL or another target.
+- a provisional CEFR starting-level estimate (A1–C2);
+- observed answered/correct counts and accuracy, including per-band evidence;
+- the learner's selected target label, not an exam-specific assessment claim.
 
-Exam scores are explicitly estimates, not official exam results or a substitute for a full four-skill exam. The current formula is a bounded orientation score; it must not be presented as a calibrated prediction until it is validated against real exam outcomes.
+`estimatedScore` and `confidence` remain in the result/save payload for compatibility, but are explicitly `null`. There is no calibrated exam-score mapping or confidence probability. The removed arithmetic formulas must not be restored without validation against real response data and exam outcomes. Accuracy is the observed proportion correct, not an exam score or a confidence estimate.
+
+The homepage explicitly says the test does not produce IELTS/TOEFL/YDS scores and does not measure speaking, listening or writing. A CEFR label is only a starting point for choosing study material; it is neither certification nor a validated four-skill level assessment. Older stored results are not migrated by this change.
 
 ## Question inventory verified in the repository
 
@@ -40,5 +40,5 @@ An anonymous learner gets a local draft. After signup or signin, the existing op
 
 1. Add authored, validated exam-specific task types instead of treating general grammar/reading as an official IELTS/TOEFL/YDS test.
 2. Expand reading with new passage-specific questions until the target inventory is reached; preserve stable IDs and passage context.
-3. Calibrate score mappings with real benchmark observations before exposing score bands as anything stronger than orientation estimates.
+3. Collect real response data and benchmark observations before considering calibrated exam-score mappings or confidence estimates.
 4. Add rate limiting or authenticated test sessions if automated answer probing becomes an operational risk; the answer key is no longer included in the public pool, while the checker returns only the result for a submitted item.
