@@ -31,6 +31,7 @@ export function summarizeLearningEvidence(rows = []) {
   for (const row of Array.isArray(rows) ? rows : []) {
     if (!row || typeof row !== 'object') continue;
     const module = String(row.module ?? '').trim();
+    if (module === 'daily-plan') continue;
     if (module && !modules.includes(module)) modules.push(module);
     const payload = row.payload && typeof row.payload === 'object' ? row.payload : {};
 

@@ -21,3 +21,15 @@ test('placement pool items have valid answer indexes and source identity', () =>
     assert.ok(question.answer >= 0 && question.answer < question.options.length);
   }
 });
+
+test('rotated records expose one canonical content key per source question', () => {
+  const groups = new Map();
+  for (const question of pool.questions) {
+    assert.equal(question.contentKey, `${question.source}:${question.sourceId}`);
+    const records = groups.get(question.contentKey) || [];
+    records.push(question);
+    groups.set(question.contentKey, records);
+  }
+  assert.ok([...groups.values()].some((records) => records.length > 1));
+  assert.equal(groups.size, pool.baseItems);
+});

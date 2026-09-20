@@ -81,9 +81,9 @@ function mastery(stats, level) {
 }
 
 function estimatedExamScore(goal, level, accuracy) {
-  if (goal === 'general') return null;
   const normalized = Math.max(0, Math.min(100, Number(accuracy) || 0));
   const levelBonus = levelIndex(level) * 5;
+  if (goal === 'general') return Math.max(0, Math.min(100, Math.round(normalized * 0.7 + levelBonus)));
   if (goal === 'ielts') return Math.max(0, Math.min(9, Math.round((normalized / 100 * 6 + levelBonus / 10) * 2) / 2));
   if (goal === 'toefl') return Math.max(0, Math.min(120, Math.round(normalized * 1.2 + levelBonus)));
   if (goal === 'yds') return Math.max(0, Math.min(100, Math.round(normalized * 0.82 + levelBonus)));
@@ -154,11 +154,16 @@ export function getPlacementPassage(question, passages = {}) {
 // Reading source IDs are `${passage.id}-${questionIndex}`. Keep that passage
 // context: a generic stem in another passage is a different reading task.
 function placementQuestionIdentity(question) {
+  const source = question?.source || 'grammar';
+  const sourceId = String(question?.sourceId || '');
+  const expectedContentKey = sourceId ? `${source}:${sourceId}` : '';
+  if (question?.contentKey && (!sourceId || String(question.contentKey) === expectedContentKey)) {
+    return String(question.contentKey);
+  }
   const prompt = String(question?.prompt || '').trim().toLowerCase().replace(/\s+/g, ' ');
   if (!prompt) return null;
-  const source = question.source || 'grammar';
   const passage = source === 'reading'
-    ? String(question.sourceId || '').replace(/-\d+$/, '') || question.passageTitle || ''
+    ? sourceId.replace(/-\d+$/, '') || question.passageTitle || ''
     : '';
   return JSON.stringify([source, passage, prompt]);
 }

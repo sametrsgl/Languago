@@ -7,6 +7,7 @@ import { getSessionUser } from '../../../../lib/auth';
 import { pageCookieSource } from '../../../../lib/supabase';
 import { GRAMMAR_LEVELS, loadGrammar, loadGrammarMcq, exportSuffix, levelTitle } from '../../../../lib/study';
 import { visibleGrammarActivities } from '../../../../lib/game-grammar.mjs';
+import { presentMultipleChoice } from '../../../../lib/question-presentation.mjs';
 
 const user = await getSessionUser(pageCookieSource(Astro));
 if (!user) return Astro.redirect('/signin');
@@ -28,8 +29,11 @@ if (!unit) return Astro.redirect(`/dashboard/dilbilgisi/${level}`);
 const slides: { h: string; b: string }[] = unit.slides ?? [];
 const mistakes: { w: string; r: string; n: string }[] = unit.mistakes ?? [];
 const practice: { q: string; hint: string; a: string[] }[] = unit.practice ?? [];
-const quiz: { q: string; options: string[]; a: number }[] = (mcqGroups && mcqGroups[unitId]) || [];
-const total = quiz.length;
+const quiz: { q: string; options: string[]; a: number; why?: string[] }[] = (mcqGroups && mcqGroups[unitId]) || [];
+const quizForDisplay = quiz.map((question, index) =>
+  presentMultipleChoice(question, `${level}:${unitId}:${index}`),
+);
+const total = quizForDisplay.length;
 
 // --- sekme kategorisi: slayt başlığından türetilir (genel ünitelerde zarifçe boşalır) ---
 function normTR(s: string): string {
@@ -106,6 +110,9 @@ const productionPrompts = practice.slice(0, 3).map((p, i) => ({
   cue: p.q || '',
   target: (p.a && p.a[0]) || '',
 }));
+
+// Konu uygunluk algılayıcı görünür etkinlik sayısından önce çalışmalıdır.
+const pronounRelated = isPronounUnit();
 const visibleActivities = visibleGrammarActivities({
   quizCount: quiz.length,
   practiceCount: practice.length,
@@ -115,7 +122,7 @@ const visibleActivities = visibleGrammarActivities({
 });
 const interactCount = visibleActivities.reduce((sum, a) => sum + a.total, 0);
 const grammarStateJson = JSON.stringify({
-  level, unitId, unitTitle: unit.title, unitShort: unit.short, slides, quiz, practice, mistakes, pairs: PAIRS, pronounRelated, productionPrompts,
+  level, unitId, unitTitle: unit.title, unitShort: unit.short, slides, quiz: quizForDisplay, practice, mistakes, pairs: PAIRS, pronounRelated, productionPrompts,
 }).replace(/</g, '\\u003c');
 
 // --- Konu uygunluk algılayıcı: zamir/iyelik ünitesi mi? ---
@@ -134,7 +141,6 @@ function isPronounUnit(): boolean {
     'mine,', 'yours,', 'his,', 'hers,', 'ours,', 'theirs,', 'sahip', 'iyelik zamiri'];
   return markers.some((m) => hay.includes(m));
 }
-const pronounRelated = isPronounUnit();
 // Zamirle ilgisiz ünitelerde sekmeler 'Tümü' dışındaki kategorileri gereksiz kılar.
 const TABS_ACTIVE = pronounRelated
   ? TABS
@@ -265,7 +271,7 @@ const TABS_ACTIVE = pronounRelated
           Her soru için <strong>anında</strong> geri bildirim alırsın; yanlışta <strong>Neden?</strong> ile açıklamayı gör.
         </div>
         <div id="quizBox">
-          {quiz.map((qq, i) => (
+          {quizForDisplay.map((qq, i) => (
             <div class="quiz-q" data-idx={i} data-total={total}>
               <div class="qq">{i + 1}. {qq.q}</div>
               {qq.options.map((opt, oi) => (
@@ -590,7 +596,7 @@ const TABS_ACTIVE = pronounRelated
     }
   </style>
 
-  <script define:vars={{ level, unitId, unitTitle: unit.title, unitShort: unit.short, slides, quiz, practice, mistakes, pairs: PAIRS, pronounRelated }}>
+  <script define:vars={{ level, unitId, unitTitle: unit.title, unitShort: unit.short, slides, quiz: quizForDisplay, practice, mistakes, pairs: PAIRS, pronounRelated }}>
     (function () {
       // ---- yardımcılar ----
       function shuffle(a) { var arr = a.slice(); for (var i = arr.length - 1; i > 0; i--) { var j = Math.floor(Math.random() * (i + 1)); var t = arr[i]; arr[i] = arr[j]; arr[j] = t; } return arr; }

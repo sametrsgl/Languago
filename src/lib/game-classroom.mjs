@@ -1,3 +1,5 @@
+import { presentMultipleChoice } from './question-presentation.mjs';
+
 export function buildCuratedClassTopics({ level, levelLabel, grammar, mcqGroups } = {}) {
   const units = Array.isArray(grammar?.units) ? grammar.units : [];
   const groups = mcqGroups && typeof mcqGroups === 'object' ? mcqGroups : {};
@@ -57,12 +59,16 @@ export function classQuestionFeedback(question, chosenIdx) {
 }
 
 function normalizeQuestion(q, id) {
+  const presented = presentMultipleChoice({
+    ...q,
+    options: q.o || q.options || [],
+  }, id);
   return {
     id,
-    q: String(q.q || ''),
-    o: (q.o || q.options || []).map(String),
-    a: Number(q.a),
-    why: q.why || null,
+    q: String(presented.q || ''),
+    o: (presented.options || []).map(String),
+    a: Number(presented.a),
+    why: presented.why || null,
     objective: q.objective || null,
     t: q.t || 3,
   };

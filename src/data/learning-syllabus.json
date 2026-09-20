@@ -1,0 +1,167 @@
+{
+  "schema": "languago-learning-syllabus/v1",
+  "description": "Languago'nun öğrenim yolu için tek kaynak müfredat kaydı. Sıralama, beceri kanıtı ve tekrar hedefleri içerik tüketicilerinden bağımsız tutulur.",
+  "design_rules": [
+    "Önce anlamlı kelime kullanımı, sonra metin içinde tanıma, ardından dilbilgisi biçimini üretme.",
+    "Bir konu tamamlandı sayılmaz: öğrencinin doğruluğu, tamamlaması ve yeni bağlamda kullanımı ayrı izlenir.",
+    "Aynı soru kökü farklı yüzeylerde tekrar edilmez; tekrar gerekiyorsa yeni bağlam, yeni amaç ve yeni kanıt kullanılır.",
+    "Oyun puanı seviye kanıtı değildir; oyun yalnızca geri çağırma ve akıcılık verisi üretir."
+  ],
+  "default_cycle": ["vocabulary", "reading", "grammar", "review", "game"],
+  "tracks": {
+    "a1": {
+      "label": "A1 · Başlangıç",
+      "kind": "cefr",
+      "goal": "Günlük ihtiyaçları kısa ve anlaşılır cümlelerle ifade etmek.",
+      "categories": {
+        "vocabulary": { "focus": ["kişisel bilgiler", "aile ve ev", "sayılar, saat ve tarih", "günlük rutin", "yiyecek ve içecek", "şehirde yön bulma"], "evidence": "Öğrenci en az 20 temel kelimeyi görsel veya kısa cümle ipucuyla doğru seçer ve 5 kelimeyi kendi cümlesinde kullanır." },
+        "reading": { "focus": ["kısa profil ve mesajlar", "ilan ve menü", "günlük program", "basit ulaşım ve yön metinleri"], "evidence": "Kısa metinde açıkça yazan bilgiyi bulur; saat, kişi, yer ve temel eylem ayrıntılarını en az %75 doğrulukla çıkarır." },
+        "grammar": { "focus": ["SVO ve be", "özne zamirleri", "a/an/the ve çoğullar", "have got", "present simple", "there is/are", "can ve emirler", "temel soru kelimeleri"], "evidence": "Kişi-özne uyumunu koruyarak 8 kısa cümleyi tamamlar ve 3 günlük soru üretir." },
+        "review": { "focus": ["yanlış yapılan kelimeyi ertesi gün geri çağırma", "aynı kuralı yeni isimlerle deneme", "görselden cümleye geçiş"], "evidence": "Daha önce yanlış yapılan 10 öğenin en az 7'sini yeni bağlamda doğru çözer." },
+        "game": { "focus": ["hızlı kelime tanıma", "be ve zamir eşleştirme", "sınıf içi kısa cevap"], "evidence": "Oyun puanı değil, tekrar gösterimindeki doğruluk ve cevap açıklaması kaydedilir." }
+      },
+      "skill_targets": { "listening": "Yavaş ve net kısa yönergelerin ana anlamını yakala.", "speaking": "Kendini, rutinini ve ihtiyaçlarını 4–6 cümleyle anlat.", "writing": "Kısa form, mesaj veya günlük rutin paragrafı yaz." },
+      "milestones": ["Kendini ve yakın çevreni tanıt", "Bir gününü saatlerle anlat", "Basit bir ihtiyaç, yön veya tercih belirt"]
+    },
+    "a2": {
+      "label": "A2 · Temel",
+      "kind": "cefr",
+      "goal": "Tanıdık konularda geçmiş, şimdi ve gelecek hakkında bağlantılı kısa iletişim kurmak.",
+      "categories": {
+        "vocabulary": { "focus": ["seyahat ve ulaşım", "alışveriş ve hizmetler", "sağlık", "iş ve okul", "hava durumu", "duygu ve kişilik"], "evidence": "Kelimeyi tek başına değil, eşdizim veya kısa durum içinde seçer; 10 hedef kelimenin 8'ini iki farklı bağlamda doğru kullanır." },
+        "reading": { "focus": ["kişisel e-posta", "kısa hikâye", "gezi yazısı", "basit duyuru ve talimat"], "evidence": "Ana fikri ve açık neden-sonuç ilişkisini ayırır; bilinmeyen bir kelimenin anlamını bağlamdan tahmin eder." },
+        "grammar": { "focus": ["past simple", "gelecek: will/be going to", "present continuous gelecek", "karşılaştırma", "countable/uncountable", "some/any/much/many", "must/should", "first conditional"], "evidence": "Zaman çizgisini ve modal anlamı koruyarak kısa bir olay anlatımı ve tavsiye diyaloğu üretir." },
+        "review": { "focus": ["zaman karışıklığı düzeltme", "eşdizim geri çağırma", "yanlış cevabı neden kategorisiyle etiketleme"], "evidence": "Yanlışları 'biçim', 'anlam', 'kelime' veya 'metin kanıtı' olarak ayırıp aynı hatayı yeni soruda azaltır." },
+        "game": { "focus": ["zaman ifadeleriyle hızlı seçim", "seyahat ve hizmet rol kartları", "kelime-eşdizim eşleştirme"], "evidence": "Oyunda doğru cevap sonrası gerekçeyi söyleyebilir; rastgele hız tek başına mastery kabul edilmez." }
+      },
+      "skill_targets": { "listening": "Günlük konuşmada ana amaç ve temel ayrıntıları yakala.", "speaking": "Geçmiş deneyim, plan ve tavsiye hakkında kısa konuş.", "writing": "Bağlaçlarla 80–100 kelimelik kişisel e-posta veya hikâye yaz." },
+      "milestones": ["Bir seyahat veya deneyimi sırayla anlat", "Bir hizmet sorununu açıklayıp çözüm iste", "Tercihlerini karşılaştırarak gerekçelendir"]
+    },
+    "b1": {
+      "label": "B1 · Orta",
+      "kind": "cefr",
+      "goal": "Tanıdık ve işlevsel konularda gerekçeli, bağlantılı iletişim kurmak.",
+      "categories": {
+        "vocabulary": { "focus": ["eğitim ve iş", "teknoloji", "çevre", "medya", "toplum", "duygu ve fikir bildirme"], "evidence": "Kelimeyi anlam, eşdizim ve biçim değişikliğiyle ayırt eder; hedef kelimelerin çoğunu kısa görüş paragrafında kullanır." },
+        "reading": { "focus": ["haber ve blog", "görüş yazısı", "iş/okul metni", "neden-sonuç ve karşılaştırma"], "evidence": "Ana fikri, destekleyici kanıtı ve yazarın açık tutumunu ayırır; zamir ve bağlaç referanslarını izler." },
+        "grammar": { "focus": ["present perfect ve past simple", "past continuous", "relative clauses", "gerund/infinitive", "passive giriş", "reported speech giriş", "second conditional", "modal deduction giriş"], "evidence": "Bir zaman çizgisini tutarlı biçimde anlatır, iki cümleyi anlam kaybetmeden birleştirir ve olasılık/tavsiye ayrımını korur." },
+        "review": { "focus": ["paragraf içinde hedef biçim", "yakın anlamlı kelime ayrımı", "kanıt cümlesi bulma"], "evidence": "Aynı beceriyi farklı konuda ölçen iki yeni soruda en az %80 doğruluk gösterir." },
+        "game": { "focus": ["bağlamlı kelime sprinti", "neden-sonuç kartları", "takım içinde açıklamalı cevap"], "evidence": "Cevap yalnızca doğru seçilmez; seçimin metin veya kural kanıtı da verilir." }
+      },
+      "skill_targets": { "listening": "Ana fikri ve konuşmacının tutumunu orta hızdaki konuşmada takip et.", "speaking": "Deneyim ve görüşlerini örnek ve gerekçeyle 2–3 dakika anlat.", "writing": "Giriş, destek ve sonuç içeren 140–170 kelimelik paragraf yaz." },
+      "milestones": ["Bir görüşü iki gerekçeyle savun", "Bir haber veya deneyimi özetle", "Bir problem için uygulanabilir öneri sun"]
+    },
+    "b2": {
+      "label": "B2 · Orta-Üstü",
+      "kind": "cefr",
+      "goal": "Soyut ve mesleki konularda akıcı, ayrıntılı ve temkinli iletişim kurmak.",
+      "categories": {
+        "vocabulary": { "focus": ["akademik eşdizimler", "iş ve ekonomi", "bilim ve teknoloji", "politika ve toplum", "değerlendirme dili", "phrasal verb ve deyimler"], "evidence": "Register ve anlam nüansını ayırır; kelimeyi yeni bir cümle ve kısa argüman içinde doğru kolokasyonla kullanır." },
+        "reading": { "focus": ["analitik makale", "popüler bilim", "uzun görüş yazısı", "iddia-kanıt-karşı görüş"], "evidence": "Yazarın iddiasını, varsayımını, karşı görüşünü ve bağlam içi kelime anlamını ayırır." },
+        "grammar": { "focus": ["mixed conditionals", "advanced passive", "reported speech", "inversion", "cleft sentences", "participle clauses", "modal perfect", "discourse markers"], "evidence": "Biçimi yalnızca boşlukta değil, anlam ve vurgu amacıyla seçer; aynı içeriği iki farklı yapıyla yeniden kurar." },
+        "review": { "focus": ["paraphrase ve anlam korunumu", "register düzeltme", "hata türüne göre yeniden deneme"], "evidence": "Bir sorudaki doğruyu ezberlemeden, aynı kuralı yeni özne, zaman ve register ile çözer." },
+        "game": { "focus": ["argüman kartları", "register seçimi", "süreli ama açıklamalı takım tartışması"], "evidence": "Hız yerine gerekçeli doğruluk, uygun register ve tekrar hatasının azalması değerlendirilir." }
+      },
+      "skill_targets": { "listening": "Uzun konuşmada tutum, ima ve söylem işaretlerini izle.", "speaking": "Soyut bir görüşü karşı görüşü kabul ederek savun.", "writing": "İddia, kanıt, sınırlılık ve sonuç içeren 220–260 kelimelik metin yaz." },
+      "milestones": ["Karşılaştırmalı bir değerlendirme yap", "Bir kaynağın ana iddiasını temkinli biçimde özetle", "Çözüm önerisinin risk ve faydalarını tartış"]
+    },
+    "c1": {
+      "label": "C1 · İleri",
+      "kind": "cefr",
+      "goal": "Akademik, profesyonel ve eleştirel bağlamlarda esnek ve hassas dil kullanmak.",
+      "categories": {
+        "vocabulary": { "focus": ["akademik kelime aileleri", "soyut kavramlar", "değerlendirme ve hedging", "idiomatic collocation", "alanlar arası anlam değişimi"], "evidence": "Yakın anlamlı ifadelerde ton, kesinlik ve register farkını açıklar; kelimeyi doğal kolokasyonla üretir." },
+        "reading": { "focus": ["akademik deneme", "eleştirel yorum", "teknik açıklama", "örtük tutum ve söylem"], "evidence": "Örtük varsayımı, yazarın retorik seçimini ve kanıtın gücünü metin içi kanıtla değerlendirir." },
+        "grammar": { "focus": ["advanced clause architecture", "nominalisation", "subordination and emphasis", "ellipsis and substitution", "formal cohesion", "fine-grained modality", "punctuation and sentence rhythm"], "evidence": "Yapı seçimini vurgu, kesinlik ve register gerekçesiyle savunur; uzun cümlede referans ve paralelliği korur." },
+        "review": { "focus": ["editörlük düzeltisi", "kaynaklar arası sentez", "yanlışın kök nedenini açıklama"], "evidence": "Bir taslağı anlamı, tutarlılığı, register'ı ve dil doğruluğunu ayrı ölçütlerle revize eder." },
+        "game": { "focus": ["nüans ve register düellosu", "kaynak kanıtı sınıflandırma", "hız değil doğruluk odaklı açıklama"], "evidence": "Cevabın neden diğer seçeneklerden daha uygun olduğunu dilsel ve metinsel gerekçeyle açıklar." }
+      },
+      "skill_targets": { "listening": "Yoğun akademik/profesyonel içerikte ima, ton ve yapı değişimini takip et.", "speaking": "Karmaşık bir konuyu yapılandırılmış ve nüanslı biçimde sun.", "writing": "Kaynakları sentezleyen, edit edilmiş 280–350 kelimelik akademik/profesyonel metin yaz." },
+      "milestones": ["Bir iddianın kanıt kalitesini eleştir", "İki kaynağı ortak ve ayrışan yönleriyle sentezle", "Aynı mesajı farklı hedef kitlelere göre yeniden yaz"]
+    },
+    "c2": {
+      "label": "C2 · Usta",
+      "kind": "cefr",
+      "goal": "Neredeyse tüm bağlamlarda anlam, ton, retorik ve register üzerinde tam kontrol.",
+      "categories": {
+        "vocabulary": { "focus": ["nadir fakat işlevsel akademik kelime", "deyim ve kültürel referans", "ince eşanlam ayrımları", "alan terminolojisi"], "evidence": "Bağlamın gerektirdiği en kesin ve doğal ifadeyi seçer; alternatif ifadenin ton etkisini açıklayabilir." },
+        "reading": { "focus": ["yoğun kuramsal metin", "edebi/retorik metin", "çoklu kaynak", "ironi, ima ve söylem"], "evidence": "Açık bilgi ile yorumu ayırır; metnin retorik amacını ve güvenilirliğini savunulabilir biçimde yorumlar." },
+        "grammar": { "focus": ["stilistik seçim", "retorik vurgu", "yoğun nominal ve fiil yapıları", "eksilti ve söylem ekonomisi", "editörlük"], "evidence": "Bir yapının yalnızca doğru değil, bağlama en etkili seçenek olduğunu gerekçelendirir." },
+        "review": { "focus": ["öz-düzeltme", "üslup tutarlılığı", "söylem düzeyinde geri bildirim"], "evidence": "Kendi üretiminde dilbilgisi, anlam, retorik ve hedef kitleyi ayrı ayrı denetler." },
+        "game": { "focus": ["retorik yeniden yazım", "nüanslı anlam seçimi", "uzman açıklaması"], "evidence": "Oyun sonucunu değil, açıklamanın isabetini ve yeni örnekte aktarımını izler." }
+      },
+      "skill_targets": { "listening": "Her tür doğal ve uzman iletişimde anlam, ton ve ima katmanlarını ayırt et.", "speaking": "Karmaşık fikirleri spontane, kesin ve uygun üslupla tartış.", "writing": "Hedef kitleye göre yüksek düzeyde tutarlı ve üslup kontrollü metin üret." },
+      "milestones": ["Zor bir metni eleştirel olarak yorumla", "Üslubu ve amacı koruyarak yeniden yaz", "Bir uzmanlık alanında bağımsız ve kesin iletişim kur"]
+    },
+    "ielts": {
+      "label": "IELTS",
+      "kind": "exam",
+      "goal": "IELTS Academic/General görevlerinin ölçtüğü okuma, dinleme, yazma ve konuşma performansını dengeli geliştirmek.",
+      "categories": {
+        "vocabulary": { "focus": ["academic word families", "collocation", "paraphrase", "task-specific language", "hedging"], "evidence": "Kelimeyi ezber listesinde değil, IELTS görev cümlesini paraphrase ederken doğru register ile kullanır." },
+        "reading": { "focus": ["skimming/scanning", "matching headings", "T/F/NG", "summary completion", "writer view and inference"], "evidence": "Cevabı metin kanıtıyla bulur; True/False/Not Given ayrımında dış bilgi eklemez." },
+        "grammar": { "focus": ["accuracy under time", "complex sentences", "comparison", "passive and data description", "cohesion", "conditionals and modality"], "evidence": "Task 1 verisini doğru karşılaştırır; Task 2'de karmaşık ama kontrol edilen yapı kullanır." },
+        "review": { "focus": ["band descriptor checklist", "error log", "paraphrase bank", "timed review"], "evidence": "Doğruluk, görev karşılığı, cohesion, lexical resource ve fluency'yi ayrı izler; resmî band garantisi verilmez." },
+        "game": { "focus": ["paraphrase sprint", "heading evidence sort", "collocation challenge"], "evidence": "Oyun skorunu sınav bandı yerine hızlı geri çağırma sinyali olarak kullanır." }
+      },
+      "skill_targets": { "listening": "Farklı aksanlarda ana fikir, ayrıntı ve konuşmacı tutumunu yakala.", "speaking": "Part 2'de yapılandırılmış uzun cevap, Part 3'te gerekçeli tartışma yap.", "writing": "Task 1 ve Task 2'de görev gereğini, yapı ve zaman yönetimini kontrol et." },
+      "milestones": ["Timed reading set with evidence log", "Task 1 or Task 2 draft with descriptor-based review", "Recorded speaking response with fluency and accuracy notes"]
+    },
+    "toefl": {
+      "label": "TOEFL",
+      "kind": "exam",
+      "goal": "Akademik İngilizcede entegre okuma-dinleme-konuşma-yazma görevlerini yönetmek.",
+      "categories": {
+        "vocabulary": { "focus": ["academic campus language", "lecture vocabulary", "word families", "paraphrase and reference"], "evidence": "Kelimeyi akademik paragraf ve lecture bağlamında ayırt eder; referans zincirini izler." },
+        "reading": { "focus": ["rhetorical purpose", "inference", "insert text", "prose summary", "vocabulary in context"], "evidence": "Doğru seçeneği paragraf işlevi ve metin kanıtıyla açıklar." },
+        "grammar": { "focus": ["sentence control", "reference and cohesion", "complex noun/verb phrases", "paraphrase accuracy", "academic transitions"], "evidence": "Entegre cevapta kaynak bilgiyi anlamı bozmadan ve açık cohesion ile aktarır." },
+        "review": { "focus": ["integrated note-taking", "timed response", "rubric checklist", "error categories"], "evidence": "Kaynak kullanımı, görev tamamlığı, dil doğruluğu ve zaman yönetimini ayrı kaydeder; resmî skor iddiası yoktur." },
+        "game": { "focus": ["lecture-detail recall", "purpose and inference sort", "academic paraphrase"], "evidence": "Hızlı cevap, akademik kanıt ve paraphrase doğruluğundan ayrı raporlanır." }
+      },
+      "skill_targets": { "listening": "Ders anlatısında yapı, örnek ve tutum sinyallerini not al.", "speaking": "Kısa hazırlıkla kaynağa dayalı ve yapılandırılmış cevap ver.", "writing": "Okuma ve dinleme kaynaklarını karşılaştırarak akademik cevap yaz." },
+      "milestones": ["Academic reading evidence map", "Integrated speaking response", "Integrated writing response reviewed against rubric"]
+    },
+    "yds": {
+      "label": "YDS",
+      "kind": "exam",
+      "goal": "YDS'nin kelime, dilbilgisi, cloze, cümle tamamlama ve okuma soru türlerinde kontrollü doğruluk geliştirmek.",
+      "categories": {
+        "vocabulary": { "focus": ["academic word families", "collocations", "phrasal verbs", "linkers", "synonym/antonym"], "evidence": "Kelimeyi Türkçe karşılığıyla değil, cümledeki ilişki ve register ile seçer." },
+        "reading": { "focus": ["paragraph completion", "main idea", "inference", "reference", "sentence insertion", "translation awareness"], "evidence": "Cevap için paragraftaki kanıtı işaretler; genel konu bilgisiyle tahmin etmez." },
+        "grammar": { "focus": ["tense/aspect", "modals", "conditionals", "relative clauses", "connectors", "passive", "reported speech"], "evidence": "Seçimi cümle ilişkisi, zaman çizgisi ve bağlaç anlamıyla gerekçelendirir." },
+        "review": { "focus": ["soru türü hata defteri", "kelime-kök analizi", "süreli set", "çeldirici analizi"], "evidence": "Yanlışın kökünü bilgi eksiği, dikkat, zaman veya çeldirici olarak ayırır; sınav puanı tahminini garanti gibi sunmaz." },
+        "game": { "focus": ["connector duel", "word-family sort", "paragraph evidence race"], "evidence": "Oyun, sınav doğruluğuna yardımcı bir retrieval pratiğidir; tek başına YDS puanı değildir." }
+      },
+      "skill_targets": { "listening": "YDS için doğrudan ölçülmese de akademik cümle ritmini ve bağlaç anlamını takip et.", "speaking": "Sınav dışı aktarım için akademik görüşünü kısa ve açık ifade et.", "writing": "Cümle dönüştürme ve paragraf bağdaşıklığını yazılı olarak pekiştir." },
+      "milestones": ["Her soru türü için hata günlüğü oluştur", "Timed mixed set with evidence review", "Yeni konuda paragrafı bağlaç ve referanslarla çöz"]
+    },
+    "yokdil": {
+      "label": "YÖKDİL",
+      "kind": "exam",
+      "goal": "Alan metinlerinde kelime, dilbilgisi ve paragraf ilişkilerini akademik bağlamla çözmek.",
+      "categories": {
+        "vocabulary": { "focus": ["sağlık ve yaşam bilimleri", "sosyal bilimler", "mühendislik ve teknoloji", "academic collocation", "word formation"], "evidence": "Alan bağlamında yakın anlamlı seçenekleri ve kelime ailesini ayırır." },
+        "reading": { "focus": ["alan paragrafı", "cause/effect", "contrast", "reference", "inference", "sentence completion"], "evidence": "Alan bilgisi cevabın yerine geçmez; metin içi kanıt ve bağlaç yapısı kullanılır." },
+        "grammar": { "focus": ["academic clause relations", "reduced relatives", "passive and nominalisation", "modality", "connectors", "parallel structure"], "evidence": "Akademik cümlenin ana ve yan ilişkilerini çözerek çeldiriciyi eler." },
+        "review": { "focus": ["alan bazlı hata günlüğü", "bağlaç haritası", "cümle çözümleme", "süreli tekrar"], "evidence": "Aynı soru kalıbını tekrarlamak yerine yeni alan ve yeni cümle ilişkisiyle transfer gösterir." },
+        "game": { "focus": ["field-term matching", "connector evidence", "sentence architecture"], "evidence": "Terimi doğru eşleştirmek, metin ilişkisini doğru kurmaktan ayrı raporlanır." }
+      },
+      "skill_targets": { "listening": "Alan dışı destek becerisi olarak akademik açıklamanın yapı işaretlerini izle.", "speaking": "Alan kavramını kısa tanım ve neden-sonuçla açıkla.", "writing": "Alan paragrafında ana fikir ve kanıt ilişkisini yazılı özetle." },
+      "milestones": ["Alanına göre kelime ve bağlaç bankası", "Mixed academic sentence analysis", "New field passage with evidence annotations"]
+    },
+    "gre": {
+      "label": "GRE",
+      "kind": "exam",
+      "goal": "GRE Verbal için text completion, sentence equivalence ve reading reasoning becerilerini geliştirmek.",
+      "categories": {
+        "vocabulary": { "focus": ["high-frequency academic vocabulary", "precision", "tone", "roots and affixes", "multiple-blank logic"], "evidence": "Kelimeyi tek tanımdan değil, cümle mantığı ve tonla seçer; eşdeğer seçeneklerin neden eşdeğer olduğunu açıklar." },
+        "reading": { "focus": ["main idea", "function", "assumption", "inference", "argument structure", "multi-paragraph synthesis"], "evidence": "Bir seçeneği metin iddiası ve soru işleviyle savunur; dış bilgi kullanmaz." },
+        "grammar": { "focus": ["sentence logic", "modifier attachment", "parallelism", "concision", "transitions", "rhetorical structure"], "evidence": "Cümle tamamlama kararını yalnız gramer değil, mantıksal ve retorik uyumla verir." },
+        "review": { "focus": ["evidence notebook", "distractor taxonomy", "timing by question type", "transfer set"], "evidence": "Zorluk, süre ve hata türünü ayrı izler; sonuç resmî GRE skor tahmini olarak sunulmaz." },
+        "game": { "focus": ["logic connector sort", "tone ladder", "argument evidence duel"], "evidence": "Hızlı kelime tanıma ile argüman muhakemesi ayrı ölçülür." }
+      },
+      "skill_targets": { "listening": "GRE dışı akademik destek olarak lecture yapısını takip et.", "speaking": "Bir argümanın varsayımını ve zayıf noktasını açıkla.", "writing": "Kısa analitik argümanı kanıt ve karşı görüşle düzenle." },
+      "milestones": ["Text-completion logic map", "Reading argument annotation", "Timed mixed verbal set with error transfer check"]
+    }
+  }
+}

@@ -1,0 +1,256 @@
+---
+import AppLayout from '../../layouts/AppLayout.astro';
+import { getSessionUser } from '../../lib/auth';
+import { createSupabaseClient, pageCookieSource } from '../../lib/supabase';
+import learningSyllabus from '../../data/learning-syllabus.json';
+import { buildDailyLearningPlan } from '../../lib/daily-learning-plan.mjs';
+
+const user = await getSessionUser(pageCookieSource(Astro));
+if (!user) return Astro.redirect('/signin');
+
+const supabase = createSupabaseClient(pageCookieSource(Astro));
+let rows: { module?: string; payload?: Record<string, unknown> | null; updated_at?: string }[] = [];
+try {
+  if (supabase) {
+    const { data } = await supabase
+      .from('student_progress')
+      .select('module, payload, updated_at')
+      .eq('student_id', user.id);
+    rows = (data ?? []) as typeof rows;
+  }
+} catch {
+  rows = [];
+}
+
+const storedRow = rows.find((row) => row.module === 'daily-plan');
+const storedPlan = storedRow?.payload && typeof storedRow.payload === 'object' ? storedRow.payload : null;
+const plan = buildDailyLearningPlan({ progress: rows, storedPlan, syllabus: learningSyllabus });
+const planJson = JSON.stringify(plan).replace(/</g, '\\u003c');
+---
+
+<AppLayout
+  title="Bugünün 20 Dakikası — Languago"
+  description="Seviyene, hedeflerine ve son çalışmalarına göre hazırlanan günlük İngilizce planı."
+>
+  <main class="daily-page">
+    <nav class="crumb">
+      <a class="back" href="/dashboard">← Öğrenci Paneli</a>
+      <span class="sep">›</span>
+      <span class="cur">Bugünün 20 Dakikası</span>
+    </nav>
+
+    <header class="daily-hero">
+      <div>
+        <p class="eyebrow">Option 6 · Adaptive Spiral</p>
+        <h1>Bugünün 20 dakikası 🎯</h1>
+        <p class="daily-lead">
+          {plan.levelLabel} · {plan.goalLabel}. Syllabus sıranı koruyoruz; bugünkü ağırlık son kanıtına ve tekrar zamanına göre seçildi.
+        </p>
+      </div>
+      <div class="daily-stat" aria-label="Günlük süre">
+        <strong>{plan.totalMinutes}</strong>
+        <span>dakika</span>
+      </div>
+    </header>
+
+    {plan.mode === 'recovery' && (
+      <section class="recovery-note" aria-label="Kurtarma planı">
+        <strong>Bugün kısa kurtarma modu.</strong>
+        <span>Önceki günün eksiklerini yığmıyoruz; en önemli tekrarları seçip normal plana dönüyoruz.</span>
+      </section>
+    )}
+
+    <section class="plan-summary" aria-labelledby="plan-summary-title">
+      <div>
+        <p class="eyebrow">Bugünkü neden</p>
+        <h2 id="plan-summary-title">{plan.focus.title}</h2>
+        <p class="muted">{plan.focus.reason}</p>
+      </div>
+      <div class="summary-progress">
+        <strong id="daily-completed-count">{plan.completedCount}/{plan.goals.length}</strong>
+        <span>hedef tamamlandı</span>
+      </div>
+    </section>
+
+    <div class="daily-progress" aria-label="Günlük plan ilerlemesi">
+      <span id="daily-progress-bar" style={`width:${Math.round((plan.completedCount / plan.goals.length) * 100)}%`}></span>
+    </div>
+
+    <section aria-labelledby="daily-goals-title">
+      <div class="section-heading">
+        <div>
+          <p class="eyebrow">Objective · Activity · Evidence · Completion</p>
+          <h2 id="daily-goals-title">Bugünün hedefleri</h2>
+        </div>
+        <p id="daily-status" class="muted" role="status" aria-live="polite">
+          {plan.completed ? 'Bugünkü plan tamamlandı. Yarınki tekrar için kanıtın hazır.' : 'Her hedefi etkinliği yaptıktan sonra işaretle.'}
+        </p>
+      </div>
+
+      <ol class="daily-goals">
+        {plan.goals.map((goal, index) => {
+          const done = plan.completedGoalIds.includes(goal.id);
+          return (
+            <li class:list={['daily-goal', done && 'is-done']} data-goal-card data-goal-id={goal.id}>
+              <div class="goal-number" aria-hidden="true">{done ? '✓' : index + 1}</div>
+              <div class="goal-content">
+                <div class="goal-topline">
+                  <span class="goal-minutes">{goal.minutes} dk</span>
+                  <span class="goal-kind">{goal.kind === 'transfer' ? 'Üretim' : goal.kind === 'review' ? 'Tekrar' : 'Çalışma'}</span>
+                </div>
+                <h3>{goal.title}</h3>
+                <p>{goal.description}</p>
+                <dl class="goal-proof">
+                  <div><dt>Öğrenme amacı</dt><dd>{goal.objective}</dd></div>
+                  <div><dt>Kanıt</dt><dd>{goal.evidence}</dd></div>
+                  <div><dt>Tamamlanma</dt><dd>{goal.completion}</dd></div>
+                </dl>
+                {goal.href && <a class="goal-link" href={goal.href}>Etkinliği aç →</a>}
+                {goal.kind === 'transfer' && (
+                  <textarea
+                    class="transfer-input"
+                    data-transfer-input
+                    rows="3"
+                    placeholder="En az üç İngilizce kelimeden oluşan cümlelerini yaz…"
+                    aria-label="Üretim yanıtı"
+                    disabled={done}
+                  ></textarea>
+                )}
+                <div class="goal-actions">
+                  <button class="btn primary goal-complete" type="button" data-complete-goal disabled={done}>
+                    {done ? 'Tamamlandı ✓' : 'Hedefi tamamla'}
+                  </button>
+                  <span class="goal-save-status" data-goal-status aria-live="polite"></span>
+                </div>
+              </div>
+            </li>
+          );
+        })}
+      </ol>
+    </section>
+
+    <section class="mastery-note" aria-labelledby="mastery-title">
+      <p class="eyebrow">Önemli ayrım</p>
+      <h2 id="mastery-title">Tamamlamak, ustalaşmak değildir.</h2>
+      <p>
+        Bugünkü hedefi tamamlamak çalışma kanıtı oluşturur. Ustalık ise aynı dili daha sonra yeni bir bağlamda doğru hatırladığında görünür. Sistem bu nedenle gelecekteki tekrarları ve bağlam değişimini ayrı izler.
+      </p>
+    </section>
+  </main>
+</AppLayout>
+
+<script is:inline id="daily-plan-data" type="application/json" set:html={planJson}></script>
+
+<script>
+  const dataNode = document.querySelector('#daily-plan-data');
+  let plan = JSON.parse(dataNode?.textContent || '{}');
+  const completedCount = document.querySelector('#daily-completed-count');
+  const progressBar = document.querySelector('#daily-progress-bar');
+  const dailyStatus = document.querySelector('#daily-status');
+
+  function applyPlan(nextPlan) {
+    plan = nextPlan;
+    const completed = new Set(Array.isArray(plan.completedGoalIds) ? plan.completedGoalIds : []);
+    document.querySelectorAll('[data-goal-card]').forEach((card) => {
+      const id = card.getAttribute('data-goal-id');
+      const done = completed.has(id);
+      card.classList.toggle('is-done', done);
+      const number = card.querySelector('.goal-number');
+      if (number) number.textContent = done ? '✓' : String(Array.from(document.querySelectorAll('[data-goal-card]')).indexOf(card) + 1);
+      const button = card.querySelector('[data-complete-goal]');
+      if (button) {
+        button.disabled = done;
+        button.textContent = done ? 'Tamamlandı ✓' : 'Hedefi tamamla';
+      }
+      const input = card.querySelector('[data-transfer-input]');
+      if (input) input.disabled = done;
+    });
+    const total = Array.isArray(plan.goals) && plan.goals.length ? plan.goals.length : 1;
+    if (completedCount) completedCount.textContent = `${completed.size}/${total}`;
+    if (progressBar) progressBar.style.width = `${Math.round((completed.size / total) * 100)}%`;
+    if (dailyStatus) dailyStatus.textContent = plan.completed
+      ? 'Bugünkü plan tamamlandı. Yarınki tekrar için kanıtın hazır.'
+      : 'Her hedefi etkinliği yaptıktan sonra işaretle.';
+  }
+
+  document.querySelectorAll('[data-complete-goal]').forEach((button) => {
+    button.addEventListener('click', async () => {
+      const card = button.closest('[data-goal-card]');
+      const goalId = card?.getAttribute('data-goal-id');
+      if (!goalId) return;
+      const status = card.querySelector('[data-goal-status]');
+      const output = card.querySelector('[data-transfer-input]')?.value || '';
+      button.disabled = true;
+      if (status) status.textContent = 'Kaydediliyor…';
+      try {
+        const response = await fetch('/api/daily-plan', {
+          method: 'POST',
+          headers: { 'content-type': 'application/json' },
+          body: JSON.stringify({ date: plan.date, goalId, output }),
+        });
+        const result = await response.json().catch(() => ({}));
+        if (!response.ok) throw new Error(result.error || 'Hedef kaydedilemedi.');
+        applyPlan(result.plan);
+        if (status) status.textContent = 'Kaydedildi.';
+      } catch (error) {
+        button.disabled = false;
+        if (status) status.textContent = error instanceof Error ? error.message : 'Kaydedilemedi; tekrar dene.';
+      }
+    });
+  });
+</script>
+
+<style>
+  .daily-page { max-width: 920px; margin: 0 auto; padding-bottom: 48px; }
+  .daily-hero { display: flex; align-items: center; justify-content: space-between; gap: 24px; margin-bottom: 22px; }
+  .daily-hero h1 { margin: 0 0 8px; }
+  .daily-lead { max-width: 680px; margin: 0; color: var(--ink-soft); font-size: 1.05rem; line-height: 1.65; }
+  .daily-stat { flex: 0 0 116px; width: 116px; height: 116px; display: grid; place-content: center; text-align: center; border-radius: 28px; color: #fff; background: linear-gradient(145deg, var(--teal, #0d9488), var(--brand, #f59e0b)); box-shadow: 0 18px 38px -20px rgba(13, 148, 136, .7); }
+  .daily-stat strong { font-size: 2.3rem; line-height: 1; }
+  .daily-stat span { font-size: .8rem; font-weight: 800; margin-top: 5px; }
+  .recovery-note, .mastery-note, .plan-summary { border: 1px solid var(--line); border-radius: 18px; padding: 18px 20px; }
+  .recovery-note { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 18px; background: #fff8eb; border-color: #f5d48b; color: #754b00; }
+  .plan-summary { display: flex; align-items: center; justify-content: space-between; gap: 20px; background: linear-gradient(120deg, rgba(13,148,136,.1), rgba(245,158,11,.1)); border-color: rgba(13,148,136,.24); }
+  .plan-summary h2 { margin: 0 0 5px; }
+  .plan-summary p { margin: 0; }
+  .summary-progress { flex: 0 0 auto; display: grid; text-align: right; color: var(--ink-soft); }
+  .summary-progress strong { color: var(--teal-dark, #0f766e); font-size: 1.8rem; line-height: 1; }
+  .summary-progress span { font-size: .78rem; margin-top: 4px; }
+  .daily-progress { height: 10px; margin: 14px 0 34px; border-radius: 999px; overflow: hidden; background: var(--line); }
+  .daily-progress span { display: block; height: 100%; border-radius: inherit; background: linear-gradient(90deg, var(--teal, #0d9488), var(--brand, #f59e0b)); transition: width .2s ease; }
+  .section-heading { display: flex; align-items: end; justify-content: space-between; gap: 20px; margin-bottom: 16px; }
+  .section-heading h2 { margin: 0; }
+  .section-heading p { margin: 0; text-align: right; }
+  .daily-goals { display: grid; gap: 14px; list-style: none; margin: 0; padding: 0; counter-reset: goals; }
+  .daily-goal { display: grid; grid-template-columns: 48px minmax(0, 1fr); gap: 16px; padding: 20px; border: 1px solid var(--line); border-radius: 18px; background: var(--bg-soft, #fff); box-shadow: 0 12px 30px -24px rgba(13,148,136,.55); transition: border-color .2s, background .2s, opacity .2s; }
+  .daily-goal.is-done { border-color: var(--teal, #0d9488); background: #f0fdfa; }
+  .goal-number { display: grid; place-items: center; width: 42px; height: 42px; border-radius: 50%; color: #fff; background: var(--teal, #0d9488); font-weight: 800; font-size: 1.15rem; }
+  .is-done .goal-number { background: var(--teal-dark, #0f766e); }
+  .goal-topline { display: flex; align-items: center; gap: 8px; margin-bottom: 6px; }
+  .goal-minutes, .goal-kind { display: inline-flex; border-radius: 999px; padding: 4px 9px; font-size: .73rem; font-weight: 800; }
+  .goal-minutes { color: var(--teal-dark, #0f766e); background: #d8f5ef; }
+  .goal-kind { color: var(--brand-dark, #a16207); background: #fff1c8; }
+  .goal-content h3 { margin: 0 0 5px; font-size: 1.15rem; }
+  .goal-content > p { margin: 0 0 13px; color: var(--ink-soft); line-height: 1.55; }
+  .goal-proof { display: grid; gap: 7px; margin: 0 0 13px; }
+  .goal-proof div { display: grid; grid-template-columns: 116px minmax(0, 1fr); gap: 8px; font-size: .88rem; }
+  .goal-proof dt { color: var(--ink-soft); font-weight: 800; }
+  .goal-proof dd { margin: 0; color: var(--ink); }
+  .goal-link { display: inline-flex; margin-bottom: 12px; color: var(--teal-dark, #0f766e); font-weight: 800; text-decoration: none; }
+  .goal-link:hover { text-decoration: underline; }
+  .transfer-input { width: 100%; min-height: 76px; resize: vertical; padding: 10px 12px; margin-bottom: 10px; color: var(--ink); background: #fff; border: 1px solid var(--line); border-radius: 10px; font: inherit; }
+  .goal-actions { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; }
+  .goal-complete:disabled { cursor: default; opacity: .7; }
+  .goal-save-status { color: var(--teal-dark, #0f766e); font-size: .85rem; }
+  .mastery-note { margin-top: 30px; background: var(--bg-soft, #fff); }
+  .mastery-note h2 { margin: 0 0 7px; }
+  .mastery-note p:last-child { margin: 0; color: var(--ink-soft); line-height: 1.65; }
+  @media (max-width: 640px) {
+    .daily-hero, .plan-summary, .section-heading { align-items: flex-start; flex-direction: column; }
+    .daily-stat { width: 84px; height: 84px; flex-basis: 84px; border-radius: 20px; }
+    .daily-stat strong { font-size: 1.7rem; }
+    .summary-progress { text-align: left; }
+    .section-heading p { text-align: left; }
+    .goal-proof div { grid-template-columns: 1fr; gap: 2px; }
+  }
+</style>

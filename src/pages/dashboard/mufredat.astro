@@ -1,0 +1,89 @@
+---
+import AppLayout from '../../layouts/AppLayout.astro';
+import { getSessionUser } from '../../lib/auth';
+import { pageCookieSource } from '../../lib/supabase';
+import learningSyllabus from '../../data/learning-syllabus.json';
+
+const user = await getSessionUser(pageCookieSource(Astro));
+if (!user) return Astro.redirect('/signin');
+
+const tracks = Object.entries(learningSyllabus.tracks) as [string, any][];
+const categoryLabels: Record<string, string> = {
+  vocabulary: '📖 Kelime',
+  reading: '📚 Okuma',
+  grammar: '✏️ Dilbilgisi',
+  review: '🔁 Tekrar ve kanıt',
+  game: '🎮 Oyunla pekiştirme',
+};
+---
+
+<AppLayout title="Müfredat — Languago" description="CEFR ve sınav hedeflerine göre Languago öğrenim müfredatı.">
+  <main class="study yp-wide">
+    <nav class="crumb">
+      <a class="back" href="/dashboard">← Öğrenci Paneli</a>
+      <span class="sep">›</span>
+      <a class="lnk" href="/dashboard/yol">Öğrenim Yolu</a>
+      <span class="sep">›</span>
+      <span class="cur">Müfredat</span>
+    </nav>
+
+    <header>
+      <h1>Müfredat ve beceri kanıtları 🧭</h1>
+      <p class="muted">Her seviye ve sınav hedefinde neyi, hangi sırayla ve hangi kanıtla çalıştığımız burada açıkça görünür.</p>
+    </header>
+    <div class="barline"></div>
+
+    <aside class="card" style="margin-bottom:24px;border-left:4px solid var(--brand);">
+      <strong>Çalışma döngüsü:</strong>
+      {learningSyllabus.default_cycle.map((key, index) => (
+        <span>{index ? ' → ' : ' '}{categoryLabels[key] ?? key}</span>
+      ))}
+      <p class="muted" style="margin:8px 0 0;">Oyun skoru tek başına seviye veya mastery kanıtı değildir. Transfer, doğruluk ve tekrar performansı ayrıca izlenir.</p>
+    </aside>
+
+    <div style="display:grid;gap:28px;">
+      {tracks.map(([key, track]) => (
+        <section id={key} class="card" style="scroll-margin-top:24px;">
+          <div style="display:flex;justify-content:space-between;gap:16px;align-items:flex-start;flex-wrap:wrap;">
+            <div>
+              <p class="muted" style="margin:0;text-transform:uppercase;letter-spacing:.08em;font-size:.75rem;">{track.kind === 'exam' ? 'Sınav hedefi' : 'CEFR seviyesi'}</p>
+              <h2 style="margin:4px 0 6px;">{track.label}</h2>
+              <p style="margin:0;max-width:760px;">{track.goal}</p>
+            </div>
+            <a class="btn" href="/dashboard/yol">Yol kartına dön →</a>
+          </div>
+
+          <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:14px;margin-top:20px;">
+            {Object.entries(track.categories).map(([category, plan]: [string, any]) => (
+              <article style="border:1px solid var(--line);border-radius:14px;padding:14px;background:var(--surface,#fff);">
+                <h3 style="font-size:1rem;margin:0 0 8px;">{categoryLabels[category] ?? category}</h3>
+                <ul style="margin:0 0 10px;padding-left:18px;font-size:.9rem;line-height:1.55;">
+                  {plan.focus.map((item: string) => <li>{item}</li>)}
+                </ul>
+                <p class="muted" style="font-size:.82rem;margin:0;"><strong>Kanıt:</strong> {plan.evidence}</p>
+              </article>
+            ))}
+          </div>
+
+          <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:14px;margin-top:18px;">
+            {Object.entries(track.skill_targets).map(([skill, target]: [string, any]) => (
+              <div style="border-top:2px solid var(--primary);padding-top:10px;">
+                <strong>{skill === 'listening' ? '🎧 Dinleme' : skill === 'speaking' ? '🗣️ Konuşma' : '✍️ Yazma'}</strong>
+                <p class="muted" style="margin:4px 0 0;font-size:.86rem;">{target}</p>
+              </div>
+            ))}
+          </div>
+
+          <div style="margin-top:18px;">
+            <strong>Bu aşamanın transfer hedefleri</strong>
+            <ol style="margin:8px 0 0;padding-left:22px;line-height:1.6;">
+              {track.milestones.map((milestone: string) => <li>{milestone}</li>)}
+            </ol>
+          </div>
+        </section>
+      ))}
+    </div>
+
+    <p class="dash-footer" style="margin-top:28px;">Languago · Müfredat ve kanıt hedefleri</p>
+  </main>
+</AppLayout>

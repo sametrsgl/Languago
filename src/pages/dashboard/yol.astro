@@ -20,6 +20,7 @@ import AppLayout from '../../layouts/AppLayout.astro';
 import { getSessionUser } from '../../lib/auth';
 import { createSupabaseClient, pageCookieSource } from '../../lib/supabase';
 import { VOCAB_SETS } from '../../lib/study';
+import learningSyllabus from '../../data/learning-syllabus.json';
 import '../../styles/yol.css'; // scoped Tailwind v4 (theme + utilities only — no preflight)
 
 const supabase = createSupabaseClient(pageCookieSource(Astro));
@@ -173,6 +174,10 @@ try {
 //   unlockGrammar = readingDone || vocabPct >= 80  (Grammar follows Reading,
 //                  also unlocking at the same 80% vocab threshold).
 const UNLOCK_PCT = 80;
+type SyllabusTrack = (typeof learningSyllabus.tracks)[keyof typeof learningSyllabus.tracks];
+const syllabusFor = (key: string): SyllabusTrack | undefined =>
+  (learningSyllabus.tracks as Record<string, SyllabusTrack>)[key];
+
 type ComputedUnit = UnitRow & {
   vocabPct: number;         // 0..100
   vocabNeeded: number;      // words still needed to hit UNLOCK_PCT (for copy)
@@ -215,6 +220,7 @@ const computed: ComputedUnit[] = units.map((u) => {
     unlockGrammar,
     hadStored,
     changed,
+    syllabus: syllabusFor(u.level),
   };
 });
 
@@ -350,6 +356,23 @@ const lowerNext = computed.find((c) => !c.unlockReading);
                     )
                   }
                 </header>
+
+                {u.syllabus && (
+                  <div class="mb-4 rounded-xl border border-primary/20 bg-primary/5 p-3">
+                    <div class="text-[0.7rem] font-extrabold uppercase tracking-wide text-primary-deep">Bu seviyenin hedefi</div>
+                    <p class="mb-2 mt-1 text-xs leading-relaxed text-ink">{u.syllabus.goal}</p>
+                    <div class="flex flex-wrap gap-1.5 text-[0.68rem] font-semibold text-ink-soft">
+                      {(['vocabulary', 'reading', 'grammar'] as const).map((key) => (
+                        <span class="rounded-full border border-line bg-white px-2 py-1">
+                          {key === 'vocabulary' ? 'Kelime' : key === 'reading' ? 'Okuma' : 'Dilbilgisi'}: {u.syllabus.categories[key].focus.slice(0, 2).join(' · ')}
+                        </span>
+                      ))}
+                    </div>
+                    <a class="mt-2 inline-block text-xs font-bold text-primary-deep underline" href={`/dashboard/mufredat#${u.level}`}>
+                      Müfredat ve kanıt hedefi →
+                    </a>
+                  </div>
+                )}
 
                 <!-- Vocab progress bar (teal): how close to unlocking -->
                 <div class="mb-1 flex items-center justify-between text-xs font-bold text-ink-soft">

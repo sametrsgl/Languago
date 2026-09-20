@@ -49,3 +49,14 @@ test('duplicate module rows are counted independently for evidence but module la
   assert.equal(result.correct, 4);
   assert.equal(result.accuracyPct, 80);
 });
+
+test('planning metadata is not counted as learning evidence', () => {
+  const result = summarizeLearningEvidence([
+    { module: 'daily-plan', payload: { completedCount: 5, attempted: 99, correct: 99 } },
+    { module: 'grammar', payload: { attempted: 2, correct: 1 } },
+  ]);
+
+  assert.deepEqual(result.modules, ['grammar']);
+  assert.equal(result.completed, 0);
+  assert.equal(result.attempted, 2);
+});

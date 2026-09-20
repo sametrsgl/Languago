@@ -3,6 +3,8 @@ import AppLayout from '../../layouts/AppLayout.astro';
 import { createSupabaseClient, pageCookieSource } from '../../lib/supabase';
 import { getNextLearningAction } from '../../lib/dashboard-next-action.mjs';
 import { summarizeLearningEvidence } from '../../lib/learning-evidence.mjs';
+import learningSyllabus from '../../data/learning-syllabus.json';
+import { buildDailyLearningPlan } from '../../lib/daily-learning-plan.mjs';
 
 // Protected route: read the session server-side and redirect if not signed in.
 const supabase = createSupabaseClient(pageCookieSource(Astro));
@@ -205,6 +207,15 @@ const firstPendingIndex = steps.findIndex((s) => !s.done);
 const utilitiesVisible =
   (studentLessons.length > 0 && !isTeacher) || birebirCount > 0 || isTeacher || isParent;
 const nextAction = getNextLearningAction({ progress, steps });
+const storedDailyPlan = progress.find((row) => row.module === 'daily-plan');
+const storedDailyPlanPayload = storedDailyPlan?.payload && typeof storedDailyPlan.payload === 'object'
+  ? storedDailyPlan.payload
+  : null;
+const dailyPlan = buildDailyLearningPlan({
+  progress,
+  storedPlan: storedDailyPlanPayload,
+  syllabus: learningSyllabus,
+});
 ---
 
 <AppLayout
@@ -265,9 +276,18 @@ const nextAction = getNextLearningAction({ progress, steps });
       />
     </div>
 
+    <section class="next-action daily-plan-action" aria-labelledby="daily-plan-title">
+      <div>
+        <p class="eyebrow">Bugünün {dailyPlan.totalMinutes} dakikası · {dailyPlan.mode === 'recovery' ? 'kurtarma' : 'adaptive spiral'}</p>
+        <h2 id="daily-plan-title">{dailyPlan.completedCount}/{dailyPlan.goals.length} günlük hedef tamamlandı</h2>
+        <p class="muted">{dailyPlan.focus.title} · {dailyPlan.focus.reason}</p>
+      </div>
+      <a class="btn primary" href="/dashboard/gunluk">Günlük plana git →</a>
+    </section>
+
     <section class="next-action" aria-labelledby="next-action-title">
       <div>
-        <p class="eyebrow">Bugün için öneri</p>
+        <p class="eyebrow">Sıradaki modül önerisi</p>
         <h2 id="next-action-title">{nextAction.label}</h2>
         <p class="muted" role="status">{nextAction.reason}</p>
       </div>

@@ -89,11 +89,11 @@ export const GRAMMAR_A1 = {
         { w: "Two boxs on the floor.", r: "Two boxes on the floor.", n: "box → boxes (-es)." }
       ],
       practice: [
-        { q: "two ___", hint: "book", a: ["books"] },
-        { q: "three ___", hint: "child", a: ["children"] },
-        { q: "many ___", hint: "box", a: ["boxes"] },
-        { q: "two ___", hint: "baby", a: ["babies"] },
-        { q: "five ___", hint: "man", a: ["men"] }
+        { q: "I have two ___", hint: "book", a: ["books"] },
+        { q: "There are three ___ in the park", hint: "child", a: ["children"] },
+        { q: "There are many ___ in the shop", hint: "box", a: ["boxes"] },
+        { q: "The family has two ___", hint: "baby", a: ["babies"] },
+        { q: "Five ___ are waiting outside", hint: "man", a: ["men"] },
       ]
     },
     {
@@ -463,7 +463,7 @@ export const GRAMMAR_A1 = {
       ],
       practice: [
         { q: "___ are you from? (nereden)", hint: "nereden/nerede", a: ["where"] },
-        { q: "___ is he? (kim)", hint: "kim", a: ["who"] },
+        { q: "___ is the new student? (kim)", hint: "kim", a: ["who"] },
         { q: "___ is your name? (ne)", hint: "ne", a: ["what"] },
         { q: "Why ___ you sad? (be)", hint: "you → are", a: ["are"] },
         { q: "How ___ you? (be)", hint: "nasılsın", a: ["are"] }

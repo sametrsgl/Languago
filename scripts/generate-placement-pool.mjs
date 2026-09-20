@@ -100,6 +100,7 @@ while (pool.length < TARGET) {
     pool.push({
       id: `placement-${String(pool.length + 1).padStart(5, '0')}`,
       sourceId: item.sourceId,
+      contentKey: `${item.source}:${item.sourceId}`,
       level: item.level,
       source: item.source,
       passageTitle: item.passageTitle || null,
