@@ -47,6 +47,19 @@ test('reading questions without a source ID retain their passage title context',
   assert.equal(selectNextPlacementQuestion({ state: answered(original), pool: [original, copy, otherPassage] }).id, 'other');
 });
 
+test('rotates away from the immediately previous reading passage', () => {
+  const first = { source: 'reading', sourceId: 'c1-r01-1', contentKey: 'reading:c1-r01-1', level: 'C1', id: 'first', prompt: 'What is the main idea?', options: ['a'] };
+  const samePassage = { ...first, id: 'a-same', sourceId: 'c1-r01-2', contentKey: 'reading:c1-r01-2', prompt: 'Why did the experiment matter?' };
+  const otherPassage = { ...first, id: 'z-other', sourceId: 'c1-r02-1', contentKey: 'reading:c1-r02-1', prompt: 'What happened next?' };
+  const state = { ...createPlacementState({}), nextLevel: 'C1', questions: [
+    { id: 'grammar-1', source: 'grammar' },
+    { id: 'grammar-2', source: 'grammar' },
+    { id: first.id, source: 'reading' },
+  ] };
+  const next = selectNextPlacementQuestion({ state, pool: [first, samePassage, otherPassage] });
+  assert.equal(next.id, otherPassage.id);
+});
+
 test('legacy ID-only histories resolve seen stems from the current pool without mutation', () => {
   const state = { ...createPlacementState(), questions: [{ id: grammar.id }] };
   const questions = [grammar, { ...grammar, id: 'copy' }];

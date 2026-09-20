@@ -168,6 +168,12 @@ function placementQuestionIdentity(question) {
   return JSON.stringify([source, passage, prompt]);
 }
 
+function readingPassageIdentity(question) {
+  if (question?.source !== 'reading') return null;
+  const sourceId = String(question.sourceId || '').trim();
+  return sourceId.replace(/-\d+$/, '') || String(question.passageTitle || '').trim().toLowerCase() || null;
+}
+
 export function selectNextPlacementQuestion({ state: stateInput, pool = [] } = {}) {
   const state = stateInput || createPlacementState();
   const seen = new Set(state.questions.map((row) => row.id));
@@ -182,6 +188,14 @@ export function selectNextPlacementQuestion({ state: stateInput, pool = [] } = {
     && !seenContent.has(placementQuestionIdentity(question)));
   if (!available.length) return null;
 
+  const lastAnswer = state.questions.at(-1);
+  const lastQuestion = pool.find((question) => question?.id === lastAnswer?.id);
+  const lastPassage = readingPassageIdentity(lastQuestion);
+  const diversified = lastPassage
+    ? available.filter((question) => readingPassageIdentity(question) !== lastPassage)
+    : available;
+  const candidates = diversified.length ? diversified : available;
+
   const targetIndex = levelIndex(state.nextLevel);
   const sourceCounts = state.questions.reduce((counts, row) => {
     counts[row.source || 'grammar'] = (counts[row.source || 'grammar'] || 0) + 1;
@@ -194,7 +208,7 @@ export function selectNextPlacementQuestion({ state: stateInput, pool = [] } = {
     const scoreB = (sourceCounts[b] || 0) + (examGoal && b === 'reading' ? -1 : 0);
     return scoreA - scoreB || sources.indexOf(a) - sources.indexOf(b);
   })[0];
-  const ranked = [...available].sort((a, b) => {
+  const ranked = [...candidates].sort((a, b) => {
     const distanceA = Math.abs(levelIndex(a.level) - targetIndex);
     const distanceB = Math.abs(levelIndex(b.level) - targetIndex);
     const sourceA = a.source === preferredSource ? 0 : 1;
