@@ -157,12 +157,11 @@ const initial = displayName ? displayName.trim().charAt(0).toUpperCase() : 'H';
       </div>
     </header>
     <nav class="app-primary-nav" aria-label="Öğrenme alanları">
-      <a href="/dashboard">Panel</a>
-      <a href="/dashboard/yol">Önerilen yol</a>
-      <a href="/dashboard/kelimeler">Kelime Yolu</a>
-      <a href="/dashboard/dilbilgisi">Dilbilgisi</a>
-      <a href="/dashboard/okuma">Okuma</a>
-      <a href="/dashboard/oyunlar">Oyunlar</a>
+      <a class:list={{ active: path === '/dashboard' }} href="/dashboard">Panel</a>
+      <a class:list={{ active: path.startsWith('/dashboard/yol') }} href="/dashboard/yol">Yolum</a>
+      <a class:list={{ active: path.startsWith('/dashboard/kelimeler') || path.startsWith('/dashboard/dilbilgisi') || path.startsWith('/dashboard/okuma') }} href="/dashboard/kelimeler">Çalış</a>
+      <a class:list={{ active: path.startsWith('/dashboard/oyunlar') }} href="/dashboard/oyunlar">Oyunlar</a>
+      <a class="app-nav-secondary" href="/dashboard/gunluk">Günlük plan</a>
     </nav>
     <MobileAppNav />
 

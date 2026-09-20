@@ -620,8 +620,10 @@ footer.site .brand .footer-mascot {
 
 /* ---------- study sections ---------- */
 .study {
-  max-width: 860px;
-  margin: 40px auto;
+  width: min(1180px, calc(100% - 48px));
+  max-width: none;
+  margin: 0 auto;
+  padding: 40px 0 72px;
 }
 .study .back {
   display: inline-block;
@@ -1979,11 +1981,78 @@ footer.site .brand .footer-mascot { filter: grayscale(1); opacity: .8; }
 .app-header { background: var(--ink) !important; border-bottom: 1px solid #3b4340 !important; }
 .app-header .brand, .app-header .brand small { color: #f4f0e7; }
 .app-header .brand-mark { filter: grayscale(1) brightness(1.7); }
-.app-primary-nav { justify-content: flex-start; gap: 0; padding: 0 28px; background: #2a3331; border-bottom: 1px solid #414b47; }
-.app-primary-nav a { color: #c8cdc5; padding: 13px 16px; font-size: .78rem; letter-spacing: .05em; text-transform: uppercase; }
-.app-primary-nav a:hover { color: #f2b196; text-decoration: none; background: rgba(255,255,255,.05); }
-.app-content { background: var(--bg); }
-.app-nav { background: var(--ink) !important; border-top: 1px solid #3a423f !important; }
+.app-primary-nav a.active {
+  color: #ffffff;
+  background: rgba(13,148,136,.26);
+  box-shadow: inset 0 -2px 0 #f59e0b;
+}
+.app-primary-nav .app-nav-secondary {
+  margin-left: auto;
+  color: #e8c2aa;
+}
+.app-primary-nav .app-nav-secondary:hover {
+  color: #fff;
+}
+.app-content {
+  background: #f8f7f3;
+}
+.study {
+  --dashboard-surface: #fffdf9;
+  --dashboard-border: #dce5e1;
+}
+.study .dash-hero {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 28px;
+  padding: clamp(24px, 4vw, 42px);
+  border: 1px solid var(--dashboard-border);
+  border-radius: 20px;
+  background: linear-gradient(120deg, #fffdf9 0%, #edf8f4 100%);
+  box-shadow: 0 18px 42px -30px rgba(19,59,61,.38);
+}
+.study .dash-hero__title { font-size: clamp(2rem, 4vw, 3.25rem); letter-spacing: -.045em; }
+.study .dash-hero__text > .muted { max-width: 60ch; font-size: 1.02rem; }
+.study .excite { margin-top: 26px; }
+.study .stat-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 10px; }
+.study .stat-chip { min-width: 0; padding: 13px 14px; background: rgba(255,255,255,.72); border-color: rgba(13,148,136,.2); }
+.study .stat-chip .stat-ico { font-size: 1.2rem; }
+.study .stat-chip .stat-num { font-size: 1.35rem; }
+.study .dash-mascot { width: 150px; height: 150px; }
+.study .next-action { min-height: 104px; margin-top: 16px; padding: 22px 26px; background: #123f40; color: #fff; border: 0; box-shadow: 0 16px 34px -24px rgba(18,63,64,.7); }
+.study .next-action h2, .study .next-action .muted, .study .next-action .eyebrow { color: #fff; }
+.study .next-action .muted { opacity: .78; }
+.study .next-action .btn.primary { background: #f59e0b; color: #173c3e; }
+.study .assessment-callout { margin-top: 16px; }
+.study .barline { margin: 36px 0 0; }
+.study .dash-section { margin-top: 34px; padding: 28px; border: 1px solid var(--dashboard-border); border-radius: 18px; background: var(--dashboard-surface); }
+.study .dash-section > .section-head { display: flex; align-items: end; justify-content: space-between; gap: 20px; }
+.study .dash-section > .section-head h2 { font-size: clamp(1.35rem, 2.4vw, 1.8rem); }
+.study .study-path { gap: 12px; }
+.study .study-card { background: #f7faf8; border-color: #dce7e3; box-shadow: none; }
+.study .study-card:hover { background: #fff; }
+.study .utilities { grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); }
+.study .live-lessons { grid-column: 1 / -1; }
+@media (max-width: 720px) {
+  .study { width: min(100% - 28px, 620px); padding-top: 24px; }
+  .study .dash-hero { grid-template-columns: 1fr; padding: 22px; }
+  .study .dash-mascot { width: 84px; height: 84px; justify-self: end; margin-top: -12px; }
+  .study .stat-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  .study .dash-section { padding: 20px 16px; }
+  .study .dash-section > .section-head { align-items: flex-start; flex-direction: column; }
+}
+@media (max-width: 480px) {
+  .study { width: min(100% - 20px, 620px); }
+  .study .stat-chip { display: block; padding: 11px 9px; text-align: center; }
+  .study .stat-chip .stat-label { display: block; }
+  .app-primary-nav .app-nav-secondary { display: none; }
+}
+
+/* Preserve the mobile replacement nav while keeping the desktop bar concise. */
+@media (max-width: 760px) {
+  .app-primary-nav { display: none; }
+}
+
 .app-nav__link { min-height: 52px; color: #c8cdc5 !important; }
 .app-nav__link > span:first-child { display: none; }
 .app-nav__link--active { color: #f2b196 !important; }
