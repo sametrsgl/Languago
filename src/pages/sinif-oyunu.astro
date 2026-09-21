@@ -597,6 +597,7 @@ const diffJson = JSON.stringify(DIFF).replace(/</g, '\\u003c');
                 '<button type="button" class="cm-hide-answer" id="revealBtn">💡 Cevabı Göster</button>' +
                 '<div style="display:none" id="answerBox">' +
                   '<div class="cm-answer">✅ Cevap: ' + esc(q && q.o ? q.o[q.a] : '') + '</div>' +
+                  '<p id="answerExplanation">' + esc((Array.isArray(q.why) ? q.why[q.a] : (typeof q.why === 'string' ? q.why : '')) || 'Bu cevabın neden uygun olduğunu takımınızla açıklayın.') + '</p>' +
                   '<div class="cm-actions">' +
                     '<button type="button" class="cm-correct" data-act="ok">✓ Doğru</button>' +
                     '<button type="button" class="cm-skip" data-act="skip">↷ Geç</button>' +

@@ -38,11 +38,37 @@ try {
       assert.equal(await page.$$eval('#tileGrid .cm-tile', els => els.length), 24);
       await page.click('#tileGrid .cm-tile:not(.power)');
       assert.ok((await page.$eval('.cm-q-topic', el => el.textContent)).startsWith(title));
+      const expectedExplanation = await page.evaluate(() => {
+        const topics = JSON.parse(document.getElementById('cm-topics').textContent);
+        const stem = document.querySelector('.cm-q-text').textContent;
+        const topicId = document.querySelector('#topicGrid .on').dataset.id;
+        const question = topics.find(t => t.id === topicId).qs.find(q => q.q === stem);
+        return Array.isArray(question.why) ? question.why[question.a] : question.why;
+      });
+      assert.ok(expectedExplanation, 'sample question must have an explanation');
+      assert.equal(await page.$eval('#answerBox', el => getComputedStyle(el).display), 'none');
       await page.click('#revealBtn');
+      assert.equal(await page.$eval('#answerExplanation', el => el.textContent), expectedExplanation);
       await page.click('[data-act="ok"]');
       assert.equal(await page.$eval('#modal', el => el.hidden), true);
       assert.equal(await page.$eval('[data-sv="0"]', el => Number(el.textContent)) > 0, true);
       assert.equal(await page.evaluate(() => document.documentElement.scrollWidth > innerWidth), false);
+      // Finish the real board, including power tiles, then verify a fresh game.
+      while (await page.$('#tileGrid .cm-tile:not(.used)')) {
+        await page.click('#tileGrid .cm-tile:not(.used)');
+        if (await page.$('#revealBtn')) {
+          await page.click('#revealBtn');
+          await page.click('[data-act="ok"]');
+        } else {
+          await page.click('[data-power-ok], [data-power-t]');
+        }
+      }
+      assert.equal(await page.$eval('#scrWin', el => el.hidden), false);
+      await page.click('#replayBtn');
+      await page.click('#startBtn');
+      await page.click('#resetBtn');
+      assert.equal(await page.$$eval('#tileGrid .cm-tile:not(.used)', els => els.length), 24);
+      assert.equal(await page.$eval('[data-sv="0"]', el => Number(el.textContent)), 0);
       assert.deepEqual(errors, []);
       results.push({ width, staleSelectionBlocked: true, validSelectionPreserved: true, playableTiles: 24, scoring: 'pass', consoleErrors: errors.length });
     } finally { await page.close(); }
