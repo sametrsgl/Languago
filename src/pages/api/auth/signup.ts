@@ -14,9 +14,13 @@ import { readJsonBody, RequestBodyError } from '../../../lib/request-body';
  * Other error:     { "error": { "message": "..." } }
  */
 export const POST: APIRoute = async ({ request, cookies }) => {
-  let body: { fullName?: string | null; email?: string; password?: string } = {};
+  let body: Record<string, unknown>;
   try {
-    body = await readJsonBody(request, 8_192);
+    const parsed = await readJsonBody<unknown>(request, 8_192);
+    if (!parsed || typeof parsed !== 'object' || Array.isArray(parsed)) {
+      throw new RequestBodyError('Geçersiz istek.', 400);
+    }
+    body = parsed as Record<string, unknown>;
   } catch (error) {
     if (error instanceof RequestBodyError && error.status === 413) {
       return json({ error: { message: error.message } }, 413);
