@@ -28,6 +28,26 @@ test('placement answer client returns the grading payload and clears its timer',
   assert.equal(cleared, 7);
 });
 
+test('placement answer client rejects malformed grading without leaking its timer', async () => {
+  for (const payload of [null, {}, [], { error: 'unavailable' },
+    { correct: 'false', correctIndex: 0 }, { correct: 1, correctIndex: 0 },
+    { correct: false }, { correct: false, correctIndex: -1 },
+    { correct: false, correctIndex: 1.5 }, { correct: false, correctIndex: '1' },
+    { correct: false, correctIndex: 0 }, { correct: true, correctIndex: 1 }]) {
+    let cleared;
+    await assert.rejects(checkPlacementAnswer(async () => ({ ok: true, json: async () => payload }), 'q-1', 0, {
+      setTimeoutImpl: () => 17,
+      clearTimeoutImpl: id => { cleared = id; },
+    }), /Invalid placement grading response/);
+    assert.equal(cleared, 17);
+  }
+});
+
+test('placement answer client preserves a valid incorrect answer', async () => {
+  const payload = { correct: false, correctIndex: 2, why: 'Use the context.' };
+  assert.deepEqual(await checkPlacementAnswer(async () => ({ ok: true, json: async () => payload }), 'q-1', 0), payload);
+});
+
 test('placement answer client rejects non-success responses', async () => {
   await assert.rejects(
     checkPlacementAnswer(async () => ({ ok: false, json: async () => ({}) }), 'q-1', 0),

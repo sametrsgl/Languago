@@ -30,7 +30,15 @@ export async function checkPlacementAnswer(fetchImpl, id, selectedIndex, {
       signal: controller.signal,
     });
     if (!response.ok) throw new Error('check');
-    return await response.json();
+    const payload = await response.json();
+    // A successful HTTP status is not proof of a valid grade. Reject malformed
+    // responses before live answers or draft replay can change learner progress.
+    if (typeof payload?.correct !== 'boolean'
+      || !Number.isInteger(payload.correctIndex) || payload.correctIndex < 0
+      || payload.correct !== (selectedIndex === payload.correctIndex)) {
+      throw new Error('Invalid placement grading response');
+    }
+    return payload;
   } finally {
     clearTimeoutImpl(timeoutId);
   }
