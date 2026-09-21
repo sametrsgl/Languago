@@ -277,9 +277,9 @@ const diffJson = JSON.stringify(DIFF).replace(/</g, '\\u003c');
     </section>
 
     <!-- ===== QUESTION / POWER-UP MODAL ===== -->
-    <div class="cm-modal" id="modal" hidden>
+    <dialog class="cm-modal" id="modal" aria-label="Sınıf oyunu turu" hidden>
       <div class="cm-modal-card" id="modalCard"></div>
-    </div>
+    </dialog>
 
     <!-- ===== WINNER ===== -->
     <section class="cm-screen" id="scrWin" hidden>
@@ -373,7 +373,9 @@ const diffJson = JSON.stringify(DIFF).replace(/</g, '\\u003c');
     .cm-mascot-pos { position: absolute; right: 22px; bottom: 14px; z-index: 5; pointer-events: none; }
     .cm-mascot-pos img { width: 120px; height: auto; filter: drop-shadow(0 6px 12px rgba(0,0,0,.35)); }
     .cm-modal { position: fixed; inset: 0; background: rgba(10,20,25,.72); display: flex; align-items: center; justify-content: center; z-index: 90; padding: 16px; }
+    .cm-modal { margin: 0; width: 100%; height: 100%; max-width: none; max-height: none; border: 0; box-sizing: border-box; }
     .cm-modal[hidden] { display: none; }
+    .cm-modal-card { max-height: 100%; overflow-y: auto; box-sizing: border-box; }
     .cm-modal-card { max-width: 720px; width: 100%; background: #fff; border-radius: 18px; padding: 28px; box-shadow: 0 30px 80px -20px rgba(0,0,0,.6); animation: cmPop .25s ease; }
     @keyframes cmPop { from { transform: scale(.92); opacity: 0; } to { transform: scale(1); opacity: 1; } }
     .cm-q-topic { font-size: .8rem; font-weight: 700; color: var(--teal-dark); text-transform: uppercase; letter-spacing: .04em; }
@@ -605,10 +607,11 @@ const diffJson = JSON.stringify(DIFF).replace(/</g, '\\u003c');
                   '</div>' +
                 '</div>';
               state.curPts = pts; state.curMult = req;
-              $('modal').hidden = false;
+              showModal();
               $('revealBtn').onclick = function () {
                 this.style.display = 'none';
                 $('answerBox').style.display = '';
+                $('modalCard').querySelector('[data-act="ok"]').focus();
               };
               $('modalCard').querySelectorAll('[data-act]').forEach(function (b) {
                 b.onclick = function () { resolveQuestion(b.getAttribute('data-act')); };
@@ -649,7 +652,7 @@ const diffJson = JSON.stringify(DIFF).replace(/</g, '\\u003c');
           extra = '<div class="cm-actions"><button type="button" class="cm-correct" data-power-ok="1">Takas Et</button></div>';
         }
         $('modalCard').innerHTML = body + extra;
-        $('modal').hidden = false;
+        showModal();
         if (name === 'İki Katı Puan') {
           $('modalCard').querySelector('[data-power-ok]').onclick = function () { state.powerDouble = true; closeModal(); advance(); };
         } else if (name === 'Sıfırla') {
@@ -675,7 +678,12 @@ const diffJson = JSON.stringify(DIFF).replace(/</g, '\\u003c');
         var el = document.querySelectorAll('.cm-score .sv');
         for (var i = 0; i < el.length; i++) el[i].textContent = state.scores[i];
       }
-      function closeModal() { $('modal').hidden = true; }
+      function showModal() {
+        $('modal').hidden = false;
+        $('modal').showModal();
+        $('modalCard').scrollTop = 0;
+      }
+      function closeModal() { $('modal').close(); $('modal').hidden = true; }
       function advance() {
         // next active team
         state.active = (state.active + 1) % state.teams;
@@ -685,7 +693,11 @@ const diffJson = JSON.stringify(DIFF).replace(/</g, '\\u003c');
         renderBoard();
         closeModal();
         if (left === 0) showWinner();
-        else flashTurn();
+        else {
+          flashTurn();
+          // The activating tile was consumed and replaced; use the next playable tile.
+          $('tileGrid').querySelector('button:not(:disabled)').focus();
+        }
       }
       function flashTurn() {
         // highlight active team score
@@ -710,6 +722,7 @@ const diffJson = JSON.stringify(DIFF).replace(/</g, '\\u003c');
         }
         $('scrBoard').hidden = true;
         $('scrWin').hidden = false;
+        $('replayBtn').focus();
       }
 
       // ---- events ----

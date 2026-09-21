@@ -1,5 +1,12 @@
 # Decisions
 
+## 2026-09-21 — Classroom modal accessibility
+
+Use native `dialog.showModal()` rather than a new modal dependency or hand-written focus trap. MDN's dialog guidance requires a label, initial focus, contained keyboard navigation and meaningful focus restoration. The original tile is consumed and recreated, so return focus to the next playable tile (or replay on completion). Constrain long feedback to a scrollable viewport-sized card. Preserve existing scoring and Escape semantics.
+
+Reference: https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA/Reference/Roles/dialog_role
+
+
 ## 1. Framework — Astro (SSR) with `@astrojs/vercel`
 
 **Decision:** build the web app on **Astro 5** in SSR mode (Vercel adapter), not a client-side

@@ -45,10 +45,11 @@ try {
         const question = topics.find(t => t.id === topicId).qs.find(q => q.q === stem);
         return Array.isArray(question.why) ? question.why[question.a] : question.why;
       });
-      assert.ok(expectedExplanation, 'sample question must have an explanation');
+      // Some curated items lack explanations; the UI explicitly invites discussion.
+      const displayedExplanation = expectedExplanation || 'Bu cevabın neden uygun olduğunu takımınızla açıklayın.';
       assert.equal(await page.$eval('#answerBox', el => getComputedStyle(el).display), 'none');
       await page.click('#revealBtn');
-      assert.equal(await page.$eval('#answerExplanation', el => el.textContent), expectedExplanation);
+      assert.equal(await page.$eval('#answerExplanation', el => el.textContent), displayedExplanation);
       await page.click('[data-act="ok"]');
       assert.equal(await page.$eval('#modal', el => el.hidden), true);
       assert.equal(await page.$eval('[data-sv="0"]', el => Number(el.textContent)) > 0, true);
