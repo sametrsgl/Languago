@@ -3,6 +3,7 @@
 // PUBLIC page (no login): a teacher opens it on a projector/smartboard in class,
 // picks a grammar topic + number of teams, and teams take turns revealing tiles.
 import Layout from '../layouts/Layout.astro';
+import { buildCuratedClassTopics } from '../lib/game-classroom.mjs';
 
 // Build the topic bank server-side from the live grammar content: for every
 // grammar unit across all CEFR levels, attach its MCQ question pool keyed by id.
@@ -14,205 +15,21 @@ const levels: { key: string; label: string; bank: string }[] = [
 ];
 
 async function buildBank() {
-  const topics: any[] = [];
+  const topics = [];
   for (const lv of levels) {
     const vid = lv.bank.toUpperCase();
-    const gramMod: any = await import(`../data/grammar_${lv.bank}.js`);
-    const GRAM: any = gramMod[`GRAMMAR_${vid}`] || gramMod.GRAMMAR_A1 || null;
-    const mcqMod: any = await import(`../data/grammar_mcq_${lv.bank}.js`);
-    const MCQM: any = mcqMod[`GRAMMAR_MCQ_${vid}`] || mcqMod.GRAMMAR_MCQ_A1 || null;
-    const units: any[] = (GRAM && GRAM.units) || [];
-    for (const u of units) {
-      const qs: any[] = [];
-      // 1. curated MCQs from the MCQ bank (tier 3 = harder, 🔥 badge)
-            const bank = (MCQM && MCQM[u.id]) || [];
-            bank.forEach((q: any) => qs.push(makeQ(q.q, q.options, q.a, q.why || null, 3)));
-      // 2. convert the unit's PRACTICE gap-fills into MCQs (big variety boost),
-            //    using the OTHER answers in the same lesson as plausible distractors
-            const practice: any[] = (u.practice as any[]) || [];
-            if (practice.length) {
-                    // build a pool of the correct answers in this lesson for distractors
-                    const answers = practice.map((p) => (p.a && p.a[0]) || p.hint || '').filter(Boolean);
-                    practice.forEach((p, pi) => {
-                      const ans = (p.a && p.a[0]) || p.hint || '';
-                      if (!ans) return;
-                      // 1 genuinely-distinct MCQ per practice item; distractors = other lesson
-                      // answers (real verb forms) + a wrong-form variant. No same-stem duplicates.
-                      const others = answers.filter((x, xi) => x !== ans && xi !== pi);
-                      const dist = shuffleArr([...new Set(others)]).slice(0, 3);
-                                      const ex = extraDistractors(p, ans);
-                                      if (dist.length < 3 && ex && dist.indexOf(ex) === -1) dist.push(ex);
-                                      if (dist.length < 3) { const w = [...new Set(others), ex].filter((x) => x && x !== ans && dist.indexOf(x) === -1); if (w[0]) dist.push(w[0]); }
-                      const options = shuffleArr([ans, ...dist.slice(0, 3)]);
-                      const aIdx = options.indexOf(ans);
-                      const why = options.map((o) =>
-                        o === ans ? `Doğru: '${ans}' — ipucu '${p.hint || ''}'.` : `'${o}' bu boşluk için uygun değil.`)
-                      // Some practice stems carry the ANSWER itself in a trailing parenthetical
-                      // (e.g. "He is an ___ man. (old)"). As an MCQ that gives the answer away,
-                      // so strip it and, when available, swap in the Turkish meaning clue instead.
-                      qs.push(makeQ(cleanPracticeStem(p.q, ans, p.hint), options, aIdx, why, 2));
-                    });
-                  }
-            if (qs.length === 0) continue;
-                        // HARD GUARANTEE — dedupe by normalized question TEXT, not just array
-                        // index. The curated MCQ bank and the practice→MCQ conversion can both
-                        // produce e.g. "___ name is John."; consuming each index once would still
-                        // show the same sentence twice. Keep the FIRST occurrence per unique stem.
-                        const seenQ = new Set<string>();
-                        const uniq: any[] = [];
-                        for (const q of qs) {
-                          const k = (q.q || '').toLowerCase().trim().replace(/\s+/g, ' ');
-                          if (seenQ.has(k)) continue;
-                          seenQ.add(k); uniq.push(q);
-                        }
-                        const playable = uniq.map((q, index) => ({ ...q, id: `${lv.key}:${u.id}:${index}` }));
-                        if (playable.length < 20) continue;
-                        topics.push({
-                          level: lv.key,
-                          levelLabel: lv.label,
-                    id: u.id,
-                    title: u.title || u.short,
-                    short: u.short || u.title,
-                    qs: playable,
-                    // questions tagged hard (tier 3) are from the curated bank when it's longer
-                    hard: playable.filter((q: any) => q.t === 3),
-                  });
-    }
+    const gramMod = await import(`../data/grammar_${lv.bank}.js`);
+    const mcqMod = await import(`../data/grammar_mcq_${lv.bank}.js`);
+    // The curated pool already covers a full board. Do not invent distractors
+    // from unrelated gap-fill answers or bypass the shared validity gate.
+    topics.push(...buildCuratedClassTopics({
+      level: lv.key,
+      levelLabel: lv.label,
+      grammar: gramMod[`GRAMMAR_${vid}`],
+      mcqGroups: mcqMod[`GRAMMAR_MCQ_${vid}`],
+    }));
   }
   return topics;
-}
-function makeQ(q: string, options: any[], a: number, why: any, tier: number): any {
-  return { q, o: options, a, why: why || null, t: tier };
-}
-// If a practice stem ends with "(answer)" where the parenthetical IS the answer,
-// the MCQ would give the answer away. Strip it and, when a Turkish meaning hint
-// exists, show that as a non-revealing clue instead (user-requested behavior).
-// ALSO: for structurally ambiguous patterns (demonstrative + possessive, e.g.
-// "That is ___ pen." — every possessive fits), append the practice hint as a
-// disambiguating clue so the question has a single intended answer.
-function cleanPracticeStem(q: string, ans: string, hint?: string): string {
-  if (!q || !ans) return q;
-  const m = q.match(/\(([^)]*)\)\s*$/);
-  const h = (hint || '').trim();
-  const norm = (s: string) => s.toLowerCase().replace(/['’]/g, '');
-  if (m) {
-    const inner = (m[1] || '').trim();
-    if (norm(inner) === norm(ans)) {
-      // it's a giveaway — strip it; replace with Turkish meaning clue if available
-      const base = q.slice(0, m.index).trim();
-      return h ? `${base} (ipucu: ${h})` : base;
-    }
-    // has a legit, non-answer parenthetical already — keep as-is
-    return q;
-  }
-  // No parenthetical. Detect structurally ambiguous patterns where MANY options
-    // are grammatically valid completions and there is no way to pick one without
-    // context — these MUST carry the hint to have a single intended answer:
-    //   (a) demonstrative + possessive: "That is ___ pen."
-    //   (b) possessive/pronoun-object referential hints: "___ name is John."
-    //       (hint like "you → senin", "he → onun", "I → benim", "we → nesne")
-    // Verb-conjugation hints ("he → is") are NOT ambiguous, so they are left alone.
-    var isDemonstr = /^(this|that)\s+is\s+___\s+[a-z]/i.test(q.trim()) ||
-                     /^(these|those)\s+are\s+___\s+[a-z]/i.test(q.trim());
-    var isReferent = /(benim|senin|onun|bizim|sizin|onların|nesne|onunki|seninki|benimki|bizimki|sizinki|kendi)/i.test(h);
-    if (isDemonstr || isReferent) {
-      return h ? `${q.trim()} (ipucu: ${h})` : q;
-    }
-    return q;
-  }
-// plausible wrong-form distractors for a gap-fill (tenses/agreement errors)
-function extraDistractors(p: any, ans: string): string | null {
-  const hint = (p.hint || '').toLowerCase();
-  // Present continuous "be" practice items: "He ___ watching TV. (be)" / ans="is"
-  // Generate distractors testing the FULL am/is/are + -ing structure so students
-  // can't just guess the be-verb — they must apply the whole form.
-  // Examples: "are watching" (wrong aux), "is watch" (no -ing), "is watched" (passive)
-  if (['am', 'is', 'are', 'be'].includes(ans.toLowerCase()) && hint.includes('→')) {
-    return extraDistractorPc(p, ans);
-  }
-  const variations: Record<string, string[]> = {
-    am: ['are', 'is', 'be'],
-    is: ['are', 'am', 'be'],
-    are: ['is', 'am', 'be'],
-  };
-  const l = ans.toLowerCase();
-  // negate clearly wrong forms: am reading -> is reading / reading / was reading
-  const m = l.match(/^(am|is|are|was|were)\s+(.+)$/);
-  if (m) {
-    const aux = m[1], rest = m[2];
-    const wrongAux = ['am', 'is', 'are', 'was', 'were'].filter((x) => x !== aux);
-    for (const wa of wrongAux) {
-      const cand = (aux.match(/^(was|were)$/) ? wa + ' ' + rest : wa + ' ' + rest);
-      const capped = /^[A-Z]/.test(ans) ? cand.charAt(0).toUpperCase() + cand.slice(1) : cand;
-      return capped !== ans ? capped : null;
-    }
-  }
-  return variations[l] ? variations[l][0] : null;
-}
-
-// For present continuous "be" practice items — distractors that test the
-// full am/is/are + -ing structure (not just the be-verb alone).
-// e.g. answer="is", verb=watch → distractors: "are watching", "is watch", "is watched"
-function extraDistractorPc(p: any, ans: string): string | null {
-  const q = (p.q || '').toLowerCase();
-  // Extract the -ing verb from the stem: "He ___ watching TV. (be)"
-  const ingMatch = q.match(/(\w+ing)\b/);
-  if (!ingMatch) {
-    // No -ing verb visible — fall back to simple be variations
-    const variations: Record<string, string[]> = {
-      am: ['are', 'is', 'be'],
-      is: ['are', 'am', 'be'],
-      are: ['is', 'am', 'be'],
-    };
-    const l = ans.toLowerCase();
-    return variations[l] ? variations[l][0] : null;
-  }
-  const verbIng = ingMatch[1];           // e.g. "watching"
-  const verbRoot = verbIng.replace(/ing$/, ''); // e.g. "watch"
-  // Determine subject to pick correct auxiliary
-  const subjMatch = q.match(/^(he|she|it|we|they|i)\s/);
-  const subject = subjMatch ? subjMatch[1] : 'they';
-  const lower = ans.toLowerCase();
-
-  // Build candidate distractor sets based on which be-verb is correct:
-  //   correct: "is watching"  — answer is "is"
-  //   distractors:
-  //     - wrong aux + -ing:  "are watching", "am watching"
-  //     - correct aux + no -ing: "is watch"
-  //     - passive:           "is watched"
-  //     - third-person -s:   "watches"
-  //     - base verb:         "watch" / "watching" (bare)
-  const allBe = ['am', 'is', 'are'];
-  const shuffled = [...allBe].sort(() => Math.random() - 0.5);
-
-  // Pick 1 distractor from the shuffled pool each call (the caller calls
-  // extraDistractors() up to 3x to fill 3 slots; each call returns a
-  // different candidate by consuming the array). Since we can't persist state,
-  // use the answer + verb to deterministically pick a "wrong but plausible" option:
-  const wrongAux = shuffled.filter((b) => b !== lower);
-  const distractorTypes = [
-    () => wrongAux[0] + ' ' + verbIng,          // e.g. "are watching"
-    () => lower + ' ' + verbRoot,               // e.g. "is watch" (no -ing)
-    () => lower + ' ' + verbRoot + 'ed',        // e.g. "is watched" (passive)
-    () => verbRoot + 's',                       // e.g. "watches" (simple present)
-    () => verbRoot,                             // e.g. "watch" (bare infinitive)
-  ];
-
-  // Return one deterministic distractor based on ans+verb so retries are diverse
-  const idx = (lower.charCodeAt(0) + verbRoot.length) % distractorTypes.length;
-  const picked = distractorTypes[idx]();
-  const capped = /^[A-Z]/.test(ans)
-    ? picked.charAt(0).toUpperCase() + picked.slice(1)
-    : picked;
-  return capped !== ans ? capped : null;
-}
-function shuffleArr(a: any[]): any[] {
-  const arr = a.slice();
-  for (let i = arr.length - 1; i > 0; i--) {
-    const j = Math.floor(Math.random() * (i + 1));
-    const t = arr[i]; arr[i] = arr[j]; arr[j] = t;
-  }
-  return arr;
 }
 
 const topics = await buildBank();

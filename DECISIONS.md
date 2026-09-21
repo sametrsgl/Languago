@@ -1,5 +1,11 @@
 # Decisions
 
+## 2026-09-21 — Serve curated classroom questions, not synthetic practice MCQs
+
+Reuse `buildCuratedClassTopics` on the actual SSR classroom route. Its existing unit test was passing while the page independently generated distractors from unrelated practice answers. Live inspection found 66 question sets with fewer than four options and practice-derived ambiguous alternatives. The curated bank alone preserves all 97 topics, with at least 20 distinct stems per topic for 19 question tiles. Remove the duplicate conversion instead of adding another generator/dependency. Preserve source datasets; verify the served JSON and full desktop/mobile board, including shuffled answer/explanation alignment. This structural gate is not a claim that every curated item has passed expert review.
+
+Reference: https://www.cambridgeassessment.org.uk/blogs/writing-good-multiple-choice-questions
+
 ## 2026-09-21 — Classroom modal accessibility
 
 Use native `dialog.showModal()` rather than a new modal dependency or hand-written focus trap. MDN's dialog guidance requires a label, initial focus, contained keyboard navigation and meaningful focus restoration. The original tile is consumed and recreated, so return focus to the next playable tile (or replay on completion). Constrain long feedback to a scrollable viewport-sized card. Preserve existing scoring and Escape semantics.
