@@ -738,8 +738,13 @@ const diffJson = JSON.stringify(DIFF).replace(/</g, '\\u003c');
         $('scrWin').hidden = true; $('scrLobby').hidden = false;
         renderTopics();
       });
-      // Escape closes modal
-      document.addEventListener('keydown', function (e) { if (e.key === 'Escape') closeModal(); });
+      // Opening consumes a tile: dismissal must resolve its turn as well.
+      document.addEventListener('keydown', function (e) {
+        if (e.key !== 'Escape' || $('modal').hidden) return;
+        e.preventDefault();
+        if ($('revealBtn')) resolveQuestion('skip');
+        else advance(); // Decline the power card without applying its effect.
+      });
 
       // init
       if (!topics.length) {
