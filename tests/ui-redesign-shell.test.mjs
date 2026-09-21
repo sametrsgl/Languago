@@ -6,11 +6,16 @@ import path from 'node:path';
 const root = path.resolve(import.meta.dirname, '..');
 const read = (file) => fs.readFileSync(path.join(root, file), 'utf8');
 
-test('public shell keeps mobile nav mobile-only and skip link focusable', () => {
+test('public shell keeps mobile nav mobile-only, login visible, and skip link focusable', () => {
   const css = read('src/styles/global.css');
+  const layout = read('src/layouts/Layout.astro');
   assert.match(css, /\.mobile-public-nav\s*\{\s*display:\s*none/);
   assert.match(css, /\.skip-link:focus/);
   assert.doesNotMatch(css, /body\s*\{[^}]*overflow-x:\s*hidden/);
+  assert.match(layout, /class="btn primary cta header-login"[^>]*href="\/signin"/);
+  assert.match(layout, /aria-label="Hesabına giriş yap"/);
+  assert.doesNotMatch(css, /header\.site nav\.site,\s*header\.site \.cta\s*\{\s*display:\s*none/);
+  assert.match(css, /header\.site \.header-login\s*\{/);
 });
 
 test('lesson explorer exposes accessible filtering controls and real links', () => {

@@ -122,7 +122,10 @@ const ogImage = image || `${siteUrl}/og-cover.png`;
           <a class="nav" href="/fiyatlandirma">Fiyatlandırma</a>
           <a class="nav" href="/iletisim">İletişim</a>
         </nav>
-        <a class="btn primary cta" href="/signin">Giriş Yap</a>
+        <a class="btn primary cta header-login" href="/signin" aria-label="Hesabına giriş yap">
+          <span class="header-login__label">Giriş Yap</span>
+          <span class="header-login__icon" aria-hidden="true">→</span>
+        </a>
       </div>
     </header>
     <MobilePublicNav />

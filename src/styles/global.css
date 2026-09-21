@@ -1939,6 +1939,42 @@ nav.site { gap: 24px; }
 nav.site a.nav { color: var(--ink-soft); font-size: .82rem; letter-spacing: .03em; text-transform: uppercase; }
 nav.site a.nav:hover { color: var(--brand); }
 header.site .cta { padding: 10px 18px; }
+header.site .header-login {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  min-height: 44px;
+  border: 1px solid #123f40;
+  border-radius: 999px;
+  padding: 6px 7px 6px 17px;
+  background: #123f40;
+  color: #fff;
+  box-shadow: 0 10px 24px -16px rgba(18, 63, 64, .85);
+  white-space: nowrap;
+  transition: background-color .18s ease, border-color .18s ease, box-shadow .18s ease;
+}
+header.site .header-login:hover,
+header.site .header-login:focus-visible {
+  border-color: #0b746d;
+  background: #0b746d;
+  color: #fff;
+  box-shadow: 0 14px 28px -16px rgba(11, 116, 109, .9);
+  text-decoration: none;
+}
+.header-login__label { font-weight: 800; letter-spacing: .01em; }
+.header-login__icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  background: #f59e0b;
+  color: #173c3e;
+  font-size: 1rem;
+  font-weight: 900;
+  line-height: 1;
+}
 
 .hero { background: var(--ink); color: #f7f3eb; border-radius: 12px; padding: clamp(54px, 8vw, 108px) clamp(28px, 7vw, 86px); margin-top: 42px; text-align: left; box-shadow: 0 22px 48px rgba(29,35,35,.14); }
 .hero h1 { max-width: 760px; color: #f7f3eb; }
@@ -2079,7 +2115,15 @@ footer.site .brand .footer-mascot { filter: grayscale(1); opacity: .8; }
 @media (max-width: 760px) {
   .container { padding-inline: 18px; }
   header.site .container { height: 64px; }
-  header.site nav.site, header.site .cta { display: none; }
+  header.site nav.site { display: none; }
+  header.site .header-login {
+    display: inline-flex;
+    min-height: 40px;
+    margin-left: auto;
+    padding: 5px 6px 5px 14px;
+    font-size: .82rem;
+  }
+  .header-login__icon { width: 28px; height: 28px; }
   .mobile-public-nav { display: block; background: var(--bg); border-bottom: 1px solid var(--line); }
   .mobile-public-nav__scroller { gap: 4px; padding-inline: 18px; }
   .mobile-public-nav a { min-height: 44px; padding: 12px 13px; color: var(--ink-soft); font-size: .75rem; letter-spacing: .04em; text-transform: uppercase; }
