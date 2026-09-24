@@ -30,6 +30,8 @@ assert.match(home, /href="\/ogren"[^>]*>[^<]*(Öğrenmeye başla|Öğrenme yolun
 assert.match(home, /Öğretmenim|Öğretmen akışı|Materyal üretici/i, 'homepage visibly separates teacher tools track');
 assert.match(home, /A1[–-]C1[^.]{0,80}dilbilgisi|dilbilgisi[^.]{0,80}A1[–-]C1/s, 'homepage truthfully states grammar coverage as A1-C1');
 assert.match(home, /C2[^.]{0,100}(okuma|metin)|sınav[^.]{0,100}(okuma|metin)/is, 'homepage truthfully states C2/exam reading coverage');
+assert.match(home, /<section[^>]+id="classroom-games"[\s\S]*?Sınıf İçi Oyunlar[\s\S]*?\/sinif-oyunu[\s\S]*?Sınıf İçi Karşılaşma/, 'homepage presents a real in-class game with a working launch link');
+assert.match(home, /Projektör|tahta|takım/i, 'homepage explains how the classroom game is played');
 assert.match(home, /import MiniLessonPreview|<MiniLessonPreview\s*\/>/, 'homepage offers an actual interactive lesson preview');
 
 assert.doesNotMatch(dashboard, /best|lastScore|correct|Kelime \/ Puan/, 'dashboard does not treat arbitrary game points as words');
