@@ -1,0 +1,120 @@
+/* Milyoner Merdiveni: question on the left, the teams' ladders on the right. */
+
+.ml-stage { grid-template-columns: minmax(0, 1fr) minmax(calc(var(--u) * 28), 31%); grid-template-rows: minmax(0, 1fr) auto; }
+.ml-main { grid-column: 1; grid-row: 1; min-width: 0; min-height: 0; display: grid; }
+.ml-rail { grid-column: 2; grid-row: 1; min-height: 0; display: flex; gap: calc(var(--u) * .6); padding: calc(var(--u) * 1.2) calc(var(--u) * 1.2) calc(var(--u) * .8) calc(var(--u) * .4); }
+.ml-dock { grid-column: 1 / -1; grid-row: 2; }
+
+/* ---- the rail of ladders ---- */
+.ml-labels { display: flex; flex-direction: column; justify-content: stretch; padding-bottom: calc(var(--u) * 11.8); min-width: calc(var(--u) * 6.4); }
+.ml-labels span { flex: 1; display: flex; align-items: center; justify-content: flex-end; font-size: calc(var(--u) * 1.05); font-weight: 700; color: var(--muted); white-space: nowrap; font-variant-numeric: tabular-nums; }
+.ml-labels span.is-safe { color: #c98a00; font-weight: 800; }
+.ml-labels span.is-top { color: var(--ink); font-weight: 800; }
+.ml-ladder { --tc: #888; flex: 1 1 0; min-width: 0; display: grid; grid-template-rows: minmax(0, 1fr) auto auto auto; gap: calc(var(--u) * .3); text-align: center; border-radius: calc(var(--u) * 1); padding: calc(var(--u) * .4); transition: background .3s, box-shadow .3s; }
+.ml-ladder.is-active { background: color-mix(in srgb, var(--tc) 14%, transparent); box-shadow: inset 0 0 0 calc(var(--u) * .22) var(--tc); }
+.ml-rungs { --pad: calc(var(--u) * 4.4); position: relative; display: flex; flex-direction: column; gap: calc(var(--u) * .25); padding-bottom: var(--pad); }
+.ml-rungs i { flex: 1; border-radius: calc(var(--u) * .4); background: color-mix(in srgb, var(--ink) 8%, transparent); transition: background .5s; }
+.ml-rungs i.is-done { background: color-mix(in srgb, var(--tc) 55%, transparent); }
+.ml-rungs i.is-safe { box-shadow: inset 0 0 0 calc(var(--u) * .2) #e9b43b; }
+.ml-rungs i.is-top { background: color-mix(in srgb, #ffd34d 40%, transparent); }
+.ml-token { position: absolute; left: 50%; bottom: calc(var(--pad) + max(0, var(--at) - .5) / var(--rungs) * (100% - var(--pad))); transform: translate(-50%, 50%); width: calc(var(--u) * 3.4); height: calc(var(--u) * 3.4); display: grid; place-items: center; border-radius: 50%; background: var(--tc); color: #fff; box-shadow: 0 calc(var(--u) * .25) calc(var(--u) * .5) rgba(0, 0, 0, .25); transition: bottom .9s cubic-bezier(.3, 1.4, .5, 1); z-index: 2; }
+.ml-token svg { width: 64%; height: 64%; }
+.ml-token.is-moving { animation: ml-hop .9s ease-out; }
+@keyframes ml-hop { 40% { transform: translate(-50%, 50%) scale(1.25); } }
+.ml-name { font-weight: 800; font-size: calc(var(--u) * 1.15); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.ml-meta { font-size: calc(var(--u) * 1); color: var(--muted); font-weight: 700; }
+.ml-lives { display: flex; justify-content: center; gap: calc(var(--u) * .3); min-height: calc(var(--u) * 1.8); }
+.ml-lives b { width: calc(var(--u) * 1.8); height: calc(var(--u) * 1.8); color: var(--tc); }
+.ml-lives b.is-used { opacity: .22; }
+.ml-lives svg { width: 100%; height: 100%; }
+
+/* Oyun Parkı: a sky that darkens towards the Moon, rockets for tokens. */
+.cr[data-skin="park"] .ml-stage { background: #fff6e3; }
+.cr[data-skin="park"] .ml-rail { background: linear-gradient(#1f2a5a 0%, #3c5aa6 35%, #8fd3f0 75%, #d8f3fb 100%); border-left: calc(var(--u) * .3) solid #fff; }
+.cr[data-skin="park"] .ml-labels span { color: #eaf4ff; text-shadow: 0 1px 2px rgba(0, 0, 0, .35); }
+.cr[data-skin="park"] .ml-labels span.is-safe { color: #ffd34d; }
+.cr[data-skin="park"] .ml-rungs i { background: rgba(255, 255, 255, .18); border: 1px dashed rgba(255, 255, 255, .45); }
+.cr[data-skin="park"] .ml-rungs i.is-done { background: rgba(255, 255, 255, .5); }
+.cr[data-skin="park"] .ml-rungs i.is-safe { box-shadow: inset 0 0 0 calc(var(--u) * .25) #ffd34d; }
+.cr[data-skin="park"] .ml-rungs i.is-top { background: radial-gradient(circle at 50% 50%, #fff7c2 0 38%, transparent 40%); border-style: solid; }
+.cr[data-skin="park"] .ml-token { background: transparent; box-shadow: none; width: calc(var(--u) * 4.2); height: calc(var(--u) * 5.6); }
+.cr[data-skin="park"] .ml-token svg { width: 100%; height: 100%; filter: drop-shadow(0 calc(var(--u) * .3) calc(var(--u) * .3) rgba(0, 0, 0, .3)); }
+.cr[data-skin="park"] .ml-name, .cr[data-skin="park"] .ml-meta { color: #fff; text-shadow: 0 1px 2px rgba(0, 0, 0, .4); }
+.cr[data-skin="park"] .ml-ladder.is-active { background: rgba(255, 255, 255, .16); }
+
+/* Arena: a neon rank tower. */
+.cr[data-skin="arena"] .ml-rail { border-left: 1px solid rgba(61, 242, 255, .25); background: rgba(8, 12, 26, .6); }
+.cr[data-skin="arena"] .ml-rungs i { background: rgba(61, 242, 255, .06); border: 1px solid rgba(61, 242, 255, .22); border-radius: 0; }
+.cr[data-skin="arena"] .ml-rungs i.is-done { background: color-mix(in srgb, var(--tc) 45%, #0b1020); box-shadow: 0 0 calc(var(--u) * .8) color-mix(in srgb, var(--tc) 60%, transparent); }
+.cr[data-skin="arena"] .ml-rungs i.is-safe { border-color: #ffd34d; }
+.cr[data-skin="arena"] .ml-token { border-radius: 0; clip-path: polygon(50% 0, 100% 50%, 50% 100%, 0 50%); background: var(--tc); box-shadow: none; }
+.cr[data-skin="arena"] .ml-name { text-transform: uppercase; letter-spacing: .04em; }
+.cr[data-skin="arena"] .ml-labels span { text-transform: uppercase; letter-spacing: .03em; font-style: italic; }
+.cr[data-skin="arena"] .ml-labels span.is-safe { color: #ffd34d; }
+
+/* Stüdyo: a points ladder on paper. */
+.cr[data-skin="studio"] .ml-rail { border-left: 1px solid var(--line); }
+.cr[data-skin="studio"] .ml-labels span { font-family: var(--font-display); font-weight: 600; }
+.cr[data-skin="studio"] .ml-rungs i { background: var(--tile); border: 1px solid var(--line); border-radius: 2px; }
+.cr[data-skin="studio"] .ml-rungs i.is-done { background: color-mix(in srgb, var(--tc) 30%, var(--tile)); }
+.cr[data-skin="studio"] .ml-rungs i.is-safe { border-color: #c79a3a; box-shadow: inset 0 0 0 1px #c79a3a; }
+
+/* ---- between questions ---- */
+.ml-turn { position: relative; display: grid; align-content: center; justify-items: center; gap: calc(var(--u) * 1.4); padding: calc(var(--u) * 3); text-align: center; }
+.ml-turn-title { font-family: var(--font-display); font-weight: 800; font-size: calc(var(--u) * 5.2); margin: 0; line-height: 1; }
+.cr[data-skin="arena"] .ml-turn-title { text-transform: uppercase; font-style: italic; color: var(--accent); }
+.ml-turn-team .cr-qteam { font-size: calc(var(--u) * 2.6); padding: calc(var(--u) * .6) calc(var(--u) * 2); }
+.ml-turn-sub { font-size: calc(var(--u) * 1.9); color: var(--muted); margin: 0; font-weight: 700; }
+.ml-caption { font-size: calc(var(--u) * 2); font-weight: 800; margin: 0; padding: calc(var(--u) * .4) calc(var(--u) * 1.4); border-radius: 999px; background: var(--panel); border: 1px solid var(--line); }
+.ml-turn-host { width: calc(var(--u) * 13); animation: cr-bob 3s ease-in-out infinite; }
+
+/* ---- question ---- */
+.ml-q { display: grid; grid-template-rows: auto auto minmax(0, 1fr) auto auto; min-height: 0; }
+.ml-qhead { padding-inline: calc(var(--u) * 1.6); }
+.ml-prompt { display: flex; align-items: center; justify-content: center; gap: calc(var(--u) * 1.6); padding: calc(var(--u) * 1.6) calc(var(--u) * 2) calc(var(--u) * .8); min-height: calc(var(--u) * 12); }
+.ml-prompt .cr-host { width: calc(var(--u) * 10); flex: none; align-self: flex-end; }
+.cr[data-skin="park"] .ml-prompt { padding-top: calc(var(--u) * 4.6); }
+.ml-prompt .cr-prompt-text { font-size: calc(var(--u) * 3.9); max-width: 26ch; }
+.ml-q.is-revealed .ml-prompt { min-height: 0; padding-block: calc(var(--u) * 1); }
+.ml-q.is-revealed .ml-prompt .cr-prompt-text { font-size: calc(var(--u) * 3.2); }
+.ml-q.is-revealed .cr-qpic { width: calc(var(--u) * 9); height: calc(var(--u) * 9); }
+.ml-options { max-width: calc(var(--u) * 70); padding: 0 calc(var(--u) * 1.6); align-content: center; position: relative; }
+.ml-options .cr-opt { min-height: calc(var(--u) * 7.6); font-size: calc(var(--u) * 2.6); }
+.ml-q.is-revealed .ml-options .cr-opt { min-height: calc(var(--u) * 5.4); font-size: calc(var(--u) * 2.1); }
+.ml-q.is-revealed .ml-options.is-pics .cr-opt { min-height: calc(var(--u) * 10); }
+.ml-options .cr-opt.is-locked { box-shadow: 0 0 0 calc(var(--u) * .45) #fff, 0 0 0 calc(var(--u) * .9) #ffb300, 0 0 calc(var(--u) * 2.4) rgba(255, 179, 0, .7); transform: scale(1.03); animation: ml-lockpulse 1.4s ease-in-out infinite; }
+@keyframes ml-lockpulse { 50% { box-shadow: 0 0 0 calc(var(--u) * .45) #fff, 0 0 0 calc(var(--u) * .9) #ffb300, 0 0 calc(var(--u) * 3.4) rgba(255, 179, 0, .9); } }
+.ml-options .cr-opt.is-key::after, .ml-options .cr-opt.is-wrong::after { position: absolute; right: calc(var(--u) * 1); top: 50%; transform: translateY(-50%); font-size: calc(var(--u) * 3); font-weight: 900; color: #fff; }
+.ml-options .cr-opt.is-key::after { content: "✓"; }
+.ml-options .cr-opt.is-wrong { --oc: #c62828; --oi: #fff; filter: none; opacity: 1; }
+.ml-options .cr-opt.is-wrong::after { content: "✗"; }
+.ml-options .cr-opt.is-soft-wrong { opacity: .5; filter: grayscale(1); outline: calc(var(--u) * .25) dashed #9aa0a6; outline-offset: calc(var(--u) * .2); }
+.ml-options.is-sweep .cr-opt { overflow: hidden; }
+.ml-options.is-sweep .cr-opt::before { content: ""; position: absolute; inset: 0; background: linear-gradient(100deg, transparent 30%, rgba(255, 255, 255, .55) 50%, transparent 70%); transform: translateX(-120%); animation: ml-sweep var(--sweep, 900ms) ease-in-out forwards; }
+@keyframes ml-sweep { to { transform: translateX(120%); } }
+.ml-poll { position: absolute; left: calc(var(--u) * 1); right: calc(var(--u) * 1); bottom: calc(var(--u) * .5); height: calc(var(--u) * .9); border-radius: 999px; background: rgba(255, 255, 255, .35); overflow: hidden; }
+.ml-poll i { display: block; height: 100%; width: calc(var(--p) * 100%); background: #fff; border-radius: inherit; transition: width .6s var(--ease-pop); }
+.ml-pollbar { display: flex; flex-wrap: wrap; gap: calc(var(--u) * .8); align-items: center; justify-content: center; padding: calc(var(--u) * .6) calc(var(--u) * 1.6) 0; font-family: "DM Sans", "Segoe UI", system-ui, sans-serif; }
+.ml-pollset { display: inline-flex; gap: 4px; align-items: center; font-weight: 800; }
+.ml-pollset .cr-mini { width: auto; padding: 0 8px; font-size: 13px; }
+.ml-pollset .cr-mini.is-on { background: var(--accent); color: var(--accent-ink); border-color: var(--accent); }
+.ml-friend { justify-self: center; margin: 0 0 calc(var(--u) * .6); padding: calc(var(--u) * .4) calc(var(--u) * 1.4); border-radius: 999px; background: var(--tc); color: #fff; font-weight: 800; font-size: calc(var(--u) * 1.6); }
+.ml-foot { padding-inline: calc(var(--u) * 1.6); }
+.ml-hint { font-size: calc(var(--u) * 1.35); }
+.ml-life svg { width: 18px; height: 18px; }
+.ml-q.is-revealed .ml-foot { align-items: flex-end; }
+
+/* ---- Moon finale (Oyun Parkı) ---- */
+.ml-moon { position: relative; height: calc(var(--u) * 20); max-width: calc(var(--u) * 60); margin: 0 auto calc(var(--u) * 2); }
+.ml-moon-disc { position: absolute; left: 50%; bottom: 0; width: calc(var(--u) * 34); height: calc(var(--u) * 14); transform: translateX(-50%); border-radius: 50% 50% 0 0; background: radial-gradient(circle at 30% 40%, #e9e4cf 0 8%, transparent 9%), radial-gradient(circle at 65% 55%, #e9e4cf 0 6%, transparent 7%), #f7f1d8; box-shadow: inset 0 calc(var(--u) * 1) calc(var(--u) * 2) rgba(0, 0, 0, .08); }
+.ml-moon-rocket { position: absolute; bottom: calc(var(--u) * 11); left: calc(50% + (var(--i) - 1.5) * var(--u) * 7); width: calc(var(--u) * 5); height: calc(var(--u) * 7); transform: translateX(-50%); animation: ml-land 1.2s cubic-bezier(.2, 1.2, .4, 1) backwards; animation-delay: calc(var(--i) * .15s); }
+.ml-moon-rocket svg { width: 100%; height: 100%; }
+@keyframes ml-land { from { transform: translate(-50%, calc(var(--u) * -20)); opacity: 0; } }
+.ml-moon-host { position: absolute; right: 8%; bottom: calc(var(--u) * 10); width: calc(var(--u) * 10); }
+
+@media (prefers-reduced-motion: reduce) {
+  .ml-token, .ml-poll i { transition: none; }
+}
+
+.ml-q .cr-reveal .cr-dbtn { font-size: calc(var(--u) * 1.4); min-height: calc(var(--u) * 4.2); }
+.cr[data-skin="park"] .ml-q .cr-host .cr-bubble { top: calc(var(--u) * -3.6); left: 40%; }

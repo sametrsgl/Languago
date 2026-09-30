@@ -125,7 +125,21 @@ export function createSound(initialSkin = 'studio') {
     },
   };
 
+  // A ladder rung as a note of a rising major scale (8 rungs = one octave).
+  const MAJOR = [0, 2, 4, 5, 7, 9, 11];
+  function note(i) {
+    if (muted) return;
+    try {
+      const k = Math.max(0, Math.floor(i));
+      const n = 60 + 12 * Math.floor(k / 7) + MAJOR[k % 7];
+      if (skin === 'park') voice.park(n + 12, 0, 0.6, 0.3);
+      else if (skin === 'arena') voice.arena(n + 12, 0, 0.16, 0.14);
+      else voice.studio(n, 0, 0.8, 0.22);
+    } catch { /* audio is optional */ }
+  }
+
   return {
+    note,
     play(name) { if (muted) return; try { cues[name] && cues[name](); } catch { /* audio is optional */ } },
     unlock() { const c = ensure(); if (c && c.state === 'suspended') c.resume().catch(() => {}); },
     setSkin(s) { skin = voice[s] ? s : 'studio'; },

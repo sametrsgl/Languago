@@ -60,6 +60,22 @@ export function fillBlanks(stem, key) {
   return s.replace(BLANK, (m) => (i < parts.length ? parts[i++] : m));
 }
 
+// A stem as HTML with its blanks drawn as lines, or filled with the answer.
+export function promptHtml(stem, fill = null) {
+  const parts = esc(stem).split(/_{2,}/);
+  if (parts.length === 1) return parts[0];
+  const fills = fill ? (blankParts(stem, fill) || [String(fill)]) : [];
+  return parts.map((p, i) => (i < parts.length - 1 ? `${p}<span class="cr-blank${fills[i] != null ? ' is-filled' : ''}">${fills[i] != null ? esc(fills[i]) : '&nbsp;'}</span>` : p)).join('');
+}
+
+// The sentence echoed at the reveal, or null when there is no clean one.
+export function fullSentence(stem, answer) {
+  const s = String(stem ?? '');
+  if (!/_{2,}/.test(s)) return /[.!?]["')]?$/.test(String(answer).trim()) ? String(answer).trim() : null;
+  const filled = fillBlanks(s, answer);
+  return /_{2,}/.test(filled) ? null : filled;
+}
+
 // Turkish-only letters: a name with these is cased as Turkish (lang="tr"),
 // everything else on the stage as English (no dotted İ in "ANİMALS").
 export function langOf(text) {

@@ -21,7 +21,7 @@ const STUDIO_NAMES = [
 ];
 
 export function defaultTeams(count, modeId) {
-  const n = Math.max(2, Math.min(8, Number(count) || 4));
+  const n = Math.max(1, Math.min(8, Number(count) || 4));
   return Array.from({ length: n }, (_, i) => makeTeam(i, modeId));
 }
 

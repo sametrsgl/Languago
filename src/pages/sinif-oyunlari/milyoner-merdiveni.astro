@@ -1,0 +1,20 @@
+---
+// No per-request data: served from the CDN, no function cold start in class.
+export const prerender = true;
+import GameLayout from '../../layouts/GameLayout.astro';
+import '../../classroom/styles/milyoner.css';
+---
+<GameLayout
+  title="Milyoner Merdiveni — Sınıf İçi İngilizce Oyunu | Languago"
+  description="Kim Milyoner Olmak İster tarzı sınıf oyunu: her takım kendi merdivenini tırmanır, cevabı kilitler, telefonsuz jokerler kullanır. A1–B2 yetişkin ve 7–14 yaş grupları için."
+>
+  <div class="cr" id="milyoner" data-skin="park">
+    <noscript><p style="padding:24px">Bu oyun için JavaScript gerekli.</p></noscript>
+  </div>
+</GameLayout>
+
+<script>
+  import { mountMilyoner } from '../../classroom/games/milyoner/app.mjs';
+  const root = document.getElementById('milyoner');
+  if (root) mountMilyoner(root, { dataBase: '/sinif-oyunlari/paket', mascot: '/logo/kommo-512.png' });
+</script>
