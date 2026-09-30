@@ -109,7 +109,13 @@ export function createSetup(root, o) {
     const level = group.level;
     const data = levelData[level];
     const src = selectedSource();
-    const game = o.gameSection ? o.gameSection({ setup, opts: opts(), profile, modeId: modeId(), chip, source: src }) : '';
+    // Games that combine several topics (e.g. a category board) get the level's
+    // topics and the teacher's own packs, keyed like sourceKey().
+    const choices = [
+      ...(data ? data.topics.map((t) => ({ key: `${level}:${t.id}`, title: t.title, kind: t.kind, count: t.items.length, pic: t.kind === 'picture' && t.items[0] ? t.items[0].pic : null })) : []),
+      ...myPacks().filter(packFits).map((p) => ({ key: `mine:${p.id}`, title: p.title, kind: 'mine', count: p.items.length, pic: null })),
+    ];
+    const game = o.gameSection ? o.gameSection({ setup, opts: opts(), profile, modeId: modeId(), chip, source: src, sourceKey: sourceKey(), choices, loading: !data }) : '';
 
     root.innerHTML = `
     <div class="cr-setup">
@@ -356,6 +362,25 @@ export function createSetup(root, o) {
   }
 
   // The pack to play: built-in topic or saved pack, with young-unsafe items removed.
+  // The key of the step-2 source, in the same form as the choices above.
+  function sourceKey() {
+    if (setup.tab === 'ai') return setup.myPackId ? `mine:${setup.myPackId}` : null;
+    return selectedTopic() ? setup.topicKey : null;
+  }
+
+  // A pack from a choice key ("a2:a2-04" or "mine:<id>"), or null.
+  function packFromKey(key, profile) {
+    if (!key) return null;
+    if (key.startsWith('mine:')) {
+      const p = myPacks().find((x) => x.id === key.slice(5));
+      return p && packFits(p) ? buildPack({ kind: 'mine', title: p.title, pack: p }, profile) : null;
+    }
+    const [level, id] = key.split(':');
+    const data = levelData[level];
+    const t = data ? data.topics.find((x) => x.id === id) : null;
+    return t ? buildPack({ kind: 'topic', title: t.title, topic: t }, profile) : null;
+  }
+
   function buildPack(src, profile) {
     const lvl = groupById(setup.group).level;
     const topic = src.topic;
@@ -374,7 +399,7 @@ export function createSetup(root, o) {
     const profile = audienceProfile(setup.group, { mode: modeId() });
     const pack = buildPack(src, profile);
     const teams = setupTeams().map((t) => ({ ...t, name: t.name.trim() || `Team ${t.index + 1}` }));
-    o.onStart({ profile, pack, teams, opts: opts(), setup });
+    o.onStart({ profile, pack, teams, opts: opts(), setup, sourceKey: sourceKey(), packFromKey: (k) => packFromKey(k, profile) });
   }
 
   function onClick(e) {

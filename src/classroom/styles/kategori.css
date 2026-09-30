@@ -1,0 +1,46 @@
+/* Kategori Kapışması: category headers over value cells. */
+
+.kg-wrap { padding-bottom: calc(var(--u) * 1.4); min-height: 0; overflow: hidden; }
+.kg-wrap > .kg-board { align-self: stretch; min-height: 0; }
+.kg-board { display: grid; gap: calc(var(--u) * .9); width: 100%; height: 100%; max-width: calc(var(--u) * 150); }
+.kg-head { display: grid; place-items: center; text-align: center; padding: calc(var(--u) * .8) calc(var(--u) * .6); border-radius: calc(var(--u) * .8); font-family: var(--font-display); font-weight: 800; font-size: calc(var(--u) * 1.5); line-height: 1.15; min-height: calc(var(--u) * 5.4); overflow-wrap: anywhere; }
+.kg-cell { position: relative; display: grid; place-items: center; border: 0; padding: 0; border-radius: calc(var(--u) * .8); min-height: 0; font: inherit; cursor: pointer; transition: transform .12s; touch-action: manipulation; }
+.kg-cell:hover { transform: translateY(-2px); }
+.kg-val { font-family: var(--font-display); font-weight: 800; font-size: calc(var(--u) * 3.6); line-height: 1; font-variant-numeric: tabular-nums; }
+.kg-cell.is-open { cursor: default; background: color-mix(in srgb, var(--tc) 30%, var(--panel)); box-shadow: inset 0 0 0 calc(var(--u) * .25) var(--tc); color: var(--tc); }
+.kg-cell.is-open svg { width: 38%; height: 38%; }
+.kg-cell.is-miss { opacity: .45; }
+.kg-cell.is-empty { background: transparent; }
+
+.cr[data-skin="park"] .kg-head { background: #fff; color: #2d2a4a; box-shadow: 0 calc(var(--u) * .3) 0 #f0d49a; border: calc(var(--u) * .25) solid #ffc94a; }
+.cr[data-skin="park"] .kg-cell:not(.is-open) { background: linear-gradient(#d98a45, #b86b2e); box-shadow: inset 0 calc(var(--u) * -.6) 0 #8c4b1c, 0 calc(var(--u) * .35) 0 rgba(90, 50, 10, .25); border: calc(var(--u) * .3) solid #ffc94a; }
+.cr[data-skin="park"] .kg-val { color: #ffe27a; text-shadow: 0 calc(var(--u) * .2) 0 #8c4b1c; letter-spacing: -.06em; }
+
+.cr[data-skin="arena"] .kg-head { background: rgba(21, 30, 58, .9); color: var(--accent); text-transform: uppercase; font-style: italic; letter-spacing: .03em; box-shadow: inset 0 0 0 1px rgba(61, 242, 255, .5); border-radius: 0; }
+.cr[data-skin="arena"] .kg-cell:not(.is-open) { background: linear-gradient(160deg, #18244a, #0e1631); box-shadow: inset 0 0 0 calc(var(--u) * .18) rgba(61, 242, 255, .55); border-radius: 0; clip-path: polygon(calc(var(--u) * 1) 0, 100% 0, 100% calc(100% - var(--u) * 1), calc(100% - var(--u) * 1) 100%, 0 100%, 0 calc(var(--u) * 1)); }
+.cr[data-skin="arena"] .kg-val { color: var(--accent); font-style: italic; text-shadow: 0 0 calc(var(--u) * 1) rgba(61, 242, 255, .7); }
+.cr[data-skin="arena"] .kg-cell.is-open { border-radius: 0; }
+
+.cr[data-skin="studio"] .kg-head { background: #1d2a52; color: #fff; font-weight: 600; border-radius: calc(var(--u) * .4); text-transform: none; }
+.cr[data-skin="studio"] .kg-cell:not(.is-open) { background: #243466; box-shadow: inset 0 0 0 1px rgba(255, 255, 255, .12), 0 calc(var(--u) * .3) 0 #141d3b; border-radius: calc(var(--u) * .4); }
+.cr[data-skin="studio"] .kg-val { color: #e8c170; font-weight: 600; }
+.cr[data-skin="studio"][data-dark="1"] .kg-cell:not(.is-open) { background: #1b2740; }
+
+/* setup: add-a-category picker */
+.kg-pick { display: grid; grid-template-columns: repeat(auto-fill, minmax(170px, 1fr)); gap: 6px; max-height: 240px; overflow: auto; margin-top: 8px; padding: 2px; }
+.kg-add { min-height: 52px; }
+.kg-add strong { font-size: 13.5px; }
+
+/* final wagers (teacher enters what the boards say) */
+.kg-wagers { display: grid; gap: 6px; font-family: "DM Sans", "Segoe UI", system-ui, sans-serif; }
+.kg-wager { display: flex; flex-wrap: wrap; align-items: center; gap: 6px; padding: 4px 8px; border-left: 4px solid var(--tc); background: var(--panel); border-radius: 8px; font-size: 14px; }
+.kg-wager b { min-width: 9ch; }
+.kg-wager .cr-mini { width: auto; padding: 0 8px; font-size: 13px; }
+.kg-wager .cr-mini.is-on { background: var(--accent); color: var(--accent-ink); border-color: var(--accent); }
+
+/* reveal area: echo, explanation, then chips/wagers, button at the end */
+.cr-q .cr-reveal { display: flex; flex-wrap: wrap; align-items: center; gap: calc(var(--u) * .8) calc(var(--u) * 1.6); }
+.cr-q .cr-reveal > .cr-echo { flex: 1 1 55%; }
+.cr-q .cr-reveal > .cr-why { flex: 0 1 38%; }
+.cr-q .cr-reveal > .cr-shadow, .cr-q .cr-reveal > .kg-wagers { flex: 1 1 100%; }
+.cr-q .cr-reveal > .cr-bigbtn { margin-left: auto; }

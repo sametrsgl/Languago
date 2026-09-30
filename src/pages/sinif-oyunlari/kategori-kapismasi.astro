@@ -1,0 +1,20 @@
+---
+// No per-request data: served from the CDN, no function cold start in class.
+export const prerender = true;
+import GameLayout from '../../layouts/GameLayout.astro';
+import '../../classroom/styles/kategori.css';
+---
+<GameLayout
+  title="Kategori Kapışması — Sınıf İçi İngilizce Oyunu | Languago"
+  description="Jeopardy tarzı sınıf oyunu: kategoriler ve puanlar, bütün takımlar her soruya kartla cevap verir, sonunda gizli bahisli final. A1–B2 yetişkin ve 7–14 yaş grupları için."
+>
+  <div class="cr" id="kategori" data-skin="studio">
+    <noscript><p style="padding:24px">Bu oyun için JavaScript gerekli.</p></noscript>
+  </div>
+</GameLayout>
+
+<script>
+  import { mountKategori } from '../../classroom/games/kategori/app.mjs';
+  const root = document.getElementById('kategori');
+  if (root) mountKategori(root, { dataBase: '/sinif-oyunlari/paket', mascot: '/logo/kommo-512.png' });
+</script>
