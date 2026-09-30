@@ -1,0 +1,62 @@
+---
+// Full-screen layout for classroom games: no site header/footer, so the
+// projected stage uses the whole screen. SEO meta is still complete.
+import '@fontsource/andika/400.css';
+import '@fontsource/andika/700.css';
+import '@fontsource/baloo-2/700.css';
+import '@fontsource/baloo-2/800.css';
+import '@fontsource/barlow-condensed/500.css';
+import '@fontsource/barlow-condensed/600.css';
+import '@fontsource/barlow-condensed/800.css';
+import '@fontsource/barlow-condensed/800-italic.css';
+import '@fontsource/fraunces/500.css';
+import '@fontsource/fraunces/600.css';
+import '../classroom/styles/classroom.css';
+
+interface Props {
+  title: string;
+  description: string;
+}
+const { title, description } = Astro.props;
+const siteUrl = Astro.site?.origin || 'https://www.languago.site';
+const pageUrl = `${siteUrl}${Astro.url.pathname.replace(/\/+$/, '') || '/'}`;
+// Same service worker as the rest of the site: keeps an opened game playable
+// offline. Production only: under `astro dev` it would cache the module files
+// cache-first and a reload after an edit would run stale code.
+const swRegister = `if ('serviceWorker' in navigator) {
+  window.addEventListener('load', function () {
+    try { navigator.serviceWorker.register('/sw.js').catch(function () {}); } catch (e) { /* ignore */ }
+  });
+}`;
+---
+<!doctype html>
+<html lang="tr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <meta name="robots" content="index, follow" />
+    <link rel="canonical" href={pageUrl} />
+    <meta name="theme-color" content="#0d9488" />
+    <link rel="icon" href="/favicon.ico" />
+    <link rel="icon" type="image/png" href="/logo/kommo-32.png" />
+    <link rel="manifest" href="/manifest.webmanifest" />
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="Languago" />
+    <meta property="og:locale" content="tr_TR" />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={pageUrl} />
+    <meta property="og:image" content={`${siteUrl}/og-cover.png`} />
+    <style is:global>
+      html, body { margin: 0; padding: 0; }
+      body { overscroll-behavior: none; }
+      @media print { .cr-stage, .cr-dock, .cr-endbar, .cr-start { display: none !important; } .cr-end { position: static !important; } }
+    </style>
+  </head>
+  <body>
+    <slot />
+    {import.meta.env.PROD && <script is:inline set:html={swRegister} />}
+  </body>
+</html>

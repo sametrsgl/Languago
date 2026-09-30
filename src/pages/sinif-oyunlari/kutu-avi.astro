@@ -1,0 +1,19 @@
+---
+// No per-request data: served from the CDN, no function cold start in class.
+export const prerender = true;
+import GameLayout from '../../layouts/GameLayout.astro';
+---
+<GameLayout
+  title="Kutu Avı — Sınıf İçi İngilizce Oyunu | Languago"
+  description="Projektörde veya akıllı tahtada oynanan takım oyunu: kutuları açın, her soruda bütün takımlar aynı anda cevap versin. A1–B2 yetişkin ve 7–14 yaş grupları için."
+>
+  <div class="cr" id="kutu-avi" data-skin="park">
+    <noscript><p style="padding:24px">Bu oyun için JavaScript gerekli.</p></noscript>
+  </div>
+</GameLayout>
+
+<script>
+  import { mountKutuAvi } from '../../classroom/games/kutu-avi/app.mjs';
+  const root = document.getElementById('kutu-avi');
+  if (root) mountKutuAvi(root, { dataBase: '/sinif-oyunlari/paket', mascot: '/logo/kommo-512.png' });
+</script>

@@ -1,0 +1,5081 @@
+{
+ "source": "Microsoft Fluent Emoji (flat), MIT licence",
+ "topics": [
+  {
+   "id": "animals",
+   "tr": "Hayvanlar",
+   "en": "Animals",
+   "words": [
+    {
+     "word": "cat",
+     "pic": "cat",
+     "tr": "kedi",
+     "level": "A1",
+     "q": "What is it?",
+     "find": "Where's the cat?",
+     "say": "It's a cat."
+    },
+    {
+     "word": "dog",
+     "pic": "dog",
+     "tr": "köpek",
+     "level": "A1",
+     "q": "What is it?",
+     "find": "Where's the dog?",
+     "say": "It's a dog."
+    },
+    {
+     "word": "horse",
+     "pic": "horse",
+     "tr": "at",
+     "level": "A1",
+     "cg": "horse",
+     "q": "What is it?",
+     "find": "Where's the horse?",
+     "say": "It's a horse."
+    },
+    {
+     "word": "cow",
+     "pic": "cow",
+     "tr": "inek",
+     "level": "A1",
+     "q": "What is it?",
+     "find": "Where's the cow?",
+     "say": "It's a cow."
+    },
+    {
+     "word": "pig",
+     "pic": "pig",
+     "tr": "domuz",
+     "level": "A1",
+     "q": "What is it?",
+     "find": "Where's the pig?",
+     "say": "It's a pig."
+    },
+    {
+     "word": "sheep",
+     "pic": "ewe",
+     "tr": "koyun",
+     "level": "A1",
+     "q": "What is it?",
+     "find": "Where's the sheep?",
+     "say": "It's a sheep."
+    },
+    {
+     "word": "goat",
+     "pic": "goat",
+     "tr": "keçi",
+     "level": "A1",
+     "q": "What is it?",
+     "find": "Where's the goat?",
+     "say": "It's a goat."
+    },
+    {
+     "word": "chicken",
+     "pic": "chicken",
+     "tr": "tavuk",
+     "level": "A1",
+     "cg": "bird",
+     "q": "What is it?",
+     "find": "Where's the chicken?",
+     "say": "It's a chicken."
+    },
+    {
+     "word": "duck",
+     "pic": "duck",
+     "tr": "ördek",
+     "level": "A1",
+     "cg": "bird",
+     "q": "What is it?",
+     "find": "Where's the duck?",
+     "say": "It's a duck."
+    },
+    {
+     "word": "rabbit",
+     "pic": "rabbit",
+     "tr": "tavşan",
+     "level": "A1",
+     "q": "What is it?",
+     "find": "Where's the rabbit?",
+     "say": "It's a rabbit."
+    },
+    {
+     "word": "mouse",
+     "pic": "mouse",
+     "tr": "fare",
+     "level": "A1",
+     "q": "What is it?",
+     "find": "Where's the mouse?",
+     "say": "It's a mouse."
+    },
+    {
+     "word": "lion",
+     "pic": "lion",
+     "tr": "aslan",
+     "level": "A1",
+     "q": "What is it?",
+     "find": "Where's the lion?",
+     "say": "It's a lion."
+    },
+    {
+     "word": "tiger",
+     "pic": "tiger",
+     "tr": "kaplan",
+     "level": "A1",
+     "q": "What is it?",
+     "find": "Where's the tiger?",
+     "say": "It's a tiger."
+    },
+    {
+     "word": "elephant",
+     "pic": "elephant",
+     "tr": "fil",
+     "level": "A1",
+     "q": "What is it?",
+     "find": "Where's the elephant?",
+     "say": "It's an elephant."
+    },
+    {
+     "word": "monkey",
+     "pic": "monkey",
+     "tr": "maymun",
+     "level": "A2",
+     "q": "What is it?",
+     "find": "Where's the monkey?",
+     "say": "It's a monkey."
+    },
+    {
+     "word": "bear",
+     "pic": "bear",
+     "tr": "ayı",
+     "level": "B2",
+     "q": "What is it?",
+     "find": "Where's the bear?",
+     "say": "It's a bear."
+    },
+    {
+     "word": "panda",
+     "pic": "panda",
+     "tr": "panda",
+     "level": "A1",
+     "q": "What is it?",
+     "find": "Where's the panda?",
+     "say": "It's a panda."
+    },
+    {
+     "word": "giraffe",
+     "pic": "giraffe",
+     "tr": "zürafa",
+     "level": "A1",
+     "q": "What is it?",
+     "find": "Where's the giraffe?",
+     "say": "It's a giraffe."
+    },
+    {
+     "word": "zebra",
+     "pic": "zebra",
+     "tr": "zebra",
+     "level": "A1",
+     "q": "What is it?",
+     "find": "Where's the zebra?",
+     "say": "It's a zebra."
+    },
+    {
+     "word": "camel",
+     "pic": "camel",
+     "tr": "deve",
+     "level": "A1",
+     "q": "What is it?",
+     "find": "Where's the camel?",
+     "say": "It's a camel."
+    },
+    {
+     "word": "frog",
+     "pic": "frog",
+     "tr": "kurbağa",
+     "level": "A2",
+     "q": "What is it?",
+     "find": "Where's the frog?",
+     "say": "It's a frog."
+    },
+    {
+     "word": "snake",
+     "pic": "snake",
+     "tr": "yılan",
+     "level": "A1",
+     "q": "What is it?",
+     "find": "Where's the snake?",
+     "say": "It's a snake."
+    },
+    {
+     "word": "turtle",
+     "pic": "turtle",
+     "tr": "kaplumbağa",
+     "level": "A1",
+     "q": "What is it?",
+     "find": "Where's the turtle?",
+     "say": "It's a turtle."
+    },
+    {
+     "word": "fish",
+     "pic": "fish",
+     "tr": "balık",
+     "level": "A2",
+     "cg": "fish",
+     "q": "What is it?",
+     "find": "Where's the fish?",
+     "say": "It's a fish."
+    },
+    {
+     "word": "shark",
+     "pic": "shark",
+     "tr": "köpek balığı",
+     "level": "A1",
+     "cg": "fish",
+     "q": "What is it?",
+     "find": "Where's the shark?",
+     "say": "It's a shark."
+    },
+    {
+     "word": "whale",
+     "pic": "whale",
+     "tr": "balina",
+     "level": "A1",
+     "cg": "fish",
+     "q": "What is it?",
+     "find": "Where's the whale?",
+     "say": "It's a whale."
+    },
+    {
+     "word": "dolphin",
+     "pic": "dolphin",
+     "tr": "yunus",
+     "level": "A1",
+     "cg": "fish",
+     "q": "What is it?",
+     "find": "Where's the dolphin?",
+     "say": "It's a dolphin."
+    },
+    {
+     "word": "octopus",
+     "pic": "octopus",
+     "tr": "ahtapot",
+     "level": "A1",
+     "q": "What is it?",
+     "find": "Where's the octopus?",
+     "say": "It's an octopus."
+    },
+    {
+     "word": "bird",
+     "pic": "bird",
+     "tr": "kuş",
+     "level": "A1",
+     "cg": "bird",
+     "q": "What is it?",
+     "find": "Where's the bird?",
+     "say": "It's a bird."
+    },
+    {
+     "word": "owl",
+     "pic": "owl",
+     "tr": "baykuş",
+     "level": "A1",
+     "cg": "bird",
+     "q": "What is it?",
+     "find": "Where's the owl?",
+     "say": "It's an owl."
+    },
+    {
+     "word": "penguin",
+     "pic": "penguin",
+     "tr": "penguen",
+     "level": "A1",
+     "cg": "bird",
+     "q": "What is it?",
+     "find": "Where's the penguin?",
+     "say": "It's a penguin."
+    },
+    {
+     "word": "parrot",
+     "pic": "parrot",
+     "tr": "papağan",
+     "level": "A1",
+     "cg": "bird",
+     "q": "What is it?",
+     "find": "Where's the parrot?",
+     "say": "It's a parrot."
+    },
+    {
+     "word": "bee",
+     "pic": "honeybee",
+     "tr": "arı",
+     "level": "B1",
+     "q": "What is it?",
+     "find": "Where's the bee?",
+     "say": "It's a bee."
+    },
+    {
+     "word": "butterfly",
+     "pic": "butterfly",
+     "tr": "kelebek",
+     "level": "A1",
+     "q": "What is it?",
+     "find": "Where's the butterfly?",
+     "say": "It's a butterfly."
+    },
+    {
+     "word": "spider",
+     "pic": "spider",
+     "tr": "örümcek",
+     "level": "A2",
+     "q": "What is it?",
+     "find": "Where's the spider?",
+     "say": "It's a spider."
+    },
+    {
+     "word": "snail",
+     "pic": "snail",
+     "tr": "salyangoz",
+     "level": "A1",
+     "q": "What is it?",
+     "find": "Where's the snail?",
+     "say": "It's a snail."
+    },
+    {
+     "word": "crocodile",
+     "pic": "crocodile",
+     "tr": "timsah",
+     "level": "A1",
+     "q": "What is it?",
+     "find": "Where's the crocodile?",
+     "say": "It's a crocodile."
+    },
+    {
+     "word": "kangaroo",
+     "pic": "kangaroo",
+     "tr": "kanguru",
+     "level": "A1",
+     "q": "What is it?",
+     "find": "Where's the kangaroo?",
+     "say": "It's a kangaroo."
+    },
+    {
+     "word": "hippo",
+     "pic": "hippopotamus",
+     "tr": "su aygırı",
+     "level": "A1",
+     "q": "What is it?",
+     "find": "Where's the hippo?",
+     "say": "It's a hippo."
+    },
+    {
+     "word": "fox",
+     "pic": "fox",
+     "tr": "tilki",
+     "level": "A1",
+     "q": "What is it?",
+     "find": "Where's the fox?",
+     "say": "It's a fox."
+    },
+    {
+     "word": "wolf",
+     "pic": "wolf",
+     "tr": "kurt",
+     "level": "A1",
+     "q": "What is it?",
+     "find": "Where's the wolf?",
+     "say": "It's a wolf."
+    },
+    {
+     "word": "deer",
+     "pic": "deer",
+     "tr": "geyik",
+     "level": "A1",
+     "q": "What is it?",
+     "find": "Where's the deer?",
+     "say": "It's a deer."
+    },
+    {
+     "word": "squirrel",
+     "pic": "chipmunk",
+     "tr": "sincap",
+     "level": "A1",
+     "q": "What is it?",
+     "find": "Where's the squirrel?",
+     "say": "It's a squirrel."
+    },
+    {
+     "word": "hedgehog",
+     "pic": "hedgehog",
+     "tr": "kirpi",
+     "level": "A1",
+     "q": "What is it?",
+     "find": "Where's the hedgehog?",
+     "say": "It's a hedgehog."
+    },
+    {
+     "word": "bat",
+     "pic": "bat",
+     "tr": "yarasa",
+     "level": "C1",
+     "q": "What is it?",
+     "find": "Where's the bat?",
+     "say": "It's a bat."
+    },
+    {
+     "word": "crab",
+     "pic": "crab",
+     "tr": "yengeç",
+     "level": "A1",
+     "q": "What is it?",
+     "find": "Where's the crab?",
+     "say": "It's a crab."
+    },
+    {
+     "word": "ant",
+     "pic": "ant",
+     "tr": "karınca",
+     "level": "A1",
+     "q": "What is it?",
+     "find": "Where's the ant?",
+     "say": "It's an ant."
+    },
+    {
+     "word": "ladybird",
+     "pic": "lady-beetle",
+     "tr": "uğur böceği",
+     "level": "A1",
+     "q": "What is it?",
+     "find": "Where's the ladybird?",
+     "say": "It's a ladybird."
+    },
+    {
+     "word": "dinosaur",
+     "pic": "sauropod",
+     "tr": "dinozor",
+     "level": "A1",
+     "q": "What is it?",
+     "find": "Where's the dinosaur?",
+     "say": "It's a dinosaur."
+    },
+    {
+     "word": "unicorn",
+     "pic": "unicorn",
+     "tr": "tek boynuzlu at",
+     "level": "A1",
+     "cg": "horse",
+     "q": "What is it?",
+     "find": "Where's the unicorn?",
+     "say": "It's a unicorn."
+    }
+   ]
+  },
+  {
+   "id": "fruit-veg",
+   "tr": "Meyve ve Sebzeler",
+   "en": "Fruit & Vegetables",
+   "words": [
+    {
+     "word": "apple",
+     "pic": "red-apple",
+     "tr": "elma",
+     "level": "A1",
+     "q": "What is it?",
+     "find": "Where's the apple?",
+     "say": "It's an apple."
+    },
+    {
+     "word": "banana",
+     "pic": "banana",
+     "tr": "muz",
+     "level": "A1",
+     "q": "What is it?",
+     "find": "Where's the banana?",
+     "say": "It's a banana."
+    },
+    {
+     "word": "orange",
+     "pic": "tangerine",
+     "tr": "portakal",
+     "level": "A1",
+     "q": "What is it?",
+     "find": "Where's the orange?",
+     "say": "It's an orange."
+    },
+    {
+     "word": "lemon",
+     "pic": "lemon",
+     "tr": "limon",
+     "level": "A2",
+     "q": "What is it?",
+     "find": "Where's the lemon?",
+     "say": "It's a lemon."
+    },
+    {
+     "word": "grapes",
+     "pic": "grapes",
+     "tr": "üzüm",
+     "level": "A1",
+     "q": "What are they?",
+     "find": "Where are the grapes?",
+     "say": "They're grapes."
+    },
+    {
+     "word": "strawberry",
+     "pic": "strawberry",
+     "tr": "çilek",
+     "level": "A1",
+     "q": "What is it?",
+     "find": "Where's the strawberry?",
+     "say": "It's a strawberry."
+    },
+    {
+     "word": "cherries",
+     "pic": "cherries",
+     "tr": "kiraz",
+     "level": "A1",
+     "q": "What are they?",
+     "find": "Where are the cherries?",
+     "say": "They're cherries."
+    },
+    {
+     "word": "watermelon",
+     "pic": "watermelon",
+     "tr": "karpuz",
+     "level": "A1",
+     "cg": "melon",
+     "q": "What is it?",
+     "find": "Where's the watermelon?",
+     "say": "It's a watermelon."
+    },
+    {
+     "word": "pear",
+     "pic": "pear",
+     "tr": "armut",
+     "level": "A1",
+     "q": "What is it?",
+     "find": "Where's the pear?",
+     "say": "It's a pear."
+    },
+    {
+     "word": "peach",
+     "pic": "peach",
+     "tr": "şeftali",
+     "level": "A1",
+     "q": "What is it?",
+     "find": "Where's the peach?",
+     "say": "It's a peach."
+    },
+    {
+     "word": "pineapple",
+     "pic": "pineapple",
+     "tr": "ananas",
+     "level": "A1",
+     "q": "What is it?",
+     "find": "Where's the pineapple?",
+     "say": "It's a pineapple."
+    },
+    {
+     "word": "mango",
+     "pic": "mango",
+     "tr": "mango",
+     "level": "A1",
+     "q": "What is it?",
+     "find": "Where's the mango?",
+     "say": "It's a mango."
+    },
+    {
+     "word": "coconut",
+     "pic": "coconut",
+     "tr": "hindistan cevizi",
+     "level": "A1",
+     "q": "What is it?",
+     "find": "Where's the coconut?",
+     "say": "It's a coconut."
+    },
+    {
+     "word": "kiwi",
+     "pic": "kiwi-fruit",
+     "tr": "kivi",
+     "level": "A1",
+     "q": "What is it?",
+     "find": "Where's the kiwi?",
+     "say": "It's a kiwi."
+    },
+    {
+     "word": "melon",
+     "pic": "melon",
+     "tr": "kavun",
+     "level": "A1",
+     "cg": "melon",
+     "q": "What is it?",
+     "find": "Where's the melon?",
+     "say": "It's a melon."
+    },
+    {
+     "word": "tomato",
+     "pic": "tomato",
+     "tr": "domates",
+     "level": "A1",
+     "q": "What is it?",
+     "find": "Where's the tomato?",
+     "say": "It's a tomato."
+    },
+    {
+     "word": "carrot",
+     "pic": "carrot",
+     "tr": "havuç",
+     "level": "A1",
+     "q": "What is it?",
+     "find": "Where's the carrot?",
+     "say": "It's a carrot."
+    },
+    {
+     "word": "potato",
+     "pic": "potato",
+     "tr": "patates",
+     "level": "A1",
+     "q": "What is it?",
+     "find": "Where's the potato?",
+     "say": "It's a potato."
+    },
+    {
+     "word": "corn",
+     "pic": "ear-of-corn",
+     "tr": "mısır",
+     "level": "A1",
+     "q": "What is it?",
+     "find": "Find corn!",
+     "say": "It's corn."
+    },
+    {
+     "word": "broccoli",
+     "pic": "broccoli",
+     "tr": "brokoli",
+     "level": "A1",
+     "q": "What is it?",
+     "find": "Find broccoli!",
+     "say": "It's broccoli."
+    },
+    {
+     "word": "onion",
+     "pic": "onion",
+     "tr": "soğan",
+     "level": "A1",
+     "q": "What is it?",
+     "find": "Where's the onion?",
+     "say": "It's an onion."
+    },
+    {
+     "word": "garlic",
+     "pic": "garlic",
+     "tr": "sarımsak",
+     "level": "A1",
+     "q": "What is it?",
+     "find": "Find garlic!",
+     "say": "It's garlic."
+    },
+    {
+     "word": "mushroom",
+     "pic": "mushroom",
+     "tr": "mantar",
+     "level": "A1",
+     "q": "What is it?",
+     "find": "Where's the mushroom?",
+     "say": "It's a mushroom."
+    },
+    {
+     "word": "cucumber",
+     "pic": "cucumber",
+     "tr": "salatalık",
+     "level": "A1",
+     "q": "What is it?",
+     "find": "Where's the cucumber?",
+     "say": "It's a cucumber."
+    },
+    {
+     "word": "pepper",
+     "pic": "bell-pepper",
+     "tr": "biber",
+     "level": "A1",
+     "q": "What is it?",
+     "find": "Where's the pepper?",
+     "say": "It's a pepper."
+    },
+    {
+     "word": "avocado",
+     "pic": "avocado",
+     "tr": "avokado",
+     "level": "A1",
+     "q": "What is it?",
+     "find": "Where's the avocado?",
+     "say": "It's an avocado."
+    },
+    {
+     "word": "aubergine",
+     "pic": "eggplant",
+     "tr": "patlıcan",
+     "level": "A1",
+     "q": "What is it?",
+     "find": "Where's the aubergine?",
+     "say": "It's an aubergine."
+    },
+    {
+     "word": "olive",
+     "pic": "olive",
+     "tr": "zeytin",
+     "level": "A1",
+     "q": "What is it?",
+     "find": "Where's the olive?",
+     "say": "It's an olive."
+    },
+    {
+     "word": "lettuce",
+     "pic": "leafy-green",
+     "tr": "marul",
+     "level": "A1",
+     "q": "What is it?",
+     "find": "Find lettuce!",
+     "say": "It's lettuce."
+    },
+    {
+     "word": "peanuts",
+     "pic": "peanuts",
+     "tr": "yer fıstığı",
+     "level": "A1",
+     "q": "What are they?",
+     "find": "Where are the peanuts?",
+     "say": "They're peanuts."
+    }
+   ]
+  },
+  {
+   "id": "food-drink",
+   "tr": "Yiyecek ve İçecekler",
+   "en": "Food & Drinks",
+   "words": [
+    {
+     "word": "bread",
+     "pic": "bread",
+     "tr": "ekmek",
+     "level": "A1",
+     "q": "What is it?",
+     "find": "Find bread!",
+     "say": "It's bread."
+    },
+    {
+     "word": "cheese",
+     "pic": "cheese-wedge",
+     "tr": "peynir",
+     "level": "A1",
+     "q": "What is it?",
+     "find": "Find cheese!",
+     "say": "It's cheese."
+    },
+    {
+     "word": "egg",
+     "pic": "egg",
+     "tr": "yumurta",
+     "level": "A1",
+     "q": "What is it?",
+     "find": "Where's the egg?",
+     "say": "It's an egg."
+    },
+    {
+     "word": "milk",
+     "pic": "glass-of-milk",
+     "tr": "süt",
+     "level": "A1",
+     "q": "What is it?",
+     "find": "Find milk!",
+     "say": "It's milk."
+    },
+    {
+     "word": "butter",
+     "pic": "butter",
+     "tr": "tereyağı",
+     "level": "A1",
+     "q": "What is it?",
+     "find": "Find butter!",
+     "say": "It's butter."
+    },
+    {
+     "word": "honey",
+     "pic": "honey-pot",
+     "tr": "bal",
+     "level": "A1",
+     "q": "What is it?",
+     "find": "Find honey!",
+     "say": "It's honey."
+    },
+    {
+     "word": "pizza",
+     "pic": "pizza",
+     "tr": "pizza",
+     "level": "A1",
+     "q": "What is it?",
+     "find": "Where's the pizza?",
+     "say": "It's a pizza."
+    },
+    {
+     "word": "hamburger",
+     "pic": "hamburger",
+     "tr": "hamburger",
+     "level": "A1",
+     "q": "What is it?",
+     "find": "Where's the hamburger?",
+     "say": "It's a hamburger."
+    },
+    {
+     "word": "sandwich",
+     "pic": "sandwich",
+     "tr": "sandviç",
+     "level": "A1",
+     "q": "What is it?",
+     "find": "Where's the sandwich?",
+     "say": "It's a sandwich."
+    },
+    {
+     "word": "hot dog",
+     "pic": "hot-dog",
+     "tr": "sosisli sandviç",
+     "level": "A1",
+     "q": "What is it?",
+     "find": "Where's the hot dog?",
+     "say": "It's a hot dog."
+    },
+    {
+     "word": "soup",
+     "pic": "pot-of-food",
+     "tr": "çorba",
+     "level": "A1",
+     "cg": "noodle",
+     "q": "What is it?",
+     "find": "Find soup!",
+     "say": "It's soup."
+    },
+    {
+     "word": "salad",
+     "pic": "green-salad",
+     "tr": "salata",
+     "level": "A1",
+     "q": "What is it?",
+     "find": "Where's the salad?",
+     "say": "It's a salad."
+    },
+    {
+     "word": "rice",
+     "pic": "cooked-rice",
+     "tr": "pilav",
+     "level": "A1",
+     "q": "What is it?",
+     "find": "Find rice!",
+     "say": "It's rice."
+    },
+    {
+     "word": "spaghetti",
+     "pic": "spaghetti",
+     "tr": "spagetti",
+     "level": "A1",
+     "cg": "noodle",
+     "q": "What is it?",
+     "find": "Find spaghetti!",
+     "say": "It's spaghetti."
+    },
+    {
+     "word": "cake",
+     "pic": "shortcake",
+     "tr": "pasta",
+     "level": "A1",
+     "q": "What is it?",
+     "find": "Where's the cake?",
+     "say": "It's a cake."
+    },
+    {
+     "word": "cookie",
+     "pic": "cookie",
+     "tr": "kurabiye",
+     "level": "A1",
+     "q": "What is it?",
+     "find": "Where's the cookie?",
+     "say": "It's a cookie."
+    },
+    {
+     "word": "chocolate",
+     "pic": "chocolate-bar",
+     "tr": "çikolata",
+     "level": "A1",
+     "q": "What is it?",
+     "find": "Find chocolate!",
+     "say": "It's chocolate."
+    },
+    {
+     "word": "ice cream",
+     "pic": "ice-cream",
+     "tr": "dondurma",
+     "level": "A1",
+     "q": "What is it?",
+     "find": "Where's the ice cream?",
+     "say": "It's an ice cream."
+    },
+    {
+     "word": "doughnut",
+     "pic": "doughnut",
+     "tr": "donut",
+     "level": "A1",
+     "q": "What is it?",
+     "find": "Where's the doughnut?",
+     "say": "It's a doughnut."
+    },
+    {
+     "word": "sweet",
+     "pic": "candy",
+     "tr": "şeker",
+     "level": "A2",
+     "cg": "sweet",
+     "q": "What is it?",
+     "find": "Where's the sweet?",
+     "say": "It's a sweet."
+    },
+    {
+     "word": "popcorn",
+     "pic": "popcorn",
+     "tr": "patlamış mısır",
+     "level": "A1",
+     "q": "What is it?",
+     "find": "Find popcorn!",
+     "say": "It's popcorn."
+    },
+    {
+     "word": "chips",
+     "pic": "french-fries",
+     "tr": "patates kızartması",
+     "level": "A1",
+     "q": "What are they?",
+     "find": "Where are the chips?",
+     "say": "They're chips."
+    },
+    {
+     "word": "water",
+     "pic": "droplet",
+     "tr": "su",
+     "level": "B1",
+     "q": "What is it?",
+     "find": "Find water!",
+     "say": "It's water."
+    },
+    {
+     "word": "tea",
+     "pic": "teacup-without-handle",
+     "tr": "çay",
+     "level": "A1",
+     "q": "What is it?",
+     "find": "Find tea!",
+     "say": "It's tea."
+    },
+    {
+     "word": "coffee",
+     "pic": "hot-beverage",
+     "tr": "kahve",
+     "level": "A1",
+     "q": "What is it?",
+     "find": "Find coffee!",
+     "say": "It's coffee."
+    },
+    {
+     "word": "juice",
+     "pic": "beverage-box",
+     "tr": "meyve suyu",
+     "level": "A1",
+     "q": "What is it?",
+     "find": "Find juice!",
+     "say": "It's juice."
+    },
+    {
+     "word": "salt",
+     "pic": "salt",
+     "tr": "tuz",
+     "level": "A1",
+     "q": "What is it?",
+     "find": "Find salt!",
+     "say": "It's salt."
+    },
+    {
+     "word": "pancakes",
+     "pic": "pancakes",
+     "tr": "pankek",
+     "level": "A1",
+     "q": "What are they?",
+     "find": "Where are the pancakes?",
+     "say": "They're pancakes."
+    },
+    {
+     "word": "meat",
+     "pic": "cut-of-meat",
+     "tr": "et",
+     "level": "A1",
+     "q": "What is it?",
+     "find": "Find meat!",
+     "say": "It's meat."
+    },
+    {
+     "word": "lollipop",
+     "pic": "lollipop",
+     "tr": "lolipop",
+     "level": "A1",
+     "cg": "sweet",
+     "q": "What is it?",
+     "find": "Where's the lollipop?",
+     "say": "It's a lollipop."
+    },
+    {
+     "word": "pie",
+     "pic": "pie",
+     "tr": "turta",
+     "level": "A1",
+     "q": "What is it?",
+     "find": "Where's the pie?",
+     "say": "It's a pie."
+    },
+    {
+     "word": "noodles",
+     "pic": "steaming-bowl",
+     "tr": "erişte",
+     "level": "A1",
+     "cg": "noodle",
+     "q": "What are they?",
+     "find": "Where are the noodles?",
+     "say": "They're noodles."
+    }
+   ]
+  },
+  {
+   "id": "clothes",
+   "tr": "Kıyafetler",
+   "en": "Clothes",
+   "words": [
+    {
+     "word": "T-shirt",
+     "pic": "t-shirt",
+     "tr": "tişört",
+     "level": "A1",
+     "q": "What is it?",
+     "find": "Where's the T-shirt?",
+     "say": "It's a T-shirt."
+    },
+    {
+     "word": "jeans",
+     "pic": "jeans",
+     "tr": "kot pantolon",
+     "level": "A1",
+     "q": "What are they?",
+     "find": "Where are the jeans?",
+     "say": "They're jeans."
+    },
+    {
+     "word": "dress",
+     "pic": "dress",
+     "tr": "elbise",
+     "level": "A1",
+     "q": "What is it?",
+     "find": "Where's the dress?",
+     "say": "It's a dress."
+    },
+    {
+     "word": "coat",
+     "pic": "coat",
+     "tr": "mont",
+     "level": "A1",
+     "q": "What is it?",
+     "find": "Where's the coat?",
+     "say": "It's a coat."
+    },
+    {
+     "word": "scarf",
+     "pic": "scarf",
+     "tr": "atkı",
+     "level": "A1",
+     "q": "What is it?",
+     "find": "Where's the scarf?",
+     "say": "It's a scarf."
+    },
+    {
+     "word": "gloves",
+     "pic": "gloves",
+     "tr": "eldiven",
+     "level": "A1",
+     "q": "What are they?",
+     "find": "Where are the gloves?",
+     "say": "They're gloves."
+    },
+    {
+     "word": "socks",
+     "pic": "socks",
+     "tr": "çorap",
+     "level": "A1",
+     "q": "What are they?",
+     "find": "Where are the socks?",
+     "say": "They're socks."
+    },
+    {
+     "word": "hat",
+     "pic": "top-hat",
+     "tr": "şapka",
+     "level": "A1",
+     "cg": "hat",
+     "q": "What is it?",
+     "find": "Where's the hat?",
+     "say": "It's a hat."
+    },
+    {
+     "word": "cap",
+     "pic": "billed-cap",
+     "tr": "kasket",
+     "level": "B1",
+     "cg": "hat",
+     "q": "What is it?",
+     "find": "Where's the cap?",
+     "say": "It's a cap."
+    },
+    {
+     "word": "shoe",
+     "pic": "running-shoe",
+     "tr": "ayakkabı",
+     "level": "A1",
+     "cg": "shoe",
+     "q": "What is it?",
+     "find": "Where's the shoe?",
+     "say": "It's a shoe."
+    },
+    {
+     "word": "boot",
+     "pic": "hiking-boot",
+     "tr": "bot",
+     "level": "A1",
+     "cg": "shoe",
+     "q": "What is it?",
+     "find": "Where's the boot?",
+     "say": "It's a boot."
+    },
+    {
+     "word": "sunglasses",
+     "pic": "sunglasses",
+     "tr": "güneş gözlüğü",
+     "level": "A1",
+     "cg": "glasses",
+     "q": "What are they?",
+     "find": "Where are the sunglasses?",
+     "say": "They're sunglasses."
+    },
+    {
+     "word": "glasses",
+     "pic": "glasses",
+     "tr": "gözlük",
+     "level": "A1",
+     "cg": "glasses",
+     "q": "What are they?",
+     "find": "Where are the glasses?",
+     "say": "They're glasses."
+    },
+    {
+     "word": "shorts",
+     "pic": "shorts",
+     "tr": "şort",
+     "level": "A1",
+     "q": "What are they?",
+     "find": "Where are the shorts?",
+     "say": "They're shorts."
+    },
+    {
+     "word": "bag",
+     "pic": "handbag",
+     "tr": "çanta",
+     "level": "A1",
+     "cg": "bag",
+     "q": "What is it?",
+     "find": "Where's the bag?",
+     "say": "It's a bag."
+    },
+    {
+     "word": "backpack",
+     "pic": "backpack",
+     "tr": "sırt çantası",
+     "level": "A1",
+     "cg": "bag",
+     "q": "What is it?",
+     "find": "Where's the backpack?",
+     "say": "It's a backpack."
+    },
+    {
+     "word": "umbrella",
+     "pic": "umbrella",
+     "tr": "şemsiye",
+     "level": "A1",
+     "q": "What is it?",
+     "find": "Where's the umbrella?",
+     "say": "It's an umbrella."
+    },
+    {
+     "word": "ring",
+     "pic": "ring",
+     "tr": "yüzük",
+     "level": "A2",
+     "q": "What is it?",
+     "find": "Where's the ring?",
+     "say": "It's a ring."
+    },
+    {
+     "word": "crown",
+     "pic": "crown",
+     "tr": "taç",
+     "level": "C1",
+     "q": "What is it?",
+     "find": "Where's the crown?",
+     "say": "It's a crown."
+    },
+    {
+     "word": "swimsuit",
+     "pic": "one-piece-swimsuit",
+     "tr": "mayo",
+     "level": "A1",
+     "q": "What is it?",
+     "find": "Where's the swimsuit?",
+     "say": "It's a swimsuit."
+    },
+    {
+     "word": "tie",
+     "pic": "necktie",
+     "tr": "kravat",
+     "level": "A2",
+     "q": "What is it?",
+     "find": "Where's the tie?",
+     "say": "It's a tie."
+    },
+    {
+     "word": "sandal",
+     "pic": "womans-sandal",
+     "tr": "sandalet",
+     "level": "A1",
+     "cg": "shoe",
+     "q": "What is it?",
+     "find": "Where's the sandal?",
+     "say": "It's a sandal."
+    },
+    {
+     "word": "purse",
+     "pic": "purse",
+     "tr": "cüzdan",
+     "level": "A1",
+     "cg": "bag",
+     "q": "What is it?",
+     "find": "Where's the purse?",
+     "say": "It's a purse."
+    },
+    {
+     "word": "watch",
+     "pic": "watch",
+     "tr": "kol saati",
+     "level": "A1",
+     "q": "What is it?",
+     "find": "Where's the watch?",
+     "say": "It's a watch."
+    }
+   ]
+  },
+  {
+   "id": "transport",
+   "tr": "Ulaşım",
+   "en": "Transport",
+   "words": [
+    {
+     "word": "car",
+     "pic": "automobile",
+     "tr": "araba",
+     "level": "A1",
+     "cg": "car",
+     "q": "What is it?",
+     "find": "Where's the car?",
+     "say": "It's a car."
+    },
+    {
+     "word": "bus",
+     "pic": "bus",
+     "tr": "otobüs",
+     "level": "A1",
+     "q": "What is it?",
+     "find": "Where's the bus?",
+     "say": "It's a bus."
+    },
+    {
+     "word": "taxi",
+     "pic": "taxi",
+     "tr": "taksi",
+     "level": "A1",
+     "cg": "car",
+     "q": "What is it?",
+     "find": "Where's the taxi?",
+     "say": "It's a taxi."
+    },
+    {
+     "word": "train",
+     "pic": "locomotive",
+     "tr": "tren",
+     "level": "A2",
+     "cg": "train",
+     "q": "What is it?",
+     "find": "Where's the train?",
+     "say": "It's a train."
+    },
+    {
+     "word": "plane",
+     "pic": "airplane",
+     "tr": "uçak",
+     "level": "A1",
+     "q": "What is it?",
+     "find": "Where's the plane?",
+     "say": "It's a plane."
+    },
+    {
+     "word": "ship",
+     "pic": "ship",
+     "tr": "gemi",
+     "level": "B2",
+     "cg": "boat",
+     "q": "What is it?",
+     "find": "Where's the ship?",
+     "say": "It's a ship."
+    },
+    {
+     "word": "boat",
+     "pic": "sailboat",
+     "tr": "tekne",
+     "level": "A1",
+     "cg": "boat",
+     "q": "What is it?",
+     "find": "Where's the boat?",
+     "say": "It's a boat."
+    },
+    {
+     "word": "bike",
+     "pic": "bicycle",
+     "tr": "bisiklet",
+     "level": "A1",
+     "cg": "bike",
+     "q": "What is it?",
+     "find": "Where's the bike?",
+     "say": "It's a bike."
+    },
+    {
+     "word": "motorbike",
+     "pic": "motorcycle",
+     "tr": "motosiklet",
+     "level": "A1",
+     "cg": "bike",
+     "q": "What is it?",
+     "find": "Where's the motorbike?",
+     "say": "It's a motorbike."
+    },
+    {
+     "word": "helicopter",
+     "pic": "helicopter",
+     "tr": "helikopter",
+     "level": "B1",
+     "q": "What is it?",
+     "find": "Where's the helicopter?",
+     "say": "It's a helicopter."
+    },
+    {
+     "word": "rocket",
+     "pic": "rocket",
+     "tr": "roket",
+     "level": "B2",
+     "q": "What is it?",
+     "find": "Where's the rocket?",
+     "say": "It's a rocket."
+    },
+    {
+     "word": "truck",
+     "pic": "delivery-truck",
+     "tr": "kamyon",
+     "level": "A2",
+     "cg": "truck",
+     "q": "What is it?",
+     "find": "Where's the truck?",
+     "say": "It's a truck."
+    },
+    {
+     "word": "tractor",
+     "pic": "tractor",
+     "tr": "traktör",
+     "level": "A1",
+     "q": "What is it?",
+     "find": "Where's the tractor?",
+     "say": "It's a tractor."
+    },
+    {
+     "word": "ambulance",
+     "pic": "ambulance",
+     "tr": "ambulans",
+     "level": "B2",
+     "q": "What is it?",
+     "find": "Where's the ambulance?",
+     "say": "It's an ambulance."
+    },
+    {
+     "word": "police car",
+     "pic": "police-car",
+     "tr": "polis arabası",
+     "level": "A1",
+     "cg": "car",
+     "q": "What is it?",
+     "find": "Where's the police car?",
+     "say": "It's a police car."
+    },
+    {
+     "word": "fire engine",
+     "pic": "fire-engine",
+     "tr": "itfaiye aracı",
+     "level": "A1",
+     "cg": "truck",
+     "q": "What is it?",
+     "find": "Where's the fire engine?",
+     "say": "It's a fire engine."
+    },
+    {
+     "word": "scooter",
+     "pic": "kick-scooter",
+     "tr": "scooter",
+     "level": "A1",
+     "q": "What is it?",
+     "find": "Where's the scooter?",
+     "say": "It's a scooter."
+    },
+    {
+     "word": "underground",
+     "pic": "metro",
+     "tr": "metro",
+     "level": "A2",
+     "cg": "train",
+     "q": "What is it?",
+     "find": "Where's the underground?",
+     "say": "It's the underground."
+    },
+    {
+     "word": "tram",
+     "pic": "tram",
+     "tr": "tramvay",
+     "level": "A1",
+     "cg": "train",
+     "q": "What is it?",
+     "find": "Where's the tram?",
+     "say": "It's a tram."
+    },
+    {
+     "word": "canoe",
+     "pic": "canoe",
+     "tr": "kano",
+     "level": "A1",
+     "cg": "boat",
+     "q": "What is it?",
+     "find": "Where's the canoe?",
+     "say": "It's a canoe."
+    },
+    {
+     "word": "skateboard",
+     "pic": "skateboard",
+     "tr": "kaykay",
+     "level": "A1",
+     "q": "What is it?",
+     "find": "Where's the skateboard?",
+     "say": "It's a skateboard."
+    },
+    {
+     "word": "parachute",
+     "pic": "parachute",
+     "tr": "paraşüt",
+     "level": "A1",
+     "q": "What is it?",
+     "find": "Where's the parachute?",
+     "say": "It's a parachute."
+    },
+    {
+     "word": "traffic light",
+     "pic": "vertical-traffic-light",
+     "tr": "trafik ışığı",
+     "level": "A1",
+     "q": "What is it?",
+     "find": "Where's the traffic light?",
+     "say": "It's a traffic light."
+    }
+   ]
+  },
+  {
+   "id": "school",
+   "tr": "Okul Eşyaları",
+   "en": "School Things",
+   "words": [
+    {
+     "word": "book",
+     "pic": "closed-book",
+     "tr": "kitap",
+     "level": "A2",
+     "cg": "book",
+     "q": "What is it?",
+     "find": "Where's the book?",
+     "say": "It's a book."
+    },
+    {
+     "word": "pencil",
+     "pic": "pencil",
+     "tr": "kurşun kalem",
+     "level": "A1",
+     "q": "What is it?",
+     "find": "Where's the pencil?",
+     "say": "It's a pencil."
+    },
+    {
+     "word": "pen",
+     "pic": "pen",
+     "tr": "tükenmez kalem",
+     "level": "A1",
+     "q": "What is it?",
+     "find": "Where's the pen?",
+     "say": "It's a pen."
+    },
+    {
+     "word": "ruler",
+     "pic": "straight-ruler",
+     "tr": "cetvel",
+     "level": "A1",
+     "q": "What is it?",
+     "find": "Where's the ruler?",
+     "say": "It's a ruler."
+    },
+    {
+     "word": "scissors",
+     "pic": "scissors",
+     "tr": "makas",
+     "level": "A1",
+     "q": "What are they?",
+     "find": "Where are the scissors?",
+     "say": "They're scissors."
+    },
+    {
+     "word": "notebook",
+     "pic": "notebook",
+     "tr": "defter",
+     "level": "B2",
+     "cg": "book",
+     "q": "What is it?",
+     "find": "Where's the notebook?",
+     "say": "It's a notebook."
+    },
+    {
+     "word": "computer",
+     "pic": "laptop",
+     "tr": "bilgisayar",
+     "level": "A1",
+     "q": "What is it?",
+     "find": "Where's the computer?",
+     "say": "It's a computer."
+    },
+    {
+     "word": "abacus",
+     "pic": "abacus",
+     "tr": "abaküs",
+     "level": "A1",
+     "q": "What is it?",
+     "find": "Where's the abacus?",
+     "say": "It's an abacus."
+    },
+    {
+     "word": "clock",
+     "pic": "alarm-clock",
+     "tr": "saat",
+     "level": "A1",
+     "q": "What is it?",
+     "find": "Where's the clock?",
+     "say": "It's a clock."
+    },
+    {
+     "word": "crayon",
+     "pic": "crayon",
+     "tr": "pastel boya",
+     "level": "A1",
+     "q": "What is it?",
+     "find": "Where's the crayon?",
+     "say": "It's a crayon."
+    },
+    {
+     "word": "paintbrush",
+     "pic": "paintbrush",
+     "tr": "fırça",
+     "level": "A1",
+     "q": "What is it?",
+     "find": "Where's the paintbrush?",
+     "say": "It's a paintbrush."
+    },
+    {
+     "word": "paints",
+     "pic": "artist-palette",
+     "tr": "boyalar",
+     "level": "A1",
+     "q": "What are they?",
+     "find": "Where are the paints?",
+     "say": "They're paints."
+    },
+    {
+     "word": "school",
+     "pic": "school",
+     "tr": "okul",
+     "level": "A1",
+     "q": "What is it?",
+     "find": "Where's the school?",
+     "say": "It's a school."
+    },
+    {
+     "word": "bell",
+     "pic": "bell",
+     "tr": "zil",
+     "level": "B1",
+     "q": "What is it?",
+     "find": "Where's the bell?",
+     "say": "It's a bell."
+    },
+    {
+     "word": "teacher",
+     "pic": "teacher",
+     "tr": "öğretmen",
+     "level": "A1",
+     "q": "Who is it?",
+     "find": "Where's the teacher?",
+     "say": "This is a teacher."
+    },
+    {
+     "word": "student",
+     "pic": "student",
+     "tr": "öğrenci",
+     "level": "A1",
+     "q": "Who is it?",
+     "find": "Where's the student?",
+     "say": "This is a student."
+    },
+    {
+     "word": "globe",
+     "pic": "globe-showing-europe-africa",
+     "tr": "küre",
+     "level": "B2",
+     "q": "What is it?",
+     "find": "Where's the globe?",
+     "say": "It's a globe."
+    },
+    {
+     "word": "map",
+     "pic": "world-map",
+     "tr": "harita",
+     "level": "B2",
+     "q": "What is it?",
+     "find": "Where's the map?",
+     "say": "It's a map."
+    },
+    {
+     "word": "magnet",
+     "pic": "magnet",
+     "tr": "mıknatıs",
+     "level": "A1",
+     "q": "What is it?",
+     "find": "Where's the magnet?",
+     "say": "It's a magnet."
+    },
+    {
+     "word": "microscope",
+     "pic": "microscope",
+     "tr": "mikroskop",
+     "level": "A1",
+     "q": "What is it?",
+     "find": "Where's the microscope?",
+     "say": "It's a microscope."
+    },
+    {
+     "word": "test tube",
+     "pic": "test-tube",
+     "tr": "deney tüpü",
+     "level": "A1",
+     "q": "What is it?",
+     "find": "Where's the test tube?",
+     "say": "It's a test tube."
+    },
+    {
+     "word": "paper clip",
+     "pic": "paperclip",
+     "tr": "ataş",
+     "level": "A1",
+     "q": "What is it?",
+     "find": "Where's the paper clip?",
+     "say": "It's a paper clip."
+    },
+    {
+     "word": "envelope",
+     "pic": "envelope",
+     "tr": "zarf",
+     "level": "B2",
+     "q": "What is it?",
+     "find": "Where's the envelope?",
+     "say": "It's an envelope."
+    }
+   ]
+  },
+  {
+   "id": "home",
+   "tr": "Evim ve Eşyalar",
+   "en": "My Home",
+   "words": [
+    {
+     "word": "house",
+     "pic": "house",
+     "tr": "ev",
+     "level": "B2",
+     "q": "What is it?",
+     "find": "Where's the house?",
+     "say": "It's a house."
+    },
+    {
+     "word": "bed",
+     "pic": "bed",
+     "tr": "yatak",
+     "level": "A1",
+     "q": "What is it?",
+     "find": "Where's the bed?",
+     "say": "It's a bed."
+    },
+    {
+     "word": "chair",
+     "pic": "chair",
+     "tr": "sandalye",
+     "level": "B2",
+     "q": "What is it?",
+     "find": "Where's the chair?",
+     "say": "It's a chair."
+    },
+    {
+     "word": "sofa",
+     "pic": "couch-and-lamp",
+     "tr": "kanepe",
+     "level": "A1",
+     "q": "What is it?",
+     "find": "Where's the sofa?",
+     "say": "It's a sofa."
+    },
+    {
+     "word": "door",
+     "pic": "door",
+     "tr": "kapı",
+     "level": "A1",
+     "q": "What is it?",
+     "find": "Where's the door?",
+     "say": "It's a door."
+    },
+    {
+     "word": "window",
+     "pic": "window",
+     "tr": "pencere",
+     "level": "A1",
+     "q": "What is it?",
+     "find": "Where's the window?",
+     "say": "It's a window."
+    },
+    {
+     "word": "light bulb",
+     "pic": "light-bulb",
+     "tr": "ampul",
+     "level": "A1",
+     "q": "What is it?",
+     "find": "Where's the light bulb?",
+     "say": "It's a light bulb."
+    },
+    {
+     "word": "bath",
+     "pic": "bathtub",
+     "tr": "küvet",
+     "level": "A1",
+     "q": "What is it?",
+     "find": "Where's the bath?",
+     "say": "It's a bath."
+    },
+    {
+     "word": "shower",
+     "pic": "shower",
+     "tr": "duş",
+     "level": "A1",
+     "q": "What is it?",
+     "find": "Where's the shower?",
+     "say": "It's a shower."
+    },
+    {
+     "word": "toilet",
+     "pic": "toilet",
+     "tr": "tuvalet",
+     "level": "A1",
+     "q": "What is it?",
+     "find": "Where's the toilet?",
+     "say": "It's a toilet."
+    },
+    {
+     "word": "key",
+     "pic": "key",
+     "tr": "anahtar",
+     "level": "B1",
+     "q": "What is it?",
+     "find": "Where's the key?",
+     "say": "It's a key."
+    },
+    {
+     "word": "phone",
+     "pic": "mobile-phone",
+     "tr": "telefon",
+     "level": "A1",
+     "q": "What is it?",
+     "find": "Where's the phone?",
+     "say": "It's a phone."
+    },
+    {
+     "word": "television",
+     "pic": "television",
+     "tr": "televizyon",
+     "level": "A1",
+     "q": "What is it?",
+     "find": "Where's the television?",
+     "say": "It's a television."
+    },
+    {
+     "word": "mirror",
+     "pic": "mirror",
+     "tr": "ayna",
+     "level": "A2",
+     "q": "What is it?",
+     "find": "Where's the mirror?",
+     "say": "It's a mirror."
+    },
+    {
+     "word": "plate",
+     "pic": "fork-and-knife-with-plate",
+     "tr": "tabak",
+     "level": "A2",
+     "q": "What is it?",
+     "find": "Where's the plate?",
+     "say": "It's a plate."
+    },
+    {
+     "word": "spoon",
+     "pic": "spoon",
+     "tr": "kaşık",
+     "level": "A2",
+     "q": "What is it?",
+     "find": "Where's the spoon?",
+     "say": "It's a spoon."
+    },
+    {
+     "word": "cup",
+     "pic": "cup-with-straw",
+     "tr": "bardak",
+     "level": "A1",
+     "q": "What is it?",
+     "find": "Where's the cup?",
+     "say": "It's a cup."
+    },
+    {
+     "word": "soap",
+     "pic": "soap",
+     "tr": "sabun",
+     "level": "A2",
+     "q": "What is it?",
+     "find": "Find soap!",
+     "say": "It's soap."
+    },
+    {
+     "word": "toothbrush",
+     "pic": "toothbrush",
+     "tr": "diş fırçası",
+     "level": "A1",
+     "q": "What is it?",
+     "find": "Where's the toothbrush?",
+     "say": "It's a toothbrush."
+    },
+    {
+     "word": "bucket",
+     "pic": "bucket",
+     "tr": "kova",
+     "level": "A1",
+     "q": "What is it?",
+     "find": "Where's the bucket?",
+     "say": "It's a bucket."
+    },
+    {
+     "word": "basket",
+     "pic": "basket",
+     "tr": "sepet",
+     "level": "B2",
+     "q": "What is it?",
+     "find": "Where's the basket?",
+     "say": "It's a basket."
+    },
+    {
+     "word": "candle",
+     "pic": "candle",
+     "tr": "mum",
+     "level": "B2",
+     "q": "What is it?",
+     "find": "Where's the candle?",
+     "say": "It's a candle."
+    },
+    {
+     "word": "broom",
+     "pic": "broom",
+     "tr": "süpürge",
+     "level": "A1",
+     "q": "What is it?",
+     "find": "Where's the broom?",
+     "say": "It's a broom."
+    },
+    {
+     "word": "sponge",
+     "pic": "sponge",
+     "tr": "sünger",
+     "level": "A1",
+     "q": "What is it?",
+     "find": "Where's the sponge?",
+     "say": "It's a sponge."
+    },
+    {
+     "word": "radio",
+     "pic": "radio",
+     "tr": "radyo",
+     "level": "A1",
+     "q": "What is it?",
+     "find": "Where's the radio?",
+     "say": "It's a radio."
+    },
+    {
+     "word": "camera",
+     "pic": "camera",
+     "tr": "fotoğraf makinesi",
+     "level": "A1",
+     "q": "What is it?",
+     "find": "Where's the camera?",
+     "say": "It's a camera."
+    },
+    {
+     "word": "teapot",
+     "pic": "teapot",
+     "tr": "çaydanlık",
+     "level": "A1",
+     "q": "What is it?",
+     "find": "Where's the teapot?",
+     "say": "It's a teapot."
+    },
+    {
+     "word": "box",
+     "pic": "package",
+     "tr": "kutu",
+     "level": "A1",
+     "q": "What is it?",
+     "find": "Where's the box?",
+     "say": "It's a box."
+    }
+   ]
+  },
+  {
+   "id": "nature-weather",
+   "tr": "Doğa ve Hava",
+   "en": "Nature & Weather",
+   "words": [
+    {
+     "word": "sun",
+     "pic": "sun",
+     "tr": "güneş",
+     "level": "A1",
+     "q": "What is it?",
+     "find": "Where's the sun?",
+     "say": "It's the sun."
+    },
+    {
+     "word": "moon",
+     "pic": "crescent-moon",
+     "tr": "ay",
+     "level": "A2",
+     "q": "What is it?",
+     "find": "Where's the moon?",
+     "say": "It's the moon."
+    },
+    {
+     "word": "star",
+     "pic": "star",
+     "tr": "yıldız",
+     "level": "A2",
+     "q": "What is it?",
+     "find": "Where's the star?",
+     "say": "It's a star."
+    },
+    {
+     "word": "cloud",
+     "pic": "cloud",
+     "tr": "bulut",
+     "level": "A2",
+     "cg": "cloud",
+     "q": "What is it?",
+     "find": "Where's the cloud?",
+     "say": "It's a cloud."
+    },
+    {
+     "word": "rain",
+     "pic": "cloud-with-rain",
+     "tr": "yağmur",
+     "level": "A1",
+     "cg": "cloud",
+     "q": "What is it?",
+     "find": "Find rain!",
+     "say": "It's rain."
+    },
+    {
+     "word": "snow",
+     "pic": "snowflake",
+     "tr": "kar",
+     "level": "A1",
+     "q": "What is it?",
+     "find": "Find snow!",
+     "say": "It's snow."
+    },
+    {
+     "word": "wind",
+     "pic": "wind-face",
+     "tr": "rüzgâr",
+     "level": "B2",
+     "q": "What is it?",
+     "find": "Find wind!",
+     "say": "It's wind."
+    },
+    {
+     "word": "rainbow",
+     "pic": "rainbow",
+     "tr": "gökkuşağı",
+     "level": "A1",
+     "q": "What is it?",
+     "find": "Where's the rainbow?",
+     "say": "It's a rainbow."
+    },
+    {
+     "word": "tree",
+     "pic": "deciduous-tree",
+     "tr": "ağaç",
+     "level": "A1",
+     "cg": "plant",
+     "q": "What is it?",
+     "find": "Where's the tree?",
+     "say": "It's a tree."
+    },
+    {
+     "word": "flower",
+     "pic": "tulip",
+     "tr": "çiçek",
+     "level": "A1",
+     "cg": "plant",
+     "q": "What is it?",
+     "find": "Where's the flower?",
+     "say": "It's a flower."
+    },
+    {
+     "word": "rose",
+     "pic": "rose",
+     "tr": "gül",
+     "level": "B2",
+     "cg": "plant",
+     "q": "What is it?",
+     "find": "Where's the rose?",
+     "say": "It's a rose."
+    },
+    {
+     "word": "sunflower",
+     "pic": "sunflower",
+     "tr": "ayçiçeği",
+     "level": "A1",
+     "cg": "plant",
+     "q": "What is it?",
+     "find": "Where's the sunflower?",
+     "say": "It's a sunflower."
+    },
+    {
+     "word": "leaf",
+     "pic": "leaf-fluttering-in-wind",
+     "tr": "yaprak",
+     "level": "B1",
+     "q": "What is it?",
+     "find": "Where's the leaf?",
+     "say": "It's a leaf."
+    },
+    {
+     "word": "mountain",
+     "pic": "mountain",
+     "tr": "dağ",
+     "level": "A1",
+     "cg": "mountain",
+     "q": "What is it?",
+     "find": "Where's the mountain?",
+     "say": "It's a mountain."
+    },
+    {
+     "word": "sea",
+     "pic": "water-wave",
+     "tr": "deniz",
+     "level": "A1",
+     "q": "What is it?",
+     "find": "Where's the sea?",
+     "say": "It's the sea."
+    },
+    {
+     "word": "volcano",
+     "pic": "volcano",
+     "tr": "yanardağ",
+     "level": "A1",
+     "cg": "mountain",
+     "q": "What is it?",
+     "find": "Where's the volcano?",
+     "say": "It's a volcano."
+    },
+    {
+     "word": "fire",
+     "pic": "fire",
+     "tr": "ateş",
+     "level": "B1",
+     "q": "What is it?",
+     "find": "Find fire!",
+     "say": "It's fire."
+    },
+    {
+     "word": "lightning",
+     "pic": "high-voltage",
+     "tr": "şimşek",
+     "level": "A1",
+     "q": "What is it?",
+     "find": "Find lightning!",
+     "say": "It's lightning."
+    },
+    {
+     "word": "snowman",
+     "pic": "snowman",
+     "tr": "kardan adam",
+     "level": "A1",
+     "q": "What is it?",
+     "find": "Where's the snowman?",
+     "say": "It's a snowman."
+    },
+    {
+     "word": "desert",
+     "pic": "desert",
+     "tr": "çöl",
+     "level": "B2",
+     "q": "What is it?",
+     "find": "Where's the desert?",
+     "say": "It's a desert."
+    },
+    {
+     "word": "island",
+     "pic": "desert-island",
+     "tr": "ada",
+     "level": "A1",
+     "q": "What is it?",
+     "find": "Where's the island?",
+     "say": "It's an island."
+    },
+    {
+     "word": "beach",
+     "pic": "beach-with-umbrella",
+     "tr": "plaj",
+     "level": "A1",
+     "q": "What is it?",
+     "find": "Where's the beach?",
+     "say": "It's a beach."
+    },
+    {
+     "word": "cactus",
+     "pic": "cactus",
+     "tr": "kaktüs",
+     "level": "A1",
+     "cg": "plant",
+     "q": "What is it?",
+     "find": "Where's the cactus?",
+     "say": "It's a cactus."
+    },
+    {
+     "word": "plant",
+     "pic": "potted-plant",
+     "tr": "bitki",
+     "level": "A2",
+     "cg": "plant",
+     "q": "What is it?",
+     "find": "Where's the plant?",
+     "say": "It's a plant."
+    },
+    {
+     "word": "fog",
+     "pic": "fog",
+     "tr": "sis",
+     "level": "A1",
+     "cg": "cloud",
+     "q": "What is it?",
+     "find": "Find fog!",
+     "say": "It's fog."
+    }
+   ]
+  },
+  {
+   "id": "sports-hobbies",
+   "tr": "Spor ve Hobiler",
+   "en": "Sports & Hobbies",
+   "words": [
+    {
+     "word": "football",
+     "pic": "soccer-ball",
+     "tr": "futbol",
+     "level": "A1",
+     "q": "What's the activity?",
+     "find": "Find football!",
+     "say": "It's football."
+    },
+    {
+     "word": "basketball",
+     "pic": "basketball",
+     "tr": "basketbol",
+     "level": "A2",
+     "q": "What's the activity?",
+     "find": "Find basketball!",
+     "say": "It's basketball."
+    },
+    {
+     "word": "tennis",
+     "pic": "tennis",
+     "tr": "tenis",
+     "level": "A1",
+     "q": "What's the activity?",
+     "find": "Find tennis!",
+     "say": "It's tennis."
+    },
+    {
+     "word": "volleyball",
+     "pic": "volleyball",
+     "tr": "voleybol",
+     "level": "A1",
+     "q": "What's the activity?",
+     "find": "Find volleyball!",
+     "say": "It's volleyball."
+    },
+    {
+     "word": "baseball",
+     "pic": "baseball",
+     "tr": "beyzbol",
+     "level": "A2",
+     "q": "What's the activity?",
+     "find": "Find baseball!",
+     "say": "It's baseball."
+    },
+    {
+     "word": "swimming",
+     "pic": "person-swimming",
+     "tr": "yüzme",
+     "level": "A1",
+     "q": "What's the activity?",
+     "find": "Find swimming!",
+     "say": "It's swimming."
+    },
+    {
+     "word": "running",
+     "pic": "person-running",
+     "tr": "koşu",
+     "level": "A2",
+     "q": "What's the activity?",
+     "find": "Find running!",
+     "say": "It's running."
+    },
+    {
+     "word": "cycling",
+     "pic": "person-biking",
+     "tr": "bisiklet sürme",
+     "level": "A1",
+     "q": "What's the activity?",
+     "find": "Find cycling!",
+     "say": "It's cycling."
+    },
+    {
+     "word": "skiing",
+     "pic": "skier",
+     "tr": "kayak",
+     "level": "A2",
+     "q": "What's the activity?",
+     "find": "Find skiing!",
+     "say": "It's skiing."
+    },
+    {
+     "word": "skateboarding",
+     "pic": "skateboard",
+     "tr": "kaykay",
+     "level": "A1",
+     "q": "What's the activity?",
+     "find": "Find skateboarding!",
+     "say": "It's skateboarding."
+    },
+    {
+     "word": "dancing",
+     "pic": "woman-dancing",
+     "tr": "dans",
+     "level": "A1",
+     "q": "What's the activity?",
+     "find": "Find dancing!",
+     "say": "It's dancing."
+    },
+    {
+     "word": "reading",
+     "pic": "books",
+     "tr": "kitap okuma",
+     "level": "A1",
+     "q": "What's the activity?",
+     "find": "Find reading!",
+     "say": "It's reading."
+    },
+    {
+     "word": "painting",
+     "pic": "artist-palette",
+     "tr": "resim yapma",
+     "level": "A1",
+     "q": "What's the activity?",
+     "find": "Find painting!",
+     "say": "It's painting."
+    },
+    {
+     "word": "chess",
+     "pic": "chess-pawn",
+     "tr": "satranç",
+     "level": "A1",
+     "q": "What's the activity?",
+     "find": "Find chess!",
+     "say": "It's chess."
+    },
+    {
+     "word": "fishing",
+     "pic": "fishing-pole",
+     "tr": "balık tutma",
+     "level": "A2",
+     "q": "What's the activity?",
+     "find": "Find fishing!",
+     "say": "It's fishing."
+    },
+    {
+     "word": "camping",
+     "pic": "camping",
+     "tr": "kamp",
+     "level": "A2",
+     "q": "What's the activity?",
+     "find": "Find camping!",
+     "say": "It's camping."
+    },
+    {
+     "word": "bowling",
+     "pic": "bowling",
+     "tr": "bowling",
+     "level": "A1",
+     "q": "What's the activity?",
+     "find": "Find bowling!",
+     "say": "It's bowling."
+    },
+    {
+     "word": "table tennis",
+     "pic": "ping-pong",
+     "tr": "masa tenisi",
+     "level": "A1",
+     "q": "What's the activity?",
+     "find": "Find table tennis!",
+     "say": "It's table tennis."
+    },
+    {
+     "word": "surfing",
+     "pic": "person-surfing",
+     "tr": "sörf",
+     "level": "A1",
+     "q": "What's the activity?",
+     "find": "Find surfing!",
+     "say": "It's surfing."
+    },
+    {
+     "word": "climbing",
+     "pic": "person-climbing",
+     "tr": "tırmanma",
+     "level": "A1",
+     "q": "What's the activity?",
+     "find": "Find climbing!",
+     "say": "It's climbing."
+    },
+    {
+     "word": "yoga",
+     "pic": "person-in-lotus-position",
+     "tr": "yoga",
+     "level": "A1",
+     "q": "What's the activity?",
+     "find": "Find yoga!",
+     "say": "It's yoga."
+    },
+    {
+     "word": "video game",
+     "pic": "video-game",
+     "tr": "video oyunu",
+     "level": "A1",
+     "q": "What is it?",
+     "find": "Where's the video game?",
+     "say": "It's a video game."
+    },
+    {
+     "word": "music",
+     "pic": "musical-notes",
+     "tr": "müzik",
+     "level": "A1",
+     "q": "What's the activity?",
+     "find": "Find music!",
+     "say": "It's music."
+    },
+    {
+     "word": "medal",
+     "pic": "sports-medal",
+     "tr": "madalya",
+     "level": "B2",
+     "q": "What is it?",
+     "find": "Where's the medal?",
+     "say": "It's a medal."
+    },
+    {
+     "word": "trophy",
+     "pic": "trophy",
+     "tr": "kupa",
+     "level": "C1",
+     "q": "What is it?",
+     "find": "Where's the trophy?",
+     "say": "It's a trophy."
+    }
+   ]
+  },
+  {
+   "id": "music",
+   "tr": "Müzik Aletleri",
+   "en": "Music",
+   "words": [
+    {
+     "word": "guitar",
+     "pic": "guitar",
+     "tr": "gitar",
+     "level": "A1",
+     "q": "What is it?",
+     "find": "Where's the guitar?",
+     "say": "It's a guitar."
+    },
+    {
+     "word": "piano",
+     "pic": "musical-keyboard",
+     "tr": "piyano",
+     "level": "A1",
+     "q": "What is it?",
+     "find": "Where's the piano?",
+     "say": "It's a piano."
+    },
+    {
+     "word": "drum",
+     "pic": "drum",
+     "tr": "davul",
+     "level": "B1",
+     "cg": "drum",
+     "q": "What is it?",
+     "find": "Where's the drum?",
+     "say": "It's a drum."
+    },
+    {
+     "word": "violin",
+     "pic": "violin",
+     "tr": "keman",
+     "level": "A1",
+     "q": "What is it?",
+     "find": "Where's the violin?",
+     "say": "It's a violin."
+    },
+    {
+     "word": "trumpet",
+     "pic": "trumpet",
+     "tr": "trompet",
+     "level": "A1",
+     "q": "What is it?",
+     "find": "Where's the trumpet?",
+     "say": "It's a trumpet."
+    },
+    {
+     "word": "saxophone",
+     "pic": "saxophone",
+     "tr": "saksafon",
+     "level": "A1",
+     "q": "What is it?",
+     "find": "Where's the saxophone?",
+     "say": "It's a saxophone."
+    },
+    {
+     "word": "microphone",
+     "pic": "microphone",
+     "tr": "mikrofon",
+     "level": "A1",
+     "q": "What is it?",
+     "find": "Where's the microphone?",
+     "say": "It's a microphone."
+    },
+    {
+     "word": "headphones",
+     "pic": "headphone",
+     "tr": "kulaklık",
+     "level": "A1",
+     "q": "What are they?",
+     "find": "Where are the headphones?",
+     "say": "They're headphones."
+    },
+    {
+     "word": "radio",
+     "pic": "radio",
+     "tr": "radyo",
+     "level": "A1",
+     "q": "What is it?",
+     "find": "Where's the radio?",
+     "say": "It's a radio."
+    },
+    {
+     "word": "accordion",
+     "pic": "accordion",
+     "tr": "akordeon",
+     "level": "A1",
+     "q": "What is it?",
+     "find": "Where's the accordion?",
+     "say": "It's an accordion."
+    },
+    {
+     "word": "banjo",
+     "pic": "banjo",
+     "tr": "banjo",
+     "level": "A1",
+     "q": "What is it?",
+     "find": "Where's the banjo?",
+     "say": "It's a banjo."
+    },
+    {
+     "word": "flute",
+     "pic": "flute",
+     "tr": "flüt",
+     "level": "A1",
+     "q": "What is it?",
+     "find": "Where's the flute?",
+     "say": "It's a flute."
+    },
+    {
+     "word": "maracas",
+     "pic": "maracas",
+     "tr": "marakas",
+     "level": "A1",
+     "q": "What are they?",
+     "find": "Where are the maracas?",
+     "say": "They're maracas."
+    },
+    {
+     "word": "long drum",
+     "pic": "long-drum",
+     "tr": "uzun davul",
+     "level": "A1",
+     "cg": "drum",
+     "q": "What is it?",
+     "find": "Where's the long drum?",
+     "say": "It's a long drum."
+    }
+   ]
+  },
+  {
+   "id": "body",
+   "tr": "Vücudumuz",
+   "en": "My Body",
+   "words": [
+    {
+     "word": "eye",
+     "pic": "eye",
+     "tr": "göz",
+     "level": "A1",
+     "q": "What is it?",
+     "find": "Where's the eye?",
+     "say": "It's an eye."
+    },
+    {
+     "word": "ear",
+     "pic": "ear",
+     "tr": "kulak",
+     "level": "A1",
+     "q": "What is it?",
+     "find": "Where's the ear?",
+     "say": "It's an ear."
+    },
+    {
+     "word": "nose",
+     "pic": "nose",
+     "tr": "burun",
+     "level": "A1",
+     "q": "What is it?",
+     "find": "Where's the nose?",
+     "say": "It's a nose."
+    },
+    {
+     "word": "mouth",
+     "pic": "mouth",
+     "tr": "ağız",
+     "level": "A1",
+     "q": "What is it?",
+     "find": "Where's the mouth?",
+     "say": "It's a mouth."
+    },
+    {
+     "word": "tooth",
+     "pic": "tooth",
+     "tr": "diş",
+     "level": "A1",
+     "q": "What is it?",
+     "find": "Where's the tooth?",
+     "say": "It's a tooth."
+    },
+    {
+     "word": "tongue",
+     "pic": "tongue",
+     "tr": "dil",
+     "level": "B1",
+     "q": "What is it?",
+     "find": "Where's the tongue?",
+     "say": "It's a tongue."
+    },
+    {
+     "word": "hand",
+     "pic": "raised-hand",
+     "tr": "el",
+     "level": "B1",
+     "cg": "hand",
+     "q": "What is it?",
+     "find": "Where's the hand?",
+     "say": "It's a hand."
+    },
+    {
+     "word": "foot",
+     "pic": "foot",
+     "tr": "ayak",
+     "level": "A1",
+     "cg": "leg",
+     "q": "What is it?",
+     "find": "Where's the foot?",
+     "say": "It's a foot."
+    },
+    {
+     "word": "leg",
+     "pic": "leg",
+     "tr": "bacak",
+     "level": "A1",
+     "cg": "leg",
+     "q": "What is it?",
+     "find": "Where's the leg?",
+     "say": "It's a leg."
+    },
+    {
+     "word": "arm",
+     "pic": "flexed-biceps",
+     "tr": "kol",
+     "level": "C1",
+     "q": "What is it?",
+     "find": "Where's the arm?",
+     "say": "It's an arm."
+    },
+    {
+     "word": "brain",
+     "pic": "brain",
+     "tr": "beyin",
+     "level": "A2",
+     "q": "What is it?",
+     "find": "Where's the brain?",
+     "say": "It's a brain."
+    },
+    {
+     "word": "bone",
+     "pic": "bone",
+     "tr": "kemik",
+     "level": "A2",
+     "q": "What is it?",
+     "find": "Where's the bone?",
+     "say": "It's a bone."
+    },
+    {
+     "word": "heart",
+     "pic": "anatomical-heart",
+     "tr": "kalp",
+     "level": "A2",
+     "q": "What is it?",
+     "find": "Where's the heart?",
+     "say": "It's a heart."
+    },
+    {
+     "word": "lungs",
+     "pic": "lungs",
+     "tr": "akciğerler",
+     "level": "A1",
+     "q": "What are they?",
+     "find": "Where are the lungs?",
+     "say": "They're lungs."
+    },
+    {
+     "word": "finger",
+     "pic": "backhand-index-pointing-up",
+     "tr": "parmak",
+     "level": "A2",
+     "cg": "hand",
+     "q": "What is it?",
+     "find": "Where's the finger?",
+     "say": "It's a finger."
+    },
+    {
+     "word": "hair",
+     "pic": "woman-red-hair",
+     "tr": "saç",
+     "level": "A1",
+     "cg": "face",
+     "q": "What is it?",
+     "find": "Find hair!",
+     "say": "It's hair."
+    },
+    {
+     "word": "face",
+     "pic": "grinning-face",
+     "tr": "yüz",
+     "level": "B1",
+     "cg": "face",
+     "q": "What is it?",
+     "find": "Where's the face?",
+     "say": "It's a face."
+    }
+   ]
+  },
+  {
+   "id": "feelings",
+   "tr": "Duygular",
+   "en": "Feelings",
+   "words": [
+    {
+     "word": "happy",
+     "pic": "grinning-face",
+     "tr": "mutlu",
+     "level": "A1",
+     "cg": "happy",
+     "q": "How do I feel?",
+     "find": "Who is happy?",
+     "say": "You're happy!"
+    },
+    {
+     "word": "sad",
+     "pic": "frowning-face",
+     "tr": "üzgün",
+     "level": "A1",
+     "cg": "sad",
+     "q": "How do I feel?",
+     "find": "Who is sad?",
+     "say": "You're sad!"
+    },
+    {
+     "word": "angry",
+     "pic": "angry-face",
+     "tr": "kızgın",
+     "level": "A1",
+     "q": "How do I feel?",
+     "find": "Who is angry?",
+     "say": "You're angry!"
+    },
+    {
+     "word": "scared",
+     "pic": "fearful-face",
+     "tr": "korkmuş",
+     "level": "A2",
+     "q": "How do I feel?",
+     "find": "Who is scared?",
+     "say": "You're scared!"
+    },
+    {
+     "word": "surprised",
+     "pic": "astonished-face",
+     "tr": "şaşırmış",
+     "level": "A2",
+     "q": "How do I feel?",
+     "find": "Who is surprised?",
+     "say": "You're surprised!"
+    },
+    {
+     "word": "tired",
+     "pic": "sleepy-face",
+     "tr": "yorgun",
+     "level": "A1",
+     "q": "How do I feel?",
+     "find": "Who is tired?",
+     "say": "You're tired!"
+    },
+    {
+     "word": "sick",
+     "pic": "face-with-thermometer",
+     "tr": "hasta",
+     "level": "A1",
+     "q": "How do I feel?",
+     "find": "Who is sick?",
+     "say": "You're sick!"
+    },
+    {
+     "word": "bored",
+     "pic": "unamused-face",
+     "tr": "sıkılmış",
+     "level": "A1",
+     "cg": "sad",
+     "q": "How do I feel?",
+     "find": "Who is bored?",
+     "say": "You're bored!"
+    },
+    {
+     "word": "excited",
+     "pic": "star-struck",
+     "tr": "heyecanlı",
+     "level": "A1",
+     "cg": "happy",
+     "q": "How do I feel?",
+     "find": "Who is excited?",
+     "say": "You're excited!"
+    },
+    {
+     "word": "worried",
+     "pic": "worried-face",
+     "tr": "endişeli",
+     "level": "A2",
+     "cg": "sad",
+     "q": "How do I feel?",
+     "find": "Who is worried?",
+     "say": "You're worried!"
+    },
+    {
+     "word": "cool",
+     "pic": "smiling-face-with-sunglasses",
+     "tr": "havalı",
+     "level": "B1",
+     "cg": "happy",
+     "q": "How do I feel?",
+     "find": "Who is cool?",
+     "say": "You're cool!"
+    },
+    {
+     "word": "confused",
+     "pic": "confused-face",
+     "tr": "kafası karışık",
+     "level": "B1",
+     "cg": "sad",
+     "q": "How do I feel?",
+     "find": "Who is confused?",
+     "say": "You're confused!"
+    },
+    {
+     "word": "hot",
+     "pic": "hot-face",
+     "tr": "sıcaklamış",
+     "level": "A1",
+     "q": "How do I feel?",
+     "find": "Who feels hot?",
+     "say": "You feel hot!"
+    },
+    {
+     "word": "cold",
+     "pic": "cold-face",
+     "tr": "üşümüş",
+     "level": "A1",
+     "q": "How do I feel?",
+     "find": "Who feels cold?",
+     "say": "You feel cold!"
+    }
+   ]
+  },
+  {
+   "id": "jobs",
+   "tr": "Meslekler",
+   "en": "Jobs",
+   "words": [
+    {
+     "word": "doctor",
+     "pic": "health-worker",
+     "tr": "doktor",
+     "level": "A1",
+     "q": "What's the job?",
+     "find": "Where's the doctor?",
+     "say": "This is a doctor."
+    },
+    {
+     "word": "teacher",
+     "pic": "teacher",
+     "tr": "öğretmen",
+     "level": "A1",
+     "q": "What's the job?",
+     "find": "Where's the teacher?",
+     "say": "This is a teacher."
+    },
+    {
+     "word": "cook",
+     "pic": "cook",
+     "tr": "aşçı",
+     "level": "A1",
+     "q": "What's the job?",
+     "find": "Where's the cook?",
+     "say": "This is a cook."
+    },
+    {
+     "word": "farmer",
+     "pic": "farmer",
+     "tr": "çiftçi",
+     "level": "A1",
+     "q": "What's the job?",
+     "find": "Where's the farmer?",
+     "say": "This is a farmer."
+    },
+    {
+     "word": "police officer",
+     "pic": "police-officer",
+     "tr": "polis",
+     "level": "A1",
+     "q": "What's the job?",
+     "find": "Where's the police officer?",
+     "say": "This is a police officer."
+    },
+    {
+     "word": "firefighter",
+     "pic": "firefighter",
+     "tr": "itfaiyeci",
+     "level": "B2",
+     "q": "What's the job?",
+     "find": "Where's the firefighter?",
+     "say": "This is a firefighter."
+    },
+    {
+     "word": "pilot",
+     "pic": "pilot",
+     "tr": "pilot",
+     "level": "A2",
+     "q": "What's the job?",
+     "find": "Where's the pilot?",
+     "say": "This is a pilot."
+    },
+    {
+     "word": "artist",
+     "pic": "artist",
+     "tr": "ressam",
+     "level": "A1",
+     "q": "What's the job?",
+     "find": "Where's the artist?",
+     "say": "This is an artist."
+    },
+    {
+     "word": "singer",
+     "pic": "singer",
+     "tr": "şarkıcı",
+     "level": "A1",
+     "q": "What's the job?",
+     "find": "Where's the singer?",
+     "say": "This is a singer."
+    },
+    {
+     "word": "astronaut",
+     "pic": "astronaut",
+     "tr": "astronot",
+     "level": "A1",
+     "q": "What's the job?",
+     "find": "Where's the astronaut?",
+     "say": "This is an astronaut."
+    },
+    {
+     "word": "scientist",
+     "pic": "scientist",
+     "tr": "bilim insanı",
+     "level": "A1",
+     "q": "What's the job?",
+     "find": "Where's the scientist?",
+     "say": "This is a scientist."
+    },
+    {
+     "word": "mechanic",
+     "pic": "mechanic",
+     "tr": "tamirci",
+     "level": "B2",
+     "q": "What's the job?",
+     "find": "Where's the mechanic?",
+     "say": "This is a mechanic."
+    },
+    {
+     "word": "student",
+     "pic": "student",
+     "tr": "öğrenci",
+     "level": "A1",
+     "q": "Who is it?",
+     "find": "Where's the student?",
+     "say": "This is a student."
+    },
+    {
+     "word": "office worker",
+     "pic": "office-worker",
+     "tr": "ofis çalışanı",
+     "level": "A1",
+     "q": "What's the job?",
+     "find": "Where's the office worker?",
+     "say": "This is an office worker."
+    },
+    {
+     "word": "judge",
+     "pic": "judge",
+     "tr": "hâkim",
+     "level": "B1",
+     "q": "What's the job?",
+     "find": "Where's the judge?",
+     "say": "This is a judge."
+    },
+    {
+     "word": "builder",
+     "pic": "construction-worker",
+     "tr": "inşaat işçisi",
+     "level": "A1",
+     "q": "What's the job?",
+     "find": "Where's the builder?",
+     "say": "This is a builder."
+    },
+    {
+     "word": "detective",
+     "pic": "detective",
+     "tr": "dedektif",
+     "level": "A2",
+     "q": "What's the job?",
+     "find": "Where's the detective?",
+     "say": "This is a detective."
+    },
+    {
+     "word": "guard",
+     "pic": "guard",
+     "tr": "muhafız",
+     "level": "B1",
+     "q": "What's the job?",
+     "find": "Where's the guard?",
+     "say": "This is a guard."
+    },
+    {
+     "word": "factory worker",
+     "pic": "factory-worker",
+     "tr": "fabrika işçisi",
+     "level": "A1",
+     "q": "What's the job?",
+     "find": "Where's the factory worker?",
+     "say": "This is a factory worker."
+    },
+    {
+     "word": "programmer",
+     "pic": "technologist",
+     "tr": "yazılımcı",
+     "level": "A1",
+     "q": "What's the job?",
+     "find": "Where's the programmer?",
+     "say": "This is a programmer."
+    }
+   ]
+  },
+  {
+   "id": "places",
+   "tr": "Şehir ve Yerler",
+   "en": "Places in Town",
+   "words": [
+    {
+     "word": "house",
+     "pic": "house",
+     "tr": "ev",
+     "level": "B2",
+     "q": "What place is it?",
+     "find": "Where's the house?",
+     "say": "It's a house."
+    },
+    {
+     "word": "school",
+     "pic": "school",
+     "tr": "okul",
+     "level": "A1",
+     "q": "What place is it?",
+     "find": "Where's the school?",
+     "say": "It's a school."
+    },
+    {
+     "word": "hospital",
+     "pic": "hospital",
+     "tr": "hastane",
+     "level": "A1",
+     "cg": "hospital",
+     "q": "What place is it?",
+     "find": "Where's the hospital?",
+     "say": "It's a hospital."
+    },
+    {
+     "word": "hotel",
+     "pic": "hotel",
+     "tr": "otel",
+     "level": "A1",
+     "cg": "hospital",
+     "q": "What place is it?",
+     "find": "Where's the hotel?",
+     "say": "It's a hotel."
+    },
+    {
+     "word": "bank",
+     "pic": "bank",
+     "tr": "banka",
+     "level": "A1",
+     "cg": "bank",
+     "q": "What place is it?",
+     "find": "Where's the bank?",
+     "say": "It's a bank."
+    },
+    {
+     "word": "shop",
+     "pic": "convenience-store",
+     "tr": "dükkân",
+     "level": "A1",
+     "q": "What place is it?",
+     "find": "Where's the shop?",
+     "say": "It's a shop."
+    },
+    {
+     "word": "stadium",
+     "pic": "stadium",
+     "tr": "stadyum",
+     "level": "B1",
+     "q": "What place is it?",
+     "find": "Where's the stadium?",
+     "say": "It's a stadium."
+    },
+    {
+     "word": "castle",
+     "pic": "castle",
+     "tr": "kale",
+     "level": "A2",
+     "q": "What place is it?",
+     "find": "Where's the castle?",
+     "say": "It's a castle."
+    },
+    {
+     "word": "tent",
+     "pic": "tent",
+     "tr": "çadır",
+     "level": "B1",
+     "cg": "tent",
+     "q": "What place is it?",
+     "find": "Where's the tent?",
+     "say": "It's a tent."
+    },
+    {
+     "word": "factory",
+     "pic": "factory",
+     "tr": "fabrika",
+     "level": "A2",
+     "q": "What place is it?",
+     "find": "Where's the factory?",
+     "say": "It's a factory."
+    },
+    {
+     "word": "office",
+     "pic": "office-building",
+     "tr": "ofis binası",
+     "level": "A1",
+     "q": "What place is it?",
+     "find": "Where's the office?",
+     "say": "It's an office."
+    },
+    {
+     "word": "park",
+     "pic": "national-park",
+     "tr": "park",
+     "level": "A1",
+     "q": "What place is it?",
+     "find": "Where's the park?",
+     "say": "It's a park."
+    },
+    {
+     "word": "bridge",
+     "pic": "bridge-at-night",
+     "tr": "köprü",
+     "level": "A2",
+     "q": "What place is it?",
+     "find": "Where's the bridge?",
+     "say": "It's a bridge."
+    },
+    {
+     "word": "fountain",
+     "pic": "fountain",
+     "tr": "çeşme",
+     "level": "A1",
+     "q": "What place is it?",
+     "find": "Where's the fountain?",
+     "say": "It's a fountain."
+    },
+    {
+     "word": "tower",
+     "pic": "tokyo-tower",
+     "tr": "kule",
+     "level": "A2",
+     "q": "What place is it?",
+     "find": "Where's the tower?",
+     "say": "It's a tower."
+    },
+    {
+     "word": "museum",
+     "pic": "classical-building",
+     "tr": "müze",
+     "level": "A1",
+     "cg": "bank",
+     "q": "What place is it?",
+     "find": "Where's the museum?",
+     "say": "It's a museum."
+    },
+    {
+     "word": "beach",
+     "pic": "beach-with-umbrella",
+     "tr": "plaj",
+     "level": "A1",
+     "q": "What place is it?",
+     "find": "Where's the beach?",
+     "say": "It's a beach."
+    },
+    {
+     "word": "city",
+     "pic": "cityscape",
+     "tr": "şehir",
+     "level": "A1",
+     "q": "What place is it?",
+     "find": "Where's the city?",
+     "say": "It's a city."
+    },
+    {
+     "word": "road",
+     "pic": "motorway",
+     "tr": "yol",
+     "level": "A1",
+     "q": "What place is it?",
+     "find": "Where's the road?",
+     "say": "It's a road."
+    },
+    {
+     "word": "railway",
+     "pic": "railway-track",
+     "tr": "tren yolu",
+     "level": "A2",
+     "q": "What place is it?",
+     "find": "Where's the railway?",
+     "say": "It's a railway."
+    },
+    {
+     "word": "funfair",
+     "pic": "ferris-wheel",
+     "tr": "lunapark",
+     "level": "A1",
+     "q": "What place is it?",
+     "find": "Where's the funfair?",
+     "say": "It's a funfair."
+    },
+    {
+     "word": "circus",
+     "pic": "circus-tent",
+     "tr": "sirk",
+     "level": "A1",
+     "cg": "tent",
+     "q": "What place is it?",
+     "find": "Where's the circus?",
+     "say": "It's a circus."
+    }
+   ]
+  },
+  {
+   "id": "colours-shapes",
+   "tr": "Renkler ve Şekiller",
+   "en": "Colours & Shapes",
+   "words": [
+    {
+     "word": "red",
+     "pic": "red-circle",
+     "tr": "kırmızı",
+     "level": "A1",
+     "cat": "colour",
+     "q": "What colour is it?",
+     "find": "Find red!",
+     "say": "It's red."
+    },
+    {
+     "word": "orange",
+     "pic": "orange-circle",
+     "tr": "turuncu",
+     "level": "A1",
+     "cat": "colour",
+     "q": "What colour is it?",
+     "find": "Find orange!",
+     "say": "It's orange."
+    },
+    {
+     "word": "yellow",
+     "pic": "yellow-circle",
+     "tr": "sarı",
+     "level": "A1",
+     "cat": "colour",
+     "q": "What colour is it?",
+     "find": "Find yellow!",
+     "say": "It's yellow."
+    },
+    {
+     "word": "green",
+     "pic": "green-circle",
+     "tr": "yeşil",
+     "level": "A1",
+     "cat": "colour",
+     "q": "What colour is it?",
+     "find": "Find green!",
+     "say": "It's green."
+    },
+    {
+     "word": "blue",
+     "pic": "blue-circle",
+     "tr": "mavi",
+     "level": "A1",
+     "cat": "colour",
+     "q": "What colour is it?",
+     "find": "Find blue!",
+     "say": "It's blue."
+    },
+    {
+     "word": "purple",
+     "pic": "purple-circle",
+     "tr": "mor",
+     "level": "A1",
+     "cat": "colour",
+     "q": "What colour is it?",
+     "find": "Find purple!",
+     "say": "It's purple."
+    },
+    {
+     "word": "brown",
+     "pic": "brown-circle",
+     "tr": "kahverengi",
+     "level": "A1",
+     "cat": "colour",
+     "q": "What colour is it?",
+     "find": "Find brown!",
+     "say": "It's brown."
+    },
+    {
+     "word": "black",
+     "pic": "black-circle",
+     "tr": "siyah",
+     "level": "A1",
+     "cat": "colour",
+     "q": "What colour is it?",
+     "find": "Find black!",
+     "say": "It's black."
+    },
+    {
+     "word": "white",
+     "pic": "white-circle",
+     "tr": "beyaz",
+     "level": "A1",
+     "cat": "colour",
+     "q": "What colour is it?",
+     "find": "Find white!",
+     "say": "It's white."
+    },
+    {
+     "word": "pink",
+     "pic": "pink-heart",
+     "tr": "pembe",
+     "level": "A1",
+     "cat": "colour",
+     "q": "What colour is it?",
+     "find": "Find pink!",
+     "say": "It's pink."
+    },
+    {
+     "word": "square",
+     "pic": "blue-square",
+     "tr": "kare",
+     "level": "A2",
+     "cat": "shape",
+     "q": "What shape is it?",
+     "find": "Find the square!",
+     "say": "It's a square."
+    },
+    {
+     "word": "triangle",
+     "pic": "red-triangle-pointed-up",
+     "tr": "üçgen",
+     "level": "A1",
+     "cat": "shape",
+     "q": "What shape is it?",
+     "find": "Find the triangle!",
+     "say": "It's a triangle."
+    },
+    {
+     "word": "star",
+     "pic": "star",
+     "tr": "yıldız",
+     "level": "A2",
+     "cat": "shape",
+     "q": "What shape is it?",
+     "find": "Find the star!",
+     "say": "It's a star."
+    },
+    {
+     "word": "heart",
+     "pic": "red-heart",
+     "tr": "kalp",
+     "level": "A2",
+     "cat": "shape",
+     "q": "What shape is it?",
+     "find": "Find the heart!",
+     "say": "It's a heart."
+    },
+    {
+     "word": "diamond",
+     "pic": "large-orange-diamond",
+     "tr": "baklava dilimi",
+     "level": "B1",
+     "cat": "shape",
+     "q": "What shape is it?",
+     "find": "Find the diamond!",
+     "say": "It's a diamond."
+    }
+   ]
+  },
+  {
+   "id": "toys-party",
+   "tr": "Oyuncak ve Parti",
+   "en": "Toys & Party",
+   "words": [
+    {
+     "word": "teddy bear",
+     "pic": "teddy-bear",
+     "tr": "oyuncak ayı",
+     "level": "A1",
+     "q": "What is it?",
+     "find": "Where's the teddy bear?",
+     "say": "It's a teddy bear."
+    },
+    {
+     "word": "ball",
+     "pic": "soccer-ball",
+     "tr": "top",
+     "level": "A1",
+     "q": "What is it?",
+     "find": "Where's the ball?",
+     "say": "It's a ball."
+    },
+    {
+     "word": "doll",
+     "pic": "nesting-dolls",
+     "tr": "oyuncak bebek",
+     "level": "A1",
+     "q": "What is it?",
+     "find": "Where's the doll?",
+     "say": "It's a doll."
+    },
+    {
+     "word": "kite",
+     "pic": "kite",
+     "tr": "uçurtma",
+     "level": "A1",
+     "q": "What is it?",
+     "find": "Where's the kite?",
+     "say": "It's a kite."
+    },
+    {
+     "word": "balloon",
+     "pic": "balloon",
+     "tr": "balon",
+     "level": "B2",
+     "q": "What is it?",
+     "find": "Where's the balloon?",
+     "say": "It's a balloon."
+    },
+    {
+     "word": "present",
+     "pic": "wrapped-gift",
+     "tr": "hediye",
+     "level": "A2",
+     "q": "What is it?",
+     "find": "Where's the present?",
+     "say": "It's a present."
+    },
+    {
+     "word": "birthday cake",
+     "pic": "birthday-cake",
+     "tr": "doğum günü pastası",
+     "level": "A1",
+     "q": "What is it?",
+     "find": "Where's the birthday cake?",
+     "say": "It's a birthday cake."
+    },
+    {
+     "word": "party popper",
+     "pic": "party-popper",
+     "tr": "konfeti patlatıcı",
+     "level": "A1",
+     "q": "What is it?",
+     "find": "Where's the party popper?",
+     "say": "It's a party popper."
+    },
+    {
+     "word": "puzzle",
+     "pic": "puzzle-piece",
+     "tr": "yapboz",
+     "level": "B2",
+     "q": "What is it?",
+     "find": "Where's the puzzle?",
+     "say": "It's a puzzle."
+    },
+    {
+     "word": "yo-yo",
+     "pic": "yo-yo",
+     "tr": "yoyo",
+     "level": "A1",
+     "q": "What is it?",
+     "find": "Where's the yo-yo?",
+     "say": "It's a yo-yo."
+    },
+    {
+     "word": "robot",
+     "pic": "robot",
+     "tr": "robot",
+     "level": "B1",
+     "q": "What is it?",
+     "find": "Where's the robot?",
+     "say": "It's a robot."
+    },
+    {
+     "word": "drum",
+     "pic": "drum",
+     "tr": "davul",
+     "level": "B1",
+     "q": "What is it?",
+     "find": "Where's the drum?",
+     "say": "It's a drum."
+    },
+    {
+     "word": "magic wand",
+     "pic": "magic-wand",
+     "tr": "sihirli değnek",
+     "level": "A1",
+     "q": "What is it?",
+     "find": "Where's the magic wand?",
+     "say": "It's a magic wand."
+    },
+    {
+     "word": "fireworks",
+     "pic": "fireworks",
+     "tr": "havai fişek",
+     "level": "A1",
+     "q": "What are they?",
+     "find": "Where are the fireworks?",
+     "say": "They're fireworks."
+    },
+    {
+     "word": "candle",
+     "pic": "candle",
+     "tr": "mum",
+     "level": "B2",
+     "q": "What is it?",
+     "find": "Where's the candle?",
+     "say": "It's a candle."
+    },
+    {
+     "word": "crown",
+     "pic": "crown",
+     "tr": "taç",
+     "level": "C1",
+     "q": "What is it?",
+     "find": "Where's the crown?",
+     "say": "It's a crown."
+    },
+    {
+     "word": "playing card",
+     "pic": "joker",
+     "tr": "oyun kartı",
+     "level": "A1",
+     "q": "What is it?",
+     "find": "Where's the playing card?",
+     "say": "It's a playing card."
+    }
+   ]
+  }
+ ],
+ "pictures": {
+  "cat": {
+   "name": "cat",
+   "group": "Animals & Nature"
+  },
+  "dog": {
+   "name": "dog",
+   "group": "Animals & Nature"
+  },
+  "horse": {
+   "name": "horse",
+   "group": "Animals & Nature"
+  },
+  "cow": {
+   "name": "cow",
+   "group": "Animals & Nature"
+  },
+  "pig": {
+   "name": "pig",
+   "group": "Animals & Nature"
+  },
+  "ewe": {
+   "name": "ewe",
+   "group": "Animals & Nature"
+  },
+  "goat": {
+   "name": "goat",
+   "group": "Animals & Nature"
+  },
+  "chicken": {
+   "name": "chicken",
+   "group": "Animals & Nature"
+  },
+  "duck": {
+   "name": "duck",
+   "group": "Animals & Nature"
+  },
+  "rabbit": {
+   "name": "rabbit",
+   "group": "Animals & Nature"
+  },
+  "mouse": {
+   "name": "mouse",
+   "group": "Animals & Nature"
+  },
+  "lion": {
+   "name": "lion",
+   "group": "Animals & Nature"
+  },
+  "tiger": {
+   "name": "tiger",
+   "group": "Animals & Nature"
+  },
+  "elephant": {
+   "name": "elephant",
+   "group": "Animals & Nature"
+  },
+  "monkey": {
+   "name": "monkey",
+   "group": "Animals & Nature"
+  },
+  "bear": {
+   "name": "bear",
+   "group": "Animals & Nature"
+  },
+  "panda": {
+   "name": "panda",
+   "group": "Animals & Nature"
+  },
+  "giraffe": {
+   "name": "giraffe",
+   "group": "Animals & Nature"
+  },
+  "zebra": {
+   "name": "zebra",
+   "group": "Animals & Nature"
+  },
+  "camel": {
+   "name": "camel",
+   "group": "Animals & Nature"
+  },
+  "frog": {
+   "name": "frog",
+   "group": "Animals & Nature"
+  },
+  "snake": {
+   "name": "snake",
+   "group": "Animals & Nature"
+  },
+  "turtle": {
+   "name": "turtle",
+   "group": "Animals & Nature"
+  },
+  "fish": {
+   "name": "fish",
+   "group": "Animals & Nature"
+  },
+  "shark": {
+   "name": "shark",
+   "group": "Animals & Nature"
+  },
+  "whale": {
+   "name": "whale",
+   "group": "Animals & Nature"
+  },
+  "dolphin": {
+   "name": "dolphin",
+   "group": "Animals & Nature"
+  },
+  "octopus": {
+   "name": "octopus",
+   "group": "Animals & Nature"
+  },
+  "bird": {
+   "name": "bird",
+   "group": "Animals & Nature"
+  },
+  "owl": {
+   "name": "owl",
+   "group": "Animals & Nature"
+  },
+  "penguin": {
+   "name": "penguin",
+   "group": "Animals & Nature"
+  },
+  "parrot": {
+   "name": "parrot",
+   "group": "Animals & Nature"
+  },
+  "honeybee": {
+   "name": "honeybee",
+   "group": "Animals & Nature"
+  },
+  "butterfly": {
+   "name": "butterfly",
+   "group": "Animals & Nature"
+  },
+  "spider": {
+   "name": "spider",
+   "group": "Animals & Nature"
+  },
+  "snail": {
+   "name": "snail",
+   "group": "Animals & Nature"
+  },
+  "crocodile": {
+   "name": "crocodile",
+   "group": "Animals & Nature"
+  },
+  "kangaroo": {
+   "name": "kangaroo",
+   "group": "Animals & Nature"
+  },
+  "hippopotamus": {
+   "name": "hippopotamus",
+   "group": "Animals & Nature"
+  },
+  "fox": {
+   "name": "fox",
+   "group": "Animals & Nature"
+  },
+  "wolf": {
+   "name": "wolf",
+   "group": "Animals & Nature"
+  },
+  "deer": {
+   "name": "deer",
+   "group": "Animals & Nature"
+  },
+  "chipmunk": {
+   "name": "chipmunk",
+   "group": "Animals & Nature"
+  },
+  "hedgehog": {
+   "name": "hedgehog",
+   "group": "Animals & Nature"
+  },
+  "bat": {
+   "name": "bat",
+   "group": "Animals & Nature"
+  },
+  "crab": {
+   "name": "crab",
+   "group": "Food & Drink"
+  },
+  "ant": {
+   "name": "ant",
+   "group": "Animals & Nature"
+  },
+  "lady-beetle": {
+   "name": "lady beetle",
+   "group": "Animals & Nature"
+  },
+  "sauropod": {
+   "name": "sauropod",
+   "group": "Animals & Nature"
+  },
+  "unicorn": {
+   "name": "unicorn",
+   "group": "Animals & Nature"
+  },
+  "red-apple": {
+   "name": "red apple",
+   "group": "Food & Drink"
+  },
+  "banana": {
+   "name": "banana",
+   "group": "Food & Drink"
+  },
+  "tangerine": {
+   "name": "tangerine",
+   "group": "Food & Drink"
+  },
+  "lemon": {
+   "name": "lemon",
+   "group": "Food & Drink"
+  },
+  "grapes": {
+   "name": "grapes",
+   "group": "Food & Drink"
+  },
+  "strawberry": {
+   "name": "strawberry",
+   "group": "Food & Drink"
+  },
+  "cherries": {
+   "name": "cherries",
+   "group": "Food & Drink"
+  },
+  "watermelon": {
+   "name": "watermelon",
+   "group": "Food & Drink"
+  },
+  "pear": {
+   "name": "pear",
+   "group": "Food & Drink"
+  },
+  "peach": {
+   "name": "peach",
+   "group": "Food & Drink"
+  },
+  "pineapple": {
+   "name": "pineapple",
+   "group": "Food & Drink"
+  },
+  "mango": {
+   "name": "mango",
+   "group": "Food & Drink"
+  },
+  "coconut": {
+   "name": "coconut",
+   "group": "Food & Drink"
+  },
+  "kiwi-fruit": {
+   "name": "kiwi fruit",
+   "group": "Food & Drink"
+  },
+  "melon": {
+   "name": "melon",
+   "group": "Food & Drink"
+  },
+  "tomato": {
+   "name": "tomato",
+   "group": "Food & Drink"
+  },
+  "carrot": {
+   "name": "carrot",
+   "group": "Food & Drink"
+  },
+  "potato": {
+   "name": "potato",
+   "group": "Food & Drink"
+  },
+  "ear-of-corn": {
+   "name": "ear of corn",
+   "group": "Food & Drink"
+  },
+  "broccoli": {
+   "name": "broccoli",
+   "group": "Food & Drink"
+  },
+  "onion": {
+   "name": "onion",
+   "group": "Food & Drink"
+  },
+  "garlic": {
+   "name": "garlic",
+   "group": "Food & Drink"
+  },
+  "mushroom": {
+   "name": "mushroom",
+   "group": "Food & Drink"
+  },
+  "cucumber": {
+   "name": "cucumber",
+   "group": "Food & Drink"
+  },
+  "bell-pepper": {
+   "name": "bell pepper",
+   "group": "Food & Drink"
+  },
+  "avocado": {
+   "name": "avocado",
+   "group": "Food & Drink"
+  },
+  "eggplant": {
+   "name": "eggplant",
+   "group": "Food & Drink"
+  },
+  "olive": {
+   "name": "olive",
+   "group": "Food & Drink"
+  },
+  "leafy-green": {
+   "name": "leafy green",
+   "group": "Food & Drink"
+  },
+  "peanuts": {
+   "name": "peanuts",
+   "group": "Food & Drink"
+  },
+  "bread": {
+   "name": "bread",
+   "group": "Food & Drink"
+  },
+  "cheese-wedge": {
+   "name": "cheese wedge",
+   "group": "Food & Drink"
+  },
+  "egg": {
+   "name": "egg",
+   "group": "Food & Drink"
+  },
+  "glass-of-milk": {
+   "name": "glass of milk",
+   "group": "Food & Drink"
+  },
+  "butter": {
+   "name": "butter",
+   "group": "Food & Drink"
+  },
+  "honey-pot": {
+   "name": "honey pot",
+   "group": "Food & Drink"
+  },
+  "pizza": {
+   "name": "pizza",
+   "group": "Food & Drink"
+  },
+  "hamburger": {
+   "name": "hamburger",
+   "group": "Food & Drink"
+  },
+  "sandwich": {
+   "name": "sandwich",
+   "group": "Food & Drink"
+  },
+  "hot-dog": {
+   "name": "hot dog",
+   "group": "Food & Drink"
+  },
+  "pot-of-food": {
+   "name": "pot of food",
+   "group": "Food & Drink"
+  },
+  "green-salad": {
+   "name": "green salad",
+   "group": "Food & Drink"
+  },
+  "cooked-rice": {
+   "name": "cooked rice",
+   "group": "Food & Drink"
+  },
+  "spaghetti": {
+   "name": "spaghetti",
+   "group": "Food & Drink"
+  },
+  "shortcake": {
+   "name": "shortcake",
+   "group": "Food & Drink"
+  },
+  "cookie": {
+   "name": "cookie",
+   "group": "Food & Drink"
+  },
+  "chocolate-bar": {
+   "name": "chocolate bar",
+   "group": "Food & Drink"
+  },
+  "ice-cream": {
+   "name": "ice cream",
+   "group": "Food & Drink"
+  },
+  "doughnut": {
+   "name": "doughnut",
+   "group": "Food & Drink"
+  },
+  "candy": {
+   "name": "candy",
+   "group": "Food & Drink"
+  },
+  "popcorn": {
+   "name": "popcorn",
+   "group": "Food & Drink"
+  },
+  "french-fries": {
+   "name": "french fries",
+   "group": "Food & Drink"
+  },
+  "droplet": {
+   "name": "droplet",
+   "group": "Travel & Places"
+  },
+  "teacup-without-handle": {
+   "name": "teacup without handle",
+   "group": "Food & Drink"
+  },
+  "hot-beverage": {
+   "name": "hot beverage",
+   "group": "Food & Drink"
+  },
+  "beverage-box": {
+   "name": "beverage box",
+   "group": "Food & Drink"
+  },
+  "salt": {
+   "name": "salt",
+   "group": "Food & Drink"
+  },
+  "pancakes": {
+   "name": "pancakes",
+   "group": "Food & Drink"
+  },
+  "cut-of-meat": {
+   "name": "cut of meat",
+   "group": "Food & Drink"
+  },
+  "lollipop": {
+   "name": "lollipop",
+   "group": "Food & Drink"
+  },
+  "pie": {
+   "name": "pie",
+   "group": "Food & Drink"
+  },
+  "steaming-bowl": {
+   "name": "steaming bowl",
+   "group": "Food & Drink"
+  },
+  "t-shirt": {
+   "name": "t-shirt",
+   "group": "Objects"
+  },
+  "jeans": {
+   "name": "jeans",
+   "group": "Objects"
+  },
+  "dress": {
+   "name": "dress",
+   "group": "Objects"
+  },
+  "coat": {
+   "name": "coat",
+   "group": "Objects"
+  },
+  "scarf": {
+   "name": "scarf",
+   "group": "Objects"
+  },
+  "gloves": {
+   "name": "gloves",
+   "group": "Objects"
+  },
+  "socks": {
+   "name": "socks",
+   "group": "Objects"
+  },
+  "top-hat": {
+   "name": "top hat",
+   "group": "Objects"
+  },
+  "billed-cap": {
+   "name": "billed cap",
+   "group": "Objects"
+  },
+  "running-shoe": {
+   "name": "running shoe",
+   "group": "Objects"
+  },
+  "hiking-boot": {
+   "name": "hiking boot",
+   "group": "Objects"
+  },
+  "sunglasses": {
+   "name": "sunglasses",
+   "group": "Objects"
+  },
+  "glasses": {
+   "name": "glasses",
+   "group": "Objects"
+  },
+  "shorts": {
+   "name": "shorts",
+   "group": "Objects"
+  },
+  "handbag": {
+   "name": "handbag",
+   "group": "Objects"
+  },
+  "backpack": {
+   "name": "backpack",
+   "group": "Objects"
+  },
+  "umbrella": {
+   "name": "umbrella",
+   "group": "Travel & Places"
+  },
+  "ring": {
+   "name": "ring",
+   "group": "Objects"
+  },
+  "crown": {
+   "name": "crown",
+   "group": "Objects"
+  },
+  "one-piece-swimsuit": {
+   "name": "one-piece swimsuit",
+   "group": "Objects"
+  },
+  "necktie": {
+   "name": "necktie",
+   "group": "Objects"
+  },
+  "womans-sandal": {
+   "name": "woman’s sandal",
+   "group": "Objects"
+  },
+  "purse": {
+   "name": "purse",
+   "group": "Objects"
+  },
+  "watch": {
+   "name": "watch",
+   "group": "Travel & Places"
+  },
+  "automobile": {
+   "name": "automobile",
+   "group": "Travel & Places"
+  },
+  "bus": {
+   "name": "bus",
+   "group": "Travel & Places"
+  },
+  "taxi": {
+   "name": "taxi",
+   "group": "Travel & Places"
+  },
+  "locomotive": {
+   "name": "locomotive",
+   "group": "Travel & Places"
+  },
+  "airplane": {
+   "name": "airplane",
+   "group": "Travel & Places"
+  },
+  "ship": {
+   "name": "ship",
+   "group": "Travel & Places"
+  },
+  "sailboat": {
+   "name": "sailboat",
+   "group": "Travel & Places"
+  },
+  "bicycle": {
+   "name": "bicycle",
+   "group": "Travel & Places"
+  },
+  "motorcycle": {
+   "name": "motorcycle",
+   "group": "Travel & Places"
+  },
+  "helicopter": {
+   "name": "helicopter",
+   "group": "Travel & Places"
+  },
+  "rocket": {
+   "name": "rocket",
+   "group": "Travel & Places"
+  },
+  "delivery-truck": {
+   "name": "delivery truck",
+   "group": "Travel & Places"
+  },
+  "tractor": {
+   "name": "tractor",
+   "group": "Travel & Places"
+  },
+  "ambulance": {
+   "name": "ambulance",
+   "group": "Travel & Places"
+  },
+  "police-car": {
+   "name": "police car",
+   "group": "Travel & Places"
+  },
+  "fire-engine": {
+   "name": "fire engine",
+   "group": "Travel & Places"
+  },
+  "kick-scooter": {
+   "name": "kick scooter",
+   "group": "Travel & Places"
+  },
+  "metro": {
+   "name": "metro",
+   "group": "Travel & Places"
+  },
+  "tram": {
+   "name": "tram",
+   "group": "Travel & Places"
+  },
+  "canoe": {
+   "name": "canoe",
+   "group": "Travel & Places"
+  },
+  "skateboard": {
+   "name": "skateboard",
+   "group": "Travel & Places"
+  },
+  "parachute": {
+   "name": "parachute",
+   "group": "Travel & Places"
+  },
+  "vertical-traffic-light": {
+   "name": "vertical traffic light",
+   "group": "Travel & Places"
+  },
+  "closed-book": {
+   "name": "closed book",
+   "group": "Objects"
+  },
+  "pencil": {
+   "name": "pencil",
+   "group": "Objects"
+  },
+  "pen": {
+   "name": "pen",
+   "group": "Objects"
+  },
+  "straight-ruler": {
+   "name": "straight ruler",
+   "group": "Objects"
+  },
+  "scissors": {
+   "name": "scissors",
+   "group": "Objects"
+  },
+  "notebook": {
+   "name": "notebook",
+   "group": "Objects"
+  },
+  "laptop": {
+   "name": "laptop",
+   "group": "Objects"
+  },
+  "abacus": {
+   "name": "abacus",
+   "group": "Objects"
+  },
+  "alarm-clock": {
+   "name": "alarm clock",
+   "group": "Travel & Places"
+  },
+  "crayon": {
+   "name": "crayon",
+   "group": "Objects"
+  },
+  "paintbrush": {
+   "name": "paintbrush",
+   "group": "Objects"
+  },
+  "artist-palette": {
+   "name": "artist palette",
+   "group": "Activities"
+  },
+  "school": {
+   "name": "school",
+   "group": "Travel & Places"
+  },
+  "bell": {
+   "name": "bell",
+   "group": "Objects"
+  },
+  "teacher": {
+   "name": "teacher",
+   "group": "People & Body"
+  },
+  "student": {
+   "name": "student",
+   "group": "People & Body"
+  },
+  "globe-showing-europe-africa": {
+   "name": "globe showing Europe-Africa",
+   "group": "Travel & Places"
+  },
+  "world-map": {
+   "name": "world map",
+   "group": "Travel & Places"
+  },
+  "magnet": {
+   "name": "magnet",
+   "group": "Objects"
+  },
+  "microscope": {
+   "name": "microscope",
+   "group": "Objects"
+  },
+  "test-tube": {
+   "name": "test tube",
+   "group": "Objects"
+  },
+  "paperclip": {
+   "name": "paperclip",
+   "group": "Objects"
+  },
+  "envelope": {
+   "name": "envelope",
+   "group": "Objects"
+  },
+  "house": {
+   "name": "house",
+   "group": "Travel & Places"
+  },
+  "bed": {
+   "name": "bed",
+   "group": "Objects"
+  },
+  "chair": {
+   "name": "chair",
+   "group": "Objects"
+  },
+  "couch-and-lamp": {
+   "name": "couch and lamp",
+   "group": "Objects"
+  },
+  "door": {
+   "name": "door",
+   "group": "Objects"
+  },
+  "window": {
+   "name": "window",
+   "group": "Objects"
+  },
+  "light-bulb": {
+   "name": "light bulb",
+   "group": "Objects"
+  },
+  "bathtub": {
+   "name": "bathtub",
+   "group": "Objects"
+  },
+  "shower": {
+   "name": "shower",
+   "group": "Objects"
+  },
+  "toilet": {
+   "name": "toilet",
+   "group": "Objects"
+  },
+  "key": {
+   "name": "key",
+   "group": "Objects"
+  },
+  "mobile-phone": {
+   "name": "mobile phone",
+   "group": "Objects"
+  },
+  "television": {
+   "name": "television",
+   "group": "Objects"
+  },
+  "mirror": {
+   "name": "mirror",
+   "group": "Objects"
+  },
+  "fork-and-knife-with-plate": {
+   "name": "fork and knife with plate",
+   "group": "Food & Drink"
+  },
+  "spoon": {
+   "name": "spoon",
+   "group": "Food & Drink"
+  },
+  "cup-with-straw": {
+   "name": "cup with straw",
+   "group": "Food & Drink"
+  },
+  "soap": {
+   "name": "soap",
+   "group": "Objects"
+  },
+  "toothbrush": {
+   "name": "toothbrush",
+   "group": "Objects"
+  },
+  "bucket": {
+   "name": "bucket",
+   "group": "Objects"
+  },
+  "basket": {
+   "name": "basket",
+   "group": "Objects"
+  },
+  "candle": {
+   "name": "candle",
+   "group": "Objects"
+  },
+  "broom": {
+   "name": "broom",
+   "group": "Objects"
+  },
+  "sponge": {
+   "name": "sponge",
+   "group": "Objects"
+  },
+  "radio": {
+   "name": "radio",
+   "group": "Objects"
+  },
+  "camera": {
+   "name": "camera",
+   "group": "Objects"
+  },
+  "teapot": {
+   "name": "teapot",
+   "group": "Food & Drink"
+  },
+  "package": {
+   "name": "package",
+   "group": "Objects"
+  },
+  "sun": {
+   "name": "sun",
+   "group": "Travel & Places"
+  },
+  "crescent-moon": {
+   "name": "crescent moon",
+   "group": "Travel & Places"
+  },
+  "star": {
+   "name": "star",
+   "group": "Travel & Places"
+  },
+  "cloud": {
+   "name": "cloud",
+   "group": "Travel & Places"
+  },
+  "cloud-with-rain": {
+   "name": "cloud with rain",
+   "group": "Travel & Places"
+  },
+  "snowflake": {
+   "name": "snowflake",
+   "group": "Travel & Places"
+  },
+  "wind-face": {
+   "name": "wind face",
+   "group": "Travel & Places"
+  },
+  "rainbow": {
+   "name": "rainbow",
+   "group": "Travel & Places"
+  },
+  "deciduous-tree": {
+   "name": "deciduous tree",
+   "group": "Animals & Nature"
+  },
+  "tulip": {
+   "name": "tulip",
+   "group": "Animals & Nature"
+  },
+  "rose": {
+   "name": "rose",
+   "group": "Animals & Nature"
+  },
+  "sunflower": {
+   "name": "sunflower",
+   "group": "Animals & Nature"
+  },
+  "leaf-fluttering-in-wind": {
+   "name": "leaf fluttering in wind",
+   "group": "Animals & Nature"
+  },
+  "mountain": {
+   "name": "mountain",
+   "group": "Travel & Places"
+  },
+  "water-wave": {
+   "name": "water wave",
+   "group": "Travel & Places"
+  },
+  "volcano": {
+   "name": "volcano",
+   "group": "Travel & Places"
+  },
+  "fire": {
+   "name": "fire",
+   "group": "Travel & Places"
+  },
+  "high-voltage": {
+   "name": "high voltage",
+   "group": "Travel & Places"
+  },
+  "snowman": {
+   "name": "snowman",
+   "group": "Travel & Places"
+  },
+  "desert": {
+   "name": "desert",
+   "group": "Travel & Places"
+  },
+  "desert-island": {
+   "name": "desert island",
+   "group": "Travel & Places"
+  },
+  "beach-with-umbrella": {
+   "name": "beach with umbrella",
+   "group": "Travel & Places"
+  },
+  "cactus": {
+   "name": "cactus",
+   "group": "Animals & Nature"
+  },
+  "potted-plant": {
+   "name": "potted plant",
+   "group": "Animals & Nature"
+  },
+  "fog": {
+   "name": "fog",
+   "group": "Travel & Places"
+  },
+  "soccer-ball": {
+   "name": "soccer ball",
+   "group": "Activities"
+  },
+  "basketball": {
+   "name": "basketball",
+   "group": "Activities"
+  },
+  "tennis": {
+   "name": "tennis",
+   "group": "Activities"
+  },
+  "volleyball": {
+   "name": "volleyball",
+   "group": "Activities"
+  },
+  "baseball": {
+   "name": "baseball",
+   "group": "Activities"
+  },
+  "person-swimming": {
+   "name": "person swimming",
+   "group": "People & Body"
+  },
+  "person-running": {
+   "name": "person running",
+   "group": "People & Body"
+  },
+  "person-biking": {
+   "name": "person biking",
+   "group": "People & Body"
+  },
+  "skier": {
+   "name": "skier",
+   "group": "People & Body"
+  },
+  "woman-dancing": {
+   "name": "woman dancing",
+   "group": "People & Body"
+  },
+  "books": {
+   "name": "books",
+   "group": "Objects"
+  },
+  "chess-pawn": {
+   "name": "chess pawn",
+   "group": "Activities"
+  },
+  "fishing-pole": {
+   "name": "fishing pole",
+   "group": "Activities"
+  },
+  "camping": {
+   "name": "camping",
+   "group": "Travel & Places"
+  },
+  "bowling": {
+   "name": "bowling",
+   "group": "Activities"
+  },
+  "ping-pong": {
+   "name": "ping pong",
+   "group": "Activities"
+  },
+  "person-surfing": {
+   "name": "person surfing",
+   "group": "People & Body"
+  },
+  "person-climbing": {
+   "name": "person climbing",
+   "group": "People & Body"
+  },
+  "person-in-lotus-position": {
+   "name": "person in lotus position",
+   "group": "People & Body"
+  },
+  "video-game": {
+   "name": "video game",
+   "group": "Activities"
+  },
+  "musical-notes": {
+   "name": "musical notes",
+   "group": "Objects"
+  },
+  "sports-medal": {
+   "name": "sports medal",
+   "group": "Activities"
+  },
+  "trophy": {
+   "name": "trophy",
+   "group": "Activities"
+  },
+  "guitar": {
+   "name": "guitar",
+   "group": "Objects"
+  },
+  "musical-keyboard": {
+   "name": "musical keyboard",
+   "group": "Objects"
+  },
+  "drum": {
+   "name": "drum",
+   "group": "Objects"
+  },
+  "violin": {
+   "name": "violin",
+   "group": "Objects"
+  },
+  "trumpet": {
+   "name": "trumpet",
+   "group": "Objects"
+  },
+  "saxophone": {
+   "name": "saxophone",
+   "group": "Objects"
+  },
+  "microphone": {
+   "name": "microphone",
+   "group": "Objects"
+  },
+  "headphone": {
+   "name": "headphone",
+   "group": "Objects"
+  },
+  "accordion": {
+   "name": "accordion",
+   "group": "Objects"
+  },
+  "banjo": {
+   "name": "banjo",
+   "group": "Objects"
+  },
+  "flute": {
+   "name": "flute",
+   "group": "Objects"
+  },
+  "maracas": {
+   "name": "maracas",
+   "group": "Objects"
+  },
+  "long-drum": {
+   "name": "long drum",
+   "group": "Objects"
+  },
+  "eye": {
+   "name": "eye",
+   "group": "People & Body"
+  },
+  "ear": {
+   "name": "ear",
+   "group": "People & Body"
+  },
+  "nose": {
+   "name": "nose",
+   "group": "People & Body"
+  },
+  "mouth": {
+   "name": "mouth",
+   "group": "People & Body"
+  },
+  "tooth": {
+   "name": "tooth",
+   "group": "People & Body"
+  },
+  "tongue": {
+   "name": "tongue",
+   "group": "People & Body"
+  },
+  "raised-hand": {
+   "name": "raised hand",
+   "group": "People & Body"
+  },
+  "foot": {
+   "name": "foot",
+   "group": "People & Body"
+  },
+  "leg": {
+   "name": "leg",
+   "group": "People & Body"
+  },
+  "flexed-biceps": {
+   "name": "flexed biceps",
+   "group": "People & Body"
+  },
+  "brain": {
+   "name": "brain",
+   "group": "People & Body"
+  },
+  "bone": {
+   "name": "bone",
+   "group": "People & Body"
+  },
+  "anatomical-heart": {
+   "name": "anatomical heart",
+   "group": "People & Body"
+  },
+  "lungs": {
+   "name": "lungs",
+   "group": "People & Body"
+  },
+  "backhand-index-pointing-up": {
+   "name": "backhand index pointing up",
+   "group": "People & Body"
+  },
+  "woman-red-hair": {
+   "name": "woman: red hair",
+   "group": "People & Body"
+  },
+  "grinning-face": {
+   "name": "grinning face",
+   "group": "Smileys & Emotion"
+  },
+  "frowning-face": {
+   "name": "frowning face",
+   "group": "Smileys & Emotion"
+  },
+  "angry-face": {
+   "name": "angry face",
+   "group": "Smileys & Emotion"
+  },
+  "fearful-face": {
+   "name": "fearful face",
+   "group": "Smileys & Emotion"
+  },
+  "astonished-face": {
+   "name": "astonished face",
+   "group": "Smileys & Emotion"
+  },
+  "sleepy-face": {
+   "name": "sleepy face",
+   "group": "Smileys & Emotion"
+  },
+  "face-with-thermometer": {
+   "name": "face with thermometer",
+   "group": "Smileys & Emotion"
+  },
+  "unamused-face": {
+   "name": "unamused face",
+   "group": "Smileys & Emotion"
+  },
+  "star-struck": {
+   "name": "star-struck",
+   "group": "Smileys & Emotion"
+  },
+  "worried-face": {
+   "name": "worried face",
+   "group": "Smileys & Emotion"
+  },
+  "smiling-face-with-sunglasses": {
+   "name": "smiling face with sunglasses",
+   "group": "Smileys & Emotion"
+  },
+  "confused-face": {
+   "name": "confused face",
+   "group": "Smileys & Emotion"
+  },
+  "hot-face": {
+   "name": "hot face",
+   "group": "Smileys & Emotion"
+  },
+  "cold-face": {
+   "name": "cold face",
+   "group": "Smileys & Emotion"
+  },
+  "health-worker": {
+   "name": "health worker",
+   "group": "People & Body"
+  },
+  "cook": {
+   "name": "cook",
+   "group": "People & Body"
+  },
+  "farmer": {
+   "name": "farmer",
+   "group": "People & Body"
+  },
+  "police-officer": {
+   "name": "police officer",
+   "group": "People & Body"
+  },
+  "firefighter": {
+   "name": "firefighter",
+   "group": "People & Body"
+  },
+  "pilot": {
+   "name": "pilot",
+   "group": "People & Body"
+  },
+  "artist": {
+   "name": "artist",
+   "group": "People & Body"
+  },
+  "singer": {
+   "name": "singer",
+   "group": "People & Body"
+  },
+  "astronaut": {
+   "name": "astronaut",
+   "group": "People & Body"
+  },
+  "scientist": {
+   "name": "scientist",
+   "group": "People & Body"
+  },
+  "mechanic": {
+   "name": "mechanic",
+   "group": "People & Body"
+  },
+  "office-worker": {
+   "name": "office worker",
+   "group": "People & Body"
+  },
+  "judge": {
+   "name": "judge",
+   "group": "People & Body"
+  },
+  "construction-worker": {
+   "name": "construction worker",
+   "group": "People & Body"
+  },
+  "detective": {
+   "name": "detective",
+   "group": "People & Body"
+  },
+  "guard": {
+   "name": "guard",
+   "group": "People & Body"
+  },
+  "factory-worker": {
+   "name": "factory worker",
+   "group": "People & Body"
+  },
+  "technologist": {
+   "name": "technologist",
+   "group": "People & Body"
+  },
+  "hospital": {
+   "name": "hospital",
+   "group": "Travel & Places"
+  },
+  "hotel": {
+   "name": "hotel",
+   "group": "Travel & Places"
+  },
+  "bank": {
+   "name": "bank",
+   "group": "Travel & Places"
+  },
+  "convenience-store": {
+   "name": "convenience store",
+   "group": "Travel & Places"
+  },
+  "stadium": {
+   "name": "stadium",
+   "group": "Travel & Places"
+  },
+  "castle": {
+   "name": "castle",
+   "group": "Travel & Places"
+  },
+  "tent": {
+   "name": "tent",
+   "group": "Travel & Places"
+  },
+  "factory": {
+   "name": "factory",
+   "group": "Travel & Places"
+  },
+  "office-building": {
+   "name": "office building",
+   "group": "Travel & Places"
+  },
+  "national-park": {
+   "name": "national park",
+   "group": "Travel & Places"
+  },
+  "bridge-at-night": {
+   "name": "bridge at night",
+   "group": "Travel & Places"
+  },
+  "fountain": {
+   "name": "fountain",
+   "group": "Travel & Places"
+  },
+  "tokyo-tower": {
+   "name": "Tokyo tower",
+   "group": "Travel & Places"
+  },
+  "classical-building": {
+   "name": "classical building",
+   "group": "Travel & Places"
+  },
+  "cityscape": {
+   "name": "cityscape",
+   "group": "Travel & Places"
+  },
+  "motorway": {
+   "name": "motorway",
+   "group": "Travel & Places"
+  },
+  "railway-track": {
+   "name": "railway track",
+   "group": "Travel & Places"
+  },
+  "ferris-wheel": {
+   "name": "ferris wheel",
+   "group": "Travel & Places"
+  },
+  "circus-tent": {
+   "name": "circus tent",
+   "group": "Travel & Places"
+  },
+  "red-circle": {
+   "name": "red circle",
+   "group": "Symbols"
+  },
+  "orange-circle": {
+   "name": "orange circle",
+   "group": "Symbols"
+  },
+  "yellow-circle": {
+   "name": "yellow circle",
+   "group": "Symbols"
+  },
+  "green-circle": {
+   "name": "green circle",
+   "group": "Symbols"
+  },
+  "blue-circle": {
+   "name": "blue circle",
+   "group": "Symbols"
+  },
+  "purple-circle": {
+   "name": "purple circle",
+   "group": "Symbols"
+  },
+  "brown-circle": {
+   "name": "brown circle",
+   "group": "Symbols"
+  },
+  "black-circle": {
+   "name": "black circle",
+   "group": "Symbols"
+  },
+  "white-circle": {
+   "name": "white circle",
+   "group": "Symbols"
+  },
+  "pink-heart": {
+   "name": "pink heart",
+   "group": "Smileys & Emotion"
+  },
+  "blue-square": {
+   "name": "blue square",
+   "group": "Symbols"
+  },
+  "red-triangle-pointed-up": {
+   "name": "red triangle pointed up",
+   "group": "Symbols"
+  },
+  "red-heart": {
+   "name": "red heart",
+   "group": "Smileys & Emotion"
+  },
+  "large-orange-diamond": {
+   "name": "large orange diamond",
+   "group": "Symbols"
+  },
+  "teddy-bear": {
+   "name": "teddy bear",
+   "group": "Activities"
+  },
+  "nesting-dolls": {
+   "name": "nesting dolls",
+   "group": "Activities"
+  },
+  "kite": {
+   "name": "kite",
+   "group": "Activities"
+  },
+  "balloon": {
+   "name": "balloon",
+   "group": "Activities"
+  },
+  "wrapped-gift": {
+   "name": "wrapped gift",
+   "group": "Activities"
+  },
+  "birthday-cake": {
+   "name": "birthday cake",
+   "group": "Food & Drink"
+  },
+  "party-popper": {
+   "name": "party popper",
+   "group": "Activities"
+  },
+  "puzzle-piece": {
+   "name": "puzzle piece",
+   "group": "Activities"
+  },
+  "yo-yo": {
+   "name": "yo-yo",
+   "group": "Activities"
+  },
+  "robot": {
+   "name": "robot",
+   "group": "Smileys & Emotion"
+  },
+  "magic-wand": {
+   "name": "magic wand",
+   "group": "Activities"
+  },
+  "fireworks": {
+   "name": "fireworks",
+   "group": "Activities"
+  },
+  "joker": {
+   "name": "joker",
+   "group": "Activities"
+  }
+ }
+}

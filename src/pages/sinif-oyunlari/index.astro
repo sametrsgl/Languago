@@ -1,0 +1,80 @@
+---
+// Static hub: prerendered like /hakkimizda, served from the CDN.
+export const prerender = true;
+import Layout from '../../layouts/Layout.astro';
+import { GAMES, GAME_ICONS } from '../../classroom/catalog.mjs';
+
+const live = GAMES.filter((g) => g.status === 'live');
+const soon = GAMES.filter((g) => g.status !== 'live');
+---
+<Layout
+  canonical={`${Astro.site?.origin || 'https://www.languago.site'}/sinif-oyunlari`}
+  title="Sınıf Oyunları — İngilizce Derslerinde Projektörle Oynanan Oyunlar | Languago"
+  description="İngilizce öğretmenleri için projektör ve akıllı tahtada oynanan sınıf oyunları. Hazır konular veya kendi içeriğiniz; A1–B2 yetişkin ve 7–14 yaş grupları."
+>
+  <section class="games-hub container" aria-labelledby="hub-title">
+    <p class="eyebrow">Öğretmenler için · ücretsiz · tarayıcıda</p>
+    <h1 id="hub-title">Sınıf Oyunları</h1>
+    <p class="games-hub__lead">Projektörde veya akıllı tahtada aç, sınıfı takımlara ayır, oyna. Her oyun hazır bir konuyla ya da kendi yazdığın içerikle çalışır. Öğrencilerin telefona ihtiyacı yoktur.</p>
+    <ul class="games-hub__facts" aria-label="Özellikler">
+      <li>A1–B2 yetişkin</li><li>A1–B2 genç (7–14 yaş)</li><li>Üç görünüm: Oyun Parkı, Arena, Stüdyo</li><li>Klavye ve sunum kumandası</li><li>Yarım kalan oyun kaldığı yerden devam eder</li>
+    </ul>
+
+    <h2 class="games-hub__h2">Şimdi oynanabilir</h2>
+    <div class="games-grid">
+      {live.map((g) => (
+        <a class="game-card game-card--live" href={`/sinif-oyunlari/${g.slug}`}>
+          <span class="game-card__icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" set:html={GAME_ICONS[g.icon]} /></span>
+          <span class="game-card__body">
+            <span class="game-card__name">{g.name}</span>
+            <span class="game-card__like">{g.like}</span>
+            <span class="game-card__pitch">{g.pitch}</span>
+            <span class="game-card__chips"><span>{g.minutes} dk</span><span>{g.teams} takım</span><span>enerji: {g.energy}</span></span>
+          </span>
+          <span class="game-card__go">Oyna →</span>
+        </a>
+      ))}
+    </div>
+
+    <h2 class="games-hub__h2">Yakında</h2>
+    <div class="games-grid">
+      {soon.map((g) => (
+        <div class="game-card" aria-label={`${g.name}, yakında`}>
+          <span class="game-card__icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" set:html={GAME_ICONS[g.icon]} /></span>
+          <span class="game-card__body">
+            <span class="game-card__name">{g.name}</span>
+            <span class="game-card__like">{g.like}</span>
+            <span class="game-card__pitch">{g.pitch}</span>
+            <span class="game-card__chips"><span>{g.minutes} dk</span><span>{g.teams === 'tüm sınıf' ? 'tüm sınıf' : `${g.teams} takım`}</span><span>enerji: {g.energy}</span></span>
+          </span>
+          <span class="game-card__soon">Yakında</span>
+        </div>
+      ))}
+    </div>
+  </section>
+</Layout>
+
+<style>
+  .games-hub { padding-block: clamp(1.5rem, 4vw, 3rem) 4rem; }
+  .games-hub h1 { margin: .3rem 0 .6rem; font-size: clamp(2.2rem, 5vw, 3.4rem); letter-spacing: -.03em; color: #123b3d; }
+  .games-hub__lead { max-width: 62ch; color: #536765; line-height: 1.65; font-size: 1.08rem; margin: 0; }
+  .games-hub__facts { display: flex; flex-wrap: wrap; gap: .45rem; list-style: none; padding: 0; margin: 1.2rem 0 0; }
+  .games-hub__facts li { border: 1px solid #cfe1df; border-radius: 999px; padding: .36rem .7rem; background: #fff; color: #275654; font-size: .82rem; font-weight: 700; }
+  .games-hub__h2 { margin: 2.4rem 0 1rem; font-size: 1.35rem; color: #123b3d; }
+  .games-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 300px), 1fr)); gap: 14px; }
+  .game-card { position: relative; display: grid; grid-template-columns: auto 1fr; gap: 14px; padding: 18px; border-radius: 16px; border: 1px solid #d4e5df; background: #fff; color: inherit; text-decoration: none; min-height: 150px; }
+  .game-card--live { border: 2px solid #0b746d; background: linear-gradient(135deg, #eef7f3, #fff 60%, #fff5df); box-shadow: 0 10px 26px rgba(21, 63, 63, .08); transition: transform .15s; }
+  .game-card--live:hover { transform: translateY(-2px); }
+  .game-card--live:focus-visible { outline: 3px solid #f59e0b; outline-offset: 3px; }
+  .game-card__icon { width: 52px; height: 52px; border-radius: 14px; display: grid; place-items: center; background: #e6f2ef; color: #0b746d; }
+  .game-card--live .game-card__icon { background: #0b746d; color: #fff; }
+  .game-card__icon svg { width: 28px; height: 28px; }
+  .game-card__body { display: grid; gap: 4px; align-content: start; }
+  .game-card__name { font-weight: 850; font-size: 1.15rem; color: #123b3d; }
+  .game-card__like { font-size: .82rem; font-weight: 700; color: #a24f32; }
+  .game-card__pitch { color: #536765; font-size: .95rem; line-height: 1.5; }
+  .game-card__chips { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 6px; }
+  .game-card__chips span { font-size: .75rem; font-weight: 750; color: #275654; background: #f1f7f5; border-radius: 999px; padding: 3px 8px; }
+  .game-card__go { position: absolute; right: 16px; top: 16px; font-weight: 850; color: #0b746d; }
+  .game-card__soon { position: absolute; right: 14px; top: 14px; font-size: .72rem; font-weight: 800; color: #80530d; background: #fff0cc; border: 1px solid #f3d28b; border-radius: 999px; padding: 3px 8px; }
+</style>

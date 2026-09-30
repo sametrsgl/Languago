@@ -51,6 +51,7 @@ Set on Vercel → Settings → Environment Variables:
 | `SUPABASE_ANON_KEY` | Supabase anon/public key |
 | `LLM_BASE_URL` | OpenAI-compatible base (default `https://opencode.ai/zen/go/v1`) |
 | `LLM_MODEL` | model id (default `deepseek-v4-pro`) |
+| `LLM_MODEL_FAST` | optional faster model for classroom-game packs (`/api/classroom/pack`); falls back to `LLM_MODEL` |
 | `LLM_API_KEY` | the key for the LLM endpoint (required for Material Maker) |
 
 ## Quickstart (local)

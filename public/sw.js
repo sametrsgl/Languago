@@ -2,10 +2,12 @@
  * Languago Service Worker
  * Strategy: network-first for navigations (offline-capable landing via cache
  * fallback), cache-first for static assets, full passthrough for anything
- * authenticated/dynamic (/dashboard, /teacher, /api/*, any non-GET) so auth
- * and SSR responses are NEVER cached.
+ * authenticated/dynamic (/dashboard, /teacher, /parent, /admin, /ders/,
+ * /api/*, any non-GET) so auth and SSR responses are NEVER cached.
  */
-const VERSION = 'languago-v1';
+// v2: activate drops the v1 caches, which could hold signed-in /parent,
+// /admin and /ders pages from before they were passthrough.
+const VERSION = 'languago-v2';
 const STATIC_CACHE = `${VERSION}-static`;
 const SHELL_CACHE = `${VERSION}-shell`;
 
@@ -23,7 +25,9 @@ const PRECACHE = [
 
 // Requests that must ALWAYS go to the network and never be read from cache:
 // authenticated app routes + API + anything non-GET (mutation/auth).
-const PASSTHROUGH = ['/api/', '/dashboard', '/teacher', '/auth', '/signin', '/signup'];
+// Keep the private areas in step with PRIVATE_PATH_SEGMENTS in
+// astro.config.mjs (admin, dashboard, teacher, parent, ders).
+const PASSTHROUGH = ['/api/', '/dashboard', '/teacher', '/parent', '/admin', '/ders/', '/auth', '/signin', '/signup'];
 
 function isPassthrough(url, request) {
   if (request && request.method !== 'GET') return true;
@@ -69,9 +73,30 @@ self.addEventListener('fetch', (event) => {
   // Only handle same-origin GET requests.
   if (url.origin !== self.location.origin || request.method !== 'GET') return;
 
+  // Local development (astro dev): never serve module files from the cache.
+  if (/^(localhost|127\.0\.0\.1|\[::1\])$/.test(url.hostname)) return;
+
   // Auth / API / app routes → network only (never cache, never offline-stale).
   if (isPassthrough(url, request)) {
     event.respondWith(fetch(request));
+    return;
+  }
+
+  // Classroom game content packs (static JSON) → stale-while-revalidate, so a
+  // game opened once keeps working on a weak or offline school network.
+  if (url.pathname.startsWith('/sinif-oyunlari/paket/')) {
+    event.respondWith(
+      (async () => {
+        const cache = await caches.open(STATIC_CACHE);
+        const cached = await cache.match(request);
+        const refresh = fetch(request).then((fresh) => {
+          if (fresh && fresh.ok) cache.put(request, fresh.clone());
+          return fresh;
+        }).catch(() => null);
+        if (cached) { event.waitUntil(refresh); return cached; }
+        return (await refresh) || Response.error();
+      })()
+    );
     return;
   }
 

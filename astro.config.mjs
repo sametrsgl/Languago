@@ -5,6 +5,7 @@ import tailwindcss from '@tailwindcss/vite';
 
 // Public site URL placeholder — override at deploy time with SITE_URL.
 const SITE_URL = process.env.SITE_URL || 'https://www.languago.site';
+// Keep in step with PASSTHROUGH in public/sw.js (never cached offline).
 const PRIVATE_PATH_SEGMENTS = ['admin', 'dashboard', 'teacher', 'parent', 'ders'];
 
 // https://astro.build/config
@@ -43,11 +44,15 @@ export default defineConfig({
         `${SITE_URL}/ogren/b1-present-perfect-vs-past`,
         `${SITE_URL}/ogren/b1-restaurant-communication`,
         `${SITE_URL}/ogren/b2-inference-reading`,
+        `${SITE_URL}/sinif-oyunlari`,
+        `${SITE_URL}/sinif-oyunlari/kutu-avi`,
       ],
-      // Keep private/authenticated areas out of the sitemap.
+      // Keep private/authenticated areas out of the sitemap. The classroom
+      // games are listed once, without the trailing slash their links use
+      // (customPages above); the auto-discovered slash forms are dropped.
       filter: (page) => !PRIVATE_PATH_SEGMENTS.some((segment) =>
         new URL(page).pathname.split('/').includes(segment)
-      ),
+      ) && !/^\/sinif-oyunlari(\/kutu-avi)?\/$/.test(new URL(page).pathname),
     }),
   ],
   // Scoped Tailwind (v4) wiring — used only by the vocab flashcards page via

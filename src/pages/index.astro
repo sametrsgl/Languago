@@ -90,13 +90,17 @@ import MiniLessonPreview from '../components/home/MiniLessonPreview.astro';
         <div class="classroom-games__copy">
           <p class="eyebrow">Öğretmenler ve sınıflar için</p>
           <h2 id="classroom-games-title">Sınıf İçi Oyunlar</h2>
-          <p>Projektörde aç, sınıfı takımlara ayır ve dil bilgisi konularını birlikte tekrar et. Öğrenciler sırayla tahtadan karo seçer; sorular ve sürpriz kartlar oyuna dahil olur.</p>
-          <div class="classroom-games__meta" aria-label="Oyun bilgileri"><span>A1–C1</span><span>2–4 takım</span><span>Ücretsiz, tarayıcıda oynanır</span></div>
-          <a class="home-button home-button--primary" href="/sinif-oyunu">Sınıf İçi Karşılaşma’yı aç <span aria-hidden="true">→</span></a>
+          <p>Projektörde veya akıllı tahtada aç, sınıfı takımlara ayır ve oyna. Her soruda bütün takımlar cevabını aynı anda gösterir, seçilen öğrenci cevabı İngilizce söyler. Hazır bir konu seç ya da kendi içeriğini yaz; oyun yetişkinlere, 7–14 yaş gruplarına göre görünümünü ve kurallarını değiştirir.</p>
+          <div class="classroom-games__meta" aria-label="Oyun bilgileri"><span>A1–B2 yetişkin</span><span>7–14 yaş</span><span>2–8 takım</span><span>Telefon gerekmez</span></div>
+          <div class="classroom-games__actions">
+            <a class="home-button home-button--primary" href="/sinif-oyunlari">Sınıf oyunlarını aç <span aria-hidden="true">→</span></a>
+            <a class="home-button home-button--quiet" href="/sinif-oyunlari/kutu-avi">Kutu Avı’nı başlat</a>
+          </div>
+          <p class="classroom-games__classic">Klasik sürüm: <a href="/sinif-oyunu">Sınıf İçi Karşılaşma</a></p>
         </div>
         <div class="classroom-games__preview" aria-hidden="true">
-          <span class="classroom-games__tile">A1</span><span class="classroom-games__tile classroom-games__tile--active">?</span><span class="classroom-games__tile">B1</span>
-          <span class="classroom-games__tile">Takım 1</span><span class="classroom-games__tile classroom-games__tile--bonus">+ puan</span><span class="classroom-games__tile">Takım 2</span>
+          <span class="classroom-games__tile">1</span><span class="classroom-games__tile classroom-games__tile--active">?</span><span class="classroom-games__tile">3</span>
+          <span class="classroom-games__tile">Blue Pandas</span><span class="classroom-games__tile classroom-games__tile--bonus">+ ★</span><span class="classroom-games__tile">Team Bolt</span>
         </div>
       </div>
     </section>
@@ -250,6 +254,9 @@ import MiniLessonPreview from '../components/home/MiniLessonPreview.astro';
   .classroom-games__preview { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: .55rem; transform: rotate(2deg); }
   .classroom-games__tile { display: grid; min-height: 4rem; place-items: center; border: 1px solid #bdd7d2; border-radius: .75rem; background: #fff; color: #28605b; font-size: .9rem; font-weight: 850; box-shadow: 0 8px 20px rgba(21,63,63,.07); }
   .classroom-games__tile--active { background: #0b746d; color: #fff; font-size: 1.4rem; }
+  .classroom-games__actions { display: flex; flex-wrap: wrap; gap: .6rem; align-items: center; }
+  .classroom-games__classic { margin: .9rem 0 0; font-size: .85rem; color: #536765; }
+  .classroom-games__classic a { color: #0b746d; font-weight: 700; }
   .classroom-games__tile--bonus { background: #fff0cc; border-color: #f3d28b; color: #80530d; font-size: .8rem; }
   .coverage-card { display: block; border-top: 2px solid #0b8a7f; padding: 1.2rem 1rem 1rem 0; color: inherit; text-decoration: none; }.coverage-card:hover h3 { color: #0b746d; }.coverage-card__number { color: #8a9a96; font-size: .75rem; font-weight: 800; }.coverage-card h3 { margin: .65rem 0 .35rem; color: #163f40; font-size: 1.3rem; }.coverage-card p { margin: 0 0 1rem; color: #60716e; line-height: 1.55; }.coverage-card__link { color: #0b746d; font-size: .85rem; font-weight: 800; }
   @media (max-width: 800px) { .home-hero, .placement-card { grid-template-columns: 1fr; }.home-hero h1 { max-width: 11ch; }.audience-card { align-items: start; flex-direction: column; }.coverage-grid { grid-template-columns: 1fr; }.classroom-games__panel { grid-template-columns: 1fr; }.classroom-games__preview { max-width: 460px; } }
