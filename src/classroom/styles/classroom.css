@@ -412,5 +412,6 @@
 .cr-prevlist li { display: grid; grid-template-columns: 1fr auto; gap: 10px; align-items: start; padding: 8px 10px; border-radius: 10px; background: var(--bg); border: 1px solid var(--line); font-size: 14px; }
 .cr-prevlist li.is-off { opacity: .45; text-decoration: line-through; }
 .cr-prevlist small { color: var(--muted); }
+.cr-warns { margin: 0 0 8px; padding-left: 1.2em; display: grid; gap: 2px; }
 .cr-prevopts u { text-decoration-thickness: 2px; text-underline-offset: 3px; font-weight: 800; color: var(--accent-2); }
 .cr-tag { font-size: 11px; font-weight: 800; padding: 1px 6px; border-radius: 999px; background: var(--bg-2); color: var(--muted); }

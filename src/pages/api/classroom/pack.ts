@@ -56,7 +56,18 @@ const BUSY_RETRY_SEC = 60;
 const userSuccesses = new Map<string, number[]>();
 const userAttempts = new Map<string, number[]>();
 const ipAttempts = new Map<string, number[]>();
-const inFlight = new Map<string, number>();
+// Start times of each user's running generations. A run older than
+// RUN_STALE_MS no longer counts, so a run that never reached its `finally`
+// (a killed instance) cannot block the user until the instance recycles.
+const inFlight = new Map<string, number[]>();
+const RUN_STALE_MS = 2 * 60_000;
+
+function runningRuns(userId: string, now: number): number {
+  const runs = (inFlight.get(userId) ?? []).filter((t) => now - t < RUN_STALE_MS);
+  if (runs.length) inFlight.set(userId, runs);
+  else inFlight.delete(userId);
+  return runs.length;
+}
 
 function clientKey(request: Request): string {
   const fwd = request.headers.get('x-forwarded-for') ?? '';
@@ -112,7 +123,7 @@ function tallyWindows(hits: number[], windows: RateWindow[], pending: number, no
 // in-flight count (for the headers of its own response). The headers report
 // the tightest window.
 function userQuota(userId: string, now: number, ownRuns = 0): Quota {
-  const running = Math.max(0, (inFlight.get(userId) ?? 0) - ownRuns);
+  const running = Math.max(0, runningRuns(userId, now) - ownRuns);
   const successes = tallyWindows(recentHits(userSuccesses, userId, now), USER_SUCCESS_WINDOWS, running, now);
   const attempts = tallyWindows(recentHits(userAttempts, userId, now), USER_ATTEMPT_WINDOWS, 0, now);
   const tightest = attempts.remaining < successes.remaining ? attempts : successes;
@@ -152,9 +163,11 @@ function recordUserHit(map: Map<string, number[]>, userId: string, now: number) 
   prune(map, USER_KEEP_MS, now);
 }
 
-function releaseRun(userId: string) {
-  const left = (inFlight.get(userId) ?? 1) - 1;
-  if (left > 0) inFlight.set(userId, left);
+function releaseRun(userId: string, startedAt: number) {
+  const runs = inFlight.get(userId) ?? [];
+  const i = runs.indexOf(startedAt);
+  if (i >= 0) runs.splice(i, 1);
+  if (runs.length) inFlight.set(userId, runs);
   else inFlight.delete(userId);
 }
 
@@ -276,6 +289,7 @@ async function callChat(input: {
   model: string;
   messages: ChatMessage[];
   signal: AbortSignal;
+  temperature?: number;
 }): Promise<string> {
   const send = (jsonMode: boolean) =>
     fetch(`${input.baseUrl}/chat/completions`, {
@@ -287,7 +301,7 @@ async function callChat(input: {
       body: JSON.stringify({
         model: input.model,
         messages: input.messages,
-        temperature: 0.6,
+        temperature: input.temperature ?? 0.6,
         max_tokens: MAX_TOKENS_PER_CHUNK,
         ...(jsonMode ? { response_format: { type: 'json_object' } } : {}),
       }),
@@ -382,7 +396,7 @@ export const POST: APIRoute = async ({ request, cookies }) => {
   }
   recordIpAttempt(ip, now);
   recordUserHit(userAttempts, user.id, now);
-  inFlight.set(user.id, (inFlight.get(user.id) ?? 0) + 1);
+  inFlight.set(user.id, [...(inFlight.get(user.id) ?? []), now]);
 
   // From here on the slot is always released. Headers leave this run itself
   // out of the in-flight count.
@@ -407,7 +421,16 @@ export const POST: APIRoute = async ({ request, cookies }) => {
             if (!signal.aborted) console.warn('[classroom/pack] chunk failed:', errorText(e));
             throw e;
           }),
+        // The answer check wants the model's single best reading, not variety.
+        checkModel: (messages, { signal }) =>
+          callChat({ baseUrl, apiKey, model, messages, signal, temperature: 0 }).catch((e: unknown) => {
+            if (!signal.aborted) console.warn('[classroom/pack] check failed:', errorText(e));
+            throw e;
+          }),
       });
+      // One line per run (no user data) so slow or failing runs show up in the logs.
+      const s = result.stats;
+      console.info(`[classroom/pack] ${result.ok ? 'ok' : result.code} group=${input.group} model=${model} asked=${s.requested} received=${s.received} kept=${s.kept} checked=${s.checked} dropped=${result.dropped.length} write=${s.writeMs}ms total=${s.ms}ms`);
     } catch (e) {
       console.error('[classroom/pack] generation failed:', errorText(e));
       return json(502, { error: 'Yapay zekâ yanıtı alınamadı. Lütfen birkaç dakika sonra tekrar deneyin.' }, headers());
@@ -451,6 +474,13 @@ export const POST: APIRoute = async ({ request, cookies }) => {
         return json(502, { error: 'Yapay zekâ yanıtı alınamadı. Lütfen birkaç dakika sonra tekrar deneyin.' }, headers());
     }
   } finally {
-    releaseRun(user.id);
+    releaseRun(user.id, now);
   }
+};
+
+// The setup page asks once whether the teacher is signed in, so it can say
+// so before anyone types a topic. No model call, no rate limit.
+export const GET: APIRoute = async ({ request, cookies }) => {
+  const user = await getSessionUser(pageCookieSource({ request, cookies }));
+  return json(200, { signedIn: !!user });
 };

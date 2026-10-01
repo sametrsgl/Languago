@@ -5,9 +5,11 @@ import { readFileSync } from 'node:fs';
 import { audienceProfile } from '../src/classroom/core/groups.mjs';
 import { PACK_SCHEMA, validateItem } from '../src/classroom/core/pack.mjs';
 import {
+  buildCheckMessages,
   buildLexicon,
   buildMessages,
   generatePack,
+  parseCheck,
   normaliseItems,
   offLevelWords,
   parseModelJson,
@@ -675,4 +677,113 @@ test('a young A1 run keeps short, safe, three-option items only', async () => {
   assert.ok(!stems.includes('He ___ a gun.'));
   assert.ok(!stems.includes('My dad has a big red car.'));
   assert.ok(result.pack.items.every((it) => it.options.length === 3 && it.options[it.answer]));
+});
+
+// ---------------------------------------------------------------------------
+// Blind answer check
+// ---------------------------------------------------------------------------
+
+// A check model that reads the items it was given and answers each one with
+// `pick(item, n)`: an index, or { answer, ambiguous }.
+function checker(pick, log = []) {
+  return async (messages) => {
+    log.push(messages);
+    const list = JSON.parse(messages[1].content.split('\n')[1]);
+    return JSON.stringify({ answers: list.map((it) => {
+      const p = pick(it, it.n);
+      return typeof p === 'number' ? { n: it.n, answer: p, ambiguous: false } : { n: it.n, ...p };
+    }) });
+  };
+}
+
+test('the check never sees the key and asks for one answer per item', () => {
+  const items = goodItems(3);
+  const [system, user] = buildCheckMessages(adultA2, items);
+  assert.match(system.content, /CEFR A2/);
+  assert.match(system.content, /ambiguous/);
+  const sent = JSON.parse(user.content.split('\n')[1]);
+  assert.deepEqual(sent.map((x) => x.n), [1, 2, 3]);
+  assert.ok(sent.every((x) => !('answer' in x) && !('whyTr' in x)), 'no key or explanation in the check call');
+  assert.deepEqual(sent[0].options, items[0].options);
+});
+
+test('check replies are read by number, letter or option text; unclear entries are null', () => {
+  const items = [{ options: ['any', 'some', 'a'] }, { options: ['go', 'goes', 'went'] }, { options: ['in', 'on', 'at'] }, { options: ['x', 'y', 'z'] }];
+  const text = '```json\n{"answers": [{"n": 2, "answer": "goes"}, {"n": 1, "answer": 0, "ambiguous": true}, {"n": 3, "answer": "C"}, {"n": 4, "answer": 9}]}\n```';
+  assert.deepEqual(parseCheck(text, items), [
+    { answer: 0, ambiguous: true },
+    { answer: 1, ambiguous: false },
+    { answer: 2, ambiguous: false },
+    null,
+  ]);
+  assert.equal(parseCheck('no json here', items), null);
+});
+
+test('the check drops items with another answer or two right options, and says so', async () => {
+  const log = [];
+  const result = await generatePack({
+    prompt: 'some/any',
+    profile: adultA2,
+    count: 8,
+    callModel: async () => reply(goodItems(12)),
+    // Item 2 gets another answer, item 5 is called ambiguous, the rest agree.
+    checkModel: checker((it, n) => (n === 2 ? 1 : n === 5 ? { answer: 0, ambiguous: true } : 0), log),
+  });
+  assert.equal(result.ok, true);
+  assert.equal(log.length, 1, 'twelve items fit in one check batch');
+  assert.equal(result.pack.items.length, 8);
+  assert.ok(result.pack.items.every((it) => !it.unchecked));
+  assert.deepEqual(result.dropped.map((d) => d.reasons[0]).sort(), ['check-ambiguous', 'check-mismatch']);
+  assert.ok(result.warnings.some((w) => /2 soru cevap kontrolünde elendi/.test(w)));
+  assert.equal(result.stats.checked, 12);
+});
+
+test('items the check cannot answer in time stay, marked for the teacher', async () => {
+  const result = await generatePack({
+    prompt: 'some/any',
+    profile: adultA2,
+    count: 8,
+    checkTimeoutMs: 40,
+    deadlineMs: 5_000,
+    callModel: async () => reply(goodItems(12)),
+    checkModel: () => new Promise(() => {}), // never answers
+  });
+  assert.equal(result.ok, true);
+  assert.equal(result.pack.items.length, 8);
+  assert.ok(result.pack.items.every((it) => it.unchecked === true));
+  assert.ok(result.warnings.some((w) => /cevap kontrolüne yetişmedi/.test(w)));
+  assert.equal(result.stats.checked, 0);
+});
+
+test('when the check drops too much, the run is too-few with the reasons', async () => {
+  const result = await generatePack({
+    prompt: 'some/any',
+    profile: adultA2,
+    count: 8,
+    callModel: async () => reply(goodItems(12)),
+    checkModel: checker(() => 1),
+  });
+  assert.equal(result.ok, false);
+  assert.equal(result.code, 'too-few');
+  assert.match(result.reason, /cevap kontrolünde başka bir seçenek çıktı/);
+});
+
+test('with the check on, chunks write more and writing leaves the check its time', async () => {
+  assert.deepEqual(planChunks(24, { checked: true }).map((c) => c.ask), [11, 11, 11]);
+  assert.deepEqual(planChunks(24).map((c) => c.ask), [10, 10, 10]);
+  let checkAt = -1;
+  const t0 = Date.now();
+  const result = await generatePack({
+    prompt: 'some/any',
+    profile: adultA2,
+    count: 16,
+    deadlineMs: 400,
+    checkTimeoutMs: 250,
+    chunkTimeoutMs: 10_000,
+    callModel: (messages) => (batchOf(messages) === 0 ? Promise.resolve(reply(goodItems(11))) : new Promise(() => {})),
+    checkModel: async (messages) => { checkAt = Date.now() - t0; return checker(() => 0)(messages); },
+  });
+  assert.ok(checkAt >= 100 && checkAt < 300, `the check starts when writing stops (${checkAt} ms)`);
+  assert.equal(result.ok, true);
+  assert.equal(result.stats.checked, 11);
 });

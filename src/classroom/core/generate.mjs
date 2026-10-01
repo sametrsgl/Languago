@@ -15,11 +15,11 @@ import { makePack, validateItem, wordCount, blankProblem } from './pack.mjs';
 
 /**
  * @typedef {{ level: string, young: boolean, wordCap: number, optionCount: number, group?: string }} GenProfile
- * @typedef {{ id: string, type: 'mcq', stem: string, options: string[], answer: number, whyTr: string | null, target: string | null, level: string, stretch?: boolean }} GenItem
+ * @typedef {{ id: string, type: 'mcq', stem: string, options: string[], answer: number, whyTr: string | null, target: string | null, level: string, stretch?: boolean, unchecked?: boolean }} GenItem
  * @typedef {{ stem: string, reasons: string[], words?: string[] }} DroppedItem
  * @typedef {{ role: 'system' | 'user', content: string }} ChatMessage
  * @typedef {(messages: ChatMessage[], opts: { signal: AbortSignal }) => Promise<string>} CallModel
- * @typedef {{ requested: number, received: number, kept: number, ms: number }} GenStats
+ * @typedef {{ requested: number, received: number, kept: number, checked: number, writeMs: number, ms: number }} GenStats
  * @typedef {{ ok: true, pack: ReturnType<typeof makePack>, warnings: string[], dropped: DroppedItem[], stats: GenStats }} GenSuccess
  * @typedef {{ ok: false, code: 'refused' | 'timeout' | 'llm-failed' | 'too-few', reason: string, warnings: string[], dropped: DroppedItem[], stats: GenStats }} GenFailure
  */
@@ -30,6 +30,11 @@ export const DEFAULT_COUNT = 24;
 export const ITEMS_PER_CHUNK = 8;
 export const CHUNK_TIMEOUT_MS = 40_000; // each chunk call
 export const DEADLINE_MS = 50_000;      // whole generation (Vercel Hobby stops at 60 s)
+// The blind answer check (see checkItems) gets the last part of the deadline;
+// writing gets the rest. Batches of CHECK_BATCH items are checked in parallel.
+export const CHECK_TIMEOUT_MS = 12_000;
+export const CHECK_BATCH = 12;
+const CHECK_MIN_MS = 3_000; // less time than this left: skip the check
 export const MAX_PROMPT_CHARS = 300;
 
 const WHY_MAX = 110;
@@ -77,6 +82,8 @@ export const REASON_TR = {
   'unsafe-young': 'çocuklar için uygun olmayan kelime',
   'off-level': 'seviyenin üstünde kelimeler',
   'duplicate-stem': 'tekrarlanan soru',
+  'check-mismatch': 'cevap kontrolünde başka bir seçenek çıktı',
+  'check-ambiguous': 'birden fazla seçenek doğru olabilir',
 };
 
 // ---------------------------------------------------------------------------
@@ -473,14 +480,17 @@ export function unsafeWords(text) {
  * chunk asks for a little more than its share: validation drops some.
  * @param {number} count
  */
-export function planChunks(count) {
+// `checked`: the answer check drops some items too, so each chunk writes a
+// few more.
+export function planChunks(count, { checked = false } = {}) {
   const total = clampCount(count);
   const n = Math.min(CHUNK_FOCUS.length, Math.max(1, Math.ceil(total / ITEMS_PER_CHUNK)));
   const base = Math.floor(total / n);
   const extra = total % n;
   return Array.from({ length: n }, (_, index) => {
     const share = base + (index < extra ? 1 : 0);
-    return { index, share, ask: share + Math.min(3, Math.ceil(share / 4)) };
+    const spare = checked ? Math.min(4, Math.ceil(share / 3)) : Math.min(3, Math.ceil(share / 4));
+    return { index, share, ask: share + spare };
   });
 }
 
@@ -587,6 +597,89 @@ export function buildMessages(profile, prompt, count, chunkIndex = 0, chunkCount
     { role: 'system', content: systemPrompt(profile) },
     { role: 'user', content: user.join('\n') },
   ];
+}
+
+// ---------------------------------------------------------------------------
+// Blind answer check: a second call answers each item without seeing the key.
+// An item whose key it disagrees with, or where it finds more than one (or
+// no) acceptable option, is dropped. This catches the wrong and ambiguous
+// keys that the structural checks cannot see.
+// ---------------------------------------------------------------------------
+
+/**
+ * @param {GenProfile} profile
+ * @param {{ stem: string, options: string[] }[]} items
+ * @returns {ChatMessage[]}
+ */
+export function buildCheckMessages(profile, items) {
+  const L = profile.level.toUpperCase();
+  const system = [
+    `You check multiple-choice English items before a teacher shows them to a class of CEFR ${L} learners${profile.young ? ' aged 7-14' : ''}.`,
+    'For each item, choose the one option a careful English teacher would accept as correct. Use standard British or American English and judge each item on its own.',
+    'Set "ambiguous": true when two or more options are acceptable, when no option is acceptable, or when the item cannot be answered without more context.',
+    'JSON only, exactly this shape: {"answers": [{"n": 1, "answer": 0, "ambiguous": false}]}',
+    '"answer" is the 0-based index of the option you choose (your best choice even when ambiguous). One entry per item, in order.',
+  ].join('\n');
+  const list = items.map((it, k) => ({ n: k + 1, stem: it.stem, options: it.options }));
+  return [
+    { role: 'system', content: system },
+    { role: 'user', content: `Items:\n${JSON.stringify(list)}\nReturn the JSON object now.` },
+  ];
+}
+
+/**
+ * The check reply for one batch, one entry per item: { answer, ambiguous },
+ * or null for an item the reply does not answer clearly. Null when the reply
+ * is unusable.
+ * @param {unknown} text
+ * @param {{ options: string[] }[]} items
+ * @returns {({ answer: number, ambiguous: boolean } | null)[] | null}
+ */
+export function parseCheck(text, items) {
+  const parsed = parseModelJson(text);
+  const list = Array.isArray(parsed?.answers) ? parsed.answers : Array.isArray(parsed?.items) ? parsed.items : null;
+  if (!list) return null;
+  return items.map((it, k) => {
+    const entry = list.find((x) => x && Number(x.n) === k + 1) ?? list[k];
+    if (!entry || typeof entry !== 'object') return null;
+    const answer = coerceAnswer(entry.answer, it.options);
+    if (!Number.isInteger(answer) || answer < 0 || answer >= it.options.length) return null;
+    return { answer, ambiguous: entry.ambiguous === true };
+  });
+}
+
+/**
+ * Runs the check over `items` in parallel batches. Every batch stops at
+ * `timeoutMs` or when `signal` aborts; an unanswered item gets null.
+ * @returns {Promise<({ answer: number, ambiguous: boolean } | null)[]>}
+ */
+async function checkItems({ items, profile, checkModel, timeoutMs, signal }) {
+  const results = items.map(() => null);
+  const batches = [];
+  for (let i = 0; i < items.length; i += CHECK_BATCH) batches.push(items.slice(i, i + CHECK_BATCH));
+  const controllers = batches.map(() => new AbortController());
+  /** @type {() => void} */
+  let stopWaiting = () => {};
+  const stopped = new Promise((resolve) => { stopWaiting = () => resolve(undefined); });
+  const abortAll = () => { for (const c of controllers) c.abort(); stopWaiting(); };
+  if (signal?.aborted) abortAll();
+  else signal?.addEventListener('abort', abortAll, { once: true });
+  const timer = setTimeout(abortAll, timeoutMs);
+  const runs = batches.map((batch, b) => Promise.resolve()
+    .then(() => {
+      if (controllers[b].signal.aborted) return null;
+      return checkModel(buildCheckMessages(profile, batch), { signal: controllers[b].signal });
+    })
+    .then((text) => {
+      if (controllers[b].signal.aborted) return;
+      const answers = parseCheck(text, batch);
+      if (answers) answers.forEach((r, k) => { results[b * CHECK_BATCH + k] = r; });
+    }, () => {}));
+  await Promise.race([Promise.all(runs), stopped]);
+  clearTimeout(timer);
+  signal?.removeEventListener('abort', abortAll);
+  for (const c of controllers) c.abort();
+  return results;
 }
 
 // ---------------------------------------------------------------------------
@@ -906,6 +999,9 @@ class ChunkTimeout extends Error {
  * `signal` (optional, e.g. the HTTP request's) stops the run early: every
  * chunk call is aborted at once, so a client that disconnects stops spending.
  *
+ * `checkModel` (optional) turns on the blind answer check (checkItems): it
+ * gets the last `checkTimeoutMs` of the deadline and writing gets the rest.
+ *
  * @param {{
  *   prompt: string,
  *   profile: GenProfile,
@@ -916,6 +1012,8 @@ class ChunkTimeout extends Error {
  *   chunkTimeoutMs?: number,
  *   deadlineMs?: number,
  *   signal?: AbortSignal | null,
+ *   checkModel?: CallModel | null,
+ *   checkTimeoutMs?: number,
  * }} input
  * @returns {Promise<GenSuccess | GenFailure>}
  */
@@ -929,11 +1027,15 @@ export async function generatePack({
   chunkTimeoutMs = CHUNK_TIMEOUT_MS,
   deadlineMs = DEADLINE_MS,
   signal = null,
+  checkModel = null,
+  checkTimeoutMs = CHECK_TIMEOUT_MS,
 }) {
   const started = now();
   const topicText = cleanPrompt(prompt);
   const total = clampCount(count);
-  const plan = planChunks(total);
+  const plan = planChunks(total, { checked: !!checkModel });
+  // With the answer check, writing must leave it its share of the deadline.
+  const writeDeadlineMs = checkModel ? Math.max(1, deadlineMs - checkTimeoutMs) : deadlineMs;
   const controllers = plan.map(() => new AbortController());
   const timers = [];
   /** @type {{ status: 'pending' | 'ok' | 'timeout' | 'error', text?: unknown }[]} */
@@ -971,7 +1073,7 @@ export async function generatePack({
   });
 
   let deadlineTimer;
-  const deadline = new Promise((resolve) => { deadlineTimer = setTimeout(resolve, deadlineMs); });
+  const deadline = new Promise((resolve) => { deadlineTimer = setTimeout(resolve, writeDeadlineMs); });
   await Promise.race([Promise.allSettled(tasks), deadline, stopped]);
   clearTimeout(deadlineTimer);
   signal?.removeEventListener('abort', abortAll);
@@ -1013,29 +1115,58 @@ export async function generatePack({
     rawItems.push(...normaliseItems(parsed, profile, { idPrefix: `c${i + 1}` }));
   });
 
-  const { kept, dropped } = validateItems(rawItems, profile, lexicon);
-  const items = kept.slice(0, total);
-  const stats = { requested: total, received: rawItems.length, kept: items.length, ms: Math.max(0, now() - started) };
+  const validated = validateItems(rawItems, profile, lexicon);
+  const { dropped } = validated;
+  const writeMs = Math.max(0, now() - started);
+  let kept = validated.kept;
+  let checked = 0;
+  const stats = () => ({ requested: total, received: rawItems.length, kept: Math.min(total, kept.length), checked, writeMs, ms: Math.max(0, now() - started) });
   /**
    * @param {GenFailure['code']} code
    * @param {string} [reason]
    * @returns {GenFailure}
    */
-  const fail = (code, reason = '') => ({ ok: false, code, reason, warnings, dropped, stats });
+  const fail = (code, reason = '') => ({ ok: false, code, reason, warnings, dropped, stats: stats() });
 
   // Refusals. Young groups: one refusing chunk refuses the whole pack (the
   // model judged the topic unfit, so the other chunks' items are not trusted
   // in front of children either). Adults: refused when more than half of the
   // answering chunks refused, or when too little is left to make a pack; a
   // single stray refusal next to a good chunk only costs a warning.
-  if (refusals > 0 && (profile.young || refusals * 2 > answered || items.length < MIN_ITEMS)) {
+  if (refusals > 0 && (profile.young || refusals * 2 > answered || kept.length < MIN_ITEMS)) {
     return fail('refused', refusalReason);
   }
   if (answered === 0) return fail(timeouts === plan.length ? 'timeout' : 'llm-failed');
   if (refusals > 0) warnings.push('Yapay zekâ bir bölümü konu dışı saydı; o bölüm pakete eklenmedi.');
+
+  // The answer check. Items it cannot answer in time stay, marked `unchecked`
+  // so the preview asks the teacher to look at their keys.
+  const dropsBeforeCheck = dropped.length;
+  if (checkModel && kept.length >= MIN_ITEMS) {
+    const left = deadlineMs - (now() - started);
+    const budget = Math.min(checkTimeoutMs, left - Math.min(500, left / 10));
+    const results = budget >= Math.min(CHECK_MIN_MS, checkTimeoutMs / 2) && !signal?.aborted
+      ? await checkItems({ items: kept, profile, checkModel, timeoutMs: budget, signal })
+      : kept.map(() => null);
+    let unchecked = 0;
+    kept = kept.filter((it, k) => {
+      const r = results[k];
+      if (!r) { unchecked += 1; it.unchecked = true; return true; }
+      checked += 1;
+      if (r.ambiguous || r.answer !== it.answer) {
+        dropped.push({ stem: it.stem, reasons: [r.ambiguous ? 'check-ambiguous' : 'check-mismatch'] });
+        return false;
+      }
+      return true;
+    });
+    if (unchecked) warnings.push(`${unchecked} soru cevap kontrolüne yetişmedi; önizlemede anahtarlarına bakın.`);
+  }
+  const items = kept.slice(0, total);
   if (items.length < MIN_ITEMS) return fail('too-few', summariseReasons(dropped));
 
-  if (dropped.length) warnings.push(`${dropped.length} soru kalite kontrolünden geçemediği için çıkarıldı.`);
+  const checkDrops = dropped.length - dropsBeforeCheck;
+  if (dropsBeforeCheck) warnings.push(`${dropsBeforeCheck} soru kalite kontrolünden geçemediği için çıkarıldı.`);
+  if (checkDrops) warnings.push(`${checkDrops} soru cevap kontrolünde elendi (şüpheli anahtar ya da birden fazla doğru seçenek).`);
   const stretched = items.filter((it) => it.stretch).length;
   if (stretched) warnings.push(`${stretched} soruda seviyenin biraz üstünde kelime var (stretch olarak işaretlendi).`);
   if (items.length < total) warnings.push(`İstenen ${total} sorudan ${items.length} tanesi hazırlanabildi.`);
@@ -1057,5 +1188,5 @@ export async function generatePack({
     topic: { kind: 'ai', prompt: topicText },
     items: items.map((it, i) => ({ ...it, id: `${packId}:${i + 1}` })),
   });
-  return { ok: true, pack, warnings, dropped, stats };
+  return { ok: true, pack, warnings, dropped, stats: stats() };
 }

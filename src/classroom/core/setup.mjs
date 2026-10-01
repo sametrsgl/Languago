@@ -9,6 +9,9 @@ import { esc, $, toast, ICONS } from './dom.mjs';
 
 const SETUP_KEY = 'lg:classroom:setup';
 const PACKS_KEY = 'lg:classroom:packs';
+const AI_DRAFT_KEY = 'lg:classroom:ai-draft';
+// The server stops at about 50 s; past this the request is given up on.
+const AI_CLIENT_TIMEOUT_MS = 90_000;
 const clampSeats = (n) => Math.max(1, Math.min(8, Math.round(Number(n)) || 1));
 
 export function teamGlyph(t, modeId) {
@@ -64,7 +67,15 @@ export function createSetup(root, o) {
     setup.games['kutu-avi'] = { boardSize: saved.boardSize ?? null, surprise: Number.isInteger(saved.surprise) ? saved.surprise : null };
   }
   // saved: a pack kept in memory when this browser refused to store it.
-  const ai = { prompt: '', count: 24, busy: false, started: 0, error: '', needLogin: false, draft: null, removed: new Set(), tick: null, saved: null };
+  // auth: undefined until asked, then true/false (null when the check failed).
+  // The typed topic survives the trip to the sign-in page (sessionStorage).
+  const ai = { prompt: '', count: 24, busy: false, started: 0, error: '', detail: '', needLogin: false, draft: null, removed: new Set(), tick: null, saved: null, auth: undefined, ctrl: null, cancelled: false };
+  try {
+    const kept = JSON.parse(sessionStorage.getItem(AI_DRAFT_KEY) || 'null');
+    if (kept && typeof kept.prompt === 'string') ai.prompt = kept.prompt.slice(0, 300);
+    if (kept && [12, 16, 24, 32].includes(kept.count)) ai.count = kept.count;
+  } catch { /* storage blocked */ }
+  const keepAiDraft = () => { try { sessionStorage.setItem(AI_DRAFT_KEY, JSON.stringify({ prompt: ai.prompt, count: ai.count })); } catch { /* storage blocked */ } };
   const levelData = {};
   const levelLoading = {};
 
@@ -230,20 +241,24 @@ export function createSetup(root, o) {
     const draft = ai.draft;
     const kept = draft ? draft.pack.items.filter((it) => !ai.removed.has(it.id)) : [];
     const draftGroup = draft ? groupById(draft.group) : null;
+    const signin = `/signin?next=${encodeURIComponent(location.pathname)}`;
+    probeAuth();
     return `<div class="cr-ai">
       <label class="cr-row-label" for="ai-prompt" style="display:block;margin-bottom:6px">Ne çalışmak istiyorsunuz? (Türkçe ya da İngilizce)</label>
       <textarea id="ai-prompt" data-act="aiprompt" maxlength="300" placeholder="Örnek: 6. sınıf 3. ünite, yiyecekler, some/any · Past simple düzensiz fiiller, tatil · Otelde şikâyet etmek" ${ai.busy ? 'disabled' : ''}>${esc(ai.prompt)}</textarea>
       <div class="cr-row" style="margin-top:10px"><span class="cr-row-label">Soru sayısı</span>${[12, 16, 24, 32].map((n) => chip(String(n), 'aicount', n, n === ai.count)).join('')}</div>
+      ${ai.auth === false && !ai.error ? `<p class="cr-note" style="margin:12px 0 0">Yapay zekâ ile paket hazırlamak için giriş yapmanız gerekiyor; yazdığınız konu kaybolmaz. <a href="${signin}">Giriş yapın</a></p>` : ''}
       <div class="cr-row" style="margin-top:12px">
-        <button class="cr-btn cr-btn--go" style="min-width:0" data-act="aigo" ${ai.busy ? 'disabled' : ''}>${ai.busy ? `Hazırlanıyor… <span data-ai-secs>${secs}</span> sn` : 'Paketi hazırla'}</button>
-        <span class="cr-note" style="margin:0">Seviye: <b>${esc(g.long)}</b>. Yaklaşık 30–50 saniye sürer; oynamadan önce her soruyu görürsünüz.</span>
+        <button class="cr-btn cr-btn--go" style="min-width:0" data-act="aigo" ${ai.busy || ai.auth === false ? 'disabled' : ''}>${ai.busy ? `Hazırlanıyor… <span data-ai-secs>${secs}</span> sn` : 'Paketi hazırla'}</button>
+        ${ai.busy ? '<button class="cr-btn" style="min-width:0" data-act="aicancel">Vazgeç</button>' : ''}
+        <span class="cr-note" style="margin:0">Seviye: <b>${esc(g.long)}</b>. Yaklaşık 30–50 saniye sürer; her sorunun cevabı ayrıca kontrol edilir ve oynamadan önce hepsini görürsünüz.</span>
       </div>
-      ${ai.error ? `<p class="cr-err" role="alert">${esc(ai.error)}${ai.needLogin ? ` <a href="/signin?next=${encodeURIComponent(location.pathname)}">Giriş yapın</a>` : ''}</p>` : ''}
+      ${ai.error ? `<p class="cr-err" role="alert">${esc(ai.error)}${ai.needLogin ? ` <a href="${signin}">Giriş yapın</a>` : ''}</p>${ai.detail ? `<p class="cr-note" style="margin:4px 0 0">Elenen sorular: ${esc(ai.detail)}</p>` : ''}` : ''}
       ${draft ? `<div class="cr-preview" aria-label="Paket önizleme">
         <p style="margin:14px 0 6px;font-weight:800">${esc(draft.pack.title)} · ${esc(draftGroup.long || draftGroup.label)} · ${kept.length} soru seçili</p>
-        ${draft.warnings && draft.warnings.length ? `<p class="cr-note">${draft.warnings.map(esc).join(' · ')}</p>` : ''}
+        ${draft.warnings && draft.warnings.length ? `<ul class="cr-note cr-warns">${draft.warnings.map((w) => `<li>${esc(w)}</li>`).join('')}</ul>` : ''}
         <ol class="cr-prevlist">${draft.pack.items.map((it) => `<li class="${ai.removed.has(it.id) ? 'is-off' : ''}">
-          <div><b>${esc(it.stem)}</b>${it.stretch ? ' <span class="cr-tag">zorlayıcı kelime</span>' : ''}<br>
+          <div><b>${esc(it.stem)}</b>${it.stretch ? ' <span class="cr-tag">zorlayıcı kelime</span>' : ''}${it.unchecked ? ' <span class="cr-tag">anahtarı kontrol edin</span>' : ''}<br>
           <span class="cr-prevopts">${(it.options || []).map((opt, i) => (i === it.answer ? `<u>${esc(opt)}</u>` : esc(opt))).join(' · ')}</span>
           ${it.whyTr ? `<br><small>${esc(it.whyTr)}</small>` : ''}</div>
           <button class="cr-mini" style="width:auto;padding:0 10px" data-act="aitoggle" data-v="${esc(it.id)}">${ai.removed.has(it.id) ? 'Geri al' : 'Çıkar'}</button></li>`).join('')}</ol>
@@ -278,30 +293,54 @@ export function createSetup(root, o) {
     return loadPacks().some((p) => p.id === pack.id);
   }
 
+  // Asks once whether the teacher is signed in, so the AI tab can say so
+  // before anyone types. If the check fails, the tab works as before.
+  function probeAuth() {
+    if (ai.auth !== undefined) return;
+    ai.auth = null;
+    fetch('/api/classroom/pack', { headers: { accept: 'application/json' } })
+      .then((res) => (res.ok ? res.json() : null))
+      .then((body) => {
+        ai.auth = body && typeof body.signedIn === 'boolean' ? body.signedIn : null;
+        if (ai.auth === false && o.isActive() && setup.tab === 'ai') renderKeepFocus();
+      })
+      .catch(() => { ai.auth = null; });
+  }
+
   async function generatePack() {
     const prompt = ai.prompt.trim();
     if (!prompt) { ai.error = 'Önce ne çalışmak istediğinizi yazın.'; render(); return; }
     const group = setup.group;
-    ai.busy = true; ai.error = ''; ai.needLogin = false; ai.draft = null; ai.removed = new Set(); ai.started = Date.now();
+    const ctrl = new AbortController();
+    ai.ctrl = ctrl; ai.cancelled = false;
+    ai.busy = true; ai.error = ''; ai.detail = ''; ai.needLogin = false; ai.draft = null; ai.removed = new Set(); ai.started = Date.now();
     render();
     ai.tick = setInterval(() => { const n = $('[data-ai-secs]', root); if (n) n.textContent = String(Math.round((Date.now() - ai.started) / 1000)); }, 1000);
+    const timer = setTimeout(() => ctrl.abort(), AI_CLIENT_TIMEOUT_MS);
     try {
-      const res = await fetch('/api/classroom/pack', { method: 'POST', headers: { 'content-type': 'application/json' }, body: JSON.stringify({ prompt, group, count: ai.count }) });
+      const res = await fetch('/api/classroom/pack', { method: 'POST', headers: { 'content-type': 'application/json' }, body: JSON.stringify({ prompt, group, count: ai.count }), signal: ctrl.signal });
       const body = await res.json().catch(() => ({}));
       if (!res.ok) {
         ai.error = body.error || `Paket hazırlanamadı (hata ${res.status}).`;
         ai.needLogin = res.status === 401;
+        if (res.status === 401) ai.auth = false;
+        if (typeof body.reasons === 'string' && body.reasons) ai.detail = body.reasons;
       } else if (!body.pack || !Array.isArray(body.pack.items) || !body.pack.items.length) {
         ai.error = 'Yapay zekâ kullanılabilir soru üretemedi. Konuyu biraz daha açık yazıp tekrar deneyin.';
       } else {
         // The pack belongs to the group it was generated for.
+        ai.auth = true;
         ai.draft = { ...body, group };
       }
     } catch {
-      ai.error = 'Bağlantı kurulamadı. İnternet bağlantısını kontrol edip tekrar deneyin.';
+      if (ai.cancelled) ai.error = '';
+      else if (ctrl.signal.aborted) ai.error = 'Yapay zekâ çok uzun sürdü ve istek durduruldu. Lütfen biraz sonra tekrar deneyin.';
+      else ai.error = 'Bağlantı kurulamadı. İnternet bağlantısını kontrol edip tekrar deneyin.';
     } finally {
+      clearTimeout(timer);
       clearInterval(ai.tick);
       ai.busy = false;
+      ai.ctrl = null;
       if (o.isActive()) renderKeepFocus();
     }
   }
@@ -415,8 +454,9 @@ export function createSetup(root, o) {
     else if (act === 'mode') { setup.mode = v === defaultModeFor(setup.group) ? null : v; }
     else if (act === 'tab') { setup.tab = v; }
     else if (act === 'topic') { setup.topicKey = v; }
-    else if (act === 'aicount') { ai.count = Number(v); }
+    else if (act === 'aicount') { ai.count = Number(v); keepAiDraft(); }
     else if (act === 'aigo') { if (!ai.busy) generatePack(); return; }
+    else if (act === 'aicancel') { if (ai.ctrl) { ai.cancelled = true; ai.ctrl.abort(); } return; }
     else if (act === 'aitoggle') {
       // Update in place so the preview list keeps its scroll position.
       if (ai.removed.has(v)) ai.removed.delete(v); else ai.removed.add(v);
@@ -457,6 +497,7 @@ export function createSetup(root, o) {
       if (data && box) box.innerHTML = topicList(data, level);
     } else if (t.dataset.act === 'aiprompt') {
       ai.prompt = t.value.slice(0, 300);
+      keepAiDraft();
     } else if (t.dataset.act === 'name') {
       setup.names[Number(t.dataset.i)] = { mode: modeId(), name: t.value.slice(0, 28) };
       save();
