@@ -136,6 +136,21 @@ for (const t of TOPICS) {
   topics.push({ id: t.id, tr: t.tr, en: t.en, words });
 }
 
+// Board-game decoration (Kelime Şehri squares). Not word content, so it
+// lives in its own folder and never enters the topic lists.
+const BOARD_ICONS = ['hot beverage', 'croissant', 'books', 'clapper board', 'deciduous tree', 'shopping cart', 'classical building', 'station', 'fountain', 'musical notes', 'stadium', 'hotel',
+  'palm tree', 'spiral shell', 'coconut', 'parrot', 'turtle', 'crab', 'pineapple', 'mango', 'dolphin', 'rainbow', 'glowing star', 'volcano',
+  'chequered flag', 'red question mark', 'wrapped gift', 'wrench', 'wheel', 'microphone', 'raising hands', 'anchor', 'magic wand', 'nest with eggs', 'wind face', 'playground slide',
+  'rocket', 'satellite', 'package', 'rock', 'cyclone', 'satellite antenna', 'flying saucer', 'game die', 'coin', 'trophy', 'party popper', 'sparkles'];
+const boardDir = path.join(outDir, 'board');
+fs.mkdirSync(boardDir, { recursive: true });
+for (const name of BOARD_ICONS) {
+  const asset = assets.get(name);
+  if (!asset) { missing.push(`board:${name}`); continue; }
+  const svg = fs.readFileSync(asset.file, 'utf8').replace(/<\?xml[^>]*>\s*/g, '').replace(/\s{2,}/g, ' ').trim();
+  fs.writeFileSync(path.join(boardDir, `${slug(asset.cldr)}.svg`), svg);
+}
+
 // Pictures of words that were dropped from TOPICS must not linger in public/.
 for (const f of fs.readdirSync(outDir)) {
   if (f.endsWith('.svg') && !pictures[f.slice(0, -4)]) fs.unlinkSync(path.join(outDir, f));
