@@ -13,6 +13,11 @@ const AI_DRAFT_KEY = 'lg:classroom:ai-draft';
 // The server stops at about 50 s; past this the request is given up on.
 const AI_CLIENT_TIMEOUT_MS = 90_000;
 const clampSeats = (n) => Math.max(1, Math.min(8, Math.round(Number(n)) || 1));
+// Speaking card modes as the teacher sees them in the AI preview.
+const SPEAK_MODE_TR = { talk: 'Anlat', describe: 'Betimle', opinion: 'Fikir', hypothetical: 'Hayal et', ask: 'Soru sor', wyr: 'Would You Rather' };
+// Why a saved pack cannot be played here (see packMisfit): list note and Başlat hint.
+const MISFIT_NOTE = { adult: 'Yetişkin grubu için hazırlandı', speaking: 'Konuşma oyunları için hazırlandı', quiz: 'Soru oyunları için hazırlandı' };
+const MISFIT_HINT = { adult: 'Bu paket yetişkin grubu için hazırlandı', speaking: 'Bu paket konuşma oyunları için hazırlandı', quiz: 'Bu paket soru oyunları için hazırlandı' };
 
 export function teamGlyph(t, modeId) {
   return modeId === 'arena' ? glyph('emblem', t.emblem) : glyph('shape', t.shape);
@@ -20,6 +25,29 @@ export function teamGlyph(t, modeId) {
 
 export function chip(label, act, v, on) {
   return `<button class="cr-chip" data-act="${act}" data-v="${esc(v)}" aria-pressed="${on}">${esc(label)}</button>`;
+}
+
+// The step-2 choice (built-in topic, tab, own pack) is remembered per content
+// kind: quiz games keep the top-level fields of the saved setup as before,
+// other kinds keep theirs under sel[kind], so picking a speaking topic or
+// pack never clears the choice the quiz games share.
+export function savedSelection(saved, kind = 'quiz') {
+  const all = saved && typeof saved === 'object' ? saved : {};
+  const src = kind === 'quiz' ? all : (all.sel && typeof all.sel === 'object' && all.sel[kind]) || {};
+  return {
+    topicKey: typeof src.topicKey === 'string' ? src.topicKey : null,
+    tab: src.tab === 'ai' ? 'ai' : 'builtin',
+    myPackId: typeof src.myPackId === 'string' ? src.myPackId : null,
+  };
+}
+
+// The saved setup with this kind's choice written in (see savedSelection).
+export function withSelection(saved, kind, sel) {
+  const base = saved && typeof saved === 'object' && !Array.isArray(saved) ? saved : {};
+  const pick = { topicKey: sel.topicKey ?? null, tab: sel.tab === 'ai' ? 'ai' : 'builtin', myPackId: sel.myPackId ?? null };
+  if (kind === 'quiz') return { ...base, ...pick };
+  const all = base.sel && typeof base.sel === 'object' && !Array.isArray(base.sel) ? base.sel : {};
+  return { ...base, sel: { ...all, [kind]: pick } };
 }
 
 export function ago(ts) {
@@ -45,20 +73,34 @@ export function ago(ts) {
  *   resumeInfo() -> null | { title, code, savedAt, detail }
  *   onResume(), onDiscard()
  *   onStart({ profile, pack, teams, opts, setup })
+ *   Optional, for games that play something other than quiz packs:
+ *   contentKind: 'quiz' (default) | 'speaking': the kind of pack the game
+ *     plays. The AI tab asks the server for that kind and previews it, saved
+ *     packs keep their kind, and "Paketlerim" offers only packs of this kind
+ *     (the others are shown disabled with a note).
+ *   builtinTopics(level, profile) -> [{ key, title, kind, count, emoji, short? }]:
+ *     the game's own built-in topics for step 2, listed instead of the level
+ *     JSON (keys must not start with a level, e.g. "speak:kids:animals").
+ *   packFromBuiltin(key, profile) -> pack | null: the pack of one of those
+ *     topics. Both hooks are needed; without them step 2 works as before.
  */
 export function createSetup(root, o) {
   const saved = readJson(SETUP_KEY, {});
   const minTeams = o.minTeams ?? 2;
   const maxTeams = o.maxTeams ?? 8;
+  const contentKind = o.contentKind || 'quiz';
+  const speaking = contentKind === 'speaking';
+  const ownTopics = typeof o.builtinTopics === 'function' && typeof o.packFromBuiltin === 'function';
+  const sel = savedSelection(saved, contentKind);
   const setup = {
     group: GROUPS.some((g) => g.id === saved.group) ? saved.group : 'a2g',
     mode: MODES[saved.mode] ? saved.mode : null,
-    topicKey: typeof saved.topicKey === 'string' ? saved.topicKey : null,
+    topicKey: sel.topicKey,
     teamCount: Math.round(Number(saved.teamCount)) || o.defaultTeamCount || 4,
     names: Array.isArray(saved.names) ? saved.names.map((x) => (x && typeof x.name === 'string' && typeof x.mode === 'string' ? { mode: x.mode, name: x.name.slice(0, 28) } : null)) : [],
     seats: Array.isArray(saved.seats) ? saved.seats.map(clampSeats) : [],
-    tab: saved.tab === 'ai' ? 'ai' : 'builtin',
-    myPackId: typeof saved.myPackId === 'string' ? saved.myPackId : null,
+    tab: sel.tab,
+    myPackId: sel.myPackId,
     games: saved.games && typeof saved.games === 'object' ? saved.games : {},
     query: '',
   };
@@ -83,6 +125,13 @@ export function createSetup(root, o) {
   const teamCount = () => Math.max(minTeams, Math.min(maxTeams, setup.teamCount));
   const opts = () => ({ ...(o.gameDefaults ? o.gameDefaults(modeId(), setup.group) : {}), ...(setup.games[o.gameId] || {}) });
   const setOpt = (k, v) => { setup.games[o.gameId] = { ...(setup.games[o.gameId] || {}), [k]: v }; };
+  const currentProfile = () => audienceProfile(setup.group, { mode: modeId() });
+
+  // The game's own built-in topics for the current group (ownTopics games).
+  function builtinList(profile = currentProfile()) {
+    const list = o.builtinTopics(groupById(setup.group).level, profile);
+    return Array.isArray(list) ? list.filter((t) => t && typeof t.key === 'string' && t.key) : [];
+  }
 
   // One request per level, however many renders ask for it while it loads.
   function loadLevel(level) {
@@ -119,14 +168,17 @@ export function createSetup(root, o) {
     const teams = setupTeams();
     const level = group.level;
     const data = levelData[level];
+    // Games with their own topics (builtinTopics hook) never load the level JSON.
+    const own = ownTopics ? builtinList(profile) : null;
     const src = selectedSource();
     // Games that combine several topics (e.g. a category board) get the level's
     // topics and the teacher's own packs, keyed like sourceKey().
     const choices = [
-      ...(data ? data.topics.map((t) => ({ key: `${level}:${t.id}`, title: t.title, kind: t.kind, count: t.items.length, pic: t.kind === 'picture' && t.items[0] ? t.items[0].pic : null })) : []),
+      ...(own ? own.map((t) => ({ key: t.key, title: t.title, kind: t.kind, count: t.count, pic: null, emoji: t.emoji || '' }))
+        : data ? data.topics.map((t) => ({ key: `${level}:${t.id}`, title: t.title, kind: t.kind, count: t.items.length, pic: t.kind === 'picture' && t.items[0] ? t.items[0].pic : null })) : []),
       ...myPacks().filter(packFits).map((p) => ({ key: `mine:${p.id}`, title: p.title, kind: 'mine', count: p.items.length, pic: null })),
     ];
-    const game = o.gameSection ? o.gameSection({ setup, opts: opts(), profile, modeId: modeId(), chip, source: src, sourceKey: sourceKey(), choices, loading: !data }) : '';
+    const game = o.gameSection ? o.gameSection({ setup, opts: opts(), profile, modeId: modeId(), chip, source: src, sourceKey: sourceKey(), choices, loading: own ? false : !data }) : '';
 
     root.innerHTML = `
     <div class="cr-setup">
@@ -157,7 +209,7 @@ export function createSetup(root, o) {
             <div class="cr-skins" role="group" aria-label="Görünüm">
               ${Object.values(MODES).map((m) => skinCard(m, m.id === modeId(), m.id === defaultModeFor(setup.group))).join('')}
             </div>
-            <p class="cr-summary"><span>${esc(profileSummary(profile))}</span><span>· ${profile.optionCount} seçenek</span><span>· ${profile.autoRead ? 'sesli okuma açık' : 'hoparlör düğmesi'}</span></p>
+            <p class="cr-summary"><span>${esc(profileSummary(profile))}</span>${speaking ? '' : `<span>· ${profile.optionCount} seçenek</span>`}<span>· ${profile.autoRead ? 'sesli okuma açık' : 'hoparlör düğmesi'}</span></p>
           </section>
           <section class="cr-card" aria-labelledby="st2">
             <h2 class="cr-step" id="st2"><b>2</b> İçerik</h2>
@@ -166,9 +218,9 @@ export function createSetup(root, o) {
               <button class="cr-tab" role="tab" aria-selected="${setup.tab === 'ai'}" data-act="tab" data-v="ai">Kendi içeriğiniz (yapay zekâ)</button>
             </div>
             ${setup.tab === 'builtin' ? `
-              <input class="cr-search" type="search" placeholder="Konu ara (ör. past, can, some)" value="${esc(setup.query)}" data-act="query" aria-label="Konu ara">
+              <input class="cr-search" type="search" placeholder="${own ? 'Konu ara (ör. hayvan, travel)' : 'Konu ara (ör. past, can, some)'}" value="${esc(setup.query)}" data-act="query" aria-label="Konu ara">
               <div class="cr-topics" role="listbox" aria-label="${esc(level.toUpperCase())} konuları">
-                ${data ? topicList(data, level) : `<p class="cr-note">Konular yükleniyor…</p>`}
+                ${own ? ownTopicList(own) : data ? topicList(data, level) : `<p class="cr-note">Konular yükleniyor…</p>`}
               </div>` : aiPanel()}
           </section>
         </div>
@@ -199,7 +251,7 @@ export function createSetup(root, o) {
       <button class="cr-btn cr-btn--go" data-act="start" ${src ? '' : 'disabled'}>${src ? `Başlat · ${esc(src.title)}` : esc(startHint())}</button>
     </div>`;
 
-    if (!data && setup.tab === 'builtin') {
+    if (!own && !data && setup.tab === 'builtin') {
       loadLevel(level).then(() => { if (o.isActive()) renderKeepFocus(); }).catch(() => {
         const box = $('.cr-topics', root);
         if (box) box.innerHTML = '<p class="cr-err">Konular yüklenemedi. İnternet bağlantısını kontrol edip sayfayı yenileyin.</p>';
@@ -233,6 +285,18 @@ export function createSetup(root, o) {
       : section('Dil bilgisi', grammar) + section('Resimli kelimeler', pics);
   }
 
+  // The game's own topics (builtinTopics hook). The search ignores case and
+  // Turkish letters, so "hayvan" and "ulasim" find "Hayvanlar" and "Ulaşım".
+  function ownTopicList(list) {
+    const fold = (s) => String(s || '').toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g, '').replace(/ı/g, 'i');
+    const q = fold(setup.query.trim());
+    const shown = list.filter((t) => !q || fold(`${t.title} ${t.short || ''}`).includes(q));
+    if (!shown.length) return '<p class="cr-note">Bu aramaya uyan konu yok.</p>';
+    const unit = speaking ? 'kart' : 'soru';
+    return shown.map((t) => `<button class="cr-topic" role="option" data-act="topic" data-v="${esc(t.key)}" aria-pressed="${setup.topicKey === t.key}" aria-selected="${setup.topicKey === t.key}">
+      ${t.emoji ? `<span class="cr-topic-emoji" aria-hidden="true">${esc(t.emoji)}</span>` : ''}<strong>${esc(t.title)}</strong><small>${t.short ? `${esc(t.short)} · ` : ''}${Number(t.count) || 0} ${unit}</small></button>`).join('');
+  }
+
   // ------------------------------------------------ own content (AI) ----
   function aiPanel() {
     const g = groupById(setup.group);
@@ -243,31 +307,43 @@ export function createSetup(root, o) {
     const draftGroup = draft ? groupById(draft.group) : null;
     const signin = `/signin?next=${encodeURIComponent(location.pathname)}`;
     probeAuth();
+    const unit = speaking ? 'kart' : 'soru';
     return `<div class="cr-ai">
-      <label class="cr-row-label" for="ai-prompt" style="display:block;margin-bottom:6px">Ne çalışmak istiyorsunuz? (Türkçe ya da İngilizce)</label>
-      <textarea id="ai-prompt" data-act="aiprompt" maxlength="300" placeholder="Örnek: 6. sınıf 3. ünite, yiyecekler, some/any · Past simple düzensiz fiiller, tatil · Otelde şikâyet etmek" ${ai.busy ? 'disabled' : ''}>${esc(ai.prompt)}</textarea>
-      <div class="cr-row" style="margin-top:10px"><span class="cr-row-label">Soru sayısı</span>${[12, 16, 24, 32].map((n) => chip(String(n), 'aicount', n, n === ai.count)).join('')}</div>
+      <label class="cr-row-label" for="ai-prompt" style="display:block;margin-bottom:6px">${speaking ? 'Hangi konuda konuşulsun? (Türkçe ya da İngilizce)' : 'Ne çalışmak istiyorsunuz? (Türkçe ya da İngilizce)'}</label>
+      <textarea id="ai-prompt" data-act="aiprompt" maxlength="300" placeholder="${speaking ? 'Örnek: Hayvanlar ve doğa · Tatil planları, going to · İş hayatı, geçmiş deneyimler' : 'Örnek: 6. sınıf 3. ünite, yiyecekler, some/any · Past simple düzensiz fiiller, tatil · Otelde şikâyet etmek'}" ${ai.busy ? 'disabled' : ''}>${esc(ai.prompt)}</textarea>
+      <div class="cr-row" style="margin-top:10px"><span class="cr-row-label">${speaking ? 'Kart sayısı' : 'Soru sayısı'}</span>${[12, 16, 24, 32].map((n) => chip(String(n), 'aicount', n, n === ai.count)).join('')}</div>
       ${ai.auth === false && !ai.error ? `<p class="cr-note" style="margin:12px 0 0">Yapay zekâ ile paket hazırlamak için giriş yapmanız gerekiyor; yazdığınız konu kaybolmaz. <a href="${signin}">Giriş yapın</a></p>` : ''}
       <div class="cr-row" style="margin-top:12px">
         <button class="cr-btn cr-btn--go" style="min-width:0" data-act="aigo" ${ai.busy || ai.auth === false ? 'disabled' : ''}>${ai.busy ? `Hazırlanıyor… <span data-ai-secs>${secs}</span> sn` : 'Paketi hazırla'}</button>
         ${ai.busy ? '<button class="cr-btn" style="min-width:0" data-act="aicancel">Vazgeç</button>' : ''}
-        <span class="cr-note" style="margin:0">Seviye: <b>${esc(g.long)}</b>. Yaklaşık 30–50 saniye sürer; her sorunun cevabı ayrıca kontrol edilir ve oynamadan önce hepsini görürsünüz.</span>
+        <span class="cr-note" style="margin:0">Seviye: <b>${esc(g.long)}</b>. ${speaking ? 'Yaklaşık 30–50 saniye sürer; kartların yaklaşık dörtte biri "Would You Rather" olur ve oynamadan önce hepsini görürsünüz.' : 'Yaklaşık 30–50 saniye sürer; her sorunun cevabı ayrıca kontrol edilir ve oynamadan önce hepsini görürsünüz.'}</span>
       </div>
-      ${ai.error ? `<p class="cr-err" role="alert">${esc(ai.error)}${ai.needLogin ? ` <a href="${signin}">Giriş yapın</a>` : ''}</p>${ai.detail ? `<p class="cr-note" style="margin:4px 0 0">Elenen sorular: ${esc(ai.detail)}</p>` : ''}` : ''}
+      ${ai.error ? `<p class="cr-err" role="alert">${esc(ai.error)}${ai.needLogin ? ` <a href="${signin}">Giriş yapın</a>` : ''}</p>${ai.detail ? `<p class="cr-note" style="margin:4px 0 0">${speaking ? 'Elenen kartlar' : 'Elenen sorular'}: ${esc(ai.detail)}</p>` : ''}` : ''}
       ${draft ? `<div class="cr-preview" aria-label="Paket önizleme">
-        <p style="margin:14px 0 6px;font-weight:800">${esc(draft.pack.title)} · ${esc(draftGroup.long || draftGroup.label)} · ${kept.length} soru seçili</p>
+        <p style="margin:14px 0 6px;font-weight:800">${esc(draft.pack.title)} · ${esc(draftGroup.long || draftGroup.label)} · ${kept.length} ${unit} seçili</p>
         ${draft.warnings && draft.warnings.length ? `<ul class="cr-note cr-warns">${draft.warnings.map((w) => `<li>${esc(w)}</li>`).join('')}</ul>` : ''}
         <ol class="cr-prevlist">${draft.pack.items.map((it) => `<li class="${ai.removed.has(it.id) ? 'is-off' : ''}">
-          <div><b>${esc(it.stem)}</b>${it.stretch ? ' <span class="cr-tag">zorlayıcı kelime</span>' : ''}${it.unchecked ? ' <span class="cr-tag">anahtarı kontrol edin</span>' : ''}<br>
+          ${it.type === 'speak' ? speakPreview(it) : `<div><b>${esc(it.stem)}</b>${it.stretch ? ' <span class="cr-tag">zorlayıcı kelime</span>' : ''}${it.unchecked ? ' <span class="cr-tag">anahtarı kontrol edin</span>' : ''}<br>
           <span class="cr-prevopts">${(it.options || []).map((opt, i) => (i === it.answer ? `<u>${esc(opt)}</u>` : esc(opt))).join(' · ')}</span>
-          ${it.whyTr ? `<br><small>${esc(it.whyTr)}</small>` : ''}</div>
+          ${it.whyTr ? `<br><small>${esc(it.whyTr)}</small>` : ''}</div>`}
           <button class="cr-mini" style="width:auto;padding:0 10px" data-act="aitoggle" data-v="${esc(it.id)}">${ai.removed.has(it.id) ? 'Geri al' : 'Çıkar'}</button></li>`).join('')}</ol>
         <div class="cr-row"><button class="cr-btn cr-btn--go" style="min-width:0" data-act="aisave" ${kept.length >= 4 ? '' : 'disabled'}>Kaydet ve seç (${kept.length})</button><button class="cr-btn" data-act="aidiscard">Vazgeç</button></div>
       </div>` : ''}
       ${mine.length ? `<p class="cr-row-label" style="margin:16px 0 6px">Paketlerim (bu tarayıcıda)</p>
-        <div class="cr-topics">${mine.map((p) => { const fits = packFits(p); return `<button class="cr-topic" data-act="mypack" data-v="${esc(p.id)}" aria-pressed="${fits && setup.myPackId === p.id}" ${fits ? '' : 'disabled aria-disabled="true"'}>
-          <strong>${esc(p.title)}</strong><small>${esc(groupById(p.group).label)} · ${p.items.length} soru · ${esc(new Date(p.createdAt).toLocaleDateString('tr-TR'))}${p === ai.saved ? ' · kaydedilemedi, yalnızca bu oturumda' : ''}${fits ? '' : ' · Yetişkin grubu için hazırlandı'}</small></button>`; }).join('')}</div>` : ''}
+        <div class="cr-topics">${mine.map((p) => { const why = packMisfit(p); const fits = !why; return `<button class="cr-topic" data-act="mypack" data-v="${esc(p.id)}" aria-pressed="${fits && setup.myPackId === p.id}" ${fits ? '' : 'disabled aria-disabled="true"'}>
+          <strong>${esc(p.title)}</strong><small>${esc(groupById(p.group).label)} · ${p.items.length} ${p.kind === 'speaking' ? 'kart' : 'soru'} · ${esc(new Date(p.createdAt).toLocaleDateString('tr-TR'))}${p === ai.saved ? ' · kaydedilemedi, yalnızca bu oturumda' : ''}${fits ? '' : ` · ${esc(MISFIT_NOTE[why])}`}</small></button>`; }).join('')}</div>` : ''}
     </div>`;
+  }
+
+  // One speaking card in the AI preview: emoji, prompt, wheel label and mode,
+  // the two options of a Would You Rather card, the starters and the gloss.
+  function speakPreview(it) {
+    const opt = (x) => `${x && x.emoji ? `${x.emoji} ` : ''}${x ? x.text : ''}`;
+    const starters = Array.isArray(it.starters) ? it.starters : [];
+    return `<div><span class="cr-prevemoji" aria-hidden="true">${esc(it.emoji || '')}</span> <b lang="en">${esc(it.prompt)}</b> <span class="cr-tag" lang="en">${esc(it.label || '')}</span> <span class="cr-tag">${esc(SPEAK_MODE_TR[it.mode] || it.mode || '')}</span>
+      ${it.mode === 'wyr' ? `<br><span class="cr-prevopts" lang="en">${esc(opt(it.optA))} <i>vs</i> ${esc(opt(it.optB))}</span>` : ''}
+      ${starters.length ? `<br><span class="cr-prevopts" lang="en">${starters.map((s) => esc(s)).join(' · ')}</span>` : ''}
+      ${it.tr ? `<br><small>${esc(it.tr)}</small>` : ''}</div>`;
   }
 
   function loadPacks() {
@@ -281,9 +357,18 @@ export function createSetup(root, o) {
     return ai.saved && !list.some((p) => p.id === ai.saved.id) ? [ai.saved, ...list] : list;
   }
 
-  // Young groups only play packs made for young groups (safe topics, short stems).
+  // A game plays only packs of its own kind (quiz games never get speaking
+  // cards; packs without a kind are quiz packs), and young groups only play
+  // packs made for young groups (safe topics, short stems).
   function packFits(p) {
-    return !groupById(setup.group).young || !!(p && GROUPS.some((g) => g.id === p.group && g.young));
+    return !packMisfit(p);
+  }
+
+  // Why a pack does not fit: its kind ('quiz' | 'speaking'), 'adult', or ''.
+  function packMisfit(p) {
+    const kind = (p && p.kind) || 'quiz';
+    if (kind !== contentKind) return kind === 'speaking' ? 'speaking' : 'quiz';
+    return !groupById(setup.group).young || !!(p && GROUPS.some((g) => g.id === p.group && g.young)) ? '' : 'adult';
   }
 
   function savePack(pack) {
@@ -318,7 +403,9 @@ export function createSetup(root, o) {
     ai.tick = setInterval(() => { const n = $('[data-ai-secs]', root); if (n) n.textContent = String(Math.round((Date.now() - ai.started) / 1000)); }, 1000);
     const timer = setTimeout(() => ctrl.abort(), AI_CLIENT_TIMEOUT_MS);
     try {
-      const res = await fetch('/api/classroom/pack', { method: 'POST', headers: { 'content-type': 'application/json' }, body: JSON.stringify({ prompt, group, count: ai.count }), signal: ctrl.signal });
+      // Quiz games send exactly what they always sent; other kinds say so.
+      const payload = speaking ? { prompt, group, count: ai.count, kind: contentKind } : { prompt, group, count: ai.count };
+      const res = await fetch('/api/classroom/pack', { method: 'POST', headers: { 'content-type': 'application/json' }, body: JSON.stringify(payload), signal: ctrl.signal });
       const body = await res.json().catch(() => ({}));
       if (!res.ok) {
         ai.error = body.error || `Paket hazırlanamadı (hata ${res.status}).`;
@@ -326,11 +413,11 @@ export function createSetup(root, o) {
         if (res.status === 401) ai.auth = false;
         if (typeof body.reasons === 'string' && body.reasons) ai.detail = body.reasons;
       } else if (!body.pack || !Array.isArray(body.pack.items) || !body.pack.items.length) {
-        ai.error = 'Yapay zekâ kullanılabilir soru üretemedi. Konuyu biraz daha açık yazıp tekrar deneyin.';
+        ai.error = `Yapay zekâ kullanılabilir ${speaking ? 'konuşma kartı' : 'soru'} üretemedi. Konuyu biraz daha açık yazıp tekrar deneyin.`;
       } else {
-        // The pack belongs to the group it was generated for.
+        // The pack belongs to the group (and kind) it was generated for.
         ai.auth = true;
-        ai.draft = { ...body, group };
+        ai.draft = { ...body, group, kind: contentKind };
       }
     } catch {
       if (ai.cancelled) ai.error = '';
@@ -349,7 +436,7 @@ export function createSetup(root, o) {
     const d = ai.draft;
     if (!d) return '';
     const items = d.pack.items.filter((it) => !ai.removed.has(it.id));
-    const pack = { ...d.pack, id: d.pack.id || `ai:${Date.now()}`, group: d.group || setup.group, createdAt: Date.now(), items };
+    const pack = { ...d.pack, id: d.pack.id || `ai:${Date.now()}`, group: d.group || setup.group, kind: d.pack.kind || d.kind || 'quiz', createdAt: Date.now(), items };
     const stored = savePack(pack);
     ai.saved = stored ? null : pack;
     setup.myPackId = pack.id;
@@ -371,12 +458,13 @@ export function createSetup(root, o) {
   function startHint() {
     if (setup.tab !== 'ai') return 'Önce bir konu seçin';
     const p = setup.myPackId ? myPacks().find((x) => x.id === setup.myPackId) : null;
-    if (p && !packFits(p)) return 'Bu paket yetişkin grubu için hazırlandı';
+    if (p && !packFits(p)) return MISFIT_HINT[packMisfit(p)];
     return 'Önce bir paket hazırlayın ya da seçin';
   }
 
   function selectedTopic() {
     if (!setup.topicKey) return null;
+    if (ownTopics) return builtinList().find((t) => t.key === setup.topicKey) || null;
     const [level, id] = setup.topicKey.split(':');
     if (level !== groupById(setup.group).level) return null;
     const data = levelData[level];
@@ -393,11 +481,12 @@ export function createSetup(root, o) {
   }
 
   function save() {
-    writeJson(SETUP_KEY, {
-      ...readJson(SETUP_KEY, {}),
-      group: setup.group, mode: setup.mode, topicKey: setup.topicKey, teamCount: setup.teamCount,
-      names: setup.names, seats: setup.seats, tab: setup.tab, myPackId: setup.myPackId, games: setup.games,
-    });
+    const prev = readJson(SETUP_KEY, {});
+    writeJson(SETUP_KEY, withSelection({
+      ...(prev && typeof prev === 'object' && !Array.isArray(prev) ? prev : {}),
+      group: setup.group, mode: setup.mode, teamCount: setup.teamCount,
+      names: setup.names, seats: setup.seats, games: setup.games,
+    }, contentKind, setup));
   }
 
   // The pack to play: built-in topic or saved pack, with young-unsafe items removed.
@@ -414,22 +503,26 @@ export function createSetup(root, o) {
       const p = myPacks().find((x) => x.id === key.slice(5));
       return p && packFits(p) ? buildPack({ kind: 'mine', title: p.title, pack: p }, profile) : null;
     }
+    if (ownTopics) return buildPack({ kind: 'topic', title: '', topic: { key } }, profile);
     const [level, id] = key.split(':');
     const data = levelData[level];
     const t = data ? data.topics.find((x) => x.id === id) : null;
     return t ? buildPack({ kind: 'topic', title: t.title, topic: t }, profile) : null;
   }
 
+  // Null only when a game's packFromBuiltin hook has no pack for the key.
   function buildPack(src, profile) {
     const lvl = groupById(setup.group).level;
     const topic = src.topic;
     const pack = src.kind === 'mine'
-      ? makePack({ id: src.pack.id, title: src.pack.title, level: src.pack.level || lvl.toUpperCase(), origin: 'ai', topic: src.pack.topic || null, items: src.pack.items })
-      : makePack({ id: `builtin:${topic.kind || 'grammar'}:${topic.id}`, title: topic.title, level: lvl.toUpperCase(), origin: 'builtin', topic: { kind: topic.kind || 'grammar', unit: topic.id, short: topic.short || '' }, items: topic.items || [] });
+      ? makePack({ id: src.pack.id, title: src.pack.title, level: src.pack.level || lvl.toUpperCase(), origin: 'ai', topic: src.pack.topic || null, items: src.pack.items, kind: src.pack.kind })
+      : ownTopics
+        ? o.packFromBuiltin(topic.key, profile)
+        : makePack({ id: `builtin:${topic.kind || 'grammar'}:${topic.id}`, title: topic.title, level: lvl.toUpperCase(), origin: 'builtin', topic: { kind: topic.kind || 'grammar', unit: topic.id, short: topic.short || '' }, items: topic.items || [] });
+    if (!pack || !Array.isArray(pack.items)) return null;
     // Built-in units were written for adults: items flagged as not suitable for
     // young learners (rent, boss, smoking…) stay out of Genç games.
-    if (profile.young) pack.items = pack.items.filter((it) => it.youngOk !== false);
-    return pack;
+    return profile.young ? { ...pack, items: pack.items.filter((it) => it.youngOk !== false) } : pack;
   }
 
   function start() {
@@ -437,6 +530,7 @@ export function createSetup(root, o) {
     if (!src) { render(setup.tab === 'ai' ? 'Önce bir paket hazırlayın ya da Paketlerim’den seçin.' : 'Önce bir konu seçin.'); return; }
     const profile = audienceProfile(setup.group, { mode: modeId() });
     const pack = buildPack(src, profile);
+    if (!pack) { render('Bu konu açılamadı. Başka bir konu seçin.'); return; }
     const teams = setupTeams().map((t) => ({ ...t, name: t.name.trim() || `Team ${t.index + 1}` }));
     o.onStart({ profile, pack, teams, opts: opts(), setup, sourceKey: sourceKey(), packFromKey: (k) => packFromKey(k, profile) });
   }
@@ -494,7 +588,8 @@ export function createSetup(root, o) {
       const level = groupById(setup.group).level;
       const data = levelData[level];
       const box = $('.cr-topics', root);
-      if (data && box) box.innerHTML = topicList(data, level);
+      if (ownTopics && box) box.innerHTML = ownTopicList(builtinList());
+      else if (data && box) box.innerHTML = topicList(data, level);
     } else if (t.dataset.act === 'aiprompt') {
       ai.prompt = t.value.slice(0, 300);
       keepAiDraft();
@@ -513,6 +608,7 @@ export function createSetup(root, o) {
     loadLevel,
     get setup() { return setup; },
     modeId,
-    preload() { return loadLevel(groupById(setup.group).level).then(() => { if (o.isActive()) renderKeepFocus(); }).catch(() => {}); },
+    // Games with their own topics have nothing to fetch.
+    preload() { return ownTopics ? Promise.resolve() : loadLevel(groupById(setup.group).level).then(() => { if (o.isActive()) renderKeepFocus(); }).catch(() => {}); },
   };
 }

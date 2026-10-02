@@ -27,10 +27,27 @@ export function blankProblem(stem, key) {
 }
 
 // Item types the first wave understands. Later games add more.
-export const ITEM_TYPES = ['mcq', 'tf', 'gap', 'vocab', 'qa'];
+// 'speak' is a speaking card (Konuşma Çarkı): no key, the teacher judges.
+export const ITEM_TYPES = ['mcq', 'tf', 'gap', 'vocab', 'qa', 'speak'];
 
-export function makePack({ id, title, level, origin = 'builtin', topic = null, items = [] }) {
-  return { schema: PACK_SCHEMA, id, title, level, origin, topic, items };
+// What a speaking card asks the student to do. 'wyr' (Would You Rather)
+// carries two options, optA and optB, each { text, emoji }.
+export const SPEAK_MODES = ['talk', 'describe', 'opinion', 'hypothetical', 'ask', 'wyr'];
+// Open enough for a Just a Minute turn (not 'ask', not 'wyr').
+export const JAM_MODES = ['talk', 'describe', 'opinion', 'hypothetical'];
+// Most entries per list on a speaking card.
+export const SPEAK_LIMITS = { starters: 3, followUps: 3, useful: 5 };
+
+export function jamOk(item) {
+  return !!item && item.type === 'speak' && JAM_MODES.includes(item.mode);
+}
+
+// `kind`: what the items are for. 'quiz' (the default) is left out of the
+// pack, so quiz packs look exactly as before; speaking packs carry
+// kind: 'speaking' and quiz games never receive them (setup's packFits).
+export function makePack({ id, title, level, origin = 'builtin', topic = null, items = [], kind = 'quiz' }) {
+  const pack = { schema: PACK_SCHEMA, id, title, level, origin, topic, items };
+  return kind && kind !== 'quiz' ? { ...pack, kind } : pack;
 }
 
 // Built-in grammar unit (curated MCQ bank) -> pack.
@@ -82,6 +99,20 @@ export function validateItem(item) {
   if (item.type === 'tf') {
     if (!String(item.statement || '').trim()) problems.push('empty-statement');
     if (typeof item.isTrue !== 'boolean') problems.push('no-truth');
+  }
+  if (item.type === 'speak') {
+    if (!String(item.prompt || '').trim()) problems.push('empty-prompt');
+    if (!SPEAK_MODES.includes(item.mode)) problems.push('bad-mode');
+    if (!String(item.emoji || '').trim()) problems.push('no-emoji');
+    const label = wordCount(item.label);
+    if (label < 1 || label > 2) problems.push('label-words');
+    // Lists may be left out; when present: strings only, within the limit.
+    for (const [key, max] of Object.entries(SPEAK_LIMITS)) {
+      const list = item[key];
+      if (list == null) continue;
+      if (!Array.isArray(list) || list.length > max || list.some((s) => typeof s !== 'string' || !s.trim())) problems.push(`${key.toLowerCase()}-list`);
+    }
+    if (item.mode === 'wyr' && (!String(item.optA?.text || '').trim() || !String(item.optB?.text || '').trim())) problems.push('wyr-options');
   }
   return { ok: problems.length === 0, problems };
 }

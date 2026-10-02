@@ -4,7 +4,7 @@ import assert from 'node:assert/strict';
 import { shuffleSeeded, makeBoardCode, normalizeBoardCode } from '../src/classroom/core/rng.mjs';
 import { audienceProfile, defaultModeFor, tilesForMinutes, GROUPS } from '../src/classroom/core/groups.mjs';
 import { drawSeat, defaultTeams } from '../src/classroom/core/teams.mjs';
-import { validateItem, itemsForBoard, presentMcq, presentVocab, makePack, mcqHint, itemHint } from '../src/classroom/core/pack.mjs';
+import { validateItem, itemsForBoard, presentMcq, presentVocab, makePack, mcqHint, itemHint, jamOk } from '../src/classroom/core/pack.mjs';
 import { createStore, readSave } from '../src/classroom/core/store.mjs';
 import { createGame, reduce, presented, isGold, remainingTiles, endingTitles, deckFor, CARDS, GOLD_CARDS, tileValue, hintKinds, nextHint, ranking } from '../src/classroom/games/kutu-avi/logic.mjs';
 import { createClassBoard } from '../src/lib/game-classroom.mjs';
@@ -95,6 +95,32 @@ test('item validation rejects broken MCQs', () => {
   assert.equal(validateItem({ ...mcq(1), options: ['a', 'A ', 'b'] }).ok, false);
   assert.equal(validateItem({ type: 'vocab', term: 'cat' }).ok, true);
   assert.equal(validateItem({ type: 'nope' }).ok, false);
+});
+
+test('speak items: prompt, mode, emoji, a 1-2 word label, list limits, two options for Would You Rather', () => {
+  const speak = (extra = {}) => ({ id: 's1', type: 'speak', mode: 'talk', prompt: 'Talk about your dream pet.', label: 'Dream pet', emoji: '🐶', starters: ['I want ...'], followUps: ['Why?'], useful: ['fluffy'], model: 'I want a cat.', tr: 'Hayalindeki evcil hayvan', level: 'a1', cat: 'animals', ...extra });
+  assert.equal(validateItem(speak()).ok, true);
+  assert.deepEqual(validateItem(speak({ prompt: ' ' })).problems, ['empty-prompt']);
+  assert.deepEqual(validateItem(speak({ mode: 'debate' })).problems, ['bad-mode']);
+  assert.deepEqual(validateItem(speak({ emoji: '' })).problems, ['no-emoji']);
+  assert.deepEqual(validateItem(speak({ label: 'My very big pet' })).problems, ['label-words']);
+  assert.deepEqual(validateItem(speak({ label: '' })).problems, ['label-words']);
+  assert.deepEqual(validateItem(speak({ starters: ['a', 'b', 'c', 'd'] })).problems, ['starters-list']);
+  assert.deepEqual(validateItem(speak({ followUps: [''] })).problems, ['followups-list']);
+  assert.deepEqual(validateItem(speak({ useful: 'fluffy' })).problems, ['useful-list']);
+  assert.equal(validateItem(speak({ starters: undefined, followUps: undefined, useful: undefined })).ok, true, 'lists may be left out');
+  const wyr = speak({ mode: 'wyr', prompt: 'Would you rather...?', label: 'Pet pick', optA: { text: 'have a cat', emoji: '🐱' }, optB: { text: 'have a dog', emoji: '🐶' } });
+  assert.equal(validateItem(wyr).ok, true);
+  assert.deepEqual(validateItem({ ...wyr, optB: { text: ' ', emoji: '🐶' } }).problems, ['wyr-options']);
+  assert.deepEqual(validateItem({ ...wyr, optA: undefined }).problems, ['wyr-options']);
+  // Just a Minute takes only open modes.
+  assert.deepEqual(['talk', 'describe', 'opinion', 'hypothetical', 'ask', 'wyr'].map((mode) => jamOk(speak({ mode }))), [true, true, true, true, false, false]);
+  assert.equal(jamOk(mcq(1)), false);
+  // Quiz checks are unchanged, and quiz packs carry no kind.
+  assert.deepEqual(validateItem(mcq(1)).problems, []);
+  assert.equal('kind' in makePack({ id: 'x', title: 'X', level: 'A2' }), false);
+  assert.equal('kind' in makePack({ id: 'x', title: 'X', level: 'A2', kind: 'quiz' }), false);
+  assert.equal(makePack({ id: 'x', title: 'X', level: 'A2', kind: 'speaking', items: [speak()] }).kind, 'speaking');
 });
 
 test('boards prefer items within the word cap and keep a reserve', () => {
@@ -448,4 +474,24 @@ test('replaying missed items uses the original pack for distractors and reserve;
   assert.ok(s.reserve.length >= 4, 'the pool refills the reserve for the second try');
   const p = presented(s, q.itemId);
   assert.equal(p.options.length, 3, 'three picture options even with two missed items');
+});
+
+test('setup remembers the step-2 choice per content kind; speaking never clears the quiz choice', async () => {
+  const { savedSelection, withSelection } = await import('../src/classroom/core/setup.mjs');
+  // Quiz games read the top-level fields, exactly as before.
+  const legacy = { group: 'a2', topicKey: 'a2:a2-04', tab: 'builtin', myPackId: 'quiz-1' };
+  assert.deepEqual(savedSelection(legacy), { topicKey: 'a2:a2-04', tab: 'builtin', myPackId: 'quiz-1' });
+  assert.deepEqual(savedSelection(legacy, 'speaking'), { topicKey: null, tab: 'builtin', myPackId: null });
+  // A speaking choice goes under sel.speaking and leaves the quiz fields alone.
+  const afterSpeak = withSelection(legacy, 'speaking', { topicKey: 'speak:kids:animals', tab: 'ai', myPackId: 'speak-1' });
+  assert.deepEqual(savedSelection(afterSpeak), savedSelection(legacy));
+  assert.deepEqual(savedSelection(afterSpeak, 'speaking'), { topicKey: 'speak:kids:animals', tab: 'ai', myPackId: 'speak-1' });
+  assert.equal(afterSpeak.group, 'a2');
+  // A quiz choice writes the top level and keeps the speaking one.
+  const afterQuiz = withSelection(afterSpeak, 'quiz', { topicKey: 'b1:b1-02', tab: 'builtin', myPackId: null });
+  assert.deepEqual(savedSelection(afterQuiz), { topicKey: 'b1:b1-02', tab: 'builtin', myPackId: null });
+  assert.deepEqual(savedSelection(afterQuiz, 'speaking'), savedSelection(afterSpeak, 'speaking'));
+  // Broken saves fall back to nothing chosen.
+  assert.deepEqual(savedSelection(null, 'speaking'), { topicKey: null, tab: 'builtin', myPackId: null });
+  assert.deepEqual(savedSelection({ sel: 'x', topicKey: 3 }), { topicKey: null, tab: 'builtin', myPackId: null });
 });

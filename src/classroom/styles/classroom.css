@@ -415,3 +415,6 @@
 .cr-warns { margin: 0 0 8px; padding-left: 1.2em; display: grid; gap: 2px; }
 .cr-prevopts u { text-decoration-thickness: 2px; text-underline-offset: 3px; font-weight: 800; color: var(--accent-2); }
 .cr-tag { font-size: 11px; font-weight: 800; padding: 1px 6px; border-radius: 999px; background: var(--bg-2); color: var(--muted); }
+/* Speaking content in setup: a game's own topics (builtinTopics hook) and speaking cards in the AI preview */
+.cr-topic-emoji { float: right; margin-left: 6px; font-size: 24px; line-height: 1; }
+.cr-prevemoji { font-size: 18px; line-height: 1; vertical-align: -2px; }

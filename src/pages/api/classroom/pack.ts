@@ -14,7 +14,9 @@ import {
 
 // Classroom AI packs (signed-in teachers). A short topic such as
 // "6. sınıf 3. ünite yiyecekler, some/any" becomes a validated lg.pack/1
-// multiple-choice pack for the classroom games.
+// multiple-choice pack for the classroom games. With `kind: "speaking"` the
+// same topic becomes speaking cards for Konuşma Çarkı (no answer check, no
+// level word list: the cards have no key).
 //
 // The pipeline (prompt, parallel chunk calls with per-chunk timeouts and an
 // overall deadline, defensive parsing, validation) lives in
@@ -25,7 +27,8 @@ export const prerender = false;
 
 const MAX_REQUEST_BYTES = 4096;
 const GROUP_IDS = new Set(GROUPS.map((g) => g.id));
-const ALLOWED_KEYS = new Set(['prompt', 'group', 'count']);
+const ALLOWED_KEYS = new Set(['prompt', 'group', 'count', 'kind']);
+const PACK_KINDS = new Set(['quiz', 'speaking']);
 
 // ---------------------------------------------------------------------------
 // Abuse throttling (best-effort, in-memory per server instance, like the
@@ -196,9 +199,10 @@ function minutesText(sec: number): string {
   return `${Math.ceil(sec / 3600)} saat`;
 }
 
-type PackInput = { prompt: string; group: string; count: number };
+type PackKind = 'quiz' | 'speaking';
+type PackInput = { prompt: string; group: string; count: number; kind: PackKind };
 
-// Strict payload allowlist: { prompt, group, count? } and nothing else.
+// Strict payload allowlist: { prompt, group, count?, kind? } and nothing else.
 function parseInput(body: unknown): PackInput | { error: string } {
   if (!body || typeof body !== 'object' || Array.isArray(body)) {
     return { error: 'Geçersiz istek. Lütfen tekrar deneyin.' };
@@ -206,7 +210,14 @@ function parseInput(body: unknown): PackInput | { error: string } {
   const b = body as Record<string, unknown>;
   const unknownKey = Object.keys(b).find((k) => !ALLOWED_KEYS.has(k));
   if (unknownKey) {
-    return { error: `Bilinmeyen alan: "${unknownKey.slice(0, 30)}". Yalnızca prompt, group ve count gönderilebilir.` };
+    return { error: `Bilinmeyen alan: "${unknownKey.slice(0, 30)}". Yalnızca prompt, group, count ve kind gönderilebilir.` };
+  }
+  let kind: PackKind = 'quiz';
+  if (b.kind !== undefined && b.kind !== null) {
+    if (typeof b.kind !== 'string' || !PACK_KINDS.has(b.kind)) {
+      return { error: 'Geçersiz içerik türü. "quiz" ya da "speaking" olmalı.' };
+    }
+    kind = b.kind as PackKind;
   }
   if (typeof b.prompt !== 'string' || !b.prompt.trim()) {
     return { error: 'Konu alanı boş olamaz. Örneğin: "6. sınıf 3. ünite yiyecekler, some/any".' };
@@ -220,12 +231,12 @@ function parseInput(body: unknown): PackInput | { error: string } {
   let count = DEFAULT_COUNT;
   if (b.count !== undefined && b.count !== null) {
     if (typeof b.count !== 'number' || !Number.isInteger(b.count) || b.count < MIN_ITEMS || b.count > MAX_ITEMS) {
-      return { error: `Soru sayısı ${MIN_ITEMS} ile ${MAX_ITEMS} arasında bir tam sayı olmalı.` };
+      return { error: `${kind === 'speaking' ? 'Kart' : 'Soru'} sayısı ${MIN_ITEMS} ile ${MAX_ITEMS} arasında bir tam sayı olmalı.` };
     }
     count = b.count;
   }
   const prompt = b.prompt.replace(/[\u0000-\u001f\u007f]+/g, ' ').replace(/\s+/g, ' ').trim();
-  return { prompt, group: b.group, count };
+  return { prompt, group: b.group, count, kind };
 }
 
 // ---------------------------------------------------------------------------
@@ -403,12 +414,15 @@ export const POST: APIRoute = async ({ request, cookies }) => {
   const headers = () => userQuota(user.id, Date.now(), 1).headers;
   try {
     const profile = audienceProfile(input.group);
-    const lexicon = await lexiconFor(profile.level);
+    const speaking = input.kind === 'speaking';
+    // Speaking cards have no key and no level check: no word list, no answer check.
+    const lexicon = speaking ? null : await lexiconFor(profile.level);
     let result: Awaited<ReturnType<typeof generatePack>>;
     try {
       result = await generatePack({
         prompt: input.prompt,
         profile,
+        kind: input.kind,
         count: input.count,
         lexicon,
         // A client that disconnects aborts every chunk call.
@@ -422,15 +436,17 @@ export const POST: APIRoute = async ({ request, cookies }) => {
             throw e;
           }),
         // The answer check wants the model's single best reading, not variety.
-        checkModel: (messages, { signal }) =>
-          callChat({ baseUrl, apiKey, model, messages, signal, temperature: 0 }).catch((e: unknown) => {
-            if (!signal.aborted) console.warn('[classroom/pack] check failed:', errorText(e));
-            throw e;
-          }),
+        checkModel: speaking
+          ? null
+          : (messages, { signal }) =>
+              callChat({ baseUrl, apiKey, model, messages, signal, temperature: 0 }).catch((e: unknown) => {
+                if (!signal.aborted) console.warn('[classroom/pack] check failed:', errorText(e));
+                throw e;
+              }),
       });
       // One line per run (no user data) so slow or failing runs show up in the logs.
       const s = result.stats;
-      console.info(`[classroom/pack] ${result.ok ? 'ok' : result.code} group=${input.group} model=${model} asked=${s.requested} received=${s.received} kept=${s.kept} checked=${s.checked} dropped=${result.dropped.length} write=${s.writeMs}ms total=${s.ms}ms`);
+      console.info(`[classroom/pack] ${result.ok ? 'ok' : result.code} kind=${input.kind} group=${input.group} model=${model} asked=${s.requested} received=${s.received} kept=${s.kept} checked=${s.checked} dropped=${result.dropped.length} write=${s.writeMs}ms total=${s.ms}ms`);
     } catch (e) {
       console.error('[classroom/pack] generation failed:', errorText(e));
       return json(502, { error: 'Yapay zekâ yanıtı alınamadı. Lütfen birkaç dakika sonra tekrar deneyin.' }, headers());
@@ -447,9 +463,13 @@ export const POST: APIRoute = async ({ request, cookies }) => {
         return json(
           422,
           {
-            error: profile.young
-              ? 'Bu metinden çocuklara uygun İngilizce ders içeriği hazırlanamadı. Lütfen okula uygun bir dil konusu yazın (ör. "hayvanlar, have got").'
-              : 'Bu metinden İngilizce ders içeriği hazırlanamadı. Lütfen bir dil konusu yazın (ör. "past simple, travel").',
+            error: speaking
+              ? profile.young
+                ? 'Bu metinden çocuklara uygun İngilizce konuşma kartları hazırlanamadı. Lütfen okula uygun bir konu yazın (ör. "hayvanlar, hayalimdeki evcil hayvan").'
+                : 'Bu metinden İngilizce konuşma kartları hazırlanamadı. Lütfen bir konu yazın (ör. "seyahat, geçmiş deneyimler").'
+              : profile.young
+                ? 'Bu metinden çocuklara uygun İngilizce ders içeriği hazırlanamadı. Lütfen okula uygun bir dil konusu yazın (ör. "hayvanlar, have got").'
+                : 'Bu metinden İngilizce ders içeriği hazırlanamadı. Lütfen bir dil konusu yazın (ör. "past simple, travel").',
             reason: result.reason,
           },
           headers(),
@@ -461,7 +481,7 @@ export const POST: APIRoute = async ({ request, cookies }) => {
         return json(
           502,
           {
-            error: `Yeterince uygun soru çıkmadı (${result.stats.kept}/${MIN_ITEMS}). Konuyu biraz daha netleştirip tekrar deneyin.`,
+            error: `Yeterince uygun ${speaking ? 'konuşma kartı' : 'soru'} çıkmadı (${result.stats.kept}/${MIN_ITEMS}). Konuyu biraz daha netleştirip tekrar deneyin.`,
             reasons: result.reason,
             warnings: result.warnings,
             dropped: result.dropped,
