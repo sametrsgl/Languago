@@ -1,6 +1,7 @@
 import { defineConfig } from 'astro/config';
 import vercel from '@astrojs/vercel';
 import sitemap from '@astrojs/sitemap';
+import react from '@astrojs/react';
 import tailwindcss from '@tailwindcss/vite';
 
 // Public site URL placeholder — override at deploy time with SITE_URL.
@@ -35,6 +36,8 @@ export default defineConfig({
     ],
   }),
   integrations: [
+    // React powers the logged-in app (/app); public pages stay plain Astro.
+    react(),
     sitemap({
       customPages: [
         `${SITE_URL}/blog`,
