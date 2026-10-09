@@ -2,6 +2,8 @@
    Grown-up and calm in shape; the playfulness lives in motion. Pages that
    still use layouts/Layout.astro keep global.css until they move over. */
 @import '@fontsource-variable/plus-jakarta-sans';
+@import '@fontsource/fraunces/500-italic.css';
+@import '@fontsource/fraunces/600-italic.css';
 
 :root {
   --ink: #10201e;
@@ -152,3 +154,44 @@ body.lg { background: #eef3f1; }
 
 /* magnetic buttons */
 .btn.magnet { transition: transform .25s var(--ease-out), box-shadow .2s, background .2s; transform: translate(var(--bx, 0px), var(--by, 0px)); }
+
+/* ---- editorial type ---- */
+.serif { font-family: 'Fraunces', Georgia, 'Times New Roman', serif; font-style: italic; font-weight: 500; letter-spacing: -.01em; }
+.lg h2 .serif, .lg h1 .serif { font-weight: 600; }
+.ink-teal { color: var(--teal); }
+.ink-orange { color: var(--orange-deep); }
+.band-ink .ink-teal { color: #5fd8c8; }
+
+/* headings that rise word by word (JS splits them; without JS they just show) */
+.js [data-split] .w { display: inline-block; overflow: hidden; vertical-align: bottom; padding-bottom: .08em; margin-bottom: -.08em; }
+.js [data-split] .w > span { display: inline-block; transform: translateY(105%); transition: transform .8s var(--ease-out); transition-delay: calc(var(--i, 0) * 55ms); }
+.js [data-split].is-in .w > span { transform: none; }
+
+/* sliding topic band */
+.marquee { overflow: hidden; border-block: 1px solid var(--line); background: var(--surface); padding-block: 18px; mask-image: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent); -webkit-mask-image: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent); }
+.marquee-track { display: flex; gap: 40px; width: max-content; animation: marquee 38s linear infinite; }
+.marquee:hover .marquee-track { animation-play-state: paused; }
+.marquee span { display: inline-flex; align-items: center; gap: 40px; font-size: clamp(20px, 2.4vw, 30px); font-weight: 800; letter-spacing: -.02em; color: var(--ink); white-space: nowrap; }
+.marquee span:nth-child(3n+2) { font-family: 'Fraunces', Georgia, serif; font-style: italic; font-weight: 500; color: var(--teal-deep); }
+.marquee span::after { content: "✦"; color: var(--orange); font-size: .6em; }
+@keyframes marquee { to { transform: translateX(-50%); } }
+
+/* pull quote */
+.pull { display: grid; gap: 18px; justify-items: center; text-align: center; padding-block: clamp(72px, 10vw, 128px); position: relative; }
+.pull blockquote { margin: 0; font-family: 'Fraunces', Georgia, serif; font-style: italic; font-weight: 500; font-size: clamp(30px, 4.4vw, 56px); line-height: 1.15; letter-spacing: -.02em; max-width: 22ch; text-wrap: balance; }
+.pull blockquote b { font-weight: 600; color: var(--teal); }
+.pull cite { font-style: normal; font-weight: 700; color: var(--muted); letter-spacing: .06em; text-transform: uppercase; font-size: 13px; }
+
+/* drifting shapes that follow the pointer (set by the layout script) */
+.shapes { position: absolute; inset: 0; pointer-events: none; overflow: hidden; z-index: 0; }
+.shape { position: absolute; border-radius: 50%; filter: blur(2px); transform: translate(calc(var(--px, 0) * var(--d, 20px)), calc(var(--py, 0) * var(--d, 20px))); transition: transform .9s var(--ease-out); }
+.shape.s1 { width: 120px; height: 120px; left: 6%; top: 18%; background: rgba(245, 158, 11, .18); --d: 30px; }
+.shape.s2 { width: 64px; height: 64px; right: 10%; top: 12%; background: rgba(13, 148, 136, .22); --d: -40px; border-radius: 18px; rotate: 18deg; }
+.shape.s3 { width: 180px; height: 180px; right: 4%; bottom: 8%; border: 2px dashed rgba(13, 148, 136, .25); background: none; --d: 22px; }
+.shape.s4 { width: 26px; height: 26px; left: 44%; bottom: 14%; background: var(--orange); --d: -55px; }
+.section, .pull { position: relative; }
+.section > .wrap, .pull > * { position: relative; z-index: 1; }
+
+/* big outline step numbers */
+.step-big { font-family: 'Fraunces', Georgia, serif; font-style: italic; font-weight: 600; font-size: 72px; line-height: .9; color: transparent; -webkit-text-stroke: 1.5px var(--teal); margin-bottom: 10px; display: block; transition: color .35s; }
+.card:hover .step-big { color: var(--teal-soft); }

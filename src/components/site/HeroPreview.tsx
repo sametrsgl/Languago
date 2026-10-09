@@ -113,7 +113,7 @@ export default function HeroPreview() {
       </motion.div>
       <motion.div className="hp-chip hp-chip-a" style={still ? undefined : chipA}><motion.span {...float(-10, 4)}>+12 kelime</motion.span></motion.div>
       <motion.div className="hp-chip hp-chip-b" style={still ? undefined : chipB}><motion.span {...float(8, 5)}>A2 → B1 yolunda</motion.span></motion.div>
-      <motion.div className="hp-chip hp-chip-c" style={still ? undefined : chipC}><motion.span {...float(-7, 4.5)}>Google Meet ile canlı ders</motion.span></motion.div>
+      <motion.div className="hp-chip hp-chip-c" style={still ? undefined : chipC}><motion.span {...float(-7, 4.5)}>Kendi seçtiğiniz saatlere uygun canlı dersler</motion.span></motion.div>
     </div>
   );
 }

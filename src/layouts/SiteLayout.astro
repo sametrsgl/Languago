@@ -184,7 +184,42 @@ const current = (href: string) => (href !== '/' && path.startsWith(href) ? 'page
           window.addEventListener('touchmove', function (e) { var t = e.touches[0]; if (t) track(t.clientX, t.clientY, document.elementFromPoint(t.clientX, t.clientY), true); }, { passive: true });
           window.addEventListener('touchend', function () { if (lastCard) { lastCard.classList.remove('is-touched', 'tilt'); lastCard = null; } }, { passive: true });
         }
-        var items = document.querySelectorAll('.reveal');
+        // Headings marked data-split rise word by word: wrap each word of the
+        // text nodes; inner elements (serif accents) stay whole.
+        var n = 0;
+        document.querySelectorAll('[data-split]').forEach(function (el) {
+          n = 0;
+          var wrapText = function (node) {
+            Array.prototype.slice.call(node.childNodes).forEach(function (c) {
+              if (c.nodeType === 3) {
+                var frag = document.createDocumentFragment();
+                c.textContent.split(/(\s+)/).forEach(function (part) {
+                  if (!part) return;
+                  if (/^\s+$/.test(part)) { frag.appendChild(document.createTextNode(part)); return; }
+                  var w = document.createElement('span'); w.className = 'w';
+                  var i = document.createElement('span'); i.textContent = part; i.style.setProperty('--i', String(n++));
+                  w.appendChild(i); frag.appendChild(w);
+                });
+                c.parentNode.replaceChild(frag, c);
+              } else if (c.nodeType === 1 && !c.matches('svg, br')) {
+                var w2 = document.createElement('span'); w2.className = 'w';
+                c.parentNode.insertBefore(w2, c);
+                var inner = document.createElement('span'); inner.style.setProperty('--i', String(n++));
+                w2.appendChild(inner); inner.appendChild(c);
+              }
+            });
+          };
+          wrapText(el);
+          el.classList.add('reveal-split');
+        });
+        // The pointer (or finger) nudges decorative shapes everywhere.
+        if (!still) {
+          var root = document.documentElement;
+          var nudge = function (x, y) { root.style.setProperty('--px', ((x / window.innerWidth) * 2 - 1).toFixed(3)); root.style.setProperty('--py', ((y / window.innerHeight) * 2 - 1).toFixed(3)); };
+          window.addEventListener('pointermove', function (e) { nudge(e.clientX, e.clientY); }, { passive: true });
+          window.addEventListener('touchmove', function (e) { var t = e.touches[0]; if (t) nudge(t.clientX, t.clientY); }, { passive: true });
+        }
+        var items = document.querySelectorAll('.reveal, [data-split]');
         if (!('IntersectionObserver' in window)) { items.forEach(function (el) { el.classList.add('is-in'); }); return; }
         var io = new IntersectionObserver(function (entries) {
           entries.forEach(function (e) { if (e.isIntersecting) { e.target.classList.add('is-in'); io.unobserve(e.target); } });

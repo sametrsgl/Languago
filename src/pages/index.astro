@@ -22,8 +22,8 @@ const icon = {
     <div class="wrap">
       <div class="hero-copy">
         <span class="eyebrow">Öğretmen destekli online İngilizce</span>
-        <h1 id="hero-title">Doğru yöntemlerle İngilizce öğrenmek <span class="hl">hayal değil<svg viewBox="0 0 300 14" preserveAspectRatio="none" aria-hidden="true"><path d="M4 10 C80 2 220 2 296 9"/></svg></span>.</h1>
-        <p class="lede">Öğretmeninizle canlı dersler, size göre hazırlanmış bir öğrenme yolu ve her gün birkaç dakikalık pratik. Dinleme, okuma, yazma ve konuşma tek bir yerde.</p>
+        <h1 id="hero-title">Doğru yöntemlerle İngilizce öğrenmek <span class="hl serif">hayal değil<svg viewBox="0 0 300 14" preserveAspectRatio="none" aria-hidden="true"><path d="M4 10 C80 2 220 2 296 9"/></svg></span>.</h1>
+        <p class="lede">Her öğrenci için özel oluşturulan dil öğrenim sistemi ile öğretmeninizle canlı dersler, size göre hazırlanan ders içeriği ve her gün ilerleyen bir yol. Dinleme, okuma, yazma ve konuşma tek bir yerde.</p>
         <div class="hero-actions">
           <a class="btn btn-primary magnet" href="/signup">Ücretsiz başla <span class="arrow" aria-hidden="true">→</span></a>
           <a class="btn btn-ghost" href="/seviye-testi">Seviyeni öğren</a>
@@ -34,16 +34,38 @@ const icon = {
     </div>
   </section>
 
+  <div class="marquee" aria-hidden="true"><div class="marquee-track">
+    <span>Birebir dersler</span><span>size özel içerik</span><span>Küçük gruplar</span><span>Sınıflara özel program</span><span>Dinleme</span><span>okuma ve yazma</span><span>Konuşma</span><span>sınavlara hazırlık</span><span>Veli takibi</span>
+    <span>Birebir dersler</span><span>size özel içerik</span><span>Küçük gruplar</span><span>Sınıflara özel program</span><span>Dinleme</span><span>okuma ve yazma</span><span>Konuşma</span><span>sınavlara hazırlık</span><span>Veli takibi</span>
+  </div></div>
+
+  <section class="section" id="ozel" aria-labelledby="custom-title">
+    <div class="shapes" aria-hidden="true"><span class="shape s1"></span><span class="shape s2"></span><span class="shape s3"></span><span class="shape s4"></span></div>
+    <div class="wrap split">
+      <div>
+        <span class="eyebrow">Size özel içerik</span>
+        <h2 id="custom-title" data-split style="margin-top:14px">Her öğrenci farklı öğrenir. <span class="serif ink-teal">Program da farklı olmalı.</span></h2>
+        <p class="lede" style="margin-top:16px">Languago'da hazır bir kitabı baştan sona işlemezsiniz. Seviyenize, hedefinize ve zamanınıza göre ders içeriği öğretmeniniz tarafından sizin için hazırlanır; her dersin ardından yeniden ayarlanır.</p>
+      </div>
+      <div class="grid-2" style="align-self:stretch">
+        <article class="card reveal"><h3>Öğrencilere özel</h3><p>Seviye testi ve hedefleriniz (iş, sınav, seyahat, okul) ile size ait bir program. Zorlandığınız konular öne çıkar.</p></article>
+        <article class="card reveal" data-delay="1"><h3>Sınıflara özel</h3><p>Okul ve kurum grupları için müfredata uygun, sınıfın seviyesine göre hazırlanmış ders içerikleri ve materyaller.</p></article>
+        <article class="card reveal" data-delay="2"><h3>Öğretmen hazırlar</h3><p>İçerikler bir öğretmen tarafından seçilir ve düzenlenir; yapay zekâ yalnızca hız kazandırır.</p></article>
+        <article class="card reveal" data-delay="3"><h3>Sürekli güncellenir</h3><p>Ders raporları ve pratik sonuçları programınızı her hafta yeniden şekillendirir.</p></article>
+      </div>
+    </div>
+  </section>
+
   <section class="section band-teal" id="nasil" aria-labelledby="how-title">
     <div class="wrap">
       <div class="section-head boxed reveal">
         <span class="eyebrow">Nasıl çalışır</span>
-        <h2 id="how-title">Üç adımda kendi yolunuzda</h2>
+        <h2 id="how-title" data-split>Üç adımda <span class="serif ink-teal">kendi yolunuzda</span></h2>
       </div>
       <div class="grid-3 steps">
-        <article class="card reveal"><span class="step-n">1</span><h3>Seviyenizi öğrenin</h3><p>Kısa bir testle nereden başlayacağınızı görün. Sonuç sadece bir harf değil: hangi konuları pekiştirmeniz gerektiğini de söyler.</p></article>
-        <article class="card reveal" data-delay="1"><span class="step-n">2</span><h3>Planınızı alın</h3><p>Hedefinize ve zamanınıza göre bir öğrenme yolu: her gün ne çalışacağınız hazır, siz sadece başlayın.</p></article>
-        <article class="card reveal" data-delay="2"><span class="step-n">3</span><h3>Ders + günlük pratik</h3><p>Öğretmeninizle canlı ders, arada kısa pratikler ve her dersten sonra ne öğrendiğinizi gösteren bir rapor.</p></article>
+        <article class="card reveal"><span class="step-big">01</span><h3>Seviyenizi öğrenin</h3><p>Kısa bir testle nereden başlayacağınızı görün. Sonuç sadece bir harf değil: hangi konuları pekiştirmeniz gerektiğini de söyler.</p></article>
+        <article class="card reveal" data-delay="1"><span class="step-big">02</span><h3>Size özel programınızı alın</h3><p>Hedefinize ve zamanınıza göre size özel oluşturulan bir program: ne çalışacağınız her gün hazır.</p></article>
+        <article class="card reveal" data-delay="2"><span class="step-big">03</span><h3>Canlı ders + pratik</h3><p>Kendi seçtiğiniz saatlerde canlı ders, arada size özel alıştırmalar ve her dersten sonra ne öğrendiğinizi gösteren bir rapor.</p></article>
       </div>
     </div>
   </section>
@@ -52,7 +74,7 @@ const icon = {
     <div class="wrap">
       <div class="section-head boxed reveal">
         <span class="eyebrow">Dört beceri</span>
-        <h2 id="skills-title">Sadece test çözmek değil, gerçekten kullanmak</h2>
+        <h2 id="skills-title" data-split>Sadece test çözmek değil, <span class="serif ink-teal">gerçekten kullanmak</span></h2>
         <p class="lede">Her beceri, etkisi kanıtlanmış yöntemlerle çalışılır: anlamaya dayalı dinleme, seviyeye göre okuma, geri bildirimli yazma ve sesli pratik.</p>
       </div>
       <div class="grid-4">
@@ -68,8 +90,8 @@ const icon = {
     <div class="wrap split">
       <div class="reveal">
         <span class="eyebrow">Canlı dersler</span>
-        <h2 id="live-title" style="margin-top:12px">Dersiniz bir tık uzağınızda</h2>
-        <p class="lede" style="margin-top:14px">Birebir, küçük grup ya da sınıf dersi. Takviminiz, ders bağlantınız ve ödevleriniz hep aynı yerde.</p>
+        <h2 id="live-title" data-split style="margin-top:12px">Dersiniz <span class="serif ink-orange">size uyan saatte</span></h2>
+        <p class="lede" style="margin-top:14px">Birebir, küçük grup ya da sınıf dersi: kendi seçtiğiniz saatlere uygun canlı dersler. Takviminiz, ders bağlantınız ve ödevleriniz hep aynı yerde.</p>
         <ul class="checklist">
           <li><span class="tick" set:html={tick} /><span><b>Google Meet ile tek tık</b> <span class="soon">Yakında</span><br />Ders saatinde "Derse katıl" düğmesi yanar, bağlantı aramazsınız.</span></li>
           <li><span class="tick" set:html={tick} /><span><b>Takvim ve rezervasyon</b> <span class="soon">Yakında</span><br />Öğretmeninizin boş saatlerinden ders seçin; 24 saat önceden iptal kuralı herkes için aynı.</span></li>
@@ -91,7 +113,7 @@ const icon = {
       <div class="panel-dark split reveal">
         <div>
           <span class="eyebrow" style="color:var(--orange)">Öğretmenim</span>
-          <h2 id="teachers-title" style="margin-top:12px">Derslerinizi tek panelden yönetin</h2>
+          <h2 id="teachers-title" data-split style="margin-top:12px">Derslerinizi <span class="serif" style="color:var(--orange)">tek panelden</span> yönetin</h2>
           <p class="lede" style="margin-top:14px">Languago'yu öğrencilerinizle kullanın: sınıflar, takvim, ders raporları, materyaller ve sınıf içi oyunlar bir arada.</p>
           <div class="hero-actions" style="margin-top:26px"><a class="btn btn-accent" href="/signup?rol=ogretmen">Öğretmen olarak katıl <span class="arrow" aria-hidden="true">→</span></a></div>
         </div>
@@ -109,7 +131,7 @@ const icon = {
     <div class="wrap">
       <div class="section-head boxed reveal" style="margin-bottom:0">
         <span class="eyebrow">Sınıf İçi Oyunlar</span>
-        <h2 id="games-title">Sınıfta tek ekran, herkes oyunda</h2>
+        <h2 id="games-title" data-split>Sınıfta tek ekran, <span class="serif ink-teal">herkes oyunda</span></h2>
         <p class="lede">Telefon gerekmez: takımlar kartlarını kaldırır, oyun projeksiyonda akar. Ücretsiz, giriş gerektirmez.</p>
       </div>
       <div class="games">
@@ -122,12 +144,18 @@ const icon = {
     </div>
   </section>
 
+  <section class="pull band-cream" aria-label="Languago yaklaşımı">
+    <div class="shapes" aria-hidden="true"><span class="shape s1"></span><span class="shape s3"></span><span class="shape s4"></span></div>
+    <blockquote class="reveal">Hazır bir kalıba uymak zorunda değilsiniz. <b>Ders, size uyar.</b></blockquote>
+    <cite class="reveal" data-delay="1">Languago yaklaşımı</cite>
+  </section>
+
   <section class="section" aria-labelledby="cta-title">
     <div class="wrap">
       <div class="cta-band reveal">
         <img src="/brand/logo-mark.svg" alt="" width="64" height="64" />
-        <h2 id="cta-title">İlk adım ücretsiz: seviyenizi öğrenin</h2>
-        <p>Hesabınızı bir dakikada açın, kısa testi çözün ve size göre hazırlanmış planla hemen başlayın.</p>
+        <h2 id="cta-title" data-split>İlk adım ücretsiz: <span class="serif">seviyenizi öğrenin</span></h2>
+        <p>Hesabınızı bir dakikada açın, seviye testini çözün ve size özel oluşturulan programla başlayın.</p>
         <div class="hero-actions" style="justify-content:center">
           <a class="btn btn-accent magnet" href="/signup">Ücretsiz başla <span class="arrow" aria-hidden="true">→</span></a>
           <a class="btn btn-ghost" style="color:#fff !important;box-shadow:inset 0 0 0 1.5px rgba(255,255,255,.5)" href="/seviye-testi">Önce testi dene</a>
