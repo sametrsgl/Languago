@@ -2,6 +2,7 @@
 // Languago 2.0 public layout: new brand, header with a mobile menu, footer.
 // Pages still on layouts/Layout.astro keep the old look until they move.
 import '../styles/site.css';
+import '../styles/site-dark.css';
 
 interface Props {
   title: string;
@@ -32,6 +33,8 @@ const nav = [
   { href: '/sinif-oyunlari', label: 'Sınıf oyunları' },
   { href: '/blog', label: 'Blog' },
 ];
+// Dark is the site's look (owner's choice); ?tema=acik shows the light one.
+const dark = Astro.url.searchParams.get('tema') !== 'acik';
 const current = (href: string) => (href !== '/' && path.startsWith(href) ? 'page' : undefined);
 ---
 
@@ -44,7 +47,7 @@ const current = (href: string) => (href !== '/' && path.startsWith(href) ? 'page
     <meta name="description" content={description} />
     <meta name="robots" content="index, follow" />
     <link rel="canonical" href={pageUrl} />
-    <meta name="theme-color" content="#f6f8f7" />
+    <meta name="theme-color" content={dark ? "#071110" : "#f6f8f7"} />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <link rel="icon" type="image/png" sizes="32x32" href="/brand/mark-32.png" />
     <link rel="apple-touch-icon" href="/brand/apple-touch-icon.png" />
@@ -61,7 +64,7 @@ const current = (href: string) => (href !== '/' && path.startsWith(href) ? 'page
     <slot name="head" />
     <script is:inline>document.documentElement.classList.add('js');</script>
   </head>
-  <body class="lg">
+  <body class:list={["lg", { dark }]}>
     <a class="skip" href="#main">İçeriğe geç</a>
     <header class="site-head" data-head>
       <div class="wrap">
