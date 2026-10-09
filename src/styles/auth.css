@@ -1,0 +1,45 @@
+/* Languago 2.0 sign-in and sign-up: a brand panel beside the form. */
+.auth-wrap { min-height: calc(100vh - 72px); display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); }
+@media (max-width: 900px) { .auth-wrap { grid-template-columns: minmax(0, 1fr); } .auth-side { display: none; } }
+.auth-side { position: relative; overflow: hidden; padding: clamp(32px, 5vw, 72px); display: grid; align-content: center; gap: 24px;
+  background: radial-gradient(520px circle at var(--hx, 30%) var(--hy, 30%), rgba(45, 212, 191, .2), transparent 60%), radial-gradient(700px circle at 100% 100%, rgba(245, 158, 11, .14), transparent 60%), #071110; color: #eaf3f1; }
+.auth-side h2 { color: #fff; font-size: clamp(30px, 3.4vw, 46px); max-width: 16ch; }
+.auth-side ul { list-style: none; margin: 0; padding: 0; display: grid; gap: 14px; color: #b6c9c4; font-size: 16px; }
+.auth-side li { display: flex; gap: 12px; align-items: flex-start; }
+.auth-side li::before { content: ""; flex: none; width: 10px; height: 10px; margin-top: 8px; border-radius: 50%; background: #2dd4bf; box-shadow: 0 0 12px rgba(45, 212, 191, .8); }
+.auth-side .quote { font-family: 'Fraunces', Georgia, serif; font-style: italic; font-size: 22px; color: #5eead4; max-width: 26ch; }
+.auth-main { display: grid; place-items: center; padding: clamp(24px, 5vw, 64px) 20px; }
+.auth-card { width: min(100%, 460px); display: grid; gap: 18px; background: rgba(255, 255, 255, .035); border: 1px solid rgba(255, 255, 255, .09); border-radius: 24px; padding: clamp(24px, 4vw, 40px); box-shadow: 0 30px 80px rgba(0, 0, 0, .35); }
+body.lg:not(.dark) .auth-card { background: var(--surface); border-color: var(--line); box-shadow: var(--shadow-lg); }
+.auth-card h1 { font-size: clamp(28px, 3vw, 36px); }
+.auth-card .sub { color: var(--muted); }
+.auth-card form { display: grid; gap: 14px; }
+.field { display: grid; gap: 6px; }
+.field label { font-weight: 700; font-size: 14px; }
+.field input { min-height: 48px; padding: 0 14px; border-radius: 12px; border: 1.5px solid var(--line); background: rgba(255, 255, 255, .04); color: var(--ink); font: 500 16px var(--font); transition: border-color .2s, box-shadow .2s; }
+body.lg:not(.dark) .field input { background: #fff; }
+.field input:focus { outline: none; border-color: var(--teal); box-shadow: 0 0 0 4px rgba(45, 212, 191, .18); }
+.field .hint { font-size: 13px; color: var(--muted); }
+.auth-card .btn { width: 100%; }
+.divider { display: flex; align-items: center; gap: 12px; color: var(--muted); font-size: 13px; }
+.divider::before, .divider::after { content: ""; flex: 1; height: 1px; background: var(--line); }
+.btn-google { background: #fff; color: #1f2937 !important; box-shadow: inset 0 0 0 1.5px #dadce0; }
+.btn-google svg { width: 20px; height: 20px; }
+.alt { text-align: center; color: var(--muted); font-size: 15px; }
+.alert { padding: 12px 14px; border-radius: 12px; font-size: 14.5px; }
+.alert.error { background: rgba(239, 68, 68, .12); color: #fca5a5; border: 1px solid rgba(239, 68, 68, .3); }
+body.lg:not(.dark) .alert.error { background: #fef2f2; color: #b91c1c; border-color: #fecaca; }
+.alert.ok { background: rgba(45, 212, 191, .12); color: #5eead4; border: 1px solid rgba(45, 212, 191, .3); }
+
+/* role choice */
+.roles { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; border: 0; margin: 0; padding: 0; }
+.roles legend { font-weight: 700; font-size: 14px; margin-bottom: 8px; }
+.role { position: relative; display: grid; gap: 6px; padding: 16px 14px; border-radius: 16px; border: 1.5px solid var(--line); cursor: pointer; transition: border-color .2s, background .2s, transform .25s var(--ease-pop); }
+.role:hover { transform: translateY(-2px); }
+.role input { position: absolute; opacity: 0; pointer-events: none; }
+.role b { font-size: 16px; }
+.role small { color: var(--muted); font-size: 13px; line-height: 1.4; }
+.role svg { width: 28px; height: 28px; color: var(--teal); }
+.role:has(input:checked) { border-color: var(--teal); background: rgba(45, 212, 191, .1); box-shadow: 0 0 0 4px rgba(45, 212, 191, .12); }
+.role:has(input:focus-visible) { outline: 3px solid var(--orange); outline-offset: 2px; }
+.role-note { font-size: 13.5px; color: var(--muted); }

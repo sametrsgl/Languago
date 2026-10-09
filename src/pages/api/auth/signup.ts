@@ -7,7 +7,7 @@ import { readJsonBody, RequestBodyError } from '../../../lib/request-body';
  * Standalone JSON endpoint — no Astro Actions routing, no origin-check
  * middleware. Reliable under Vercel's custom-domain proxy.
  *
- * Request:  { "fullName"?, "email", "password" }
+ * Request:  { "fullName"?, "email", "password", "role"?: "student" | "teacher" }
  * Success (session): { "ok": true, "hasSession": true }      → client → /dashboard
  * Success (confirmation): { "ok": true, "hasSession": false } → client shows "check email"
  * Validation error: { "error": { "fields": { email: [...], password: [...] } } }
@@ -38,6 +38,10 @@ export const POST: APIRoute = async ({ request, cookies }) => {
       ? body.fullName.trim()
       : undefined;
 
+  // Öğrenciyim / Öğretmenim. Teachers get access at once (owner's decision);
+  // the database trigger reads role_choice when it creates the profile.
+  const roleChoice = body.role === 'teacher' ? 'teacher' : 'student';
+
   // Lightweight field validation (mirrors the old zod input shape).
   const fields: Record<string, string[]> = {};
   if (!email) fields.email = ['E-posta adresi gerekli.'];
@@ -63,7 +67,7 @@ export const POST: APIRoute = async ({ request, cookies }) => {
     const { data, error } = await supabase.auth.signUp({
       email,
       password,
-      options: { data: fullName ? { full_name: fullName } : undefined },
+      options: { data: { ...(fullName ? { full_name: fullName } : {}), role_choice: roleChoice } },
     });
 
     if (error) {
