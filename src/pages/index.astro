@@ -1,264 +1,138 @@
 ---
-import Layout from '../layouts/Layout.astro';
-import MiniLessonPreview from '../components/home/MiniLessonPreview.astro';
+// Languago 2.0 homepage. Features that come in later releases carry a
+// "Yakında" tag so the page never promises what is not there yet.
+import SiteLayout from '../layouts/SiteLayout.astro';
+import HeroPreview from '../components/site/HeroPreview';
+import '../styles/home.css';
+
+const tick = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5 10 17 19 7"/></svg>';
+const icon = {
+  listen: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 14v-2a8 8 0 0 1 16 0v2"/><rect x="3" y="14" width="5" height="7" rx="2"/><rect x="16" y="14" width="5" height="7" rx="2"/></svg>',
+  read: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 5.5C5 4 8.5 4 12 6c3.5-2 7-2 10-.5V19c-3-1.5-6.5-1.5-10 .5-3.5-2-7-2-10-.5z"/><path d="M12 6v13.5"/></svg>',
+  write: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 20h4L19 9a2.8 2.8 0 0 0-4-4L4 16z"/><path d="m13.5 6.5 4 4"/></svg>',
+  speak: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="2.5" width="6" height="11" rx="3"/><path d="M5 11a7 7 0 0 0 14 0M12 18v3.5"/></svg>',
+  test: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 20V10M10 20V4M16 20v-7M22 20H2"/></svg>',
+  plan: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 4h6M9 4a2 2 0 0 0-2 2H5v15h14V6h-2a2 2 0 0 0-2-2"/><path d="m9 13 2 2 4-4"/></svg>',
+  live: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2.5" y="6" width="13" height="12" rx="2.5"/><path d="m15.5 10.5 6-3.5v10l-6-3.5"/></svg>',
+};
 ---
 
-<Layout title="Languago — İngilizce için net bir sonraki adım" description="İngilizce öğrenmek için seviyeni gör, kısa bir ders dene ve kendine uygun yoldan devam et.">
-  <main class="home-page">
-    <section class="home-hero container" aria-labelledby="home-title">
-      <div class="home-hero__copy">
-        <p class="eyebrow">İngilizce öğrenmek için sade bir başlangıç</p>
-        <h1 id="home-title">Bugün ne çalışacağını bil.</h1>
-        <p class="home-hero__lead">Seviyeni tahmin etmek yerine kısa bir testle başla. Sonra dil bilgisi, kelime ve okuma çalışmalarını tek bir öğrenme yolunda sırala.</p>
-        <div class="home-actions" aria-label="Ana işlemler">
-          <a class="home-button home-button--primary" href="#level-test">Seviyeni gör</a>
-          <a class="home-button home-button--quiet" href="/ogren">Öğrenme yolunu incele</a>
+<SiteLayout title="Languago: doğru yöntemlerle İngilizce" description="Google Meet'te canlı İngilizce dersleri, size göre bir öğrenme yolu ve günde birkaç dakikalık pratik. Ücretsiz başlayın.">
+  <section class="hero" aria-labelledby="hero-title">
+    <div class="wrap">
+      <div class="hero-copy">
+        <span class="eyebrow">Öğretmen destekli online İngilizce</span>
+        <h1 id="hero-title">Doğru yöntemlerle İngilizce öğrenmek <span class="hl">hayal değil<svg viewBox="0 0 300 14" preserveAspectRatio="none" aria-hidden="true"><path d="M4 10 C80 2 220 2 296 9"/></svg></span>.</h1>
+        <p class="lede">Öğretmeninizle canlı dersler, size göre hazırlanmış bir öğrenme yolu ve her gün birkaç dakikalık pratik. Dinleme, okuma, yazma ve konuşma tek bir yerde.</p>
+        <div class="hero-actions">
+          <a class="btn btn-primary magnet" href="/signup">Ücretsiz başla <span class="arrow" aria-hidden="true">→</span></a>
+          <a class="btn btn-ghost" href="/seviye-testi">Seviyeni öğren</a>
         </div>
-        <p class="home-trust">Kısa adımlar · Açık geri bildirim · Resmi sınav yerine başlangıç tahmini</p>
+        <div class="hero-trust"><span>Birebir dersler</span><span>Küçük gruplar</span><span>Çocuklar için veli takibi</span></div>
       </div>
-      <MiniLessonPreview />
-    </section>
+      <HeroPreview client:load />
+    </div>
+  </section>
 
-    <section class="audience container" aria-labelledby="audience-title">
-      <div class="section-heading">
-        <p class="eyebrow">Sana göre bir akış</p>
-        <h2 id="audience-title">İhtiyacın değişirse yolun da değişsin.</h2>
+  <section class="section band-teal" id="nasil" aria-labelledby="how-title">
+    <div class="wrap">
+      <div class="section-head boxed reveal">
+        <span class="eyebrow">Nasıl çalışır</span>
+        <h2 id="how-title">Üç adımda kendi yolunuzda</h2>
       </div>
-      <div class="audience-switch" role="tablist" aria-label="Kullanım amacı seç">
-        <button class="audience-switch__button is-active" type="button" role="tab" aria-selected="true" data-audience="learner">Öğrenciyim</button>
-        <button class="audience-switch__button" type="button" role="tab" aria-selected="false" data-audience="teacher">Öğretmenim</button>
+      <div class="grid-3 steps">
+        <article class="card reveal"><span class="step-n">1</span><h3>Seviyenizi öğrenin</h3><p>Kısa bir testle nereden başlayacağınızı görün. Sonuç sadece bir harf değil: hangi konuları pekiştirmeniz gerektiğini de söyler.</p></article>
+        <article class="card reveal" data-delay="1"><span class="step-n">2</span><h3>Planınızı alın</h3><p>Hedefinize ve zamanınıza göre bir öğrenme yolu: her gün ne çalışacağınız hazır, siz sadece başlayın.</p></article>
+        <article class="card reveal" data-delay="2"><span class="step-n">3</span><h3>Ders + günlük pratik</h3><p>Öğretmeninizle canlı ders, arada kısa pratikler ve her dersten sonra ne öğrendiğinizi gösteren bir rapor.</p></article>
       </div>
-      <div class="audience-card" data-audience-panel="learner">
-        <div><span class="eyebrow">Öğrenci akışı</span><h3>Bir sonraki çalışmayı seçmek kolay olsun.</h3><p>Seviye testinden sonra önerilen başlangıç konunu aç, kısa pratik yap ve kelimeleri tekrar et. Nerede kaldığını panelinden takip edebilirsin.</p></div>
-        <a class="home-button home-button--primary" href="/ogren">Öğrenmeye başla <span aria-hidden="true">→</span></a>
-      </div>
-      <div class="audience-card" data-audience-panel="teacher" hidden>
-        <div><span class="eyebrow">Öğretmen akışı</span><h3>Ders öncesi hazırlığı tek yerde toparla.</h3><p>Seviye ve konuya göre materyal taslağı oluştur, öğrenci kopyasını cevap anahtarından ayrı tut ve öğretmen paneline geç.</p></div>
-        <a class="home-button home-button--primary" href="/materyal-uretici">Materyal üreticiyi aç <span aria-hidden="true">→</span></a>
-      </div>
-    </section>
+    </div>
+  </section>
 
-    <section class="placement-section container" aria-labelledby="placement-title" id="level-test">
-      <div class="placement-card">
-        <div class="placement-card__intro">
-          <p class="eyebrow">Başlangıç noktan</p>
-          <h2 id="placement-title">İngilizce için başlangıç seviyeni gör.</h2>
-          <p>A1’den C2’ye ilerleyen kısa seviye testi, verdiğin yanıtlara göre sıradaki soruyu seçer. Sonuç, nereden başlayabileceğine dair bir çalışma tahminidir; sınav puanı üretmez.</p>
-          <div class="placement-levels" aria-label="CEFR seviyeleri"><span>A1</span><span>A2</span><span>B1</span><span>B2</span><span>C1</span><span>C2</span></div>
-          <div class="placement-profile" aria-labelledby="placement-profile-title">
-            <h3 id="placement-profile-title">Önce öğrenciyi tanıyalım</h3>
-            <div class="placement-fields">
-              <label for="placement-name">Öğrencinin adı</label>
-              <input id="placement-name" name="placement-name" maxlength="120" autocomplete="name" placeholder="Örn. Deniz" />
-              <label for="placement-goal">Ne için hazırlanıyor?</label>
-              <select id="placement-goal" name="placement-goal">
-                <option value="general">Genel İngilizce</option><option value="ielts">IELTS</option><option value="toefl">TOEFL</option><option value="yds">YDS / YÖKDİL</option><option value="other">Diğer sınav / hedef</option>
-              </select>
-            </div>
-            <p class="placement-note">En az 30 soru sorulur. Doğru cevaplarda seviye yükselir, yanlış cevaplarda daha temel bir maddeye dönülür.</p>
-          </div>
-          <div class="placement-actions"><button class="home-button home-button--primary" type="button" id="placement-start" disabled>Seviye analizini başlat</button><button class="home-button home-button--quiet placement-resume" type="button" id="placement-resume" hidden>Teste devam et</button></div>
-          <p class="placement-note">30–40 soru · Yanıtların bu cihazda taslak olarak saklanabilir.</p>
-          <p class="placement-feedback" id="placement-load-error" role="alert"></p>
+  <section class="section band-ink" id="beceriler" aria-labelledby="skills-title">
+    <div class="wrap">
+      <div class="section-head boxed reveal">
+        <span class="eyebrow">Dört beceri</span>
+        <h2 id="skills-title">Sadece test çözmek değil, gerçekten kullanmak</h2>
+        <p class="lede">Her beceri, etkisi kanıtlanmış yöntemlerle çalışılır: anlamaya dayalı dinleme, seviyeye göre okuma, geri bildirimli yazma ve sesli pratik.</p>
+      </div>
+      <div class="grid-4">
+        <article class="card reveal"><div class="icon-tile tile-teal" set:html={icon.listen} /><h3>Dinleme <span class="soon">Yakında</span></h3><p>Video dersler sitenin içinde oynar, doğru anda durur ve soru sorar. Altyazı, yavaşlatma ve dikte ile.</p></article>
+        <article class="card reveal" data-delay="1"><div class="icon-tile tile-orange" set:html={icon.read} /><h3>Okuma</h3><p>Seviyenize uygun metinler ve anlama soruları. Bilmediğiniz kelimeye dokunun, kelime kutunuza ekleyin.</p></article>
+        <article class="card reveal" data-delay="2"><div class="icon-tile tile-ink" set:html={icon.write} /><h3>Yazma <span class="soon">Yakında</span></h3><p>E-posta, hikâye, görüş yazısı gibi gerçek görevler. Öğretmen satır satır geri bildirim verir, siz yeniden yazarsınız.</p></article>
+        <article class="card reveal" data-delay="3"><div class="icon-tile tile-teal" set:html={icon.speak} /><h3>Konuşma <span class="soon">Yakında</span></h3><p>Dinle ve tekrarla, sesli cevaplar, konuşma kulübü. Hata yapmaktan korkmadan pratik yapın.</p></article>
+      </div>
+    </div>
+  </section>
+
+  <section class="section band-cream" aria-labelledby="live-title">
+    <div class="wrap split">
+      <div class="reveal">
+        <span class="eyebrow">Canlı dersler</span>
+        <h2 id="live-title" style="margin-top:12px">Dersiniz bir tık uzağınızda</h2>
+        <p class="lede" style="margin-top:14px">Birebir, küçük grup ya da sınıf dersi. Takviminiz, ders bağlantınız ve ödevleriniz hep aynı yerde.</p>
+        <ul class="checklist">
+          <li><span class="tick" set:html={tick} /><span><b>Google Meet ile tek tık</b> <span class="soon">Yakında</span><br />Ders saatinde "Derse katıl" düğmesi yanar, bağlantı aramazsınız.</span></li>
+          <li><span class="tick" set:html={tick} /><span><b>Takvim ve rezervasyon</b> <span class="soon">Yakında</span><br />Öğretmeninizin boş saatlerinden ders seçin; 24 saat önceden iptal kuralı herkes için aynı.</span></li>
+          <li><span class="tick" set:html={tick} /><span><b>Ders raporu</b><br />Düzeltmeler, yeni kelimeler ve ödev her dersin ardından önünüzde.</span></li>
+          <li><span class="tick" set:html={tick} /><span><b>Veliler için görünür ilerleme</b><br />Çocuğunuzun dersleri, ödevleri ve gelişimi haftalık özetle.</span></li>
+        </ul>
+      </div>
+      <div class="week reveal" data-delay="1" aria-label="Örnek haftalık ders programı">
+        <div class="week-row is-next"><span class="day">Bugün</span><span><b>Birebir · 19:00</b><small>Past simple ile hikâye</small></span><span class="tag">Derse katıl</span></div>
+        <div class="week-row"><span class="day">Çar</span><span><b>Küçük grup · 18:00</b><small>Konuşma kulübü · B1</small></span><span class="tag">40 dk</span></div>
+        <div class="week-row"><span class="day">Cum</span><span><b>Birebir · 19:00</b><small>IELTS yazma görevi</small></span><span class="tag">40 dk</span></div>
+        <div class="week-row"><span class="day">Paz</span><span><b>Ödev</b><small>Video ders + 10 kelime</small></span><span class="tag">15 dk</span></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="ogretmenler" aria-labelledby="teachers-title">
+    <div class="wrap">
+      <div class="panel-dark split reveal">
+        <div>
+          <span class="eyebrow" style="color:var(--orange)">Öğretmenim</span>
+          <h2 id="teachers-title" style="margin-top:12px">Derslerinizi tek panelden yönetin</h2>
+          <p class="lede" style="margin-top:14px">Languago'yu öğrencilerinizle kullanın: sınıflar, takvim, ders raporları, materyaller ve sınıf içi oyunlar bir arada.</p>
+          <div class="hero-actions" style="margin-top:26px"><a class="btn btn-accent" href="/signup?rol=ogretmen">Öğretmen olarak katıl <span class="arrow" aria-hidden="true">→</span></a></div>
         </div>
-        <div class="placement-test" id="placement-test" hidden>
-          <div class="placement-test__topline"><span id="placement-step">Soru 1</span><span class="placement-current" id="placement-current">A1</span></div>
-          <div class="placement-progress" role="progressbar" aria-label="Seviye testi ilerlemesi" aria-valuemin="0" aria-valuemax="40" aria-valuenow="0"><span id="placement-progress-bar"></span></div>
-          <p class="placement-source" id="placement-source"></p>
-          <section class="placement-passage" id="placement-passage" aria-labelledby="placement-passage-label" hidden>
-            <h3 id="placement-passage-label" tabindex="-1">Okuma metni</h3>
-            <p id="placement-passage-title" lang="en"></p>
-            <div id="placement-passage-text" lang="en"></div>
-          </section>
-          <h3 id="placement-question" lang="en" tabindex="-1"></h3>
-          <div class="placement-options" id="placement-options" role="group" aria-label="Cevap seçenekleri"></div>
-          <p class="placement-feedback" id="placement-feedback" aria-live="polite"></p><button class="home-button home-button--quiet" type="button" id="placement-next" hidden>Sonraki soru</button>
-        </div>
-        <div class="placement-result" id="placement-result" hidden>
-          <p class="eyebrow">İlk profilin hazır</p><h3 id="placement-result-title"></h3><p id="placement-result-copy"></p>
-          <div class="placement-result__stats" id="placement-result-stats" aria-label="Seviye testi özeti"></div>
-          <p class="placement-note" id="placement-result-limitations">Bu test IELTS, TOEFL veya YDS / YÖKDİL puanı üretmez; konuşma, dinleme ve yazmayı ölçmez. CEFR tahmini yalnızca çalışma başlangıcı içindir, seviye belgesi değildir.</p>
-          <p class="placement-result__next" id="placement-result-next"></p><p class="placement-save" id="placement-save" role="status" aria-live="polite"></p>
-          <div class="placement-actions"><a class="home-button home-button--primary" href="/signup?from=placement">Yolunu kaydet</a><button class="home-button home-button--quiet" type="button" id="placement-restart">Testi yeniden başlat</button></div>
-          <p class="placement-note">Hesabın varsa <a href="/signin?from=placement">giriş yap</a>; sonucu hesabına aktarabilirsin.</p>
+        <ul class="checklist">
+          <li><span class="tick" set:html={tick} /><span><b>Sınıflar ve öğrenci dosyaları</b><br />Her öğrencinin seviyesi, ödevleri ve gelişimi.</span></li>
+          <li><span class="tick" set:html={tick} /><span><b>Haftalık takvim</b> <span class="soon">Yakında</span><br />Müsait saatleriniz, tekrar eden dersler, otomatik Meet bağlantısı.</span></li>
+          <li><span class="tick" set:html={tick} /><span><b>Materyaller</b><br />Ekran paylaşımına hazır sunumlar ve çalışma kâğıtları.</span></li>
+          <li><span class="tick" set:html={tick} /><span><b>Sınıf içi oyunlar</b><br />Projeksiyonda oynanan takım oyunları, her seviyeye uygun sorularla.</span></li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section class="section band-teal" id="classroom-games" aria-labelledby="games-title">
+    <div class="wrap">
+      <div class="section-head boxed reveal" style="margin-bottom:0">
+        <span class="eyebrow">Sınıf İçi Oyunlar</span>
+        <h2 id="games-title">Sınıfta tek ekran, herkes oyunda</h2>
+        <p class="lede">Telefon gerekmez: takımlar kartlarını kaldırır, oyun projeksiyonda akar. Ücretsiz, giriş gerektirmez.</p>
+      </div>
+      <div class="games">
+        <a class="game reveal" href="/sinif-oyunlari/kutu-avi"><b>Kutu Avı</b><small>Sürpriz kutular, takım yarışı</small></a>
+        <a class="game reveal" data-delay="1" href="/sinif-oyunlari/milyoner-merdiveni"><b>Milyoner Merdiveni</b><small>Basamak basamak zorlaşan sorular</small></a>
+        <a class="game reveal" data-delay="2" href="/sinif-oyunlari/kategori-kapismasi"><b>Kategori Kapışması</b><small>Jeopardy tarzı kategori tablosu</small></a>
+        <a class="game reveal" data-delay="3" href="/sinif-oyunlari/kelime-sehri"><b>Kelime Şehri</b><small>Monopoly tarzı şehir oyunu</small></a>
+      </div>
+      <p style="margin-top:20px"><a href="/sinif-oyunlari">Tüm sınıf oyunlarını gör →</a></p>
+    </div>
+  </section>
+
+  <section class="section" aria-labelledby="cta-title">
+    <div class="wrap">
+      <div class="cta-band reveal">
+        <img src="/brand/logo-mark.svg" alt="" width="64" height="64" />
+        <h2 id="cta-title">İlk adım ücretsiz: seviyenizi öğrenin</h2>
+        <p>Hesabınızı bir dakikada açın, kısa testi çözün ve size göre hazırlanmış planla hemen başlayın.</p>
+        <div class="hero-actions" style="justify-content:center">
+          <a class="btn btn-accent magnet" href="/signup">Ücretsiz başla <span class="arrow" aria-hidden="true">→</span></a>
+          <a class="btn btn-ghost" style="color:#fff !important;box-shadow:inset 0 0 0 1.5px rgba(255,255,255,.5)" href="/seviye-testi">Önce testi dene</a>
         </div>
       </div>
-    </section>
-
-    <section class="classroom-games container" id="classroom-games" aria-labelledby="classroom-games-title">
-      <div class="classroom-games__panel">
-        <div class="classroom-games__copy">
-          <p class="eyebrow">Öğretmenler ve sınıflar için</p>
-          <h2 id="classroom-games-title">Sınıf İçi Oyunlar</h2>
-          <p>Projektörde veya akıllı tahtada aç, sınıfı takımlara ayır ve oyna. Her soruda bütün takımlar cevabını aynı anda gösterir, seçilen öğrenci cevabı İngilizce söyler. Hazır bir konu seç ya da kendi içeriğini yaz; oyun yetişkinlere, 7–14 yaş gruplarına göre görünümünü ve kurallarını değiştirir.</p>
-          <div class="classroom-games__meta" aria-label="Oyun bilgileri"><span>A1–B2 yetişkin</span><span>7–14 yaş</span><span>2–8 takım</span><span>Telefon gerekmez</span></div>
-          <div class="classroom-games__actions">
-            <a class="home-button home-button--primary" href="/sinif-oyunlari">Sınıf oyunlarını aç <span aria-hidden="true">→</span></a>
-            <a class="home-button home-button--quiet" href="/sinif-oyunlari/kutu-avi">Kutu Avı’nı başlat</a>
-          </div>
-          <p class="classroom-games__classic">Klasik sürüm: <a href="/sinif-oyunu">Sınıf İçi Karşılaşma</a></p>
-        </div>
-        <div class="classroom-games__preview" aria-hidden="true">
-          <span class="classroom-games__tile">1</span><span class="classroom-games__tile classroom-games__tile--active">?</span><span class="classroom-games__tile">3</span>
-          <span class="classroom-games__tile">Blue Pandas</span><span class="classroom-games__tile classroom-games__tile--bonus">+ ★</span><span class="classroom-games__tile">Team Bolt</span>
-        </div>
-      </div>
-    </section>
-
-    <section class="coverage container" aria-labelledby="coverage-title">
-      <div class="section-heading"><p class="eyebrow">Çalışma alanları</p><h2 id="coverage-title">Tek bir hedefe değil, gerçek ihtiyacına çalış.</h2></div>
-      <div class="coverage-grid">
-        <a class="coverage-card" href="/dashboard/dilbilgisi"><span class="coverage-card__number">01</span><h3>Dil bilgisi</h3><p>A1–C1 konuları, örnekler ve pekiştirme soruları.</p><span class="coverage-card__link">Dersleri gör →</span></a>
-        <a class="coverage-card" href="/dashboard/kelimeler"><span class="coverage-card__number">02</span><h3>Kelime</h3><p>Bağlam içinde kelime, yazım pratiği ve tekrar.</p><span class="coverage-card__link">Kelime çalış →</span></a>
-        <a class="coverage-card" href="/dashboard/okuma"><span class="coverage-card__number">03</span><h3>Okuma</h3><p>A1–C2 ve sınav odaklı metinlerle anlama pratiği.</p><span class="coverage-card__link">Metinleri aç →</span></a>
-      </div>
-    </section>
-  </main>
-</Layout>
-
-<script>
-  import { createPlacementState, getPlacementPassage, placementResult, recordPlacementAnswer, selectNextPlacementQuestion, shouldFinishPlacement } from '../lib/placement-test.mjs';
-  import { checkPlacementAnswer, replayPlacementDraft } from '../lib/placement-client.mjs';
-  const $ = (selector) => document.querySelector(selector);
-  const startButton = $('#placement-start'); const resumeButton = $('#placement-resume'); const testPanel = $('#placement-test'); const resultPanel = $('#placement-result'); const intro = document.querySelector('.placement-card__intro');
-  const questionEl = $('#placement-question'); const optionsEl = $('#placement-options'); const feedbackEl = $('#placement-feedback'); const nextButton = $('#placement-next'); const stepEl = $('#placement-step'); const currentEl = $('#placement-current'); const sourceEl = $('#placement-source'); const progressBar = $('#placement-progress-bar'); const progress = document.querySelector('.placement-progress'); const saveEl = $('#placement-save'); const resultTitle = $('#placement-result-title'); const resultCopy = $('#placement-result-copy'); const resultStats = $('#placement-result-stats'); const resultNext = $('#placement-result-next'); const restartButton = $('#placement-restart'); const nameInput = $('#placement-name'); const goalInput = $('#placement-goal'); const draftKey = 'languago:placement-draft';
-  const passageEl = $('#placement-passage'); const passageLabel = $('#placement-passage-label'); const passageTitle = $('#placement-passage-title'); const passageText = $('#placement-passage-text'); const loadError = $('#placement-load-error');
-  let pool = []; let passages = {}; let state = createPlacementState(); let currentQuestion = null;
-  const setText = (element, value) => { if (element) element.textContent = value; };
-  function profile() { return { learnerName: String(nameInput?.value || '').trim().slice(0, 120), goal: String(goalInput?.value || 'general') }; }
-  function saveDraft() { try { localStorage.setItem(draftKey, JSON.stringify({ ...profile(), answers: state.questions })); } catch { setText(saveEl, 'Taslak bu cihazda saklanamadı; teste devam edebilirsin.'); } }
-  async function checkAnswer(id, selectedIndex) { return checkPlacementAnswer(fetch, id, selectedIndex); }
-  async function replayDraft(draft) { return replayPlacementDraft(draft, pool, checkAnswer); }
-  function readDraft() { try { const draft = JSON.parse(localStorage.getItem(draftKey) || 'null'); return Array.isArray(draft?.answers) && draft.answers.length ? draft : null; } catch { try { localStorage.removeItem(draftKey); } catch {} return null; } }
-  function clearDraft() { try { localStorage.removeItem(draftKey); } catch {} }
-  function renderPassage() {
-    const passage = getPlacementPassage(currentQuestion, passages);
-    if (!passageEl || !passageText) return;
-    passageEl.hidden = !passage;
-    setText(passageTitle, passage?.title || '');
-    passageText.replaceChildren();
-    // Plain text only: keep the source's paragraph breaks, never interpret HTML.
-    for (const text of passage?.text.split(/\r?\n\s*\r?\n/) || []) {
-      const paragraph = document.createElement('p');
-      paragraph.textContent = text;
-      passageText.append(paragraph);
-    }
-    (passage ? passageLabel : questionEl)?.focus();
-  }
-  function renderResultStats(result) { if (!resultStats) return; resultStats.innerHTML = ''; [[`${result.accuracy}%`, 'genel doğruluk'], [`${result.correctAnswers}/${result.questionsAnswered}`, 'doğru cevap'], [result.level, result.scoreLabel]].forEach(([value, label]) => { const item = document.createElement('div'); item.className = 'placement-stat'; const strong = document.createElement('strong'); strong.textContent = value; const span = document.createElement('span'); span.textContent = label; item.append(strong, span); resultStats.append(item); }); }
-  async function saveResult() { setText(saveEl, 'Sonucun hesabına kaydediliyor…'); try { const response = await fetch('/api/placement/save', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ ...profile(), answers: state.questions }) }); if (!response.ok) throw new Error('save'); clearDraft(); setText(saveEl, 'Sonuç kaydedildi. Öğrenme yolun hazır.'); } catch { setText(saveEl, 'Sonuç bu cihazda tutuldu. Hesabına aktarmak için giriş yapıp testi yeniden açabilirsin.'); } }
-  function showResult() { const result = placementResult(state); testPanel.hidden = true; resultPanel.hidden = false; setText(resultTitle, `${result.learnerName ? `${result.learnerName}, ` : ''}tahmini seviyen: ${result.level}`); setText(resultCopy, `${result.questionsAnswered} genel İngilizce sorusunda %${result.accuracy} doğruluk. Çalışma hedefin: ${result.goalLabel}.`); renderResultStats(result); setText(resultNext, `${result.level} seviyesindeki çalışmalarla başla; uygunluğunu eğitmeninle ve konuşma, dinleme, yazma çalışmalarıyla birlikte değerlendir.`); void saveResult(); }
-  function renderQuestion() { if (shouldFinishPlacement(state)) return showResult(); currentQuestion = selectNextPlacementQuestion({ state, pool }); if (!currentQuestion) return showResult(); setText(stepEl, `Soru ${state.questions.length + 1}`); setText(currentEl, currentQuestion.level); setText(sourceEl, currentQuestion.source === 'reading' ? 'Okuma ve anlam' : currentQuestion.source === 'vocabulary' ? 'Kelime ve anlam' : 'Dil bilgisi'); setText(questionEl, currentQuestion.prompt); renderPassage(); setText(feedbackEl, ''); nextButton.hidden = true; optionsEl.innerHTML = ''; currentQuestion.options.forEach((option, index) => { const button = document.createElement('button'); button.type = 'button'; button.className = 'placement-option'; button.textContent = option; button.addEventListener('click', () => answer(index, button)); optionsEl.append(button); }); const percent = Math.min(100, (state.questions.length / 40) * 100); progressBar.style.width = `${percent}%`; progress?.setAttribute('aria-valuenow', String(state.questions.length)); }
-  async function answer(index, selectedButton) { if (!currentQuestion || state.questions.some((row) => row.id === currentQuestion.id)) return; optionsEl.querySelectorAll('button').forEach((button) => { button.disabled = true; }); setText(feedbackEl, 'Cevabın değerlendiriliyor…'); try { const checked = await checkAnswer(currentQuestion.id, index); const correct = Boolean(checked.correct); state = recordPlacementAnswer(state, currentQuestion, correct, index); selectedButton.classList.add(correct ? 'is-correct' : 'is-wrong'); if (!correct) optionsEl.children[checked.correctIndex]?.classList.add('is-correct'); setText(feedbackEl, correct ? 'Doğru. Bir sonraki soru buna göre seçiliyor.' : (checked.why || 'Bu cevap hedef seviyeyi yeniden ayarladı.')); saveDraft(); nextButton.hidden = false; if (shouldFinishPlacement(state)) setText(nextButton, 'Sonucu gör'); } catch (error) { setText(feedbackEl, error?.name === 'AbortError' ? 'Cevap servisi zaman aşımına uğradı. Tekrar dene.' : 'Cevap doğrulanamadı. Bağlantını kontrol edip tekrar dene.'); optionsEl.querySelectorAll('button').forEach((button) => { button.disabled = false; }); } }
-  async function startTest(resume = false) {
-    startButton.disabled = true; resumeButton.disabled = true;
-    setText(loadError, ''); setText(startButton, 'Soru havuzu hazırlanıyor…');
-    try {
-      // Invalidate cached answer keys after the A1 subject-agreement correction.
-      const response = await fetch('/api/placement/pool?v=3');
-      if (!response.ok) throw new Error('pool');
-      const data = await response.json();
-      pool = Array.isArray(data.questions) ? data.questions : [];
-      passages = data.passages || {};
-      if (!pool.length) throw new Error('empty');
-      if (pool.some((question) => question.source === 'reading' && !getPlacementPassage(question, passages))) throw new Error('missing passage');
-      state = createPlacementState(resume ? (readDraft() || profile()) : profile());
-      if (resume) {
-        const draft = readDraft();
-        if (draft?.learnerName && nameInput) nameInput.value = draft.learnerName;
-        if (draft?.goal && goalInput) goalInput.value = draft.goal;
-        state = await replayDraft(draft);
-        saveDraft();
-      }
-      intro.hidden = true; resultPanel.hidden = true; testPanel.hidden = false; renderQuestion();
-    } catch {
-      intro.hidden = false; testPanel.hidden = true; resultPanel.hidden = true;
-      startButton.disabled = false; resumeButton.disabled = false;
-      setText(startButton, 'Tekrar dene');
-      setText(loadError, 'Soru havuzu veya okuma metinleri yüklenemedi. Lütfen tekrar dene.');
-    }
-  }
-  startButton?.addEventListener('click', () => startTest(false)); resumeButton?.addEventListener('click', () => startTest(true)); nextButton?.addEventListener('click', renderQuestion); restartButton?.addEventListener('click', () => { clearDraft(); state = createPlacementState(); resultPanel.hidden = true; testPanel.hidden = true; intro.hidden = false; startButton.disabled = !String(nameInput?.value || '').trim(); setText(startButton, 'Seviye analizini başlat'); resumeButton.hidden = true; setText(saveEl, ''); }); nameInput?.addEventListener('input', () => { startButton.disabled = !String(nameInput.value || '').trim(); }); if (readDraft()) resumeButton.hidden = false;
-
-  document.querySelectorAll('[data-audience]').forEach((button) => button.addEventListener('click', () => { const target = button.dataset.audience; document.querySelectorAll('[data-audience]').forEach((item) => { const active = item === button; item.classList.toggle('is-active', active); item.setAttribute('aria-selected', String(active)); }); document.querySelectorAll('[data-audience-panel]').forEach((panel) => { panel.hidden = panel.dataset.audiencePanel !== target; }); }));
-</script>
-
-<style>
-  .home-page { background: #fbfaf6; color: #173c3e; }
-  .container { width: min(1120px, calc(100% - 2rem)); margin-inline: auto; }
-  .home-hero { display: grid; grid-template-columns: minmax(0, .9fr) minmax(360px, .8fr); gap: clamp(2rem, 6vw, 6rem); align-items: center; padding-block: clamp(3.5rem, 8vw, 7rem); }
-  .eyebrow { margin: 0; color: #0b746d; font-size: .74rem; font-weight: 800; letter-spacing: .1em; text-transform: uppercase; }
-  .home-hero h1 { max-width: 9ch; margin: .6rem 0 1rem; color: #123b3d; font-size: clamp(3rem, 7vw, 5.9rem); line-height: .98; letter-spacing: -.06em; }
-  .home-hero__lead { max-width: 54ch; color: #526664; font-size: clamp(1rem, 1.5vw, 1.2rem); line-height: 1.65; }
-  .home-actions, .placement-actions { display: flex; flex-wrap: wrap; align-items: center; gap: .7rem; margin-top: 1.6rem; }
-  .home-button { display: inline-flex; align-items: center; justify-content: center; gap: .45rem; border: 1px solid transparent; border-radius: .65rem; padding: .72rem 1rem; font: inherit; font-size: .9rem; font-weight: 750; text-decoration: none; cursor: pointer; }
-  .home-button--primary { background: #0b746d; color: #fff; }
-  .home-button--primary:hover, .home-button--primary:focus-visible { background: #075f5a; }
-  .home-button--quiet { border-color: #cfe1df; background: transparent; color: #0b635f; }
-  .home-trust, .placement-note { color: #70807d; font-size: .8rem; }
-  .audience, .placement-section, .coverage { padding-block: clamp(3.5rem, 7vw, 6rem); }
-  .section-heading { max-width: 660px; margin-bottom: 1.5rem; }
-  .section-heading h2 { margin: .45rem 0 0; color: #123b3d; font-size: clamp(1.9rem, 4vw, 3rem); letter-spacing: -.04em; }
-  .audience-switch { display: inline-flex; gap: .2rem; border: 1px solid #dbe7e4; border-radius: 999px; padding: .25rem; background: #f3f7f3; }
-  .audience-switch__button { border: 0; border-radius: 999px; padding: .6rem .9rem; background: transparent; color: #647572; font: inherit; font-size: .86rem; font-weight: 700; cursor: pointer; }
-  .audience-switch__button.is-active { background: #fff; color: #075f5a; box-shadow: 0 2px 10px rgba(21,63,63,.08); }
-  .audience-card { display: flex; align-items: center; justify-content: space-between; gap: 2rem; margin-top: 1rem; border: 1px solid #d8e6e2; border-radius: 1rem; padding: clamp(1.2rem, 3vw, 2rem); background: #f0f7f3; }
-  .audience-card h3 { margin: .35rem 0 .45rem; color: #163f40; font-size: clamp(1.25rem, 2.5vw, 1.8rem); }
-  .audience-card p { max-width: 65ch; margin: 0; color: #5d716e; line-height: 1.6; }
-  .placement-card { display: grid; grid-template-columns: minmax(0, .78fr) minmax(0, 1.22fr); gap: clamp(1.3rem, 4vw, 3.5rem); border: 1px solid #cfe1df; border-radius: 1.25rem; padding: clamp(1.3rem, 4vw, 3rem); background: #eef7f3; }
-  .placement-card h2 { max-width: 13ch; margin: .5rem 0 .8rem; color: #123b3d; font-size: clamp(1.9rem, 4vw, 3rem); line-height: 1.04; letter-spacing: -.04em; }
-  .placement-card__intro > p:not(.eyebrow):not(.placement-note) { max-width: 52ch; color: #536765; line-height: 1.6; }
-  .placement-levels { display: flex; flex-wrap: wrap; gap: .35rem; margin: 1.2rem 0; }
-  .placement-levels span, .placement-current { display: inline-flex; align-items: center; justify-content: center; min-width: 2.15rem; border-radius: 999px; padding: .35rem .55rem; background: #dcefe8; color: #075f5a; font-size: .75rem; font-weight: 800; }
-  .placement-test, .placement-result { align-self: center; border: 1px solid #d7e5e1; border-radius: .95rem; padding: clamp(1rem, 2.5vw, 1.6rem); background: #fffdf9; box-shadow: 0 12px 30px rgba(21,63,63,.07); }
-  .placement-test__topline { display: flex; justify-content: space-between; color: #61726f; font-size: .84rem; font-weight: 700; }
-  .placement-progress { height: .4rem; margin: 1rem 0 1.25rem; overflow: hidden; border-radius: 999px; background: #dcefe8; }
-  .placement-progress span { display: block; height: 100%; width: 0; border-radius: inherit; background: #0b8a7f; transition: width .25s ease; }
-  .placement-source { margin: 0; color: #70807d; font-size: .78rem; }
-  .placement-passage { margin-block: 1rem; border-left: 3px solid #0d9488; padding: .8rem 1rem; background: #f2f8f5; overflow-wrap: anywhere; }
-  .placement-passage #placement-passage-label { margin: 0 0 .5rem; font-size: .95rem; }
-  #placement-passage-title { margin: 0; color: #163f40; font-weight: 750; }
-  #placement-passage-text { color: #304e4c; line-height: 1.75; }
-  :global(#placement-passage-text p) { margin: .75rem 0 0; white-space: pre-line; }
-  #placement-passage-label:focus-visible, #placement-question:focus-visible { outline: 2px solid #0d9488; outline-offset: 4px; }
-  #placement-load-error:empty { display: none; }
-  .placement-test h3 { margin: .6rem 0 1rem; color: #163f40; line-height: 1.4; }
-  :global(.placement-options) { display: grid; gap: .55rem; }
-  :global(.placement-option) { width: 100%; border: 1px solid #cfe1df; border-radius: .7rem; padding: .75rem .9rem; background: #fff; color: #173c3e; text-align: left; font: inherit; cursor: pointer; }
-  :global(.placement-option:hover:not(:disabled)), :global(.placement-option:focus-visible) { border-color: #0b8a7f; outline: 3px solid rgba(11,138,127,.14); }
-  :global(.placement-option:disabled) { cursor: default; opacity: .9; }
-  :global(.placement-option.is-correct) { border-color: #0b8a7f; background: #e5f5ef; }
-  :global(.placement-option.is-wrong) { border-color: #b84b35; background: #fff0eb; }
-  .placement-feedback { min-height: 1.5rem; color: #536665; font-size: .86rem; }
-  .placement-result { grid-column: 1 / -1; }
-  .placement-result h3 { margin: .4rem 0; color: #123b3d; font-size: clamp(1.4rem, 3vw, 2.1rem); }
-  .placement-result__stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: .6rem; margin: 1rem 0; }
-  .placement-stat { border: 1px solid #d8e6e2; border-radius: .65rem; padding: .7rem; background: #f6faf7; }
-  .placement-stat strong, .placement-stat span { display: block; }.placement-stat strong { color: #075f5a; font-size: 1.15rem; }.placement-stat span { color: #6a7b78; font-size: .72rem; }
-  .placement-result__next { border-left: 3px solid #c28a36; padding: .7rem .9rem; background: #fff8e9; color: #596966; }
-  .placement-save { min-height: 1.25rem; color: #0b746d; font-size: .82rem; }
-  .placement-profile { margin-top: 1.25rem; border: 1px solid #d1e4df; border-radius: .8rem; padding: .9rem; background: rgba(255,255,255,.55); }
-  .placement-profile h3 { margin: 0 0 .75rem; color: #163f40; font-size: 1rem; }
-  .placement-fields { display: grid; gap: .35rem; }
-  .placement-fields label { color: #536765; font-size: .78rem; font-weight: 750; }
-  .placement-fields input, .placement-fields select { width: 100%; min-height: 2.6rem; border: 1px solid #bdd7d2; border-radius: .55rem; padding: .55rem .65rem; background: #fffdf9; color: #173c3e; font: inherit; }
-  .placement-fields input:focus-visible, .placement-fields select:focus-visible { outline: 3px solid rgba(11,138,127,.2); outline-offset: 2px; border-color: #0b8a7f; }
-  .home-button:disabled { cursor: not-allowed; opacity: .55; }
-
-  .classroom-games { padding-block: clamp(1.5rem, 4vw, 3rem); }
-  .classroom-games__panel { display: grid; grid-template-columns: minmax(0, 1.2fr) minmax(220px, .8fr); align-items: center; gap: clamp(1.5rem, 5vw, 4rem); overflow: hidden; border: 1px solid #d4e5df; border-radius: 1.2rem; padding: clamp(1.35rem, 4vw, 3rem); background: linear-gradient(125deg, #eef7f3 0%, #f7faf5 68%, #fff5df 100%); }
-  .classroom-games__copy h2 { margin: .45rem 0 .65rem; color: #123b3d; font-size: clamp(1.9rem, 4vw, 2.8rem); letter-spacing: -.04em; }
-  .classroom-games__copy > p:not(.eyebrow) { max-width: 58ch; color: #536765; line-height: 1.65; }
-  .classroom-games__meta { display: flex; flex-wrap: wrap; gap: .45rem; margin: 1.15rem 0 1.35rem; }
-  .classroom-games__meta span { border: 1px solid #cfe1df; border-radius: 999px; padding: .36rem .65rem; background: rgba(255,255,255,.7); color: #275654; font-size: .78rem; font-weight: 750; }
-  .classroom-games__preview { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: .55rem; transform: rotate(2deg); }
-  .classroom-games__tile { display: grid; min-height: 4rem; place-items: center; border: 1px solid #bdd7d2; border-radius: .75rem; background: #fff; color: #28605b; font-size: .9rem; font-weight: 850; box-shadow: 0 8px 20px rgba(21,63,63,.07); }
-  .classroom-games__tile--active { background: #0b746d; color: #fff; font-size: 1.4rem; }
-  .classroom-games__actions { display: flex; flex-wrap: wrap; gap: .6rem; align-items: center; }
-  .classroom-games__classic { margin: .9rem 0 0; font-size: .85rem; color: #536765; }
-  .classroom-games__classic a { color: #0b746d; font-weight: 700; }
-  .classroom-games__tile--bonus { background: #fff0cc; border-color: #f3d28b; color: #80530d; font-size: .8rem; }
-  .coverage-card { display: block; border-top: 2px solid #0b8a7f; padding: 1.2rem 1rem 1rem 0; color: inherit; text-decoration: none; }.coverage-card:hover h3 { color: #0b746d; }.coverage-card__number { color: #8a9a96; font-size: .75rem; font-weight: 800; }.coverage-card h3 { margin: .65rem 0 .35rem; color: #163f40; font-size: 1.3rem; }.coverage-card p { margin: 0 0 1rem; color: #60716e; line-height: 1.55; }.coverage-card__link { color: #0b746d; font-size: .85rem; font-weight: 800; }
-  @media (max-width: 800px) { .home-hero, .placement-card { grid-template-columns: 1fr; }.home-hero h1 { max-width: 11ch; }.audience-card { align-items: start; flex-direction: column; }.coverage-grid { grid-template-columns: 1fr; }.classroom-games__panel { grid-template-columns: 1fr; }.classroom-games__preview { max-width: 460px; } }
-  @media (max-width: 520px) { .home-hero { padding-block: 2.5rem 3rem; }.home-actions, .placement-actions { align-items: stretch; flex-direction: column; }.home-button { width: 100%; }.placement-result__stats { grid-template-columns: 1fr; } }
-</style>
+    </div>
+  </section>
+</SiteLayout>

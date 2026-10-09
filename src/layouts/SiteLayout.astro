@@ -1,0 +1,196 @@
+---
+// Languago 2.0 public layout: new brand, header with a mobile menu, footer.
+// Pages still on layouts/Layout.astro keep the old look until they move.
+import '../styles/site.css';
+
+interface Props {
+  title: string;
+  description?: string;
+  /** Fully-qualified page URL (e.g. "https://www.languago.site/..."). */
+  canonical?: string;
+  image?: string;
+  /** Hide the header actions (the auth pages show their own). */
+  bare?: boolean;
+}
+
+const {
+  title,
+  description = 'Languago: öğretmeninizle canlı İngilizce dersleri, kişisel öğrenme yolu ve her gün kısa pratik.',
+  canonical,
+  image,
+  bare = false,
+} = Astro.props;
+
+const siteUrl = Astro.site?.origin || 'https://www.languago.site';
+const path = Astro.url.pathname;
+const pageUrl = canonical || `${siteUrl}${path}`;
+const ogImage = image || `${siteUrl}/og-cover.png`;
+const nav = [
+  { href: '/#nasil', label: 'Nasıl çalışır' },
+  { href: '/#beceriler', label: 'Pratik' },
+  { href: '/#ogretmenler', label: 'Öğretmenler için' },
+  { href: '/sinif-oyunlari', label: 'Sınıf oyunları' },
+  { href: '/blog', label: 'Blog' },
+];
+const current = (href: string) => (href !== '/' && path.startsWith(href) ? 'page' : undefined);
+---
+
+<!doctype html>
+<html lang="tr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <meta name="robots" content="index, follow" />
+    <link rel="canonical" href={pageUrl} />
+    <meta name="theme-color" content="#f6f8f7" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="icon" type="image/png" sizes="32x32" href="/brand/mark-32.png" />
+    <link rel="apple-touch-icon" href="/brand/apple-touch-icon.png" />
+    <link rel="manifest" href="/manifest.webmanifest" />
+    <meta name="apple-mobile-web-app-title" content="Languago" />
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="Languago" />
+    <meta property="og:locale" content="tr_TR" />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={pageUrl} />
+    <meta property="og:image" content={ogImage} />
+    <meta name="twitter:card" content="summary_large_image" />
+    <slot name="head" />
+    <script is:inline>document.documentElement.classList.add('js');</script>
+  </head>
+  <body class="lg">
+    <a class="skip" href="#main">İçeriğe geç</a>
+    <header class="site-head" data-head>
+      <div class="wrap">
+        <a class="brand" href="/" aria-label="Languago ana sayfa">
+          <img src="/brand/logo-mark.svg" alt="" width="38" height="38" />
+          languago
+        </a>
+        {!bare && (
+          <nav class="main-nav" aria-label="Ana menü">
+            {nav.map((n) => <a href={n.href} aria-current={current(n.href)}>{n.label}</a>)}
+          </nav>
+        )}
+        {!bare && (
+          <div class="head-actions">
+            <a class="btn btn-ghost" href="/signin">Giriş yap</a>
+            <a class="btn btn-primary" href="/signup">Ücretsiz başla</a>
+          </div>
+        )}
+        {!bare && (
+          <button class="menu-btn" type="button" aria-expanded="false" aria-controls="mobile-menu" aria-label="Menüyü aç" data-menu-btn>
+            <span></span><span></span><span></span>
+          </button>
+        )}
+      </div>
+      {!bare && (
+        <nav class="mobile-menu" id="mobile-menu" aria-label="Mobil menü" data-menu>
+          {nav.map((n) => <a href={n.href}>{n.label}</a>)}
+          <a class="btn btn-ghost" href="/signin">Giriş yap</a>
+          <a class="btn btn-primary" href="/signup">Ücretsiz başla</a>
+        </nav>
+      )}
+    </header>
+
+    <main id="main" tabindex="-1">
+      <slot />
+    </main>
+
+    <footer class="site-foot">
+      <div class="wrap">
+        <div class="foot-grid">
+          <div class="foot-brand">
+            <a class="brand" href="/"><img src="/brand/logo-mark.svg" alt="" width="38" height="38" />languago</a>
+            <p>Öğretmeninizle canlı dersler, kişisel bir yol ve her gün birkaç dakikalık pratik.</p>
+          </div>
+          <div>
+            <h4>Öğrenciler</h4>
+            <nav aria-label="Öğrenciler">
+              <a href="/signup">Ücretsiz başla</a>
+              <a href="/#beceriler">Pratik</a>
+              <a href="/ogren">Dersler</a>
+              <a href="/fiyatlandirma">Fiyatlar</a>
+            </nav>
+          </div>
+          <div>
+            <h4>Öğretmenler</h4>
+            <nav aria-label="Öğretmenler">
+              <a href="/signup?rol=ogretmen">Öğretmen olarak katıl</a>
+              <a href="/sinif-oyunlari">Sınıf oyunları</a>
+              <a href="/materyal-uretici">Materyal üretici</a>
+            </nav>
+          </div>
+          <div>
+            <h4>Languago</h4>
+            <nav aria-label="Kurumsal">
+              <a href="/hakkimizda">Hakkımızda</a>
+              <a href="/iletisim">İletişim</a>
+              <a href="/kvkk">KVKK</a>
+              <a href="/cerez-politikasi">Çerez politikası</a>
+            </nav>
+          </div>
+        </div>
+        <div class="foot-bottom">
+          <span>© {new Date().getFullYear()} Languago</span>
+          <span>Doğru yöntemlerle İngilizce öğrenmek hayal değil.</span>
+        </div>
+      </div>
+    </footer>
+
+    <script is:inline>
+      (function () {
+        var head = document.querySelector('[data-head]');
+        var onScroll = function () { if (head) head.classList.toggle('is-scrolled', window.scrollY > 8); };
+        window.addEventListener('scroll', onScroll, { passive: true }); onScroll();
+        var btn = document.querySelector('[data-menu-btn]'); var menu = document.querySelector('[data-menu]');
+        if (btn && menu) btn.addEventListener('click', function () {
+          var open = btn.getAttribute('aria-expanded') !== 'true';
+          btn.setAttribute('aria-expanded', String(open)); btn.setAttribute('aria-label', open ? 'Menüyü kapat' : 'Menüyü aç');
+          menu.classList.toggle('is-open', open);
+        });
+        // Pointer and touch: a light follows the pointer inside cards and the
+        // hero, cards tilt a little, marked buttons lean toward the cursor.
+        var still = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+        if (!still) {
+          var hero = document.querySelector('.hero');
+          var lastCard = null;
+          var track = function (x, y, target, touch) {
+            if (hero) {
+              var h = hero.getBoundingClientRect();
+              if (y >= h.top && y <= h.bottom) { hero.style.setProperty('--hx', (x - h.left) + 'px'); hero.style.setProperty('--hy', (y - h.top) + 'px'); }
+            }
+            var card = target && target.closest ? target.closest('.card, .game') : null;
+            if (lastCard && lastCard !== card) { lastCard.classList.remove('is-touched', 'tilt'); lastCard.style.removeProperty('--rx'); lastCard.style.removeProperty('--ry'); }
+            lastCard = card;
+            if (card) {
+              var r = card.getBoundingClientRect();
+              var fx = (x - r.left) / r.width, fy = (y - r.top) / r.height;
+              card.style.setProperty('--mx', (fx * 100) + '%'); card.style.setProperty('--my', (fy * 100) + '%');
+              if (card.classList.contains('card')) { card.classList.add('tilt'); card.style.setProperty('--ry', ((fx - .5) * 6).toFixed(2) + 'deg'); card.style.setProperty('--rx', ((.5 - fy) * 6).toFixed(2) + 'deg'); }
+              if (touch) card.classList.add('is-touched');
+            }
+            var magnet = target && target.closest ? target.closest('.magnet') : null;
+            document.querySelectorAll('.magnet').forEach(function (b) {
+              if (b !== magnet) { b.style.setProperty('--bx', '0px'); b.style.setProperty('--by', '0px'); return; }
+              var m = b.getBoundingClientRect();
+              b.style.setProperty('--bx', ((x - (m.left + m.width / 2)) * .25).toFixed(1) + 'px');
+              b.style.setProperty('--by', ((y - (m.top + m.height / 2)) * .35).toFixed(1) + 'px');
+            });
+          };
+          window.addEventListener('pointermove', function (e) { track(e.clientX, e.clientY, e.target, e.pointerType !== 'mouse'); }, { passive: true });
+          window.addEventListener('touchmove', function (e) { var t = e.touches[0]; if (t) track(t.clientX, t.clientY, document.elementFromPoint(t.clientX, t.clientY), true); }, { passive: true });
+          window.addEventListener('touchend', function () { if (lastCard) { lastCard.classList.remove('is-touched', 'tilt'); lastCard = null; } }, { passive: true });
+        }
+        var items = document.querySelectorAll('.reveal');
+        if (!('IntersectionObserver' in window)) { items.forEach(function (el) { el.classList.add('is-in'); }); return; }
+        var io = new IntersectionObserver(function (entries) {
+          entries.forEach(function (e) { if (e.isIntersecting) { e.target.classList.add('is-in'); io.unobserve(e.target); } });
+        }, { rootMargin: '0px 0px -8% 0px' });
+        items.forEach(function (el) { io.observe(el); });
+      })();
+    </script>
+  </body>
+</html>

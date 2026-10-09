@@ -63,6 +63,9 @@ export default defineConfig({
   // never resets existing global.css / AppLayout styles.
   vite: {
     plugins: [tailwindcss()],
+    // Pre-bundle the app's client libraries so the dev server does not
+    // re-optimise them on a fresh page load.
+    optimizeDeps: { include: ['react', 'react-dom', 'react-dom/client', 'react/jsx-runtime', 'motion/react'] },
     ssr: {
       // Both packages must NOT be bundled: puppeteer-core is huge and does
       // dynamic requires; @sparticuz/chromium resolves its `bin/` dir relative
