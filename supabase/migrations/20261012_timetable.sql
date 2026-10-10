@@ -1,4 +1,5 @@
 -- Languago 2.0, Release 2: teacher timetable, lesson requests, Google Meet.
+-- Applied to production on 2026-10-10 (SQL editor, approved by the owner).
 --
 -- A teacher sets weekly hours (plus closed periods). Their students see the
 -- free slots and send a request; nothing is booked until the teacher accepts.
