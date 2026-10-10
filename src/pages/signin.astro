@@ -14,7 +14,7 @@ const supabase = createSupabaseClient(pageCookieSource(Astro));
 if (supabase) {
   const { data } = await supabase.auth.getUser();
   if (data.user) {
-    return Astro.redirect('/dashboard');
+    return Astro.redirect('/app');
   }
 }
 ---
@@ -104,7 +104,7 @@ if (supabase) {
         })
         .then(function (result) {
           if (result && result.ok) {
-            savePlacementDraft().then(function () { window.location.href = '/dashboard'; });
+            savePlacementDraft().then(function () { window.location.href = '/app'; });
             return;
           }
 

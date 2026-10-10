@@ -123,7 +123,7 @@ const teacherFirst = Astro.url.searchParams.get('rol') === 'ogretmen';
           if (result && result.ok) {
             // Email confirmation disabled in Supabase → session exists → auto-login.
             if (result.hasSession) {
-              savePlacementDraft().then(function () { window.location.href = '/dashboard'; });
+              savePlacementDraft().then(function () { window.location.href = '/app'; });
               return;
             }
             // No session yet: retain the draft until a successful sign-in.

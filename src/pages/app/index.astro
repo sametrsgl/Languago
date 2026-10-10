@@ -1,0 +1,162 @@
+---
+// /app "Bugün": the home screen after sign-in, one for students and one for
+// teachers. Later releases fill in the timetable, video lessons and the path;
+// until then the cards link to the working pages.
+import AppShell from '../../layouts/AppShell.astro';
+import { loadAppSession } from '../../lib/app-session';
+
+export const prerender = false;
+const loaded = await loadAppSession(Astro);
+if ('redirect' in loaded) return Astro.redirect(loaded.redirect);
+const session = loaded;
+const teacher = session.role === 'teacher' || session.role === 'admin';
+
+const tz = 'Europe/Istanbul';
+const fmtTime = (iso: string) => new Date(iso).toLocaleTimeString('tr-TR', { hour: '2-digit', minute: '2-digit', timeZone: tz });
+const fmtDay = (iso: string) => {
+  const d = new Date(iso);
+  const key = (x: Date) => x.toLocaleDateString('tr-TR', { timeZone: tz });
+  const today = new Date();
+  const tomorrow = new Date(Date.now() + 86_400_000);
+  if (key(d) === key(today)) return 'Bugün';
+  if (key(d) === key(tomorrow)) return 'Yarın';
+  return d.toLocaleDateString('tr-TR', { weekday: 'long', day: 'numeric', month: 'long', timeZone: tz });
+};
+const hour = Number(new Date().toLocaleTimeString('tr-TR', { hour: '2-digit', hour12: false, timeZone: tz }).slice(0, 2));
+const greet = hour < 12 ? 'Günaydın' : hour < 18 ? 'İyi günler' : 'İyi akşamlar';
+
+const s = session.student;
+const t = session.teacher;
+const next = teacher ? t?.lessons[0] ?? null : s?.nextLesson ?? null;
+const C = 188.5;
+// Skill tracking arrives with the learning path (Release 3). Until then real
+// accounts see empty rings; only the local demo shows sample values.
+const sample = session.demo ? [0.7, 0.55, 0.62, 0] : [0, 0, 0, 0];
+const rings = ['Kelime', 'Dilbilgisi', 'Okuma', 'Dinleme'].map((label, i) => ({ label, pct: sample[i], soon: label === 'Dinleme' }));
+const ic = {
+  words: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="14" height="14" rx="2"/><path d="M7 3h12a2 2 0 0 1 2 2v12"/></svg>',
+  grammar: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 6h16M4 12h10M4 18h7"/><path d="m16 16 2 2 4-4"/></svg>',
+  read: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 5.5C5 4 8.5 4 12 6c3.5-2 7-2 10-.5V19c-3-1.5-6.5-1.5-10 .5-3.5-2-7-2-10-.5z"/><path d="M12 6v13.5"/></svg>',
+  game: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2.5" y="7" width="19" height="11" rx="5"/><path d="M7 11v3M5.5 12.5h3"/></svg>',
+  plus: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg>',
+  cal: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 10h18M8 3v4M16 3v4"/></svg>',
+  doc: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h10l6 6v10a1 1 0 0 1-1 1H4z"/><path d="M14 4v6h6"/></svg>',
+  users: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="8" r="3.5"/><path d="M2.5 20a6.5 6.5 0 0 1 13 0"/></svg>',
+};
+---
+
+<AppShell session={session} title="Bugün — Languago" current="/app">
+  <div class="topbar">
+    <a class="brand" href="/app"><img src="/brand/logo-mark.svg" alt="" width="32" height="32" />languago</a>
+    <div class="hello"><span class="muted">{greet},</span><h1>{session.firstName}</h1></div>
+    <div class="actions"><a class="icon-btn" href="/dashboard/bildirimler" aria-label="Bildirimler"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 8a6 6 0 0 1 12 0c0 7 3 8 3 8H3s3-1 3-8M10 21h4"/></svg></a></div>
+  </div>
+  <div class="mobile-hello"><span class="muted">{greet},</span><h1>{session.firstName}</h1></div>
+  {session.demo && <span class="demo-flag">Önizleme: örnek verilerle (yalnızca bu bilgisayarda)</span>}
+
+  <div class="grid">
+    <section class="panel lesson-hero col-8" aria-labelledby="next-title">
+      {next ? (
+        <>
+          <span class="when">{fmtDay(next.startsAt)} · {fmtTime(next.startsAt)}</span>
+          <h3 id="next-title">{next.title}</h3>
+          <div class="row">
+            <a class="btn btn-accent join" href={`/ders/${next.roomToken}`}>Derse katıl</a>
+            <span class="countdown" data-countdown={next.startsAt}></span>
+          </div>
+        </>
+      ) : (
+        <div class="empty">
+          <span class="when">Sıradaki ders</span>
+          <h3 id="next-title">{teacher ? 'Bugün planlanmış dersiniz yok.' : 'Henüz planlanmış bir dersiniz yok.'}</h3>
+          <p class="muted">{teacher ? 'Takvim ve otomatik ders bağlantıları yakında burada.' : 'Size uygun saatte bir ders ayarlamak için öğretmeninize yazın.'}</p>
+          <a class="btn btn-ghost" href={teacher ? '/teacher/dersler' : '/iletisim'}>{teacher ? 'Ders planla' : 'Ders iste'}</a>
+        </div>
+      )}
+    </section>
+
+    {teacher ? (
+      <section class="panel col-4" aria-label="Özet">
+        <div class="grid" style="grid-template-columns:1fr 1fr;gap:14px">
+          <div class="stat"><b>{t?.students ?? 0}</b><small>Öğrenci</small></div>
+          <div class="stat"><b>{t?.classes ?? 0}</b><small>Sınıf</small></div>
+          <div class="stat"><b>{t?.lessons.length ?? 0}</b><small>Yaklaşan ders</small></div>
+          <div class="stat"><span class="chip">YAKINDA</span><small>Ödev kontrolü</small></div>
+        </div>
+      </section>
+    ) : (
+      <section class="panel col-4" aria-label="Özet">
+        <div class="grid" style="grid-template-columns:1fr 1fr;gap:14px">
+          <div class="stat"><b>{s?.streak ?? 0}</b><small>Günlük seri</small></div>
+          <div class="stat"><b>{s?.level ?? 1}</b><small>Seviye puanı</small></div>
+          <div class="stat"><b>{s?.xp ?? 0}</b><small>Toplam XP</small></div>
+          <div class="stat"><b>{s?.modulesDone ?? 0}</b><small>Çalışılan modül</small></div>
+        </div>
+      </section>
+    )}
+
+    {teacher ? (
+      <>
+        <section class="panel col-8" aria-labelledby="sched-title">
+          <div class="panel-head"><h2 id="sched-title">Yaklaşan dersler</h2><a href="/teacher/dersler">Tümü →</a></div>
+          {t && t.lessons.length ? (
+            <div class="sched">
+              {t.lessons.map((l, i) => (
+                <div class={`slot${i === 0 ? ' is-next' : ''}`}>
+                  <time datetime={l.startsAt}>{fmtTime(l.startsAt)}<small>{fmtDay(l.startsAt)}</small></time>
+                  <b>{l.title}</b>
+                  <a class="btn btn-ghost" style="min-height:40px;padding:0 14px" href={`/ders/${l.roomToken}`}>Aç</a>
+                </div>
+              ))}
+            </div>
+          ) : <p class="muted">Yaklaşan ders yok.</p>}
+        </section>
+        <section class="panel col-4" aria-labelledby="quick-title">
+          <h2 id="quick-title">Hızlı işlemler</h2>
+          <div class="quick">
+            <a href="/teacher/dersler"><Fragment set:html={ic.plus} />Ders planla<small>Tek seferlik ders</small></a>
+            <a href="/teacher/siniflar"><Fragment set:html={ic.users} />Sınıf oluştur<small>Katılım kodu ile</small></a>
+            <a href="/teacher/materyal"><Fragment set:html={ic.doc} />Materyal üret<small>PDF ve çalışma kâğıdı</small></a>
+            <a href="/sinif-oyunlari"><Fragment set:html={ic.game} />Sınıf oyunu<small>Projeksiyonda oyna</small></a>
+          </div>
+        </section>
+      </>
+    ) : (
+      <>
+        <section class="panel col-8" aria-labelledby="plan-title">
+          <div class="panel-head"><h2 id="plan-title">Bugünün planı</h2><a href="/dashboard/gunluk">Günlük plan →</a></div>
+          <div class="plan">
+            <a class="task" href="/dashboard/kelimeler"><span class="ico" set:html={ic.words} /><span><b>Kelime tekrarı</b><small>Size ait kelime kutusu · 5 dk</small></span><span class="go">→</span></a>
+            <a class="task" href="/dashboard/dilbilgisi"><span class="ico o" set:html={ic.grammar} /><span><b>Dilbilgisi</b><small>Seviyenize uygun konu · 6 dk</small></span><span class="go">→</span></a>
+            <a class="task" href="/dashboard/okuma"><span class="ico" set:html={ic.read} /><span><b>Okuma</b><small>Kısa metin ve sorular · 5 dk</small></span><span class="go">→</span></a>
+          </div>
+        </section>
+        <section class="panel col-4" aria-labelledby="skills-title">
+          <h2 id="skills-title">Becerilerim</h2>
+          <div class="rings">
+            {rings.map((r) => (
+              <div class="ring">
+                <svg viewBox="0 0 72 72" aria-hidden="true"><circle class="t" cx="36" cy="36" r="30" /><circle class="v" cx="36" cy="36" r="30" data-off={String(C * (1 - r.pct))} /></svg>
+                {r.label}{r.soon && <em>yakında</em>}
+              </div>
+            ))}
+          </div>
+          {!session.demo && <p class="muted" style="font-size:13.5px">Beceri takibi öğrenme yoluyla birlikte geliyor.</p>}
+        </section>
+      </>
+    )}
+  </div>
+
+  <script is:inline>
+    (function () {
+      var el = document.querySelector('[data-countdown]');
+      if (!el) return;
+      var at = new Date(el.getAttribute('data-countdown')).getTime();
+      var tick = function () {
+        var m = Math.round((at - Date.now()) / 60000);
+        el.textContent = m > 60 ? Math.floor(m / 60) + ' sa ' + (m % 60) + ' dk sonra' : m > 0 ? m + ' dk sonra' : 'Ders başladı';
+      };
+      tick(); setInterval(tick, 30000);
+    })();
+  </script>
+</AppShell>
