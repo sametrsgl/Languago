@@ -13,7 +13,7 @@ function formHarness(page, { raw = draft, storageFailure, save = 'success', auth
   const script = source.match(/<script is:inline>([\s\S]*?)<\/script>/)[1];
   const elements = new Map();
   let submit;
-  const form = { addEventListener: (event, listener) => { if (event === 'submit') submit = listener; } };
+  const form = { addEventListener: (event, listener) => { if (event === 'submit') submit = listener; }, querySelector: () => ({ value: 'student' }) };
   const element = (id) => {
     if (id === `${page}-form`) return form;
     if (!elements.has(id)) elements.set(id, { value: '', textContent: '', innerHTML: '', disabled: false });
@@ -29,7 +29,7 @@ function formHarness(page, { raw = draft, storageFailure, save = 'success', auth
   let pendingSave;
   const location = { href: '' };
   const context = {
-    document: { getElementById: element }, window: { location }, AbortController,
+    document: { getElementById: element, querySelector: () => null }, window: { location }, AbortController,
     setTimeout(callback, ms) { const id = timers.size + 1; timers.set(id, { callback, ms }); return id; },
     clearTimeout(id) { timers.delete(id); },
     fetch(url, options) {
@@ -62,7 +62,7 @@ for (const page of ['signin', 'signup']) {
     test(`${page}: ${failure} storage failure cannot undo successful authentication`, async () => {
       const app = formHarness(page, { storageFailure: failure });
       await app.submit();
-      assert.equal(app.location.href, '/dashboard');
+      assert.equal(app.location.href, '/app');
       assert.equal(app.element(`${page}-feedback`).innerHTML, '');
       assert.equal(app.timers.size, 0);
     });
@@ -72,7 +72,7 @@ for (const page of ['signin', 'signup']) {
     test(`${page}: ignores absent or malformed draft ${raw}`, async () => {
       const app = formHarness(page, { raw });
       await app.submit();
-      assert.equal(app.location.href, '/dashboard');
+      assert.equal(app.location.href, '/app');
       assert.equal(app.calls.length, 1, 'no placement request for an unusable draft');
       assert.equal(app.values.get(draftKey) ?? null, raw, 'do not discard unknown data');
     });
@@ -82,7 +82,7 @@ for (const page of ['signin', 'signup']) {
     test(`${page}: ${save} preserves the draft and still navigates`, async () => {
       const app = formHarness(page, { save });
       await app.submit();
-      assert.equal(app.location.href, '/dashboard');
+      assert.equal(app.location.href, '/app');
       assert.equal(app.values.get(draftKey), draft);
       assert.equal(app.timers.size, 0);
     });
@@ -91,7 +91,7 @@ for (const page of ['signin', 'signup']) {
   test(`${page}: successful transfer sends the draft and removes only the saved value`, async () => {
     const app = formHarness(page);
     await app.submit();
-    assert.equal(app.location.href, '/dashboard');
+    assert.equal(app.location.href, '/app');
     assert.equal(app.values.has(draftKey), false);
     assert.equal(app.calls[1].options.method, 'POST');
     assert.deepEqual(JSON.parse(app.calls[1].options.body), JSON.parse(draft));
@@ -104,7 +104,7 @@ for (const page of ['signin', 'signup']) {
     const newer = JSON.stringify({ answers: [{ id: 'placement-00002', selectedIndex: 1 }] });
     app.values.set(draftKey, newer);
     await app.completeSave();
-    assert.equal(app.location.href, '/dashboard');
+    assert.equal(app.location.href, '/app');
     assert.equal(app.values.get(draftKey), newer);
     assert.equal(app.timers.size, 0);
   });
@@ -119,7 +119,7 @@ for (const page of ['signin', 'signup']) {
     timer.callback();
     await flush();
     assert.equal(app.calls[1].options.signal.aborted, true);
-    assert.equal(app.location.href, '/dashboard');
+    assert.equal(app.location.href, '/app');
     assert.equal(app.values.get(draftKey), draft);
     assert.equal(app.timers.size, 0);
   });

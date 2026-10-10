@@ -30,7 +30,7 @@ test('lesson explorer exposes accessible filtering controls and real links', () 
 test('auth pages retain client endpoints while using compact brand accents', () => {
   for (const file of ['src/pages/signin.astro', 'src/pages/signup.astro']) {
     const page = read(file);
-    assert.match(page, /class="auth-mascot"/);
+    assert.match(page, /class="auth-card"/); // Languago 2.0 auth card (the mascot was retired)
     assert.match(page, /fetch\('\/api\/auth\/(signin|signup)'/);
     assert.doesNotMatch(page, /login-side-illustration/);
   }
