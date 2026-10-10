@@ -4,10 +4,12 @@
 // the live site.
 import { createSupabaseClient, pageCookieSource } from './supabase';
 import { streakFromRows, totalXp, levelFromXp } from './gamification';
+import { joinUrl } from './timetable';
+import { lessonTitle } from './lessons-server';
 
 export type AppRole = 'student' | 'teacher' | 'admin' | 'parent';
 
-export type NextLesson = { id: string; title: string; startsAt: string; roomToken: string };
+export type NextLesson = { id: string; title: string; startsAt: string; url: string };
 
 export type StudentHome = {
   streak: number;
@@ -21,6 +23,7 @@ export type TeacherHome = {
   lessons: NextLesson[];
   students: number;
   classes: number;
+  requests: number;
 };
 
 export type AppSession = {
@@ -33,6 +36,11 @@ export type AppSession = {
   teacher?: TeacherHome;
 };
 
+const LESSON_COLS = 'id, title, kind, student_id, starts_at, meet_url, room_token';
+const toNext = (l: any, who?: string): NextLesson => ({
+  id: l.id, title: who && l.kind === 'one_on_one' ? `${who} · ${lessonTitle(l)}` : lessonTitle(l), startsAt: l.starts_at, url: joinUrl(l),
+});
+
 type AstroLike = Parameters<typeof pageCookieSource>[0] & { url: URL };
 
 function demoSession(kind: string): AppSession {
@@ -41,18 +49,18 @@ function demoSession(kind: string): AppSession {
     return {
       demo: true, userId: 'demo-teacher', firstName: 'Samet', email: 'ogretmen@ornek.com', role: 'teacher',
       teacher: {
-        students: 18, classes: 4,
+        students: 18, classes: 4, requests: 2,
         lessons: [
-          { id: 'l1', title: 'Elif · Birebir · Past simple ile hikâye', startsAt: soon, roomToken: 'demo-1' },
-          { id: 'l2', title: 'B1 Konuşma kulübü · 5 öğrenci', startsAt: new Date(Date.now() + 5 * 3600_000).toISOString(), roomToken: 'demo-2' },
-          { id: 'l3', title: 'Can · IELTS Writing Task 2', startsAt: new Date(Date.now() + 26 * 3600_000).toISOString(), roomToken: 'demo-3' },
+          { id: 'l1', title: 'Elif · Birebir · Past simple ile hikâye', startsAt: soon, url: '/ders/demo-1' },
+          { id: 'l2', title: 'B1 Konuşma kulübü · 5 öğrenci', startsAt: new Date(Date.now() + 5 * 3600_000).toISOString(), url: '/ders/demo-2' },
+          { id: 'l3', title: 'Can · IELTS Writing Task 2', startsAt: new Date(Date.now() + 26 * 3600_000).toISOString(), url: '/ders/demo-3' },
         ],
       },
     };
   }
   return {
     demo: true, userId: 'demo-student', firstName: 'Elif', email: 'ogrenci@ornek.com', role: 'student',
-    student: { streak: 7, xp: 1240, level: 13, modulesDone: 3, nextLesson: { id: 'l1', title: 'Past simple ile hikâye anlatmak', startsAt: soon, roomToken: 'demo-1' } },
+    student: { streak: 7, xp: 1240, level: 13, modulesDone: 3, nextLesson: { id: 'l1', title: 'Past simple ile hikâye anlatmak', startsAt: soon, url: '/ders/demo-1' } },
   };
 }
 
@@ -80,22 +88,25 @@ export async function loadAppSession(Astro: AstroLike): Promise<AppSession | { r
   const nowIso = new Date(Date.now() - 45 * 60_000).toISOString(); // a lesson in progress still shows
 
   if (role === 'teacher' || role === 'admin') {
-    const [lessons, students, classes] = await Promise.all([
-      supabase.from('lessons').select('id, title, starts_at, room_token').eq('teacher_id', user.id).gte('starts_at', nowIso).order('starts_at').limit(6),
+    const [lessons, students, classes, requests] = await Promise.all([
+      supabase.from('appointments').select(LESSON_COLS).eq('teacher_id', user.id).eq('status', 'confirmed').gt('ends_at', nowIso).order('starts_at').limit(6),
       supabase.rpc('get_teacher_students', { p_teacher: user.id }),
       supabase.from('class_roster').select('id', { count: 'exact', head: true }).eq('teacher_id', user.id),
-    ]).catch(() => [null, null, null] as const);
+      supabase.from('appointments').select('id', { count: 'exact', head: true }).eq('teacher_id', user.id).eq('status', 'requested').gt('starts_at', new Date().toISOString()),
+    ]).catch(() => [null, null, null, null] as const);
+    const names = new Map(((students?.data as any[]) || []).map((s) => [s.student_id, s.full_name || 'Öğrenci']));
     session.teacher = {
-      lessons: ((lessons?.data as any[]) || []).map((l) => ({ id: l.id, title: l.title, startsAt: l.starts_at, roomToken: l.room_token })),
-      students: Array.isArray(students?.data) ? students!.data.length : 0,
+      lessons: ((lessons?.data as any[]) || []).map((l) => toNext(l, names.get(l.student_id))),
+      students: Array.isArray(students?.data) ? students.data.length : 0,
       classes: classes?.count ?? 0,
+      requests: requests?.count ?? 0,
     };
     return session;
   }
 
   const [rows, lesson] = await Promise.all([
     supabase.from('student_progress').select('module, payload, updated_at').eq('student_id', user.id),
-    supabase.from('lessons').select('id, title, starts_at, room_token').gte('starts_at', nowIso).order('starts_at').limit(1),
+    supabase.from('appointments').select(LESSON_COLS).eq('status', 'confirmed').gt('ends_at', nowIso).order('starts_at').limit(1),
   ]).catch(() => [null, null] as const);
   const progress = (rows?.data as any[]) || [];
   const xp = totalXp(progress);
@@ -105,7 +116,7 @@ export async function loadAppSession(Astro: AstroLike): Promise<AppSession | { r
     xp,
     level: levelFromXp(xp).level,
     modulesDone: progress.length,
-    nextLesson: l ? { id: l.id, title: l.title, startsAt: l.starts_at, roomToken: l.room_token } : null,
+    nextLesson: l ? toNext(l) : null,
   };
   return session;
 }

@@ -27,7 +27,7 @@ type Item = { href: string; label: string; icon: string; soon?: boolean };
 const items: Item[] = teacher
   ? [
       { href: `/app${demo}`, label: 'Bugün', icon: I.home },
-      { href: '/teacher/takvim', label: 'Takvim', icon: I.lessons },
+      { href: `/app/takvim${demo}`, label: 'Takvim', icon: I.lessons },
       { href: '/teacher/ogrenciler', label: 'Öğrenciler', icon: I.students },
       { href: '/teacher/siniflar', label: 'Sınıflar', icon: I.classes },
       { href: '/teacher/materyal', label: 'Materyaller', icon: I.materials },
@@ -37,7 +37,7 @@ const items: Item[] = teacher
       { href: `/app${demo}`, label: 'Bugün', icon: I.home },
       { href: '/dashboard/yol', label: 'Yolum', icon: I.path },
       { href: '/dashboard/gunluk', label: 'Pratik', icon: I.practice },
-      { href: '/dashboard/birebir', label: 'Derslerim', icon: I.lessons },
+      { href: `/app/derslerim${demo}`, label: 'Derslerim', icon: I.lessons },
       { href: '/dashboard', label: 'Ben', icon: I.me },
     ];
 const isCurrent = (href: string) => (href.split('?')[0] === current ? 'page' : undefined);

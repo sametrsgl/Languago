@@ -39,6 +39,17 @@ try {
     .eq('room_token', roomToken)
     .maybeSingle();
   lesson = data ? (data as typeof lesson) : null;
+  if (!lesson) {
+    // Timetable lessons (appointments) without a Meet link are held here too;
+    // the same row rules let only the teacher and the lesson's students in.
+    const { data: appt } = await supabase
+      .from('appointments')
+      .select('id, title, starts_at, room_token, teacher_id, status')
+      .eq('room_token', roomToken)
+      .eq('status', 'confirmed')
+      .maybeSingle();
+    if (appt) lesson = { id: appt.id, title: appt.title || 'İngilizce dersi', starts_at: appt.starts_at, room_token: appt.room_token, teacher_id: appt.teacher_id };
+  }
 
   const { data: profile } = await supabase
     .from('profiles')
@@ -56,7 +67,7 @@ try {
   lesson = null;
 }
 
-const backHref = isTeacher ? '/teacher/dersler' : '/dashboard';
+const backHref = isTeacher ? '/app/takvim' : '/app/derslerim';
 const backLabel = '← Panele Dön';
 
 const pageTitle = lesson ? `${lesson.title} · Languago` : 'Canlı Ders · Languago';

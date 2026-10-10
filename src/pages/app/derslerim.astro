@@ -1,0 +1,172 @@
+---
+// /app/derslerim: a student's lessons, booking from the teacher's free slots
+// (as a request the teacher confirms) and joining a class with its code.
+import AppShell from '../../layouts/AppShell.astro';
+import '../../styles/timetable.css';
+import { loadAppSession } from '../../lib/app-session';
+import { createSupabaseClient, pageCookieSource } from '../../lib/supabase';
+import { loadStudent, demoStudent, type StudentData } from '../../lib/timetable-data';
+import { lessonTitle } from '../../lib/lessons-server';
+import { byDay, localParts, shortDay, timeOf, whenLabel, joinUrl, googleCalendarLink, STATUS_LABEL, WEEKDAYS_SHORT } from '../../lib/timetable';
+
+export const prerender = false;
+const loaded = await loadAppSession(Astro);
+if ('redirect' in loaded) return Astro.redirect(loaded.redirect.replace('next=/app', 'next=/app/derslerim'));
+const session = loaded;
+if (session.role === 'teacher' || session.role === 'admin') return Astro.redirect('/app/takvim');
+
+let d: StudentData;
+if (session.demo) d = demoStudent();
+else d = await loadStudent(createSupabaseClient(pageCookieSource(Astro)), session.userId);
+
+const now = Date.now();
+const today = localParts(now).day;
+const pick = Astro.url.searchParams.get('ogretmen');
+const teacher = d.teachers.find((t) => t.id === pick) || d.teachers[0] || null;
+const slotDays = teacher ? byDay(d.slotsByTeacher[teacher.id] || []) : [];
+const lessonMin = teacher ? d.settingsByTeacher[teacher.id]?.lessonMin ?? 45 : 45;
+const upcoming = d.lessons.filter((a) => Date.parse(a.ends_at) > now && ['requested', 'confirmed'].includes(a.status));
+const recent = d.lessons.filter((a) => !upcoming.includes(a)).reverse().slice(0, 6);
+const demoQ = session.demo ? '&demo=ogrenci' : '';
+const dayNo = (day: number) => shortDay(day).split(' ')[0];
+---
+
+<AppShell session={session} title="Derslerim — Languago" current="/app/derslerim">
+  <div class="page-head">
+    <div><h1>Derslerim</h1><p>Öğretmeninizin boş saatlerinden ders isteyin; öğretmeniniz onaylayınca ders kesinleşir ve size e-posta gelir.</p></div>
+  </div>
+  {session.demo && <span class="demo-flag">Önizleme: örnek verilerle (yalnızca bu bilgisayarda)</span>}
+
+  <section class="panel" aria-labelledby="up-title">
+    <div class="panel-head"><h2 id="up-title">Yaklaşan dersler</h2></div>
+    {upcoming.length ? (
+      <div class="agenda">
+        {upcoming.map((a) => (
+          <div class:list={['lesson', { 'is-req': a.status === 'requested' }]}>
+            <time datetime={a.starts_at}>{timeOf(a.starts_at)}<small>{whenLabel(a.starts_at).split(',')[0]}</small></time>
+            <div><b>{lessonTitle(a)}</b><div class="meta"><span class={`badge ${a.status}`}>{STATUS_LABEL[a.status]}</span><span>{a.teacherName}</span><span>{Math.round((Date.parse(a.ends_at) - Date.parse(a.starts_at)) / 60000)} dk</span></div></div>
+            <div class="acts">
+              {a.status === 'confirmed' && <a class="btn btn-ghost btn-sm" target="_blank" rel="noopener" href={googleCalendarLink(`${lessonTitle(a)} · Languago`, a.starts_at, a.ends_at, joinUrl(a))}>Takvime ekle</a>}
+              {Date.parse(a.starts_at) > now && <button class="btn btn-ghost btn-sm" type="button" data-cancel={a.id}>{a.status === 'requested' ? 'İsteği geri al' : 'İptal et'}</button>}
+              {a.status === 'confirmed' && <a class:list={['btn btn-sm', Date.parse(a.starts_at) - now < 15 * 60_000 ? 'btn-accent join' : 'btn-primary']} target="_blank" rel="noopener" href={joinUrl(a)}>Derse katıl</a>}
+            </div>
+          </div>
+        ))}
+      </div>
+    ) : <p class="muted">Yaklaşan dersiniz yok.{teacher ? ' Aşağıdan bir saat seçin.' : ''}</p>}
+  </section>
+
+  {teacher ? (
+    <section class="panel" aria-labelledby="book-title">
+      <div class="panel-head"><h2 id="book-title">Ders al</h2><span class="muted" style="font-size:14px">{lessonMin} dakikalık ders · Türkiye saati</span></div>
+      {d.teachers.length > 1 && <div class="teacher-pick">{d.teachers.map((t) => <a href={`?ogretmen=${t.id}${demoQ}`} aria-current={t.id === teacher.id ? 'true' : undefined}>{t.name}</a>)}</div>}
+      {slotDays.length ? (
+        <>
+          <div class="days" role="group" aria-label="Gün seçin">
+            {slotDays.map((g, i) => (
+              <button type="button" aria-pressed={i === 0 ? 'true' : 'false'} data-day={g.day}>
+                <small>{g.day === today ? 'Bugün' : g.day === today + 1 ? 'Yarın' : WEEKDAYS_SHORT[(g.day + 3) % 7]}</small><b>{dayNo(g.day)}</b><em>{g.items.length} saat</em>
+              </button>
+            ))}
+          </div>
+          {slotDays.map((g, i) => (
+            <div class="slots" data-slots={g.day} hidden={i !== 0}>
+              {g.items.map((s) => <button type="button" data-slot={s.startsAt} data-label={whenLabel(s.startsAt)}>{timeOf(s.startsAt)}</button>)}
+            </div>
+          ))}
+        </>
+      ) : <p class="muted">{teacher.name} şu an için boş saat açmamış. Biraz sonra tekrar bakın ya da öğretmeninize yazın.</p>}
+    </section>
+  ) : (
+    <section class="panel lesson-hero" aria-labelledby="first-title">
+      <span class="when">İlk adım</span>
+      <h3 id="first-title">Öğretmeninizin sınıfına katılın</h3>
+      <p style="color:#ccfbf1">Öğretmeninizden aldığınız sınıf kodunu girin; sonra takviminden ders isteyebilirsiniz.</p>
+    </section>
+  )}
+
+  <div class="grid">
+    <section class="panel col-6" aria-labelledby="join-title">
+      <h2 id="join-title">{teacher ? 'Başka bir sınıfa katıl' : 'Sınıf kodu'}</h2>
+      <form id="join" class="form-grid" novalidate>
+        <label class="fld">Sınıf kodu<input name="code" maxlength="12" autocomplete="off" autocapitalize="characters" placeholder="ör. K7M2PQ" style="text-transform:uppercase;letter-spacing:.12em;font-weight:800" /></label>
+        <div style="display:flex;gap:12px;align-items:end"><button class="btn btn-primary btn-sm" type="submit">Katıl</button></div>
+        <span class="msg" data-msg aria-live="polite" style="grid-column:1/-1"></span>
+      </form>
+    </section>
+    {recent.length > 0 && (
+      <section class="panel col-6" aria-labelledby="past-title">
+        <h2 id="past-title">Geçmiş</h2>
+        <div class="agenda">{recent.map((a) => (
+          <div class="lesson is-past"><time datetime={a.starts_at}>{timeOf(a.starts_at)}<small>{shortDay(localParts(Date.parse(a.starts_at)).day)}</small></time><div><b>{lessonTitle(a)}</b><div class="meta"><span class={`badge ${Date.parse(a.ends_at) <= now && a.status === 'confirmed' ? '' : a.status}`}>{Date.parse(a.ends_at) <= now && a.status === 'confirmed' ? 'Yapıldı' : STATUS_LABEL[a.status]}</span><span>{a.teacherName}</span></div></div></div>
+        ))}</div>
+      </section>
+    )}
+  </div>
+
+  <dialog class="sheet" id="dlg-req" aria-labelledby="req-title">
+    <form id="req" method="dialog" novalidate>
+      <h2 id="req-title">Ders isteği</h2>
+      <p style="font-weight:700" data-f="when"></p>
+      <p class="muted" style="font-size:14px">{teacher?.name} · {lessonMin} dakika. Öğretmeniniz onaylayınca e-posta ile haber vereceğiz; o zamana kadar bu saat sizin için ayrılır.</p>
+      <label class="fld">Öğretmeninize not <small>(isteğe bağlı)</small><textarea name="note" maxlength="500" placeholder="Ör. Bu derste iş görüşmesi pratiği yapmak istiyorum."></textarea></label>
+      <span class="msg" data-msg aria-live="polite"></span>
+      <div class="row"><button class="btn btn-ghost btn-sm" value="cancel" formnovalidate>Vazgeç</button><button class="btn btn-primary btn-sm" type="submit" value="ok">İstek gönder</button></div>
+    </form>
+  </dialog>
+
+  <script is:inline define:vars={{ demo: session.demo, teacherId: teacher ? teacher.id : '' }}>
+    (function () {
+      var post = function (url, body) {
+        if (demo) return Promise.resolve({ ok: false, error: 'Önizlemede gönderilmez.' });
+        return fetch(url, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(body) })
+          .then(function (r) { return r.json().catch(function () { return { ok: false }; }); })
+          .catch(function () { return { ok: false, error: 'Bağlantı sorunu. Tekrar deneyin.' }; });
+      };
+      var say = function (root, text, ok) { var m = root.querySelector('[data-msg]'); if (m) { m.textContent = text || ''; m.classList.toggle('ok', !!ok); } };
+      var reload = function () { setTimeout(function () { location.reload(); }, 700); };
+
+      document.querySelectorAll('[data-day]').forEach(function (b) {
+        b.addEventListener('click', function () {
+          document.querySelectorAll('[data-day]').forEach(function (x) { x.setAttribute('aria-pressed', String(x === b)); });
+          document.querySelectorAll('[data-slots]').forEach(function (s) { s.hidden = s.dataset.slots !== b.dataset.day; });
+        });
+      });
+
+      var dlg = document.getElementById('dlg-req'); var req = document.getElementById('req'); var chosen = null;
+      document.querySelectorAll('[data-slot]').forEach(function (b) {
+        b.addEventListener('click', function () {
+          chosen = b.dataset.slot; dlg.querySelector('[data-f="when"]').textContent = b.dataset.label;
+          say(req, ''); dlg.showModal();
+        });
+      });
+      if (req) req.addEventListener('submit', function (e) {
+        if (e.submitter && e.submitter.value === 'cancel') return;
+        e.preventDefault();
+        var btn = req.querySelector('button[type="submit"]'); btn.disabled = true; say(req, 'Gönderiliyor…', true);
+        post('/api/timetable/request', { teacherId: teacherId, startsAt: chosen, note: new FormData(req).get('note') }).then(function (r) {
+          btn.disabled = false;
+          if (r.ok) { say(req, 'İsteğiniz gönderildi. Öğretmeniniz onaylayınca haber vereceğiz.', true); reload(); }
+          else say(req, r.error || 'Gönderilemedi.');
+        });
+      });
+
+      document.querySelectorAll('[data-cancel]').forEach(function (b) {
+        b.addEventListener('click', function () {
+          if (!confirm('Emin misiniz? Öğretmeninize haber verilir.')) return;
+          b.disabled = true;
+          post('/api/timetable/cancel', { id: b.dataset.cancel }).then(function (r) { if (r.ok) reload(); else { b.disabled = false; alert(r.error || 'Olmadı.'); } });
+        });
+      });
+
+      var join = document.getElementById('join');
+      join.addEventListener('submit', function (e) {
+        e.preventDefault(); say(join, 'Kontrol ediliyor…', true);
+        post('/api/timetable/join-class', { code: new FormData(join).get('code') }).then(function (r) {
+          if (r.ok) { say(join, '“' + r.className + '” sınıfına katıldınız' + (r.teacherName ? ' (' + r.teacherName + ')' : '') + '.', true); reload(); }
+          else say(join, r.error || 'Katılamadınız.');
+        });
+      });
+    })();
+  </script>
+</AppShell>

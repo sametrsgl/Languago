@@ -61,7 +61,7 @@ const ic = {
           <span class="when">{fmtDay(next.startsAt)} · {fmtTime(next.startsAt)}</span>
           <h3 id="next-title">{next.title}</h3>
           <div class="row">
-            <a class="btn btn-accent join" href={`/ders/${next.roomToken}`}>Derse katıl</a>
+            <a class="btn btn-accent join" href={next.url} target={next.url.startsWith("http") ? "_blank" : undefined} rel="noopener">Derse katıl</a>
             <span class="countdown" data-countdown={next.startsAt}></span>
           </div>
         </>
@@ -69,8 +69,8 @@ const ic = {
         <div class="empty">
           <span class="when">Sıradaki ders</span>
           <h3 id="next-title">{teacher ? 'Bugün planlanmış dersiniz yok.' : 'Henüz planlanmış bir dersiniz yok.'}</h3>
-          <p class="muted">{teacher ? 'Takvim ve otomatik ders bağlantıları yakında burada.' : 'Size uygun saatte bir ders ayarlamak için öğretmeninize yazın.'}</p>
-          <a class="btn btn-ghost" href={teacher ? '/teacher/dersler' : '/iletisim'}>{teacher ? 'Ders planla' : 'Ders iste'}</a>
+          <p class="muted">{teacher ? 'Haftalık ders saatlerinizi açın; öğrencileriniz boş saatlerden ders istesin.' : 'Öğretmeninizin takviminden size uygun bir saat seçin.'}</p>
+          <a class="btn btn-ghost" href={teacher ? '/app/takvim' : '/app/derslerim'}>{teacher ? 'Takvimi aç' : 'Ders al'}</a>
         </div>
       )}
     </section>
@@ -81,7 +81,7 @@ const ic = {
           <div class="stat"><b>{t?.students ?? 0}</b><small>Öğrenci</small></div>
           <div class="stat"><b>{t?.classes ?? 0}</b><small>Sınıf</small></div>
           <div class="stat"><b>{t?.lessons.length ?? 0}</b><small>Yaklaşan ders</small></div>
-          <div class="stat"><span class="chip">YAKINDA</span><small>Ödev kontrolü</small></div>
+          <a class="stat" href="/app/takvim" style="text-decoration:none;color:inherit"><b style={t && t.requests ? "color:#fbbf24" : undefined}>{t?.requests ?? 0}</b><small>Onay bekleyen istek</small></a>
         </div>
       </section>
     ) : (
@@ -98,14 +98,14 @@ const ic = {
     {teacher ? (
       <>
         <section class="panel col-8" aria-labelledby="sched-title">
-          <div class="panel-head"><h2 id="sched-title">Yaklaşan dersler</h2><a href="/teacher/dersler">Tümü →</a></div>
+          <div class="panel-head"><h2 id="sched-title">Yaklaşan dersler</h2><a href="/app/takvim">Takvim →</a></div>
           {t && t.lessons.length ? (
             <div class="sched">
               {t.lessons.map((l, i) => (
                 <div class={`slot${i === 0 ? ' is-next' : ''}`}>
                   <time datetime={l.startsAt}>{fmtTime(l.startsAt)}<small>{fmtDay(l.startsAt)}</small></time>
                   <b>{l.title}</b>
-                  <a class="btn btn-ghost" style="min-height:40px;padding:0 14px" href={`/ders/${l.roomToken}`}>Aç</a>
+                  <a class="btn btn-ghost" style="min-height:40px;padding:0 14px" href={l.url} target={l.url.startsWith("http") ? "_blank" : undefined} rel="noopener">Katıl</a>
                 </div>
               ))}
             </div>
@@ -114,7 +114,7 @@ const ic = {
         <section class="panel col-4" aria-labelledby="quick-title">
           <h2 id="quick-title">Hızlı işlemler</h2>
           <div class="quick">
-            <a href="/teacher/dersler"><Fragment set:html={ic.plus} />Ders planla<small>Tek seferlik ders</small></a>
+            <a href="/app/takvim"><Fragment set:html={ic.plus} />Ders saatleri<small>Takvim ve istekler</small></a>
             <a href="/teacher/siniflar"><Fragment set:html={ic.users} />Sınıf oluştur<small>Katılım kodu ile</small></a>
             <a href="/teacher/materyal"><Fragment set:html={ic.doc} />Materyal üret<small>PDF ve çalışma kâğıdı</small></a>
             <a href="/sinif-oyunlari"><Fragment set:html={ic.game} />Sınıf oyunu<small>Projeksiyonda oyna</small></a>
