@@ -1,6 +1,7 @@
 import type { APIRoute } from 'astro';
 import { createSupabaseClient, pageCookieSource } from '../../../lib/supabase';
 import { readJsonBody, RequestBodyError } from '../../../lib/request-body';
+import { notifyNewTeacher } from '../../../lib/notify';
 
 /**
  * POST /api/auth/signup
@@ -72,6 +73,10 @@ export const POST: APIRoute = async ({ request, cookies }) => {
 
     if (error) {
       return json({ error: { message: error.message } }, 400);
+    }
+
+    if (roleChoice === 'teacher' && data.user) {
+      await notifyNewTeacher({ email, name: fullName, via: 'email' });
     }
 
     // If email confirmation is disabled in the Supabase project, the user is

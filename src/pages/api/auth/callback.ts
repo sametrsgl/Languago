@@ -1,5 +1,6 @@
 import type { APIRoute } from 'astro';
 import { createSupabaseClient, pageCookieSource } from '../../../lib/supabase';
+import { notifyNewTeacher } from '../../../lib/notify';
 
 /**
  * GET /api/auth/callback
@@ -22,7 +23,7 @@ export const GET: APIRoute = async ({ request, url, cookies, redirect }) => {
   const next =
     nextParam && SAFE_NEXT_RE.test(nextParam) && !nextParam.startsWith('//')
       ? nextParam
-      : '/dashboard';
+      : '/app';
 
   if (!code) {
     // No code → nothing to exchange (e.g. OAuth error/deny). Send back to
@@ -43,6 +44,20 @@ export const GET: APIRoute = async ({ request, url, cookies, redirect }) => {
     const { data: userData, error: userError } = await supabase.auth.getUser();
     if (userError || !userData.user) {
       return redirect('/signin?oauth=error', 302);
+    }
+    if (cookies.get('lg_role_choice')?.value === 'teacher') {
+      cookies.delete('lg_role_choice', { path: '/api/auth' });
+      try {
+        const before = await supabase.from('profiles').select('role').eq('id', userData.user.id).maybeSingle();
+        if (before.data?.role === 'student') {
+          await supabase.rpc('claim_teacher_role');
+          const after = await supabase.from('profiles').select('role').eq('id', userData.user.id).maybeSingle();
+          if (after.data?.role === 'teacher') {
+            const meta = userData.user.user_metadata || {};
+            await notifyNewTeacher({ email: userData.user.email || '', name: (meta.full_name || meta.name) as string | undefined, via: 'google' });
+          }
+        }
+      } catch { /* the account stays a student; the teacher can ask the owner */ }
     }
     return redirect(next, 302);
   } catch {

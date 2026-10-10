@@ -29,7 +29,12 @@ function resolveAllowedOrigin(request: Request): string | null {
   return allowed.has(requestOrigin) ? requestOrigin : null;
 }
 
-export const GET: APIRoute = async ({ request, cookies, redirect }) => {
+export const GET: APIRoute = async ({ request, cookies, redirect, url }) => {
+  // Sign-up page sends ?rol=ogretmen when "Öğretmenim" is picked; the
+  // callback reads this cookie and makes the brand-new account a teacher.
+  if (url.searchParams.get('rol') === 'ogretmen') {
+    cookies.set('lg_role_choice', 'teacher', { path: '/api/auth', httpOnly: true, sameSite: 'lax', secure: url.protocol === 'https:', maxAge: 900 });
+  }
   const origin = resolveAllowedOrigin(request);
   if (!origin) return redirect('/signin?oauth=origin_error', 302);
   const supabase = createSupabaseClient(pageCookieSource({ request, cookies }));
