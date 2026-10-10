@@ -276,7 +276,7 @@ grant execute on function public.cancel_lesson(uuid) to authenticated;
 
 -- The teacher tells a lesson's students it was added (or starts now).
 create or replace function public.notify_lesson_students(p_id uuid, p_instant boolean)
-returns void language plpgsql security definer set search_path = public as $
+returns void language plpgsql security definer set search_path = public as $$
 declare a record; who text;
 begin
   select * into a from public.appointments where id = p_id;
@@ -291,7 +291,7 @@ begin
   from (select a.student_id uid where a.student_id is not null
         union select rm.student_id from public.roster_members rm where rm.class_id = a.class_id) x;
 end;
-$;
+$$;
 revoke all on function public.notify_lesson_students(uuid, boolean) from public;
 grant execute on function public.notify_lesson_students(uuid, boolean) to authenticated;
 

@@ -71,4 +71,7 @@ test('database rules match the page rules', () => {
   assert.match(sql, /grant execute on function public\.claim_lesson_reminders\(\) to service_role/);
   assert.doesNotMatch(sql, /claim_lesson_reminders\(\) to authenticated/);
   assert.match(sql, /drop policy if exists "roster_member_join"/, 'joining a class needs the code');
+  const bodies = sql.split('$$').length - 1;
+  assert.equal(bodies, (sql.match(/create or replace function/g) || []).length * 2, 'every function body opens and closes with $$');
+  assert.doesNotMatch(sql, /(\bas \$|^\$;)$/m, 'no stray single $ delimiters');
 });
