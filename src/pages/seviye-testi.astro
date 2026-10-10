@@ -1,203 +1,388 @@
 ---
-// The current level test, moved here from the old homepage until the new
-// adaptive test (Release 3) replaces it. Logic and styles are unchanged.
-import Layout from '../layouts/Layout.astro';
+// /seviye-testi: Languago level test v2. Four adaptive sections (vocabulary,
+// grammar, reading, listening), about 25–30 minutes. Open to everyone; the
+// result is saved for signed-in learners, and visitors can save it by signing up.
+import SiteLayout from '../layouts/SiteLayout.astro';
+import '../styles/level-test.css';
+import { createSupabaseClient, pageCookieSource } from '../lib/supabase';
+
+export const prerender = false;
+let signedIn = false;
+try {
+  const sb = createSupabaseClient(pageCookieSource(Astro));
+  if (sb) signedIn = Boolean((await sb.auth.getUser()).data.user);
+} catch { /* visitor */ }
 ---
 
-<Layout title="Seviye testi — Languago" description="İngilizce seviyenizi birkaç dakikada görün ve size uygun yoldan devam edin.">
-  <main class="home-page">
-    <section class="placement-section container" aria-labelledby="placement-title" id="level-test">
-      <div class="placement-card">
-        <div class="placement-card__intro">
-          <p class="eyebrow">Başlangıç noktan</p>
-          <h2 id="placement-title">İngilizce için başlangıç seviyeni gör.</h2>
-          <p>A1’den C2’ye ilerleyen kısa seviye testi, verdiğin yanıtlara göre sıradaki soruyu seçer. Sonuç, nereden başlayabileceğine dair bir çalışma tahminidir; sınav puanı üretmez.</p>
-          <div class="placement-levels" aria-label="CEFR seviyeleri"><span>A1</span><span>A2</span><span>B1</span><span>B2</span><span>C1</span><span>C2</span></div>
-          <div class="placement-profile" aria-labelledby="placement-profile-title">
-            <h3 id="placement-profile-title">Önce öğrenciyi tanıyalım</h3>
-            <div class="placement-fields">
-              <label for="placement-name">Öğrencinin adı</label>
-              <input id="placement-name" name="placement-name" maxlength="120" autocomplete="name" placeholder="Örn. Deniz" />
-              <label for="placement-goal">Ne için hazırlanıyor?</label>
-              <select id="placement-goal" name="placement-goal">
-                <option value="general">Genel İngilizce</option><option value="ielts">IELTS</option><option value="toefl">TOEFL</option><option value="yds">YDS / YÖKDİL</option><option value="other">Diğer sınav / hedef</option>
-              </select>
-            </div>
-            <p class="placement-note">En az 30 soru sorulur. Doğru cevaplarda seviye yükselir, yanlış cevaplarda daha temel bir maddeye dönülür.</p>
-          </div>
-          <div class="placement-actions"><button class="home-button home-button--primary" type="button" id="placement-start" disabled>Seviye analizini başlat</button><button class="home-button home-button--quiet placement-resume" type="button" id="placement-resume" hidden>Teste devam et</button></div>
-          <p class="placement-note">30–40 soru · Yanıtların bu cihazda taslak olarak saklanabilir.</p>
-          <p class="placement-feedback" id="placement-load-error" role="alert"></p>
-        </div>
-        <div class="placement-test" id="placement-test" hidden>
-          <div class="placement-test__topline"><span id="placement-step">Soru 1</span><span class="placement-current" id="placement-current">A1</span></div>
-          <div class="placement-progress" role="progressbar" aria-label="Seviye testi ilerlemesi" aria-valuemin="0" aria-valuemax="40" aria-valuenow="0"><span id="placement-progress-bar"></span></div>
-          <p class="placement-source" id="placement-source"></p>
-          <section class="placement-passage" id="placement-passage" aria-labelledby="placement-passage-label" hidden>
-            <h3 id="placement-passage-label" tabindex="-1">Okuma metni</h3>
-            <p id="placement-passage-title" lang="en"></p>
-            <div id="placement-passage-text" lang="en"></div>
-          </section>
-          <h3 id="placement-question" lang="en" tabindex="-1"></h3>
-          <div class="placement-options" id="placement-options" role="group" aria-label="Cevap seçenekleri"></div>
-          <p class="placement-feedback" id="placement-feedback" aria-live="polite"></p><button class="home-button home-button--quiet" type="button" id="placement-next" hidden>Sonraki soru</button>
-        </div>
-        <div class="placement-result" id="placement-result" hidden>
-          <p class="eyebrow">İlk profilin hazır</p><h3 id="placement-result-title"></h3><p id="placement-result-copy"></p>
-          <div class="placement-result__stats" id="placement-result-stats" aria-label="Seviye testi özeti"></div>
-          <p class="placement-note" id="placement-result-limitations">Bu test IELTS, TOEFL veya YDS / YÖKDİL puanı üretmez; konuşma, dinleme ve yazmayı ölçmez. CEFR tahmini yalnızca çalışma başlangıcı içindir, seviye belgesi değildir.</p>
-          <p class="placement-result__next" id="placement-result-next"></p><p class="placement-save" id="placement-save" role="status" aria-live="polite"></p>
-          <div class="placement-actions"><a class="home-button home-button--primary" href="/signup?from=placement">Yolunu kaydet</a><button class="home-button home-button--quiet" type="button" id="placement-restart">Testi yeniden başlat</button></div>
-          <p class="placement-note">Hesabın varsa <a href="/signin?from=placement">giriş yap</a>; sonucu hesabına aktarabilirsin.</p>
-        </div>
+<SiteLayout title="Seviye testi — Languago" description="25–30 dakikalık uyarlanabilir İngilizce seviye testi: kelime, dilbilgisi, okuma ve dinleme. Her beceri için ayrı CEFR seviyesi." bare>
+  <div class="lt" data-signed-in={signedIn ? '1' : '0'}>
+    <div class="lt-top">
+      <a class="brand" href="/"><img src="/brand/logo-mark.svg" alt="" width="30" height="30" /><span>languago</span></a>
+      <div class="lt-steps" aria-hidden="true" hidden data-steps>
+        <span data-step="vocab"><i><b></b></i><em>Kelime</em></span>
+        <span data-step="grammar"><i><b></b></i><em>Dilbilgisi</em></span>
+        <span data-step="reading"><i><b></b></i><em>Okuma</em></span>
+        <span data-step="listening"><i><b></b></i><em>Dinleme</em></span>
       </div>
-    </section>
-  </main>
-</Layout>
+      <a class="exit" href={signedIn ? '/app' : '/'}>Testten çık</a>
+    </div>
+
+    <div class="lt-main">
+      <!-- intro -->
+      <section class="lt-intro" data-view="intro">
+        <div>
+          <span class="eyebrow">Ücretsiz seviye testi</span>
+          <h1>İngilizce seviyenizi her beceri için ayrı ayrı öğrenin.</h1>
+          <p class="lede">Test, verdiğiniz cevaplara göre zorlaşır ya da kolaylaşır. Sonunda genel CEFR seviyenizi ve kelime, dilbilgisi, okuma, dinleme için ayrı seviyelerinizi görürsünüz.</p>
+          <div class="lt-parts">
+            <div><b>Kelime</b><small>12 soru · ~5 dk</small></div>
+            <div><b>Dilbilgisi</b><small>12 soru · ~6 dk</small></div>
+            <div><b>Okuma</b><small>3 metin · ~10 dk</small></div>
+            <div><b>Dinleme</b><small>4 kayıt · ~7 dk</small></div>
+          </div>
+          <ul class="lt-notes">
+            <li>Dinleme bölümü için kulaklık ya da sessiz bir ortam önerilir.</li>
+            <li>Bilmediğiniz soruda “Bilmiyorum”u seçin; tahmin etmek sonucu bozar.</li>
+            <li>Sayfayı kapatırsanız kaldığınız yerden devam edebilirsiniz.</li>
+          </ul>
+        </div>
+        <form class="lt-card lt-form" data-start novalidate>
+          <fieldset>
+            <legend>İngilizcenizi nasıl tanımlarsınız?</legend>
+            <div class="choice-row">
+              <label><input type="radio" name="self" value="0" /><span>Yeni başlıyorum<small>Çok az ya da hiç bilmiyorum.</small></span></label>
+              <label><input type="radio" name="self" value="1" /><span>Temel<small>Basit cümleler kurup anlayabiliyorum.</small></span></label>
+              <label><input type="radio" name="self" value="2" checked /><span>Orta<small>Günlük konularda konuşabiliyorum.</small></span></label>
+              <label><input type="radio" name="self" value="3" /><span>İyi<small>İşte ya da okulda rahatça kullanıyorum.</small></span></label>
+              <label><input type="radio" name="self" value="4" /><span>İleri<small>Neredeyse akıcıyım.</small></span></label>
+            </div>
+          </fieldset>
+          <label class="fld" style="display:grid;gap:6px;font-weight:800;font-size:15px">Hedefiniz
+            <select name="goal">
+              <option value="general">Genel İngilizce</option>
+              <option value="ielts">IELTS, TOEFL ya da PTE</option>
+              <option value="yds">YDS, YÖKDİL ya da YDT</option>
+              <option value="school">Okul dersleri</option>
+              <option value="business">İş İngilizcesi</option>
+            </select>
+          </label>
+          <button class="btn btn-accent" type="submit" data-begin>Teste başla</button>
+          <button class="btn btn-ghost" type="button" data-resume hidden>Kaldığım yerden devam et</button>
+          <p class="muted" style="font-size:13px;margin:0">Bu cevap yalnızca başlangıç zorluğunu belirler; seviyenizi test sonucu belirler.</p>
+        </form>
+      </section>
+
+      <section data-view="break" hidden><div class="brk"></div></section>
+      <section data-view="question" hidden><div class="q-wrap"></div></section>
+      <section data-view="unit" hidden></section>
+      <section data-view="result" hidden></section>
+      <p class="muted" data-view="loading" hidden style="text-align:center;margin-top:12vh">Hazırlanıyor…</p>
+    </div>
+  </div>
+</SiteLayout>
 
 <script>
-  import { createPlacementState, getPlacementPassage, placementResult, recordPlacementAnswer, selectNextPlacementQuestion, shouldFinishPlacement } from '../lib/placement-test.mjs';
-  import { checkPlacementAnswer, replayPlacementDraft } from '../lib/placement-client.mjs';
-  const $ = (selector) => document.querySelector(selector);
-  const startButton = $('#placement-start'); const resumeButton = $('#placement-resume'); const testPanel = $('#placement-test'); const resultPanel = $('#placement-result'); const intro = document.querySelector('.placement-card__intro');
-  const questionEl = $('#placement-question'); const optionsEl = $('#placement-options'); const feedbackEl = $('#placement-feedback'); const nextButton = $('#placement-next'); const stepEl = $('#placement-step'); const currentEl = $('#placement-current'); const sourceEl = $('#placement-source'); const progressBar = $('#placement-progress-bar'); const progress = document.querySelector('.placement-progress'); const saveEl = $('#placement-save'); const resultTitle = $('#placement-result-title'); const resultCopy = $('#placement-result-copy'); const resultStats = $('#placement-result-stats'); const resultNext = $('#placement-result-next'); const restartButton = $('#placement-restart'); const nameInput = $('#placement-name'); const goalInput = $('#placement-goal'); const draftKey = 'languago:placement-draft';
-  const passageEl = $('#placement-passage'); const passageLabel = $('#placement-passage-label'); const passageTitle = $('#placement-passage-title'); const passageText = $('#placement-passage-text'); const loadError = $('#placement-load-error');
-  let pool = []; let passages = {}; let state = createPlacementState(); let currentQuestion = null;
-  const setText = (element, value) => { if (element) element.textContent = value; };
-  function profile() { return { learnerName: String(nameInput?.value || '').trim().slice(0, 120), goal: String(goalInput?.value || 'general') }; }
-  function saveDraft() { try { localStorage.setItem(draftKey, JSON.stringify({ ...profile(), answers: state.questions })); } catch { setText(saveEl, 'Taslak bu cihazda saklanamadı; teste devam edebilirsin.'); } }
-  async function checkAnswer(id, selectedIndex) { return checkPlacementAnswer(fetch, id, selectedIndex); }
-  async function replayDraft(draft) { return replayPlacementDraft(draft, pool, checkAnswer); }
-  function readDraft() { try { const draft = JSON.parse(localStorage.getItem(draftKey) || 'null'); return Array.isArray(draft?.answers) && draft.answers.length ? draft : null; } catch { try { localStorage.removeItem(draftKey); } catch {} return null; } }
-  function clearDraft() { try { localStorage.removeItem(draftKey); } catch {} }
-  function renderPassage() {
-    const passage = getPlacementPassage(currentQuestion, passages);
-    if (!passageEl || !passageText) return;
-    passageEl.hidden = !passage;
-    setText(passageTitle, passage?.title || '');
-    passageText.replaceChildren();
-    // Plain text only: keep the source's paragraph breaks, never interpret HTML.
-    for (const text of passage?.text.split(/\r?\n\s*\r?\n/) || []) {
-      const paragraph = document.createElement('p');
-      paragraph.textContent = text;
-      passageText.append(paragraph);
-    }
-    (passage ? passageLabel : questionEl)?.focus();
+  import { SECTIONS, createSession, nextStep, recordAnswer, levelB } from '../lib/level-test.mjs';
+
+  type Q = { id: string; skill: string; level: string; stem: string; options: string[] };
+  type U = { id: string; skill: string; level: string; title: string; kind?: string; text?: string; audio?: string; questions: Q[] };
+  type Bank = { items: Q[]; units: U[] };
+
+  const KEY = 'languago:level-test-session';
+  const DRAFT = 'languago:placement-draft';
+  const root = document.querySelector('.lt') as HTMLElement;
+  const signedIn = root.dataset.signedIn === '1';
+  const $ = <T extends Element = HTMLElement>(s: string) => root.querySelector(s) as T;
+  const views = ['intro', 'break', 'question', 'unit', 'result', 'loading'];
+  const show = (v: string) => { for (const x of views) ($(`[data-view="${x}"]`) as HTMLElement).hidden = x !== v; $('[data-steps]').hidden = v === 'intro' || v === 'result'; window.scrollTo({ top: 0 }); };
+  const esc = (s: string) => s.replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c] as string));
+  const stemHtml = (s: string) => esc(s).replace(/_{3,}/g, '<span class="gap" aria-label="boşluk"></span>').replace(/\*([^*]+)\*/g, '<em>$1</em>');
+  const store = {
+    get() { try { return JSON.parse(localStorage.getItem(KEY) || 'null'); } catch { return null; } },
+    set(v: unknown) { try { localStorage.setItem(KEY, JSON.stringify(v)); } catch { /* private mode */ } },
+    clear() { try { localStorage.removeItem(KEY); } catch { /* ignore */ } },
+  };
+
+  let bank: Bank | null = null;
+  let run: { session: any; selfReport: number; goal: string; lastSection: number } | null = null;
+
+  const SECTION_INTRO: Record<string, string> = {
+    vocab: 'Cümledeki boşluğa en uygun kelimeyi ya da anlamı seçin. 12 soru.',
+    grammar: 'Cümleyi dilbilgisi açısından doğru ve doğal biçimde tamamlayan seçeneği seçin. 12 soru.',
+    reading: 'Üç kısa metin okuyacaksınız; her metnin dört sorusu var. Metin soruları cevaplarken ekranda kalır.',
+    listening: 'Dört kısa kayıt dinleyeceksiniz. Her kaydı en fazla iki kez dinleyebilirsiniz. Dinlemeden önce soruları okuyun.',
+  };
+
+  async function loadBank() {
+    if (bank) return bank;
+    const res = await fetch('/api/level-test/bank');
+    bank = await res.json();
+    return bank as Bank;
   }
-  function renderResultStats(result) { if (!resultStats) return; resultStats.innerHTML = ''; [[`${result.accuracy}%`, 'genel doğruluk'], [`${result.correctAnswers}/${result.questionsAnswered}`, 'doğru cevap'], [result.level, result.scoreLabel]].forEach(([value, label]) => { const item = document.createElement('div'); item.className = 'placement-stat'; const strong = document.createElement('strong'); strong.textContent = value; const span = document.createElement('span'); span.textContent = label; item.append(strong, span); resultStats.append(item); }); }
-  async function saveResult() { setText(saveEl, 'Sonucun hesabına kaydediliyor…'); try { const response = await fetch('/api/placement/save', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ ...profile(), answers: state.questions }) }); if (!response.ok) throw new Error('save'); clearDraft(); setText(saveEl, 'Sonuç kaydedildi. Öğrenme yolun hazır.'); } catch { setText(saveEl, 'Sonuç bu cihazda tutuldu. Hesabına aktarmak için giriş yapıp testi yeniden açabilirsin.'); } }
-  function showResult() { const result = placementResult(state); testPanel.hidden = true; resultPanel.hidden = false; setText(resultTitle, `${result.learnerName ? `${result.learnerName}, ` : ''}tahmini seviyen: ${result.level}`); setText(resultCopy, `${result.questionsAnswered} genel İngilizce sorusunda %${result.accuracy} doğruluk. Çalışma hedefin: ${result.goalLabel}.`); renderResultStats(result); setText(resultNext, `${result.level} seviyesindeki çalışmalarla başla; uygunluğunu eğitmeninle ve konuşma, dinleme, yazma çalışmalarıyla birlikte değerlendir.`); void saveResult(); }
-  function renderQuestion() { if (shouldFinishPlacement(state)) return showResult(); currentQuestion = selectNextPlacementQuestion({ state, pool }); if (!currentQuestion) return showResult(); setText(stepEl, `Soru ${state.questions.length + 1}`); setText(currentEl, currentQuestion.level); setText(sourceEl, currentQuestion.source === 'reading' ? 'Okuma ve anlam' : currentQuestion.source === 'vocabulary' ? 'Kelime ve anlam' : 'Dil bilgisi'); setText(questionEl, currentQuestion.prompt); renderPassage(); setText(feedbackEl, ''); nextButton.hidden = true; optionsEl.innerHTML = ''; currentQuestion.options.forEach((option, index) => { const button = document.createElement('button'); button.type = 'button'; button.className = 'placement-option'; button.textContent = option; button.addEventListener('click', () => answer(index, button)); optionsEl.append(button); }); const percent = Math.min(100, (state.questions.length / 40) * 100); progressBar.style.width = `${percent}%`; progress?.setAttribute('aria-valuenow', String(state.questions.length)); }
-  async function answer(index, selectedButton) { if (!currentQuestion || state.questions.some((row) => row.id === currentQuestion.id)) return; optionsEl.querySelectorAll('button').forEach((button) => { button.disabled = true; }); setText(feedbackEl, 'Cevabın değerlendiriliyor…'); try { const checked = await checkAnswer(currentQuestion.id, index); const correct = Boolean(checked.correct); state = recordPlacementAnswer(state, currentQuestion, correct, index); selectedButton.classList.add(correct ? 'is-correct' : 'is-wrong'); if (!correct) optionsEl.children[checked.correctIndex]?.classList.add('is-correct'); setText(feedbackEl, correct ? 'Doğru. Bir sonraki soru buna göre seçiliyor.' : (checked.why || 'Bu cevap hedef seviyeyi yeniden ayarladı.')); saveDraft(); nextButton.hidden = false; if (shouldFinishPlacement(state)) setText(nextButton, 'Sonucu gör'); } catch (error) { setText(feedbackEl, error?.name === 'AbortError' ? 'Cevap servisi zaman aşımına uğradı. Tekrar dene.' : 'Cevap doğrulanamadı. Bağlantını kontrol edip tekrar dene.'); optionsEl.querySelectorAll('button').forEach((button) => { button.disabled = false; }); } }
-  async function startTest(resume = false) {
-    startButton.disabled = true; resumeButton.disabled = true;
-    setText(loadError, ''); setText(startButton, 'Soru havuzu hazırlanıyor…');
-    try {
-      // Invalidate cached answer keys after the A1 subject-agreement correction.
-      const response = await fetch('/api/placement/pool?v=3');
-      if (!response.ok) throw new Error('pool');
-      const data = await response.json();
-      pool = Array.isArray(data.questions) ? data.questions : [];
-      passages = data.passages || {};
-      if (!pool.length) throw new Error('empty');
-      if (pool.some((question) => question.source === 'reading' && !getPlacementPassage(question, passages))) throw new Error('missing passage');
-      state = createPlacementState(resume ? (readDraft() || profile()) : profile());
-      if (resume) {
-        const draft = readDraft();
-        if (draft?.learnerName && nameInput) nameInput.value = draft.learnerName;
-        if (draft?.goal && goalInput) goalInput.value = draft.goal;
-        state = await replayDraft(draft);
-        saveDraft();
+  async function check(id: string, choice: number): Promise<boolean> {
+    if (choice < 0) return false;
+    for (let i = 0; i < 3; i++) {
+      try {
+        const r = await fetch('/api/level-test/check', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ id, choice }) });
+        const d = await r.json();
+        if (d.ok) return !!d.correct;
+      } catch { /* retry */ }
+      await new Promise((r) => setTimeout(r, 600 * (i + 1)));
+    }
+    throw new Error('check_failed');
+  }
+  const save = () => run && store.set(run);
+
+  function updateSteps() {
+    if (!run) return;
+    const s = run.session;
+    for (const sec of SECTIONS) {
+      const el = $(`[data-step="${sec.key}"]`);
+      const done = s.answers.filter((a: any) => a.skill === sec.key).length;
+      const total = sec.kind === 'item' ? sec.count : sec.count * (sec.key === 'reading' ? 4 : 3);
+      (el.querySelector('b') as HTMLElement).style.setProperty('--p', Math.min(100, Math.round((done / total) * 100)) + '%');
+      el.classList.toggle('on', SECTIONS[s.section]?.key === sec.key);
+    }
+  }
+
+  async function advance() {
+    if (!run || !bank) return;
+    updateSteps();
+    const step: any = nextStep(run.session, bank);
+    if (step.type === 'done') return finish();
+    if (step.section !== run.lastSection) {
+      run.lastSection = step.section;
+      save();
+      return sectionBreak(step.section);
+    }
+    if (step.type === 'item') renderItem(step.item);
+    else renderUnit(step.unit);
+  }
+
+  function sectionBreak(i: number) {
+    const sec = SECTIONS[i];
+    $('.brk').innerHTML = `<span class="num">${i + 1}. bölüm / 4</span><h1>${esc(sec.label)}</h1><p class="lede">${esc(SECTION_INTRO[sec.key])}</p><button class="btn btn-accent" type="button" data-go>Başla</button>`;
+    show('break');
+    ($('[data-go]') as HTMLButtonElement).focus();
+    $('[data-go]').addEventListener('click', () => advance());
+  }
+
+  function optsHtml(q: Q, name: string) {
+    return q.options.map((o, i) => `<button type="button" class="opt" aria-pressed="false" data-q="${name}" data-i="${i}"><kbd>${'ABCD'[i]}</kbd><span>${esc(o)}</span></button>`).join('');
+  }
+
+  function renderItem(q: Q) {
+    const sec = SECTIONS.find((s) => s.key === q.skill)!;
+    const n = run!.session.answers.filter((a: any) => a.skill === q.skill).length + 1;
+    const wrap = $('.q-wrap');
+    wrap.innerHTML = `<div class="q-meta"><span>${esc(sec.label)}</span><span>Soru ${n} / ${sec.count}</span></div>
+      <p class="q-stem">${stemHtml(q.stem)}</p><div class="opts" role="group" aria-label="Seçenekler">${optsHtml(q, q.id)}</div>
+      <div class="q-actions"><button type="button" class="idk" data-idk>Bilmiyorum</button><button class="btn btn-primary" type="button" data-next disabled>Devam</button></div>`;
+    show('question');
+    let choice: number | null = null;
+    const next = wrap.querySelector('[data-next]') as HTMLButtonElement;
+    const pick = (i: number) => {
+      choice = i;
+      wrap.querySelectorAll('.opt').forEach((b) => b.setAttribute('aria-pressed', String(Number((b as HTMLElement).dataset.i) === i)));
+      next.disabled = false;
+    };
+    wrap.querySelectorAll('.opt').forEach((b) => b.addEventListener('click', () => pick(Number((b as HTMLElement).dataset.i))));
+    const submit = async (c: number) => {
+      next.disabled = true;
+      try {
+        const correct = await check(q.id, c);
+        run!.session = recordAnswer(run!.session, q, c, correct);
+        save();
+        advance();
+      } catch {
+        next.disabled = false;
+        alert('Bağlantı sorunu. Lütfen tekrar deneyin.');
       }
-      intro.hidden = true; resultPanel.hidden = true; testPanel.hidden = false; renderQuestion();
-    } catch {
-      intro.hidden = false; testPanel.hidden = true; resultPanel.hidden = true;
-      startButton.disabled = false; resumeButton.disabled = false;
-      setText(startButton, 'Tekrar dene');
-      setText(loadError, 'Soru havuzu veya okuma metinleri yüklenemedi. Lütfen tekrar dene.');
-    }
+    };
+    next.addEventListener('click', () => choice !== null && submit(choice));
+    (wrap.querySelector('[data-idk]') as HTMLElement).addEventListener('click', () => submit(-1));
+    keyHandler = (e: KeyboardEvent) => {
+      const k = e.key.toUpperCase();
+      const idx = '1234'.indexOf(k) >= 0 ? '1234'.indexOf(k) : 'ABCD'.indexOf(k);
+      if (idx >= 0 && idx < q.options.length) pick(idx);
+      if (e.key === 'Enter' && choice !== null) submit(choice);
+    };
   }
-  startButton?.addEventListener('click', () => startTest(false)); resumeButton?.addEventListener('click', () => startTest(true)); nextButton?.addEventListener('click', renderQuestion); restartButton?.addEventListener('click', () => { clearDraft(); state = createPlacementState(); resultPanel.hidden = true; testPanel.hidden = true; intro.hidden = false; startButton.disabled = !String(nameInput?.value || '').trim(); setText(startButton, 'Seviye analizini başlat'); resumeButton.hidden = true; setText(saveEl, ''); }); nameInput?.addEventListener('input', () => { startButton.disabled = !String(nameInput.value || '').trim(); }); if (readDraft()) resumeButton.hidden = false;
 
-  document.querySelectorAll('[data-audience]').forEach((button) => button.addEventListener('click', () => { const target = button.dataset.audience; document.querySelectorAll('[data-audience]').forEach((item) => { const active = item === button; item.classList.toggle('is-active', active); item.setAttribute('aria-selected', String(active)); }); document.querySelectorAll('[data-audience-panel]').forEach((panel) => { panel.hidden = panel.dataset.audiencePanel !== target; }); }));
+  function renderUnit(u: U) {
+    const box = $('[data-view="unit"]');
+    const listening = u.skill === 'listening';
+    const left = listening
+      ? `<div class="player"><span class="eyebrow">Dinleme</span><h2>${esc(u.title)}</h2>
+          <div class="play"><button type="button" data-play aria-label="Kaydı çal"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg></button><div class="bar"><b></b></div></div>
+          <span class="plays" data-plays>2 dinleme hakkınız var.</span>
+          <audio preload="auto" src="${esc(u.audio || '')}"></audio></div>`
+      : `<article class="passage"><h2>${esc(u.title)}</h2>${esc(u.text || '').split(/\n+/).map((p) => `<p>${p}</p>`).join('')}</article>`;
+    const qs = u.questions.map((q, i) => `<div class="uq"><b>${i + 1}. ${esc(q.stem)}</b><div class="opts">${optsHtml(q, q.id)}</div><button type="button" class="idk" data-idk="${q.id}" style="justify-self:start">Bilmiyorum</button></div>`).join('');
+    box.innerHTML = `<div class="unit">${left}<div class="unit-qs">${qs}<div class="q-actions"><span class="muted" data-left></span><button class="btn btn-primary" type="button" data-next disabled>Devam</button></div></div></div>`;
+    show('unit');
+    const chosen = new Map<string, number>();
+    const next = box.querySelector('[data-next]') as HTMLButtonElement;
+    const left2 = box.querySelector('[data-left]') as HTMLElement;
+    const refresh = () => {
+      const rest = u.questions.length - chosen.size;
+      next.disabled = rest > 0;
+      left2.textContent = rest > 0 ? `${rest} soru kaldı` : '';
+    };
+    box.querySelectorAll('.opt').forEach((b) => b.addEventListener('click', () => {
+      const el = b as HTMLElement; const id = el.dataset.q!;
+      chosen.set(id, Number(el.dataset.i));
+      box.querySelectorAll(`.opt[data-q="${id}"]`).forEach((x) => x.setAttribute('aria-pressed', String(x === b)));
+      refresh();
+    }));
+    box.querySelectorAll('[data-idk]').forEach((b) => b.addEventListener('click', () => {
+      const id = (b as HTMLElement).dataset.idk!;
+      chosen.set(id, -1);
+      box.querySelectorAll(`.opt[data-q="${id}"]`).forEach((x) => x.setAttribute('aria-pressed', 'false'));
+      (b as HTMLElement).textContent = 'Bilmiyorum ✓';
+      refresh();
+    }));
+    refresh();
+    if (listening) wirePlayer(box, u);
+    next.addEventListener('click', async () => {
+      next.disabled = true;
+      try {
+        const results = await Promise.all(u.questions.map((q) => check(q.id, chosen.get(q.id) ?? -1)));
+        u.questions.forEach((q, i) => { run!.session = recordAnswer(run!.session, q, chosen.get(q.id) ?? -1, results[i], u.id); });
+        save();
+        advance();
+      } catch {
+        next.disabled = false;
+        alert('Bağlantı sorunu. Lütfen tekrar deneyin.');
+      }
+    });
+    keyHandler = null;
+  }
+
+  function wirePlayer(box: Element, u: U) {
+    const audio = box.querySelector('audio') as HTMLAudioElement;
+    const btn = box.querySelector('[data-play]') as HTMLButtonElement;
+    const bar = box.querySelector('.bar b') as HTMLElement;
+    const label = box.querySelector('[data-plays]') as HTMLElement;
+    const playsKey = 'plays:' + u.id;
+    let plays = Number(sessionStorage.getItem(playsKey) || 0);
+    const paint = () => {
+      const left = 2 - plays;
+      btn.disabled = left <= 0 || !audio.paused;
+      label.textContent = left > 0 ? `${left} dinleme hakkınız var.` : 'Dinleme hakkınız bitti.';
+    };
+    audio.addEventListener('timeupdate', () => { bar.style.width = (audio.duration ? (audio.currentTime / audio.duration) * 100 : 0) + '%'; });
+    audio.addEventListener('ended', () => { bar.style.width = '100%'; paint(); });
+    audio.addEventListener('error', () => { label.textContent = 'Ses dosyası yüklenemedi. Soruları “Bilmiyorum” ile geçebilirsiniz.'; btn.disabled = true; });
+    btn.addEventListener('click', () => {
+      if (plays >= 2) return;
+      plays++; try { sessionStorage.setItem(playsKey, String(plays)); } catch { /* ignore */ }
+      audio.currentTime = 0; audio.play().catch(() => undefined); paint();
+      btn.disabled = true;
+    });
+    paint();
+  }
+
+  const LEVEL_NAMES: Record<string, string> = { A1: 'Başlangıç', A2: 'Temel', B1: 'Orta', B2: 'Orta üstü', C1: 'İleri', C2: 'Uzman' };
+  const CAN_DO: Record<string, Record<string, string>> = {
+    vocab: {
+      A1: 'Günlük hayattaki temel kelimeleri (aile, yemek, zaman, yer) tanıyorsunuz.',
+      A2: 'Alışveriş, seyahat ve sağlık gibi tanıdık konularda kelime bilginiz yeterli.',
+      B1: 'İş, okul ve günlük konularda sık kullanılan kelime ve kalıpları biliyorsunuz.',
+      B2: 'Soyut konularda ve yaygın eşdizimlerde (collocation) rahatsınız.',
+      C1: 'Akademik ve mesleki kelimeleri, deyimleri ve ince anlam farklarını kullanıyorsunuz.',
+      C2: 'Seyrek kelimeleri ve üslup farklarını anadil düzeyine yakın biliyorsunuz.',
+    },
+    grammar: {
+      A1: 'Basit cümleler kurabiliyorsunuz: to be, geniş zaman, there is/are, can.',
+      A2: 'Geçmiş zamanı, gelecek planlarını ve karşılaştırmaları doğru kullanıyorsunuz.',
+      B1: 'Present perfect, koşul cümleleri ve edilgen yapıyla daha karmaşık fikirler anlatıyorsunuz.',
+      B2: 'Karışık koşul cümleleri, modal perfect ve ettirgen yapı gibi ileri yapıları kullanıyorsunuz.',
+      C1: 'Devrik cümle, vurgu yapıları ve resmi dilbilgisini doğal biçimde kullanıyorsunuz.',
+      C2: 'En ince dilbilgisi ayrımlarını ve resmi/edebi yapıları rahatlıkla kullanıyorsunuz.',
+    },
+    reading: {
+      A1: 'Kısa mesajları, tabelaları ve basit duyuruları anlıyorsunuz.',
+      A2: 'İlan, e-posta ve kısa yazılar gibi günlük metinlerin ana fikrini ve ayrıntılarını anlıyorsunuz.',
+      B1: 'Haber ve e-posta gibi metinlerde ana fikri, ayrıntıları ve yazarın amacını anlıyorsunuz.',
+      B2: 'Uzun yazılarda görüşleri, çıkarımları ve yazarın tutumunu takip edebiliyorsunuz.',
+      C1: 'Karmaşık ve akademik metinlerde örtük anlamları ve argümanın yapısını anlıyorsunuz.',
+      C2: 'Soyut, yoğun ve ironik metinleri ayrıntısıyla ve eleştirel biçimde okuyorsunuz.',
+    },
+    listening: {
+      A1: 'Yavaş ve net konuşulan kısa diyalogları ve mesajları anlıyorsunuz.',
+      A2: 'Duyurularda ve günlük konuşmalarda saat, yer, fiyat gibi önemli bilgileri yakalıyorsunuz.',
+      B1: 'Radyo haberleri ve sesli mesajlarda ana fikri ve ayrıntıları anlıyorsunuz.',
+      B2: 'Toplantı ve podcast gibi doğal hızdaki konuşmalarda görüşleri takip ediyorsunuz.',
+      C1: 'Ders, röportaj ve tartışmalarda konuşmacının tutumunu ve örtük anlamları anlıyorsunuz.',
+      C2: 'Hızlı, deyimsel ve ince imalı konuşmaları zorlanmadan anlıyorsunuz.',
+    },
+  };
+  const NEXT: Record<string, string> = { A1: 'A2', A2: 'B1', B1: 'B2', B2: 'C1', C1: 'C2', C2: 'C2' };
+
+  async function finish() {
+    if (!run) return;
+    show('loading');
+    let data: any = null;
+    try {
+      const res = await fetch('/api/level-test/finish', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({
+        answers: run.session.answers.map((a: any) => ({ id: a.id, choice: a.choice })), selfReport: run.selfReport, goal: run.goal,
+      }) });
+      data = await res.json();
+    } catch { /* below */ }
+    if (!data?.ok) { $('[data-view="loading"]').textContent = 'Sonuç hesaplanamadı. Sayfayı yenileyip tekrar deneyin; cevaplarınız saklı.'; return; }
+    if (!data.saved) {
+      try { localStorage.setItem(DRAFT, JSON.stringify({ format: 'lt2', answers: run.session.answers.map((a: any) => ({ id: a.id, choice: a.choice })), selfReport: run.selfReport, goal: run.goal })); } catch { /* ignore */ }
+    }
+    store.clear();
+    renderResult(data.result, data.saved);
+  }
+
+  function renderResult(r: any, saved: boolean) {
+    const o = r.overall;
+    const ladder = (lv: string) => ['A1', 'A2', 'B1', 'B2', 'C1', 'C2'].map((x) => `<i class="${levelB(x) <= levelB(lv) ? 'on' : ''}"></i>`).join('');
+    const skills = SECTIONS.map((s) => {
+      const k = r.skills[s.key]; if (!k) return '';
+      const differ = r.strongest && r.weakest && r.skills[r.strongest].level !== r.skills[r.weakest].level;
+      const tag = !differ ? '' : r.strongest === s.key ? '<span class="tag">En güçlü beceriniz</span>' : r.weakest === s.key ? '<span class="tag">Önce buna odaklanın</span>' : '';
+      return `<div class="skill"><header><b>${esc(s.label)}</b><span>${k.level}</span></header><div class="ladder" aria-hidden="true">${ladder(k.level)}</div><p>${esc(CAN_DO[s.key][k.level])}</p>${tag}</div>`;
+    }).join('');
+    const cta = saved
+      ? `<a class="btn btn-accent" href="/app">Öğrenme yoluma git</a><a class="btn btn-ghost" href="/app/derslerim">Öğretmenimle ders planla</a><span class="muted">Sonucunuz hesabınıza kaydedildi.</span>`
+      : `<a class="btn btn-accent" href="/signup">Sonucumu kaydet: ücretsiz kayıt ol</a><a class="btn btn-ghost" href="/signin">Hesabım var, giriş yap</a><span class="muted">Kayıt olunca sonucunuz hesabınıza eklenir.</span>`;
+    $('[data-view="result"]').innerHTML = `<div class="lt-card">
+      <div class="res-head"><div class="badge-lv"><b>${o.level}</b><small>${esc(LEVEL_NAMES[o.level])}</small></div>
+        <div style="display:grid;gap:12px"><span class="eyebrow">Genel seviyeniz</span><h1>${o.level === 'C2' ? 'İngilizceniz uzman düzeyinde.' : `${o.level} seviyesindesiniz, ${NEXT[o.level]} yolunda.`}</h1>
+        ${o.level === 'C2' ? '' : `<div class="to-next"><div class="bar"><b style="width:0" data-fill="${Math.round(o.progress * 100)}"></b></div><span class="muted" style="font-size:13.5px">${o.progress < 0.1 ? `${NEXT[o.level]} yolunun başındasınız.` : `${NEXT[o.level]} seviyesine yaklaşık %${Math.round(o.progress * 100)} yoldasınız.`}</span></div>`}</div></div>
+      <div class="skills">${skills}</div>
+      <div class="res-cta">${cta}</div></div>`;
+    show('result');
+    requestAnimationFrame(() => requestAnimationFrame(() => {
+      const f = $('[data-fill]'); if (f) f.style.width = f.dataset.fill + '%';
+    }));
+  }
+
+  let keyHandler: ((e: KeyboardEvent) => void) | null = null;
+  document.addEventListener('keydown', (e) => { if (keyHandler && !(e.target instanceof HTMLInputElement)) keyHandler(e); });
+
+  async function begin(resume: boolean) {
+    show('loading');
+    try { await loadBank(); } catch { $('[data-view="loading"]').textContent = 'Test yüklenemedi. İnternet bağlantınızı kontrol edip sayfayı yenileyin.'; return; }
+    if (!resume) {
+      const f = new FormData($('[data-start]') as HTMLFormElement);
+      const selfReport = Number(f.get('self') ?? 2);
+      run = { session: createSession({ selfReport, seed: Math.floor(Math.random() * 2 ** 31) }), selfReport, goal: String(f.get('goal') || 'general'), lastSection: -1 };
+      save();
+    }
+    advance();
+  }
+
+  const saved = store.get();
+  if (saved?.session?.answers?.length) {
+    run = saved;
+    const r = $('[data-resume]'); r.hidden = false;
+    r.addEventListener('click', () => begin(true));
+  }
+  ($('[data-start]') as HTMLFormElement).addEventListener('submit', (e) => { e.preventDefault(); store.clear(); begin(false); });
+  if (new URLSearchParams(location.search).get('basla') === '1') begin(false);
 </script>
-
-<style>
-  .home-page { background: #fbfaf6; color: #173c3e; }
-  .container { width: min(1120px, calc(100% - 2rem)); margin-inline: auto; }
-  .home-hero { display: grid; grid-template-columns: minmax(0, .9fr) minmax(360px, .8fr); gap: clamp(2rem, 6vw, 6rem); align-items: center; padding-block: clamp(3.5rem, 8vw, 7rem); }
-  .eyebrow { margin: 0; color: #0b746d; font-size: .74rem; font-weight: 800; letter-spacing: .1em; text-transform: uppercase; }
-  .home-hero h1 { max-width: 9ch; margin: .6rem 0 1rem; color: #123b3d; font-size: clamp(3rem, 7vw, 5.9rem); line-height: .98; letter-spacing: -.06em; }
-  .home-hero__lead { max-width: 54ch; color: #526664; font-size: clamp(1rem, 1.5vw, 1.2rem); line-height: 1.65; }
-  .home-actions, .placement-actions { display: flex; flex-wrap: wrap; align-items: center; gap: .7rem; margin-top: 1.6rem; }
-  .home-button { display: inline-flex; align-items: center; justify-content: center; gap: .45rem; border: 1px solid transparent; border-radius: .65rem; padding: .72rem 1rem; font: inherit; font-size: .9rem; font-weight: 750; text-decoration: none; cursor: pointer; }
-  .home-button--primary { background: #0b746d; color: #fff; }
-  .home-button--primary:hover, .home-button--primary:focus-visible { background: #075f5a; }
-  .home-button--quiet { border-color: #cfe1df; background: transparent; color: #0b635f; }
-  .home-trust, .placement-note { color: #70807d; font-size: .8rem; }
-  .audience, .placement-section, .coverage { padding-block: clamp(3.5rem, 7vw, 6rem); }
-  .section-heading { max-width: 660px; margin-bottom: 1.5rem; }
-  .section-heading h2 { margin: .45rem 0 0; color: #123b3d; font-size: clamp(1.9rem, 4vw, 3rem); letter-spacing: -.04em; }
-  .audience-switch { display: inline-flex; gap: .2rem; border: 1px solid #dbe7e4; border-radius: 999px; padding: .25rem; background: #f3f7f3; }
-  .audience-switch__button { border: 0; border-radius: 999px; padding: .6rem .9rem; background: transparent; color: #647572; font: inherit; font-size: .86rem; font-weight: 700; cursor: pointer; }
-  .audience-switch__button.is-active { background: #fff; color: #075f5a; box-shadow: 0 2px 10px rgba(21,63,63,.08); }
-  .audience-card { display: flex; align-items: center; justify-content: space-between; gap: 2rem; margin-top: 1rem; border: 1px solid #d8e6e2; border-radius: 1rem; padding: clamp(1.2rem, 3vw, 2rem); background: #f0f7f3; }
-  .audience-card h3 { margin: .35rem 0 .45rem; color: #163f40; font-size: clamp(1.25rem, 2.5vw, 1.8rem); }
-  .audience-card p { max-width: 65ch; margin: 0; color: #5d716e; line-height: 1.6; }
-  .placement-card { display: grid; grid-template-columns: minmax(0, .78fr) minmax(0, 1.22fr); gap: clamp(1.3rem, 4vw, 3.5rem); border: 1px solid #cfe1df; border-radius: 1.25rem; padding: clamp(1.3rem, 4vw, 3rem); background: #eef7f3; }
-  .placement-card h2 { max-width: 13ch; margin: .5rem 0 .8rem; color: #123b3d; font-size: clamp(1.9rem, 4vw, 3rem); line-height: 1.04; letter-spacing: -.04em; }
-  .placement-card__intro > p:not(.eyebrow):not(.placement-note) { max-width: 52ch; color: #536765; line-height: 1.6; }
-  .placement-levels { display: flex; flex-wrap: wrap; gap: .35rem; margin: 1.2rem 0; }
-  .placement-levels span, .placement-current { display: inline-flex; align-items: center; justify-content: center; min-width: 2.15rem; border-radius: 999px; padding: .35rem .55rem; background: #dcefe8; color: #075f5a; font-size: .75rem; font-weight: 800; }
-  .placement-test, .placement-result { align-self: center; border: 1px solid #d7e5e1; border-radius: .95rem; padding: clamp(1rem, 2.5vw, 1.6rem); background: #fffdf9; box-shadow: 0 12px 30px rgba(21,63,63,.07); }
-  .placement-test__topline { display: flex; justify-content: space-between; color: #61726f; font-size: .84rem; font-weight: 700; }
-  .placement-progress { height: .4rem; margin: 1rem 0 1.25rem; overflow: hidden; border-radius: 999px; background: #dcefe8; }
-  .placement-progress span { display: block; height: 100%; width: 0; border-radius: inherit; background: #0b8a7f; transition: width .25s ease; }
-  .placement-source { margin: 0; color: #70807d; font-size: .78rem; }
-  .placement-passage { margin-block: 1rem; border-left: 3px solid #0d9488; padding: .8rem 1rem; background: #f2f8f5; overflow-wrap: anywhere; }
-  .placement-passage #placement-passage-label { margin: 0 0 .5rem; font-size: .95rem; }
-  #placement-passage-title { margin: 0; color: #163f40; font-weight: 750; }
-  #placement-passage-text { color: #304e4c; line-height: 1.75; }
-  :global(#placement-passage-text p) { margin: .75rem 0 0; white-space: pre-line; }
-  #placement-passage-label:focus-visible, #placement-question:focus-visible { outline: 2px solid #0d9488; outline-offset: 4px; }
-  #placement-load-error:empty { display: none; }
-  .placement-test h3 { margin: .6rem 0 1rem; color: #163f40; line-height: 1.4; }
-  :global(.placement-options) { display: grid; gap: .55rem; }
-  :global(.placement-option) { width: 100%; border: 1px solid #cfe1df; border-radius: .7rem; padding: .75rem .9rem; background: #fff; color: #173c3e; text-align: left; font: inherit; cursor: pointer; }
-  :global(.placement-option:hover:not(:disabled)), :global(.placement-option:focus-visible) { border-color: #0b8a7f; outline: 3px solid rgba(11,138,127,.14); }
-  :global(.placement-option:disabled) { cursor: default; opacity: .9; }
-  :global(.placement-option.is-correct) { border-color: #0b8a7f; background: #e5f5ef; }
-  :global(.placement-option.is-wrong) { border-color: #b84b35; background: #fff0eb; }
-  .placement-feedback { min-height: 1.5rem; color: #536665; font-size: .86rem; }
-  .placement-result { grid-column: 1 / -1; }
-  .placement-result h3 { margin: .4rem 0; color: #123b3d; font-size: clamp(1.4rem, 3vw, 2.1rem); }
-  .placement-result__stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: .6rem; margin: 1rem 0; }
-  .placement-stat { border: 1px solid #d8e6e2; border-radius: .65rem; padding: .7rem; background: #f6faf7; }
-  .placement-stat strong, .placement-stat span { display: block; }.placement-stat strong { color: #075f5a; font-size: 1.15rem; }.placement-stat span { color: #6a7b78; font-size: .72rem; }
-  .placement-result__next { border-left: 3px solid #c28a36; padding: .7rem .9rem; background: #fff8e9; color: #596966; }
-  .placement-save { min-height: 1.25rem; color: #0b746d; font-size: .82rem; }
-  .placement-profile { margin-top: 1.25rem; border: 1px solid #d1e4df; border-radius: .8rem; padding: .9rem; background: rgba(255,255,255,.55); }
-  .placement-profile h3 { margin: 0 0 .75rem; color: #163f40; font-size: 1rem; }
-  .placement-fields { display: grid; gap: .35rem; }
-  .placement-fields label { color: #536765; font-size: .78rem; font-weight: 750; }
-  .placement-fields input, .placement-fields select { width: 100%; min-height: 2.6rem; border: 1px solid #bdd7d2; border-radius: .55rem; padding: .55rem .65rem; background: #fffdf9; color: #173c3e; font: inherit; }
-  .placement-fields input:focus-visible, .placement-fields select:focus-visible { outline: 3px solid rgba(11,138,127,.2); outline-offset: 2px; border-color: #0b8a7f; }
-  .home-button:disabled { cursor: not-allowed; opacity: .55; }
-
-  .classroom-games { padding-block: clamp(1.5rem, 4vw, 3rem); }
-  .classroom-games__panel { display: grid; grid-template-columns: minmax(0, 1.2fr) minmax(220px, .8fr); align-items: center; gap: clamp(1.5rem, 5vw, 4rem); overflow: hidden; border: 1px solid #d4e5df; border-radius: 1.2rem; padding: clamp(1.35rem, 4vw, 3rem); background: linear-gradient(125deg, #eef7f3 0%, #f7faf5 68%, #fff5df 100%); }
-  .classroom-games__copy h2 { margin: .45rem 0 .65rem; color: #123b3d; font-size: clamp(1.9rem, 4vw, 2.8rem); letter-spacing: -.04em; }
-  .classroom-games__copy > p:not(.eyebrow) { max-width: 58ch; color: #536765; line-height: 1.65; }
-  .classroom-games__meta { display: flex; flex-wrap: wrap; gap: .45rem; margin: 1.15rem 0 1.35rem; }
-  .classroom-games__meta span { border: 1px solid #cfe1df; border-radius: 999px; padding: .36rem .65rem; background: rgba(255,255,255,.7); color: #275654; font-size: .78rem; font-weight: 750; }
-  .classroom-games__preview { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: .55rem; transform: rotate(2deg); }
-  .classroom-games__tile { display: grid; min-height: 4rem; place-items: center; border: 1px solid #bdd7d2; border-radius: .75rem; background: #fff; color: #28605b; font-size: .9rem; font-weight: 850; box-shadow: 0 8px 20px rgba(21,63,63,.07); }
-  .classroom-games__tile--active { background: #0b746d; color: #fff; font-size: 1.4rem; }
-  .classroom-games__actions { display: flex; flex-wrap: wrap; gap: .6rem; align-items: center; }
-  .classroom-games__classic { margin: .9rem 0 0; font-size: .85rem; color: #536765; }
-  .classroom-games__classic a { color: #0b746d; font-weight: 700; }
-  .classroom-games__tile--bonus { background: #fff0cc; border-color: #f3d28b; color: #80530d; font-size: .8rem; }
-  .coverage-card { display: block; border-top: 2px solid #0b8a7f; padding: 1.2rem 1rem 1rem 0; color: inherit; text-decoration: none; }.coverage-card:hover h3 { color: #0b746d; }.coverage-card__number { color: #8a9a96; font-size: .75rem; font-weight: 800; }.coverage-card h3 { margin: .65rem 0 .35rem; color: #163f40; font-size: 1.3rem; }.coverage-card p { margin: 0 0 1rem; color: #60716e; line-height: 1.55; }.coverage-card__link { color: #0b746d; font-size: .85rem; font-weight: 800; }
-  @media (max-width: 800px) { .home-hero, .placement-card { grid-template-columns: 1fr; }.home-hero h1 { max-width: 11ch; }.audience-card { align-items: start; flex-direction: column; }.coverage-grid { grid-template-columns: 1fr; }.classroom-games__panel { grid-template-columns: 1fr; }.classroom-games__preview { max-width: 460px; } }
-  @media (max-width: 520px) { .home-hero { padding-block: 2.5rem 3rem; }.home-actions, .placement-actions { align-items: stretch; flex-direction: column; }.home-button { width: 100%; }.placement-result__stats { grid-template-columns: 1fr; } }
-</style>

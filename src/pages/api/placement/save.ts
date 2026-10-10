@@ -2,6 +2,7 @@ import type { APIRoute } from 'astro';
 import { createSupabaseClient, pageCookieSource } from '../../../lib/supabase';
 import { assessmentQuestions } from '../../../lib/assessment-pool';
 import { placementResult, replayPlacementAnswers } from '../../../lib/placement-test.mjs';
+import { saveLevelTest, scoreTest } from '../../../lib/level-test-bank';
 
 const MAX_BODY_BYTES = 16_384;
 
@@ -26,6 +27,14 @@ export const POST: APIRoute = async ({ request, cookies }) => {
   const { data: authData, error: authError } = await supabase.auth.getUser();
   const user = authData.user;
   if (authError || !user) return json({ error: 'Oturum açman gerekiyor.' }, 401);
+
+  // Level test v2 drafts (taken before signing up) are scored from their answers.
+  if (body?.format === 'lt2') {
+    const scored = scoreTest(body.answers, Number(body.selfReport) || 0);
+    if (!scored) return json({ error: 'Seviye testini tamamlaman gerekiyor.' }, 400);
+    const ok = await saveLevelTest(supabase, user.id, scored, String(body.goal || 'general'));
+    return ok ? json({ ok: true, level: scored.result.overall.level }, 200) : json({ error: 'Seviye sonucu kaydedilemedi.' }, 500);
+  }
 
   const requestedName = typeof body?.learnerName === 'string' ? body.learnerName.trim().slice(0, 120) : '';
   const requestedGoal = ['general', 'ielts', 'toefl', 'yds', 'other'].includes(body?.goal) ? body.goal : 'general';
