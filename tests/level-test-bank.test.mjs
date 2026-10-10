@@ -17,10 +17,10 @@ test('bank has the planned size, unique ids and four options each', () => {
   }
 });
 
-test('the public bank leaks no keys or scripts', () => {
+test('the public bank leaks no answer keys', () => {
   const text = JSON.stringify(publicBank());
   assert.doesNotMatch(text, /"answer"/);
-  assert.doesNotMatch(text, /"lines"/);
+  // listening scripts are sent for the device-voice fallback; keys never are
 });
 
 test('checking and scoring use the server keys', () => {

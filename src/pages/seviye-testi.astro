@@ -85,7 +85,7 @@ try {
   import { SECTIONS, createSession, nextStep, recordAnswer, levelB } from '../lib/level-test.mjs';
 
   type Q = { id: string; skill: string; level: string; stem: string; options: string[] };
-  type U = { id: string; skill: string; level: string; title: string; kind?: string; text?: string; audio?: string; questions: Q[] };
+  type U = { id: string; skill: string; level: string; title: string; kind?: string; text?: string; audio?: string; lines?: [string, string][]; speakers?: Record<string, string>; questions: Q[] };
   type Bank = { items: Q[]; units: U[] };
 
   const KEY = 'languago:level-test-session';
@@ -246,6 +246,7 @@ try {
     if (listening) wirePlayer(box, u);
     next.addEventListener('click', async () => {
       next.disabled = true;
+      try { speechSynthesis.cancel(); } catch { /* ignore */ }
       try {
         const results = await Promise.all(u.questions.map((q) => check(q.id, chosen.get(q.id) ?? -1)));
         u.questions.forEach((q, i) => { run!.session = recordAnswer(run!.session, q, chosen.get(q.id) ?? -1, results[i], u.id); });
@@ -259,6 +260,43 @@ try {
     keyHandler = null;
   }
 
+  // Device voices for listening while the recorded audio is not there yet.
+  const RATE: Record<string, number> = { A1: 0.85, A2: 0.92, B1: 0.97, B2: 1, C1: 1, C2: 1.03 };
+  function englishVoices(): Promise<SpeechSynthesisVoice[]> {
+    return new Promise((resolve) => {
+      if (!('speechSynthesis' in window)) return resolve([]);
+      const pick = () => speechSynthesis.getVoices().filter((v) => /^en[-_]/i.test(v.lang));
+      const now = pick();
+      if (now.length) return resolve(now);
+      const done = () => resolve(pick());
+      speechSynthesis.addEventListener('voiceschanged', done, { once: true });
+      setTimeout(done, 1500);
+    });
+  }
+  async function speakerVoices(speakers: Record<string, string>) {
+    const all = await englishVoices();
+    const female = /female|woman|zira|hazel|susan|libby|sonia|jenny|aria|samantha|karen|moira|serena|kate|fiona|natasha|google uk english female/i;
+    const male = /\bmale\b|david|george|ryan|guy|daniel|alex|fred|thomas|oliver|arthur|william|google uk english male/i;
+    const used = new Set<SpeechSynthesisVoice>();
+    const out: Record<string, SpeechSynthesisVoice | undefined> = {};
+    for (const [sp, code] of Object.entries(speakers || {})) {
+      const [acc, g] = code.split('-');
+      const lang = acc === 'gb' ? /en[-_]GB/i : acc === 'au' ? /en[-_]AU/i : /en[-_]US/i;
+      const genderOk = (v: SpeechSynthesisVoice) => (g === 'f' ? female.test(v.name) && !/\bmale\b/i.test(v.name.replace(/female/i, '')) : male.test(v.name));
+      const tiers = [
+        all.filter((v) => lang.test(v.lang) && genderOk(v)),
+        all.filter((v) => lang.test(v.lang)),
+        all.filter((v) => genderOk(v)),
+        all,
+      ];
+      let v: SpeechSynthesisVoice | undefined;
+      for (const t of tiers) { v = t.find((x) => !used.has(x)) || (t.length ? t[0] : undefined); if (v) break; }
+      if (v) used.add(v);
+      out[sp] = v;
+    }
+    return out;
+  }
+
   function wirePlayer(box: Element, u: U) {
     const audio = box.querySelector('audio') as HTMLAudioElement;
     const btn = box.querySelector('[data-play]') as HTMLButtonElement;
@@ -266,20 +304,52 @@ try {
     const label = box.querySelector('[data-plays]') as HTMLElement;
     const playsKey = 'plays:' + u.id;
     let plays = Number(sessionStorage.getItem(playsKey) || 0);
+    let mode: 'audio' | 'voice' | 'none' = u.audio ? 'audio' : 'voice';
+    let busy = false;
     const paint = () => {
       const left = 2 - plays;
-      btn.disabled = left <= 0 || !audio.paused;
-      label.textContent = left > 0 ? `${left} dinleme hakkınız var.` : 'Dinleme hakkınız bitti.';
+      btn.disabled = left <= 0 || busy || mode === 'none';
+      if (mode === 'none') label.textContent = 'Bu cihazda ses çalınamıyor. Soruları “Bilmiyorum” ile geçebilirsiniz.';
+      else label.textContent = (left > 0 ? `${left} dinleme hakkınız var.` : 'Dinleme hakkınız bitti.') + (mode === 'voice' ? ' (Cihazınızın sesiyle okunur.)' : '');
     };
     audio.addEventListener('timeupdate', () => { bar.style.width = (audio.duration ? (audio.currentTime / audio.duration) * 100 : 0) + '%'; });
-    audio.addEventListener('ended', () => { bar.style.width = '100%'; paint(); });
-    audio.addEventListener('error', () => { label.textContent = 'Ses dosyası yüklenemedi. Soruları “Bilmiyorum” ile geçebilirsiniz.'; btn.disabled = true; });
-    btn.addEventListener('click', () => {
-      if (plays >= 2) return;
-      plays++; try { sessionStorage.setItem(playsKey, String(plays)); } catch { /* ignore */ }
-      audio.currentTime = 0; audio.play().catch(() => undefined); paint();
-      btn.disabled = true;
+    audio.addEventListener('ended', () => { bar.style.width = '100%'; busy = false; paint(); });
+    audio.addEventListener('error', () => {
+      if (mode !== 'audio') return;
+      mode = (u as any).lines?.length && 'speechSynthesis' in window ? 'voice' : 'none';
+      paint();
     });
+    const speak = async () => {
+      const lines: [string, string][] = (u as any).lines || [];
+      const voices = await speakerVoices((u as any).speakers || {});
+      speechSynthesis.cancel();
+      lines.forEach(([sp, text], i) => {
+        const ut = new SpeechSynthesisUtterance(text);
+        const v = voices[sp];
+        if (v) { ut.voice = v; ut.lang = v.lang; } else ut.lang = 'en-GB';
+        ut.rate = RATE[u.level] || 1;
+        ut.onstart = () => { bar.style.width = Math.round((i / lines.length) * 100) + '%'; };
+        ut.onend = () => {
+          bar.style.width = Math.round(((i + 1) / lines.length) * 100) + '%';
+          if (i === lines.length - 1) { busy = false; paint(); }
+        };
+        ut.onerror = ut.onend;
+        speechSynthesis.speak(ut);
+      });
+    };
+    btn.addEventListener('click', () => {
+      if (plays >= 2 || busy) return;
+      plays++; try { sessionStorage.setItem(playsKey, String(plays)); } catch { /* ignore */ }
+      busy = true; bar.style.width = '0%'; paint();
+      if (mode === 'audio') {
+        audio.currentTime = 0;
+        audio.play().catch(() => {
+          // no recording: fall back to the device voice for this play
+          mode = 'voice'; speak();
+        });
+      } else speak();
+    });
+    addEventListener('pagehide', () => { try { speechSynthesis.cancel(); } catch { /* ignore */ } }, { once: true });
     paint();
   }
 

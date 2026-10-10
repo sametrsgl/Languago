@@ -56,13 +56,16 @@ export function bank() {
 
 const strip = (i: Item) => ({ id: i.id, skill: i.skill, level: i.level, stem: i.stem, options: i.options });
 
-/** What the test page gets: no answer keys, no listening scripts. */
+/** What the test page gets: no answer keys. Listening scripts go along so a
+ * device voice can read them while the recorded audio is missing; the page
+ * never shows them. */
 export function publicBank() {
   const b = bank();
   return {
     items: b.items.map(strip),
     units: b.units.map((u) => ({
       id: u.id, skill: u.skill, level: u.level, title: u.title, kind: u.kind, text: u.text, audio: u.audio,
+      lines: u.lines, speakers: u.speakers,
       questions: u.questions.map(strip),
     })),
   };
