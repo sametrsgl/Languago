@@ -1,5 +1,6 @@
 ---
 import SiteLayout from '../layouts/SiteLayout.astro';
+import ContactForm from '../components/ContactForm.astro';
 export const prerender = true;
 ---
 
@@ -10,13 +11,12 @@ export const prerender = true;
   <div class="doc">
     <h1>İletişim</h1>
     <div class="barline"></div>
+    <p>Soru, öneri, iş birliği ya da premium fikirleriniz için formu doldurun. Mesajınız doğrudan bize e-postayla gelir; genellikle bir iş günü içinde yanıtlarız.</p>
+
+    <ContactForm />
 
     <section class="panel">
-      <h2>Bize Ulaşın</h2>
-      <p>
-        Languago hakkında soru, öneri ya da iş birliği fikirleriniz için e-posta
-        üzerinden bize ulaşabilirsiniz. Mesajlarınızı en kısa sürede yanıtlamaya çalışırız.
-      </p>
+      <h2>Diğer yollar</h2>
 
       <div class="contact">
         <div class="contact__row">
@@ -35,10 +35,6 @@ export const prerender = true;
         </div>
       </div>
 
-      <p class="muted" style="margin-top:16px;">
-        Bize doğrudan yukarıdaki
-        e-posta adresiyle ulaşabilirsiniz.
-      </p>
     </section>
 
     <section class="panel" style="margin-top:20px;">

@@ -72,6 +72,7 @@ const initial = (session.firstName || '?').charAt(0).toLocaleUpperCase('tr-TR');
         <nav>
           {items.map((it) => <a class="nav" href={it.href} aria-current={isCurrent(it.href)}><Fragment set:html={it.icon} />{it.label}</a>)}
         </nav>
+        <a class="nav help" href="/iletisim">💬 Bize yazın</a>
         <div class="me">
           <span class="avatar" aria-hidden="true">{initial}</span>
           <span><a href="/app/hesap" style="color:inherit;text-decoration:none"><b>{session.firstName}</b></a><small>{teacher ? 'Öğretmen' : parent ? 'Veli' : 'Öğrenci'}</small></span>

@@ -52,7 +52,8 @@ test('public lesson page supports keyboard practice feedback without declaring m
 
 test('launch copy is honest about beta pricing and unverified download metadata', () => {
   assert.doesNotMatch(pricing, /Stripe|Iyzico|checkout|7 Gün Ücretsiz Dene|trial|disabled/i);
-  assert.match(pricing, /ücretsiz beta/i);
+  assert.match(pricing, /her şey ücretsiz/i);
+  assert.match(pricing, /Premium/);
   assert.match(pricing, /iletişim|\/iletisim/i);
 
   assert.doesNotMatch(download, /fetch\('\/api\/apk-version'\)|~ver|checksum/i);

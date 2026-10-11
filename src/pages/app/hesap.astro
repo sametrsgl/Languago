@@ -60,6 +60,12 @@ const teacher = session.role === 'teacher' || session.role === 'admin';
   )}
 
   <section class="panel">
+    <h2>Yardım</h2>
+    <p class="muted" style="font-size:14.5px">Bir sorun, soru ya da fikriniz mi var? Mesajınız doğrudan bize e-postayla gelir.</p>
+    <a class="btn btn-ghost btn-sm" href="/iletisim?konu=hesap" style="justify-self:start">Bize yazın</a>
+  </section>
+
+  <section class="panel">
     <h2>Verileriniz</h2>
     <p class="muted" style="font-size:14.5px">KVKK kapsamında hesabınızdaki tüm verilerin bir kopyasını indirebilirsiniz. Ayrıntılar: <a href="/kvkk" style="color:#5eead4">KVKK aydınlatma metni</a>.</p>
     <a class="btn btn-ghost btn-sm" href="/api/account/export" style="justify-self:start" download>Verilerimi indir (JSON)</a>

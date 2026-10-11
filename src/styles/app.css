@@ -11,6 +11,8 @@
 .side a.nav[aria-current="page"] { background: rgba(45, 212, 191, .12); color: #5eead4; }
 .side a.nav svg { width: 20px; height: 20px; flex: none; }
 .side .soon { margin-left: auto; }
+.side a.nav.help { margin-top: auto; font-size: 14px; }
+.side a.nav.help + .me { margin-top: 8px; }
 .side .me { margin-top: auto; display: flex; align-items: center; gap: 10px; padding: 12px; border-radius: 14px; background: rgba(255, 255, 255, .04); }
 .avatar { width: 38px; height: 38px; border-radius: 50%; display: grid; place-items: center; font-weight: 800; color: #042321; background: linear-gradient(135deg, #5eead4, #14b8a6); flex: none; }
 .me b { display: block; font-size: 14.5px; }

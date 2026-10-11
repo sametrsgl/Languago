@@ -1,0 +1,66 @@
+---
+// "Bize yazın": the contact form. The message is saved and e-mailed to the
+// owner (POST /api/contact). Topic can be preset with ?konu=<key> on the page.
+import { CONTACT_TOPICS } from '../lib/notify';
+interface Props { topic?: string; heading?: string }
+const { topic = 'genel', heading = 'Bize yazın' } = Astro.props;
+---
+
+<form class="cf" data-cf novalidate>
+  <h2>{heading}</h2>
+  <div class="cf-row">
+    <label>Adınız<input name="name" autocomplete="name" maxlength="80" required /></label>
+    <label>E-posta adresiniz<input name="email" type="email" autocomplete="email" maxlength="160" required /></label>
+  </div>
+  <label>Konu
+    <select name="topic">
+      {Object.entries(CONTACT_TOPICS).map(([k, v]) => <option value={k} selected={k === topic}>{v}</option>)}
+    </select>
+  </label>
+  <label>Mesajınız<textarea name="message" rows="5" maxlength="3000" required></textarea></label>
+  <label class="cf-hp" aria-hidden="true">Web siteniz<input name="website" tabindex="-1" autocomplete="off" /></label>
+  <p class="cf-note">Mesajınızı ve e-posta adresinizi yalnızca size dönmek için saklarız. Ayrıntılar <a href="/kvkk">KVKK metninde</a>.</p>
+  <div class="cf-actions">
+    <button class="btn btn-primary" type="submit">Gönder</button>
+    <span class="cf-msg" role="status" aria-live="polite"></span>
+  </div>
+</form>
+
+<script>
+  document.querySelectorAll<HTMLFormElement>('form[data-cf]').forEach((form) => {
+    const started = Date.now();
+    const q = new URLSearchParams(location.search).get('konu');
+    const sel = form.elements.namedItem('topic') as HTMLSelectElement;
+    if (q && [...sel.options].some((o) => o.value === q)) sel.value = q;
+    const msg = form.querySelector('.cf-msg') as HTMLElement;
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const f = new FormData(form);
+      const body = { ...Object.fromEntries(f.entries()), page: location.pathname, t: Date.now() - started };
+      const btn = form.querySelector('button[type=submit]') as HTMLButtonElement;
+      btn.disabled = true; msg.className = 'cf-msg'; msg.textContent = 'Gönderiliyor…';
+      let r: any = null;
+      try { r = await (await fetch('/api/contact', { method: 'POST', headers: { 'content-type': 'application/json' }, body: JSON.stringify(body) })).json(); } catch {}
+      btn.disabled = false;
+      if (r?.ok) { form.reset(); msg.classList.add('ok'); msg.textContent = 'Teşekkürler! Mesajınız bize ulaştı; e-postayla dönüş yapacağız.'; }
+      else { msg.classList.add('err'); msg.textContent = r?.error || 'Gönderilemedi. Bağlantınızı kontrol edip tekrar deneyin.'; }
+    });
+  });
+</script>
+
+<style>
+  .cf { display: grid; gap: 14px; background: var(--surface); border: 1px solid var(--line); border-radius: var(--r-lg); padding: clamp(18px, 4vw, 28px); box-shadow: var(--shadow); }
+  .cf h2 { margin: 0; font-size: 22px; }
+  .cf-row { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+  .cf label { display: grid; gap: 6px; font-weight: 700; font-size: 14px; color: var(--ink); }
+  .cf input, .cf select, .cf textarea { font: 500 15.5px var(--font); color: var(--ink); background: var(--paper); border: 1.5px solid var(--line); border-radius: var(--r-sm); padding: 11px 13px; width: 100%; box-sizing: border-box; }
+  .cf textarea { resize: vertical; min-height: 120px; }
+  .cf input:focus, .cf select:focus, .cf textarea:focus { outline: none; border-color: var(--teal); box-shadow: 0 0 0 3px var(--teal-soft); }
+  .cf-hp { position: absolute !important; left: -9999px; width: 1px; height: 1px; overflow: hidden; }
+  .cf-note { margin: 0; font-size: 13.5px; color: var(--muted); }
+  .cf-actions { display: flex; align-items: center; gap: 14px; flex-wrap: wrap; }
+  .cf-msg { font-size: 14.5px; font-weight: 600; color: var(--muted); }
+  .cf-msg.ok { color: var(--teal-deep); }
+  .cf-msg.err { color: #b42318; }
+  @media (max-width: 640px) { .cf-row { grid-template-columns: 1fr; } }
+</style>

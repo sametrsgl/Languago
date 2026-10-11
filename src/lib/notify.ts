@@ -37,7 +37,7 @@ export async function notifyNewTeacher(info: { email: string; name?: string | nu
 }
 
 /** Send one email through Resend. Never throws; false when not sent. */
-export async function sendEmail(to: string[], subject: string, html: string): Promise<boolean> {
+export async function sendEmail(to: string[], subject: string, html: string, replyTo?: string): Promise<boolean> {
   const key = import.meta.env.RESEND_API_KEY;
   const from = import.meta.env.EMAIL_FROM;
   const list = to.filter((x) => typeof x === 'string' && x.includes('@'));
@@ -48,7 +48,7 @@ export async function sendEmail(to: string[], subject: string, html: string): Pr
     const res = await fetch(one ? 'https://api.resend.com/emails' : 'https://api.resend.com/emails/batch', {
       method: 'POST',
       headers: { Authorization: `Bearer ${key}`, 'Content-Type': 'application/json' },
-      body: JSON.stringify(one ? { from, to: list, subject, html } : list.slice(0, 100).map((t) => ({ from, to: [t], subject, html }))),
+      body: JSON.stringify(one ? { from, to: list, subject, html, ...(replyTo ? { reply_to: replyTo } : {}) } : list.slice(0, 100).map((t) => ({ from, to: [t], subject, html }))),
       signal: AbortSignal.timeout(6000),
     });
     return res.ok;
@@ -70,4 +70,25 @@ export function mailLayout(title: string, lines: string[], button?: { href: stri
     <h2 style="margin:0 0 12px;font-size:20px">${esc(title)}</h2>${p}${btn}${ex}
     <p style="margin:22px 0 0;color:#64746f;font-size:13px">Bu e-postayı Languago'daki dersleriniz için aldınız.</p>
   </div>`;
+}
+
+export const CONTACT_TOPICS: Record<string, string> = {
+  genel: 'Genel soru', hesap: 'Hesap ve giriş', ders: 'Dersler ve takvim', icerik: 'İçerik ve seviyeler',
+  kurum: 'Okul / kurum iş birliği', premium: 'Premium fikirleri', kvkk: 'Kişisel veriler (KVKK)',
+};
+
+/** E-mail a contact-form message to the owner (reply goes to the sender). Never throws. */
+export async function notifyContact(m: { id: number | null; name: string; email: string; topic: string; message: string; page?: string | null; userId?: string | null }): Promise<boolean> {
+  const to = import.meta.env.ADMIN_NOTIFY_EMAIL;
+  if (!to) return false;
+  const when = new Date().toLocaleString('tr-TR', { timeZone: 'Europe/Istanbul' });
+  const html = `<div style="font-family:system-ui,sans-serif;font-size:15px;color:#10201e">
+    <h2 style="margin:0 0 12px">Yeni mesaj: ${esc(CONTACT_TOPICS[m.topic] || m.topic)}</h2>
+    <p style="margin:0 0 6px"><b>Ad:</b> ${esc(m.name)}</p>
+    <p style="margin:0 0 6px"><b>E-posta:</b> ${esc(m.email)}${m.userId ? ' (Languago hesabı var)' : ''}</p>
+    <p style="margin:0 0 6px"><b>Zaman:</b> ${esc(when)}${m.page ? ' · ' + esc(m.page) : ''}</p>
+    <div style="margin:14px 0;padding:14px;border-radius:10px;background:#f1f5f4;white-space:pre-wrap">${esc(m.message)}</div>
+    <p style="margin:0;color:#64746f">Yanıtla düğmesi doğrudan gönderene yazar.${m.id ? ' Kayıt no: ' + m.id : ''}</p>
+  </div>`;
+  return sendEmail([to], `Languago iletişim: ${m.name}`, html, m.email);
 }
