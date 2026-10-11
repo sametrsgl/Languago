@@ -1,14 +1,14 @@
 ---
-import Layout from '../layouts/Layout.astro';
+import SiteLayout from '../layouts/SiteLayout.astro';
 export const prerender = true;
 ---
 
-<Layout
+<SiteLayout
   title="Hakkımızda — Languago"
   description="Languago'nun hikayesi: oyun temelli İngilizce öğrenme platformu."
 >
-  <main class="study">
-    <h1>Hakkımızda 📚</h1>
+  <div class="doc">
+    <h1>Hakkımızda</h1>
     <div class="barline"></div>
 
     <section class="panel">
@@ -52,5 +52,5 @@ export const prerender = true;
       Soruların için{' '}
       <a href="/iletisim">İletişim sayfamızı</a> ziyaret edebilirsin.
     </p>
-  </main>
-</Layout>
+  </div>
+</SiteLayout>

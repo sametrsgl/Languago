@@ -1,14 +1,14 @@
 ---
-import Layout from '../layouts/Layout.astro';
+import SiteLayout from '../layouts/SiteLayout.astro';
 export const prerender = true;
 ---
 
-<Layout
+<SiteLayout
   title="KVKK Aydınlatma Metni — Languago"
   description="Languago kişisel veri aydınlatma metni: hangi verileri topladığımız, işleme amaçlarımız ve haklarınız."
 >
-  <main class="study">
-    <h1>KVKK Aydınlatma Metni 🔒</h1>
+  <div class="doc">
+    <h1>KVKK Aydınlatma Metni</h1>
     <div class="barline"></div>
 
     <section class="panel">
@@ -34,7 +34,8 @@ export const prerender = true;
       <ul>
         <li><strong>Kimlik bilgileri:</strong> Ad Soyad (isteğe bağlı)</li>
         <li><strong>İletişim bilgileri:</strong> E-posta adresi</li>
-        <li><strong>Eğitim verileri:</strong> Seviye seçimleri ve öğrenme ilerlemesi (puanlar, tamamlanan modüller)</li>
+        <li><strong>Eğitim verileri:</strong> Seviye testi sonuçları, görev ve kelime ilerlemesi, yazdığınız metinler, konuşmanızın yazıya dökülmüş hâli, ders saatleri ve öğretmen raporları</li>
+        <li><strong>Veli bağlantısı:</strong> Siz bir veli kodu oluşturup paylaşırsanız, bağlanan veli hesabı ilerlemenizin özetini görebilir; bağlantıyı istediğiniz zaman kaldırabilirsiniz.</li>
         <li><strong>Teknik veriler:</strong> Oturum çerezleri, IP adresi (güvenlik için)</li>
       </ul>
     </section>
@@ -62,7 +63,20 @@ export const prerender = true;
     </section>
 
     <section class="panel" style="margin-top:20px;">
-      <h2>5. Haklarınız</h2>
+      <h2>5. Yapay zekâ, konuşma tanıma ve diğer hizmetler</h2>
+      <ul>
+        <li><strong>Yapay zekâ geri bildirimi (açık rıza ile):</strong> Görevlerdeki yazma metinleriniz ve konuşmanızın yazıya dökülmüş hâli, puan ve düzeltme üretmek için bir yapay zekâ hizmet sağlayıcısına gönderilir. Adınız ve e-posta adresiniz gönderilmez. Rızanızı Hesabım sayfasından istediğiniz zaman geri alabilirsiniz; bu durumda çalışmanızı öğretmeniniz değerlendirir.</li>
+        <li><strong>Konuşma tanıma (açık rıza ile):</strong> Konuşma bölümünde sesiniz, tarayıcınızın konuşma tanıma hizmeti (Chrome’da Google, Safari’de Apple) tarafından yazıya çevrilir. Ses kaydı Languago’da saklanmaz; yalnızca yazıya dökülmüş metin kaydedilir.</li>
+        <li><strong>Dersler:</strong> Öğretmeniniz Google Takvim’ini bağladıysa, onaylanan dersleriniz için öğretmenin takviminde bir etkinlik ve Google Meet bağlantısı oluşturulur; e-posta adresiniz davet için Google ile paylaşılır.</li>
+        <li><strong>E-postalar:</strong> Ders istekleri, onaylar, iptaller ve hatırlatmalar bir e-posta gönderim hizmeti aracılığıyla iletilir.</li>
+        <li><strong>Videolar:</strong> Görevlerdeki videolar YouTube’un gizlilik odaklı (youtube-nocookie) oynatıcısıyla, siz oynatmaya bastığınızda yüklenir.</li>
+        <li><strong>Barındırma:</strong> Site Vercel’de, veriler Supabase’de barındırılır.</li>
+      </ul>
+      <p>Hesabım sayfasından verilerinizin bir kopyasını indirebilir ve hesabınızı kalıcı olarak silebilirsiniz.</p>
+    </section>
+
+    <section class="panel" style="margin-top:20px;">
+      <h2>6. Haklarınız</h2>
       <p>KVKK kapsamında aşağıdaki haklara sahipsiniz:</p>
       <ul>
         <li>Kişisel verilerinizin işlenip işlenmediğini öğrenme</li>
@@ -81,5 +95,5 @@ export const prerender = true;
       Çerez kullanımı hakkında ayrıntılı bilgi için{' '}
       <a href="/cerez-politikasi">Çerez Politikası</a>'nı okuyabilirsiniz.
     </p>
-  </main>
-</Layout>
+  </div>
+</SiteLayout>

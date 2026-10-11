@@ -1,14 +1,14 @@
 ---
-import Layout from '../layouts/Layout.astro';
+import SiteLayout from '../layouts/SiteLayout.astro';
 export const prerender = true;
 ---
 
-<Layout
+<SiteLayout
   title="İletişim — Languago"
   description="Languago ile iletişime geçin: öğretmen ve öğrenci sorularınız için bizimle iletişim kurun."
 >
-  <main class="study">
-    <h1>İletişim ✉️</h1>
+  <div class="doc">
+    <h1>İletişim</h1>
     <div class="barline"></div>
 
     <section class="panel">
@@ -54,5 +54,5 @@ export const prerender = true;
         <a href="/kvkk">KVKK Aydınlatma Metni</a>'ne göz atın.
       </p>
     </section>
-  </main>
-</Layout>
+  </div>
+</SiteLayout>
