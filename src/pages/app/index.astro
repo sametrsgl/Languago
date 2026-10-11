@@ -4,6 +4,7 @@
 // until then the cards link to the working pages.
 import AppShell from '../../layouts/AppShell.astro';
 import { loadAppSession } from '../../lib/app-session';
+import { TASKS, TASK_LABELS, DAYS_PER_LEVEL } from '../../lib/path.mjs';
 
 export const prerender = false;
 const loaded = await loadAppSession(Astro);
@@ -26,6 +27,7 @@ const hour = Number(new Date().toLocaleTimeString('tr-TR', { hour: '2-digit', ho
 const greet = hour < 12 ? 'Günaydın' : hour < 18 ? 'İyi günler' : 'İyi akşamlar';
 
 const s = session.student;
+const path = s?.path;
 const t = session.teacher;
 const next = teacher ? t?.lessons[0] ?? null : s?.nextLesson ?? null;
 const C = 188.5;
@@ -55,6 +57,33 @@ const ic = {
   {session.demo && <span class="demo-flag">Önizleme: örnek verilerle (yalnızca bu bilgisayarda)</span>}
 
   <div class="grid">
+    {!teacher && (
+      <>
+        <section class="panel mission-card col-8" aria-labelledby="mission-title">
+          <div class="panel-head">
+            <div><span class="when">Bugünün görevi</span><h2 id="mission-title" style="font-size:24px;margin-top:4px">{path ? (path.opensTomorrow ? 'Bugünün görevi tamam!' : `${path.level} · Gün ${path.day} / ${DAYS_PER_LEVEL}`) : 'Öğrenme yolunuz hazır'}</h2></div>
+            <a href="/app/gorev">Aç →</a>
+          </div>
+          <ol class="mission-steps">
+            {TASKS.map((t: string, i: number) => {
+              const done = !!path && (path.opensTomorrow || path.passed.includes(t));
+              const now = !!path && !path.opensTomorrow && !done && TASKS.findIndex((x: string) => !path.passed.includes(x)) === i;
+              return <li class:list={[{ done, now }]}><i>{done ? '✓' : i + 1}</i><span>{TASK_LABELS[t]}</span></li>;
+            })}
+          </ol>
+          <div class="row" style="display:flex;gap:10px;flex-wrap:wrap;align-items:center">
+            <a class="btn btn-accent" href="/app/gorev">{!path || path.passed.length === 0 ? 'Göreve başla' : path.opensTomorrow ? 'Bugünü gözden geçir' : 'Göreve devam et'}</a>
+            <span class="muted" style="font-size:14px">Her bölüm 85 puanla geçilir · {path ? `${path.xp.toLocaleString('tr-TR')} XP` : 'XP kazanın'}</span>
+          </div>
+        </section>
+        <section class="panel col-4 vocab-card" aria-labelledby="vocab-title">
+          <span class="when" style="color:#fbbf24">Kelime yolu · {path?.vocabLevel || 'A1'}</span>
+          <h2 id="vocab-title" style="font-size:22px">{path?.vocabDoneToday ? 'Bugünün kelimeleri tamam' : `13 yeni kelime${path?.vocabDue ? ` + ${path.vocabDue} tekrar` : ''}`}</h2>
+          <p class="muted" style="font-size:14px">Dinle, seç, kartlarla öğren. 🔥 {path?.vocabStreak ?? 0} gün üst üste</p>
+          <a class="btn btn-ghost" href="/app/kelime">{path?.vocabDoneToday ? 'Kartlara bak' : 'Kelimelere başla'}</a>
+        </section>
+      </>
+    )}
     <section class="panel lesson-hero col-8" aria-labelledby="next-title">
       {next ? (
         <>
@@ -87,10 +116,10 @@ const ic = {
     ) : (
       <section class="panel col-4" aria-label="Özet">
         <div class="grid" style="grid-template-columns:1fr 1fr;gap:14px">
-          <div class="stat"><b>{s?.streak ?? 0}</b><small>Günlük seri</small></div>
-          <div class="stat"><b>{s?.level ?? 1}</b><small>Seviye puanı</small></div>
-          <div class="stat"><b>{s?.xp ?? 0}</b><small>Toplam XP</small></div>
-          <div class="stat"><b>{s?.modulesDone ?? 0}</b><small>Çalışılan modül</small></div>
+          <div class="stat"><b>{(path?.xp ?? 0).toLocaleString('tr-TR')}</b><small>Toplam XP</small></div>
+          <div class="stat"><b>{path?.level ?? 'A1'}</b><small>Görev seviyesi</small></div>
+          <div class="stat"><b>{path?.vocabLevel ?? 'A1'}</b><small>Kelime seviyesi</small></div>
+          <div class="stat"><b>{path?.vocabStreak ?? 0}</b><small>Günlük seri</small></div>
         </div>
       </section>
     )}
@@ -123,14 +152,6 @@ const ic = {
       </>
     ) : (
       <>
-        <section class="panel col-8" aria-labelledby="plan-title">
-          <div class="panel-head"><h2 id="plan-title">Bugünün planı</h2><a href="/dashboard/gunluk">Günlük plan →</a></div>
-          <div class="plan">
-            <a class="task" href="/dashboard/kelimeler"><span class="ico" set:html={ic.words} /><span><b>Kelime tekrarı</b><small>Size ait kelime kutusu · 5 dk</small></span><span class="go">→</span></a>
-            <a class="task" href="/dashboard/dilbilgisi"><span class="ico o" set:html={ic.grammar} /><span><b>Dilbilgisi</b><small>Seviyenize uygun konu · 6 dk</small></span><span class="go">→</span></a>
-            <a class="task" href="/dashboard/okuma"><span class="ico" set:html={ic.read} /><span><b>Okuma</b><small>Kısa metin ve sorular · 5 dk</small></span><span class="go">→</span></a>
-          </div>
-        </section>
         <section class="panel col-4" aria-labelledby="skills-title">
           <h2 id="skills-title">Becerilerim</h2>
           <div class="rings">
@@ -160,3 +181,15 @@ const ic = {
     })();
   </script>
 </AppShell>
+
+<style>
+  .mission-card { background: radial-gradient(520px circle at 100% 0%, rgba(245, 158, 11, .22), transparent 60%), linear-gradient(135deg, #10302c, #0a1f1d); border-color: rgba(251, 191, 36, .25); }
+  .mission-card .when, .vocab-card .when { font-size: 13px; font-weight: 800; letter-spacing: .08em; text-transform: uppercase; color: #fbbf24; }
+  .mission-steps { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 8px; }
+  .mission-steps li { display: grid; justify-items: center; gap: 6px; padding: 12px 4px; border-radius: 14px; background: rgba(255, 255, 255, .04); font-size: 13px; font-weight: 700; color: var(--muted); text-align: center; }
+  .mission-steps i { width: 32px; height: 32px; border-radius: 50%; display: grid; place-items: center; font-style: normal; font-weight: 900; background: rgba(255, 255, 255, .08); }
+  .mission-steps li.done { color: #5eead4; } .mission-steps li.done i { background: #14b8a6; color: #042321; }
+  .mission-steps li.now { color: #fff; background: rgba(245, 158, 11, .12); } .mission-steps li.now i { background: #f59e0b; color: #1a0f00; }
+  @media (max-width: 560px) { .mission-steps span { font-size: 11px; } }
+  .vocab-card { background: radial-gradient(400px circle at 0% 0%, rgba(251, 191, 36, .14), transparent 60%), rgba(255, 255, 255, .035); }
+</style>

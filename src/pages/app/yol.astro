@@ -1,0 +1,139 @@
+---
+// /app/yol: the learner's 4-month path at a glance: the 120 days, the grammar
+// topics (with their videos for review) and the end-of-level exam.
+import AppShell from '../../layouts/AppShell.astro';
+import '../../styles/level-test.css';
+import '../../styles/mission.css';
+import { loadAppSession } from '../../lib/app-session';
+import { createSupabaseClient, pageCookieSource } from '../../lib/supabase';
+import { getSyllabus, loadPathState } from '../../lib/path-content';
+import { DAYS_PER_LEVEL, nextLevel } from '../../lib/path.mjs';
+
+export const prerender = false;
+const loaded = await loadAppSession(Astro);
+if ('redirect' in loaded) return Astro.redirect(loaded.redirect.replace('next=/app', 'next=/app/yol'));
+const session = loaded;
+if (session.role === 'teacher' || session.role === 'admin') return Astro.redirect('/app/ogrenciler');
+
+let level = 'A1', day = 1, xp = 0;
+const passedByDay = new Map<number, number>();
+let exams: { score: number; passed: boolean; taken_at: string }[] = [];
+if (session.demo) {
+  day = 38; xp = 4120;
+  for (let d = 1; d < 38; d++) passedByDay.set(d, 5);
+  passedByDay.set(38, 2);
+} else {
+  const sb = createSupabaseClient(pageCookieSource(Astro));
+  const st = await loadPathState(sb, session.userId);
+  if (st) { level = st.mission_level; day = st.mission_day; xp = st.mission_xp; }
+  const { data } = await sb.from('mission_results').select('day, passed').eq('student_id', session.userId).eq('level', level).eq('passed', true);
+  for (const r of (data as any[]) || []) passedByDay.set(r.day, (passedByDay.get(r.day) || 0) + 1);
+  const { data: ex } = await sb.from('level_exams').select('score, passed, taken_at').eq('student_id', session.userId).eq('level', level).order('taken_at', { ascending: false });
+  exams = (ex as any[]) || [];
+}
+const topics = await getSyllabus(level);
+const daysDone = [...passedByDay.values()].filter((n) => n >= 5).length;
+const examOpen = day > DAYS_PER_LEVEL;
+const months = [0, 1, 2, 3].map((m) => Array.from({ length: 30 }, (_, i) => m * 30 + i + 1));
+---
+
+<AppShell session={session} title="Yolum — Languago" current="/app/yol">
+  <div class="ms-head">
+    <div class="lvl"><b>{level}</b><small>SEVİYE</small></div>
+    <div><h1>Yolum</h1><p>{daysDone} / {DAYS_PER_LEVEL} gün tamam · {xp.toLocaleString('tr-TR')} XP · Sonraki seviye: {nextLevel(level)}</p></div>
+    <div class="xp"><div class="bar"><b style={`width:${Math.round((daysDone / DAYS_PER_LEVEL) * 100)}%`}></b></div><span><em style="font-style:normal">4 aylık program</em><em style="font-style:normal">%{Math.round((daysDone / DAYS_PER_LEVEL) * 100)}</em></span></div>
+  </div>
+  {session.demo && <span class="demo-flag">Önizleme: örnek ilerleme (yalnızca bu bilgisayarda)</span>}
+
+  <section class="panel" aria-labelledby="map-title">
+    <div class="panel-head"><h2 id="map-title">4 aylık harita</h2><a href="/app/gorev">Bugünün görevi →</a></div>
+    <div class="months">
+      {months.map((days, m) => (
+        <div class="month"><b>{m + 1}. ay</b><div class="cells">{days.map((d) => {
+          const n = passedByDay.get(d) || 0;
+          const cls = n >= 5 ? 'done' : d === day ? 'now' : n > 0 ? 'part' : d < day ? 'part' : '';
+          return <span class={`cell ${cls}`} title={`Gün ${d}${n ? ` · ${n}/5 bölüm` : ''}`}>{d === day ? '•' : ''}</span>;
+        })}</div></div>
+      ))}
+    </div>
+    <div class="legend" style="display:flex;gap:16px;flex-wrap:wrap;font-size:12.5px;color:var(--muted)"><span><i class="cell done" style="display:inline-block;vertical-align:-2px"></i> Tamamlandı</span><span><i class="cell now" style="display:inline-block;vertical-align:-2px"></i> Bugün</span><span><i class="cell part" style="display:inline-block;vertical-align:-2px"></i> Yarım kaldı</span></div>
+  </section>
+
+  <div class="grid">
+    <section class="panel col-8" aria-labelledby="topics-title">
+      <h2 id="topics-title">Dilbilgisi konuları</h2>
+      <ol class="topics">{topics.map((t, i) => {
+        const first = i * 5 + 1, last = i * 5 + 5;
+        const state = day > last ? 'done' : day >= first ? 'now' : '';
+        return <li class={state}><span class="d">Gün {first}–{last}</span><span><b>{t.title}</b><small>{t.tr}</small></span>{t.video && day >= first && <a href={`https://www.youtube.com/watch?v=${t.video.id}`} target="_blank" rel="noopener">Video ↗</a>}</li>;
+      })}</ol>
+    </section>
+    <section class="panel col-4" aria-labelledby="exam-title">
+      <h2 id="exam-title">Seviye sonu sınavı</h2>
+      {examOpen ? (
+        <>
+          <p class="muted" style="font-size:14px">32 soru: kelime, dilbilgisi ve iki okuma metni. 85 ve üstü ile {nextLevel(level)} seviyesine geçersiniz.</p>
+          <button class="btn btn-accent" type="button" data-exam-start>Sınava başla</button>
+        </>
+      ) : (
+        <p class="muted" style="font-size:14px">Tüm {DAYS_PER_LEVEL} günün görevleri bitince açılır. Kalan: {Math.max(0, DAYS_PER_LEVEL - day + 1)} gün. Geçme notu 85.</p>
+      )}
+      {exams.length > 0 && <ul style="margin:0;padding-left:18px;font-size:14px">{exams.map((e) => <li>{new Date(e.taken_at).toLocaleDateString('tr-TR')}: {e.score} {e.passed ? '✓' : ''}</li>)}</ul>}
+    </section>
+  </div>
+
+  <section class="panel" data-exam hidden><div data-exam-body></div></section>
+
+  <style>
+    .months { display: grid; gap: 14px; }
+    .month { display: grid; grid-template-columns: 56px minmax(0, 1fr); gap: 10px; align-items: center; }
+    .month b { font-size: 13px; color: var(--muted); }
+    .cells { display: grid; grid-template-columns: repeat(30, minmax(0, 1fr)); gap: 4px; }
+    @media (max-width: 760px) { .cells { grid-template-columns: repeat(15, minmax(0, 1fr)); } }
+    .cell { aspect-ratio: 1; min-width: 10px; border-radius: 5px; background: rgba(255, 255, 255, .07); display: grid; place-items: center; font-size: 12px; color: #1a0f00; font-weight: 900; }
+    .cell.done { background: linear-gradient(135deg, #2dd4bf, #0d9488); }
+    .cell.part { background: rgba(245, 158, 11, .35); }
+    .cell.now { background: #f59e0b; box-shadow: 0 0 0 3px rgba(245, 158, 11, .3); }
+    i.cell { width: 12px; height: 12px; }
+    .topics { list-style: none; margin: 0; padding: 0; display: grid; gap: 6px; }
+    .topics li { display: grid; grid-template-columns: 92px minmax(0, 1fr) auto; gap: 10px; align-items: center; padding: 10px 12px; border-radius: 12px; background: rgba(255, 255, 255, .03); color: var(--muted); }
+    .topics li b { color: var(--ink-2); display: block; font-size: 14.5px; }
+    .topics li small { font-size: 12.5px; }
+    .topics li .d { font-size: 12.5px; font-weight: 700; }
+    .topics li.done b { color: #5eead4; }
+    .topics li.now { background: rgba(245, 158, 11, .1); }
+    .topics li.now b { color: #fff; }
+    .topics a { color: #5eead4; font-weight: 700; font-size: 13.5px; }
+  </style>
+  <script>
+    const start = document.querySelector('[data-exam-start]');
+    const esc = (s: string) => String(s).replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c] as string));
+    start?.addEventListener('click', async () => {
+      const box = document.querySelector('[data-exam]') as HTMLElement;
+      const body = document.querySelector('[data-exam-body]') as HTMLElement;
+      box.hidden = false; body.innerHTML = '<p class="muted">Hazırlanıyor…</p>';
+      const r = await fetch('/api/path/exam').then((x) => x.json()).catch(() => null);
+      if (!r?.ok) { body.innerHTML = `<p class="msg">${esc(r?.error || 'Sınav açılamadı.')}</p>`; return; }
+      const q = (it: any, n: number) => `<div class="mq" data-id="${it.id}"><b>${n}. ${esc(it.stem).replace(/_{3,}/g, '_____')}</b><div class="opts">${it.options.map((o: string, k: number) => `<button type="button" class="opt" aria-pressed="false" data-k="${k}"><kbd>${'ABCD'[k]}</kbd><span>${esc(o)}</span></button>`).join('')}</div></div>`;
+      let n = 0;
+      body.innerHTML = `<h2>Seviye sonu sınavı (${r.level})</h2>` + r.items.map((it: any) => q(it, ++n)).join('')
+        + r.texts.map((t: any) => `<article class="passage2" style="margin:14px 0"><h3>${esc(t.title)}</h3><p>${esc(t.text)}</p></article>` + t.questions.map((it: any) => q(it, ++n)).join('')).join('')
+        + `<div class="q-actions"><span class="msg" data-msg></span><button class="btn btn-accent" type="button" data-send>Sınavı bitir</button></div><div data-res></div>`;
+      const answers: Record<string, number> = {};
+      body.querySelectorAll('.mq').forEach((m) => m.querySelectorAll<HTMLButtonElement>('.opt').forEach((o) => o.addEventListener('click', () => {
+        answers[(m as HTMLElement).dataset.id!] = Number(o.dataset.k);
+        m.querySelectorAll('.opt').forEach((x) => x.setAttribute('aria-pressed', String(x === o)));
+      })));
+      box.scrollIntoView({ behavior: 'smooth' });
+      (body.querySelector('[data-send]') as HTMLButtonElement).addEventListener('click', async (e) => {
+        const left = n - Object.keys(answers).length;
+        if (left && !confirm(`${left} soru boş. Yine de bitirilsin mi?`)) return;
+        (e.target as HTMLButtonElement).disabled = true;
+        const res = await fetch('/api/path/exam', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ answers }) }).then((x) => x.json()).catch(() => null);
+        const out = body.querySelector('[data-res]') as HTMLElement;
+        if (!res?.ok) { out.innerHTML = '<p class="msg">Kaydedilemedi. Tekrar deneyin.</p>'; (e.target as HTMLButtonElement).disabled = false; return; }
+        out.innerHTML = `<div class="result ${res.passed ? 'pass' : 'fail'}"><big>${res.score}</big><span>${res.passed ? `Tebrikler! ${res.next} seviyesine geçtiniz.` : `${res.right}/${res.total} doğru. Geçmek için 85 gerekiyor; görevleri tekrar edip yeniden deneyebilirsiniz.`}</span></div>`;
+      });
+    });
+  </script>
+</AppShell>

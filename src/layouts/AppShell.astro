@@ -38,7 +38,7 @@ const items: Item[] = teacher
       { href: `/app/gorev${demo}`, label: 'Görev', icon: I.path },
       { href: `/app/kelime${demo}`, label: 'Kelime', icon: I.practice },
       { href: `/app/derslerim${demo}`, label: 'Derslerim', icon: I.lessons },
-      { href: '/dashboard', label: 'Ben', icon: I.me },
+      { href: `/app/yol${demo}`, label: 'Yolum', icon: I.me },
     ];
 const isCurrent = (href: string) => (href.split('?')[0] === current ? 'page' : undefined);
 const initial = (session.firstName || '?').charAt(0).toLocaleUpperCase('tr-TR');

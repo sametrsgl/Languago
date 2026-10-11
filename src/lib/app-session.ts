@@ -17,6 +17,11 @@ export type StudentHome = {
   level: number;
   modulesDone: number;
   nextLesson: NextLesson | null;
+  /** Learning path: today's mission and the vocabulary path. */
+  path?: {
+    level: string; day: number; xp: number; passed: string[]; opensTomorrow: boolean;
+    vocabLevel: string; vocabStreak: number; vocabDoneToday: boolean; vocabDue: number;
+  };
 };
 
 export type TeacherHome = {
@@ -60,7 +65,10 @@ function demoSession(kind: string): AppSession {
   }
   return {
     demo: true, userId: 'demo-student', firstName: 'Elif', email: 'ogrenci@ornek.com', role: 'student',
-    student: { streak: 7, xp: 1240, level: 13, modulesDone: 3, nextLesson: { id: 'l1', title: 'Past simple ile hikâye anlatmak', startsAt: soon, url: '/ders/demo-1' } },
+    student: {
+      streak: 7, xp: 1240, level: 13, modulesDone: 3, nextLesson: { id: 'l1', title: 'Past simple ile hikâye anlatmak', startsAt: soon, url: '/ders/demo-1' },
+      path: { level: 'A1', day: 1, xp: 1340, passed: ['grammar', 'reading'], opensTomorrow: false, vocabLevel: 'A1', vocabStreak: 6, vocabDoneToday: false, vocabDue: 9 },
+    },
   };
 }
 
@@ -104,10 +112,25 @@ export async function loadAppSession(Astro: AstroLike): Promise<AppSession | { r
     return session;
   }
 
-  const [rows, lesson] = await Promise.all([
+  const today = new Date(Date.now() + 3 * 3600_000).toISOString().slice(0, 10);
+  const [rows, lesson, ps, due] = await Promise.all([
     supabase.from('student_progress').select('module, payload, updated_at').eq('student_id', user.id),
     supabase.from('appointments').select(LESSON_COLS).eq('status', 'confirmed').gt('ends_at', nowIso).order('starts_at').limit(1),
-  ]).catch(() => [null, null] as const);
+    supabase.from('path_state').select('*').eq('student_id', user.id).maybeSingle(),
+    supabase.from('vocab_cards').select('word_id', { count: 'exact', head: true }).eq('student_id', user.id).lte('due_on', today),
+  ]).catch(() => [null, null, null, null] as const);
+  const st: any = ps?.data;
+  let path: StudentHome['path'];
+  if (st) {
+    const opensTomorrow = st.day_opened_on > today;
+    const { data: res } = await supabase.from('mission_results').select('task').eq('student_id', user.id).eq('level', st.mission_level)
+      .eq('day', opensTomorrow ? st.mission_day - 1 : st.mission_day).eq('passed', true);
+    path = {
+      level: st.mission_level, day: opensTomorrow ? st.mission_day - 1 : st.mission_day, xp: st.mission_xp,
+      passed: ((res as any[]) || []).map((r) => r.task), opensTomorrow,
+      vocabLevel: st.vocab_level, vocabStreak: st.vocab_streak, vocabDoneToday: st.last_vocab_on === today, vocabDue: due?.count ?? 0,
+    };
+  }
   const progress = (rows?.data as any[]) || [];
   const xp = totalXp(progress);
   const l = (lesson?.data as any[])?.[0];
@@ -117,6 +140,7 @@ export async function loadAppSession(Astro: AstroLike): Promise<AppSession | { r
     level: levelFromXp(xp).level,
     modulesDone: progress.length,
     nextLesson: l ? toNext(l) : null,
+    path,
   };
   return session;
 }
