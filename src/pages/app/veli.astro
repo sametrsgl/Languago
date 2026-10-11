@@ -1,0 +1,98 @@
+---
+// /app/veli: a parent's home: linked children (with the child's code) and a
+// read-only summary of each: level test, today's mission, lessons, reports.
+import AppShell from '../../layouts/AppShell.astro';
+import '../../styles/timetable.css';
+import '../../styles/mission.css';
+import { loadAppSession } from '../../lib/app-session';
+import { createSupabaseClient, pageCookieSource } from '../../lib/supabase';
+import { DAYS_PER_LEVEL, TASK_LABELS } from '../../lib/path.mjs';
+
+export const prerender = false;
+const loaded = await loadAppSession(Astro);
+if ('redirect' in loaded) return Astro.redirect(loaded.redirect.replace('next=/app', 'next=/app/veli'));
+const session = loaded;
+if (session.role !== 'parent' && !session.demo) return Astro.redirect('/app');
+
+type Child = { id: string; name: string; o: any };
+let children: Child[] = [];
+if (session.demo) {
+  children = [{ id: 'c1', name: 'Arda', o: {
+    test: { kidLevel: 'A1', kidName: 'Movers', level: 'A1', skills: { words: { level: 'A1' }, grammar: { level: 'Pre-A1' }, reading: { level: 'A1' }, listening: { level: 'A1' } } },
+    path: { mission_level: 'A1', mission_day: 23, mission_xp: 2410, vocab_level: 'A1', vocab_streak: 5, last_vocab_on: new Date().toISOString().slice(0, 10) },
+    recent: [{ day: 23, task: 'grammar', best_score: 90, passed: true, updated_at: new Date().toISOString() }, { day: 23, task: 'reading', best_score: 86, passed: true, updated_at: new Date().toISOString() }],
+    lessons: [{ starts_at: new Date(Date.now() - 2 * 86_400_000).toISOString(), status: 'confirmed', attendance: 'present', report: 'Hayvanlar ve “can / can’t” çalıştık. Çok istekliydi. Ödev: 5 cümle.' }],
+    exams: [],
+  } }];
+} else {
+  const sb = createSupabaseClient(pageCookieSource(Astro));
+  const { data } = await sb.rpc('my_children');
+  for (const c of (data as any[]) || []) {
+    const { data: o } = await sb.rpc('child_overview', { p_child: c.child_id });
+    children.push({ id: c.child_id, name: c.full_name, o: o || {} });
+  }
+}
+const date = (s: string) => new Date(s).toLocaleDateString('tr-TR', { day: 'numeric', month: 'short', timeZone: 'Europe/Istanbul' });
+const ATT: Record<string, string> = { present: 'Katıldı', late: 'Geç katıldı', absent: 'Katılmadı' };
+const today = new Date(Date.now() + 3 * 3600_000).toISOString().slice(0, 10);
+---
+
+<AppShell session={session} title="Çocuklarım — Languago" current="/app/veli">
+  <div class="page-head"><div><h1>Çocuklarım</h1><p>Çocuğunuzun seviyesi, günlük görevleri, dersleri ve öğretmen raporları.</p></div></div>
+  {session.demo && <span class="demo-flag">Önizleme: örnek çocuk (yalnızca bu bilgisayarda)</span>}
+
+  <section class="panel">
+    <h2>Çocuğunuzu ekleyin</h2>
+    <p class="muted" style="font-size:14.5px">Çocuğunuz kendi hesabında <b>Hesabım → Veli kodu oluştur</b>’a bassın; çıkan 6 haneli kodu buraya yazın. Kod olmadan hiçbir hesaba bağlanılamaz.</p>
+    <form class="form-grid" data-link novalidate>
+      <label class="fld">Veli kodu<input name="code" maxlength="8" autocomplete="off" style="text-transform:uppercase;letter-spacing:.14em;font-weight:800" /></label>
+      <div style="display:flex;gap:10px;align-items:end"><button class="btn btn-primary btn-sm" type="submit">Bağla</button><span class="msg" data-msg></span></div>
+    </form>
+  </section>
+
+  {children.map((c) => {
+    const p = c.o.path || {};
+    const t = c.o.test;
+    const doneToday = (c.o.recent || []).filter((r: any) => r.passed && String(r.updated_at).slice(0, 10) === today).length;
+    return (
+      <section class="panel">
+        <div class="ms-head">
+          <div class="lvl"><b>{p.mission_level || t?.level || '–'}</b><small>SEVİYE</small></div>
+          <div><h2 style="font-size:24px">{c.name}</h2><p class="muted">{p.mission_day ? `Gün ${p.mission_day}/${DAYS_PER_LEVEL} · ${(p.mission_xp || 0).toLocaleString('tr-TR')} XP · Kelime ${p.vocab_level}${p.vocab_streak ? ` · 🔥 ${p.vocab_streak} gün` : ''}` : 'Henüz göreve başlamadı.'}</p></div>
+        </div>
+        <div class="grid">
+          <div class="col-4" style="display:grid;gap:8px">
+            <h3 style="font-size:16px">Seviye testi</h3>
+            {t ? <p><b style="font-size:22px">{t.kidLevel ? `${t.kidLevel} · ${t.kidName}` : t.level}</b></p> : <p class="muted">Henüz seviye testine girmedi. <a href={t?.kidLevel ? '/seviye-testi/cocuk' : '/seviye-testi/cocuk'} style="color:#5eead4">Çocuklar için seviye testi →</a></p>}
+          </div>
+          <div class="col-8" style="display:grid;gap:8px">
+            <h3 style="font-size:16px">Bugün</h3>
+            <p>{doneToday >= 5 ? 'Bugünün görevini tamamladı. 🎉' : `Bugünün görevinden ${doneToday} / 5 bölüm bitti.`} {p.last_vocab_on === today ? 'Kelime kartları da tamam.' : 'Kelime kartları henüz yapılmadı.'}</p>
+            {(c.o.recent || []).length > 0 && <div class="chips">{c.o.recent.slice(0, 6).map((r: any) => <span class="chip-x" style="padding-right:12px">{TASK_LABELS[r.task]} · {r.best_score}</span>)}</div>}
+          </div>
+        </div>
+        <h3 style="font-size:16px">Dersler ve öğretmen raporları</h3>
+        {(c.o.lessons || []).length ? <div class="agenda">{c.o.lessons.map((l: any) => (
+          <div class="lesson" style="grid-template-columns:84px minmax(0,1fr)"><time>{date(l.starts_at)}</time><div><div class="meta"><span class={`badge ${l.status === 'confirmed' ? 'confirmed' : 'cancelled'}`}>{l.status === 'confirmed' ? (Date.parse(l.starts_at) > Date.now() ? 'Planlandı' : ATT[l.attendance] || 'Yapıldı') : 'İptal'}</span></div>{l.report && <p style="margin-top:6px">📝 {l.report}</p>}</div></div>
+        ))}</div> : <p class="muted">Son 60 günde ders yok.</p>}
+        {!session.demo && <button type="button" class="btn btn-ghost btn-sm" data-unlink={c.id} style="justify-self:start">Bağlantıyı kaldır</button>}
+      </section>
+    );
+  })}
+
+  <script is:inline define:vars={{ demo: session.demo }}>
+    var f = document.querySelector('[data-link]');
+    f.addEventListener('submit', function (e) {
+      e.preventDefault(); var msg = f.querySelector('[data-msg]');
+      if (demo) { msg.textContent = 'Önizlemede bağlanmaz.'; return; }
+      fetch('/api/family/link', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ code: f.code.value.trim().toUpperCase() }) })
+        .then(function (r) { return r.json(); }).then(function (r) { if (r.ok) location.reload(); else msg.textContent = r.error || 'Bağlanamadı.'; });
+    });
+    document.querySelectorAll('[data-unlink]').forEach(function (b) {
+      b.addEventListener('click', function () {
+        if (!confirm('Bu çocuğun bilgilerini artık görmeyeceksiniz. Emin misiniz?')) return;
+        fetch('/api/family/unlink', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ otherId: b.dataset.unlink }) }).then(function () { location.reload(); });
+      });
+    });
+  </script>
+</AppShell>

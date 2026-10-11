@@ -11,6 +11,7 @@ const loaded = await loadAppSession(Astro);
 if ('redirect' in loaded) return Astro.redirect(loaded.redirect.replace('next=/app', 'next=/app/hesap'));
 const session = loaded;
 let fullName = session.firstName, consent = { ai_feedback: false, speech: false };
+let parents: { parent_id: string; full_name: string }[] = [];
 if (!session.demo) {
   const sb = createSupabaseClient(pageCookieSource(Astro));
   const [p, c] = await Promise.all([
@@ -18,6 +19,8 @@ if (!session.demo) {
     sb.from('consents').select('ai_feedback, speech').eq('user_id', session.userId).maybeSingle(),
   ]);
   fullName = p.data?.full_name || fullName;
+  const mp = await sb.rpc('my_parents');
+  parents = (mp.data as any[]) || [];
   if (c.data) consent = c.data;
 } else { fullName = 'Elif Kaya'; consent = { ai_feedback: true, speech: false }; }
 const teacher = session.role === 'teacher' || session.role === 'admin';
@@ -44,6 +47,15 @@ const teacher = session.role === 'teacher' || session.role === 'admin';
         <label class="say" style="grid-template-columns:auto minmax(0,1fr);cursor:pointer"><input type="checkbox" name="speech" checked={consent.speech} style="width:20px;height:20px;accent-color:#14b8a6" /><span><b>Konuşma tanıma</b><small>Konuşma bölümünde sesiniz, tarayıcınızın konuşma tanıma hizmeti (Chrome’da Google, Safari’de Apple) tarafından yazıya çevrilir. Ses kaydı Languago’da saklanmaz.</small></span></label>
         <div style="display:flex;gap:10px;align-items:center"><button class="btn btn-primary btn-sm" type="submit">İzinleri kaydet</button><span class="msg" data-msg></span></div>
       </form>
+    </section>
+  )}
+
+  {session.role === 'student' && (
+    <section class="panel">
+      <h2>Veli bağlantısı</h2>
+      <p class="muted" style="font-size:14.5px">Velinizin ilerlemenizi görmesini istiyorsanız bir kod oluşturup ona verin. Kod 7 gün geçerlidir ve bir kez kullanılır. Kodunuz olmadan kimse hesabınıza bağlanamaz.</p>
+      <div style="display:flex;gap:12px;align-items:center;flex-wrap:wrap"><button class="btn btn-ghost btn-sm" type="button" data-pcode>Veli kodu oluştur</button><b data-pcode-out style="font-family:ui-monospace,monospace;font-size:24px;letter-spacing:.14em;color:#5eead4"></b></div>
+      {parents.length > 0 && <div class="chips">{parents.map((p) => <span class="chip-x">{p.full_name}<button type="button" data-unlink={p.parent_id} aria-label="Bağlantıyı kaldır">×</button></span>)}</div>}
     </section>
   )}
 
@@ -75,6 +87,17 @@ const teacher = session.role === 'teacher' || session.role === 'admin';
     document.querySelector('[data-form="profile"]').addEventListener('submit', function (e) { e.preventDefault(); send('profile', { fullName: e.target.fullName.value }, e.target); });
     var c = document.querySelector('[data-form="consent"]');
     if (c) c.addEventListener('submit', function (e) { e.preventDefault(); send('consent', { ai: c.ai.checked, speech: c.speech.checked }, c); });
+    var pc = document.querySelector('[data-pcode]');
+    if (pc) pc.addEventListener('click', function () {
+      if (demo) { document.querySelector('[data-pcode-out]').textContent = 'K7M2PQ'; return; }
+      fetch('/api/family/code', { method: 'POST' }).then(function (r) { return r.json(); }).then(function (r) { document.querySelector('[data-pcode-out]').textContent = r.ok ? r.code : 'Olmadı'; });
+    });
+    document.querySelectorAll('[data-unlink]').forEach(function (b) {
+      b.addEventListener('click', function () {
+        if (!confirm('Bu veli artık ilerlemenizi göremeyecek. Emin misiniz?')) return;
+        fetch('/api/family/unlink', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ otherId: b.dataset.unlink }) }).then(function () { location.reload(); });
+      });
+    });
     var d = document.querySelector('[data-form="delete"]');
     d.addEventListener('submit', function (e) {
       e.preventDefault();

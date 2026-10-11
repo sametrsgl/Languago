@@ -41,7 +41,7 @@ export const POST: APIRoute = async ({ request, cookies }) => {
 
   // Öğrenciyim / Öğretmenim. Teachers get access at once (owner's decision);
   // the database trigger reads role_choice when it creates the profile.
-  const roleChoice = body.role === 'teacher' ? 'teacher' : 'student';
+  const roleChoice = body.role === 'teacher' ? 'teacher' : body.role === 'parent' ? 'parent' : 'student';
 
   // Lightweight field validation (mirrors the old zod input shape).
   const fields: Record<string, string[]> = {};

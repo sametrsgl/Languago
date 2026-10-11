@@ -11,6 +11,7 @@ import '../styles/auth.css';
 const googleAuthUrl = '/api/auth/oauth/google';
 // ?rol=ogretmen (footer and homepage links) preselects the teacher card.
 const teacherFirst = Astro.url.searchParams.get('rol') === 'ogretmen';
+const parentFirst = Astro.url.searchParams.get('rol') === 'veli';
 ---
 
 <SiteLayout
@@ -31,12 +32,15 @@ const teacherFirst = Astro.url.searchParams.get('rol') === 'ogretmen';
         <form id="signup-form" novalidate>
           <fieldset class="roles">
             <legend>Languago'yu nasıl kullanacaksınız?</legend>
-            <label class="role"><input type="radio" name="role" value="student" checked={!teacherFirst} />
+            <label class="role"><input type="radio" name="role" value="student" checked={!teacherFirst && !parentFirst} />
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2 9 12 4l10 5-10 5z"/><path d="M6 11v5c3 2 9 2 12 0v-5"/></svg>
               <b>Öğrenciyim</b><small>Ders almak ve pratik yapmak istiyorum.</small></label>
             <label class="role"><input type="radio" name="role" value="teacher" checked={teacherFirst} />
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="4" width="18" height="12" rx="2"/><path d="M8 20h8M12 16v4"/></svg>
               <b>Öğretmenim</b><small>Ders vermek ve öğrencilerimi yönetmek istiyorum.</small></label>
+            <label class="role"><input type="radio" name="role" value="parent" checked={parentFirst} />
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="8" cy="7" r="3"/><circle cx="17" cy="10" r="2.2"/><path d="M2.5 20a5.5 5.5 0 0 1 11 0M13.5 20a3.5 3.5 0 0 1 7 0"/></svg>
+              <b>Veliyim</b><small>Çocuğumun ilerlemesini ve derslerini takip etmek istiyorum.</small></label>
           </fieldset>
           <div class="field"><label for="fullName">Ad Soyad</label><input type="text" id="fullName" name="fullName" maxlength="120" autocomplete="name" /></div>
           <div class="field"><label for="email">E-posta</label><input type="email" id="email" name="email" required autocomplete="email" /></div>
@@ -62,7 +66,7 @@ const teacherFirst = Astro.url.searchParams.get('rol') === 'ogretmen';
     var google = document.querySelector('[data-google]');
     var syncGoogle = function () {
       var r = (form.querySelector('input[name="role"]:checked') || {}).value || 'student';
-      if (google) google.setAttribute('href', '/api/auth/oauth/google?rol=' + (r === 'teacher' ? 'ogretmen' : 'ogrenci'));
+      if (google) google.setAttribute('href', '/api/auth/oauth/google?rol=' + (r === 'teacher' ? 'ogretmen' : r === 'parent' ? 'veli' : 'ogrenci'));
     };
     form.addEventListener('change', syncGoogle);
     syncGoogle();

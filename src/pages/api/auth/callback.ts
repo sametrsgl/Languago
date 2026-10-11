@@ -45,6 +45,10 @@ export const GET: APIRoute = async ({ request, url, cookies, redirect }) => {
     if (userError || !userData.user) {
       return redirect('/signin?oauth=error', 302);
     }
+    if (cookies.get('lg_role_choice')?.value === 'parent') {
+      cookies.delete('lg_role_choice', { path: '/api/auth' });
+      try { await supabase.rpc('claim_parent_role'); } catch { /* stays a student */ }
+    }
     if (cookies.get('lg_role_choice')?.value === 'teacher') {
       cookies.delete('lg_role_choice', { path: '/api/auth' });
       try {

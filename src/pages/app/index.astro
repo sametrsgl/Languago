@@ -11,6 +11,7 @@ const loaded = await loadAppSession(Astro);
 if ('redirect' in loaded) return Astro.redirect(loaded.redirect);
 const session = loaded;
 const teacher = session.role === 'teacher' || session.role === 'admin';
+if (session.role === 'parent') return Astro.redirect('/app/veli');
 
 const tz = 'Europe/Istanbul';
 const fmtTime = (iso: string) => new Date(iso).toLocaleTimeString('tr-TR', { hour: '2-digit', minute: '2-digit', timeZone: tz });

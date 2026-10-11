@@ -32,8 +32,9 @@ function resolveAllowedOrigin(request: Request): string | null {
 export const GET: APIRoute = async ({ request, cookies, redirect, url }) => {
   // Sign-up page sends ?rol=ogretmen when "Öğretmenim" is picked; the
   // callback reads this cookie and makes the brand-new account a teacher.
-  if (url.searchParams.get('rol') === 'ogretmen') {
-    cookies.set('lg_role_choice', 'teacher', { path: '/api/auth', httpOnly: true, sameSite: 'lax', secure: url.protocol === 'https:', maxAge: 900 });
+  const rol = url.searchParams.get('rol');
+  if (rol === 'ogretmen' || rol === 'veli') {
+    cookies.set('lg_role_choice', rol === 'veli' ? 'parent' : 'teacher', { path: '/api/auth', httpOnly: true, sameSite: 'lax', secure: url.protocol === 'https:', maxAge: 900 });
   }
   const origin = resolveAllowedOrigin(request);
   if (!origin) return redirect('/signin?oauth=origin_error', 302);
