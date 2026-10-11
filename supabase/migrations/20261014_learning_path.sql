@@ -1,4 +1,5 @@
 -- Languago 2.0, Release 3: learning path ("Bugünün görevi") and vocabulary path.
+-- Applied to production on 2026-10-11 (SQL editor, approved by the owner).
 --
 -- A level takes 4 months: ~120 daily missions (grammar, reading, listening,
 -- writing, speaking). A task passes at 85+; passed tasks earn XP; when all

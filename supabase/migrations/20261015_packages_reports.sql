@@ -1,4 +1,5 @@
 -- Languago 2.0: monthly lesson packages, attendance and lesson reports.
+-- Applied to production on 2026-10-11 (SQL editor, approved by the owner).
 --
 -- Payments happen outside the site; the teacher records each student's
 -- monthly package (e.g. 16 lessons = 4 a week). A lesson uses a credit when it
@@ -113,7 +114,7 @@ declare
 begin
   if auth.uid() is null then raise exception 'signed_out'; end if;
   if not public.is_student_of(p_teacher) then raise exception 'not_your_teacher'; end if;
-  select coalesce(t.lesson_min, 45) lesson_min, coalesce(t.notice_hours, 12) notice_hours, coalesce(t.window_days, 21) window_days
+  select coalesce(t.lesson_min, 40) lesson_min, coalesce(t.notice_hours, 12) notice_hours, coalesce(t.window_days, 21) window_days
     into s from (select 1) x left join public.teacher_settings t on t.teacher_id = p_teacher;
   if p_starts < now() + make_interval(hours => s.notice_hours) then raise exception 'too_soon'; end if;
   if p_starts > now() + make_interval(days => s.window_days) then raise exception 'too_far'; end if;
