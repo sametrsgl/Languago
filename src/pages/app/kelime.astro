@@ -110,11 +110,21 @@ const speakIcon = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" st
   let voice: SpeechSynthesisVoice | null = null;
   const pickVoice = () => { const v = speechSynthesis.getVoices().filter((x) => /^en[-_](GB|US)/i.test(x.lang)); voice = v.find((x) => /GB/i.test(x.lang)) || v[0] || null; };
   if ('speechSynthesis' in window) { pickVoice(); speechSynthesis.addEventListener('voiceschanged', pickVoice); }
-  const say = (text: string, rate = 0.85) => {
-    if (!('speechSynthesis' in window)) return;
+  const missing = new Set<string>();
+  const player = new Audio();
+  const deviceSay = (text: string, rate: number) => {
+    if (!('speechSynthesis' in window) || !voice) return; // only a real English voice
     speechSynthesis.cancel();
-    const u = new SpeechSynthesisUtterance(text); u.rate = rate; u.lang = voice?.lang || 'en-GB'; if (voice) u.voice = voice;
+    const u = new SpeechSynthesisUtterance(text); u.rate = rate; u.lang = voice.lang; u.voice = voice;
     speechSynthesis.speak(u);
+  };
+  // Recorded audio (scripts/tts.mjs) when it exists, otherwise the device voice.
+  const say = (text: string, rate = 0.85, id?: string) => {
+    const src = id ? `/audio/vocab/${String(D.level).toLowerCase()}/${id}.mp3` : '';
+    if (!src || missing.has(src)) return deviceSay(text, rate);
+    player.src = src;
+    player.onerror = () => { missing.add(src); deviceSay(text, rate); };
+    player.play().catch(() => { missing.add(src); deviceSay(text, rate); });
   };
 
   let listenRight = 0;
@@ -139,9 +149,9 @@ const speakIcon = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" st
         if (!ok) { const r = box.querySelector<HTMLElement>(`[data-k="${q.answer}"]`); if (r) { r.style.borderColor = '#5eead4'; r.style.background = 'rgba(45,212,191,.16)'; } }
         setTimeout(() => { i++; if (i < D.listen.length) show(); else startCards(); }, ok ? 700 : 1500);
       }));
-      setTimeout(() => say(D.fresh[i].word), 250);
+      setTimeout(() => say(D.fresh[i].word, 0.85, D.fresh[i].id), 250);
     };
-    $('[data-say-current]').onclick = () => say(D.fresh[i].word);
+    $('[data-say-current]').onclick = () => say(D.fresh[i].word, 0.85, D.fresh[i].id);
     show();
   }
 
@@ -169,7 +179,7 @@ const speakIcon = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" st
       $('[data-f="ex"]').textContent = w.ex || '';
       show.hidden = true; card.hidden = false; cd.hidden = false; rate.hidden = false;
       rate.querySelectorAll('button').forEach((b) => ((b as HTMLButtonElement).disabled = true));
-      say(w.word);
+      say(w.word, 0.85, w.id);
       let left = D.seconds;
       const ring = cd.querySelector('.v') as SVGCircleElement;
       const paint = () => { ring.style.strokeDashoffset = String(163.4 * (1 - left / D.seconds)); $('[data-cdt]').textContent = left > 0 ? `${left} sn` : 'Değerlendirin'; };
@@ -181,7 +191,7 @@ const speakIcon = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" st
       }, 1000);
     });
     flipEl.addEventListener('click', (e) => { if ((e.target as HTMLElement).closest('[data-say]')) return; card.classList.toggle('flip'); });
-    document.querySelectorAll<HTMLButtonElement>('[data-say]').forEach((b) => b.addEventListener('click', (e) => { e.stopPropagation(); if (cur) say(cur.w.word); }));
+    document.querySelectorAll<HTMLButtonElement>('[data-say]').forEach((b) => b.addEventListener('click', (e) => { e.stopPropagation(); if (cur) say(cur.w.word, 0.85, cur.w.id); }));
     rate.querySelectorAll<HTMLButtonElement>('[data-r]').forEach((b) => b.addEventListener('click', () => {
       if (!cur || b.disabled) return;
       const r = b.dataset.r!;

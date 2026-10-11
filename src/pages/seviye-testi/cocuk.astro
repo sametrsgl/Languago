@@ -120,6 +120,15 @@ try { const sb = createSupabaseClient(pageCookieSource(Astro)); if (sb) signedIn
       return true;
     }
 
+    // Recorded audio (scripts/tts.mjs) when it exists.
+    function playFile(id: string): Promise<boolean> {
+      return new Promise((resolve) => {
+        const a = new Audio(`/audio/kids/${id}.mp3`);
+        a.onerror = () => resolve(false);
+        a.play().then(() => resolve(true)).catch(() => resolve(false));
+      });
+    }
+
     async function check(id: string, choice: number) {
       if (choice < 0) return false;
       const r = await fetch('/api/kids-test/check', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ id, choice }) }).then((x) => x.json()).catch(() => null);
@@ -180,7 +189,7 @@ try { const sb = createSupabaseClient(pageCookieSource(Astro)); if (sb) signedIn
         choice = Number(b.dataset.k); box.querySelectorAll('.kt-opt').forEach((x) => x.setAttribute('aria-pressed', String(x === b))); ($('[data-ok]') as HTMLButtonElement).disabled = false;
       }));
       if (it.type === 'hear') {
-        const play = async () => { const ok = await say([['A', it.say]], 0.8); const nv = box.querySelector('[data-novoice]') as HTMLElement | null; if (!ok && nv) nv.hidden = false; };
+        const play = async () => { const ok = (await playFile(it.id)) || (await say([['A', it.say]], 0.8)); const nv = box.querySelector('[data-novoice]') as HTMLElement | null; if (!ok && nv) nv.hidden = false; };
         box.querySelector('[data-say]')!.addEventListener('click', play); setTimeout(play, 300);
       }
       const done = async (c: number) => { ($('[data-ok]') as HTMLButtonElement).disabled = true; answers.push({ id: it.id, choice: c, skill: s.key, b: it.b, correct: await check(it.id, c) }); next(); };
@@ -206,7 +215,7 @@ try { const sb = createSupabaseClient(pageCookieSource(Astro)); if (sb) signedIn
         const btn = box.querySelector('[data-play]') as HTMLButtonElement;
         btn.addEventListener('click', async () => {
           if (plays >= 3) return; plays++;
-          const ok = await say(u.lines, 0.85);
+          const ok = (await playFile(u.id)) || (await say(u.lines, 0.85));
           const label = box.querySelector('[data-plays]') as HTMLElement | null;
           if (!label) return;
           if (!ok) { label.innerHTML = 'Bu cihazda İngilizce ses yok. <button type="button" class="kt-idk" data-skip>Dinlemeyi atla</button>'; label.querySelector('[data-skip]')!.addEventListener('click', () => { skipListening = true; sec = SECTIONS.length; finish(); }); return; }
