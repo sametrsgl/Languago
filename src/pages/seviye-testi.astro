@@ -265,12 +265,14 @@ try {
   function englishVoices(): Promise<SpeechSynthesisVoice[]> {
     return new Promise((resolve) => {
       if (!('speechSynthesis' in window)) return resolve([]);
-      const pick = () => speechSynthesis.getVoices().filter((v) => /^en[-_]/i.test(v.lang));
-      const now = pick();
-      if (now.length) return resolve(now);
-      const done = () => resolve(pick());
-      speechSynthesis.addEventListener('voiceschanged', done, { once: true });
-      setTimeout(done, 1500);
+      // Only real English voices; better ones (neural / natural / Google / Apple premium) first.
+      const good = /natural|neural|online|google|premium|enhanced|siri|samantha|daniel|karen|moira|serena|kate/i;
+      const pick = () => speechSynthesis.getVoices()
+        .filter((v) => /^en[-_]/i.test(v.lang))
+        .sort((a, b) => Number(good.test(b.name)) - Number(good.test(a.name)));
+      let tries = 0;
+      const poll = () => { const v = pick(); if (v.length || tries++ > 20) resolve(v); else setTimeout(poll, 200); };
+      poll();
     });
   }
   async function speakerVoices(speakers: Record<string, string>) {
@@ -309,24 +311,29 @@ try {
     const paint = () => {
       const left = 2 - plays;
       btn.disabled = left <= 0 || busy || mode === 'none';
-      if (mode === 'none') label.textContent = 'Bu cihazda ses çalınamıyor. Soruları “Bilmiyorum” ile geçebilirsiniz.';
+      if (mode === 'none') {
+        label.innerHTML = 'Bu cihazda İngilizce ses bulunamadı, bu yüzden dinleme kaydı çalınamıyor. Dinleme bölümünü atlayıp sonucunuzu diğer üç beceriyle alabilirsiniz. <button type="button" class="btn btn-ghost btn-sm" data-skip-listening style="margin-top:8px">Dinlemeyi atla ve bitir</button>';
+        label.querySelector('[data-skip-listening]')?.addEventListener('click', () => { if (run) { (run as any).skipListening = true; save(); } finish(); });
+      }
       else label.textContent = (left > 0 ? `${left} dinleme hakkınız var.` : 'Dinleme hakkınız bitti.') + (mode === 'voice' ? ' (Cihazınızın sesiyle okunur.)' : '');
     };
     audio.addEventListener('timeupdate', () => { bar.style.width = (audio.duration ? (audio.currentTime / audio.duration) * 100 : 0) + '%'; });
     audio.addEventListener('ended', () => { bar.style.width = '100%'; busy = false; paint(); });
-    audio.addEventListener('error', () => {
+    audio.addEventListener('error', async () => {
       if (mode !== 'audio') return;
-      mode = (u as any).lines?.length && 'speechSynthesis' in window ? 'voice' : 'none';
+      mode = (u as any).lines?.length && 'speechSynthesis' in window && (await englishVoices()).length ? 'voice' : 'none';
       paint();
     });
     const speak = async () => {
       const lines: [string, string][] = (u as any).lines || [];
       const voices = await speakerVoices((u as any).speakers || {});
+      if (Object.values(voices).some((v) => !v)) { mode = 'none'; busy = false; paint(); return; }
       speechSynthesis.cancel();
       lines.forEach(([sp, text], i) => {
         const ut = new SpeechSynthesisUtterance(text);
         const v = voices[sp];
-        if (v) { ut.voice = v; ut.lang = v.lang; } else ut.lang = 'en-GB';
+        if (!v) return;
+        ut.voice = v; ut.lang = v.lang;
         ut.rate = RATE[u.level] || 1;
         ut.onstart = () => { bar.style.width = Math.round((i / lines.length) * 100) + '%'; };
         ut.onend = () => {
@@ -397,12 +404,13 @@ try {
     try {
       const res = await fetch('/api/level-test/finish', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({
         answers: run.session.answers.map((a: any) => ({ id: a.id, choice: a.choice })), selfReport: run.selfReport, goal: run.goal,
+        skipListening: !!(run as any).skipListening,
       }) });
       data = await res.json();
     } catch { /* below */ }
     if (!data?.ok) { $('[data-view="loading"]').textContent = 'Sonuç hesaplanamadı. Sayfayı yenileyip tekrar deneyin; cevaplarınız saklı.'; return; }
     if (!data.saved) {
-      try { localStorage.setItem(DRAFT, JSON.stringify({ format: 'lt2', answers: run.session.answers.map((a: any) => ({ id: a.id, choice: a.choice })), selfReport: run.selfReport, goal: run.goal })); } catch { /* ignore */ }
+      try { localStorage.setItem(DRAFT, JSON.stringify({ format: 'lt2', answers: run.session.answers.map((a: any) => ({ id: a.id, choice: a.choice })), selfReport: run.selfReport, goal: run.goal, skipListening: !!(run as any).skipListening })); } catch { /* ignore */ }
     }
     store.clear();
     renderResult(data.result, data.saved);

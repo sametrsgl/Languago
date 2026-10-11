@@ -16,7 +16,7 @@ export const POST: APIRoute = async ({ request, cookies }) => {
   if (raw.length > 16_384) return json(413, { ok: false, error: 'İstek çok büyük.' });
   let body: any;
   try { body = JSON.parse(raw); } catch { return json(400, { ok: false, error: 'Geçersiz istek.' }); }
-  const scored = scoreTest(body.answers, Number(body.selfReport) || 0);
+  const scored = scoreTest(body.answers, Number(body.selfReport) || 0, { skipListening: body.skipListening === true });
   if (!scored) return json(400, { ok: false, error: 'Test tamamlanmadı.' });
   let saved = false;
   const sb = createSupabaseClient(pageCookieSource({ request, cookies }));

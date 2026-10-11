@@ -82,7 +82,7 @@ export function isCorrect(id: string, choice: number): boolean | null {
  * correctness comes from the keys here. Returns null when the test is too
  * incomplete to give a level.
  */
-export function scoreTest(answers: { id: string; choice: number }[], selfReport: number) {
+export function scoreTest(answers: { id: string; choice: number }[], selfReport: number, opts: { skipListening?: boolean } = {}) {
   const b = bank();
   const seen = new Set<string>();
   const scored: { id: string; skill: Skill; b: number; choice: number; correct: boolean }[] = [];
@@ -93,7 +93,8 @@ export function scoreTest(answers: { id: string; choice: number }[], selfReport:
     const choice = Number(a.choice);
     scored.push({ id: item.id, skill: item.skill, b: levelB(item.level), choice, correct: item.answer === choice });
   }
-  const need: Record<string, number> = { vocab: 8, grammar: 8, reading: 6, listening: 6 };
+  // Listening can be skipped when the device has no English voice (no recorded audio yet).
+  const need: Record<string, number> = { vocab: 8, grammar: 8, reading: 6, listening: opts.skipListening ? 0 : 6 };
   for (const s of SECTIONS) if (scored.filter((x) => x.skill === s.key).length < need[s.key]) return null;
   return { result: result(scored, selfReport), answers: scored };
 }

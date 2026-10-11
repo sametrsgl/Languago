@@ -30,7 +30,7 @@ export const POST: APIRoute = async ({ request, cookies }) => {
 
   // Level test v2 drafts (taken before signing up) are scored from their answers.
   if (body?.format === 'lt2') {
-    const scored = scoreTest(body.answers, Number(body.selfReport) || 0);
+    const scored = scoreTest(body.answers, Number(body.selfReport) || 0, { skipListening: body.skipListening === true });
     if (!scored) return json({ error: 'Seviye testini tamamlaman gerekiyor.' }, 400);
     const ok = await saveLevelTest(supabase, user.id, scored, String(body.goal || 'general'));
     return ok ? json({ ok: true, level: scored.result.overall.level }, 200) : json({ error: 'Seviye sonucu kaydedilemedi.' }, 500);
