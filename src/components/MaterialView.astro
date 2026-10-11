@@ -1,0 +1,107 @@
+---
+// One lesson as slides (for screen sharing) or a printable worksheet with an
+// answer key. Used by path days and by AI-made materials.
+import { buildMaterials } from '../lib/material-slides';
+import type { Day, Topic } from '../lib/path-content';
+import '@fontsource-variable/plus-jakarta-sans';
+interface Props { d: Day; topic: Topic | null; level: string; seed: number; label: string; mode: 'print' | 'slides'; back?: string }
+const { d, topic, level, seed, label, mode, back } = Astro.props;
+const { L, bold, gap, slides, wsGrammar, wsReading } = buildMaterials(d, topic, level, seed, label);
+const title = topic ? `${topic.title} · ${d.theme}` : d.theme;
+---
+<!doctype html>
+<html lang="tr">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width,initial-scale=1" />
+  <meta name="robots" content="noindex" />
+  <title>{level} {label} · {mode === 'print' ? 'Çalışma kâğıdı' : 'Sunum'} — Languago</title>
+  <link rel="icon" href="/favicon.svg" />
+  <style is:global>
+    :root { --ink: #10201e; --teal: #0d9488; }
+    * { box-sizing: border-box; }
+    body { margin: 0; font-family: "Plus Jakarta Sans Variable", system-ui, sans-serif; color: var(--ink); }
+    b { color: #0b3b3a; }
+    .gap { display: inline-block; min-width: 4em; border-bottom: 3px solid #f59e0b; }
+    /* slides */
+    .deck { height: 100vh; background: #0b3b3a; display: grid; place-items: center; overflow: hidden; }
+    .slide { width: min(1200px, 94vw); aspect-ratio: 16 / 9; background: #fffdf7; border-radius: 22px; padding: 5% 7%; display: none; flex-direction: column; justify-content: center; gap: 2.2vh; box-shadow: 0 30px 80px rgba(0,0,0,.4); }
+    .slide.on { display: flex; }
+    .slide h1 { font-size: clamp(32px, 5vw, 64px); margin: 0; color: #0b3b3a; }
+    .slide h2 { font-size: clamp(24px, 3.2vw, 42px); margin: 0; line-height: 1.3; }
+    .slide .eyebrow { font-weight: 800; letter-spacing: .1em; text-transform: uppercase; color: var(--teal); margin: 0; font-size: clamp(13px, 1.3vw, 18px); }
+    .slide .sub, .slide li, .slide td { font-size: clamp(18px, 2vw, 28px); }
+    .slide .read { font-size: clamp(17px, 1.8vw, 25px); line-height: 1.7; margin: 0; }
+    .slide ul { margin: 0; padding-left: 1.2em; display: grid; gap: 1.2vh; }
+    .slide table td { padding: .4em .8em .4em 0; } .slide td.tr { color: #64746f; }
+    .slide .note { background: #fef3c7; border-radius: 12px; padding: .6em .9em; font-size: clamp(15px, 1.6vw, 22px); }
+    .opts { list-style: upper-alpha; margin: 0; padding-left: 1.6em; display: grid; grid-template-columns: 1fr 1fr; gap: 1.4vh 3vw; }
+    .opts li { font-size: clamp(20px, 2.4vw, 32px); padding: .2em .4em; border-radius: 10px; }
+    .opts li.right { background: #ccfbf1; font-weight: 800; }
+    .bar { position: fixed; left: 0; right: 0; bottom: 0; display: flex; gap: 12px; justify-content: center; align-items: center; padding: 10px; color: #ccfbf1; font-size: 14px; }
+    .bar button { border: 0; border-radius: 10px; padding: 8px 14px; font: inherit; font-weight: 700; cursor: pointer; background: rgba(255,255,255,.12); color: #fff; }
+    /* worksheet */
+    .sheet { max-width: 800px; margin: 0 auto; padding: 32px 28px; }
+    .sheet header { display: flex; justify-content: space-between; align-items: end; border-bottom: 3px solid var(--teal); padding-bottom: 10px; margin-bottom: 18px; }
+    .sheet h1 { font-size: 22px; margin: 0; } .sheet .meta { font-size: 13px; color: #555; }
+    .sheet .who { display: flex; gap: 24px; font-size: 14px; margin-bottom: 18px; }
+    .sheet .who span { flex: 1; border-bottom: 1px solid #999; padding-bottom: 2px; }
+    .sheet h2 { font-size: 17px; margin: 22px 0 8px; color: #0b3b3a; }
+    .sheet ol.qs { padding-left: 22px; margin: 0; display: grid; gap: 10px; font-size: 15px; }
+    .sheet .o { display: flex; flex-wrap: wrap; gap: 4px 22px; margin-top: 3px; color: #333; }
+    .sheet .text { border: 1px solid #ddd; border-radius: 8px; padding: 12px 14px; font-size: 15px; line-height: 1.7; }
+    .sheet .lines div { border-bottom: 1px solid #bbb; height: 30px; }
+    .sheet .key { page-break-before: always; break-before: page; }
+    .sheet .key table { border-collapse: collapse; font-size: 14px; } .sheet .key td { border: 1px solid #ccc; padding: 4px 10px; }
+    .noprint { margin: 0 0 16px; } .noprint button { border: 0; border-radius: 10px; padding: 10px 16px; font: inherit; font-weight: 700; background: var(--teal); color: #fff; cursor: pointer; }
+    @media print { .noprint { display: none; } .sheet { padding: 0; } }
+  </style>
+</head>
+<body>
+  {mode === 'slides' ? (
+    <>
+      <main class="deck">{slides.map((s, i) => <section class:list={['slide', { on: i === 0 }]} data-answer={s.answer || ''} set:html={s.html} />)}</main>
+      <div class="bar"><button type="button" data-prev>‹ Geri</button><span data-count>1 / {slides.length}</span><button type="button" data-reveal>Cevabı göster (Boşluk)</button><button type="button" data-next>İleri ›</button><button type="button" data-full>Tam ekran (F)</button></div>
+      <script is:inline>
+        (function () {
+          var s = [].slice.call(document.querySelectorAll('.slide')), i = 0;
+          var show = function (n) { i = Math.max(0, Math.min(s.length - 1, n)); s.forEach(function (x, k) { x.classList.toggle('on', k === i); }); document.querySelector('[data-count]').textContent = (i + 1) + ' / ' + s.length; };
+          var reveal = function () { var a = s[i].dataset.answer; if (!a) return; s[i].querySelectorAll('.opts li').forEach(function (li) { if (li.textContent.trim() === a.replace(/\*\*/g, '').trim()) li.classList.add('right'); }); };
+          document.querySelector('[data-prev]').onclick = function () { show(i - 1); };
+          document.querySelector('[data-next]').onclick = function () { show(i + 1); };
+          document.querySelector('[data-reveal]').onclick = reveal;
+          document.querySelector('[data-full]').onclick = function () { document.documentElement.requestFullscreen && document.documentElement.requestFullscreen(); };
+          document.addEventListener('keydown', function (e) {
+            if (e.key === 'ArrowRight' || e.key === 'PageDown') show(i + 1);
+            if (e.key === 'ArrowLeft' || e.key === 'PageUp') show(i - 1);
+            if (e.key === ' ') { e.preventDefault(); reveal(); }
+            if (e.key === 'f' || e.key === 'F') document.documentElement.requestFullscreen && document.documentElement.requestFullscreen();
+          });
+        })();
+      </script>
+    </>
+  ) : (
+    <main class="sheet">
+      <p class="noprint"><button type="button" onclick="window.print()">Yazdır / PDF kaydet</button>{back && <a href={back} style="margin-left:14px;color:#0b5f58;font-weight:700">← Geri</a>}</p>
+      <header><div><h1>{title}</h1><span class="meta">Languago · {level} · {label}</span></div><span class="meta">languago.site</span></header>
+      <div class="who"><span>Name:</span><span>Date:</span></div>
+      <h2>A. Grammar: choose the correct answer.</h2>
+      <ol class="qs">{wsGrammar.map((q) => <li><span set:html={gap(q.q)} /><div class="o">{q.o.map((o, k) => <span>{L[k].toLowerCase()}) <span set:html={bold(o)} /></span>)}</div></li>)}</ol>
+      <h2>B. Reading: {d.reading.title}</h2>
+      <div class="text">{d.reading.text}</div>
+      <ol class="qs" style="margin-top:10px">{wsReading.map((q) => <li>{q.q}<div class="o">{q.o.map((o, k) => <span>{L[k].toLowerCase()}) {o}</span>)}</div></li>)}</ol>
+      <h2>C. Writing</h2>
+      <p style="margin:0 0 8px">{d.writing.prompt_en} <i>({d.writing.min}–{d.writing.max} words)</i></p>
+      <div class="lines">{Array.from({ length: 8 }, () => <div />)}</div>
+      <h2>D. Speaking (read aloud, then answer)</h2>
+      <ul>{d.speaking.read.map((s) => <li>{s}</li>)}</ul>
+      <p><b>{d.speaking.ask.q}</b></p>
+      <section class="key">
+        <h2>Answer key · {level} · {title}</h2>
+        <table><tr><td><b>Grammar</b></td>{wsGrammar.map((q, i) => <td>{i + 1}. {q.key.toLowerCase()}</td>)}</tr></table>
+        <table style="margin-top:8px"><tr><td><b>Reading</b></td>{wsReading.map((q, i) => <td>{i + 1}. {q.key.toLowerCase()}</td>)}</tr></table>
+        <h2>Model answer (writing)</h2><p>{d.writing.model}</p>
+      </section>
+    </main>
+  )}
+</body>
+</html>

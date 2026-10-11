@@ -41,12 +41,6 @@ export default defineConfig({
     sitemap({
       customPages: [
         `${SITE_URL}/blog`,
-        `${SITE_URL}/ogren/a1-present-simple-routines`,
-        `${SITE_URL}/ogren/a1-place-prepositions`,
-        `${SITE_URL}/ogren/a2-past-simple`,
-        `${SITE_URL}/ogren/b1-present-perfect-vs-past`,
-        `${SITE_URL}/ogren/b1-restaurant-communication`,
-        `${SITE_URL}/ogren/b2-inference-reading`,
         `${SITE_URL}/sinif-oyunlari`,
         `${SITE_URL}/sinif-oyunlari/kutu-avi`,
       ],

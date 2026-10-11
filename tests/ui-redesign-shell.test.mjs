@@ -18,15 +18,6 @@ test('public shell keeps mobile nav mobile-only, login visible, and skip link fo
   assert.match(css, /header\.site \.header-login\s*\{/);
 });
 
-test('lesson explorer exposes accessible filtering controls and real links', () => {
-  const page = read('src/pages/ogren/index.astro');
-  assert.match(page, /type="search"/);
-  assert.match(page, /aria-pressed/);
-  assert.match(page, /lesson-empty/);
-  assert.match(page, /href=\{`\/ogren\/\$\{lesson\.slug\}`\}/);
-  assert.match(page, /setLevel/);
-});
-
 test('auth pages retain client endpoints while using compact brand accents', () => {
   for (const file of ['src/pages/signin.astro', 'src/pages/signup.astro']) {
     const page = read(file);

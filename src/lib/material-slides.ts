@@ -4,14 +4,14 @@ import { shuffleOrder } from './path.mjs';
 // Same option order as the learner sees in the app (path.mjs presentQuestions).
 const shown = (o: string[], key: string) => shuffleOrder(key, o.length).map((k: number) => o[k]);
 
-export function buildMaterials(d: Day, topic: Topic | null, level: string, dayNo: number) {
+export function buildMaterials(d: Day, topic: Topic | null, level: string, dayNo: number, label = `Gün ${dayNo}`) {
   const L = 'ABCD';
   const esc = (s: string) => s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
   const bold = (s: string) => esc(s).replace(/\*\*(.+?)\*\*/g, '<b>$1</b>');
   const gap = (s: string) => bold(s).replace(/_{3,}/g, '<span class="gap"></span>');
   type S = { kind: string; html: string; answer?: string };
   const slides: S[] = [];
-  slides.push({ kind: 'title', html: `<p class="eyebrow">${level} · Gün ${dayNo} · ${d.theme}</p><h1>${topic ? bold(topic.title) : ''}</h1><p class="sub">${topic ? topic.tr : ''}</p>` });
+  slides.push({ kind: 'title', html: `<p class="eyebrow">${level} · ${label} · ${d.theme}</p><h1>${topic ? bold(topic.title) : ''}</h1><p class="sub">${topic ? topic.tr : ''}</p>` });
   if (topic) {
     slides.push({ kind: 'explain', html: `<h2>${bold(topic.tr)}</h2><ul>${topic.explain.map((p) => `<li>${bold(p)}</li>`).join('')}</ul>` });
     slides.push({ kind: 'examples', html: `<h2>Örnekler</h2><table>${topic.examples.map(([en, tr]) => `<tr><td>${bold(en)}</td><td class="tr">${tr}</td></tr>`).join('')}</table><p class="note">${bold(topic.mistake)}</p>` });

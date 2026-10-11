@@ -22,7 +22,7 @@ import {
 // overall deadline, defensive parsing, validation) lives in
 // src/classroom/core/generate.mjs and is unit-tested there. This route only
 // does auth, limits, input checks and the OpenAI-compatible HTTP call, with
-// the same env conventions as the Material Maker (materials/generate.ts).
+// the same LLM_* env conventions as src/lib/ai.ts.
 export const prerender = false;
 
 const MAX_REQUEST_BYTES = 4096;

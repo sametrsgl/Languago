@@ -1,0 +1,100 @@
+---
+// /app/materyaller/uret: the AI material generator. The teacher picks a level
+// and a topic; the server drafts a lesson, checks it, and saves it here as
+// slides and a printable worksheet with an answer key. Up to 20 a day.
+import AppShell from '../../../layouts/AppShell.astro';
+import '../../../styles/timetable.css';
+import { loadAppSession } from '../../../lib/app-session';
+import { createSupabaseClient, pageCookieSource } from '../../../lib/supabase';
+import { LEVELS, COUNTS } from '../../../lib/material-check.mjs';
+
+export const prerender = false;
+const loaded = await loadAppSession(Astro);
+if ('redirect' in loaded) return Astro.redirect(loaded.redirect.replace('next=/app', 'next=/app/materyaller/uret'));
+const session = loaded;
+if (session.role !== 'teacher' && session.role !== 'admin') return Astro.redirect('/app');
+let mine: { id: string; level: string; title: string; created_at: string; request: any }[] = [];
+if (!session.demo) {
+  const sb = createSupabaseClient(pageCookieSource(Astro));
+  const { data } = await sb.from('teacher_materials').select('id, level, title, created_at, request').eq('teacher_id', session.userId).order('created_at', { ascending: false }).limit(40);
+  mine = (data as any[]) || [];
+}
+const fmt = (s: string) => new Date(s).toLocaleDateString('tr-TR', { day: 'numeric', month: 'long', timeZone: 'Europe/Istanbul' });
+const ideas = ['Present simple: daily routines', 'Can / can’t for ability', 'Past simple: last weekend', 'Comparatives: city vs village', 'Going to: holiday plans', 'Present perfect: experiences'];
+---
+
+<AppShell session={session} title="Materyal üret — Languago" current="/app/materyaller">
+  <div class="page-head">
+    <div><h1>Yapay zekâ ile materyal üret</h1><p>Seviye ve konu seçin. Konu anlatımı, dil bilgisi soruları, okuma metni, yazma ve konuşma görevi hazırlanır; sunum ve cevap anahtarlı çalışma kâğıdı olarak açılır.</p></div>
+    <div class="actions"><a class="btn btn-ghost btn-sm" href="/app/materyaller">← Materyaller</a></div>
+  </div>
+
+  <section class="panel">
+    <form class="gen" data-gen>
+      <div class="form-grid">
+        <label class="fld">Seviye<select name="level">{LEVELS.map((l: string) => <option value={l}>{l}</option>)}</select></label>
+        <label class="fld">Dil bilgisi sorusu<select name="count">{COUNTS.map((c: number) => <option value={c} selected={c === 8}>{c} soru</option>)}</select></label>
+      </div>
+      <label class="fld">Konu (İngilizce ya da Türkçe)<input name="topic" maxlength="120" required placeholder="ör. Past simple: last weekend" list="gen-ideas" /></label>
+      <datalist id="gen-ideas">{ideas.map((i) => <option value={i} />)}</datalist>
+      <label class="fld">Not (isteğe bağlı)<input name="focus" maxlength="200" placeholder="ör. Sınıfım futbolu seviyor; düzensiz fiillere ağırlık ver" /></label>
+      <div class="gen-row">
+        <button class="btn btn-accent" type="submit">Materyal üret</button>
+        <span class="muted gen-msg" role="status" aria-live="polite"></span>
+      </div>
+      <p class="muted" style="font-size:13.5px;margin:0">Hazırlanması yaklaşık bir dakika sürer. Sorular ikinci bir kontrolden geçer; yine de derse girmeden önce göz atın. Günde en fazla 20 materyal.</p>
+    </form>
+  </section>
+
+  <section class="panel">
+    <h2>Ürettikleriniz</h2>
+    {!mine.length ? <p class="muted">Henüz materyal üretmediniz.</p> : (
+      <div class="agenda">{mine.map((m) => (
+        <div class="lesson gen-item" data-item={m.id}>
+          <div><b>{m.title}</b><span class="muted" style="font-size:13.5px"> · {m.level} · {fmt(m.created_at)}</span></div>
+          <div class="gen-links">
+            <a class="btn btn-ghost btn-sm" href={`/app/materyaller/uret/${m.id}/sunum`} target="_blank" rel="noopener">Sunum</a>
+            <a class="btn btn-ghost btn-sm" href={`/app/materyaller/uret/${m.id}/yazdir`} target="_blank" rel="noopener">Çalışma kâğıdı</a>
+            <button class="link-del" type="button" data-del={m.id}>Sil</button>
+          </div>
+        </div>
+      ))}</div>
+    )}
+  </section>
+
+  <script>
+    const form = document.querySelector('[data-gen]') as HTMLFormElement;
+    const msg = form.querySelector('.gen-msg') as HTMLElement;
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const btn = form.querySelector('button[type=submit]') as HTMLButtonElement;
+      const body = Object.fromEntries(new FormData(form).entries());
+      btn.disabled = true;
+      let dots = 0;
+      msg.textContent = 'Hazırlanıyor…';
+      const tick = setInterval(() => { dots = (dots + 1) % 4; msg.textContent = (dots < 2 ? 'Taslak yazılıyor' : 'Sorular kontrol ediliyor') + '…'; }, 9000);
+      let r: any = null;
+      try { r = await (await fetch('/api/materials/create', { method: 'POST', headers: { 'content-type': 'application/json' }, body: JSON.stringify(body) })).json(); } catch {}
+      clearInterval(tick);
+      btn.disabled = false;
+      if (r?.ok) { location.href = `/app/materyaller/uret?yeni=${encodeURIComponent(r.id)}`; return; }
+      msg.textContent = r?.error || 'Üretilemedi. Bağlantınızı kontrol edip tekrar deneyin.';
+    });
+    const fresh = new URLSearchParams(location.search).get('yeni');
+    if (fresh) document.querySelector(`[data-item="${CSS.escape(fresh)}"]`)?.classList.add('is-new');
+    document.querySelectorAll<HTMLButtonElement>('[data-del]').forEach((b) => b.addEventListener('click', async () => {
+      if (!confirm('Bu materyal silinsin mi?')) return;
+      const r = await fetch(`/api/materials/${encodeURIComponent(b.dataset.del!)}`, { method: 'DELETE' }).catch(() => null);
+      if (r?.ok) b.closest('[data-item]')?.remove();
+    }));
+  </script>
+</AppShell>
+
+<style>
+  .gen { display: grid; gap: 14px; }
+  .gen-row { display: flex; align-items: center; gap: 14px; flex-wrap: wrap; }
+  .gen-item { display: flex !important; justify-content: space-between; align-items: center; gap: 12px; flex-wrap: wrap; }
+  .gen-item.is-new { outline: 2px solid rgba(94, 234, 212, .6); }
+  .gen-links { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; }
+  .link-del { background: none; border: 0; color: var(--muted); font: inherit; font-size: 13.5px; cursor: pointer; text-decoration: underline; }
+</style>

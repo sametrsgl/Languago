@@ -12,36 +12,35 @@ function withoutComments(sql) {
   return sql.replace(/--.*$/gm, '').replace(/\/\*[\s\S]*?\*\//g, '');
 }
 
-test('material generator requires a validated Supabase user before any costly generation work', () => {
-  const source = read('src/pages/api/materials/generate.ts');
-  const postStart = source.indexOf('export const POST');
-  assert.ok(postStart > -1, 'POST handler must exist');
-  const post = source.slice(postStart);
-  const authIdx = post.indexOf('getSessionUser(');
-  const llmIdx = post.indexOf('callLLM(');
-  assert.ok(source.includes("from '../../../lib/auth'"), 'route must import server auth helper');
-  assert.ok(authIdx > -1, 'POST must validate the server-side user');
-  assert.ok(llmIdx > -1, 'POST must still call the LLM after validation');
-  assert.ok(authIdx < llmIdx, 'auth check must happen before the LLM call');
-  assert.match(post, /return\s+jsonError\(401,/, 'signed-out requests must fail 401');
+test('AI material generator is teacher-only and authorizes before any AI call', () => {
+  const source = read('src/pages/api/materials/create.ts');
+  const post = source.slice(source.indexOf('export const POST'));
+  const authIdx = post.indexOf('apiUser(ctx)');
+  const aiIdx = post.indexOf('aiJson(');
+  assert.ok(authIdx > -1 && aiIdx > -1 && authIdx < aiIdx, 'auth must come before the AI call');
+  assert.match(post, /u\.role !== 'teacher' && u\.role !== 'admin'/, 'teachers only');
+  assert.match(post, /\.slice\(0, 2000\)/, 'request body is bounded');
+  assert.match(post, />= 20/, 'daily limit before spending AI time');
+  assert.ok(!existsSync(new URL('../src/pages/api/materials/generate.ts', import.meta.url)), 'the old public generator is gone');
 });
 
-test('material generator bounds untrusted input and sanitizes with a parser, not regex-only HTML stripping', () => {
-  const source = read('src/pages/api/materials/generate.ts');
-  assert.match(source, /MAX_REQUEST_BYTES\s*=\s*(?:[1-9]\d{2,3}|4_?096)/, 'request body must be byte bounded');
-  assert.match(source, /MAX_PAGES\s*=\s*[1-6]\b/, 'page count must be capped to a small paid-cost bound');
-  assert.match(source, /import\(['"]parse5['"]\)|from ['"]parse5['"]/, 'sanitizer must use the existing parse5 parser dependency');
-  const sanitizer = source.slice(source.indexOf('async function sanitizeModelHtml'));
-  assert.ok(!/function sanitizeModelHtml[\s\S]{0,2500}\.replace\(\/<script/i.test(source), 'sanitizer must not be regex-only script stripping');
-  assert.match(sanitizer, /ALLOWED_TAGS/, 'parser sanitizer should keep an explicit tag allowlist');
-});
-
-test('PDF rendering disables page JavaScript and blocks browser network requests', () => {
-  const source = read('src/pages/api/materials/generate.ts');
-  assert.match(source, /setJavaScriptEnabled\(false\)/, 'Chromium page JavaScript must be disabled before rendering model HTML');
-  assert.match(source, /setRequestInterception\(true\)/, 'Chromium request interception must be enabled');
-  assert.match(source, /request\.abort\(\)/, 'network requests must be aborted');
-  assert.doesNotMatch(source, /waitUntil:\s*['"]networkidle0['"]/, 'rendering should not wait on network once network is blocked');
+test('AI drafts are checked before a teacher sees them', async () => {
+  const { checkDraft, applyBlind } = await import('../src/lib/material-check.mjs');
+  assert.equal(checkDraft(null, { level: 'A1', count: 8 }).ok, false);
+  assert.equal(checkDraft({ title: 'x' }, { level: 'A1', count: 8 }).ok, false);
+  const q = (s) => ({ q: s + ' ___ here.', o: ['is', 'are', 'am', 'be'] });
+  const text = Array.from({ length: 100 }, (_, i) => 'word' + i).join(' ');
+  const draft = { title: 'To be', tr: 'Olmak', theme: 'Me', explain: ['a', 'b'], examples: [['I am', 'Ben'], ['You are', 'Sen']], mistake: 'm',
+    grammar: [q('He'), q('She'), q('It'), q('This'), q('That'), { q: 'no blank', o: ['a', 'b', 'c', 'd'] }, { q: 'dup ___', o: ['a', 'a', 'c', 'd'] }],
+    reading: { title: 'T', text, questions: [{ q: '1?', o: ['a', 'b', 'c', 'd'] }, { q: '2?', o: ['a', 'b', 'c', 'd'] }, { q: '3?', o: ['a', 'b', 'c', 'd'] }] },
+    writing: { prompt_en: 'Write', prompt: 'Yaz', focus: 'f', model: 'm' }, speaking: { read: ['a', 'b'], ask: 'q?' } };
+  const r = checkDraft(draft, { level: 'A1', count: 8 });
+  assert.equal(r.ok, true);
+  assert.equal(r.day.grammar.questions.length, 5, 'items without one blank or with duplicate options are dropped');
+  // sorted options: am, are, be, is → the key "is" is D
+  const { day, dropped } = applyBlind(r.day, { grammar: ['D', 'B', 'D', 'D', 'D'], reading: [] });
+  assert.equal(dropped, 1);
+  assert.equal(day.grammar.questions.length, 4);
 });
 
 test('OAuth start derives callback from a safe request/configured origin, not production SITE_URL fallback', () => {

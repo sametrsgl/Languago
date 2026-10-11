@@ -1,0 +1,22 @@
+---
+// One AI-made material as slides (sunum) or a worksheet (yazdir). Only its
+// teacher can open it (row-level security).
+import { loadAppSession } from '../../../../../lib/app-session';
+import { createSupabaseClient, pageCookieSource } from '../../../../../lib/supabase';
+import MaterialView from '../../../../../components/MaterialView.astro';
+
+export const prerender = false;
+const loaded = await loadAppSession(Astro);
+if ('redirect' in loaded) return Astro.redirect(loaded.redirect);
+const session = loaded;
+if (session.role !== 'teacher' && session.role !== 'admin') return Astro.redirect('/app');
+const id = String(Astro.params.id || '');
+if (session.demo || !/^[0-9a-f-]{36}$/i.test(id)) return Astro.redirect('/app/materyaller/uret');
+const sb = createSupabaseClient(pageCookieSource(Astro));
+const { data } = await sb.from('teacher_materials').select('level, title, data').eq('id', id).eq('teacher_id', session.userId).maybeSingle();
+if (!data?.data?.day) return Astro.redirect('/app/materyaller/uret');
+const mode = Astro.params.mode === 'yazdir' ? 'print' : 'slides';
+let seed = 0;
+for (const ch of id) seed = (seed * 31 + ch.charCodeAt(0)) % 100000;
+---
+<MaterialView d={data.data.day} topic={data.data.topic} level={data.level} seed={seed} label="Yapay zekâ" mode={mode} back="/app/materyaller/uret" />

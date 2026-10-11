@@ -22,6 +22,7 @@ const q = session.demo ? '&demo=ogretmen' : '';
 <AppShell session={session} title="Materyaller — Languago" current="/app/materyaller">
   <div class="page-head">
     <div><h1>Materyaller</h1><p>Öğrenme yolundaki her gün, derste ekran paylaşımı için sunum ya da yazdırılabilir çalışma kâğıdı olarak hazır. Cevap anahtarı yalnızca öğretmenlere görünür.</p></div>
+    <div class="actions"><a class="btn btn-accent btn-sm" href={`/app/materyaller/uret${session.demo ? '?demo=ogretmen' : ''}`}>✨ Yapay zekâ ile üret</a></div>
   </div>
   <div class="teacher-pick">{LEVELS.map((l: string) => <a href={`?seviye=${l}${q}`} aria-current={l === level ? 'true' : undefined}>{l}</a>)}</div>
   {!topics.length ? (
