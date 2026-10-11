@@ -1,4 +1,5 @@
 -- Languago 2.0: account page (KVKK): learners and teachers can delete their
+-- Applied to production on 2026-10-11 (SQL editor, approved by the owner).
 -- own account and everything linked to it. Consents for AI feedback and
 -- speech recognition are kept with a timestamp.
 

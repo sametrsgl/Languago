@@ -1,4 +1,5 @@
 -- Languago 2.0: parent accounts, linked only with the child's code.
+-- Applied to production on 2026-10-11 (SQL editor, approved by the owner).
 --
 -- Security fix: the old flow let ANY signed-in account link itself to ANY
 -- student by e-mail (get_child_by_email + an open insert policy) and then
