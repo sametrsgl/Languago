@@ -15,12 +15,13 @@ export const GET: APIRoute = async (ctx) => {
   const u = await apiUser(ctx);
   if (u instanceof Response) return u;
   const own = (table: string, col = 'student_id') => u.sb.from(table).select('*').eq(col, u.userId).then((r: any) => r.data || []);
-  const [profile, progress, path, missions, cards, exams, lessonsAsStudent, notifications, consents, vocabChecks] = await Promise.all([
+  const [profile, progress, path, missions, cards, exams, lessonsAsStudent, notifications, consents, vocabChecks, materials, contactMessages] = await Promise.all([
     u.sb.from('profiles').select('*').eq('id', u.userId).maybeSingle().then((r: any) => r.data),
     own('student_progress'), own('path_state'), own('mission_results'), own('vocab_cards'), own('level_exams'),
     own('appointments'), own('notifications', 'user_id'), own('consents', 'user_id'), own('vocab_checks'),
+    own('teacher_materials', 'teacher_id'), own('contact_messages', 'user_id'),
   ]);
-  const body = JSON.stringify({ exportedAt: new Date().toISOString(), email: u.email, profile, consents, progress, path, missions, vocabularyCards: cards, vocabularyAnalysis: vocabChecks, levelExams: exams, lessons: lessonsAsStudent, notifications }, null, 2);
+  const body = JSON.stringify({ exportedAt: new Date().toISOString(), email: u.email, profile, consents, progress, path, missions, vocabularyCards: cards, vocabularyAnalysis: vocabChecks, levelExams: exams, lessons: lessonsAsStudent, notifications, teacherMaterials: materials, contactMessages }, null, 2);
   return new Response(body, { headers: { 'Content-Type': 'application/json; charset=utf-8', 'Content-Disposition': 'attachment; filename="languago-verilerim.json"', 'Cache-Control': 'no-store' } });
 };
 
