@@ -1,0 +1,202 @@
+---
+// /app/kelime: the vocabulary path, with its own level. Every day: listen to
+// the 13 new words and pick each from four, then flashcards (new words and
+// due reviews). A card shows only after "Kartı göster"; the rating buttons
+// unlock after 12 seconds: Öğrendim / Tekrar / Emin değilim / Öğrenemedim.
+import AppShell from '../../layouts/AppShell.astro';
+import '../../styles/level-test.css';
+import '../../styles/mission.css';
+import { loadAppSession } from '../../lib/app-session';
+import { createSupabaseClient, pageCookieSource } from '../../lib/supabase';
+import { getVocab, loadPathState } from '../../lib/path-content';
+import { vocabSession, listenChoices, vocabMastery, WORDS_PER_DAY, CARD_SECONDS, MASTERED_BOX } from '../../lib/path.mjs';
+
+export const prerender = false;
+const loaded = await loadAppSession(Astro);
+if ('redirect' in loaded) return Astro.redirect(loaded.redirect.replace('next=/app', 'next=/app/kelime'));
+const session = loaded;
+if (session.role === 'teacher' || session.role === 'admin') return Astro.redirect('/app/takvim');
+
+const today = new Date(Date.now() + 3 * 3600_000).toISOString().slice(0, 10);
+let level = 'A1', streak = 0, vxp = 0, doneToday = false;
+let cards: { word_id: string; due_on: string; box: number }[] = [];
+if (!session.demo) {
+  const sb = createSupabaseClient(pageCookieSource(Astro));
+  const st = await loadPathState(sb, session.userId);
+  if (st) { level = st.vocab_level; streak = st.vocab_streak; vxp = st.vocab_xp; doneToday = st.last_vocab_on === today; }
+  const { data } = await sb.from('vocab_cards').select('word_id, due_on, box').eq('student_id', session.userId);
+  cards = data || [];
+} else { streak = 6; vxp = 540; }
+const list = await getVocab(level);
+const s = vocabSession(list, cards, today);
+const fresh = doneToday ? [] : s.fresh;
+const listen = fresh.map((w) => ({ id: w.id, ...listenChoices(w, list) }));
+const mastered = Math.round(vocabMastery(list, cards) * 100);
+const learnedTotal = cards.filter((c) => c.box >= MASTERED_BOX).length;
+const data = { demo: session.demo, level, fresh, due: s.due, listen, seconds: CARD_SECONDS };
+const json = JSON.stringify(data).replace(/</g, '\\u003c');
+const speakIcon = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 5 6 9H2v6h4l5 4z"/><path d="M15.5 8.5a5 5 0 0 1 0 7M19 5a10 10 0 0 1 0 14"/></svg>';
+---
+
+<AppShell session={session} title="Kelime yolu — Languago" current="/app/kelime">
+  <div class="ms-head">
+    <div class="lvl" style="background:radial-gradient(circle at 30% 25%,#fbbf24,#9a3412 75%)"><b>{level}</b><small>KELİME</small></div>
+    <div><h1>Kelime yolu</h1><p>{list.length} kelimelik {level} listesinin %{mastered}’ini kalıcı öğrendiniz · {learnedTotal} kelime · 🔥 {streak} gün</p></div>
+    <div class="xp"><div class="bar"><b style={`width:${mastered}%;background:linear-gradient(90deg,#14b8a6,#5eead4)`}></b></div><span><em style="font-style:normal">{vxp} kelime XP</em><em style="font-style:normal">%85 olunca sonraki seviye</em></span></div>
+  </div>
+  {session.demo && <span class="demo-flag">Önizleme: örnek kelimeler (yalnızca bu bilgisayarda)</span>}
+
+  <section class="panel">
+    <div class="vc-wrap">
+      <div data-v="intro">
+        {fresh.length || s.due.length ? (
+          <div class="done-day" style="padding:10px 0">
+            <span class="big">🎧</span>
+            <h2>{fresh.length ? `Bugün ${fresh.length} yeni kelime` : 'Bugün yeni kelime yok'}{s.due.length ? ` + ${s.due.length} tekrar` : ''}</h2>
+            <p class="muted">{fresh.length ? 'Önce yeni kelimeleri dinleyip yazılışını seçeceksiniz. Sonra kartlarla öğreneceksiniz. Her kartta en az 12 saniye kalın.' : 'Bugünün tekrar kartları hazır.'}</p>
+            <button class="btn btn-accent" type="button" data-start-v>Başla</button>
+          </div>
+        ) : (
+          <div class="done-day" style="padding:10px 0"><span class="big">✅</span><h2>{doneToday ? 'Bugünün kelimeleri tamam!' : 'Bu seviyenin kelimeleri bitti'}</h2><p class="muted">{doneToday ? 'Yarın 13 yeni kelime ve tekrar kartlarınız sizi bekliyor.' : 'Tekrar kartları zamanı gelince burada görünecek.'}</p><a class="btn btn-ghost" href="/app/gorev">Bugünün görevine git</a></div>
+        )}
+      </div>
+
+      <div data-v="listen" hidden>
+        <div class="vc-progress"><span>Dinle ve seç</span><span data-lp></span></div>
+        <div class="listen-q">
+          <button type="button" class="speak-btn" data-say-current aria-label="Kelimeyi dinle" set:html={speakIcon} />
+          <p class="muted">Duyduğunuz kelimeyi seçin.</p>
+          <div class="opts" data-lopts lang="en"></div>
+        </div>
+      </div>
+
+      <div data-v="cards" hidden>
+        <div class="vc-progress"><span data-ctitle>Kartlar</span><span data-cp></span></div>
+        <button class="btn btn-accent show-card" type="button" data-show>Kartı göster</button>
+        <div class="card3d" data-card hidden lang="en">
+          <div class="card-inner" data-flip>
+            <div class="face front"><b data-f="word"></b><button type="button" class="mini-speak" data-say aria-label="Dinle" set:html={speakIcon} /><span class="flip-hint">Çevirmek için karta dokunun</span></div>
+            <div class="face back">
+              <h3><span data-f="word2"></span><button type="button" class="mini-speak" data-say aria-label="Dinle" set:html={speakIcon} /></h3>
+              <span class="pos" data-f="pos"></span>
+              <span class="tr" data-f="tr" lang="tr"></span>
+              <span class="en" data-f="en"></span>
+              <span class="ex" data-f="ex"></span>
+            </div>
+          </div>
+        </div>
+        <div class="countdown" data-cd hidden><svg class="ring2" viewBox="0 0 64 64"><circle class="t" cx="32" cy="32" r="26"/><circle class="v" cx="32" cy="32" r="26" stroke-dasharray="163.4" stroke-dashoffset="0"/></svg><span class="muted" data-cdt></span></div>
+        <div class="rate" data-rate hidden>
+          <button type="button" class="r-learned" data-r="learned" disabled>Öğrendim</button>
+          <button type="button" class="r-repeat" data-r="repeat" disabled>Tekrar</button>
+          <button type="button" class="r-unsure" data-r="unsure" disabled>Emin değilim</button>
+          <button type="button" class="r-not_learned" data-r="not_learned" disabled>Öğrenemedim</button>
+        </div>
+      </div>
+
+      <div data-v="done" hidden><div class="done-day"><span class="big">🏅</span><h2>Bugünün kelimeleri tamam!</h2><p class="muted" data-sum></p><a class="btn btn-accent" href="/app/gorev">Bugünün görevine git</a></div></div>
+    </div>
+  </section>
+  <script type="application/json" id="vc-data" set:html={json}></script>
+</AppShell>
+
+<script>
+  const D = JSON.parse(document.getElementById('vc-data')?.textContent || '{}');
+  const $ = <T extends HTMLElement = HTMLElement>(s: string) => document.querySelector(s) as T;
+  const view = (v: string) => document.querySelectorAll<HTMLElement>('[data-v]').forEach((x) => (x.hidden = x.dataset.v !== v));
+  const post = (url: string, body: any) => fetch(url, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(D.demo ? { ...body, demo: true } : body) }).then((r) => r.json()).catch(() => ({ ok: false }));
+
+  // live speech: the device's English voice (free)
+  let voice: SpeechSynthesisVoice | null = null;
+  const pickVoice = () => { const v = speechSynthesis.getVoices().filter((x) => /^en[-_](GB|US)/i.test(x.lang)); voice = v.find((x) => /GB/i.test(x.lang)) || v[0] || null; };
+  if ('speechSynthesis' in window) { pickVoice(); speechSynthesis.addEventListener('voiceschanged', pickVoice); }
+  const say = (text: string, rate = 0.85) => {
+    if (!('speechSynthesis' in window)) return;
+    speechSynthesis.cancel();
+    const u = new SpeechSynthesisUtterance(text); u.rate = rate; u.lang = voice?.lang || 'en-GB'; if (voice) u.voice = voice;
+    speechSynthesis.speak(u);
+  };
+
+  let listenRight = 0;
+  $('[data-start-v]')?.addEventListener('click', () => (D.listen.length ? startListen() : startCards()));
+
+  function startListen() {
+    view('listen');
+    let i = 0;
+    const show = () => {
+      const q = D.listen[i];
+      $('[data-lp]').textContent = `${i + 1} / ${D.listen.length}`;
+      const box = $('[data-lopts]');
+      box.innerHTML = q.options.map((o: string, k: number) => `<button type="button" class="opt" data-k="${k}"><span>${o.replace(/[<>&]/g, '')}</span></button>`).join('');
+      let answered = false;
+      box.querySelectorAll<HTMLButtonElement>('.opt').forEach((b) => b.addEventListener('click', () => {
+        if (answered) return; answered = true;
+        const k = Number(b.dataset.k);
+        const ok = k === q.answer;
+        if (ok) listenRight++;
+        b.style.borderColor = ok ? '#5eead4' : '#f87171';
+        b.style.background = ok ? 'rgba(45,212,191,.16)' : 'rgba(248,113,113,.12)';
+        if (!ok) { const r = box.querySelector<HTMLElement>(`[data-k="${q.answer}"]`); if (r) { r.style.borderColor = '#5eead4'; r.style.background = 'rgba(45,212,191,.16)'; } }
+        setTimeout(() => { i++; if (i < D.listen.length) show(); else startCards(); }, ok ? 700 : 1500);
+      }));
+      setTimeout(() => say(D.fresh[i].word), 250);
+    };
+    $('[data-say-current]').onclick = () => say(D.fresh[i].word);
+    show();
+  }
+
+  function startCards() {
+    view('cards');
+    const queue: { w: any; again: number }[] = [...D.fresh, ...D.due].map((w: any) => ({ w, again: 0 }));
+    const total = queue.length;
+    let doneCount = 0, cur: { w: any; again: number } | null = null, timer = 0;
+    const card = $('[data-card]'), show = $('[data-show]'), cd = $('[data-cd]'), rate = $('[data-rate]'), flipEl = $('[data-flip]');
+    const next = () => {
+      cur = queue.shift() || null;
+      if (!cur) return finish();
+      $('[data-cp]').textContent = `${Math.min(doneCount + 1, total)} / ${total}${cur.again ? ' · tekrar' : ''}`;
+      $('[data-ctitle]').textContent = D.fresh.some((f: any) => f.id === cur!.w.id) && !cur.again ? 'Yeni kelime' : 'Tekrar';
+      card.hidden = true; cd.hidden = true; rate.hidden = true; show.hidden = false;
+      card.classList.remove('flip');
+    };
+    show.addEventListener('click', () => {
+      if (!cur) return;
+      const w = cur.w;
+      for (const k of ['word', 'word2']) $(`[data-f="${k}"]`).textContent = w.word;
+      $('[data-f="pos"]').textContent = w.pos;
+      $('[data-f="tr"]').textContent = w.tr;
+      $('[data-f="en"]').textContent = w.en;
+      $('[data-f="ex"]').textContent = w.ex || '';
+      show.hidden = true; card.hidden = false; cd.hidden = false; rate.hidden = false;
+      rate.querySelectorAll('button').forEach((b) => ((b as HTMLButtonElement).disabled = true));
+      say(w.word);
+      let left = D.seconds;
+      const ring = cd.querySelector('.v') as SVGCircleElement;
+      const paint = () => { ring.style.strokeDashoffset = String(163.4 * (1 - left / D.seconds)); $('[data-cdt]').textContent = left > 0 ? `${left} sn` : 'Değerlendirin'; };
+      ring.style.transition = 'none'; ring.style.strokeDashoffset = '0'; requestAnimationFrame(() => { ring.style.transition = ''; paint(); });
+      clearInterval(timer);
+      timer = window.setInterval(() => {
+        left--; paint();
+        if (left <= 0) { clearInterval(timer); rate.querySelectorAll('button').forEach((b) => ((b as HTMLButtonElement).disabled = false)); }
+      }, 1000);
+    });
+    flipEl.addEventListener('click', (e) => { if ((e.target as HTMLElement).closest('[data-say]')) return; card.classList.toggle('flip'); });
+    document.querySelectorAll<HTMLButtonElement>('[data-say]').forEach((b) => b.addEventListener('click', (e) => { e.stopPropagation(); if (cur) say(cur.w.word); }));
+    rate.querySelectorAll<HTMLButtonElement>('[data-r]').forEach((b) => b.addEventListener('click', () => {
+      if (!cur || b.disabled) return;
+      const r = b.dataset.r!;
+      post('/api/vocab/rate', { wordId: cur.w.id, level: D.level, rating: r });
+      if ((r === 'repeat' || r === 'not_learned') && cur.again < 2) queue.push({ w: cur.w, again: cur.again + 1 });
+      else doneCount++;
+      next();
+    }));
+    next();
+  }
+
+  async function finish() {
+    view('done');
+    const listenScore = D.listen.length ? Math.round((listenRight / D.listen.length) * 100) : 100;
+    const r = await post('/api/vocab/finish', { listenScore, cards: D.fresh.length + D.due.length });
+    $('[data-sum]').textContent = `Dinleme: %${listenScore} · ${D.fresh.length} yeni kelime, ${D.due.length} tekrar${r?.xp ? ` · +${r.xp} XP` : ''}${r?.levelUp ? ` · Tebrikler, kelime seviyeniz ${r.level} oldu!` : ''}`;
+  }
+</script>

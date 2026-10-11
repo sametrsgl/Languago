@@ -1,0 +1,57 @@
+{
+  "level": "A1",
+  "day": 3,
+  "topic": "g01",
+  "theme": "Şehrim ve evim",
+  "grammar": {
+    "questions": [
+      { "q": "The museum ____ near the station.", "o": ["is", "are", "am", "be"], "why": "The museum = it → is." },
+      { "q": "The shops ____ open on Sunday.", "o": ["are", "is", "am", "be"], "why": "The shops = they → are." },
+      { "q": "I ____ at home now.", "o": ["am", "is", "are", "be"], "why": "I → am." },
+      { "q": "____ in the kitchen. (They are)", "o": ["They’re", "Their", "There", "They’s"], "why": "They are’ın kısa hâli They’re. Their (onların) ve there (orada) farklı kelimelerdir." },
+      { "q": "My flat ____ small but nice.", "o": ["is", "are", "am", "has"], "why": "my flat = it → is." },
+      { "q": "Which sentence is correct?", "o": ["The streets are very busy.", "The streets is very busy.", "The streets very busy.", "The streets am very busy."], "why": "Çoğul → are; fiil olmadan cümle olmaz." },
+      { "q": "Ankara ____ the capital of Turkey.", "o": ["is", "are", "am", "be"], "why": "Ankara = it → is." },
+      { "q": "You ____ in my seat, sorry.", "o": ["are", "is", "am", "be"], "why": "you → are." },
+      { "q": "The bus and the metro ____ cheap here.", "o": ["are", "is", "am", "be"], "why": "İki şey = they → are." },
+      { "q": "____ cold in here. (It is)", "o": ["It’s", "Its", "It", "Is"], "why": "It is’in kısa hâli It’s." }
+    ]
+  },
+  "reading": {
+    "title": "My city",
+    "text": "I am Hakan and I live in Gaziantep. It is a big and old city in the south of Turkey. The food here is famous. My favourite place is the old bazaar. It is very busy and the shops are full of copper plates and spices. My flat is in a new building near a big park. It is quiet and the rent is not expensive. The summers here are very hot, but the winters are not very cold.",
+    "questions": [
+      { "q": "Where is Gaziantep?", "o": ["In the south of Turkey", "In the north of Turkey", "Near the sea", "The text doesn’t say."], "why": "“…in the south of Turkey.”" },
+      { "q": "What is famous in Gaziantep?", "o": ["The food", "The beaches", "The snow", "The new buildings"], "why": "“The food here is famous.”" },
+      { "q": "What is Hakan’s favourite place?", "o": ["The old bazaar", "The big park", "His flat", "A restaurant"], "why": "“My favourite place is the old bazaar.”" },
+      { "q": "What is true about the bazaar?", "o": ["It is very busy.", "It is quiet.", "It is new.", "It is closed."], "why": "“It is very busy…”" },
+      { "q": "Where is Hakan’s flat?", "o": ["Near a big park", "In the old bazaar", "In an old building", "Near the sea"], "why": "“…in a new building near a big park.”" },
+      { "q": "What does Hakan say about the rent?", "o": ["It is not expensive.", "It is very expensive.", "It is free.", "He doesn’t pay rent."], "why": "“…the rent is not expensive.”" },
+      { "q": "What are the winters like?", "o": ["Not very cold", "Very cold", "Very hot", "Rainy"], "why": "“…the winters are not very cold.”" }
+    ]
+  },
+  "listening": {
+    "video": { "id": "IEA9LMy-N3M", "title": "Let's Learn English Lesson 3: I'm Here!", "source": "VOA Learning English" },
+    "intro": "Anna, ev arkadaşı Marsha’yı arıyor ama önce yanlış numarayı arıyor.",
+    "questions": [
+      { "q": "Who does Anna want to call?", "o": ["Marsha", "Pete", "Jonathan", "Her mother"], "why": "Anna: “Is this Marsha?”" },
+      { "q": "What happens on the first call?", "o": ["She calls the wrong number.", "Marsha doesn’t answer.", "Pete answers.", "The phone is broken."], "why": "Man: “You have the wrong number.”" },
+      { "q": "What is Marsha’s number?", "o": ["555-8986", "555-8689", "555-9868", "555-6898"], "why": "Anna: “One more time. 555-8986.”" },
+      { "q": "What does Anna want to do?", "o": ["Cook dinner", "Go to work", "Watch TV", "Call Pete"], "why": "Anna: “I want to cook dinner.”" },
+      { "q": "What does Anna want to find?", "o": ["A supermarket", "A bank", "A restaurant", "A park"], "why": "Anna: “I want to find a supermarket.”" },
+      { "q": "Where is the supermarket?", "o": ["At 1500 Irving Street", "At 1400 Irving Street", "Far from the apartment", "In apartment C2"], "why": "Marsha: “The supermarket is at 1500 Irving Street.”" },
+      { "q": "What does Marsha say about Anna?", "o": ["She is a good cook.", "She is late.", "She is tired.", "She is a bad cook."], "why": "Anna: “Marsha says I am a good cook!”" }
+    ]
+  },
+  "writing": {
+    "prompt": "Yaşadığınız şehri ve evinizi anlatın: şehir nerede, nasıl bir yer, en sevdiğiniz yer neresi, eviniz nasıl? is / are kullanın.",
+    "prompt_en": "Describe your city and your home: where it is, what it is like, your favourite place, your flat or house.",
+    "min": 30, "max": 80,
+    "focus": "to be: am / is / are",
+    "model": "I live in Eskişehir. It is a student city in the middle of Turkey. It is clean and modern. My favourite place is the Porsuk river. The cafés there are nice. My flat is on the third floor. It is small, but it is bright and quiet."
+  },
+  "speaking": {
+    "read": ["My favourite place is the old bazaar.", "The summers here are very hot.", "My flat is small, but it is quiet."],
+    "ask": { "q": "Describe your city. What is your favourite place there?", "tr": "Şehrinizi anlatın. En sevdiğiniz yer neresi, nasıl bir yer? En az üç cümle.", "min_words": 12 }
+  }
+}

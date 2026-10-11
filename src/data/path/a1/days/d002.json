@@ -1,0 +1,57 @@
+{
+  "level": "A1",
+  "day": 2,
+  "topic": "g01",
+  "theme": "Aile ve arkadaşlar",
+  "grammar": {
+    "questions": [
+      { "q": "My parents ____ teachers.", "o": ["are", "is", "am", "be"], "why": "My parents = they; they ile are." },
+      { "q": "Mehmet ____ my cousin.", "o": ["is", "are", "am", "be"], "why": "Mehmet = he; he ile is." },
+      { "q": "____ from Izmir. (She is)", "o": ["She’s", "Shes’", "She’re", "She’m"], "why": "She is’in kısa hâli She’s." },
+      { "q": "We’re = ?", "o": ["We are", "We is", "We were", "We am"], "why": "We’re, we are’ın kısa hâlidir." },
+      { "q": "The children ____ in the garden.", "o": ["are", "is", "am", "be"], "why": "children çoğuldur; çoğulla are." },
+      { "q": "I ____ 40 years old.", "o": ["am", "have", "is", "are"], "why": "Yaş söylerken be kullanılır: I am 40 (years old). “I have 40” yanlıştır." },
+      { "q": "Which sentence is correct?", "o": ["My sister is a pilot.", "My sister a pilot.", "My sister are a pilot.", "My sister am a pilot."], "why": "my sister = she → is." },
+      { "q": "You and I ____ in the same class.", "o": ["are", "is", "am", "be"], "why": "You and I = we → are." },
+      { "q": "It’s = ?", "o": ["It is", "Its", "It are", "It was"], "why": "It’s, it is’in kısa hâlidir. Its (kesme işaretsiz) “onun” demektir." },
+      { "q": "The weather ____ nice today.", "o": ["is", "are", "am", "be"], "why": "The weather = it → is." }
+    ]
+  },
+  "reading": {
+    "title": "My family",
+    "text": "This is a photo of my family. I am Kerem and I am 35. My wife is Deniz. She is a dentist and she is very funny. Our children are Ela and Arda. Ela is eight and Arda is five. They are at a small school near our house. My parents are in Ankara. They are not young, but they are very active. My father is 68 and my mother is 64. We are a happy family.",
+    "questions": [
+      { "q": "Who is Deniz?", "o": ["Kerem’s wife", "Kerem’s mother", "Kerem’s daughter", "Kerem’s sister"], "why": "“My wife is Deniz.”" },
+      { "q": "What is Deniz’s job?", "o": ["She is a dentist.", "She is a teacher.", "She is a student.", "She is a doctor in Ankara."], "why": "“She is a dentist.”" },
+      { "q": "How old is Arda?", "o": ["Five", "Eight", "Thirty-five", "Sixty-four"], "why": "“Arda is five.”" },
+      { "q": "Where is the children’s school?", "o": ["Near their house", "In Ankara", "Far from their house", "The text doesn’t say."], "why": "“…a small school near our house.”" },
+      { "q": "Where are Kerem’s parents?", "o": ["In Ankara", "In Kerem’s house", "At school", "In İstanbul"], "why": "“My parents are in Ankara.”" },
+      { "q": "What is true about Kerem’s parents?", "o": ["They are active.", "They are very young.", "They are teachers.", "They are sad."], "why": "“They are not young, but they are very active.”" },
+      { "q": "How many children does Kerem have?", "o": ["Two", "One", "Three", "Four"], "why": "Ela and Arda: two children." }
+    ]
+  },
+  "listening": {
+    "video": { "id": "1-U7o9xjWQc", "title": "Let's Learn English Lesson 2: Hello, I'm Anna!", "source": "VOA Learning English" },
+    "intro": "Anna, apartmandaki komşuları Jonathan ve Pete ile konuşuyor.",
+    "questions": [
+      { "q": "Who asks “Who’s your friend?”", "o": ["Jonathan", "Pete", "Marsha", "Anna"], "why": "Jonathan: “Hey, Pete! Who’s your friend?”" },
+      { "q": "Where is Anna from?", "o": ["A small town", "A big city", "Washington, D.C.", "Apartment B4"], "why": "Anna: “I am from a small town.”" },
+      { "q": "Which apartment is Jonathan in?", "o": ["B4", "C2", "D7", "A1"], "why": "Jonathan: “I am in apartment B4.”" },
+      { "q": "Which apartment is Anna in?", "o": ["C2", "B4", "D7", "C4"], "why": "Anna: “I am in apartment C2.”" },
+      { "q": "Who is Marsha?", "o": ["Anna’s roommate", "Pete’s sister", "Jonathan’s wife", "Anna’s teacher"], "why": "Anna: “Marsha is my roommate.”" },
+      { "q": "What does Jonathan say about Marsha?", "o": ["She is nice.", "She is new.", "She is busy.", "She is from a small town."], "why": "Jonathan: “I know Marsha. She is nice.”" },
+      { "q": "What does Pete tell Anna to do?", "o": ["Call Marsha at work", "Go to apartment B4", "Cook dinner", "Find a supermarket"], "why": "Pete: “Remember to call Marsha at work.”" }
+    ]
+  },
+  "writing": {
+    "prompt": "Ailenizden ya da yakın bir arkadaşınızdan bahsedin: adı, yaşı, işi, nerede yaşadığı ve nasıl biri olduğu. is / are kullanın.",
+    "prompt_en": "Write about a family member or a close friend: name, age, job, where they live and what they are like.",
+    "min": 25, "max": 70,
+    "focus": "to be: am / is / are",
+    "model": "My best friend is Burak. He is 30 years old. He is a cook in a hotel in Bodrum. His job is very busy in summer. He is funny and kind. His wife is from Muğla. They are very happy together."
+  },
+  "speaking": {
+    "read": ["My parents are not young, but they are very active.", "She is a dentist and she is very funny.", "We are a happy family."],
+    "ask": { "q": "Tell me about your family. Who are they?", "tr": "Ailenizi anlatın: kimler var, kaç yaşındalar, ne iş yapıyorlar? En az üç cümle.", "min_words": 12 }
+  }
+}

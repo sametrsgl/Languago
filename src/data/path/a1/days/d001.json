@@ -1,0 +1,57 @@
+{
+  "level": "A1",
+  "day": 1,
+  "topic": "g01",
+  "theme": "Tanışma",
+  "grammar": {
+    "questions": [
+      { "q": "I ____ a student.", "o": ["am", "is", "are", "be"], "why": "I ile her zaman am kullanılır." },
+      { "q": "My brother ____ a doctor.", "o": ["is", "am", "are", "be"], "why": "My brother = he; he ile is kullanılır." },
+      { "q": "We ____ from Antalya.", "o": ["are", "is", "am", "be"], "why": "we ile are kullanılır." },
+      { "q": "It ____ very hot today.", "o": ["is", "are", "am", "be"], "why": "it ile is kullanılır." },
+      { "q": "You ____ late again!", "o": ["are", "is", "am", "be"], "why": "you (sen/siz) ile her zaman are kullanılır." },
+      { "q": "Ali and Zeynep ____ my friends.", "o": ["are", "is", "am", "be"], "why": "İki kişi = they; they ile are kullanılır." },
+      { "q": "Which sentence is correct?", "o": ["She is tired.", "She tired.", "She are tired.", "She am tired."], "why": "İngilizce cümlede fiil şarttır: She is tired." },
+      { "q": "____ a teacher. (I am)", "o": ["I’m", "Im’", "I’s", "I’re"], "why": "I am’in kısa hâli I’m." },
+      { "q": "They ____ at work now.", "o": ["are", "is", "am", "be"], "why": "they ile are kullanılır." },
+      { "q": "The coffee ____ cold.", "o": ["is", "are", "am", "be"], "why": "The coffee = it; it ile is kullanılır." }
+    ]
+  },
+  "reading": {
+    "title": "Hello from Berlin",
+    "text": "Hi! My name is Selin. I am 27 years old and I am from Eskişehir. Now I am in Berlin. I am a nurse in a big hospital. My job is hard, but I am happy. My flat is small and it is near the hospital. My flatmate is from Spain. Her name is Lucía and she is a student. She is very friendly. We are good friends now.",
+    "questions": [
+      { "q": "Where is Selin from?", "o": ["Eskişehir", "Berlin", "Spain", "A big hospital"], "why": "“I am from Eskişehir.”" },
+      { "q": "Where is Selin now?", "o": ["In Berlin", "In Eskişehir", "In Spain", "In a school"], "why": "“Now I am in Berlin.”" },
+      { "q": "What is Selin’s job?", "o": ["She is a nurse.", "She is a student.", "She is a teacher.", "She is a doctor."], "why": "“I am a nurse in a big hospital.”" },
+      { "q": "How old is Selin?", "o": ["27", "17", "37", "72"], "why": "“I am 27 years old.”" },
+      { "q": "What is true about her flat?", "o": ["It is near the hospital.", "It is very big.", "It is in Spain.", "It is far from the hospital."], "why": "“My flat is small and it is near the hospital.”" },
+      { "q": "Who is Lucía?", "o": ["Selin’s flatmate", "Selin’s sister", "A nurse", "Selin’s teacher"], "why": "“My flatmate is from Spain. Her name is Lucía.”" },
+      { "q": "How does Selin feel about her life?", "o": ["Happy", "Sad", "Bored", "Angry"], "why": "“My job is hard, but I am happy.”" }
+    ]
+  },
+  "listening": {
+    "video": { "id": "WR9_nsLyaEY", "title": "Let's Learn English Lesson 1 – Welcome!", "source": "VOA Learning English" },
+    "intro": "Anna, Washington’daki yeni evine geliyor ve komşusu Pete ile tanışıyor.",
+    "questions": [
+      { "q": "Who does Anna meet?", "o": ["Pete", "Marsha", "Jonathan", "Ashley"], "why": "Pete: “Hi! Are you Anna?”" },
+      { "q": "How do you spell Anna’s name?", "o": ["A-N-N-A", "A-N-A", "A-N-N-A-H", "H-A-N-A"], "why": "Anna: “No. A-N-N-A.”" },
+      { "q": "What does Anna say when she meets Pete?", "o": ["Nice to meet you.", "Good night.", "See you later.", "How much is it?"], "why": "Anna: “Nice to meet you.”" },
+      { "q": "Where is Anna’s new home?", "o": ["1400 Irving Street", "1500 Irving Street", "1400 Park Street", "Apartment B4"], "why": "Pete: “Welcome to 1400 Irving Street!”" },
+      { "q": "What is new for Anna?", "o": ["Her apartment", "Her job", "Her car", "Her phone"], "why": "Anna: “My new apartment!”" },
+      { "q": "Pete asks “Are you Anna?” What does Anna answer?", "o": ["Yes!", "No, I’m not.", "I’m Pete.", "Thank you."], "why": "Anna: “Yes! Hi there!”" },
+      { "q": "How does Anna feel at the end?", "o": ["Happy and excited", "Sad", "Angry", "Tired"], "why": "Anna: “My new apartment! Yes!”" }
+    ]
+  },
+  "writing": {
+    "prompt": "Kendinizi tanıtın: adınız, nerelisiniz, kaç yaşındasınız, işiniz ya da okulunuz. am / is / are kullanın.",
+    "prompt_en": "Introduce yourself: your name, where you are from, your age and your job or school.",
+    "min": 25, "max": 70,
+    "focus": "to be: am / is / are",
+    "model": "Hello! My name is Emre. I am 31 years old. I am from Trabzon, but now I am in İstanbul. I am an engineer. My office is in Maslak. My wife is a teacher. We are very busy, but we are happy."
+  },
+  "speaking": {
+    "read": ["My name is Anna and I am from a small town.", "We are good friends now.", "It is cold today, but I am happy."],
+    "ask": { "q": "Where are you from, and what is your job?", "tr": "Nerelisiniz ve ne iş yapıyorsunuz? En az iki cümleyle cevap verin.", "min_words": 8 }
+  }
+}

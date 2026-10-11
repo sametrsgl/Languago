@@ -1,0 +1,312 @@
+---
+// /app/gorev: "Bugünün görevi". Five parts one after another (grammar,
+// reading, listening, writing, speaking); each passes at 85 and earns XP.
+import AppShell from '../../layouts/AppShell.astro';
+import '../../styles/level-test.css';
+import '../../styles/mission.css';
+import qrcode from 'qrcode-generator';
+import { loadAppSession } from '../../lib/app-session';
+import { createSupabaseClient, pageCookieSource } from '../../lib/supabase';
+import { getDay, publicDay, loadPathState, dayCount } from '../../lib/path-content';
+import { TASKS, TASK_LABELS, TASK_XP, DAYS_PER_LEVEL, LEVEL_XP, nextLevel } from '../../lib/path.mjs';
+
+export const prerender = false;
+const loaded = await loadAppSession(Astro);
+if ('redirect' in loaded) return Astro.redirect(loaded.redirect.replace('next=/app', 'next=/app/gorev'));
+const session = loaded;
+if (session.role === 'teacher' || session.role === 'admin') return Astro.redirect('/app/takvim');
+
+type Res = { task: string; best_score: number; passed: boolean; attempts: number };
+let level = 'A1', dayNo = 1, xp = 0, opensTomorrow = false;
+let results: Res[] = [];
+if (session.demo) {
+  dayNo = Math.max(1, Math.min(3, Number(Astro.url.searchParams.get('gun')) || 1));
+  xp = 1340;
+} else {
+  const sb = createSupabaseClient(pageCookieSource(Astro));
+  const st = await loadPathState(sb, session.userId);
+  if (st) {
+    level = st.mission_level; dayNo = st.mission_day; xp = st.mission_xp;
+    const today = new Date(Date.now() + 3 * 3600_000).toISOString().slice(0, 10);
+    opensTomorrow = st.day_opened_on > today;
+    const { data } = await sb.from('mission_results').select('task, best_score, passed, attempts').eq('student_id', session.userId).eq('level', level).eq('day', opensTomorrow ? dayNo - 1 : dayNo);
+    results = (data as Res[]) || [];
+  }
+}
+const shownDay = opensTomorrow ? dayNo - 1 : dayNo;
+const day = await getDay(level, shownDay);
+const pub = day ? await publicDay(day) : null;
+const ready = dayCount(level);
+const qr = (url: string) => { const q = qrcode(0, 'M'); q.addData(url); q.make(); return q.createSvgTag({ cellSize: 4, margin: 0, scalable: true }); };
+const topicVideo = pub?.topic?.video ? `https://www.youtube.com/watch?v=${pub.topic.video.id}` : null;
+const doneMap = Object.fromEntries(results.map((r) => [r.task, r]));
+const passedCount = TASKS.filter((t: string) => doneMap[t]?.passed).length;
+const levelPct = Math.round(((shownDay - 1 + passedCount / 5) / DAYS_PER_LEVEL) * 100);
+const data = { demo: session.demo, level, day: shownDay, pub, results: doneMap, opensTomorrow };
+const json = JSON.stringify(data).replace(/</g, '\\u003c');
+const playIcon = '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>';
+---
+
+<AppShell session={session} title="Bugünün görevi — Languago" current="/app/gorev">
+  <div class="ms-head">
+    <div class="lvl"><b>{level}</b><small>SEVİYE</small></div>
+    <div><h1>Bugünün görevi</h1><p>Gün {shownDay} / {DAYS_PER_LEVEL}{pub?.theme ? ` · ${pub.theme}` : ''}</p></div>
+    <div class="xp"><div class="bar"><b style={`width:${levelPct}%`}></b></div><span><em style="font-style:normal">{xp.toLocaleString('tr-TR')} XP</em><em style="font-style:normal">{nextLevel(level)} için %{levelPct}</em></span></div>
+  </div>
+  {session.demo && <span class="demo-flag">Önizleme: örnek gün (yalnızca bu bilgisayarda)</span>}
+
+  {!pub ? (
+    <section class="panel done-day"><span class="big">🛠️</span><h2>Bu günün içeriği hazırlanıyor</h2><p class="muted">{level} seviyesinin şu an {ready} günü hazır. Yeni günler eklendikçe göreviniz burada açılacak; bu arada kelime yolunuza devam edebilirsiniz.</p><a class="btn btn-accent" href="/app/kelime">Kelime yoluna git</a></section>
+  ) : (
+    <>
+      {opensTomorrow && <section class="panel done-day"><span class="big">🎉</span><h2>Bugünün görevi tamam!</h2><p class="muted">Harika iş. Yeni görev yarın açılacak. Bu arada kelime kartlarınıza bakabilirsiniz.</p><a class="btn btn-accent" href="/app/kelime">Kelime yoluna git</a></section>}
+      <nav class="steps" aria-label="Görev adımları">
+        {TASKS.map((t: string, i: number) => (
+          <button type="button" class="step" data-step={t}><i>{i + 1}</i>{TASK_LABELS[t]}<small>+{TASK_XP[t]} XP</small></button>
+        ))}
+      </nav>
+
+      <!-- 1. grammar -->
+      <section class="panel task-panel" data-task="grammar" hidden>
+        {pub.topic && (
+          <details class="topic" open={pub.topicStart}>
+            <summary style="cursor:pointer"><h2 style="display:inline">{pub.topic.title}<small>{pub.topic.tr}{pub.topicStart ? ' · yeni konu' : ' · konu anlatımını aç'}</small></h2></summary>
+            <ul>{pub.topic.explain.map((p: string) => <li set:html={p.replace(/\*\*(.+?)\*\*/g, '<b>$1</b>')} />)}</ul>
+            <div class="examples">{pub.topic.examples.map(([en, tr]: [string, string]) => <div><span>{en}</span><span>{tr}</span></div>)}</div>
+            <p class="mistake" set:html={'<b>Sık yapılan hata:</b> ' + pub.topic.mistake.replace(/\*\*(.+?)\*\*/g, '<b>$1</b>')} />
+            {pub.topic.video && (
+              <div class="vid">
+                <div style="display:grid;gap:10px">
+                  <div class="frame"><button type="button" data-yt={pub.topic.video.id} aria-label="Videoyu oynat" style={`background-image:url(https://i.ytimg.com/vi/${pub.topic.video.id}/hqdefault.jpg)`}><span set:html={playIcon} /></button></div>
+                  <div class="vid-links">
+                    <a href={topicVideo} target="_blank" rel="noopener">{pub.topic.video.lang === 'tr' ? 'Türkçe konu anlatımı' : 'Konu anlatımı'}: YouTube’da aç ↗</a>
+                    {pub.topic.alt && <a href={`https://www.youtube.com/watch?v=${pub.topic.alt.id}`} target="_blank" rel="noopener">İngilizce anlatım ({pub.topic.alt.channel}) ↗</a>}
+                  </div>
+                </div>
+                <div class="qr"><div set:html={qr(topicVideo!)} /><span>Telefonla okutup videoyu açın</span></div>
+              </div>
+            )}
+          </details>
+        )}
+        <h2>Alıştırma <span class="muted" style="font-size:14px;font-weight:600">· 10 soru, geçmek için en az 9 doğru</span></h2>
+        <div class="qs" data-qs="grammar"></div>
+      </section>
+
+      <!-- 2. reading -->
+      <section class="panel task-panel" data-task="reading" hidden>
+        <article class="passage2"><h3>{pub.reading.title}</h3><p>{pub.reading.text}</p></article>
+        <div class="qs" data-qs="reading"></div>
+      </section>
+
+      <!-- 3. listening -->
+      <section class="panel task-panel" data-task="listening" hidden>
+        <p class="muted">{pub.listening.intro} Videoyu izleyin, sonra soruları cevaplayın. İsterseniz tekrar izleyebilirsiniz.</p>
+        <div class="frame"><button type="button" data-yt={pub.listening.video.id} data-start={pub.listening.video.start || 0} aria-label="Videoyu oynat" style={`background-image:url(https://i.ytimg.com/vi/${pub.listening.video.id}/hqdefault.jpg)`}><span set:html={playIcon} /></button></div>
+        <p class="muted" style="font-size:13px">Kaynak: {pub.listening.video.source} · {pub.listening.video.title}</p>
+        <div class="qs" data-qs="listening"></div>
+      </section>
+
+      <!-- 4. writing -->
+      <section class="panel task-panel" data-task="writing" hidden>
+        <div><h2>Yazma</h2><p style="margin-top:6px">{pub.writing.prompt}</p><p class="muted" style="font-size:14px;margin-top:4px"><i>{pub.writing.prompt_en}</i> · {pub.writing.min}–{pub.writing.max} kelime · Odak: {pub.writing.focus}</p></div>
+        <div class="write-box"><textarea data-write lang="en" spellcheck="false" placeholder="Write here in English…"></textarea><span class="counter" data-count>0 kelime</span></div>
+        <div class="q-actions"><span class="msg" data-msg></span><button class="btn btn-primary" type="button" data-send-writing>Gönder ve değerlendir</button></div>
+        <div data-write-result></div>
+      </section>
+
+      <!-- 5. speaking -->
+      <section class="panel task-panel" data-task="speaking" hidden>
+        <div><h2>Konuşma</h2><p class="muted" style="margin-top:6px">Önce cümleleri sesli okuyun (🎤’a basın, okuyun, bekleyin). Sonra soruyu en az {pub.speaking.ask.min_words} kelimeyle cevaplayın. Konuşmanız tarayıcınızda yazıya çevrilir; ses kaydı saklanmaz.</p></div>
+        <p class="flash warn" data-no-stt hidden>Bu tarayıcı konuşmayı tanıyamıyor. Konuşma bölümü için Chrome, Edge ya da Safari kullanın.</p>
+        <div style="display:grid;gap:10px">{pub.speaking.read.map((s: string, i: number) => (
+          <div class="say" data-read={i}><div><p>{s}</p><small data-heard>Henüz okunmadı</small></div><button type="button" class="mic" data-mic={i} aria-label="Sesli oku"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="9" y="3" width="6" height="11" rx="3"/><path d="M5 11a7 7 0 0 0 14 0M12 18v3"/></svg></button></div>
+        ))}</div>
+        <div class="say" data-answer><div><p>{pub.speaking.ask.q}</p><small>{pub.speaking.ask.tr}</small><small data-heard style="color:var(--ink)"></small></div><button type="button" class="mic" data-mic="answer" aria-label="Cevabı söyle"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="9" y="3" width="6" height="11" rx="3"/><path d="M5 11a7 7 0 0 0 14 0M12 18v3"/></svg></button></div>
+        <div class="q-actions"><span class="msg" data-msg></span><button class="btn btn-primary" type="button" data-send-speaking>Gönder ve değerlendir</button></div>
+        <div data-speak-result></div>
+      </section>
+
+      <section class="panel done-day" data-all-done hidden><span class="big">🏆</span><h2>Bugünün görevi tamam!</h2><p class="muted">Tüm bölümleri geçtiniz. Yeni görev yarın açılacak.</p><a class="btn btn-accent" href="/app/kelime">Şimdi kelime kartları</a></section>
+    </>
+  )}
+
+  <script type="application/json" id="ms-data" set:html={json}></script>
+</AppShell>
+
+<script>
+  import { readAloudScore, countWords, TASKS } from '../../lib/path.mjs';
+
+  const el = document.getElementById('ms-data');
+  const D = el ? JSON.parse(el.textContent || '{}') : null;
+  if (D && D.pub) init(D);
+
+  function esc(s: string) { return String(s).replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c] as string)); }
+  async function post(url: string, body: any) {
+    try {
+      const r = await fetch(url, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(D.demo ? { ...body, demo: true, level: D.level, day: D.day } : body) });
+      return await r.json();
+    } catch { return { ok: false, error: 'Bağlantı sorunu. Tekrar deneyin.' }; }
+  }
+
+  function init(D: any) {
+    const passed: Record<string, boolean> = {};
+    for (const t of TASKS) passed[t] = !!D.results[t]?.passed;
+    const steps = [...document.querySelectorAll<HTMLButtonElement>('[data-step]')];
+    const panels = [...document.querySelectorAll<HTMLElement>('[data-task]')];
+    const firstOpen = () => TASKS.find((t: string) => !passed[t]);
+    const show = (t: string) => {
+      panels.forEach((p) => (p.hidden = p.dataset.task !== t));
+      steps.forEach((s) => s.setAttribute('aria-current', s.dataset.step === t ? 'step' : 'false'));
+      (document.querySelector('[data-all-done]') as HTMLElement).hidden = true;
+    };
+    const paint = () => {
+      const open = firstOpen();
+      steps.forEach((s) => {
+        const t = s.dataset.step!;
+        s.classList.toggle('done', passed[t]);
+        s.classList.toggle('now', t === open);
+        s.disabled = !passed[t] && t !== open;
+      });
+      if (!open) { panels.forEach((p) => (p.hidden = true)); (document.querySelector('[data-all-done]') as HTMLElement).hidden = D.opensTomorrow; }
+    };
+    steps.forEach((s) => s.addEventListener('click', () => show(s.dataset.step!)));
+    paint();
+    const start = firstOpen();
+    if (start && !D.opensTomorrow) show(start);
+
+    // video: load the player only on click (privacy, speed)
+    document.querySelectorAll<HTMLButtonElement>('[data-yt]').forEach((b) => b.addEventListener('click', () => {
+      const f = document.createElement('iframe');
+      f.src = `https://www.youtube-nocookie.com/embed/${b.dataset.yt}?autoplay=1&rel=0&start=${Number(b.dataset.start) || 0}`;
+      f.allow = 'autoplay; encrypted-media; picture-in-picture; fullscreen';
+      f.allowFullscreen = true; f.title = 'YouTube video';
+      b.replaceWith(f);
+    }));
+
+    // multiple-choice tasks
+    for (const task of ['grammar', 'reading', 'listening']) {
+      const box = document.querySelector<HTMLElement>(`[data-qs="${task}"]`);
+      if (!box) continue;
+      const qs = D.pub[task].questions as { q: string; o: string[] }[];
+      const chosen: number[] = qs.map(() => -1);
+      box.innerHTML = qs.map((q, i) => `<div class="mq" data-i="${i}"><b>${i + 1}. ${esc(q.q)}</b><div class="opts">${q.o.map((o, k) => `<button type="button" class="opt" aria-pressed="false" data-k="${k}"><kbd>${'ABCD'[k]}</kbd><span>${esc(o)}</span></button>`).join('')}</div><p class="why" hidden></p></div>`).join('')
+        + `<div class="q-actions"><span class="msg" data-msg></span><button class="btn btn-primary" type="button" data-check>Kontrol et</button></div><div data-res></div>`;
+      const btn = box.querySelector('[data-check]') as HTMLButtonElement;
+      const msg = box.querySelector('[data-msg]') as HTMLElement;
+      box.querySelectorAll('.mq').forEach((m) => m.querySelectorAll<HTMLButtonElement>('.opt').forEach((o) => o.addEventListener('click', () => {
+        if (box.dataset.locked) return;
+        const i = Number((m as HTMLElement).dataset.i); chosen[i] = Number(o.dataset.k);
+        m.querySelectorAll('.opt').forEach((x) => x.setAttribute('aria-pressed', String(x === o)));
+      })));
+      btn.addEventListener('click', async () => {
+        if (box.dataset.locked) { // retry
+          delete box.dataset.locked; chosen.fill(-1);
+          box.querySelectorAll('.mq').forEach((m) => { m.classList.remove('ok', 'bad'); (m.querySelector('.why') as HTMLElement).hidden = true; m.querySelectorAll('.opt').forEach((x) => { x.classList.remove('right', 'wrong'); x.setAttribute('aria-pressed', 'false'); }); });
+          (box.querySelector('[data-res]') as HTMLElement).innerHTML = ''; btn.textContent = 'Kontrol et'; return;
+        }
+        const left = chosen.filter((c) => c < 0).length;
+        if (left) { msg.textContent = `${left} soru boş.`; return; }
+        msg.textContent = ''; btn.disabled = true;
+        const r = await post('/api/path/task', { task, choices: chosen });
+        btn.disabled = false;
+        if (!r.ok) { msg.textContent = r.error || 'Olmadı.'; return; }
+        box.dataset.locked = '1';
+        r.review.forEach((rv: any, i: number) => {
+          const m = box.querySelector(`.mq[data-i="${i}"]`) as HTMLElement;
+          m.classList.add(rv.ok ? 'ok' : 'bad');
+          const opts = m.querySelectorAll('.opt');
+          opts[rv.answer]?.classList.add('right');
+          if (!rv.ok && rv.choice >= 0) opts[rv.choice]?.classList.add('wrong');
+          const w = m.querySelector('.why') as HTMLElement;
+          if (!rv.ok && rv.why) { w.textContent = rv.why; w.hidden = false; }
+        });
+        finishTask(task, r, box.querySelector('[data-res]') as HTMLElement, btn);
+      });
+    }
+
+    function finishTask(task: string, r: any, out: HTMLElement, retryBtn?: HTMLButtonElement) {
+      const ok = r.passed;
+      out.innerHTML = `<div class="result ${ok ? 'pass' : 'fail'}"><big>${r.score}</big><span>${ok ? `Geçtiniz!${r.xp ? ` +${r.xp} XP` : ''}` : 'Geçmek için 85 gerekiyor. Açıklamalara bakıp tekrar deneyin.'}</span>${ok ? '<button class="btn btn-accent btn-sm" type="button" data-next>Sonraki bölüm →</button>' : ''}</div>`;
+      if (retryBtn) retryBtn.textContent = ok ? 'Tekrar çöz' : 'Tekrar dene';
+      if (ok) {
+        passed[task] = true; paint();
+        out.querySelector('[data-next]')?.addEventListener('click', () => { const n = firstOpen(); if (n) show(n); else paint(); window.scrollTo({ top: 0, behavior: 'smooth' }); });
+      }
+    }
+
+    // writing
+    const ta = document.querySelector<HTMLTextAreaElement>('[data-write]');
+    if (ta) {
+      const count = document.querySelector('[data-count]') as HTMLElement;
+      const key = `lg-write-${D.level}-${D.day}`;
+      try { ta.value = localStorage.getItem(key) || ''; } catch { /* ignore */ }
+      const upd = () => { count.textContent = `${countWords(ta.value)} kelime (${D.pub.writing.min}–${D.pub.writing.max})`; try { localStorage.setItem(key, ta.value); } catch { /* ignore */ } };
+      ta.addEventListener('input', upd); upd();
+      const send = document.querySelector('[data-send-writing]') as HTMLButtonElement;
+      const panel = ta.closest('[data-task]') as HTMLElement;
+      const msg = panel.querySelector('[data-msg]') as HTMLElement;
+      const out = panel.querySelector('[data-write-result]') as HTMLElement;
+      send.addEventListener('click', async () => {
+        if (countWords(ta.value) < Math.ceil(D.pub.writing.min * 0.8)) { msg.textContent = `En az ${D.pub.writing.min} kelime yazın.`; return; }
+        msg.textContent = 'Değerlendiriliyor…'; send.disabled = true;
+        const r = await post('/api/path/writing', { text: ta.value });
+        send.disabled = false; msg.textContent = '';
+        if (!r.ok) { msg.textContent = r.error || 'Olmadı.'; return; }
+        if (r.tooShort) { msg.textContent = `Metniniz ${r.words} kelime; en az ${r.min} kelime gerekiyor.`; return; }
+        const f = r.feedback;
+        const corr = f?.corrections?.length ? `<div class="corr">${f.corrections.map((c: any) => `<div><s>${esc(c.wrong)}</s> → <ins>${esc(c.right)}</ins><br><span class="muted">${esc(c.why)}</span></div>`).join('')}</div>` : '';
+        out.innerHTML = `<div style="display:grid;gap:12px;margin-top:6px">${f ? `<p>${esc(f.feedback)}</p><p class="muted" style="font-size:13.5px">Görev ${f.task} · Dilbilgisi ${f.grammar} · Kelime ${f.vocabulary}</p>${corr}${f.improved ? `<p style="font-weight:700">Düzeltilmiş hâli</p><div class="improved">${esc(f.improved)}</div>` : ''}` : '<p class="muted">Otomatik değerlendirme şu an yapılamadı; metniniz öğretmeninize iletildi.</p>'}<details><summary style="cursor:pointer;font-weight:700">Örnek metin</summary><div class="improved" style="margin-top:8px">${esc(r.model || '')}</div></details><div data-res></div></div>`;
+        finishTask('writing', r, out.querySelector('[data-res]') as HTMLElement);
+      });
+    }
+
+    // speaking (browser speech recognition: free, nothing is recorded or stored)
+    const SR: any = (window as any).SpeechRecognition || (window as any).webkitSpeechRecognition;
+    const speakPanel = document.querySelector<HTMLElement>('[data-task="speaking"]');
+    if (speakPanel) {
+      const heard: string[] = D.pub.speaking.read.map(() => '');
+      const best: number[] = D.pub.speaking.read.map(() => 0);
+      let answer = '';
+      if (!SR) (speakPanel.querySelector('[data-no-stt]') as HTMLElement).hidden = false;
+      let active: any = null;
+      speakPanel.querySelectorAll<HTMLButtonElement>('[data-mic]').forEach((b) => b.addEventListener('click', () => {
+        if (!SR) return;
+        if (active) { active.stop(); return; }
+        const which = b.dataset.mic!;
+        const rec = new SR();
+        rec.lang = 'en-US'; rec.interimResults = false; rec.maxAlternatives = 1; rec.continuous = which === 'answer';
+        let text = '';
+        rec.onresult = (e: any) => { for (let i = e.resultIndex; i < e.results.length; i++) if (e.results[i].isFinal) text += ' ' + e.results[i][0].transcript; };
+        rec.onend = () => {
+          b.classList.remove('rec'); active = null;
+          text = text.trim();
+          if (which === 'answer') {
+            answer = text;
+            (speakPanel.querySelector('[data-answer] [data-heard]') as HTMLElement).textContent = text ? `Duyulan: “${text}”` : 'Duyulamadı, tekrar deneyin.';
+          } else {
+            const i = Number(which);
+            const s = readAloudScore(D.pub.speaking.read[i], text);
+            if (s >= best[i]) { best[i] = s; heard[i] = text; }
+            (speakPanel.querySelector(`[data-read="${i}"] [data-heard]`) as HTMLElement).innerHTML = text ? `Duyulan: “${esc(text)}” · <span class="score" style="color:${s >= 85 ? '#5eead4' : '#fbbf24'}">${s}</span>${best[i] > s ? ` (en iyi ${best[i]})` : ''}` : 'Duyulamadı, tekrar deneyin.';
+          }
+        };
+        rec.onerror = (e: any) => { if (e.error === 'not-allowed') (speakPanel.querySelector('[data-msg]') as HTMLElement).textContent = 'Mikrofon izni gerekli.'; };
+        active = rec; b.classList.add('rec'); rec.start();
+        if (which === 'answer') setTimeout(() => { if (active === rec) rec.stop(); }, 45_000);
+      }));
+      const send = speakPanel.querySelector('[data-send-speaking]') as HTMLButtonElement;
+      const msg = speakPanel.querySelector('[data-msg]') as HTMLElement;
+      send.addEventListener('click', async () => {
+        if (heard.some((h) => !h)) { msg.textContent = 'Önce tüm cümleleri okuyun.'; return; }
+        if (!answer) { msg.textContent = 'Soruyu cevaplayın (🎤).'; return; }
+        msg.textContent = 'Değerlendiriliyor…'; send.disabled = true;
+        const r = await post('/api/path/speaking', { read: heard, answer });
+        send.disabled = false; msg.textContent = '';
+        if (!r.ok) { msg.textContent = r.error || 'Olmadı.'; return; }
+        const out = speakPanel.querySelector('[data-speak-result]') as HTMLElement;
+        out.innerHTML = `<div style="display:grid;gap:10px;margin-top:6px"><p class="muted" style="font-size:13.5px">Sesli okuma: ${r.readScores.join(' · ')} · Cevap: ${r.answerScore}${r.words < r.minWords ? ` (${r.words}/${r.minWords} kelime)` : ''}</p>${r.feedback ? `<p>${esc(r.feedback)}</p>` : ''}${r.better ? `<p style="font-weight:700">Örnek cevap</p><div class="improved">${esc(r.better)}</div>` : ''}<div data-res></div></div>`;
+        finishTask('speaking', r, out.querySelector('[data-res]') as HTMLElement);
+      });
+    }
+  }
+</script>
