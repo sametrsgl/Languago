@@ -1,5 +1,5 @@
 ---
-import Layout from '../../layouts/Layout.astro';
+import SiteLayout from '../../layouts/SiteLayout.astro';
 import lessonsData from '../../data/public-lessons.json';
   export const prerender = true;
 export function getStaticPaths() { return lessonsData.lessons.map((lesson) => ({ params: { slug: lesson.slug }, props: { lesson } })); }
@@ -7,8 +7,8 @@ const { lesson } = Astro.props;
 const siteUrl = Astro.site?.origin || 'https://www.languago.site';
 const canonical = `${siteUrl}/ogren/${lesson.slug}`;
 ---
-<Layout title={`${lesson.title} — Languago`} description={lesson.objective} canonical={canonical}>
-  <main id="main-content" class="container section lesson-preview">
+<SiteLayout title={`${lesson.title} — Languago`} description={lesson.objective} canonical={canonical}>
+  <div class="doc lesson-preview">
     <a href="/ogren">← Tüm mini dersler</a>
     <p class="kicker" style="margin-top:1.5rem;">{lesson.level} · Mini ders</p>
     <h1>{lesson.title}</h1>
@@ -18,6 +18,6 @@ const canonical = `${siteUrl}/ogren/${lesson.slug}`;
     <script>
       document.querySelectorAll('[data-question]').forEach((question) => { const answer = Number(question.dataset.answer); const feedback = question.querySelector('.feedback'); question.querySelectorAll('[data-option]').forEach((button) => { button.addEventListener('keydown', (event) => { if (event.key === 'Enter' || event.key === ' ') button.click(); }); button.addEventListener('click', () => { const chosen = Number(button.dataset.option); question.querySelectorAll('[data-option]').forEach((b) => b.setAttribute('aria-pressed','false')); button.setAttribute('aria-pressed','true'); feedback.hidden = false; feedback.textContent = chosen === answer ? button.dataset.correctFeedback : button.dataset.incorrectFeedback; }); }); });
     </script>
-  </main>
+  </div>
   <script type="application/ld+json" set:html={JSON.stringify({ '@context':'https://schema.org', '@type':'LearningResource', name:lesson.title, description:lesson.objective, educationalLevel:lesson.level, learningResourceType:'English mini lesson', url:canonical })} />
-</Layout>
+</SiteLayout>

@@ -1,5 +1,5 @@
 ---
-import Layout from '../../layouts/Layout.astro';
+import SiteLayout from '../../layouts/SiteLayout.astro';
 import lessonsData from '../../data/public-lessons.json';
 const lessons = lessonsData.lessons;
 const levels = [...new Set(lessons.map((lesson) => lesson.level))];
@@ -9,7 +9,7 @@ const siteUrl = Astro.site?.origin || 'https://www.languago.site';
 // /ogren/a2-past-simple /ogren/b1-present-perfect-vs-past
 // /ogren/b1-restaurant-communication /ogren/b2-inference-reading
 ---
-<Layout title="Ücretsiz İngilizce Mini Dersler — Languago" description="A1-B2 seviyelerinde ücretsiz İngilizce grammar, vocabulary ve reading mini dersleri." canonical="https://www.languago.site/ogren">
+<SiteLayout title="Ücretsiz İngilizce Mini Dersler — Languago" description="A1-B2 seviyelerinde ücretsiz İngilizce grammar, vocabulary ve reading mini dersleri." canonical="https://www.languago.site/ogren">
   <section class="container section lesson-explorer" aria-labelledby="lessons-title">
     <div class="lesson-explorer__intro">
       <span class="kicker">Ücretsiz mini dersler</span>
@@ -47,7 +47,7 @@ const siteUrl = Astro.site?.origin || 'https://www.languago.site';
     </div>
   </section>
   <script type="application/ld+json" set:html={JSON.stringify({ '@context': 'https://schema.org', '@type': 'ItemList', itemListElement: lessons.map((lesson, position) => ({ '@type': 'ListItem', position: position + 1, url: `${siteUrl}/ogren/${lesson.slug}` })) })} />
-</Layout>
+</SiteLayout>
 
 <script is:inline>
   (function () {

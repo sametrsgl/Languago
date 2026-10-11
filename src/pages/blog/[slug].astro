@@ -1,5 +1,5 @@
 ---
-import Layout from '../../layouts/Layout.astro';
+import SiteLayout from '../../layouts/SiteLayout.astro';
 import { createSupabaseClient, pageCookieSource } from '../../lib/supabase';
 
 type PostRow = {
@@ -47,14 +47,14 @@ function longDate(iso: string | null | undefined): string {
   return `${d.getDate()} ${MONTHS_TR[d.getMonth()] ?? ''} ${d.getFullYear()}`;
 }
 ---
-<Layout
+<SiteLayout
   title={post ? `${post.title} — Languago Blog` : 'Yazı Bulunamadı — Languago'}
   description={post?.summary || 'Languago blog yazısı.'}
   image={post?.cover_url || undefined}
 >
   {
     post ? (
-      <main class="study blog-post">
+      <div class="doc blog-post">
         <article>
           <div class="barline"></div>
           <span class="muted small">
@@ -74,9 +74,9 @@ function longDate(iso: string | null | undefined): string {
             <a class="btn" href="/blog">← Tüm Yazılar</a>
           </div>
         </article>
-      </main>
+      </div>
     ) : (
-      <main class="study">
+      <div class="doc">
         <div class="panel" style="text-align:center;padding:48px 24px;">
           <div style="font-size:2.6rem;">🔍</div>
           <h1>Yazı Bulunamadı</h1>
@@ -86,10 +86,10 @@ function longDate(iso: string | null | undefined): string {
             <a class="btn ghost" href="/">← Ana Sayfa</a>
           </div>
         </div>
-      </main>
+      </div>
     )
   }
-</Layout>
+</SiteLayout>
 
 <style>
   .blog-post__title {

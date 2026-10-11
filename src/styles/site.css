@@ -207,3 +207,12 @@ body.lg { background: #eef3f1; }
 .doc .muted { color: var(--muted); }
 body.lg.dark .doc .panel { background: rgba(255, 255, 255, .035); border-color: rgba(255, 255, 255, .08); }
 body.lg.dark .doc a { color: #5eead4; }
+.doc .card { padding: 20px 22px; border-radius: 18px; border: 1px solid rgba(16, 32, 30, .1); display: grid; gap: 10px; }
+body.lg.dark .doc .card { background: rgba(255, 255, 255, .035); border-color: rgba(255, 255, 255, .08); }
+.doc .options { display: flex; flex-wrap: wrap; gap: 8px; }
+.doc .option { min-height: 44px; padding: 8px 16px; border-radius: 12px; border: 1px solid rgba(255, 255, 255, .16); background: rgba(255, 255, 255, .04); color: inherit; font: inherit; font-weight: 600; cursor: pointer; }
+.doc .option:hover { border-color: #5eead4; }
+.doc .option[aria-pressed="true"], .doc .option.correct { border-color: #5eead4; background: rgba(45, 212, 191, .14); }
+.doc .option.wrong, .doc .option.incorrect { border-color: #f87171; background: rgba(248, 113, 113, .12); }
+.doc .kicker { font-size: 13px; font-weight: 800; letter-spacing: .1em; text-transform: uppercase; color: #5eead4; }
+.doc .reading-text { padding: 16px 18px; border-radius: 14px; background: #f7f3ea; color: #1d2422; line-height: 1.8; }

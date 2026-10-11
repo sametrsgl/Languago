@@ -1,5 +1,5 @@
 ---
-import Layout from '../../layouts/Layout.astro';
+import SiteLayout from '../../layouts/SiteLayout.astro';
 import { createSupabaseClient, pageCookieSource } from '../../lib/supabase';
 
 type PostRow = {
@@ -42,11 +42,11 @@ function longDate(iso: string | null | undefined): string {
   return `${d.getDate()} ${MONTHS_TR[d.getMonth()] ?? ''} ${d.getFullYear()}`;
 }
 ---
-<Layout
+<SiteLayout
   title="Blog — Languago"
   description="Languago blog: İngilizce öğrenme ipuçları, dil bilgisi rehberleri, kelime listeleri ve okuma etkinlikleri."
 >
-  <main class="study">
+  <div class="doc">
     <div class="page-head">
       <span class="page-eyebrow">Languago Blog</span>
       <h1>Blog ✍️</h1>
@@ -87,8 +87,8 @@ function longDate(iso: string | null | undefined): string {
         </div>
       )
     }
-  </main>
-</Layout>
+  </div>
+</SiteLayout>
 
 <style>
   .blog-grid {
