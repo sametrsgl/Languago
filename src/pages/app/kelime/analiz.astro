@@ -1,0 +1,165 @@
+---
+// /app/kelime/analiz: the vocabulary analysis. Quick Turkish → English
+// questions (one tap each, no feedback) in batches of 25. Every answer is
+// kept; known words count as learned on the vocabulary path. The path opens
+// after 400 words; 600 is the recommended total.
+import AppShell from '../../../layouts/AppShell.astro';
+import '../../../styles/level-test.css';
+import '../../../styles/mission.css';
+import { loadAppSession } from '../../../lib/app-session';
+import { createSupabaseClient, pageCookieSource } from '../../../lib/supabase';
+import { nextBatch, testVocabLevel, ANALYSIS_TARGET, ANALYSIS_UNLOCK } from '../../../lib/vocab-analysis';
+
+export const prerender = false;
+const loaded = await loadAppSession(Astro);
+if ('redirect' in loaded) return Astro.redirect(loaded.redirect.replace('next=/app', 'next=/app/kelime/analiz'));
+const session = loaded;
+if (session.role === 'teacher' || session.role === 'admin') return Astro.redirect('/app/takvim');
+if (session.role === 'parent') return Astro.redirect('/app/veli');
+
+let count = 0, knownCount = 0;
+let questions: ReturnType<typeof nextBatch> = [];
+if (session.demo) questions = nextBatch([], 'A1');
+else {
+  const sb = createSupabaseClient(pageCookieSource(Astro));
+  const { data } = await sb.from('vocab_checks').select('word_id, level, known, checked_at').eq('student_id', session.userId).order('checked_at');
+  const checks = (data || []) as any[];
+  count = checks.length;
+  knownCount = checks.filter((c) => c.known).length;
+  if (count < ANALYSIS_TARGET) questions = nextBatch(checks, await testVocabLevel(sb, session.userId));
+}
+const json = JSON.stringify({ demo: session.demo, count, questions, unlock: ANALYSIS_UNLOCK, target: ANALYSIS_TARGET }).replace(/</g, '\\u003c');
+const pct = (n: number) => Math.min(100, Math.round((n / ANALYSIS_TARGET) * 100));
+---
+
+<AppShell session={session} title="Kelime analizi — Languago" current="/app/kelime">
+  <div class="page-head">
+    <div><h1>Kelime analizi</h1><p>Hangi kelimeleri zaten bildiğinizi öğrenelim. Türkçe anlamı görün, İngilizcesini seçin. Bilmiyorsanız tahmin etmeyin, “Bilmiyorum” deyin.</p></div>
+    <div class="actions"><a class="btn btn-ghost btn-sm" href="/app/kelime">← Kelime yolu</a></div>
+  </div>
+  {session.demo && <span class="demo-flag">Önizleme: cevaplar kaydedilmez</span>}
+
+  <section class="panel">
+    <div class="vc-wrap">
+      <div class="an-meter" aria-label="İlerleme">
+        <div class="an-bar"><b data-bar style={`width:${pct(count)}%`}></b><i style={`left:${(ANALYSIS_UNLOCK / ANALYSIS_TARGET) * 100}%`}></i></div>
+        <div class="vc-progress"><span><b data-count>{count}</b> / {ANALYSIS_TARGET} kelime</span><span>{ANALYSIS_UNLOCK} kelimede kelime yolu açılır</span></div>
+      </div>
+
+      <div data-a="intro" hidden={count >= ANALYSIS_TARGET}>
+        <div class="done-day" style="padding:10px 0">
+          <span class="big">🔎</span>
+          <h2>{count ? 'Kaldığınız yerden devam' : 'Yaklaşık 15 dakika'}</h2>
+          <p class="muted">{count ? `${count} kelime cevapladınız; ${knownCount} tanesini biliyorsunuz.` : 'Sorular 25’erli gelir. İstediğiniz zaman ara verebilirsiniz, cevaplarınız saklanır.'} Bildiğiniz kelimeler kartlarda tekrar öğretilmez.</p>
+          <button class="btn btn-accent" type="button" data-start>Başla</button>
+        </div>
+      </div>
+
+      <div data-a="q" hidden>
+        <div class="vc-progress"><span>Bu tur: <b data-n>1</b> / <span data-of>25</span></span><button class="link-btn" type="button" data-pause>Ara ver</button></div>
+        <div class="an-tr" data-tr lang="tr"></div>
+        <div class="opts" data-opts></div>
+        <button class="opt an-skip" type="button" data-skip><kbd>0</kbd>Bilmiyorum</button>
+      </div>
+
+      <div data-a="saving" hidden><p class="muted" style="text-align:center">Kaydediliyor…</p></div>
+
+      <div data-a="round" hidden>
+        <div class="done-day" style="padding:10px 0">
+          <span class="big">✅</span>
+          <h2 data-round-title>Tur tamam</h2>
+          <p class="muted" data-round-text></p>
+          <div style="display:flex;gap:10px;flex-wrap:wrap;justify-content:center">
+            <button class="btn btn-accent" type="button" data-more>Devam et</button>
+            <a class="btn btn-ghost" href="/app/kelime" data-to-path hidden>Kelime yoluna geç</a>
+          </div>
+        </div>
+      </div>
+
+      <div data-a="done" hidden={count < ANALYSIS_TARGET}>
+        <div class="done-day" style="padding:10px 0">
+          <span class="big">🎉</span>
+          <h2>Analiz tamam</h2>
+          <p class="muted">Önerilen {ANALYSIS_TARGET} kelimenin hepsini cevapladınız. Kelime yolunuz bildiğiniz kelimeleri atlayarak ilerleyecek.</p>
+          <a class="btn btn-accent" href="/app/kelime">Kelime yoluna git</a>
+        </div>
+      </div>
+      <p class="muted" data-err hidden style="text-align:center">Kaydedilemedi. Bağlantınızı kontrol edip tekrar deneyin.</p>
+    </div>
+  </section>
+
+  <script type="application/json" id="an-data" set:html={json}></script>
+  <script>
+    const D = JSON.parse(document.getElementById('an-data')!.textContent || '{}');
+    const $ = (s: string) => document.querySelector(s) as HTMLElement;
+    let count: number = D.count, qs: any[] = D.questions || [], i = 0, answers: { id: string; choice: string | null }[] = [];
+    const show = (k: string) => document.querySelectorAll<HTMLElement>('[data-a]').forEach((el) => (el.hidden = el.dataset.a !== k));
+    const meter = () => { $('[data-count]').textContent = String(count); $('[data-bar]').style.width = Math.min(100, Math.round((count / D.target) * 100)) + '%'; };
+
+    function render() {
+      const q = qs[i];
+      $('[data-n]').textContent = String(i + 1);
+      $('[data-of]').textContent = String(qs.length);
+      $('[data-tr]').textContent = q.tr;
+      const box = $('[data-opts]');
+      box.innerHTML = '';
+      q.options.forEach((o: string, k: number) => {
+        const b = document.createElement('button');
+        b.type = 'button'; b.className = 'opt'; b.lang = 'en';
+        b.innerHTML = `<kbd>${k + 1}</kbd>`;
+        b.append(o);
+        b.addEventListener('click', () => pick(o));
+        box.append(b);
+      });
+    }
+    function pick(choice: string | null) {
+      if (!qs[i]) return;
+      answers.push({ id: qs[i].id, choice });
+      i++;
+      if (i < qs.length) render(); else save(false);
+    }
+    async function save(paused: boolean) {
+      $('[data-err]').hidden = true;
+      if (!answers.length) { show(count >= D.target ? 'done' : 'intro'); return; }
+      show('saving');
+      let r: any = null;
+      if (D.demo) r = { ok: true, count: count + answers.length, known: answers.filter((a) => a.choice).length, questions: qs };
+      else {
+        try { r = await (await fetch('/api/vocab/analysis', { method: 'POST', headers: { 'content-type': 'application/json' }, body: JSON.stringify({ answers }) })).json(); } catch {}
+      }
+      if (!r?.ok) { $('[data-err]').hidden = false; show('round'); $('[data-round-title]').textContent = 'Kaydedilemedi'; $('[data-round-text]').textContent = ''; ($('[data-more]') as HTMLButtonElement).onclick = () => save(paused); return; }
+      const n = answers.length, known = r.known ?? 0;
+      count = r.count; qs = r.questions || []; i = 0; answers = [];
+      meter();
+      if (count >= D.target || !qs.length) { show('done'); return; }
+      show('round');
+      $('[data-round-title]').textContent = paused ? 'Ara verdiniz' : 'Tur tamam';
+      const left = D.unlock - count;
+      $('[data-round-text]').textContent = `Bu turda ${n} kelimeden ${known} tanesini bildiniz. ` +
+        (left > 0 ? `Kelime yolunun açılmasına ${left} kelime kaldı.` : `Kelime yolu açık. Önerilen ${D.target} kelimeye ${D.target - count} kelime kaldı.`);
+      $('[data-to-path]').hidden = left > 0;
+      ($('[data-more]') as HTMLButtonElement).onclick = () => { show('q'); render(); };
+    }
+
+    $('[data-start]')?.addEventListener('click', () => { if (!qs.length) return; show('q'); render(); });
+    $('[data-skip]').addEventListener('click', () => pick(null));
+    $('[data-pause]').addEventListener('click', () => save(true));
+    document.addEventListener('keydown', (e) => {
+      if ($('[data-a="q"]').hidden || e.ctrlKey || e.metaKey || e.altKey) return;
+      if (e.key === '0') pick(null);
+      const k = Number(e.key);
+      if (k >= 1 && k <= 4 && qs[i]?.options[k - 1]) pick(qs[i].options[k - 1]);
+    });
+  </script>
+</AppShell>
+
+<style>
+  .an-meter { display: grid; gap: 8px; }
+  .an-meter .vc-progress { flex-wrap: wrap; gap: 4px 14px; }
+  .an-bar { position: relative; height: 10px; border-radius: 99px; background: rgba(255, 255, 255, .08); }
+  .an-bar b { display: block; height: 100%; border-radius: 99px; background: linear-gradient(90deg, #14b8a6, #5eead4); transition: width .4s; }
+  .an-bar i { position: absolute; top: -4px; width: 2px; height: 18px; background: #fbbf24; border-radius: 2px; }
+  .an-tr { font-size: clamp(26px, 5vw, 36px); font-weight: 800; text-align: center; padding: 18px 0 6px; }
+  .an-skip { justify-content: center; color: var(--muted); }
+  .link-btn { background: none; border: 0; color: var(--muted); font: inherit; font-weight: 700; cursor: pointer; text-decoration: underline; }
+</style>

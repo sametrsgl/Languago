@@ -9,6 +9,7 @@ import '../../styles/mission.css';
 import { loadAppSession } from '../../lib/app-session';
 import { createSupabaseClient, pageCookieSource } from '../../lib/supabase';
 import { getVocab, loadPathState } from '../../lib/path-content';
+import { ANALYSIS_TARGET, ANALYSIS_UNLOCK } from '../../lib/vocab-analysis';
 import { vocabSession, listenChoices, vocabMastery, WORDS_PER_DAY, CARD_SECONDS, MASTERED_BOX } from '../../lib/path.mjs';
 
 export const prerender = false;
@@ -20,13 +21,18 @@ if (session.role === 'teacher' || session.role === 'admin') return Astro.redirec
 const today = new Date(Date.now() + 3 * 3600_000).toISOString().slice(0, 10);
 let level = 'A1', streak = 0, vxp = 0, doneToday = false;
 let cards: { word_id: string; due_on: string; box: number }[] = [];
+let checked = ANALYSIS_TARGET;
 if (!session.demo) {
   const sb = createSupabaseClient(pageCookieSource(Astro));
   const st = await loadPathState(sb, session.userId);
   if (st) { level = st.vocab_level; streak = st.vocab_streak; vxp = st.vocab_xp; doneToday = st.last_vocab_on === today; }
   const { data } = await sb.from('vocab_cards').select('word_id, due_on, box').eq('student_id', session.userId);
   cards = data || [];
+  const { count, error } = await sb.from('vocab_checks').select('word_id', { count: 'exact', head: true }).eq('student_id', session.userId);
+  if (!error) checked = count || 0;
 } else { streak = 6; vxp = 540; }
+// the vocabulary analysis comes first: the path opens after ANALYSIS_UNLOCK words
+if (checked < ANALYSIS_UNLOCK) return Astro.redirect('/app/kelime/analiz');
 const list = await getVocab(level);
 const s = vocabSession(list, cards, today);
 const fresh = doneToday ? [] : s.fresh;
@@ -45,6 +51,9 @@ const speakIcon = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" st
     <div class="xp"><div class="bar"><b style={`width:${mastered}%;background:linear-gradient(90deg,#14b8a6,#5eead4)`}></b></div><span><em style="font-style:normal">{vxp} kelime XP</em><em style="font-style:normal">%85 olunca sonraki seviye</em></span></div>
   </div>
   {session.demo && <span class="demo-flag">Önizleme: örnek kelimeler (yalnızca bu bilgisayarda)</span>}
+  {checked < ANALYSIS_TARGET && (
+    <a class="panel an-nudge" href="/app/kelime/analiz"><span>🔎</span><span><b>Kelime analizine devam edin</b><small>{checked} / {ANALYSIS_TARGET} kelime. Önerilen sayıya ulaşınca kelime yolu bildiğiniz kelimeleri daha iyi atlar.</small></span><em>Devam →</em></a>
+  )}
 
   <section class="panel">
     <div class="vc-wrap">
@@ -210,3 +219,11 @@ const speakIcon = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" st
     $('[data-sum]').textContent = `Dinleme: %${listenScore} · ${D.fresh.length} yeni kelime, ${D.due.length} tekrar${r?.xp ? ` · +${r.xp} XP` : ''}${r?.levelUp ? ` · Tebrikler, kelime seviyeniz ${r.level} oldu!` : ''}`;
   }
 </script>
+
+<style>
+  .an-nudge { display: flex; align-items: center; gap: 14px; text-decoration: none; color: var(--ink); margin-bottom: 18px; }
+  .an-nudge > span:first-child { font-size: 28px; }
+  .an-nudge b { display: block; }
+  .an-nudge small { color: var(--muted); font-size: 14px; }
+  .an-nudge em { margin-left: auto; font-style: normal; font-weight: 800; color: #5eead4; white-space: nowrap; }
+</style>

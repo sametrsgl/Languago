@@ -84,7 +84,7 @@ const playIcon = '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l
 
       <!-- 1. grammar -->
       <section class="panel task-panel" data-task="grammar" hidden>
-        {pub.topic && (
+        {pub.topic && (<>
           {tStatus === 'known' && <p class="flash">Seviye testinde bu konudaki soruların hepsini doğru cevapladınız. Konu anlatımını geçip alıştırmaya başlayabilirsiniz.</p>}
           {tStatus === 'weak' && <p class="flash warn">Seviye testinde bu konuda zorlandınız. Alıştırmadan önce konu anlatımını ve videoyu izlemenizi öneririz.</p>}
           <details class="topic" open={tStatus === 'weak' || (pub.topicStart && tStatus !== 'known')}>
@@ -105,7 +105,7 @@ const playIcon = '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l
               </div>
             )}
           </details>
-        )}
+        </>)}
         <h2>Alıştırma <span class="muted" style="font-size:14px;font-weight:600">· 10 soru, geçmek için en az 9 doğru</span></h2>
         <div class="qs" data-qs="grammar"></div>
       </section>

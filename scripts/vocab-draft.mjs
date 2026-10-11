@@ -9,6 +9,7 @@
 // sentence. Checks: allowed part of speech, Turkish present, the explanation
 // does not contain the word itself, the example contains the word (or a form).
 import { readFileSync, writeFileSync, existsSync } from 'node:fs';
+import { wordId } from '../src/lib/word-id.mjs';
 
 const [envPath, level = 'A1'] = process.argv.slice(2);
 if (!envPath || !existsSync(envPath)) { console.error('Usage: node scripts/vocab-draft.mjs <env file> <level>'); process.exit(1); }
@@ -18,13 +19,13 @@ if (!KEY || !MODEL) { console.error('LLM_API_KEY / LLM_MODEL missing in the env 
 
 const lv = level.toLowerCase();
 const root = new URL('../', import.meta.url);
-const listFile = new URL(`scripts/data/${lv}-words.txt`, root);
+const listFile = new URL(`src/data/wordlists/${lv}-words.txt`, root);
 const outFile = new URL(`src/data/vocab/${lv}.json`, root);
 const POS = ['noun', 'verb', 'adjective', 'adverb', 'preposition', 'pronoun', 'determiner', 'conjunction', 'exclamation', 'phrase', 'number', 'phrasal verb'];
 const slug = (w, pos) => `${lv}-${w.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '')}${pos ? '-' + pos.split(' ')[0].slice(0, 4) : ''}`;
 
 const wanted = readFileSync(listFile, 'utf8').split(/\r?\n/).map((l) => l.trim()).filter((l) => l && !l.startsWith('#'))
-  .map((l) => { const [w, p] = l.split('|').map((s) => s.trim()); return { word: w, hint: p || null }; });
+  .map((l) => { const [left, tr] = l.split(' = '); const [w, p] = left.split('|').map((s) => s.trim()); return { word: w, hint: p || null, tr: tr ? tr.trim() : null }; });
 const have = existsSync(outFile) ? JSON.parse(readFileSync(outFile, 'utf8')) : [];
 const byWord = new Map(have.map((e) => [`${e.word.toLowerCase()}|${e.pos}`, e]));
 const dupWords = new Set(wanted.filter((w, i) => wanted.findIndex((x) => x.word.toLowerCase() === w.word.toLowerCase()) !== i).map((w) => w.word.toLowerCase()));
@@ -70,12 +71,12 @@ for (let i = 0; i < todo.length; i += 30) {
     const errs = e ? check(e, want) : ['missing'];
     if (errs.length) { retry.push({ want, errs }); return; }
     const pos = e.pos;
-    out.push({ id: slug(want.word, dupWords.has(want.word.toLowerCase()) ? pos : null), word: want.word, pos, tr: e.tr, en: e.en, ex: e.ex });
+    out.push({ id: wordId(lv, want.word, want.hint, dupWords.has(want.word.toLowerCase())), word: want.word, pos, tr: want.tr || e.tr, en: e.en, ex: e.ex });
   });
   for (const { want, errs } of retry) {
     r = await chat([{ role: 'system', content: SYSTEM }, { role: 'user', content: `Fix this card (problems: ${errs.join('; ')}):\n${JSON.stringify([{ word: want.word, hint: want.hint }])}` }]);
     const e = r.cards?.[0];
-    if (e && !check(e, want).length) out.push({ id: slug(want.word, dupWords.has(want.word.toLowerCase()) ? e.pos : null), word: want.word, pos: e.pos, tr: e.tr, en: e.en, ex: e.ex });
+    if (e && !check(e, want).length) out.push({ id: wordId(lv, want.word, want.hint, dupWords.has(want.word.toLowerCase())), word: want.word, pos: e.pos, tr: want.tr || e.tr, en: e.en, ex: e.ex });
     else console.log(`  needs a hand check: ${want.word} (${errs.join('; ')})`);
   }
   // keep teaching order
