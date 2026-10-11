@@ -1,0 +1,252 @@
+---
+// /seviye-testi/cocuk: kids' level test (ages 7–13), Pre-A1 / A1 / A2.
+// About 12–15 minutes: words (pictures and listening), sentences, two short
+// texts, two short listenings. Turkish instructions, big buttons.
+import SiteLayout from '../../layouts/SiteLayout.astro';
+import { createSupabaseClient, pageCookieSource } from '../../lib/supabase';
+
+export const prerender = false;
+let signedIn = false;
+try { const sb = createSupabaseClient(pageCookieSource(Astro)); if (sb) signedIn = Boolean((await sb.auth.getUser()).data.user); } catch { /* visitor */ }
+---
+
+<SiteLayout title="Çocuklar için seviye testi — Languago" description="7–13 yaş için 12–15 dakikalık İngilizce seviye testi: kelimeler, cümleler, okuma ve dinleme. Starters, Movers, Flyers seviyeleri." bare>
+  <div class="kt" data-signed-in={signedIn ? '1' : '0'}>
+    <header class="kt-top"><a href="/" class="kt-brand"><img src="/brand/logo-mark.svg" alt="" width="34" height="34" />languago</a><div class="kt-dots" data-dots hidden></div><a href="/" class="kt-exit">Çık</a></header>
+    <div class="kt-main">
+      <section data-v="start" class="kt-card kt-start">
+        <span class="kt-big">🚀</span>
+        <h1>İngilizce seviyeni bulalım!</h1>
+        <p>Resimlere bak, dinle ve seç. Bilmediğin soru olursa sorun değil, “Bilmiyorum”a bas.</p>
+        <p class="kt-q">Kaç yaşındasın?</p>
+        <div class="kt-ages">{[7, 8, 9, 10, 11, 12, 13].map((a) => <button type="button" data-age={a}>{a}</button>)}</div>
+        <p class="kt-note">Anne-baba notu: Test yaklaşık 12–15 dakika sürer. Sesli bölümler için hoparlör ya da kulaklık gerekir.</p>
+      </section>
+      <section data-v="q" class="kt-card" hidden></section>
+      <section data-v="result" class="kt-card" hidden></section>
+    </div>
+  </div>
+
+  <style is:global>
+    body:has(.kt) .site-head, body:has(.kt) .site-foot { display: none; }
+    body.lg:has(.kt), body.lg.dark:has(.kt) { background: linear-gradient(160deg, #0f766e 0%, #0e7490 50%, #4338ca 100%) fixed !important; }
+    .kt { min-height: 100dvh; color: #fff; font-family: var(--font); }
+    .kt [hidden] { display: none !important; }
+    .kt-top { display: flex; align-items: center; gap: 14px; padding: 14px clamp(16px, 4vw, 36px); }
+    .kt-brand { display: inline-flex; align-items: center; gap: 10px; color: #fff !important; font-weight: 800; font-size: 20px; text-decoration: none; }
+    .kt-exit { margin-left: auto; color: #fff !important; font-weight: 700; text-decoration: none; }
+    .kt-dots { display: flex; gap: 6px; margin: 0 auto; }
+    .kt-dots i { width: 34px; height: 8px; border-radius: 99px; background: rgba(255, 255, 255, .2); }
+    .kt-dots i.on { background: #fbbf24; } .kt-dots i.done { background: #5eead4; }
+    .kt-main { width: min(860px, 100%); margin: 0 auto; padding: clamp(10px, 3vw, 30px) 16px 60px; }
+    .kt-card { background: #fffdf7; color: #17302d; border-radius: 32px; padding: clamp(22px, 4vw, 40px); box-shadow: 0 30px 80px rgba(0, 0, 0, .3); display: grid; gap: 18px; justify-items: center; text-align: center; animation: kt-in .35s cubic-bezier(.34, 1.56, .64, 1); }
+    @keyframes kt-in { from { opacity: 0; transform: translateY(16px) scale(.97); } }
+    .kt-card h1 { font-size: clamp(28px, 5vw, 42px); color: #0b3b3a; line-height: 1.1; }
+    .kt-card p { font-size: 18px; max-width: 52ch; }
+    .kt-big { font-size: 72px; line-height: 1; }
+    .kt-q { font-weight: 800; font-size: 20px !important; }
+    .kt-ages { display: flex; flex-wrap: wrap; justify-content: center; gap: 10px; }
+    .kt-ages button, .kt-opt, .kt-btn { font: inherit; cursor: pointer; border: 0; transition: transform .15s; }
+    .kt-ages button { width: 64px; height: 64px; border-radius: 20px; font-size: 26px; font-weight: 900; background: #ccfbf1; color: #0b3b3a; box-shadow: 0 5px 0 #5eead4; }
+    .kt-ages button:hover, .kt-opt:hover, .kt-btn:hover { transform: translateY(-3px); }
+    .kt-note { font-size: 14px !important; color: #5b6b68; }
+    .kt-pic { font-size: clamp(80px, 16vw, 120px); line-height: 1; }
+    .kt-stem { font-size: clamp(20px, 3.4vw, 26px); font-weight: 800; color: #0b3b3a; }
+    .kt-stem .gap { display: inline-block; min-width: 3.4em; border-bottom: 3px dashed #f59e0b; }
+    .kt-opts { width: 100%; display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+    .kt-opt { min-height: 72px; padding: 12px; border-radius: 22px; font-size: 21px; font-weight: 800; background: #fff; color: #17302d; border: 3px solid #d9e8e5; box-shadow: 0 5px 0 #d9e8e5; }
+    .kt-opt.emoji { font-size: 54px; min-height: 104px; }
+    .kt-opt[aria-pressed="true"] { border-color: #14b8a6; box-shadow: 0 5px 0 #14b8a6; background: #f0fdfa; }
+    .kt-speak { width: 110px; height: 110px; border-radius: 50%; background: #f59e0b; color: #1a0f00; font-size: 50px; box-shadow: 0 7px 0 #b45309; }
+    .kt-row { display: flex; gap: 12px; align-items: center; justify-content: center; flex-wrap: wrap; width: 100%; }
+    .kt-btn { min-height: 56px; padding: 0 28px; border-radius: 18px; font-size: 19px; font-weight: 900; background: #14b8a6; color: #fff !important; box-shadow: 0 5px 0 #0f766e; }
+    .kt-btn:disabled { opacity: .45; cursor: default; transform: none; }
+    .kt-idk { background: none; border: 0; color: #5b6b68; font: inherit; font-weight: 700; text-decoration: underline; cursor: pointer; font-size: 16px; }
+    .kt-text { background: #f1f7f5; border-radius: 20px; padding: 18px 20px; font-size: 19px; line-height: 1.7; text-align: left; width: 100%; }
+    .kt-uq { width: 100%; display: grid; gap: 10px; text-align: left; }
+    .kt-uq b { font-size: 19px; }
+    .kt-uq .kt-opts { grid-template-columns: 1fr 1fr; }
+    .kt-uq .kt-opt { min-height: 56px; font-size: 17px; }
+    .kt-small { font-size: 15px !important; color: #5b6b68; }
+    .kt-badge { width: 170px; height: 170px; border-radius: 50%; display: grid; place-items: center; align-content: center; background: radial-gradient(circle at 30% 25%, #fde68a, #f59e0b 70%); box-shadow: 0 10px 0 #b45309; }
+    .kt-badge b { font-size: 40px; font-weight: 900; color: #fff; text-shadow: 0 3px 0 #b45309; }
+    .kt-badge small { font-weight: 900; color: #fff; font-size: 18px; }
+    .kt-skills { width: 100%; display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+    .kt-skills div { background: #f1f7f5; border-radius: 18px; padding: 14px; font-weight: 800; }
+    .kt-skills span { display: block; font-size: 26px; letter-spacing: 4px; }
+    @media (max-width: 520px) { .kt-opts, .kt-uq .kt-opts, .kt-skills { grid-template-columns: 1fr 1fr; } .kt-opt { font-size: 18px; } }
+    @media (prefers-reduced-motion: reduce) { .kt-card { animation: none; } }
+  </style>
+
+  <script>
+    import { estimate } from '../../lib/level-test.mjs';
+
+    const root = document.querySelector('.kt') as HTMLElement;
+    const signedIn = root.dataset.signedIn === '1';
+    const $ = (s: string) => root.querySelector(s) as HTMLElement;
+    const view = (v: string) => root.querySelectorAll<HTMLElement>('[data-v]').forEach((x) => (x.hidden = x.dataset.v !== v));
+    const esc = (s: string) => String(s).replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c] as string));
+    const SECTIONS = [
+      { key: 'words', count: 10, title: 'Kelimeler', tip: 'Resme bak ya da dinle, doğru olanı seç.' },
+      { key: 'grammar', count: 8, title: 'Cümleler', tip: 'Boşluğa hangisi gelir?' },
+      { key: 'reading', count: 2, title: 'Okuma', tip: 'Metni oku, soruları cevapla.' },
+      { key: 'listening', count: 2, title: 'Dinleme', tip: 'Dinle, sonra soruları cevapla. 3 kez dinleyebilirsin.' },
+    ];
+    const LV_NAMES: Record<string, string> = { 'Pre-A1': 'Starters', A1: 'Movers', A2: 'Flyers' };
+    let bank: any = null, age = 10, sec = 0, answers: { id: string; choice: number; skill: string; b: number; correct: boolean }[] = [];
+    const usedUnits = new Set<string>(); let skipListening = false;
+
+    // English device voice only (never a non-English voice).
+    function englishVoices(): Promise<SpeechSynthesisVoice[]> {
+      return new Promise((resolve) => {
+        if (!('speechSynthesis' in window)) return resolve([]);
+        const good = /natural|neural|online|google|premium|enhanced|siri|samantha|daniel|karen|moira|serena|kate/i;
+        const pick = () => speechSynthesis.getVoices().filter((v) => /^en[-_]/i.test(v.lang)).sort((a, b) => Number(good.test(b.name)) - Number(good.test(a.name)));
+        let tries = 0;
+        const poll = () => { const v = pick(); if (v.length || tries++ > 20) resolve(v); else setTimeout(poll, 200); };
+        poll();
+      });
+    }
+    async function say(lines: [string, string][], rate = 0.85): Promise<boolean> {
+      const voices = await englishVoices();
+      if (!voices.length) return false;
+      const bySpeaker = new Map<string, SpeechSynthesisVoice>();
+      speechSynthesis.cancel();
+      lines.forEach(([sp, text]) => {
+        if (!bySpeaker.has(sp)) bySpeaker.set(sp, voices[bySpeaker.size % voices.length]);
+        const u = new SpeechSynthesisUtterance(text); const v = bySpeaker.get(sp)!; u.voice = v; u.lang = v.lang; u.rate = rate;
+        speechSynthesis.speak(u);
+      });
+      return true;
+    }
+
+    async function check(id: string, choice: number) {
+      if (choice < 0) return false;
+      const r = await fetch('/api/kids-test/check', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ id, choice }) }).then((x) => x.json()).catch(() => null);
+      return !!r?.correct;
+    }
+    const prior = () => (age <= 8 ? 1.3 : age <= 10 ? 1.8 : 2.3);
+    const theta = (skill: string) => estimate(answers.filter((a) => a.skill === skill).map((a) => ({ b: a.b, correct: a.correct })), prior()).theta;
+    const nearest = <T extends { b: number }>(list: T[], t: number) => {
+      const target = Math.max(1, Math.min(3, Math.round(t)));
+      const best = Math.min(...list.map((x) => Math.abs(x.b - target)));
+      const pool = list.filter((x) => Math.abs(x.b - target) === best);
+      return pool[Math.floor(Math.random() * pool.length)];
+    };
+    function dots() {
+      const d = $('[data-dots]'); d.hidden = false;
+      d.innerHTML = SECTIONS.map((s, i) => `<i class="${i < sec ? 'done' : i === sec ? 'on' : ''}"></i>`).join('');
+    }
+
+    function next() {
+      while (sec < SECTIONS.length) {
+        const s = SECTIONS[sec];
+        if (s.key === 'listening' && skipListening) { sec++; continue; }
+        if (s.key === 'words' || s.key === 'grammar') {
+          const done = answers.filter((a) => a.skill === s.key).length;
+          if (done < s.count) {
+            const used = new Set(answers.map((a) => a.id));
+            let pool = bank.items.filter((i: any) => i.skill === s.key && !used.has(i.id));
+            if (s.key === 'words') { const wantHear = done % 3 === 2; const p2 = pool.filter((i: any) => (i.type === 'hear') === wantHear); if (p2.length) pool = p2; }
+            if (pool.length) return showItem(nearest(pool, theta(s.key)), s);
+          }
+        } else {
+          const done = [...usedUnits].filter((id) => id.startsWith(s.key === 'reading' ? 'kr-' : 'kl-')).length;
+          const pool = bank.units.filter((u: any) => u.skill === s.key && !usedUnits.has(u.id));
+          if (done < s.count && pool.length) {
+            const t = s.key === 'reading' ? theta('grammar') : theta('words');
+            return showUnit(nearest(pool, t), s);
+          }
+        }
+        sec++;
+      }
+      finish();
+    }
+
+    function optsHtml(q: any, emoji = false) {
+      return `<div class="kt-opts">${q.options.map((o: string, k: number) => `<button type="button" class="kt-opt${emoji ? ' emoji' : ''}" data-k="${k}" aria-pressed="false">${esc(o)}</button>`).join('')}</div>`;
+    }
+    function showItem(it: any, s: any) {
+      dots(); view('q');
+      const n = answers.filter((a) => a.skill === s.key).length + 1;
+      const box = $('[data-v="q"]');
+      const head = `<p class="kt-small">${s.title} · ${n} / ${s.count} · ${s.tip}</p>`;
+      const body = it.type === 'pic' ? `<div class="kt-pic" aria-hidden="true">${it.picture}</div><p class="kt-stem">${esc(it.stem)}</p>${optsHtml(it)}`
+        : it.type === 'hear' ? `<button type="button" class="kt-speak" data-say aria-label="Dinle">🔊</button><p class="kt-stem">Dinle ve doğru resmi seç.</p>${optsHtml(it, true)}<p class="kt-small" data-novoice hidden>Bu cihazda İngilizce ses yok. “Bilmiyorum”a basabilirsin.</p>`
+        : `<p class="kt-stem">${esc(it.stem).replace(/_{3,}/g, '<span class="gap"></span>')}</p>${optsHtml(it)}`;
+      box.innerHTML = head + body + `<div class="kt-row"><button type="button" class="kt-idk" data-idk>Bilmiyorum</button><button type="button" class="kt-btn" data-ok disabled>Devam ➜</button></div>`;
+      let choice = -1;
+      box.querySelectorAll<HTMLButtonElement>('.kt-opt').forEach((b) => b.addEventListener('click', () => {
+        choice = Number(b.dataset.k); box.querySelectorAll('.kt-opt').forEach((x) => x.setAttribute('aria-pressed', String(x === b))); ($('[data-ok]') as HTMLButtonElement).disabled = false;
+      }));
+      if (it.type === 'hear') {
+        const play = async () => { const ok = await say([['A', it.say]], 0.8); const nv = box.querySelector('[data-novoice]') as HTMLElement | null; if (!ok && nv) nv.hidden = false; };
+        box.querySelector('[data-say]')!.addEventListener('click', play); setTimeout(play, 300);
+      }
+      const done = async (c: number) => { ($('[data-ok]') as HTMLButtonElement).disabled = true; answers.push({ id: it.id, choice: c, skill: s.key, b: it.b, correct: await check(it.id, c) }); next(); };
+      box.querySelector('[data-ok]')!.addEventListener('click', () => choice >= 0 && done(choice));
+      box.querySelector('[data-idk]')!.addEventListener('click', () => done(-1));
+    }
+
+    function showUnit(u: any, s: any) {
+      dots(); view('q'); usedUnits.add(u.id);
+      const box = $('[data-v="q"]');
+      const top = s.key === 'reading'
+        ? `<div class="kt-text"><b>${esc(u.title)}</b><br>${esc(u.text)}</div>`
+        : `<button type="button" class="kt-speak" data-play aria-label="Dinle">▶</button><p class="kt-small" data-plays>3 kez dinleyebilirsin.</p>`;
+      box.innerHTML = `<p class="kt-small">${s.title} · ${s.tip}</p>` + top + u.questions.map((q: any, i: number) => `<div class="kt-uq" data-q="${i}"><b>${i + 1}. ${esc(q.stem)}</b>${optsHtml(q)}</div>`).join('') + `<div class="kt-row"><button type="button" class="kt-btn" data-ok disabled>Devam ➜</button></div>`;
+      const chosen: number[] = u.questions.map(() => -1);
+      box.querySelectorAll<HTMLElement>('.kt-uq').forEach((qe) => qe.querySelectorAll<HTMLButtonElement>('.kt-opt').forEach((b) => b.addEventListener('click', () => {
+        const i = Number(qe.dataset.q); chosen[i] = Number(b.dataset.k);
+        qe.querySelectorAll('.kt-opt').forEach((x) => x.setAttribute('aria-pressed', String(x === b)));
+        ($('[data-ok]') as HTMLButtonElement).disabled = chosen.some((c) => c < 0);
+      })));
+      if (s.key === 'listening') {
+        let plays = 0;
+        const btn = box.querySelector('[data-play]') as HTMLButtonElement;
+        btn.addEventListener('click', async () => {
+          if (plays >= 3) return; plays++;
+          const ok = await say(u.lines, 0.85);
+          const label = box.querySelector('[data-plays]') as HTMLElement | null;
+          if (!label) return;
+          if (!ok) { label.innerHTML = 'Bu cihazda İngilizce ses yok. <button type="button" class="kt-idk" data-skip>Dinlemeyi atla</button>'; label.querySelector('[data-skip]')!.addEventListener('click', () => { skipListening = true; sec = SECTIONS.length; finish(); }); return; }
+          label.textContent = plays < 3 ? `${3 - plays} kez daha dinleyebilirsin.` : 'Dinleme hakkın bitti.';
+          if (plays >= 3) btn.disabled = true;
+        });
+      }
+      box.querySelector('[data-ok]')!.addEventListener('click', async () => {
+        ($('[data-ok]') as HTMLButtonElement).disabled = true;
+        try { speechSynthesis.cancel(); } catch { /* ignore */ }
+        const rs = await Promise.all(u.questions.map((q: any, i: number) => check(q.id, chosen[i])));
+        u.questions.forEach((q: any, i: number) => answers.push({ id: q.id, choice: chosen[i], skill: s.key, b: u.b, correct: rs[i] }));
+        next();
+      });
+    }
+
+    async function finish() {
+      view('result');
+      const box = $('[data-v="result"]');
+      box.innerHTML = '<p>Hesaplanıyor…</p>';
+      const body = { answers: answers.map((a) => ({ id: a.id, choice: a.choice })), age, skipListening };
+      const r = await fetch('/api/kids-test/finish', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(body) }).then((x) => x.json()).catch(() => null);
+      if (!r?.ok) { box.innerHTML = '<p>Sonuç hesaplanamadı. Sayfayı yenileyip tekrar dene.</p>'; return; }
+      if (!r.saved) { try { localStorage.setItem('languago:placement-draft', JSON.stringify({ format: 'kids', ...body })); } catch { /* ignore */ } }
+      const stars = (lv: string) => '⭐'.repeat(lv === 'A2' ? 3 : lv === 'A1' ? 2 : 1) + '☆'.repeat(lv === 'A2' ? 0 : lv === 'A1' ? 1 : 2);
+      const names: Record<string, string> = { words: 'Kelimeler', grammar: 'Cümleler', reading: 'Okuma', listening: 'Dinleme' };
+      const o = r.result.overall;
+      box.innerHTML = `<span class="kt-big">🎉</span><h1>Harika iş çıkardın!</h1><div class="kt-badge"><b>${o.level}</b><small>${LV_NAMES[o.level]}</small></div>
+        <div class="kt-skills">${Object.entries(r.result.skills).map(([k, v]: any) => `<div>${names[k]}<span>${stars(v.level)}</span></div>`).join('')}</div>
+        <p class="kt-small">Anne-baba için: Çocuğunuzun İngilizcesi Cambridge ${LV_NAMES[o.level]} (${o.level}) düzeyine yakın. Languago’da bu seviyeye uygun günlük görevler ve kelime kartlarıyla devam edebilir.</p>
+        <div class="kt-row">${r.saved ? '<a class="kt-btn" href="/app" style="display:inline-flex;align-items:center;text-decoration:none">Uygulamaya git</a>' : '<a class="kt-btn" href="/signup" style="display:inline-flex;align-items:center;text-decoration:none">Sonucu kaydet: ücretsiz kayıt</a>'}</div>`;
+      $('[data-dots]').hidden = true;
+    }
+
+    root.querySelectorAll<HTMLButtonElement>('[data-age]').forEach((b) => b.addEventListener('click', async () => {
+      age = Number(b.dataset.age);
+      $('[data-v="start"]').innerHTML = '<p>Hazırlanıyor…</p>';
+      bank = await fetch('/api/kids-test/bank').then((r) => r.json()).catch(() => null);
+      if (!bank) { $('[data-v="start"]').innerHTML = '<p>Test yüklenemedi. İnternet bağlantını kontrol et.</p>'; return; }
+      next();
+    }));
+  </script>
+</SiteLayout>

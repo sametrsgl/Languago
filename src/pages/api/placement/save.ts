@@ -3,6 +3,7 @@ import { createSupabaseClient, pageCookieSource } from '../../../lib/supabase';
 import { assessmentQuestions } from '../../../lib/assessment-pool';
 import { placementResult, replayPlacementAnswers } from '../../../lib/placement-test.mjs';
 import { saveLevelTest, scoreTest } from '../../../lib/level-test-bank';
+import { saveKids, scoreKids } from '../../../lib/kids-test';
 
 const MAX_BODY_BYTES = 16_384;
 
@@ -27,6 +28,14 @@ export const POST: APIRoute = async ({ request, cookies }) => {
   const { data: authData, error: authError } = await supabase.auth.getUser();
   const user = authData.user;
   if (authError || !user) return json({ error: 'Oturum açman gerekiyor.' }, 401);
+
+  // Kids test drafts (taken before signing up).
+  if (body?.format === 'kids') {
+    const scored = scoreKids(body.answers, Number(body.age) || 10, { skipListening: body.skipListening === true });
+    if (!scored) return json({ error: 'Seviye testini tamamlaman gerekiyor.' }, 400);
+    const ok = await saveKids(supabase, user.id, scored);
+    return ok ? json({ ok: true, level: scored.result.overall.level }, 200) : json({ error: 'Seviye sonucu kaydedilemedi.' }, 500);
+  }
 
   // Level test v2 drafts (taken before signing up) are scored from their answers.
   if (body?.format === 'lt2') {
