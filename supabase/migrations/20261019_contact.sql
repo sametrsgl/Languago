@@ -1,4 +1,5 @@
 -- Languago 2.0: "Bize yazın" contact form. Messages are kept here (the owner
+-- Applied to production on 2026-10-11 (SQL editor, approved by the owner).
 -- also gets an e-mail); only the server reads them (service role), nobody
 -- else. A signed-in sender is linked to their account.
 

@@ -1,4 +1,5 @@
 -- Languago 2.0: vocabulary analysis ("Kelime analizi").
+-- Applied to production on 2026-10-11 (SQL editor, approved by the owner).
 -- Before the vocabulary path, a learner answers quick Turkish → English
 -- questions (recommended 600 words; the path opens after 400). Every answer
 -- is kept; known words go straight into the learner's cards as learned, so
@@ -49,3 +50,4 @@ end;
 $$;
 revoke all on function public.record_vocab_checks(jsonb, text) from public;
 grant execute on function public.record_vocab_checks(jsonb, text) to authenticated;
+revoke execute on function public.record_vocab_checks(jsonb, text) from anon;

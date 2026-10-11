@@ -1,4 +1,5 @@
 -- Languago 2.0: AI material generator ("Materyal üret"). A teacher asks for a
+-- Applied to production on 2026-10-11 (SQL editor, approved by the owner).
 -- lesson (level + topic); the server checks the AI draft and saves it here, so
 -- the teacher can open it again as slides or a printable worksheet.
 
@@ -35,3 +36,4 @@ end;
 $$;
 revoke all on function public.save_teacher_material(text, text, jsonb, jsonb) from public;
 grant execute on function public.save_teacher_material(text, text, jsonb, jsonb) to authenticated;
+revoke execute on function public.save_teacher_material(text, text, jsonb, jsonb) from anon;
