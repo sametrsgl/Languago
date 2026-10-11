@@ -5,10 +5,11 @@ import grammar from '../data/level-test/grammar.mjs';
 import reading1 from '../data/level-test/reading-1.mjs';
 import reading2 from '../data/level-test/reading-2.mjs';
 import listening from '../data/level-test/listening.mjs';
+import { TAGS as GRAMMAR_TAGS, TOPICS as GRAMMAR_TOPICS, A1_TOPIC_MAP } from '../data/level-test/grammar-topics.mjs';
 import { hash, optionOrder, levelB, result, SECTIONS } from './level-test.mjs';
 
 export type Skill = 'vocab' | 'grammar' | 'reading' | 'listening';
-export type Item = { id: string; skill: Skill; level: string; stem: string; options: string[]; answer: number };
+export type Item = { id: string; skill: Skill; level: string; stem: string; options: string[]; answer: number; topic?: string };
 export type Unit = {
   id: string; skill: Skill; level: string; title: string; kind?: string;
   text?: string; audio?: string; lines?: [string, string][]; speakers?: Record<string, string>;
@@ -26,7 +27,7 @@ function makeItem(skill: Skill, level: string, stem: string, authored: string[],
 function build() {
   const items: Item[] = [];
   for (const [level, stem, opts] of vocab as [string, string, string[]][]) items.push(makeItem('vocab', level, stem, opts, `vocab|${stem}`));
-  for (const [level, stem, opts] of grammar as [string, string, string[]][]) items.push(makeItem('grammar', level, stem, opts, `grammar|${stem}`));
+  (grammar as [string, string, string[]][]).forEach(([level, stem, opts], i) => items.push({ ...makeItem('grammar', level, stem, opts, `grammar|${stem}`), topic: (GRAMMAR_TAGS as string[])[i] }));
   const units: Unit[] = [];
   for (const p of [...reading1, ...reading2] as any[]) {
     const id = idOf('r', `reading|${p.title}`);
@@ -85,18 +86,21 @@ export function isCorrect(id: string, choice: number): boolean | null {
 export function scoreTest(answers: { id: string; choice: number }[], selfReport: number, opts: { skipListening?: boolean } = {}) {
   const b = bank();
   const seen = new Set<string>();
-  const scored: { id: string; skill: Skill; b: number; choice: number; correct: boolean }[] = [];
+  const scored: { id: string; skill: Skill; b: number; choice: number; correct: boolean; topic?: string }[] = [];
   for (const a of Array.isArray(answers) ? answers.slice(0, 120) : []) {
     const item = b.byId.get(String(a?.id));
     if (!item || seen.has(item.id)) continue;
     seen.add(item.id);
     const choice = Number(a.choice);
-    scored.push({ id: item.id, skill: item.skill, b: levelB(item.level), choice, correct: item.answer === choice });
+    scored.push({ id: item.id, skill: item.skill, b: levelB(item.level), choice, correct: item.answer === choice, ...(item.topic ? { topic: item.topic } : {}) });
   }
   // Listening can be skipped when the device has no English voice (no recorded audio yet).
   const need: Record<string, number> = { vocab: 8, grammar: 8, reading: 6, listening: opts.skipListening ? 0 : 6 };
   for (const s of SECTIONS) if (scored.filter((x) => x.skill === s.key).length < need[s.key]) return null;
-  return { result: result(scored, selfReport), answers: scored };
+  // Right / wrong per grammar topic (used to personalise the learning path).
+  const grammarTopics: Record<string, { asked: number; correct: number }> = {};
+  for (const a of scored) if (a.topic) { const t = (grammarTopics[a.topic] ||= { asked: 0, correct: 0 }); t.asked++; if (a.correct) t.correct++; }
+  return { result: { ...result(scored, selfReport), grammarTopics }, answers: scored };
 }
 
 /** Save a scored test for a signed-in learner (row rules: own rows only). */
@@ -111,6 +115,7 @@ export async function saveLevelTest(sb: any, userId: string, scored: NonNullable
     skills: r.skills,
     strongest: r.strongest,
     weakest: r.weakest,
+    grammarTopics: (r as any).grammarTopics || {},
     questionsAnswered: scored.answers.length,
     completedAt: new Date().toISOString(),
     answers: scored.answers.map((a) => ({ id: a.id, choice: a.choice, correct: a.correct })),
@@ -120,4 +125,20 @@ export async function saveLevelTest(sb: any, userId: string, scored: NonNullable
     sb.from('profiles').update({ level: r.overall.level }).eq('id', userId),
   ]);
   return !p.error && !prof.error;
+}
+
+export { GRAMMAR_TOPICS };
+
+/**
+ * How a learner did on the level-test topics behind a path topic:
+ * 'known' (all right, at least 2 questions), 'weak' (half or more wrong) or null.
+ */
+export function topicStatus(grammarTopics: Record<string, { asked: number; correct: number }> | undefined, pathTopicId: string): 'known' | 'weak' | null {
+  const keys: string[] = (A1_TOPIC_MAP as Record<string, string[]>)[pathTopicId] || [];
+  let asked = 0, correct = 0;
+  for (const k of keys) { const t = grammarTopics?.[k]; if (t) { asked += t.asked; correct += t.correct; } }
+  if (!asked) return null;
+  if (correct === asked && asked >= 2) return 'known';
+  if (correct / asked <= 0.5) return 'weak';
+  return null;
 }

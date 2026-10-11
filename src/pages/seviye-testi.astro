@@ -414,10 +414,14 @@ try {
       try { localStorage.setItem(DRAFT, JSON.stringify({ format: 'lt2', answers: run.session.answers.map((a: any) => ({ id: a.id, choice: a.choice })), selfReport: run.selfReport, goal: run.goal, skipListening: !!(run as any).skipListening })); } catch { /* ignore */ }
     }
     store.clear();
-    renderResult(data.result, data.saved);
+    renderResult(data.result, data.saved, data.topicLabels || {});
   }
 
-  function renderResult(r: any, saved: boolean) {
+  function renderResult(r: any, saved: boolean, labels: Record<string, string> = {}) {
+    const gt = Object.entries(r.grammarTopics || {}) as [string, { asked: number; correct: number }][];
+    const strong = gt.filter(([, t]) => t.correct === t.asked).map(([k]) => labels[k] || k);
+    const work = gt.filter(([, t]) => t.correct < t.asked).map(([k]) => labels[k] || k);
+    const topicsHtml = gt.length ? `<div class="skills" style="margin-top:14px"><div class="skill"><header><b>Bildiğiniz konular</b></header><p>${strong.length ? strong.map(esc).join(' · ') : 'Henüz yok'}</p></div><div class="skill"><header><b>Çalışılacak konular</b></header><p>${work.length ? work.map(esc).join(' · ') : 'Sorduğumuz konuların hepsini bildiniz.'}</p><span class="tag">Öğrenme yolunuz bu konulara ağırlık verir</span></div></div>` : '';
     const o = r.overall;
     const ladder = (lv: string) => ['A1', 'A2', 'B1', 'B2', 'C1', 'C2'].map((x) => `<i class="${levelB(x) <= levelB(lv) ? 'on' : ''}"></i>`).join('');
     const skills = SECTIONS.map((s) => {
@@ -433,7 +437,7 @@ try {
       <div class="res-head"><div class="badge-lv"><b>${o.level}</b><small>${esc(LEVEL_NAMES[o.level])}</small></div>
         <div style="display:grid;gap:12px"><span class="eyebrow">Genel seviyeniz</span><h1>${o.level === 'C2' ? 'İngilizceniz uzman düzeyinde.' : `${o.level} seviyesindesiniz, ${NEXT[o.level]} yolunda.`}</h1>
         ${o.level === 'C2' ? '' : `<div class="to-next"><div class="bar"><b style="width:0" data-fill="${Math.round(o.progress * 100)}"></b></div><span class="muted" style="font-size:13.5px">${o.progress < 0.1 ? `${NEXT[o.level]} yolunun başındasınız.` : `${NEXT[o.level]} seviyesine yaklaşık %${Math.round(o.progress * 100)} yoldasınız.`}</span></div>`}</div></div>
-      <div class="skills">${skills}</div>
+      <div class="skills">${skills}</div>${topicsHtml}
       <div class="res-cta">${cta}</div></div>`;
     show('result');
     requestAnimationFrame(() => requestAnimationFrame(() => {

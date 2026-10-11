@@ -9,6 +9,7 @@ import { loadAppSession } from '../../lib/app-session';
 import { createSupabaseClient, pageCookieSource } from '../../lib/supabase';
 import { getDay, publicDay, loadPathState, dayCount } from '../../lib/path-content';
 import { TASKS, TASK_LABELS, TASK_XP, DAYS_PER_LEVEL, LEVEL_XP, nextLevel } from '../../lib/path.mjs';
+import { topicStatus } from '../../lib/level-test-bank';
 
 export const prerender = false;
 const loaded = await loadAppSession(Astro);
@@ -20,6 +21,7 @@ type Res = { task: string; best_score: number; passed: boolean; attempts: number
 let level = 'A1', dayNo = 1, xp = 0, opensTomorrow = false;
 let results: Res[] = [];
 let consent = { ai_feedback: true, speech: true };
+let grammarTopics: Record<string, { asked: number; correct: number }> | undefined;
 if (session.demo) {
   dayNo = Math.max(1, Math.min(3, Number(Astro.url.searchParams.get('gun')) || 1));
   xp = 1340;
@@ -34,12 +36,15 @@ if (session.demo) {
     results = (data as Res[]) || [];
     const { data: c } = await sb.from('consents').select('ai_feedback, speech').eq('user_id', session.userId).maybeSingle();
     consent = c || { ai_feedback: false, speech: false };
+    const { data: pt } = await sb.from('student_progress').select('payload').eq('student_id', session.userId).eq('module', 'placement-test').maybeSingle();
+    grammarTopics = (pt?.payload as any)?.grammarTopics;
   }
 }
 const shownDay = opensTomorrow ? dayNo - 1 : dayNo;
 const day = await getDay(level, shownDay);
 const pub = day ? await publicDay(day) : null;
 const ready = dayCount(level);
+const tStatus = pub?.topic ? topicStatus(grammarTopics, pub.topic.id) : null;
 const qr = (url: string) => { const q = qrcode(0, 'M'); q.addData(url); q.make(); return q.createSvgTag({ cellSize: 4, margin: 0, scalable: true }); };
 const topicVideo = pub?.topic?.video ? `https://www.youtube.com/watch?v=${pub.topic.video.id}` : null;
 const doneMap = Object.fromEntries(results.map((r) => [r.task, r]));
@@ -80,7 +85,9 @@ const playIcon = '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l
       <!-- 1. grammar -->
       <section class="panel task-panel" data-task="grammar" hidden>
         {pub.topic && (
-          <details class="topic" open={pub.topicStart}>
+          {tStatus === 'known' && <p class="flash">Seviye testinde bu konudaki soruların hepsini doğru cevapladınız. Konu anlatımını geçip alıştırmaya başlayabilirsiniz.</p>}
+          {tStatus === 'weak' && <p class="flash warn">Seviye testinde bu konuda zorlandınız. Alıştırmadan önce konu anlatımını ve videoyu izlemenizi öneririz.</p>}
+          <details class="topic" open={tStatus === 'weak' || (pub.topicStart && tStatus !== 'known')}>
             <summary style="cursor:pointer"><h2 style="display:inline">{pub.topic.title}<small>{pub.topic.tr}{pub.topicStart ? ' · yeni konu' : ' · konu anlatımını aç'}</small></h2></summary>
             <ul>{pub.topic.explain.map((p: string) => <li set:html={p.replace(/\*\*(.+?)\*\*/g, '<b>$1</b>')} />)}</ul>
             <div class="examples">{pub.topic.examples.map(([en, tr]: [string, string]) => <div><span>{en}</span><span>{tr}</span></div>)}</div>

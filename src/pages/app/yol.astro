@@ -8,6 +8,7 @@ import { loadAppSession } from '../../lib/app-session';
 import { createSupabaseClient, pageCookieSource } from '../../lib/supabase';
 import { getSyllabus, loadPathState } from '../../lib/path-content';
 import { DAYS_PER_LEVEL, nextLevel } from '../../lib/path.mjs';
+import { topicStatus } from '../../lib/level-test-bank';
 
 export const prerender = false;
 const loaded = await loadAppSession(Astro);
@@ -18,6 +19,7 @@ if (session.role === 'teacher' || session.role === 'admin') return Astro.redirec
 let level = 'A1', day = 1, xp = 0;
 const passedByDay = new Map<number, number>();
 let exams: { score: number; passed: boolean; taken_at: string }[] = [];
+let grammarTopics: Record<string, { asked: number; correct: number }> | undefined;
 if (session.demo) {
   day = 38; xp = 4120;
   for (let d = 1; d < 38; d++) passedByDay.set(d, 5);
@@ -30,6 +32,8 @@ if (session.demo) {
   for (const r of (data as any[]) || []) passedByDay.set(r.day, (passedByDay.get(r.day) || 0) + 1);
   const { data: ex } = await sb.from('level_exams').select('score, passed, taken_at').eq('student_id', session.userId).eq('level', level).order('taken_at', { ascending: false });
   exams = (ex as any[]) || [];
+  const { data: pt } = await sb.from('student_progress').select('payload').eq('student_id', session.userId).eq('module', 'placement-test').maybeSingle();
+  grammarTopics = (pt?.payload as any)?.grammarTopics;
 }
 const topics = await getSyllabus(level);
 const daysDone = [...passedByDay.values()].filter((n) => n >= 5).length;
@@ -65,7 +69,8 @@ const months = [0, 1, 2, 3].map((m) => Array.from({ length: 30 }, (_, i) => m * 
       <ol class="topics">{topics.map((t, i) => {
         const first = i * 5 + 1, last = i * 5 + 5;
         const state = day > last ? 'done' : day >= first ? 'now' : '';
-        return <li class={state}><span class="d">Gün {first}–{last}</span><span><b>{t.title}</b><small>{t.tr}</small></span>{t.video && day >= first && <a href={`https://www.youtube.com/watch?v=${t.video.id}`} target="_blank" rel="noopener">Video ↗</a>}</li>;
+        const ts = topicStatus(grammarTopics, t.id);
+        return <li class={state}><span class="d">Gün {first}–{last}</span><span><b>{t.title}</b><small>{t.tr}{ts === 'weak' ? ' · ⚠ seviye testinde zorlandınız' : ts === 'known' ? ' · ✓ seviye testinde bildiniz' : ''}</small></span>{t.video && day >= first && <a href={`https://www.youtube.com/watch?v=${t.video.id}`} target="_blank" rel="noopener">Video ↗</a>}</li>;
       })}</ol>
     </section>
     <section class="panel col-4" aria-labelledby="exam-title">

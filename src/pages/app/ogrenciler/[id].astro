@@ -7,6 +7,7 @@ import '../../../styles/mission.css';
 import { loadAppSession } from '../../../lib/app-session';
 import { createSupabaseClient, pageCookieSource } from '../../../lib/supabase';
 import { DAYS_PER_LEVEL, TASK_LABELS } from '../../../lib/path.mjs';
+import { GRAMMAR_TOPICS } from '../../../lib/level-test-bank';
 
 export const prerender = false;
 const loaded = await loadAppSession(Astro);
@@ -91,6 +92,9 @@ const q = session.demo ? '?demo=ogretmen' : '';
         <div style="display:grid;gap:8px">
           <p><b style="font-size:28px">{test.level}</b> <span class="muted">genel</span></p>
           {test.skills && Object.entries(test.skills).map(([k, v]: [string, any]) => <div style="display:flex;justify-content:space-between"><span>{skillNames[k] || k}</span><b>{v.level}</b></div>)}
+          {test.grammarTopics && Object.keys(test.grammarTopics).length > 0 && (
+            <p class="muted" style="font-size:13.5px;margin-top:6px">Zorlandığı konular: {Object.entries(test.grammarTopics as Record<string, any>).filter(([, t]) => t.correct < t.asked).map(([k]) => (GRAMMAR_TOPICS as any)[k] || k).join(', ') || 'yok'}</p>
+          )}
         </div>
       ) : <p class="muted">Öğrenci henüz seviye testine girmedi.</p>}
     </section>

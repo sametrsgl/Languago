@@ -1,6 +1,6 @@
 import type { APIRoute } from 'astro';
 import { createSupabaseClient, pageCookieSource } from '../../../lib/supabase';
-import { saveLevelTest, scoreTest } from '../../../lib/level-test-bank';
+import { saveLevelTest, scoreTest, GRAMMAR_TOPICS } from '../../../lib/level-test-bank';
 
 export const prerender = false;
 
@@ -24,5 +24,5 @@ export const POST: APIRoute = async ({ request, cookies }) => {
     const { data } = await sb.auth.getUser();
     if (data.user) saved = await saveLevelTest(sb, data.user.id, scored, String(body.goal || 'general'));
   }
-  return json(200, { ok: true, saved, result: scored.result });
+  return json(200, { ok: true, saved, result: scored.result, topicLabels: GRAMMAR_TOPICS });
 };
