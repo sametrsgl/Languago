@@ -17,11 +17,14 @@ export const POST: APIRoute = async (ctx) => {
   const demo = import.meta.env.DEV && body.demo;
   let u: any = null;
   let d;
+  let aiAllowed = true; // KVKK: AI only with the learner's consent (consents table)
   if (demo) d = await getDay(String(body.level || 'A1'), Number(body.day) || 1);
   else {
     u = await apiUser(ctx);
     if (u instanceof Response) return u;
     d = (await todaysDay(u.sb, u.userId)).day;
+    const { data: c } = await u.sb.from('consents').select('ai_feedback').eq('user_id', u.userId).maybeSingle();
+    aiAllowed = !!c?.ai_feedback;
   }
   if (!d) return json(404, { ok: false, error: 'Bu günün içeriği henüz hazır değil.' });
   const said: string[] = (Array.isArray(body.read) ? body.read : []).slice(0, d.speaking.read.length).map((s: unknown) => String(s || '').slice(0, 400));
@@ -32,7 +35,7 @@ export const POST: APIRoute = async (ctx) => {
   const minWords = d.speaking.ask.min_words;
   let ans = words < 3
     ? { score: 0, feedback: 'Cevabınız duyulamadı ya da çok kısa. Tekrar deneyin.', better: '' }
-    : await scoreSpokenAnswer({ level: d.level, question: d.speaking.ask.q, transcript: answer, minWords });
+    : !aiAllowed ? null : await scoreSpokenAnswer({ level: d.level, question: d.speaking.ask.q, transcript: answer, minWords });
   const aiMissing = !ans;
   if (!ans) ans = { score: Math.min(PASS, Math.round((words / minWords) * PASS)), feedback: '', better: '' };
   if (words < minWords) ans.score = Math.min(ans.score, 80);

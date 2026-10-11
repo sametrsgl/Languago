@@ -19,6 +19,7 @@ if (session.role === 'teacher' || session.role === 'admin') return Astro.redirec
 type Res = { task: string; best_score: number; passed: boolean; attempts: number };
 let level = 'A1', dayNo = 1, xp = 0, opensTomorrow = false;
 let results: Res[] = [];
+let consent = { ai_feedback: true, speech: true };
 if (session.demo) {
   dayNo = Math.max(1, Math.min(3, Number(Astro.url.searchParams.get('gun')) || 1));
   xp = 1340;
@@ -31,6 +32,8 @@ if (session.demo) {
     opensTomorrow = st.day_opened_on > today;
     const { data } = await sb.from('mission_results').select('task, best_score, passed, attempts').eq('student_id', session.userId).eq('level', level).eq('day', opensTomorrow ? dayNo - 1 : dayNo);
     results = (data as Res[]) || [];
+    const { data: c } = await sb.from('consents').select('ai_feedback, speech').eq('user_id', session.userId).maybeSingle();
+    consent = c || { ai_feedback: false, speech: false };
   }
 }
 const shownDay = opensTomorrow ? dayNo - 1 : dayNo;
@@ -42,7 +45,7 @@ const topicVideo = pub?.topic?.video ? `https://www.youtube.com/watch?v=${pub.to
 const doneMap = Object.fromEntries(results.map((r) => [r.task, r]));
 const passedCount = TASKS.filter((t: string) => doneMap[t]?.passed).length;
 const levelPct = Math.round(((shownDay - 1 + passedCount / 5) / DAYS_PER_LEVEL) * 100);
-const data = { demo: session.demo, level, day: shownDay, pub, results: doneMap, opensTomorrow };
+const data = { demo: session.demo, level, day: shownDay, pub, results: doneMap, opensTomorrow, consent };
 const json = JSON.stringify(data).replace(/</g, '\\u003c');
 const playIcon = '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>';
 ---
@@ -60,6 +63,14 @@ const playIcon = '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l
   ) : (
     <>
       {opensTomorrow && <section class="panel done-day"><span class="big">🎉</span><h2>Bugünün görevi tamam!</h2><p class="muted">Harika iş. Yeni görev yarın açılacak. Bu arada kelime kartlarınıza bakabilirsiniz.</p><a class="btn btn-accent" href="/app/kelime">Kelime yoluna git</a></section>}
+      {(!consent.ai_feedback || !consent.speech) && (
+        <section class="panel" data-consent style="border-color:rgba(245,158,11,.4)">
+          <h2>Yazma ve konuşma için izin</h2>
+          <label class="say" style="grid-template-columns:auto minmax(0,1fr);cursor:pointer"><input type="checkbox" data-c-ai checked={consent.ai_feedback} style="width:20px;height:20px;accent-color:#14b8a6" /><span><b>Yapay zekâ geri bildirimi</b><small>Yazdıklarınız ve konuşmanızın yazıya dökülmüş hâli puan ve düzeltme için yapay zekâ hizmetine gönderilir (adınız ve e-postanız gönderilmez). İzin vermezseniz çalışmanızı öğretmeniniz değerlendirir.</small></span></label>
+          <label class="say" style="grid-template-columns:auto minmax(0,1fr);cursor:pointer"><input type="checkbox" data-c-speech checked={consent.speech} style="width:20px;height:20px;accent-color:#14b8a6" /><span><b>Konuşma tanıma</b><small>Konuşma bölümünde sesiniz tarayıcınızın konuşma tanıma hizmetiyle (Chrome’da Google, Safari’de Apple) yazıya çevrilir. Ses kaydı Languago’da saklanmaz. Konuşma bölümü bu izinle çalışır.</small></span></label>
+          <div style="display:flex;gap:10px;align-items:center"><button class="btn btn-primary btn-sm" type="button" data-c-save>Kaydet</button><span class="msg" data-msg></span><a href="/kvkk" class="muted" style="font-size:13px">KVKK aydınlatma metni</a></div>
+        </section>
+      )}
       <nav class="steps" aria-label="Görev adımları">
         {TASKS.map((t: string, i: number) => (
           <button type="button" class="step" data-step={t}><i>{i + 1}</i>{TASK_LABELS[t]}<small>+{TASK_XP[t]} XP</small></button>
@@ -263,6 +274,15 @@ const playIcon = '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l
     // speaking (browser speech recognition: free, nothing is recorded or stored)
     const SR: any = (window as any).SpeechRecognition || (window as any).webkitSpeechRecognition;
     const speakPanel = document.querySelector<HTMLElement>('[data-task="speaking"]');
+    const cBox = document.querySelector<HTMLElement>('[data-consent]');
+    cBox?.querySelector('[data-c-save]')?.addEventListener('click', async () => {
+      const ai = (cBox.querySelector('[data-c-ai]') as HTMLInputElement).checked;
+      const speech = (cBox.querySelector('[data-c-speech]') as HTMLInputElement).checked;
+      if (!D.demo) await fetch('/api/account/consent', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ ai, speech }) }).catch(() => null);
+      D.consent = { ai_feedback: ai, speech };
+      (cBox.querySelector('[data-msg]') as HTMLElement).textContent = 'Kaydedildi.';
+      if (ai && speech) setTimeout(() => cBox.remove(), 600);
+    });
     if (speakPanel) {
       const heard: string[] = D.pub.speaking.read.map(() => '');
       const best: number[] = D.pub.speaking.read.map(() => 0);
@@ -271,6 +291,7 @@ const playIcon = '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l
       let active: any = null;
       speakPanel.querySelectorAll<HTMLButtonElement>('[data-mic]').forEach((b) => b.addEventListener('click', () => {
         if (!SR) return;
+        if (!D.consent.speech) { (speakPanel.querySelector('[data-msg]') as HTMLElement).textContent = 'Konuşma bölümü için sayfanın üstündeki konuşma tanıma iznini verin.'; cBox?.scrollIntoView({ behavior: 'smooth' }); return; }
         if (active) { active.stop(); return; }
         const which = b.dataset.mic!;
         const rec = new SR();

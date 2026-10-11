@@ -1,0 +1,85 @@
+---
+// /app/hesap: name, consents (AI feedback, speech recognition), data export
+// and account deletion (KVKK).
+import AppShell from '../../layouts/AppShell.astro';
+import '../../styles/timetable.css';
+import { loadAppSession } from '../../lib/app-session';
+import { createSupabaseClient, pageCookieSource } from '../../lib/supabase';
+
+export const prerender = false;
+const loaded = await loadAppSession(Astro);
+if ('redirect' in loaded) return Astro.redirect(loaded.redirect.replace('next=/app', 'next=/app/hesap'));
+const session = loaded;
+let fullName = session.firstName, consent = { ai_feedback: false, speech: false };
+if (!session.demo) {
+  const sb = createSupabaseClient(pageCookieSource(Astro));
+  const [p, c] = await Promise.all([
+    sb.from('profiles').select('full_name').eq('id', session.userId).maybeSingle(),
+    sb.from('consents').select('ai_feedback, speech').eq('user_id', session.userId).maybeSingle(),
+  ]);
+  fullName = p.data?.full_name || fullName;
+  if (c.data) consent = c.data;
+} else { fullName = 'Elif Kaya'; consent = { ai_feedback: true, speech: false }; }
+const teacher = session.role === 'teacher' || session.role === 'admin';
+---
+
+<AppShell session={session} title="Hesabım — Languago" current="/app/hesap">
+  <div class="page-head"><div><h1>Hesabım</h1><p>{session.email} · {teacher ? 'Öğretmen' : 'Öğrenci'}</p></div></div>
+  {session.demo && <span class="demo-flag">Önizleme (yalnızca bu bilgisayarda)</span>}
+
+  <section class="panel">
+    <h2>Adınız</h2>
+    <form class="form-grid" data-form="profile" novalidate>
+      <label class="fld">Ad soyad<input name="fullName" maxlength="120" value={fullName} autocomplete="name" /></label>
+      <div style="display:flex;gap:10px;align-items:end"><button class="btn btn-primary btn-sm" type="submit">Kaydet</button><span class="msg" data-msg></span></div>
+    </form>
+  </section>
+
+  {!teacher && (
+    <section class="panel">
+      <h2>Yapay zekâ ve konuşma tanıma</h2>
+      <p class="muted" style="font-size:14.5px">Görevlerdeki yazma ve konuşma bölümleri bu izinlerle çalışır. İstediğiniz zaman değiştirebilirsiniz.</p>
+      <form data-form="consent" style="display:grid;gap:12px">
+        <label class="say" style="grid-template-columns:auto minmax(0,1fr);cursor:pointer"><input type="checkbox" name="ai" checked={consent.ai_feedback} style="width:20px;height:20px;accent-color:#14b8a6" /><span><b>Yapay zekâ geri bildirimi</b><small>Yazdığınız metinler ve konuşmanızın yazıya dökülmüş hâli, puan ve düzeltme için yapay zekâ hizmetine gönderilir. Adınız ve e-postanız gönderilmez.</small></span></label>
+        <label class="say" style="grid-template-columns:auto minmax(0,1fr);cursor:pointer"><input type="checkbox" name="speech" checked={consent.speech} style="width:20px;height:20px;accent-color:#14b8a6" /><span><b>Konuşma tanıma</b><small>Konuşma bölümünde sesiniz, tarayıcınızın konuşma tanıma hizmeti (Chrome’da Google, Safari’de Apple) tarafından yazıya çevrilir. Ses kaydı Languago’da saklanmaz.</small></span></label>
+        <div style="display:flex;gap:10px;align-items:center"><button class="btn btn-primary btn-sm" type="submit">İzinleri kaydet</button><span class="msg" data-msg></span></div>
+      </form>
+    </section>
+  )}
+
+  <section class="panel">
+    <h2>Verileriniz</h2>
+    <p class="muted" style="font-size:14.5px">KVKK kapsamında hesabınızdaki tüm verilerin bir kopyasını indirebilirsiniz. Ayrıntılar: <a href="/kvkk" style="color:#5eead4">KVKK aydınlatma metni</a>.</p>
+    <a class="btn btn-ghost btn-sm" href="/api/account/export" style="justify-self:start" download>Verilerimi indir (JSON)</a>
+  </section>
+
+  <section class="panel" style="border-color:rgba(248,113,113,.35)">
+    <h2>Hesabı sil</h2>
+    <p class="muted" style="font-size:14.5px">Hesabınız ve tüm ilerlemeniz kalıcı olarak silinir{teacher ? '; sınıflarınız da silinir ve öğrencileriniz bu sınıflardan çıkar' : ''}. Bu işlem geri alınamaz.</p>
+    <form class="form-grid" data-form="delete" novalidate>
+      <label class="fld">Onaylamak için <b>SİL</b> yazın<input name="confirm" autocomplete="off" /></label>
+      <div style="display:flex;gap:10px;align-items:end"><button class="btn btn-sm" type="submit" style="background:#dc2626;color:#fff">Hesabımı kalıcı olarak sil</button><span class="msg" data-msg></span></div>
+    </form>
+  </section>
+
+  <script is:inline define:vars={{ demo: session.demo }}>
+    function send(action, body, form) {
+      var msg = form.querySelector('[data-msg]');
+      if (demo) { msg.textContent = 'Önizlemede kaydedilmez.'; return Promise.resolve(null); }
+      msg.textContent = '…';
+      return fetch('/api/account/' + action, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(body) })
+        .then(function (r) { return r.json(); })
+        .then(function (r) { msg.textContent = r.ok ? 'Kaydedildi.' : (r.error || 'Olmadı.'); msg.classList.toggle('ok', !!r.ok); return r; })
+        .catch(function () { msg.textContent = 'Bağlantı sorunu.'; return null; });
+    }
+    document.querySelector('[data-form="profile"]').addEventListener('submit', function (e) { e.preventDefault(); send('profile', { fullName: e.target.fullName.value }, e.target); });
+    var c = document.querySelector('[data-form="consent"]');
+    if (c) c.addEventListener('submit', function (e) { e.preventDefault(); send('consent', { ai: c.ai.checked, speech: c.speech.checked }, c); });
+    var d = document.querySelector('[data-form="delete"]');
+    d.addEventListener('submit', function (e) {
+      e.preventDefault();
+      if (!confirm('Hesabınız ve tüm verileriniz kalıcı olarak silinecek. Emin misiniz?')) return;
+      send('delete', { confirm: d.confirm.value.trim().toLocaleUpperCase('tr-TR') }, d).then(function (r) { if (r && r.ok) location.href = '/'; });
+    });
+  </script>
+</AppShell>
