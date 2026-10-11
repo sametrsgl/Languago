@@ -57,7 +57,7 @@ const speakIcon = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" st
             <button class="btn btn-accent" type="button" data-start-v>Başla</button>
           </div>
         ) : (
-          <div class="done-day" style="padding:10px 0"><span class="big">✅</span><h2>{doneToday ? 'Bugünün kelimeleri tamam!' : 'Bu seviyenin kelimeleri bitti'}</h2><p class="muted">{doneToday ? 'Yarın 13 yeni kelime ve tekrar kartlarınız sizi bekliyor.' : 'Tekrar kartları zamanı gelince burada görünecek.'}</p><a class="btn btn-ghost" href="/app/gorev">Bugünün görevine git</a></div>
+          <div class="done-day" style="padding:10px 0"><span class="big">✅</span><h2>{doneToday ? 'Bugünün kelimeleri tamam!' : 'Bu seviyenin kelimeleri bitti'}</h2><p class="muted">{doneToday ? 'Yarın 13 yeni kelime ve tekrar kartlarınız sizi bekliyor.' : 'Tekrar kartları zamanı gelince burada görünecek.'}</p><a class="btn btn-ghost" href="/app/gorev">Bugünün görevine git</a><a class="btn btn-ghost" href="/app/kelime/oyun">Kelime oyunları</a></div>
         )}
       </div>
 
@@ -94,7 +94,7 @@ const speakIcon = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" st
         </div>
       </div>
 
-      <div data-v="done" hidden><div class="done-day"><span class="big">🏅</span><h2>Bugünün kelimeleri tamam!</h2><p class="muted" data-sum></p><a class="btn btn-accent" href="/app/gorev">Bugünün görevine git</a></div></div>
+      <div data-v="done" hidden><div class="done-day"><span class="big">🏅</span><h2>Bugünün kelimeleri tamam!</h2><p class="muted" data-sum></p><a class="btn btn-accent" href="/app/gorev">Bugünün görevine git</a><a class="btn btn-ghost" href="/app/kelime/oyun">Kelime oyunları</a></div></div>
     </div>
   </section>
   <script type="application/json" id="vc-data" set:html={json}></script>

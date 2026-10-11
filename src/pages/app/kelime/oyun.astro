@@ -1,0 +1,124 @@
+---
+// /app/kelime/oyun: word games with the words the learner has already met on
+// the vocabulary path: Eşleştir (match English and Turkish) and Yazım (hear,
+// then type). Practice only: no XP, it does not change the cards.
+import AppShell from '../../../layouts/AppShell.astro';
+import '../../../styles/level-test.css';
+import '../../../styles/mission.css';
+import '../../../styles/timetable.css';
+import { loadAppSession } from '../../../lib/app-session';
+import { createSupabaseClient, pageCookieSource } from '../../../lib/supabase';
+import { getVocab, loadPathState } from '../../../lib/path-content';
+
+export const prerender = false;
+const loaded = await loadAppSession(Astro);
+if ('redirect' in loaded) return Astro.redirect(loaded.redirect.replace('next=/app', 'next=/app/kelime/oyun'));
+const session = loaded;
+let level = 'A1';
+let seen: string[] = [];
+if (session.demo) seen = (await getVocab('A1')).slice(0, 26).map((w) => w.id);
+else {
+  const sb = createSupabaseClient(pageCookieSource(Astro));
+  const st = await loadPathState(sb, session.userId);
+  if (st) level = st.vocab_level;
+  const { data } = await sb.from('vocab_cards').select('word_id, box').eq('student_id', session.userId).order('updated_at', { ascending: false }).limit(200);
+  seen = ((data as any[]) || []).map((c) => c.word_id);
+}
+const all = [...(await getVocab('A1')), ...(level !== 'A1' ? await getVocab(level) : [])];
+const words = all.filter((w) => seen.includes(w.id)).map(({ id, word, tr, pos }) => ({ id, word, tr: tr.split(',')[0].trim(), pos }));
+const json = JSON.stringify({ words, level }).replace(/</g, '\\u003c');
+---
+
+<AppShell session={session} title="Kelime oyunları — Languago" current="/app/kelime">
+  <div class="page-head">
+    <div><h1>Kelime oyunları</h1><p>Öğrendiğiniz {words.length} kelimeyle pratik yapın. Puan ya da XP yok; sadece tekrar.</p></div>
+    <div class="actions"><a class="btn btn-ghost btn-sm" href="/app/kelime">← Kelime yolu</a></div>
+  </div>
+  {words.length < 6 ? (
+    <section class="panel done-day"><span class="big">🃏</span><h2>Önce biraz kelime öğrenin</h2><p class="muted">Oyunlar, kelime kartlarında gördüğünüz kelimelerle oynanır. En az 6 kelime gerekiyor.</p><a class="btn btn-accent" href="/app/kelime">Kelime kartlarına git</a></section>
+  ) : (
+    <>
+      <div class="teacher-pick" role="tablist"><a href="#" data-mode="match" aria-current="true">Eşleştir</a><a href="#" data-mode="type">Yazım</a></div>
+      <section class="panel" data-game></section>
+    </>
+  )}
+  <script type="application/json" id="g-data" set:html={json}></script>
+  <style is:global>
+    .pairs { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+    .pairs .col { display: grid; gap: 10px; }
+    .tile { min-height: 58px; border-radius: 14px; border: 1px solid rgba(255,255,255,.14); background: rgba(255,255,255,.04); color: var(--ink); font: inherit; font-weight: 700; font-size: 17px; cursor: pointer; transition: transform .15s, background .2s, border-color .2s; }
+    .tile[aria-pressed="true"] { border-color: #f59e0b; background: rgba(245,158,11,.12); }
+    .tile.ok { border-color: #5eead4; background: rgba(45,212,191,.16); opacity: .55; cursor: default; }
+    .tile.no { animation: shake .3s; border-color: #f87171; }
+    @keyframes shake { 25% { transform: translateX(-4px); } 75% { transform: translateX(4px); } }
+    .type-box { display: grid; gap: 14px; justify-items: center; text-align: center; max-width: 520px; margin: 0 auto; }
+    .type-box input { width: 100%; min-height: 56px; border-radius: 14px; border: 1px solid rgba(255,255,255,.18); background: rgba(0,0,0,.25); color: var(--ink); font: inherit; font-size: 22px; font-weight: 700; text-align: center; }
+  </style>
+  <script>
+    const D = JSON.parse(document.getElementById('g-data')?.textContent || '{}');
+    const box = document.querySelector('[data-game]') as HTMLElement | null;
+    const esc = (s: string) => String(s).replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c] as string));
+    const shuffle = <T,>(a: T[]) => { const b = [...a]; for (let i = b.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [b[i], b[j]] = [b[j], b[i]]; } return b; };
+    let voice: SpeechSynthesisVoice | null = null;
+    const pick = () => { const v = speechSynthesis.getVoices().filter((x) => /^en[-_](GB|US)/i.test(x.lang)); voice = v[0] || null; };
+    if ('speechSynthesis' in window) { pick(); speechSynthesis.addEventListener('voiceschanged', pick); }
+    const say = (w: any) => {
+      const a = new Audio(`/audio/vocab/${String(D.level).toLowerCase()}/${w.id}.mp3`);
+      a.play().catch(() => { if (!voice) return; const u = new SpeechSynthesisUtterance(w.word); u.voice = voice; u.lang = voice.lang; u.rate = 0.85; speechSynthesis.cancel(); speechSynthesis.speak(u); });
+    };
+
+    function match() {
+      if (!box) return;
+      const round = shuffle(D.words).slice(0, 6);
+      const left = shuffle(round), right = shuffle(round);
+      box.innerHTML = `<p class="muted">İngilizce kelimeyi ve Türkçe anlamını eşleştirin.</p><div class="pairs"><div class="col">${left.map((w: any) => `<button type="button" class="tile" data-en="${w.id}" lang="en">${esc(w.word)}</button>`).join('')}</div><div class="col">${right.map((w: any) => `<button type="button" class="tile" data-tr="${w.id}">${esc(w.tr)}</button>`).join('')}</div></div><p class="muted" data-score></p>`;
+      let pickEn: HTMLElement | null = null, pickTr: HTMLElement | null = null, done = 0, tries = 0;
+      const check = () => {
+        if (!pickEn || !pickTr) return;
+        tries++;
+        if (pickEn.dataset.en === pickTr.dataset.tr) {
+          [pickEn, pickTr].forEach((x) => { x.classList.add('ok'); x.setAttribute('aria-pressed', 'false'); (x as HTMLButtonElement).disabled = true; });
+          done++;
+          if (done === round.length) (box.querySelector('[data-score]') as HTMLElement).innerHTML = `Bitti! ${tries} denemede. <button type="button" class="btn btn-ghost btn-sm" data-again>Yeni tur</button>`;
+          box.querySelector('[data-again]')?.addEventListener('click', match);
+        } else {
+          [pickEn, pickTr].forEach((x) => { x.classList.add('no'); x.setAttribute('aria-pressed', 'false'); setTimeout(() => x.classList.remove('no'), 350); });
+        }
+        pickEn = pickTr = null;
+      };
+      box.querySelectorAll<HTMLElement>('[data-en]').forEach((b) => b.addEventListener('click', () => { box.querySelectorAll('[data-en]').forEach((x) => x.setAttribute('aria-pressed', 'false')); b.setAttribute('aria-pressed', 'true'); pickEn = b; say(D.words.find((w: any) => w.id === b.dataset.en)); check(); }));
+      box.querySelectorAll<HTMLElement>('[data-tr]').forEach((b) => b.addEventListener('click', () => { box.querySelectorAll('[data-tr]').forEach((x) => x.setAttribute('aria-pressed', 'false')); b.setAttribute('aria-pressed', 'true'); pickTr = b; check(); }));
+    }
+
+    function type() {
+      if (!box) return;
+      const round = shuffle(D.words).slice(0, 8);
+      let i = 0, right = 0;
+      const show = () => {
+        if (i >= round.length) { box.innerHTML = `<div class="type-box"><span style="font-size:48px">🎯</span><h2>${right} / ${round.length} doğru</h2><button type="button" class="btn btn-accent" data-again>Yeni tur</button></div>`; box.querySelector('[data-again]')!.addEventListener('click', type); return; }
+        const w = round[i];
+        box.innerHTML = `<div class="type-box"><p class="muted">${i + 1} / ${round.length} · Dinleyin ve yazın</p><button type="button" class="speak-btn" data-say aria-label="Dinle">🔊</button><p class="muted">İpucu: ${esc(w.tr)} (${esc(w.pos)})</p><input data-in autocomplete="off" autocapitalize="off" spellcheck="false" lang="en" /><button type="button" class="btn btn-primary" data-ok>Kontrol et</button><p data-res></p></div>`;
+        const inp = box.querySelector('[data-in]') as HTMLInputElement;
+        box.querySelector('[data-say]')!.addEventListener('click', () => say(w));
+        setTimeout(() => { say(w); inp.focus(); }, 200);
+        const ok = () => {
+          const good = inp.value.trim().toLowerCase().replace(/[’']/g, "'") === w.word.toLowerCase().replace(/[’']/g, "'");
+          if (good) right++;
+          (box.querySelector('[data-res]') as HTMLElement).innerHTML = good ? '✅ Doğru!' : `❌ Doğrusu: <b lang="en">${esc(w.word)}</b>`;
+          (box.querySelector('[data-ok]') as HTMLButtonElement).disabled = true;
+          setTimeout(() => { i++; show(); }, good ? 900 : 2000);
+        };
+        box.querySelector('[data-ok]')!.addEventListener('click', ok);
+        inp.addEventListener('keydown', (e) => { if (e.key === 'Enter') ok(); });
+      };
+      show();
+    }
+
+    document.querySelectorAll<HTMLElement>('[data-mode]').forEach((t) => t.addEventListener('click', (e) => {
+      e.preventDefault();
+      document.querySelectorAll('[data-mode]').forEach((x) => x.setAttribute('aria-current', String(x === t)));
+      (t.dataset.mode === 'type' ? type : match)();
+    }));
+    match();
+  </script>
+</AppShell>

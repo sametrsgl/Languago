@@ -9,7 +9,6 @@ const layout = read('src/layouts/Layout.astro');
 const appLayout = read('src/layouts/AppLayout.astro');
 const globalCss = read('src/styles/global.css');
 const home = read('src/pages/index.astro');
-const games = read('src/pages/dashboard/oyunlar/index.astro');
 const learningPath = read('src/lib/learning-path.ts');
 
 assert.match(layout, /class="skip-link"\s+href="#main-content"/, 'public layout exposes a skip link');
@@ -42,16 +41,7 @@ assert.doesNotMatch(learningPath, /!\s*;/, 'learning-path helpers do not use uns
 assert.match(learningPath, /SkillKey \| string|undefined/, 'learning-path helpers accept unfinished/unimplemented keys safely');
 assert.match(learningPath, /fallbackSkill|return null|return undefined/, 'learning-path helpers expose a safe fallback for unknown keys');
 
-for (const [name, source] of [['games', games]]) {
-  assert.match(source, /href="\/dashboard"|href=\{`\/dashboard/s, `${name} page includes a return path to dashboard`);
-  assert.match(source, /Öğrenme rehberi|Nasıl çalışılır|Rehber/i, `${name} page includes guide/help links`);
-}
-assert.match(games, /objective:/, 'game hub defines an objective per game');
-assert.match(games, /cefr:/, 'game hub defines CEFR coverage per game');
-assert.match(games, /replay:/, 'game hub defines replay guidance per game');
-assert.match(games, /nextAction:/, 'game hub defines next action per game');
-assert.doesNotMatch(games, /Her oyun, seçtiğin kelime setinden/, 'game hub does not claim every game is vocabulary-only');
-
+assert.match(read('src/pages/dashboard/oyunlar/index.astro'), /Astro\.redirect\('\/app\/kelime\/oyun/, 'old games forward to the new word games');
 assert.ok(existsSync(join(root, 'src/components/LearningPath.astro')), 'LearningPath reusable component exists');
 assert.ok(existsSync(join(root, 'src/components/LearningGuideCard.astro')), 'LearningGuideCard reusable component exists');
 assert.ok(existsSync(join(root, 'src/components/MobileAppNav.astro')), 'MobileAppNav reusable component exists');
