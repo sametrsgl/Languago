@@ -17,7 +17,7 @@ export const POST: APIRoute = async (ctx) => {
   const lessonMin = Number(body.lessonMin);
   const noticeHours = Number(body.noticeHours);
   const windowDays = Number(body.windowDays);
-  if (!LESSON_LENGTHS.includes(lessonMin)) return json(400, { ok: false, error: 'Ders süresi 30, 45, 60 ya da 90 dakika olmalı.' });
+  if (!LESSON_LENGTHS.includes(lessonMin)) return json(400, { ok: false, error: 'Dersler 40 dakikadır.' });
   if (!Number.isInteger(noticeHours) || noticeHours < 0 || noticeHours > 168) return json(400, { ok: false, error: 'Önceden bildirim 0 ile 168 saat arasında olmalı.' });
   if (!Number.isInteger(windowDays) || windowDays < 7 || windowDays > 60) return json(400, { ok: false, error: 'Ders alınabilecek süre 7 ile 60 gün arasında olmalı.' });
   let meetLink: string | null = String(body.meetLink || '').trim().toLowerCase() || null;

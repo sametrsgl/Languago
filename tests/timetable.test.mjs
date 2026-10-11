@@ -35,19 +35,19 @@ test('weekly hours are cleaned and merged', () => {
   assert.deepEqual(h, [{ weekday: 0, startMin: 1080, endMin: 1260 }, { weekday: 2, startMin: 600, endMin: 720 }]);
 });
 
-test('free slots follow hours, grid, notice, window and busy times', () => {
+test('free slots follow hours, the 40-minute grid, notice, window and busy times', () => {
   const hours = [{ weekday: 0, startMin: 18 * 60, endMin: 20 * 60 }]; // Mondays 18:00-20:00
-  const settings = { ...DEFAULT_SETTINGS, lessonMin: 45, noticeHours: 12, windowDays: 15 };
-  const busy = [{ startsAt: '2026-10-19T15:45:00Z', endsAt: '2026-10-19T16:30:00Z' }]; // next Monday 18:45
-  const slots = freeSlots(hours, busy, settings, MON_9);
-  const times = slots.map((s) => s.startsAt);
-  // Today 18:00 is only 9 h away (notice 12 h): skipped. 45-min grid fits 18:00 and 18:45.
+  const settings = { ...DEFAULT_SETTINGS, noticeHours: 12, windowDays: 15 };
+  assert.equal(settings.lessonMin, 40);
+  const busy = [{ startsAt: '2026-10-19T15:40:00Z', endsAt: '2026-10-19T16:20:00Z' }]; // next Monday 18:40
+  const times = freeSlots(hours, busy, settings, MON_9).map((s) => s.startsAt);
+  // Today 18:00 is only 9 h away (notice 12 h). The grid is 18:00, 18:40, 19:20.
   assert.ok(!times.includes('2026-10-12T15:00:00.000Z'));
   assert.ok(times.includes('2026-10-19T15:00:00.000Z'));
-  assert.ok(!times.includes('2026-10-19T15:45:00.000Z'), 'busy slot hidden');
-  assert.ok(times.includes('2026-10-26T15:45:00.000Z'));
-  assert.equal(times.length, 3);
-  for (const s of slots) assert.equal(Date.parse(s.endsAt) - Date.parse(s.startsAt), 45 * 60_000);
+  assert.ok(!times.includes('2026-10-19T15:40:00.000Z'), 'busy slot hidden');
+  assert.ok(times.includes('2026-10-19T16:20:00.000Z'));
+  assert.ok(times.includes('2026-10-26T16:20:00.000Z'));
+  assert.equal(times.length, 5);
 });
 
 test('slots group by local day', () => {

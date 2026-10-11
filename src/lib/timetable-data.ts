@@ -53,7 +53,7 @@ export async function loadTeacher(sb: Sb, teacherId: string, weekOffset: number)
   const [s, h, b, w, r, u, st, cl, g] = q.map((x: any) => x?.data ?? null);
   return {
     settings: s
-      ? { lessonMin: s.lesson_min, noticeHours: s.notice_hours, windowDays: s.window_days, meetLink: s.meet_link }
+      ? { lessonMin: 40, noticeHours: s.notice_hours, windowDays: s.window_days, meetLink: s.meet_link }
       : { ...DEFAULT_SETTINGS, meetLink: null },
     hours: (h || []).map((x: any) => ({ weekday: x.weekday, startMin: x.start_min, endMin: x.end_min })),
     blocks: (b || []).map((x: any) => ({ id: x.id, startsAt: x.starts_at, endsAt: x.ends_at, note: x.note })),
@@ -83,7 +83,7 @@ export async function loadStudent(sb: Sb, userId: string): Promise<StudentData> 
       sb.from('teacher_hours').select('weekday, start_min, end_min').eq('teacher_id', te.id),
     ]);
     const settings: Settings = s.data
-      ? { lessonMin: s.data.lesson_min, noticeHours: s.data.notice_hours, windowDays: s.data.window_days }
+      ? { lessonMin: 40, noticeHours: s.data.notice_hours, windowDays: s.data.window_days }
       : DEFAULT_SETTINGS;
     const hours = ((h.data || []) as any[]).map((x) => ({ weekday: x.weekday, startMin: x.start_min, endMin: x.end_min }));
     const { data: busy } = await sb.rpc('teacher_busy', {

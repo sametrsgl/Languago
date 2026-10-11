@@ -9,12 +9,14 @@ const DAY = 86_400_000;
 
 export const WEEKDAYS = ['Pazartesi', 'Salı', 'Çarşamba', 'Perşembe', 'Cuma', 'Cumartesi', 'Pazar'];
 export const WEEKDAYS_SHORT = ['Pzt', 'Sal', 'Çar', 'Per', 'Cum', 'Cmt', 'Paz'];
-export const LESSON_LENGTHS = [30, 45, 60, 90];
+// Every lesson is 40 minutes (owner’s rule).
+export const LESSON_MIN = 40;
+export const LESSON_LENGTHS = [LESSON_MIN];
 
 export type Hours = { weekday: number; startMin: number; endMin: number };
 export type Range = { startsAt: string; endsAt: string };
 export type Settings = { lessonMin: number; noticeHours: number; windowDays: number };
-export const DEFAULT_SETTINGS: Settings = { lessonMin: 45, noticeHours: 12, windowDays: 21 };
+export const DEFAULT_SETTINGS: Settings = { lessonMin: 40, noticeHours: 12, windowDays: 21 };
 
 /** Turkey-local parts of an instant: day number since epoch, weekday (0 = Monday), minute of day. */
 export function localParts(ms: number): { day: number; weekday: number; minute: number } {

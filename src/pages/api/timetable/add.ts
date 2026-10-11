@@ -1,7 +1,7 @@
 import type { APIRoute } from 'astro';
 import { readJsonBody, RequestBodyError } from '../../../lib/request-body';
 import { apiUser, isTeacherRole, json, getPeople, mailLesson, attachMeet, noticeStudents, parseTarget, siteOrigin, APPT_COLS, type Appt } from '../../../lib/lessons-server';
-import { fromLocal, parseHm, lessonError, LESSON_LENGTHS } from '../../../lib/timetable';
+import { fromLocal, parseHm, lessonError, LESSON_MIN } from '../../../lib/timetable';
 
 export const prerender = false;
 
@@ -18,9 +18,8 @@ export const POST: APIRoute = async (ctx) => {
   if (!target) return json(400, { ok: false, error: 'Bir öğrenci ya da sınıf seçin.' });
   const d = /^(\d{4})-(\d{2})-(\d{2})$/.exec(String(body.date || ''));
   const minute = parseHm(String(body.time || ''));
-  const minutes = Number(body.minutes);
+  const minutes = LESSON_MIN;
   if (!d || minute === null) return json(400, { ok: false, error: 'Tarih ve saat seçin.' });
-  if (!LESSON_LENGTHS.includes(minutes)) return json(400, { ok: false, error: 'Ders süresini seçin.' });
   const day = Math.floor(Date.UTC(Number(d[1]), Number(d[2]) - 1, Number(d[3])) / 86_400_000);
   const starts = fromLocal(day, minute);
   if (starts < Date.now()) return json(400, { ok: false, error: 'Geçmiş bir saate ders eklenemez. Şimdi başlamak için “Şimdi ders başlat”ı kullanın.' });

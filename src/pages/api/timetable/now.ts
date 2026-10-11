@@ -1,7 +1,7 @@
 import type { APIRoute } from 'astro';
 import { readJsonBody, RequestBodyError } from '../../../lib/request-body';
 import { apiUser, isTeacherRole, json, getPeople, mailLesson, attachMeet, noticeStudents, parseTarget, siteOrigin, APPT_COLS, type Appt } from '../../../lib/lessons-server';
-import { lessonError } from '../../../lib/timetable';
+import { lessonError, LESSON_MIN } from '../../../lib/timetable';
 
 export const prerender = false;
 
@@ -16,7 +16,7 @@ export const POST: APIRoute = async (ctx) => {
   }
   const target = body.target ? parseTarget(body.target) : { student_id: null, class_id: null };
   if (!target) return json(400, { ok: false, error: 'Geçersiz seçim.' });
-  const minutes = [30, 45, 60, 90].includes(Number(body.minutes)) ? Number(body.minutes) : 60;
+  const minutes = LESSON_MIN;
   const now = Date.now();
   const { data, error } = await u.sb.from('appointments').insert({
     teacher_id: u.userId, ...target, kind: 'instant', title: String(body.title || '').trim().slice(0, 120) || 'Canlı ders',

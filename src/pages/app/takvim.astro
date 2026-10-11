@@ -8,7 +8,7 @@ import { createSupabaseClient, pageCookieSource } from '../../lib/supabase';
 import { loadTeacher, demoTeacher, whoOf, type TeacherData } from '../../lib/timetable-data';
 import { googleReady } from '../../lib/google';
 import { lessonTitle } from '../../lib/lessons-server';
-import { WEEKDAYS, WEEKDAYS_SHORT, LESSON_LENGTHS, hm, localParts, fromLocal, shortDay, timeOf, whenLabel, joinUrl, googleCalendarLink } from '../../lib/timetable';
+import { WEEKDAYS, WEEKDAYS_SHORT, hm, localParts, fromLocal, shortDay, timeOf, whenLabel, joinUrl, googleCalendarLink } from '../../lib/timetable';
 
 export const prerender = false;
 const loaded = await loadAppSession(Astro);
@@ -135,7 +135,7 @@ const todayIso = new Date(fromLocal(today, 12 * 60)).toISOString().slice(0, 10);
           </div>
         ))}
         <div class="form-grid">
-          <label class="fld">Ders süresi<select name="lessonMin">{LESSON_LENGTHS.map((m) => <option value={m} selected={m === d.settings.lessonMin}>{m} dakika</option>)}</select></label>
+          <div class="fld">Ders süresi<input type="hidden" name="lessonMin" value="40" /><span style="min-height:44px;display:flex;align-items:center;font-weight:600;color:var(--ink)">40 dakika (tüm dersler)</span></div>
           <label class="fld">En az ne kadar önceden?<select name="noticeHours">{[0, 2, 6, 12, 24, 48].map((h) => <option value={h} selected={h === d.settings.noticeHours}>{h === 0 ? 'Son dakikaya kadar' : `${h} saat önce`}</option>)}</select></label>
           <label class="fld">En fazla ne kadar ileriye?<select name="windowDays">{[7, 14, 21, 30, 60].map((n) => <option value={n} selected={n === d.settings.windowDays}>{n} gün</option>)}</select></label>
         </div>
@@ -208,7 +208,7 @@ const todayIso = new Date(fromLocal(today, 12 * 60)).toISOString().slice(0, 10);
       <div class="form-grid">
         <label class="fld">Tarih<input type="date" name="date" min={todayIso} value={todayIso} required /></label>
         <label class="fld">Saat<input type="time" name="time" step="300" value="18:00" required /></label>
-        <label class="fld">Süre<select name="minutes">{LESSON_LENGTHS.map((m) => <option value={m} selected={m === d.settings.lessonMin}>{m} dk</option>)}</select></label>
+        <div class="fld">Süre<input type="hidden" name="minutes" value="40" /><span style="min-height:44px;display:flex;align-items:center;font-weight:600;color:var(--ink)">40 dk</span></div>
       </div>
       <label class="fld">Başlık <small>(isteğe bağlı)</small><input name="title" maxlength="120" placeholder="Ör. IELTS konuşma pratiği" /></label>
       <p class="muted" style="font-size:13.5px">Ders hemen kesinleşir; öğrenciye e-posta ve bildirim gider.</p>
@@ -226,7 +226,7 @@ const todayIso = new Date(fromLocal(today, 12 * 60)).toISOString().slice(0, 10);
         {d.students.length > 0 && <optgroup label="Öğrenciler">{d.students.map((s) => <option value={`student:${s.id}`}>{s.name}</option>)}</optgroup>}
         {d.classes.length > 0 && <optgroup label="Sınıflar">{d.classes.map((c) => <option value={`class:${c.id}`}>{c.name}</option>)}</optgroup>}
       </select></label>
-      <label class="fld">Süre<select name="minutes">{[30, 45, 60, 90].map((m) => <option value={m} selected={m === 60}>{m} dk</option>)}</select></label>
+      <input type="hidden" name="minutes" value="40" /><p class="muted" style="font-size:13.5px;margin:0">Ders 40 dakikadır.</p>
       <span class="msg" data-msg aria-live="polite"></span>
       <div class="row"><button class="btn btn-ghost btn-sm" value="cancel" formnovalidate>Vazgeç</button><button class="btn btn-accent btn-sm" type="submit" value="ok">Başlat</button></div>
     </form>
