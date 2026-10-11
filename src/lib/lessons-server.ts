@@ -7,12 +7,13 @@ import { whenLabel, googleCalendarLink, joinUrl } from './timetable';
 
 type Sb = { from: (t: string) => any; rpc: (fn: string, args?: Record<string, unknown>) => any };
 
-export const APPT_COLS = 'id, teacher_id, student_id, class_id, kind, title, starts_at, ends_at, status, created_by, note, meet_url, calendar_event_id, room_token';
+export const APPT_COLS = 'id, teacher_id, student_id, class_id, kind, title, starts_at, ends_at, status, created_by, note, meet_url, calendar_event_id, room_token, attendance, report, late_cancel';
 export type Appt = {
   id: string; teacher_id: string; student_id: string | null; class_id: string | null;
   kind: 'one_on_one' | 'group' | 'instant'; title: string | null; starts_at: string; ends_at: string;
   status: string; created_by: string; note: string | null; meet_url: string | null;
   calendar_event_id: string | null; room_token: string;
+  attendance?: string | null; report?: string | null; late_cancel?: boolean;
 };
 export type Person = { role: 'teacher' | 'student'; user_id: string; full_name: string | null; email: string | null };
 

@@ -56,7 +56,7 @@ const who = (a: any) => whoOf(a, d.students, d.classes);
 const evData = (a: any) => JSON.stringify({
   id: a.id, who: who(a), title: lessonTitle(a), when: whenLabel(a.starts_at), status: a.status, note: a.note || '',
   join: joinUrl(a), cal: googleCalendarLink(`${lessonTitle(a)} · Languago`, a.starts_at, a.ends_at, joinUrl(a)),
-  past: Date.parse(a.starts_at) <= now,
+  past: Date.parse(a.starts_at) <= now, attendance: a.attendance || '', report: a.report || '',
 });
 const hoursByDay = WEEKDAYS.map((_, wd) => d.hours.filter((h) => h.weekday === wd));
 const minutesOf = (a: any) => Math.round((Date.parse(a.ends_at) - Date.parse(a.starts_at)) / 60_000);
@@ -238,6 +238,11 @@ const todayIso = new Date(fromLocal(today, 12 * 60)).toISOString().slice(0, 10);
       <p data-f="when" style="font-weight:700"></p>
       <p><span class="badge" data-f="status"></span></p>
       <p class="muted" data-f="note" style="font-style:italic"></p>
+      <div data-report hidden style="display:grid;gap:10px">
+        <label class="fld">Katılım<select data-att><option value="">Seçin</option><option value="present">Derse geldi</option><option value="late">Geç geldi</option><option value="absent">Gelmedi (ders hakkı düşer)</option></select></label>
+        <label class="fld">Ders raporu <small>(öğrenci görür)</small><textarea data-rep maxlength="2000" placeholder="Bugün neler çalıştık, ödev, notlar…"></textarea></label>
+        <button class="btn btn-primary btn-sm" type="button" data-save-rep style="justify-self:start">Raporu kaydet</button>
+      </div>
       <span class="msg" data-msg aria-live="polite"></span>
       <div class="row">
         <button class="btn btn-ghost btn-sm" type="button" data-cancel-ev>Dersi iptal et</button>
@@ -354,10 +359,17 @@ const todayIso = new Date(fromLocal(today, 12 * 60)).toISOString().slice(0, 10);
           ev.querySelector('[data-f="join"]').href = a.join; ev.querySelector('[data-f="join"]').hidden = a.status !== 'confirmed';
           ev.querySelector('[data-f="cal"]').href = a.cal; ev.querySelector('[data-f="cal"]').hidden = a.status !== 'confirmed';
           ev.querySelector('[data-cancel-ev]').hidden = a.past;
+          var rb = ev.querySelector('[data-report]'); rb.hidden = !(a.past && a.status === 'confirmed');
+          ev.querySelector('[data-att]').value = a.attendance || ''; ev.querySelector('[data-rep]').value = a.report || '';
           say(ev, ''); ev.showModal();
         });
       });
       ev.addEventListener('click', function (e) { if (e.target === ev) ev.close(); });
+      ev.querySelector('[data-save-rep]').addEventListener('click', function () {
+        if (!current) return;
+        post('/api/timetable/report', { id: current.id, attendance: ev.querySelector('[data-att]').value, report: ev.querySelector('[data-rep]').value })
+          .then(function (r) { if (r.ok) { say(ev, 'Kaydedildi.', true); reload(); } else say(ev, r.error || 'Kaydedilemedi.'); });
+      });
       ev.querySelector('[data-cancel-ev]').addEventListener('click', function () {
         if (!current || !confirm('Bu ders iptal edilsin mi? Öğrenciye haber verilir.')) return;
         post('/api/timetable/cancel', { id: current.id }).then(function (r) { if (r.ok) reload(); else say(ev, r.error || 'İptal edilemedi.'); });

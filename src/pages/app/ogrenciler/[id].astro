@@ -16,7 +16,9 @@ if (session.role !== 'teacher' && session.role !== 'admin') return Astro.redirec
 const id = String(Astro.params.id || '');
 
 let name = 'Öğrenci', email = '', test: any = null, st: any = null;
-let results: any[] = [], exams: any[] = [];
+let results: any[] = [], exams: any[] = [], lessons: any[] = [];
+const monthKey = new Date(Date.now() + 3 * 3600_000).toISOString().slice(0, 7);
+let pkg = { total: null as number | null, used: 0, planned: 0 };
 if (session.demo) {
   name = 'Elif Kaya'; email = 'elif@ornek.com';
   test = { level: 'A2', skills: { vocab: { level: 'A2' }, grammar: { level: 'A2' }, reading: { level: 'B1' }, listening: { level: 'A1' } } };
@@ -38,7 +40,19 @@ if (session.demo) {
     sb.from('level_exams').select('level, score, passed, taken_at').eq('student_id', id).order('taken_at', { ascending: false }),
   ]);
   st = p.data; results = (r.data as any[]) || []; exams = (e.data as any[]) || [];
+  const [u, l] = await Promise.all([
+    sb.rpc('package_usage', { p_student: id, p_teacher: session.userId, p_month: monthKey + '-01' }),
+    sb.from('appointments').select('id, starts_at, status, attendance, report, late_cancel').eq('student_id', id).eq('teacher_id', session.userId).lte('starts_at', new Date().toISOString()).order('starts_at', { ascending: false }).limit(12),
+  ]);
+  const row = Array.isArray(u.data) ? u.data[0] : u.data;
+  if (row) pkg = { total: row.total, used: row.used, planned: row.planned };
+  lessons = (l.data as any[]) || [];
 }
+if (session.demo) {
+  pkg = { total: 16, used: 7, planned: 3 };
+  lessons = [{ id: 'x1', starts_at: new Date(Date.now() - 2 * 86_400_000).toISOString(), status: 'confirmed', attendance: 'present', report: 'Past simple düzensiz fiiller ve tatil anlatımı çalıştık. Ödev: 10 cümlelik bir tatil yazısı.' }];
+}
+const ATT: Record<string, string> = { present: 'Geldi', late: 'Geç geldi', absent: 'Gelmedi' };
 const writings = results.filter((r) => r.task === 'writing').slice(0, 5);
 const speakings = results.filter((r) => r.task === 'speaking').slice(0, 5);
 const skillNames: Record<string, string> = { vocab: 'Kelime', grammar: 'Dilbilgisi', reading: 'Okuma', listening: 'Dinleme' };
@@ -55,6 +69,22 @@ const q = session.demo ? '?demo=ogretmen' : '';
   {session.demo && <span class="demo-flag">Önizleme: örnek öğrenci (yalnızca bu bilgisayarda)</span>}
 
   <div class="grid">
+    <section class="panel col-4" aria-labelledby="pkg-title">
+      <h2 id="pkg-title">Bu ayın paketi</h2>
+      {pkg.total === null ? <p class="muted" style="font-size:14px">Bu ay için paket girilmedi; öğrenci istediği kadar ders isteyebilir.</p>
+        : <p><b style="font-size:28px">{pkg.used}</b> <span class="muted">/ {pkg.total} ders kullanıldı · {pkg.planned} planlı · {Math.max(0, pkg.total - pkg.used - pkg.planned)} hak kaldı</span></p>}
+      <form class="form-grid" data-pkg novalidate>
+        <label class="fld">Aylık ders sayısı<input type="number" name="lessons" min="0" max="60" value={pkg.total ?? 16} /></label>
+        <div style="display:flex;gap:10px;align-items:end"><button class="btn btn-primary btn-sm" type="submit">Kaydet</button><span class="msg" data-msg></span></div>
+      </form>
+      <p class="muted" style="font-size:12.5px">Ders yapıldığında, öğrenci gelmediğinde ya da dersten 24 saatten az önce iptal ettiğinde 1 hak düşer. Sizin iptalleriniz hak düşürmez.</p>
+    </section>
+    <section class="panel col-8" aria-labelledby="past-l">
+      <h2 id="past-l">Dersler ve raporlar</h2>
+      {lessons.length ? <div class="agenda">{lessons.map((l) => (
+        <div class="lesson" style="grid-template-columns:84px minmax(0,1fr)"><time>{date(l.starts_at)}</time><div><div class="meta"><span class={`badge ${l.status === 'confirmed' ? (l.attendance === 'absent' ? 'declined' : 'confirmed') : 'cancelled'}`}>{l.status === 'confirmed' ? (ATT[l.attendance] || 'Katılım girilmedi') : l.late_cancel ? 'Son 24 saatte iptal' : 'İptal'}</span></div>{l.report ? <p style="margin-top:6px">{l.report}</p> : l.status === 'confirmed' && <p class="muted" style="margin-top:6px;font-size:13.5px">Rapor yazılmadı. Takvimde derse tıklayıp yazabilirsiniz.</p>}</div></div>
+      ))}</div> : <p class="muted">Henüz yapılmış ders yok.</p>}
+    </section>
     <section class="panel col-4">
       <h2>Seviye testi</h2>
       {test ? (
@@ -98,4 +128,13 @@ const q = session.demo ? '?demo=ogretmen' : '';
   </section>
 
   {exams.length > 0 && <section class="panel"><h2>Seviye sonu sınavları</h2><ul>{exams.map((e) => <li>{e.level} · {date(e.taken_at)} · {e.score} {e.passed ? '✓ geçti' : ''}</li>)}</ul></section>}
+  <script is:inline define:vars={{ demo: session.demo, studentId: id, month: monthKey }}>
+    var f = document.querySelector('[data-pkg]');
+    f.addEventListener('submit', function (e) {
+      e.preventDefault(); var msg = f.querySelector('[data-msg]');
+      if (demo) { msg.textContent = 'Önizlemede kaydedilmez.'; return; }
+      fetch('/api/timetable/package', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ studentId: studentId, month: month, lessons: Number(new FormData(f).get('lessons')) }) })
+        .then(function (r) { return r.json(); }).then(function (r) { if (r.ok) location.reload(); else msg.textContent = r.error || 'Kaydedilemedi.'; });
+    });
+  </script>
 </AppShell>

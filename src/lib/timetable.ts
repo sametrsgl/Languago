@@ -163,6 +163,7 @@ export function lessonError(raw: string | undefined): string {
     too_late: 'Ders başladığı için bu işlem yapılamaz.',
     bad_code: 'Bu sınıf kodu bulunamadı. Kodu öğretmeninize sorun.',
     own_class: 'Bu sizin kendi sınıfınız.',
+    no_credits: 'Bu ayki ders paketiniz doldu. Yeni ders için öğretmeninizle konuşun.',
   };
   for (const k of Object.keys(map)) if (code.includes(k)) return map[k];
   if (code.includes('appointments_no_overlap')) return 'Bu saatte başka bir dersiniz var.';

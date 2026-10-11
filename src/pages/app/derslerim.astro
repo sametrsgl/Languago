@@ -29,6 +29,16 @@ const upcoming = d.lessons.filter((a) => Date.parse(a.ends_at) > now && ['reques
 const recent = d.lessons.filter((a) => !upcoming.includes(a)).reverse().slice(0, 6);
 const demoQ = session.demo ? '&demo=ogrenci' : '';
 const dayNo = (day: number) => shortDay(day).split(' ')[0];
+// This month's package with the chosen teacher (when the teacher set one).
+let pkg: { total: number | null; used: number; planned: number } | null = null;
+if (session.demo) pkg = { total: 16, used: 7, planned: 3 };
+else if (teacher) {
+  const sb = createSupabaseClient(pageCookieSource(Astro));
+  const { data } = await sb.rpc('package_usage', { p_student: session.userId, p_teacher: teacher.id, p_month: new Date(Date.now() + 3 * 3600_000).toISOString().slice(0, 7) + '-01' });
+  const row = Array.isArray(data) ? data[0] : data;
+  if (row && row.total !== null) pkg = row;
+}
+const ATT: Record<string, string> = { present: 'Katıldınız', late: 'Geç katıldınız', absent: 'Katılmadınız' };
 ---
 
 <AppShell session={session} title="Derslerim — Languago" current="/app/derslerim">
@@ -58,6 +68,7 @@ const dayNo = (day: number) => shortDay(day).split(' ')[0];
 
   {teacher ? (
     <section class="panel" aria-labelledby="book-title">
+      {pkg && <p class="flash" style="margin:0">Bu ay {pkg.total} dersten {pkg.used} tanesi kullanıldı, {pkg.planned} tanesi planlı. Kalan hak: <b>{Math.max(0, (pkg.total || 0) - pkg.used - pkg.planned)}</b>. Dersten 24 saatten az önce iptal edilen ders hakkınızdan düşer.</p>}
       <div class="panel-head"><h2 id="book-title">Ders al</h2><span class="muted" style="font-size:14px">{lessonMin} dakikalık ders · Türkiye saati</span></div>
       {d.teachers.length > 1 && <div class="teacher-pick">{d.teachers.map((t) => <a href={`?ogretmen=${t.id}${demoQ}`} aria-current={t.id === teacher.id ? 'true' : undefined}>{t.name}</a>)}</div>}
       {slotDays.length ? (
@@ -98,7 +109,7 @@ const dayNo = (day: number) => shortDay(day).split(' ')[0];
       <section class="panel col-6" aria-labelledby="past-title">
         <h2 id="past-title">Geçmiş</h2>
         <div class="agenda">{recent.map((a) => (
-          <div class="lesson is-past"><time datetime={a.starts_at}>{timeOf(a.starts_at)}<small>{shortDay(localParts(Date.parse(a.starts_at)).day)}</small></time><div><b>{lessonTitle(a)}</b><div class="meta"><span class={`badge ${Date.parse(a.ends_at) <= now && a.status === 'confirmed' ? '' : a.status}`}>{Date.parse(a.ends_at) <= now && a.status === 'confirmed' ? 'Yapıldı' : STATUS_LABEL[a.status]}</span><span>{a.teacherName}</span></div></div></div>
+          <div class="lesson is-past"><time datetime={a.starts_at}>{timeOf(a.starts_at)}<small>{shortDay(localParts(Date.parse(a.starts_at)).day)}</small></time><div><b>{lessonTitle(a)}</b><div class="meta"><span class={`badge ${Date.parse(a.ends_at) <= now && a.status === 'confirmed' ? '' : a.status}`}>{Date.parse(a.ends_at) <= now && a.status === 'confirmed' ? 'Yapıldı' : STATUS_LABEL[a.status]}</span><span>{a.teacherName}</span>{(a as any).attendance && <span>{ATT[(a as any).attendance]}</span>}</div>{(a as any).report && <p style="margin-top:6px;font-size:14.5px;opacity:1">📝 {(a as any).report}</p>}</div></div>
         ))}</div>
       </section>
     )}
