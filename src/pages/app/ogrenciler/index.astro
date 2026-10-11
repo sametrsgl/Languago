@@ -1,0 +1,79 @@
+---
+// /app/ogrenciler: the teacher's students with their path progress.
+import AppShell from '../../../layouts/AppShell.astro';
+import '../../../styles/timetable.css';
+import { loadAppSession } from '../../../lib/app-session';
+import { createSupabaseClient, pageCookieSource } from '../../../lib/supabase';
+import { DAYS_PER_LEVEL } from '../../../lib/path.mjs';
+
+export const prerender = false;
+const loaded = await loadAppSession(Astro);
+if ('redirect' in loaded) return Astro.redirect(loaded.redirect.replace('next=/app', 'next=/app/ogrenciler'));
+const session = loaded;
+if (session.role !== 'teacher' && session.role !== 'admin') return Astro.redirect('/app');
+
+type Row = { id: string; name: string; email: string; testLevel: string | null; level: string; day: number; xp: number; vocab: string; streak: number; last: string | null; classes: string[] };
+let rows: Row[] = [];
+if (session.demo) {
+  rows = [
+    { id: 's1', name: 'Elif Kaya', email: 'elif@ornek.com', testLevel: 'A2', level: 'A2', day: 38, xp: 4120, vocab: 'A2', streak: 6, last: new Date().toISOString(), classes: ['9-A Konuşma'] },
+    { id: 's2', name: 'Mert Demir', email: 'mert@ornek.com', testLevel: 'B1', level: 'B1', day: 12, xp: 1290, vocab: 'A2', streak: 0, last: new Date(Date.now() - 4 * 86_400_000).toISOString(), classes: ['IELTS Akşam'] },
+    { id: 's3', name: 'Zeynep Arslan', email: 'zeynep@ornek.com', testLevel: null, level: 'A1', day: 1, xp: 0, vocab: 'A1', streak: 0, last: null, classes: ['9-A Konuşma'] },
+  ];
+} else {
+  const sb = createSupabaseClient(pageCookieSource(Astro));
+  const [st, cr, rm] = await Promise.all([
+    sb.rpc('get_teacher_students', { p_teacher: session.userId }),
+    sb.from('class_roster').select('id, class_name').eq('teacher_id', session.userId),
+    sb.from('roster_members').select('class_id, student_id'),
+  ]);
+  const students = (st.data as any[]) || [];
+  const ids = students.map((s) => s.student_id);
+  const [ps, mr] = ids.length ? await Promise.all([
+    sb.from('path_state').select('*').in('student_id', ids),
+    sb.from('mission_results').select('student_id, updated_at').in('student_id', ids).order('updated_at', { ascending: false }).limit(500),
+  ]) : [{ data: [] }, { data: [] }];
+  const className = new Map(((cr.data as any[]) || []).map((c) => [c.id, c.class_name]));
+  rows = students.map((s) => {
+    const p = ((ps.data as any[]) || []).find((x) => x.student_id === s.student_id);
+    const last = ((mr.data as any[]) || []).find((x) => x.student_id === s.student_id)?.updated_at || null;
+    return {
+      id: s.student_id, name: s.full_name || (s.email || '').split('@')[0], email: s.email,
+      testLevel: s.progress?.['placement-test']?.payload?.level || null,
+      level: p?.mission_level || '–', day: p?.mission_day || 0, xp: p?.mission_xp || 0, vocab: p?.vocab_level || '–', streak: p?.vocab_streak || 0, last,
+      classes: ((rm.data as any[]) || []).filter((m) => m.student_id === s.student_id).map((m) => className.get(m.class_id)).filter(Boolean),
+    };
+  }).sort((a, b) => (b.last || '').localeCompare(a.last || ''));
+}
+const ago = (iso: string | null) => {
+  if (!iso) return 'henüz başlamadı';
+  const d = Math.floor((Date.now() - Date.parse(iso)) / 86_400_000);
+  return d <= 0 ? 'bugün' : d === 1 ? 'dün' : `${d} gün önce`;
+};
+const q = session.demo ? '?demo=ogretmen' : '';
+---
+
+<AppShell session={session} title="Öğrenciler — Languago" current="/app/ogrenciler">
+  <div class="page-head">
+    <div><h1>Öğrenciler</h1><p>Sınıflarınıza katılan öğrencilerin seviyeleri, görev ilerlemeleri ve son çalışmaları.</p></div>
+    <div class="actions"><a class="btn btn-ghost btn-sm" href={`/app/siniflar${q}`}>Sınıflar ve katılım kodları</a></div>
+  </div>
+  {session.demo && <span class="demo-flag">Önizleme: örnek öğrenciler (yalnızca bu bilgisayarda)</span>}
+  <section class="panel">
+    {rows.length ? (
+      <div class="agenda">{rows.map((r) => (
+        <a class="lesson stu" href={`/app/ogrenciler/${r.id}${q}`}>
+          <span class="av">{r.name.charAt(0).toLocaleUpperCase('tr-TR')}</span>
+          <div><b>{r.name}</b><div class="meta"><span class="badge confirmed">{r.level} · Gün {r.day}/{DAYS_PER_LEVEL}</span><span>Kelime {r.vocab}</span><span>{r.xp.toLocaleString('tr-TR')} XP</span>{r.testLevel && <span>Test: {r.testLevel}</span>}<span>{r.classes.join(', ')}</span></div></div>
+          <span class="muted" style="font-size:13.5px;text-align:right">{ago(r.last)}{r.streak > 1 ? ` · 🔥 ${r.streak}` : ''}</span>
+        </a>
+      ))}</div>
+    ) : <p class="muted">Henüz öğrenciniz yok. Bir sınıf oluşturup katılım kodunu öğrencilerinizle paylaşın.</p>}
+  </section>
+  <style>
+    .stu { grid-template-columns: 44px minmax(0, 1fr) auto; text-decoration: none; color: var(--ink); transition: border-color .2s, transform .2s var(--ease-pop); }
+    .stu:hover { border-color: rgba(94, 234, 212, .35); transform: translateX(3px); }
+    .av { width: 44px; height: 44px; border-radius: 50%; display: grid; place-items: center; font-weight: 800; color: #042321; background: linear-gradient(135deg, #5eead4, #14b8a6); }
+    @media (max-width: 640px) { .stu { grid-template-columns: 44px minmax(0, 1fr); } .stu > span:last-child { grid-column: 2; text-align: left !important; } }
+  </style>
+</AppShell>

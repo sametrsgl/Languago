@@ -9,9 +9,6 @@ const layout = read('src/layouts/Layout.astro');
 const appLayout = read('src/layouts/AppLayout.astro');
 const globalCss = read('src/styles/global.css');
 const home = read('src/pages/index.astro');
-const dashboard = read('src/pages/dashboard/index.astro');
-const grammar = read('src/pages/dashboard/dilbilgisi.astro');
-const reading = read('src/pages/dashboard/okuma.astro');
 const games = read('src/pages/dashboard/oyunlar/index.astro');
 const learningPath = read('src/lib/learning-path.ts');
 
@@ -36,16 +33,16 @@ assert.match(home, /href="\/signup"/, 'homepage has a primary student CTA');
 assert.match(home, /<section[^>]+id="classroom-games"[\s\S]*?href="\/sinif-oyunlari"/, 'homepage links the classroom games hub');
 assert.match(home, /class="soon">Yakında/, 'features from later releases are marked Yakında, not promised as live');
 
-assert.doesNotMatch(dashboard, /best|lastScore|correct|Kelime \/ Puan/, 'dashboard does not treat arbitrary game points as words');
-assert.match(dashboard, /evidence\.accuracyPct|evidence\.exposure/, 'dashboard shows explicit learning evidence instead of a synthetic word count');
-assert.match(dashboard, /Önerilen yol|önerilen çalışma yolu/i, 'dashboard treats the path as recommended, not mastery');
-assert.doesNotMatch(dashboard, /mastery|ustalık/i, 'dashboard avoids mastery claims for flawed path data');
+// The old /dashboard pages now forward to /app (Languago 2.0).
+for (const p of ['dashboard/index', 'dashboard/dilbilgisi', 'dashboard/okuma', 'dashboard/kelimeler']) {
+  assert.match(read(`src/pages/${p}.astro`), /Astro\.redirect\('\/app/, `${p} forwards to the new app`);
+}
 
 assert.doesNotMatch(learningPath, /!\s*;/, 'learning-path helpers do not use unsafe non-null assertions');
 assert.match(learningPath, /SkillKey \| string|undefined/, 'learning-path helpers accept unfinished/unimplemented keys safely');
 assert.match(learningPath, /fallbackSkill|return null|return undefined/, 'learning-path helpers expose a safe fallback for unknown keys');
 
-for (const [name, source] of [['grammar', grammar], ['reading', reading], ['games', games]]) {
+for (const [name, source] of [['games', games]]) {
   assert.match(source, /href="\/dashboard"|href=\{`\/dashboard/s, `${name} page includes a return path to dashboard`);
   assert.match(source, /Öğrenme rehberi|Nasıl çalışılır|Rehber/i, `${name} page includes guide/help links`);
 }

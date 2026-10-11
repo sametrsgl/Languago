@@ -1,0 +1,73 @@
+---
+// /app/siniflar: the teacher's classes, their join codes and members.
+import AppShell from '../../layouts/AppShell.astro';
+import '../../styles/timetable.css';
+import { loadAppSession } from '../../lib/app-session';
+import { createSupabaseClient, pageCookieSource } from '../../lib/supabase';
+
+export const prerender = false;
+const loaded = await loadAppSession(Astro);
+if ('redirect' in loaded) return Astro.redirect(loaded.redirect.replace('next=/app', 'next=/app/siniflar'));
+const session = loaded;
+if (session.role !== 'teacher' && session.role !== 'admin') return Astro.redirect('/app/derslerim');
+
+type Cls = { id: string; name: string; code: string; members: { id: string; name: string }[] };
+let classes: Cls[] = [];
+if (session.demo) {
+  classes = [
+    { id: 'c1', name: '9-A Konuşma', code: 'K7M2PQ', members: [{ id: 's1', name: 'Elif Kaya' }, { id: 's3', name: 'Zeynep Arslan' }] },
+    { id: 'c2', name: 'IELTS Akşam', code: 'R4TW8N', members: [{ id: 's2', name: 'Mert Demir' }] },
+  ];
+} else {
+  const sb = createSupabaseClient(pageCookieSource(Astro));
+  const [cr, rm, st] = await Promise.all([
+    sb.from('class_roster').select('id, class_name, join_code').eq('teacher_id', session.userId).order('created_at'),
+    sb.from('roster_members').select('class_id, student_id'),
+    sb.rpc('get_teacher_students', { p_teacher: session.userId }),
+  ]);
+  const names = new Map(((st.data as any[]) || []).map((s) => [s.student_id, s.full_name || (s.email || '').split('@')[0]]));
+  classes = ((cr.data as any[]) || []).map((c) => ({
+    id: c.id, name: c.class_name, code: c.join_code,
+    members: ((rm.data as any[]) || []).filter((m) => m.class_id === c.id).map((m) => ({ id: m.student_id, name: names.get(m.student_id) || 'Öğrenci' })),
+  }));
+}
+const q = session.demo ? '?demo=ogretmen' : '';
+---
+
+<AppShell session={session} title="Sınıflar — Languago" current="/app/siniflar">
+  <div class="page-head">
+    <div><h1>Sınıflar</h1><p>Her sınıfın bir katılım kodu var. Öğrencileriniz Derslerim sayfasında bu kodu girerek sınıfa katılır, sonra takviminizden ders isteyebilir ve size görevlerini gösterir.</p></div>
+  </div>
+  {session.demo && <span class="demo-flag">Önizleme: örnek sınıflar (yalnızca bu bilgisayarda)</span>}
+  <section class="panel">
+    <h2>Yeni sınıf</h2>
+    <form id="new-class" class="form-grid" novalidate>
+      <label class="fld">Sınıf adı<input name="name" maxlength="80" placeholder="Ör. B1 Akşam grubu" required /></label>
+      <div style="display:flex;gap:12px;align-items:end"><button class="btn btn-primary btn-sm" type="submit">Oluştur</button><span class="msg" data-msg></span></div>
+    </form>
+  </section>
+  {classes.map((c) => (
+    <section class="panel">
+      <div class="panel-head"><h2>{c.name}</h2><button class="btn btn-ghost btn-sm" type="button" data-copy={c.code}>Kodu kopyala</button></div>
+      <p>Katılım kodu: <b style="font-family:ui-monospace,monospace;font-size:22px;letter-spacing:.12em;color:#5eead4">{c.code}</b></p>
+      {c.members.length ? <div class="chips">{c.members.map((m) => <a class="chip-x" style="padding-right:12px;text-decoration:none;color:var(--ink)" href={`/app/ogrenciler/${m.id}${q}`}>{m.name}</a>)}</div> : <p class="muted">Henüz öğrenci yok.</p>}
+    </section>
+  ))}
+  <script is:inline define:vars={{ demo: session.demo }}>
+    document.querySelectorAll('[data-copy]').forEach(function (b) {
+      b.addEventListener('click', function () { navigator.clipboard && navigator.clipboard.writeText(b.dataset.copy); b.textContent = 'Kopyalandı'; });
+    });
+    var f = document.getElementById('new-class');
+    f.addEventListener('submit', function (e) {
+      e.preventDefault();
+      var name = new FormData(f).get('name');
+      var msg = f.querySelector('[data-msg]');
+      if (!name) { msg.textContent = 'Sınıf adı yazın.'; return; }
+      if (demo) { msg.textContent = 'Önizlemede kaydedilmez.'; return; }
+      fetch('/api/teacher/classes', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ class_name: name }) })
+        .then(function (r) { return r.json(); })
+        .then(function (r) { if (r.ok) location.reload(); else msg.textContent = (r.error && r.error.message) || 'Oluşturulamadı.'; })
+        .catch(function () { msg.textContent = 'Bağlantı sorunu.'; });
+    });
+  </script>
+</AppShell>

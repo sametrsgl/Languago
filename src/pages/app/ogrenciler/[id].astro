@@ -1,0 +1,101 @@
+---
+// /app/ogrenciler/<id>: one student's path for the teacher: level test by
+// skill, mission days, recent writing and speaking with the AI feedback, exams.
+import AppShell from '../../../layouts/AppShell.astro';
+import '../../../styles/timetable.css';
+import '../../../styles/mission.css';
+import { loadAppSession } from '../../../lib/app-session';
+import { createSupabaseClient, pageCookieSource } from '../../../lib/supabase';
+import { DAYS_PER_LEVEL, TASK_LABELS } from '../../../lib/path.mjs';
+
+export const prerender = false;
+const loaded = await loadAppSession(Astro);
+if ('redirect' in loaded) return Astro.redirect(loaded.redirect);
+const session = loaded;
+if (session.role !== 'teacher' && session.role !== 'admin') return Astro.redirect('/app');
+const id = String(Astro.params.id || '');
+
+let name = 'Öğrenci', email = '', test: any = null, st: any = null;
+let results: any[] = [], exams: any[] = [];
+if (session.demo) {
+  name = 'Elif Kaya'; email = 'elif@ornek.com';
+  test = { level: 'A2', skills: { vocab: { level: 'A2' }, grammar: { level: 'A2' }, reading: { level: 'B1' }, listening: { level: 'A1' } } };
+  st = { mission_level: 'A2', mission_day: 38, mission_xp: 4120, vocab_level: 'A2', vocab_streak: 6 };
+  results = [
+    { day: 37, task: 'writing', best_score: 88, attempts: 2, passed: true, updated_at: new Date().toISOString(), last_payload: { text: 'Last weekend I visited my grandmother in Bursa. We cooked together and we watched an old film.', feedback: { feedback: 'Geçmiş zamanı doğru kullanmışsın; bağlaçları çeşitlendirebilirsin.', corrections: [{ wrong: 'we watched a old film', right: 'we watched an old film', why: 'Sesli harften önce an.' }] } } },
+    { day: 37, task: 'speaking', best_score: 86, attempts: 1, passed: true, updated_at: new Date().toISOString(), last_payload: { answer: 'last weekend I go to the park with my friends and we play football', readScores: [100, 92, 88], answerScore: 78 } },
+  ];
+} else {
+  const sb = createSupabaseClient(pageCookieSource(Astro));
+  const { data: list } = await sb.rpc('get_teacher_students', { p_teacher: session.userId });
+  const me = ((list as any[]) || []).find((s) => s.student_id === id);
+  if (!me) return Astro.redirect('/app/ogrenciler');
+  name = me.full_name || (me.email || '').split('@')[0]; email = me.email;
+  test = me.progress?.['placement-test']?.payload || null;
+  const [p, r, e] = await Promise.all([
+    sb.from('path_state').select('*').eq('student_id', id).maybeSingle(),
+    sb.from('mission_results').select('day, task, best_score, attempts, passed, updated_at, last_payload').eq('student_id', id).order('updated_at', { ascending: false }).limit(40),
+    sb.from('level_exams').select('level, score, passed, taken_at').eq('student_id', id).order('taken_at', { ascending: false }),
+  ]);
+  st = p.data; results = (r.data as any[]) || []; exams = (e.data as any[]) || [];
+}
+const writings = results.filter((r) => r.task === 'writing').slice(0, 5);
+const speakings = results.filter((r) => r.task === 'speaking').slice(0, 5);
+const skillNames: Record<string, string> = { vocab: 'Kelime', grammar: 'Dilbilgisi', reading: 'Okuma', listening: 'Dinleme' };
+const date = (s: string) => new Date(s).toLocaleDateString('tr-TR', { day: 'numeric', month: 'short' });
+const q = session.demo ? '?demo=ogretmen' : '';
+---
+
+<AppShell session={session} title={`${name} — Languago`} current="/app/ogrenciler">
+  <a href={`/app/ogrenciler${q}`} class="muted" style="font-weight:700;text-decoration:none">← Öğrenciler</a>
+  <div class="ms-head">
+    <div class="lvl"><b>{st?.mission_level || '–'}</b><small>SEVİYE</small></div>
+    <div><h1>{name}</h1><p>{email} · Gün {st?.mission_day || 0}/{DAYS_PER_LEVEL} · {(st?.mission_xp || 0).toLocaleString('tr-TR')} XP · Kelime {st?.vocab_level || '–'}{st?.vocab_streak ? ` · 🔥 ${st.vocab_streak}` : ''}</p></div>
+  </div>
+  {session.demo && <span class="demo-flag">Önizleme: örnek öğrenci (yalnızca bu bilgisayarda)</span>}
+
+  <div class="grid">
+    <section class="panel col-4">
+      <h2>Seviye testi</h2>
+      {test ? (
+        <div style="display:grid;gap:8px">
+          <p><b style="font-size:28px">{test.level}</b> <span class="muted">genel</span></p>
+          {test.skills && Object.entries(test.skills).map(([k, v]: [string, any]) => <div style="display:flex;justify-content:space-between"><span>{skillNames[k] || k}</span><b>{v.level}</b></div>)}
+        </div>
+      ) : <p class="muted">Öğrenci henüz seviye testine girmedi.</p>}
+    </section>
+    <section class="panel col-8">
+      <h2>Son çalışmalar</h2>
+      {results.length ? (
+        <div class="agenda">{results.slice(0, 10).map((r) => (
+          <div class="lesson" style="grid-template-columns:84px minmax(0,1fr) auto"><time>{date(r.updated_at)}<small>Gün {r.day}</small></time><b>{TASK_LABELS[r.task]}</b><span class={`badge ${r.passed ? 'confirmed' : 'declined'}`}>{r.best_score}{r.attempts > 1 ? ` · ${r.attempts} deneme` : ''}</span></div>
+        ))}</div>
+      ) : <p class="muted">Henüz görev yapılmadı.</p>}
+    </section>
+  </div>
+
+  <section class="panel">
+    <h2>Yazma</h2>
+    {writings.length ? writings.map((w) => (
+      <div style="display:grid;gap:8px;padding:14px 0;border-top:1px solid rgba(255,255,255,.07)">
+        <span class="muted" style="font-size:13px">Gün {w.day} · {date(w.updated_at)} · puan {w.best_score}{w.last_payload?.aiMissing ? ' · otomatik değerlendirme yapılamadı, lütfen okuyun' : ''}</span>
+        <div class="improved" style="border-style:solid;background:rgba(255,255,255,.04)">{w.last_payload?.text}</div>
+        {w.last_payload?.feedback?.feedback && <p>{w.last_payload.feedback.feedback}</p>}
+        {w.last_payload?.feedback?.corrections?.length > 0 && <div class="corr">{w.last_payload.feedback.corrections.map((c: any) => <div><s>{c.wrong}</s> → <ins>{c.right}</ins> <span class="muted">{c.why}</span></div>)}</div>}
+      </div>
+    )) : <p class="muted">Henüz yazma görevi yok.</p>}
+  </section>
+
+  <section class="panel">
+    <h2>Konuşma</h2>
+    {speakings.length ? speakings.map((s) => (
+      <div style="display:grid;gap:6px;padding:14px 0;border-top:1px solid rgba(255,255,255,.07)">
+        <span class="muted" style="font-size:13px">Gün {s.day} · {date(s.updated_at)} · puan {s.best_score} (sesli okuma {s.last_payload?.readScores?.join(' / ')}, cevap {s.last_payload?.answerScore})</span>
+        <p>“{s.last_payload?.answer}”</p>
+      </div>
+    )) : <p class="muted">Henüz konuşma görevi yok.</p>}
+    <p class="muted" style="font-size:13px">Konuşmalar tarayıcıda yazıya çevrilir; ses kaydı saklanmaz.</p>
+  </section>
+
+  {exams.length > 0 && <section class="panel"><h2>Seviye sonu sınavları</h2><ul>{exams.map((e) => <li>{e.level} · {date(e.taken_at)} · {e.score} {e.passed ? '✓ geçti' : ''}</li>)}</ul></section>}
+</AppShell>

@@ -1,0 +1,49 @@
+---
+// /app/bildirimler: in-app notices (lesson requests, confirmations, reminders).
+import AppShell from '../../layouts/AppShell.astro';
+import '../../styles/timetable.css';
+import { loadAppSession } from '../../lib/app-session';
+import { createSupabaseClient, pageCookieSource } from '../../lib/supabase';
+
+export const prerender = false;
+const loaded = await loadAppSession(Astro);
+if ('redirect' in loaded) return Astro.redirect(loaded.redirect.replace('next=/app', 'next=/app/bildirimler'));
+const session = loaded;
+type N = { id: string; title: string; body: string | null; href: string | null; is_read: boolean; created_at: string };
+let items: N[] = [];
+if (session.demo) {
+  const now = Date.now();
+  items = [
+    { id: 'n1', title: 'Dersiniz onaylandı', body: '14.10 18:00 dersiniz takvimde.', href: '/app/derslerim', is_read: false, created_at: new Date(now - 3600_000).toISOString() },
+    { id: 'n2', title: 'Dersiniz yaklaşıyor', body: '18:00 dersiniz bir saat içinde başlıyor.', href: '/app/derslerim', is_read: true, created_at: new Date(now - 86_400_000).toISOString() },
+  ];
+} else {
+  const sb = createSupabaseClient(pageCookieSource(Astro));
+  const { data } = await sb.from('notifications').select('id, title, body, href, is_read, created_at').eq('user_id', session.userId).order('created_at', { ascending: false }).limit(60);
+  items = (data as N[]) || [];
+}
+const when = (s: string) => new Date(s).toLocaleString('tr-TR', { day: 'numeric', month: 'short', hour: '2-digit', minute: '2-digit', timeZone: 'Europe/Istanbul' });
+const unread = items.filter((n) => !n.is_read).length;
+---
+
+<AppShell session={session} title="Bildirimler — Languago" current="/app/bildirimler">
+  <div class="page-head">
+    <div><h1>Bildirimler</h1><p>{unread ? `${unread} okunmamış bildirim` : 'Hepsi okundu.'}</p></div>
+    {unread > 0 && <div class="actions"><button class="btn btn-ghost btn-sm" type="button" data-all>Tümünü okundu say</button></div>}
+  </div>
+  <section class="panel">
+    {items.length ? <div class="agenda">{items.map((n) => (
+      <a class="lesson" href={n.href || '#'} data-id={n.id} style={`grid-template-columns:12px minmax(0,1fr) auto;text-decoration:none;color:var(--ink);${n.is_read ? 'opacity:.65' : ''}`}>
+        <span style={`width:10px;height:10px;border-radius:50%;background:${n.is_read ? 'transparent' : '#f59e0b'}`}></span>
+        <div><b>{n.title}</b>{n.body && <div class="meta">{n.body}</div>}</div>
+        <span class="muted" style="font-size:13px">{when(n.created_at)}</span>
+      </a>
+    ))}</div> : <p class="muted">Henüz bildiriminiz yok.</p>}
+  </section>
+  <script is:inline define:vars={{ demo: session.demo }}>
+    function mark(body) { if (demo) return Promise.resolve(); return fetch('/api/notifications', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(body) }).catch(function () {}); }
+    document.querySelectorAll('[data-id]').forEach(function (a) { a.addEventListener('click', function () { mark({ id: a.dataset.id }); }); });
+    var all = document.querySelector('[data-all]');
+    if (all) all.addEventListener('click', function () { mark({ all: true }).then(function () { location.reload(); }); });
+  </script>
+</AppShell>
