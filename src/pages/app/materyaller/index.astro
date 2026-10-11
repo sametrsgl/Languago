@@ -1,0 +1,53 @@
+---
+// /app/materyaller: the teacher's library, built from the learning-path
+// content: every day can be shown as slides (for Meet screen share) or
+// printed as a worksheet with an answer key. Grows as content is written.
+import AppShell from '../../../layouts/AppShell.astro';
+import '../../../styles/timetable.css';
+import { loadAppSession } from '../../../lib/app-session';
+import { getSyllabus, dayCount } from '../../../lib/path-content';
+import { LEVELS } from '../../../lib/path.mjs';
+
+export const prerender = false;
+const loaded = await loadAppSession(Astro);
+if ('redirect' in loaded) return Astro.redirect(loaded.redirect.replace('next=/app', 'next=/app/materyaller'));
+const session = loaded;
+if (session.role !== 'teacher' && session.role !== 'admin') return Astro.redirect('/app');
+const level = LEVELS.includes(String(Astro.url.searchParams.get('seviye') || '').toUpperCase()) ? String(Astro.url.searchParams.get('seviye')).toUpperCase() : 'A1';
+const topics = await getSyllabus(level);
+const ready = dayCount(level);
+const q = session.demo ? '&demo=ogretmen' : '';
+---
+
+<AppShell session={session} title="Materyaller — Languago" current="/app/materyaller">
+  <div class="page-head">
+    <div><h1>Materyaller</h1><p>Öğrenme yolundaki her gün, derste ekran paylaşımı için sunum ya da yazdırılabilir çalışma kâğıdı olarak hazır. Cevap anahtarı yalnızca öğretmenlere görünür.</p></div>
+  </div>
+  <div class="teacher-pick">{LEVELS.map((l: string) => <a href={`?seviye=${l}${q}`} aria-current={l === level ? 'true' : undefined}>{l}</a>)}</div>
+  {!topics.length ? (
+    <section class="panel"><p class="muted">{level} içeriği hazırlanıyor. Şu an A1 hazır.</p></section>
+  ) : (
+    <section class="panel">
+      <p class="muted" style="font-size:14px">{level}: {ready} gün hazır · 24 konu · her konu 5 gün</p>
+      <div class="agenda">{topics.map((t, i) => {
+        const days = [1, 2, 3, 4, 5].map((k) => i * 5 + k);
+        return (
+          <details class="lesson" style="grid-template-columns:1fr;display:block">
+            <summary style="cursor:pointer;display:flex;gap:12px;align-items:baseline;flex-wrap:wrap"><b>{t.title}</b><span class="muted" style="font-size:13.5px">{t.tr} · Gün {days[0]}–{days[4]}</span></summary>
+            <div style="display:grid;gap:8px;margin-top:12px">{days.map((d, k) => (
+              <div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap">
+                <span style="min-width:120px;font-weight:700">Gün {d}{k === 0 ? ' · konu anlatımı' : k === 4 ? ' · tekrar' : ''}</span>
+                {d <= ready ? (
+                  <>
+                    <a class="btn btn-ghost btn-sm" href={`/app/materyaller/${level.toLowerCase()}/${d}/sunum`} target="_blank" rel="noopener">Sunum</a>
+                    <a class="btn btn-ghost btn-sm" href={`/app/materyaller/${level.toLowerCase()}/${d}/yazdir`} target="_blank" rel="noopener">Çalışma kâğıdı</a>
+                  </>
+                ) : <span class="muted" style="font-size:13.5px">hazırlanıyor</span>}
+              </div>
+            ))}</div>
+          </details>
+        );
+      })}</div>
+    </section>
+  )}
+</AppShell>
