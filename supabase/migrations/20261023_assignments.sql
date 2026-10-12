@@ -1,4 +1,5 @@
 -- Languago 2.0: homework ("Ödev"). A teacher sends one of their AI materials
+-- Applied to production on 2026-10-12 (SQL editor, approved by the owner).
 -- to a class or to one student, with an optional due date. Students answer the
 -- grammar and reading questions (scored here, in the database, so the answer
 -- key never reaches the browser before they submit) and may write the writing
