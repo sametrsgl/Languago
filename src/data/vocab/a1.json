@@ -3944,6 +3944,14 @@
   "ex": "I don't have much time."
  },
  {
+  "id": "a1-a-lot-of",
+  "word": "a lot of",
+  "pos": "phrase",
+  "tr": "çok, birçok",
+  "en": "a large quantity of people or things",
+  "ex": "I have a lot of books in my bag."
+ },
+ {
   "id": "a1-every",
   "word": "every",
   "pos": "determiner",

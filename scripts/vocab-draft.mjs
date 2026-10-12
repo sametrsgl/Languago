@@ -55,7 +55,9 @@ function check(e, want) {
   if (!POS.includes(e.pos)) errs.push(`pos "${e.pos}"`);
   if (want.hint && !e.pos.startsWith(want.hint)) errs.push(`pos should be ${want.hint}`);
   if (!e.tr || e.tr.length > 80) errs.push('tr missing or too long');
-  if (!e.en || e.en.toLowerCase().split(/\W+/).includes(want.word.toLowerCase().split(' ')[0])) errs.push('en repeats the word');
+  // a phrase ("a lot of") must not appear whole; a single word must not appear as a word
+  const w = want.word.toLowerCase();
+  if (!e.en || (w.includes(' ') ? e.en.toLowerCase().includes(w) : e.en.toLowerCase().split(/\W+/).includes(w))) errs.push('en repeats the word');
   if (!e.ex || !forms(want.word).some((f) => e.ex.toLowerCase().includes(f))) errs.push('example lacks the word');
   return errs;
 }

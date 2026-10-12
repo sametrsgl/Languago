@@ -75,7 +75,8 @@ if (supabase) {
           signal: controller.signal,
         });
         // Another tab may have started a new attempt while this request ran.
-        if (res.ok && localStorage.getItem(key) === draft) localStorage.removeItem(key);
+        // 400 = an unfinished test that can never be saved: drop it instead of resending it at every sign-in
+        if ((res.ok || res.status === 400) && localStorage.getItem(key) === draft) localStorage.removeItem(key);
       } catch (_) {
         // Keep an unsaved draft for a later retry from the homepage.
       } finally {
