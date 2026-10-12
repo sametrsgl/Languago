@@ -39,6 +39,7 @@ const items: Item[] = parent
       { href: `/app/siniflar${demo}`, label: 'Sınıflar', icon: I.classes },
       { href: `/app/materyaller${demo}`, label: 'Materyaller', icon: I.materials },
       { href: '/sinif-oyunlari', label: 'Sınıf oyunları', icon: I.games },
+      ...(session.role === 'admin' ? [{ href: '/admin/content', label: 'Site içeriği', icon: I.materials }] : []),
     ]
   : [
       { href: `/app${demo}`, label: 'Bugün', icon: I.home },
@@ -66,10 +67,11 @@ const initial = (session.firstName || '?').charAt(0).toLocaleUpperCase('tr-TR');
   </head>
   <body class="lg dark">
     <svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs><linearGradient id="ringGrad" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#5eead4" /><stop offset="1" stop-color="#14b8a6" /></linearGradient></defs></svg>
+    <a class="skip-link" href="#main">İçeriğe geç</a>
     <div class="app">
       <aside class="side" aria-label="Uygulama menüsü">
         <a class="brand" href={`/app${demo}`}><img src="/brand/logo-mark.svg" alt="" width="34" height="34" />languago</a>
-        <nav>
+        <nav aria-label="Uygulama bölümleri">
           {items.map((it) => <a class="nav" href={it.href} aria-current={isCurrent(it.href)}><Fragment set:html={it.icon} />{it.label}</a>)}
         </nav>
         <a class="nav help" href="/iletisim">💬 Bize yazın</a>

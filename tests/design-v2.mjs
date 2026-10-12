@@ -6,15 +6,15 @@ const root = process.cwd();
 const read = (rel) => readFileSync(join(root, rel), 'utf8');
 
 const layout = read('src/layouts/Layout.astro');
-const appLayout = read('src/layouts/AppLayout.astro');
+const appShell = read('src/layouts/AppShell.astro');
 const globalCss = read('src/styles/global.css');
 const home = read('src/pages/index.astro');
 const learningPath = read('src/lib/learning-path.ts');
 
 assert.match(layout, /class="skip-link"\s+href="#main-content"/, 'public layout exposes a skip link');
-assert.match(appLayout, /class="skip-link"\s+href="#app-content"/, 'app layout exposes a skip link');
-assert.doesNotMatch(appLayout, /<main[^>]*>\s*<slot\s*\/>\s*<\/main>/s, 'app layout must not wrap page <main> landmarks inside another <main>');
-assert.match(appLayout, /<nav[^>]+aria-label="Öğrenme alanları"/s, 'app layout has an accessible replacement nav for mobile and desktop app navigation');
+assert.match(appShell, /class="skip-link"\s+href="#main"/, 'app shell exposes a skip link');
+assert.equal((appShell.match(/<main[\s>]/g) || []).length, 1, 'app shell has exactly one <main> landmark');
+assert.match(appShell, /<nav[^>]+aria-label="Uygulama bölümleri"/, 'app shell nav has an accessible name');
 assert.match(globalCss, /:focus-visible/, 'global focus-visible styles are defined');
 assert.match(globalCss, /prefers-reduced-motion:\s*reduce/, 'reduced-motion preference is respected');
 assert.match(globalCss, /\[hidden\]\s*\{[^}]*display:\s*none\s*!important/s, 'native hidden state cannot be overridden by component display rules');
