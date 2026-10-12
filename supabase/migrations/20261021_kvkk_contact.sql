@@ -1,4 +1,5 @@
 -- Languago 2.0: KVKK for contact messages (see /kvkk, section 5).
+-- Applied to production on 2026-10-12 (SQL editor, approved by the owner).
 -- Messages are kept at most 1 year, deleted with the sender's account, and a
 -- signed-in sender can read their own (so the data export includes them).
 
