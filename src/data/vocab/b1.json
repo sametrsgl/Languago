@@ -1,0 +1,5634 @@
+[
+ {
+  "id": "b1-ability",
+  "word": "ability",
+  "pos": "noun",
+  "tr": "yetenek",
+  "en": "The power or skill to do something well.",
+  "ex": "She has the ability to speak three languages."
+ },
+ {
+  "id": "b1-absolutely",
+  "word": "absolutely",
+  "pos": "adverb",
+  "tr": "kesinlikle",
+  "en": "Totally and completely, without any doubt.",
+  "ex": "I am absolutely sure about this plan."
+ },
+ {
+  "id": "b1-academic",
+  "word": "academic",
+  "pos": "adjective",
+  "tr": "akademik",
+  "en": "Relating to schools, education, and studying.",
+  "ex": "He is focused on his academic success."
+ },
+ {
+  "id": "b1-accept",
+  "word": "accept",
+  "pos": "verb",
+  "tr": "kabul etmek",
+  "en": "To take something that is offered.",
+  "ex": "She decided to accept the job offer."
+ },
+ {
+  "id": "b1-access",
+  "word": "access",
+  "pos": "noun",
+  "tr": "erişim",
+  "en": "The right or opportunity to use or see something.",
+  "ex": "Students have free access to the internet."
+ },
+ {
+  "id": "b1-accommodation",
+  "word": "accommodation",
+  "pos": "noun",
+  "tr": "konaklama",
+  "en": "A place to live, stay, or work.",
+  "ex": "We need to find cheap accommodation for the trip."
+ },
+ {
+  "id": "b1-accompany",
+  "word": "accompany",
+  "pos": "verb",
+  "tr": "eşlik etmek",
+  "en": "To go somewhere with someone as a companion.",
+  "ex": "Can I accompany you to the station?"
+ },
+ {
+  "id": "b1-according-to",
+  "word": "according to",
+  "pos": "preposition",
+  "tr": "-e göre",
+  "en": "As stated or reported by someone.",
+  "ex": "According to the weather forecast, it will rain."
+ },
+ {
+  "id": "b1-account",
+  "word": "account",
+  "pos": "noun",
+  "tr": "hesap",
+  "en": "An arrangement with a bank to keep your money.",
+  "ex": "I opened a new bank account yesterday."
+ },
+ {
+  "id": "b1-accurate",
+  "word": "accurate",
+  "pos": "adjective",
+  "tr": "doğru, kesin",
+  "en": "Correct and true in every detail.",
+  "ex": "We need accurate information for the report."
+ },
+ {
+  "id": "b1-achieve",
+  "word": "achieve",
+  "pos": "verb",
+  "tr": "başarmak",
+  "en": "To successfully reach a goal through hard work.",
+  "ex": "She worked hard to achieve her dreams."
+ },
+ {
+  "id": "b1-achievement",
+  "word": "achievement",
+  "pos": "noun",
+  "tr": "başarı",
+  "en": "Something very good that you successfully do.",
+  "ex": "Graduating from university is a big achievement."
+ },
+ {
+  "id": "b1-acquire",
+  "word": "acquire",
+  "pos": "verb",
+  "tr": "edinmek",
+  "en": "To get something for yourself.",
+  "ex": "It takes time to acquire a new language."
+ },
+ {
+  "id": "b1-action",
+  "word": "action",
+  "pos": "noun",
+  "tr": "eylem",
+  "en": "The process of doing something to achieve a purpose.",
+  "ex": "We must take action before it is too late."
+ },
+ {
+  "id": "b1-active",
+  "word": "active",
+  "pos": "adjective",
+  "tr": "aktif",
+  "en": "Doing a lot of things or moving around a lot.",
+  "ex": "He leads an active lifestyle and plays sports daily."
+ },
+ {
+  "id": "b1-actual",
+  "word": "actual",
+  "pos": "adjective",
+  "tr": "gerçek",
+  "en": "Real and existing in fact, not just imagined.",
+  "ex": "What was the actual cost of the car?"
+ },
+ {
+  "id": "b1-adapt",
+  "word": "adapt",
+  "pos": "verb",
+  "tr": "uyum sağlamak",
+  "en": "To change your behavior to fit new conditions.",
+  "ex": "It is hard to adapt to a new country at first."
+ },
+ {
+  "id": "b1-addition",
+  "word": "addition",
+  "pos": "noun",
+  "tr": "ek, ilave",
+  "en": "Something added to a group or thing.",
+  "ex": "The baby is a wonderful addition to the family."
+ },
+ {
+  "id": "b1-admire",
+  "word": "admire",
+  "pos": "verb",
+  "tr": "hayran olmak",
+  "en": "To respect and like someone very much.",
+  "ex": "I really admire my teachers for their patience."
+ },
+ {
+  "id": "b1-admit",
+  "word": "admit",
+  "pos": "verb",
+  "tr": "itiraf etmek, kabul etmek",
+  "en": "To agree that something bad is true.",
+  "ex": "He had to admit that he made a mistake."
+ },
+ {
+  "id": "b1-adopt",
+  "word": "adopt",
+  "pos": "verb",
+  "tr": "evlat edinmek; benimsemek",
+  "en": "To legally take someone else's child into your family.",
+  "ex": "They decided to adopt a dog from the shelter."
+ },
+ {
+  "id": "b1-advanced",
+  "word": "advanced",
+  "pos": "adjective",
+  "tr": "ileri",
+  "en": "At a high or difficult level.",
+  "ex": "This class is for advanced English students."
+ },
+ {
+  "id": "b1-advantage",
+  "word": "advantage",
+  "pos": "noun",
+  "tr": "avantaj",
+  "en": "Something that helps you to be successful.",
+  "ex": "Speaking English gives you an advantage in business."
+ },
+ {
+  "id": "b1-adventure",
+  "word": "adventure",
+  "pos": "noun",
+  "tr": "macera",
+  "en": "An exciting and sometimes dangerous experience.",
+  "ex": "Traveling alone in the mountains was a great adventure."
+ },
+ {
+  "id": "b1-advertise",
+  "word": "advertise",
+  "pos": "verb",
+  "tr": "reklam yapmak",
+  "en": "To tell people about a product to sell it.",
+  "ex": "The company uses social media to advertise its products."
+ },
+ {
+  "id": "b1-affect",
+  "word": "affect",
+  "pos": "verb",
+  "tr": "etkilemek",
+  "en": "To produce a change in someone or something.",
+  "ex": "The bad weather will affect our travel plans."
+ },
+ {
+  "id": "b1-afterwards",
+  "word": "afterwards",
+  "pos": "adverb",
+  "tr": "sonradan",
+  "en": "At a later time, after an event.",
+  "ex": "We had dinner and went to the cinema afterwards."
+ },
+ {
+  "id": "b1-agency",
+  "word": "agency",
+  "pos": "noun",
+  "tr": "ajans",
+  "en": "A business that provides a particular service.",
+  "ex": "I booked my holiday through a travel agency."
+ },
+ {
+  "id": "b1-aim",
+  "word": "aim",
+  "pos": "noun",
+  "tr": "amaç",
+  "en": "A purpose or goal that you want to achieve.",
+  "ex": "My main aim is to pass the exam this year."
+ },
+ {
+  "id": "b1-alive",
+  "word": "alive",
+  "pos": "adjective",
+  "tr": "canlı, hayatta",
+  "en": "Living, not dead.",
+  "ex": "The old tree is still alive after many years."
+ },
+ {
+  "id": "b1-amount",
+  "word": "amount",
+  "pos": "noun",
+  "tr": "miktar",
+  "en": "How much there is of something.",
+  "ex": "A large amount of money was spent on the project."
+ },
+ {
+  "id": "b1-analyse",
+  "word": "analyse",
+  "pos": "verb",
+  "tr": "analiz etmek",
+  "en": "To study something closely to understand it better.",
+  "ex": "We need to analyse the data before making a decision."
+ },
+ {
+  "id": "b1-anger",
+  "word": "anger",
+  "pos": "noun",
+  "tr": "öfke",
+  "en": "A strong feeling of being mad or upset.",
+  "ex": "He could not hide his anger after the unfair treatment."
+ },
+ {
+  "id": "b1-announcement",
+  "word": "announcement",
+  "pos": "noun",
+  "tr": "duyuru",
+  "en": "Important news spoken to a group of people.",
+  "ex": "The manager made an important announcement about the new schedule."
+ },
+ {
+  "id": "b1-annoy",
+  "word": "annoy",
+  "pos": "verb",
+  "tr": "sinirlendirmek",
+  "en": "To make someone slightly angry or bothered.",
+  "ex": "Loud noises often annoy me when I am trying to study."
+ },
+ {
+  "id": "b1-anxious",
+  "word": "anxious",
+  "pos": "adjective",
+  "tr": "endişeli",
+  "en": "Feeling worried or nervous about something.",
+  "ex": "She was anxious about the job interview tomorrow."
+ },
+ {
+  "id": "b1-apologise",
+  "word": "apologise",
+  "pos": "verb",
+  "tr": "özür dilemek",
+  "en": "To say sorry for doing something wrong.",
+  "ex": "You should apologise to your friend for being late."
+ },
+ {
+  "id": "b1-apparently",
+  "word": "apparently",
+  "pos": "adverb",
+  "tr": "görünüşe göre",
+  "en": "Based on what you heard or read, seemingly.",
+  "ex": "Apparently, the train will be delayed for an hour."
+ },
+ {
+  "id": "b1-appearance",
+  "word": "appearance",
+  "pos": "noun",
+  "tr": "görünüş",
+  "en": "The way a person or thing looks to others.",
+  "ex": "He cares a lot about his appearance before going to work."
+ },
+ {
+  "id": "b1-application",
+  "word": "application",
+  "pos": "noun",
+  "tr": "başvuru",
+  "en": "A formal request for a job, school, or program.",
+  "ex": "I submitted my university application yesterday."
+ },
+ {
+  "id": "b1-apply",
+  "word": "apply",
+  "pos": "verb",
+  "tr": "başvurmak",
+  "en": "To formally ask for something like a job.",
+  "ex": "She decided to apply for the marketing position."
+ },
+ {
+  "id": "b1-appreciate",
+  "word": "appreciate",
+  "pos": "verb",
+  "tr": "takdir etmek",
+  "en": "To be thankful for something or understand its value.",
+  "ex": "I really appreciate all your help with this project."
+ },
+ {
+  "id": "b1-approach",
+  "word": "approach",
+  "pos": "verb",
+  "tr": "yaklaşım",
+  "en": "To come closer to someone or something in distance or time.",
+  "ex": "Winter is approaching fast, so we need warm clothes."
+ },
+ {
+  "id": "b1-appropriate",
+  "word": "appropriate",
+  "pos": "adjective",
+  "tr": "uygun",
+  "en": "Right or correct for a particular situation.",
+  "ex": "Please wear appropriate clothes for the formal dinner."
+ },
+ {
+  "id": "b1-approve",
+  "word": "approve",
+  "pos": "verb",
+  "tr": "onaylamak",
+  "en": "To officially accept or agree with something.",
+  "ex": "The board of directors will approve the new budget."
+ },
+ {
+  "id": "b1-argument",
+  "word": "argument",
+  "pos": "noun",
+  "tr": "tartışma",
+  "en": "An angry discussion where people disagree strongly.",
+  "ex": "They had a silly argument about who should wash the dishes."
+ },
+ {
+  "id": "b1-army",
+  "word": "army",
+  "pos": "noun",
+  "tr": "ordu",
+  "en": "A large organized group of soldiers who fight on land.",
+  "ex": "My uncle served in the army for five years."
+ },
+ {
+  "id": "b1-arrest",
+  "word": "arrest",
+  "pos": "verb",
+  "tr": "tutuklamak",
+  "en": "When police take someone to a station for breaking the law.",
+  "ex": "The police had to arrest the thief last night."
+ },
+ {
+  "id": "b1-aspect",
+  "word": "aspect",
+  "pos": "noun",
+  "tr": "yön, açı",
+  "en": "One part or feature of a situation or problem.",
+  "ex": "Language learning has many different aspects to consider."
+ },
+ {
+  "id": "b1-assist",
+  "word": "assist",
+  "pos": "verb",
+  "tr": "yardım etmek",
+  "en": "To help someone do something.",
+  "ex": "Can you assist me with carrying these heavy boxes?"
+ },
+ {
+  "id": "b1-assume",
+  "word": "assume",
+  "pos": "verb",
+  "tr": "varsaymak",
+  "en": "To think something is true without having proof.",
+  "ex": "I assume you are tired after your long journey."
+ },
+ {
+  "id": "b1-atmosphere",
+  "word": "atmosphere",
+  "pos": "noun",
+  "tr": "atmosfer, ortam",
+  "en": "The feeling or mood of a place.",
+  "ex": "This cafe has a very warm and relaxing atmosphere."
+ },
+ {
+  "id": "b1-attempt",
+  "word": "attempt",
+  "pos": "noun",
+  "tr": "girişim, denemek",
+  "en": "An act of trying to do something.",
+  "ex": "His first attempt at baking a cake was successful."
+ },
+ {
+  "id": "b1-attitude",
+  "word": "attitude",
+  "pos": "noun",
+  "tr": "tutum",
+  "en": "How you think or feel about something, shown by your behavior.",
+  "ex": "You need to have a positive attitude towards life."
+ },
+ {
+  "id": "b1-attract",
+  "word": "attract",
+  "pos": "verb",
+  "tr": "çekmek (ilgi)",
+  "en": "To make people want to visit or notice something.",
+  "ex": "The bright lights attract many insects at night."
+ },
+ {
+  "id": "b1-attractive",
+  "word": "attractive",
+  "pos": "adjective",
+  "tr": "çekici",
+  "en": "Pleasant to look at or very appealing.",
+  "ex": "They bought a house in a very attractive neighborhood."
+ },
+ {
+  "id": "b1-audience",
+  "word": "audience",
+  "pos": "noun",
+  "tr": "seyirci",
+  "en": "The group of people watching a show or speech.",
+  "ex": "The audience clapped loudly at the end of the concert."
+ },
+ {
+  "id": "b1-author",
+  "word": "author",
+  "pos": "noun",
+  "tr": "yazar",
+  "en": "A person who writes books or articles.",
+  "ex": "J.K. Rowling is the famous author of Harry Potter."
+ },
+ {
+  "id": "b1-automatic",
+  "word": "automatic",
+  "pos": "adjective",
+  "tr": "otomatik",
+  "en": "Working by itself without human control.",
+  "ex": "The supermarket doors are automatic and open as you approach."
+ },
+ {
+  "id": "b1-aware",
+  "word": "aware",
+  "pos": "adjective",
+  "tr": "farkında",
+  "en": "Knowing that something exists or is happening.",
+  "ex": "Are you aware of the new rules in the office?"
+ },
+ {
+  "id": "b1-awful",
+  "word": "awful",
+  "pos": "adjective",
+  "tr": "berbat",
+  "en": "Very bad or unpleasant.",
+  "ex": "The weather was awful yesterday."
+ },
+ {
+  "id": "b1-balance",
+  "word": "balance",
+  "pos": "noun",
+  "tr": "denge",
+  "en": "A state where things are equal and steady.",
+  "ex": "It is important to keep a work and life balance."
+ },
+ {
+  "id": "b1-ban",
+  "word": "ban",
+  "pos": "verb",
+  "tr": "yasaklamak",
+  "en": "To say officially that people must not do something.",
+  "ex": "They decided to ban smoking in restaurants."
+ },
+ {
+  "id": "b1-base",
+  "word": "base",
+  "pos": "noun",
+  "tr": "temel",
+  "en": "The bottom support or lowest part of something.",
+  "ex": "The lamp has a heavy metal base."
+ },
+ {
+  "id": "b1-basic",
+  "word": "basic",
+  "pos": "adjective",
+  "tr": "temel",
+  "en": "Simple and forming the most important part of something.",
+  "ex": "I need to learn the basic rules of grammar."
+ },
+ {
+  "id": "b1-basis",
+  "word": "basis",
+  "pos": "noun",
+  "tr": "esas",
+  "en": "The reason or foundation for something.",
+  "ex": "We meet on a regular basis to discuss plans."
+ },
+ {
+  "id": "b1-bear",
+  "word": "bear",
+  "pos": "verb",
+  "tr": "katlanmak; ayı",
+  "en": "To accept or endure a difficult situation.",
+  "ex": "I cannot bear waiting in long queues."
+ },
+ {
+  "id": "b1-behaviour",
+  "word": "behaviour",
+  "pos": "noun",
+  "tr": "davranış",
+  "en": "The way that someone acts or behaves.",
+  "ex": "The teacher praised the good behaviour of the children."
+ },
+ {
+  "id": "b1-belief",
+  "word": "belief",
+  "pos": "noun",
+  "tr": "inanç",
+  "en": "Something you think is true or real.",
+  "ex": "She has a strong belief in hard work."
+ },
+ {
+  "id": "b1-benefit",
+  "word": "benefit",
+  "pos": "noun",
+  "tr": "fayda",
+  "en": "A helpful or good effect from something.",
+  "ex": "Regular exercise brings many health benefits."
+ },
+ {
+  "id": "b1-besides",
+  "word": "besides",
+  "pos": "preposition",
+  "tr": "ayrıca",
+  "en": "In addition to or apart from something.",
+  "ex": "Who else is coming besides you?"
+ },
+ {
+  "id": "b1-bill",
+  "word": "bill",
+  "pos": "verb",
+  "tr": "fatura kesmek",
+  "en": "To send a request for payment to someone.",
+  "ex": "The hotel will bill you for your stay upon departure."
+ },
+ {
+  "id": "b1-bit",
+  "word": "bit",
+  "pos": "noun",
+  "tr": "parça, biraz",
+  "en": "A small piece or amount of something.",
+  "ex": "Can I have a bit of your cake?"
+ },
+ {
+  "id": "b1-blame",
+  "word": "blame",
+  "pos": "verb",
+  "tr": "suçlamak",
+  "en": "To say that someone is responsible for something bad.",
+  "ex": "Do not blame me for your mistakes."
+ },
+ {
+  "id": "b1-blind",
+  "word": "blind",
+  "pos": "adjective",
+  "tr": "kör",
+  "en": "Unable to see.",
+  "ex": "He reads books written for blind people."
+ },
+ {
+  "id": "b1-block",
+  "word": "block",
+  "pos": "noun",
+  "tr": "engellemek; blok",
+  "en": "A large solid piece of material or a city area.",
+  "ex": "The office is just two blocks away from here."
+ },
+ {
+  "id": "b1-board",
+  "word": "board",
+  "pos": "noun",
+  "tr": "tahta; kurul",
+  "en": "A flat piece of wood or plastic, or a group of directors.",
+  "ex": "The teacher wrote the new words on the board."
+ },
+ {
+  "id": "b1-bond",
+  "word": "bond",
+  "pos": "noun",
+  "tr": "bağ",
+  "en": "A close connection or relationship between people.",
+  "ex": "They share a strong bond of friendship."
+ },
+ {
+  "id": "b1-book",
+  "word": "book",
+  "pos": "verb",
+  "tr": "rezervasyon yapmak",
+  "en": "To arrange to have something like a ticket or room later.",
+  "ex": "I want to book a table for two tonight."
+ },
+ {
+  "id": "b1-boot",
+  "word": "boot",
+  "pos": "noun",
+  "tr": "bot; bagaj",
+  "en": "A strong shoe that covers your foot and ankle.",
+  "ex": "Put your muddy boots outside before entering."
+ },
+ {
+  "id": "b1-bother",
+  "word": "bother",
+  "pos": "verb",
+  "tr": "rahatsız etmek",
+  "en": "To cause trouble or worry to someone.",
+  "ex": "Sorry to bother you, but can I ask a question?"
+ },
+ {
+  "id": "b1-branch",
+  "word": "branch",
+  "pos": "noun",
+  "tr": "şube; dal",
+  "en": "A part of a tree that grows out from the trunk.",
+  "ex": "Birds were singing on the tree branch."
+ },
+ {
+  "id": "b1-brand",
+  "word": "brand",
+  "pos": "noun",
+  "tr": "marka",
+  "en": "A product made by a particular company.",
+  "ex": "What is your favorite clothing brand?"
+ },
+ {
+  "id": "b1-breathe",
+  "word": "breathe",
+  "pos": "verb",
+  "tr": "nefes almak",
+  "en": "To take air into your lungs and let it out.",
+  "ex": "Open the window so we can breathe fresh air."
+ },
+ {
+  "id": "b1-brief",
+  "word": "brief",
+  "pos": "adjective",
+  "tr": "kısa",
+  "en": "Lasting for only a short time.",
+  "ex": "We had a brief meeting this morning."
+ },
+ {
+  "id": "b1-broadcast",
+  "word": "broadcast",
+  "pos": "verb",
+  "tr": "yayınlamak",
+  "en": "To send out programs on television or radio.",
+  "ex": "The match will broadcast live tomorrow."
+ },
+ {
+  "id": "b1-budget",
+  "word": "budget",
+  "pos": "noun",
+  "tr": "bütçe",
+  "en": "The money you have available to spend on things.",
+  "ex": "We planned our holiday on a strict budget."
+ },
+ {
+  "id": "b1-burst",
+  "word": "burst",
+  "pos": "verb",
+  "tr": "patlamak",
+  "en": "To break open or apart suddenly.",
+  "ex": "The balloon burst with a loud noise."
+ },
+ {
+  "id": "b1-bury",
+  "word": "bury",
+  "pos": "verb",
+  "tr": "gömmek",
+  "en": "To put a dead body or an object under the ground.",
+  "ex": "The dog likes to bury its bones in the garden."
+ },
+ {
+  "id": "b1-calculate",
+  "word": "calculate",
+  "pos": "verb",
+  "tr": "hesaplamak",
+  "en": "To find a number or amount using math.",
+  "ex": "Can you calculate the total cost of the trip?"
+ },
+ {
+  "id": "b1-campaign",
+  "word": "campaign",
+  "pos": "noun",
+  "tr": "kampanya",
+  "en": "A series of planned activities to achieve a goal.",
+  "ex": "The political party started a new election campaign."
+ },
+ {
+  "id": "b1-candidate",
+  "word": "candidate",
+  "pos": "noun",
+  "tr": "aday",
+  "en": "A person who is trying to get a job or position.",
+  "ex": "There are three good candidates for the manager position."
+ },
+ {
+  "id": "b1-capable",
+  "word": "capable",
+  "pos": "adjective",
+  "tr": "yetenekli",
+  "en": "Having the ability to do something well.",
+  "ex": "She is a very capable engineer and solves problems fast."
+ },
+ {
+  "id": "b1-capacity",
+  "word": "capacity",
+  "pos": "noun",
+  "tr": "kapasite",
+  "en": "The total amount that can be held or contained.",
+  "ex": "The stadium reached its full capacity for the concert."
+ },
+ {
+  "id": "b1-career",
+  "word": "career",
+  "pos": "noun",
+  "tr": "kariyer",
+  "en": "The job or series of jobs you do during your working life.",
+  "ex": "He wants to build a successful career in marketing."
+ },
+ {
+  "id": "b1-cash-machine",
+  "word": "cash machine",
+  "pos": "noun",
+  "tr": "bankamatik",
+  "en": "A machine where you can get money using a card.",
+  "ex": "I need to find a cash machine to withdraw some money."
+ },
+ {
+  "id": "b1-cause",
+  "word": "cause",
+  "pos": "verb",
+  "tr": "sebep olmak",
+  "en": "To make something happen, usually something bad.",
+  "ex": "The heavy rain will cause traffic delays."
+ },
+ {
+  "id": "b1-celebration",
+  "word": "celebration",
+  "pos": "noun",
+  "tr": "kutlama",
+  "en": "A special social event or party for a happy occasion.",
+  "ex": "We are planning a big celebration for their wedding anniversary."
+ },
+ {
+  "id": "b1-central",
+  "word": "central",
+  "pos": "adjective",
+  "tr": "merkezi",
+  "en": "Located in the middle of a place or system.",
+  "ex": "The hotel is in a very central location in the city."
+ },
+ {
+  "id": "b1-century",
+  "word": "century",
+  "pos": "noun",
+  "tr": "yüzyıl",
+  "en": "A period of one hundred years.",
+  "ex": "Many things have changed over the past century."
+ },
+ {
+  "id": "b1-ceremony",
+  "word": "ceremony",
+  "pos": "noun",
+  "tr": "tören",
+  "en": "A formal event for a special occasion like a wedding.",
+  "ex": "The graduation ceremony starts at ten in the morning."
+ },
+ {
+  "id": "b1-challenge",
+  "word": "challenge",
+  "pos": "noun",
+  "tr": "zorluk; meydan okumak",
+  "en": "Something difficult that tests your ability or strength.",
+  "ex": "Learning a new language is a big challenge."
+ },
+ {
+  "id": "b1-championship",
+  "word": "championship",
+  "pos": "noun",
+  "tr": "şampiyona",
+  "en": "A competition to find the best sports team or player.",
+  "ex": "Their team won the national football championship."
+ },
+ {
+  "id": "b1-channel",
+  "word": "channel",
+  "pos": "noun",
+  "tr": "kanal",
+  "en": "A television station or a path for water.",
+  "ex": "Change the channel, I want to watch the news."
+ },
+ {
+  "id": "b1-charge",
+  "word": "charge",
+  "pos": "verb",
+  "tr": "ücret almak; şarj",
+  "en": "To ask for money as a price for a service or goods.",
+  "ex": "Do they charge for parking at this hotel?"
+ },
+ {
+  "id": "b1-chase",
+  "word": "chase",
+  "pos": "verb",
+  "tr": "kovalamak",
+  "en": "To run after someone or something very quickly to catch them.",
+  "ex": "The dog started to chase the cat down the street."
+ },
+ {
+  "id": "b1-cheat",
+  "word": "cheat",
+  "pos": "verb",
+  "tr": "hile yapmak",
+  "en": "To act dishonestly to win or get an advantage.",
+  "ex": "He tried to cheat on the exam by looking at notes."
+ },
+ {
+  "id": "b1-claim",
+  "word": "claim",
+  "pos": "verb",
+  "tr": "iddia etmek",
+  "en": "To state that something is true without proof.",
+  "ex": "He claims that he can speak five languages fluently."
+ },
+ {
+  "id": "b1-classic",
+  "word": "classic",
+  "pos": "adjective",
+  "tr": "klasik",
+  "en": "Traditional and of high quality, not going out of style.",
+  "ex": "She wore a simple black dress with a classic design."
+ },
+ {
+  "id": "b1-clear",
+  "word": "clear",
+  "pos": "adjective",
+  "tr": "açık, net",
+  "en": "Easy to see, hear, or understand without confusion.",
+  "ex": "The water in the lake is very clear."
+ },
+ {
+  "id": "b1-clever",
+  "word": "clever",
+  "pos": "adjective",
+  "tr": "zeki",
+  "en": "Quick at learning and understanding things.",
+  "ex": "It was a clever idea to solve the problem quickly."
+ },
+ {
+  "id": "b1-client",
+  "word": "client",
+  "pos": "noun",
+  "tr": "müşteri",
+  "en": "A person who pays a professional person for services.",
+  "ex": "The lawyer is meeting an important client this afternoon."
+ },
+ {
+  "id": "b1-close",
+  "word": "close",
+  "pos": "adjective",
+  "tr": "yakın",
+  "en": "A short distance away in space or time.",
+  "ex": "My house is close to the grocery store."
+ },
+ {
+  "id": "b1-code",
+  "word": "code",
+  "pos": "noun",
+  "tr": "kod",
+  "en": "A set of letters, numbers, or symbols that gives information.",
+  "ex": "You need a secret code to open this door."
+ },
+ {
+  "id": "b1-colleague",
+  "word": "colleague",
+  "pos": "noun",
+  "tr": "iş arkadaşı",
+  "en": "Someone that you work with in a company.",
+  "ex": "I am going to lunch with a colleague from my office."
+ },
+ {
+  "id": "b1-combine",
+  "word": "combine",
+  "pos": "verb",
+  "tr": "birleştirmek",
+  "en": "To put two or more things together to make one.",
+  "ex": "Mix the ingredients and combine them well."
+ },
+ {
+  "id": "b1-comfort",
+  "word": "comfort",
+  "pos": "noun",
+  "tr": "konfor",
+  "en": "A state of physical ease and freedom from pain.",
+  "ex": "This sofa is designed for maximum comfort."
+ },
+ {
+  "id": "b1-comment",
+  "word": "comment",
+  "pos": "noun",
+  "tr": "yorum",
+  "en": "An opinion or reaction expressed in speech or writing.",
+  "ex": "Many people left a comment on her online photo."
+ },
+ {
+  "id": "b1-commercial",
+  "word": "commercial",
+  "pos": "adjective",
+  "tr": "ticari; reklam",
+  "en": "Related to buying and selling things for profit.",
+  "ex": "The building is used for commercial offices."
+ },
+ {
+  "id": "b1-commit",
+  "word": "commit",
+  "pos": "verb",
+  "tr": "(suç) işlemek; bağlanmak",
+  "en": "To do something illegal or promise to do something.",
+  "ex": "He promised to commit his time to the new project."
+ },
+ {
+  "id": "b1-communication",
+  "word": "communication",
+  "pos": "noun",
+  "tr": "iletişim",
+  "en": "Sharing information or ideas with other people by speaking or writing.",
+  "ex": "Good communication is important in any relationship."
+ },
+ {
+  "id": "b1-community",
+  "word": "community",
+  "pos": "noun",
+  "tr": "topluluk",
+  "en": "All the people living in a particular area or place.",
+  "ex": "She is very active in her local community."
+ },
+ {
+  "id": "b1-compare",
+  "word": "compare",
+  "pos": "verb",
+  "tr": "karşılaştırmak",
+  "en": "To look at two or more things to see how they differ.",
+  "ex": "It is interesting to compare the two cultures."
+ },
+ {
+  "id": "b1-compete",
+  "word": "compete",
+  "pos": "verb",
+  "tr": "yarışmak",
+  "en": "To try to win something or be better than others.",
+  "ex": "Many runners will compete in the marathon tomorrow."
+ },
+ {
+  "id": "b1-complaint",
+  "word": "complaint",
+  "pos": "noun",
+  "tr": "şikâyet",
+  "en": "A statement that you are unhappy or not satisfied with something.",
+  "ex": "The hotel manager listened to our complaint politely."
+ },
+ {
+  "id": "b1-complex",
+  "word": "complex",
+  "pos": "adjective",
+  "tr": "karmaşık",
+  "en": "Having many different parts that are hard to understand.",
+  "ex": "This math problem is too complex for me."
+ },
+ {
+  "id": "b1-complicated",
+  "word": "complicated",
+  "pos": "adjective",
+  "tr": "karmaşık",
+  "en": "Difficult to understand or deal with because of many details.",
+  "ex": "The instructions for the new machine are very complicated."
+ },
+ {
+  "id": "b1-concentrate",
+  "word": "concentrate",
+  "pos": "verb",
+  "tr": "odaklanmak",
+  "en": "To give all your attention to what you are doing.",
+  "ex": "I need quiet to concentrate on my studies."
+ },
+ {
+  "id": "b1-concern",
+  "word": "concern",
+  "pos": "noun",
+  "tr": "endişe",
+  "en": "A feeling of worry about something important.",
+  "ex": "Safety on the roads is a major concern for parents."
+ },
+ {
+  "id": "b1-conclusion",
+  "word": "conclusion",
+  "pos": "noun",
+  "tr": "sonuç",
+  "en": "The final decision or result after thinking about something.",
+  "ex": "At the end of the book, we reach a surprising conclusion."
+ },
+ {
+  "id": "b1-confidence",
+  "word": "confidence",
+  "pos": "noun",
+  "tr": "özgüven",
+  "en": "The belief in your own abilities or success.",
+  "ex": "Public speaking helped her build more confidence."
+ },
+ {
+  "id": "b1-confirm",
+  "word": "confirm",
+  "pos": "verb",
+  "tr": "onaylamak",
+  "en": "To state or show that something is definitely true or correct.",
+  "ex": "Please call the hotel to confirm your reservation."
+ },
+ {
+  "id": "b1-conflict",
+  "word": "conflict",
+  "pos": "noun",
+  "tr": "çatışma",
+  "en": "A serious disagreement or fight between people or groups.",
+  "ex": "The two countries are trying to avoid a military conflict."
+ },
+ {
+  "id": "b1-connect",
+  "word": "connect",
+  "pos": "verb",
+  "tr": "bağlamak",
+  "en": "To join two or more things together.",
+  "ex": "You can connect your phone to the speaker using bluetooth."
+ },
+ {
+  "id": "b1-connection",
+  "word": "connection",
+  "pos": "noun",
+  "tr": "bağlantı",
+  "en": "A link or relationship between two or more things.",
+  "ex": "The internet connection is very slow today."
+ },
+ {
+  "id": "b1-conscious",
+  "word": "conscious",
+  "pos": "adjective",
+  "tr": "bilinçli",
+  "en": "Awake and able to understand what is happening around you.",
+  "ex": "He was injured in the accident but remained conscious."
+ },
+ {
+  "id": "b1-consider",
+  "word": "consider",
+  "pos": "verb",
+  "tr": "düşünmek, göz önüne almak",
+  "en": "To think about something carefully before making a decision.",
+  "ex": "You should consider all your options before quitting your job."
+ },
+ {
+  "id": "b1-consist-of",
+  "word": "consist of",
+  "pos": "phrasal verb",
+  "tr": "-den oluşmak",
+  "en": "To be made of certain parts or things.",
+  "ex": "A healthy diet should consist of fresh fruit and vegetables."
+ },
+ {
+  "id": "b1-constant",
+  "word": "constant",
+  "pos": "adjective",
+  "tr": "sürekli",
+  "en": "Happening all the time without stopping.",
+  "ex": "The constant noise from the street made it hard to sleep."
+ },
+ {
+  "id": "b1-construct",
+  "word": "construct",
+  "pos": "verb",
+  "tr": "inşa etmek",
+  "en": "To build something like a house, road, or bridge.",
+  "ex": "They plan to construct a new park in the city center."
+ },
+ {
+  "id": "b1-consume",
+  "word": "consume",
+  "pos": "verb",
+  "tr": "tüketmek",
+  "en": "To eat, drink, or use up something.",
+  "ex": "Modern cars consume less fuel than older models."
+ },
+ {
+  "id": "b1-contest",
+  "word": "contest",
+  "pos": "noun",
+  "tr": "yarışma",
+  "en": "A competition where people try to win a prize.",
+  "ex": "She won first place in the national singing contest."
+ },
+ {
+  "id": "b1-context",
+  "word": "context",
+  "pos": "noun",
+  "tr": "bağlam",
+  "en": "The situation or information that helps explain a word or event.",
+  "ex": "You can guess the meaning of the new word from the context."
+ },
+ {
+  "id": "b1-contract",
+  "word": "contract",
+  "pos": "noun",
+  "tr": "sözleşme",
+  "en": "A legal written agreement between two or more people.",
+  "ex": "Read the contract carefully before you sign it."
+ },
+ {
+  "id": "b1-contribute",
+  "word": "contribute",
+  "pos": "verb",
+  "tr": "katkıda bulunmak",
+  "en": "To give money, help, or ideas to a common goal.",
+  "ex": "Everyone in the team can contribute to the project."
+ },
+ {
+  "id": "b1-control",
+  "word": "control",
+  "pos": "verb",
+  "tr": "kontrol etmek",
+  "en": "To have the power to direct or manage something.",
+  "ex": "It is hard to control your emotions when you are angry."
+ },
+ {
+  "id": "b1-convenient",
+  "word": "convenient",
+  "pos": "adjective",
+  "tr": "uygun, elverişli",
+  "en": "Easy to use or fitting well with your plans.",
+  "ex": "Living near the subway station is very convenient."
+ },
+ {
+  "id": "b1-convince",
+  "word": "convince",
+  "pos": "verb",
+  "tr": "ikna etmek",
+  "en": "To make someone believe that something is true or right.",
+  "ex": "She tried to convince her parents to buy a dog."
+ },
+ {
+  "id": "b1-cooperate",
+  "word": "cooperate",
+  "pos": "verb",
+  "tr": "işbirliği yapmak",
+  "en": "To work together with someone to achieve a goal.",
+  "ex": "The two companies agreed to cooperate on the new project."
+ },
+ {
+  "id": "b1-cope",
+  "word": "cope",
+  "pos": "verb",
+  "tr": "başa çıkmak",
+  "en": "To deal successfully with a difficult situation.",
+  "ex": "She found it hard to cope with so much stress at work."
+ },
+ {
+  "id": "b1-corporation",
+  "word": "corporation",
+  "pos": "noun",
+  "tr": "şirket",
+  "en": "A large business company with many offices.",
+  "ex": "She works for a large global corporation."
+ },
+ {
+  "id": "b1-cost",
+  "word": "cost",
+  "pos": "noun",
+  "tr": "maliyet",
+  "en": "The amount of money you need to buy something.",
+  "ex": "The cost of living is rising every year."
+ },
+ {
+  "id": "b1-costume",
+  "word": "costume",
+  "pos": "noun",
+  "tr": "kostüm",
+  "en": "Clothes worn to look like someone else.",
+  "ex": "He wore a pirate costume to the party."
+ },
+ {
+  "id": "b1-council",
+  "word": "council",
+  "pos": "noun",
+  "tr": "meclis, belediye",
+  "en": "A group of people chosen to manage a town.",
+  "ex": "The local council plans to build a new park."
+ },
+ {
+  "id": "b1-count",
+  "word": "count",
+  "pos": "noun",
+  "tr": "sayım",
+  "en": "The act of finding the total number of things.",
+  "ex": "We need to do a quick count of the boxes."
+ },
+ {
+  "id": "b1-crash",
+  "word": "crash",
+  "pos": "verb",
+  "tr": "çarpmak; kaza",
+  "en": "hit something violently or make a sudden loud noise",
+  "ex": "The car will crash if you drive too fast."
+ },
+ {
+  "id": "b1-creative",
+  "word": "creative",
+  "pos": "adjective",
+  "tr": "yaratıcı",
+  "en": "Good at making new and original things.",
+  "ex": "She has a very creative mind for art."
+ },
+ {
+  "id": "b1-credit-card",
+  "word": "credit card",
+  "pos": "noun",
+  "tr": "kredi kartı",
+  "en": "A plastic card used to buy things now and pay later.",
+  "ex": "Can I pay for my hotel room with a credit card?"
+ },
+ {
+  "id": "b1-crew",
+  "word": "crew",
+  "pos": "noun",
+  "tr": "mürettebat",
+  "en": "A group of people working together on a ship or plane.",
+  "ex": "The flight crew welcomed everyone on board."
+ },
+ {
+  "id": "b1-criminal",
+  "word": "criminal",
+  "pos": "noun",
+  "tr": "suçlu",
+  "en": "A person who has broken the law.",
+  "ex": "The police caught the criminal after a chase."
+ },
+ {
+  "id": "b1-crisis",
+  "word": "crisis",
+  "pos": "noun",
+  "tr": "kriz",
+  "en": "A time of great danger or difficulty.",
+  "ex": "The company faced a financial crisis last month."
+ },
+ {
+  "id": "b1-criticise",
+  "word": "criticise",
+  "pos": "verb",
+  "tr": "eleştirmek",
+  "en": "To say what you think is wrong with someone.",
+  "ex": "It is easy to criticise, but harder to help."
+ },
+ {
+  "id": "b1-crowd",
+  "word": "crowd",
+  "pos": "verb",
+  "tr": "toplanmak",
+  "en": "To gather together in a large group in one place.",
+  "ex": "People began to crowd around the famous actor."
+ },
+ {
+  "id": "b1-cure",
+  "word": "cure",
+  "pos": "noun",
+  "tr": "tedavi etmek",
+  "en": "Something that makes a sick person healthy again.",
+  "ex": "Scientists are looking for a cure for the disease."
+ },
+ {
+  "id": "b1-currency",
+  "word": "currency",
+  "pos": "noun",
+  "tr": "para birimi",
+  "en": "The system of money used in a country.",
+  "ex": "You need to change your money into local currency."
+ },
+ {
+  "id": "b1-current",
+  "word": "current",
+  "pos": "adjective",
+  "tr": "güncel",
+  "en": "Happening or existing right now.",
+  "ex": "What is your current address?"
+ },
+ {
+  "id": "b1-custom",
+  "word": "custom",
+  "pos": "noun",
+  "tr": "gelenek",
+  "en": "A traditional way of behaving in a culture.",
+  "ex": "It is a local custom to remove your shoes inside."
+ },
+ {
+  "id": "b1-cycle",
+  "word": "cycle",
+  "pos": "noun",
+  "tr": "bisiklete binmek; döngü",
+  "en": "A set of events that happen again in the same order.",
+  "ex": "Water goes through a natural cycle of rain and evaporation."
+ },
+ {
+  "id": "b1-daily",
+  "word": "daily",
+  "pos": "adjective",
+  "tr": "günlük",
+  "en": "Happening or done every single day.",
+  "ex": "Walking is a healthy daily habit."
+ },
+ {
+  "id": "b1-data",
+  "word": "data",
+  "pos": "noun",
+  "tr": "veri",
+  "en": "Information or facts collected for analysis.",
+  "ex": "The computer stores all our important business data."
+ },
+ {
+  "id": "b1-deadline",
+  "word": "deadline",
+  "pos": "noun",
+  "tr": "son teslim tarihi",
+  "en": "The latest time or date by which something must be finished.",
+  "ex": "I must finish this report before the Friday deadline."
+ },
+ {
+  "id": "b1-debate",
+  "word": "debate",
+  "pos": "noun",
+  "tr": "tartışma",
+  "en": "A formal discussion on a public subject.",
+  "ex": "There was a long debate about the new school rules."
+ },
+ {
+  "id": "b1-decade",
+  "word": "decade",
+  "pos": "noun",
+  "tr": "on yıl",
+  "en": "A period of ten years.",
+  "ex": "She has lived in this city for a decade."
+ },
+ {
+  "id": "b1-declare",
+  "word": "declare",
+  "pos": "verb",
+  "tr": "ilan etmek",
+  "en": "To announce something clearly and publicly.",
+  "ex": "The government decided to declare a state of emergency."
+ },
+ {
+  "id": "b1-decorate",
+  "word": "decorate",
+  "pos": "verb",
+  "tr": "süslemek",
+  "en": "To make something look more attractive with nice things.",
+  "ex": "We need to decorate the living room for the party."
+ },
+ {
+  "id": "b1-decrease",
+  "word": "decrease",
+  "pos": "verb",
+  "tr": "azalmak",
+  "en": "To become smaller in size or amount.",
+  "ex": "Sales usually decrease after the holiday season."
+ },
+ {
+  "id": "b1-defeat",
+  "word": "defeat",
+  "pos": "verb",
+  "tr": "yenmek",
+  "en": "To win a victory over someone in a fight or game.",
+  "ex": "Their team managed to defeat the champions."
+ },
+ {
+  "id": "b1-defend",
+  "word": "defend",
+  "pos": "verb",
+  "tr": "savunmak",
+  "en": "To protect someone or something from harm.",
+  "ex": "Soldiers are trained to defend their country."
+ },
+ {
+  "id": "b1-definite",
+  "word": "definite",
+  "pos": "adjective",
+  "tr": "kesin",
+  "en": "Clear and certain, without any doubt.",
+  "ex": "We need a definite answer by tomorrow morning."
+ },
+ {
+  "id": "b1-degree",
+  "word": "degree",
+  "pos": "noun",
+  "tr": "derece; diploma",
+  "en": "A qualification given by a university after finishing studies.",
+  "ex": "He holds a degree in mechanical engineering."
+ },
+ {
+  "id": "b1-delay",
+  "word": "delay",
+  "pos": "verb",
+  "tr": "gecikme",
+  "en": "To make something happen later than planned.",
+  "ex": "The bad weather will delay our flight."
+ },
+ {
+  "id": "b1-delete",
+  "word": "delete",
+  "pos": "verb",
+  "tr": "silmek",
+  "en": "To remove a file or text from a computer.",
+  "ex": "Please delete that old photo."
+ },
+ {
+  "id": "b1-demand",
+  "word": "demand",
+  "pos": "verb",
+  "tr": "talep",
+  "en": "To ask for something strongly and firmly.",
+  "ex": "The workers demand higher pay."
+ },
+ {
+  "id": "b1-deny",
+  "word": "deny",
+  "pos": "verb",
+  "tr": "inkâr etmek",
+  "en": "To say that something is not true.",
+  "ex": "He continues to deny the crime."
+ },
+ {
+  "id": "b1-depressed",
+  "word": "depressed",
+  "pos": "adjective",
+  "tr": "depresif, bunalımlı",
+  "en": "Feeling very unhappy and without hope.",
+  "ex": "She felt depressed after losing her job."
+ },
+ {
+  "id": "b1-deserve",
+  "word": "deserve",
+  "pos": "verb",
+  "tr": "hak etmek",
+  "en": "To have earned something through good actions.",
+  "ex": "You worked hard and you deserve this success."
+ },
+ {
+  "id": "b1-desire",
+  "word": "desire",
+  "pos": "noun",
+  "tr": "arzu",
+  "en": "A strong feeling of wanting something.",
+  "ex": "He has a strong desire to travel the world."
+ },
+ {
+  "id": "b1-despite",
+  "word": "despite",
+  "pos": "preposition",
+  "tr": "-e rağmen",
+  "en": "Without being affected by something.",
+  "ex": "We went out despite the rain."
+ },
+ {
+  "id": "b1-determined",
+  "word": "determined",
+  "pos": "adjective",
+  "tr": "kararlı",
+  "en": "Having a strong plan to do something.",
+  "ex": "She is determined to pass the exam."
+ },
+ {
+  "id": "b1-develop",
+  "word": "develop",
+  "pos": "verb",
+  "tr": "geliştirmek",
+  "en": "To grow or change into a stronger form.",
+  "ex": "Reading helps children develop good skills."
+ },
+ {
+  "id": "b1-device",
+  "word": "device",
+  "pos": "noun",
+  "tr": "cihaz",
+  "en": "A machine or tool made for a specific purpose.",
+  "ex": "A smartphone is a very useful electronic device."
+ },
+ {
+  "id": "b1-dialogue",
+  "word": "dialogue",
+  "pos": "noun",
+  "tr": "diyalog",
+  "en": "A conversation between two or more people.",
+  "ex": "The book has a lot of natural dialogue."
+ },
+ {
+  "id": "b1-digital",
+  "word": "digital",
+  "pos": "adjective",
+  "tr": "dijital",
+  "en": "Stored or shown using computer technology.",
+  "ex": "I prefer reading digital books on my tablet."
+ },
+ {
+  "id": "b1-direct",
+  "word": "direct",
+  "pos": "adjective",
+  "tr": "doğrudan",
+  "en": "Going straight from one place to another without stopping.",
+  "ex": "We took a direct flight to London."
+ },
+ {
+  "id": "b1-disadvantage",
+  "word": "disadvantage",
+  "pos": "noun",
+  "tr": "dezavantaj",
+  "en": "A condition that makes things more difficult.",
+  "ex": "Living far from the center is a disadvantage."
+ },
+ {
+  "id": "b1-disagree",
+  "word": "disagree",
+  "pos": "verb",
+  "tr": "katılmamak",
+  "en": "To have a different opinion from someone else.",
+  "ex": "I disagree with your idea about the project."
+ },
+ {
+  "id": "b1-disappointed",
+  "word": "disappointed",
+  "pos": "adjective",
+  "tr": "hayal kırıklığına uğramış",
+  "en": "Sad because something was not as good as expected.",
+  "ex": "I was disappointed with the movie."
+ },
+ {
+  "id": "b1-disaster",
+  "word": "disaster",
+  "pos": "noun",
+  "tr": "felaket",
+  "en": "A terrible event that causes a lot of damage.",
+  "ex": "The earthquake was a major disaster."
+ },
+ {
+  "id": "b1-discount",
+  "word": "discount",
+  "pos": "noun",
+  "tr": "indirim",
+  "en": "A reduction in the usual price of something.",
+  "ex": "They offer a student discount on tickets."
+ },
+ {
+  "id": "b1-discovery",
+  "word": "discovery",
+  "pos": "noun",
+  "tr": "keşif",
+  "en": "Finding something new for the first time.",
+  "ex": "Scientists made an important medical discovery."
+ },
+ {
+  "id": "b1-discussion",
+  "word": "discussion",
+  "pos": "noun",
+  "tr": "tartışma",
+  "en": "Talking about something with another person or group.",
+  "ex": "We had a long discussion about the budget."
+ },
+ {
+  "id": "b1-dislike",
+  "word": "dislike",
+  "pos": "verb",
+  "tr": "hoşlanmamak",
+  "en": "To not like someone or something.",
+  "ex": "I really dislike waking up early."
+ },
+ {
+  "id": "b1-display",
+  "word": "display",
+  "pos": "verb",
+  "tr": "sergilemek",
+  "en": "To put something where people can see it easily.",
+  "ex": "The museum will display old paintings next week."
+ },
+ {
+  "id": "b1-distinguish",
+  "word": "distinguish",
+  "pos": "verb",
+  "tr": "ayırt etmek",
+  "en": "To notice the difference between two things.",
+  "ex": "It is hard to distinguish the twins from each other."
+ },
+ {
+  "id": "b1-disturb",
+  "word": "disturb",
+  "pos": "verb",
+  "tr": "rahatsız etmek",
+  "en": "To interrupt someone or make them stop working.",
+  "ex": "Please do not disturb me while I am studying."
+ },
+ {
+  "id": "b1-divide",
+  "word": "divide",
+  "pos": "verb",
+  "tr": "bölmek",
+  "en": "To separate into smaller parts or groups.",
+  "ex": "Let us divide the cake into equal pieces."
+ },
+ {
+  "id": "b1-domestic",
+  "word": "domestic",
+  "pos": "adjective",
+  "tr": "yerli, evle ilgili",
+  "en": "Relating to the home or inside one country.",
+  "ex": "Domestic flights are usually cheaper than international ones."
+ },
+ {
+  "id": "b1-donate",
+  "word": "donate",
+  "pos": "verb",
+  "tr": "bağışlamak",
+  "en": "To give money or goods to help people.",
+  "ex": "Many people donate clothes to charity."
+ },
+ {
+  "id": "b1-double",
+  "word": "double",
+  "pos": "adjective",
+  "tr": "iki katı",
+  "en": "Made of two equal parts or twice as much.",
+  "ex": "I ordered a double room at the hotel."
+ },
+ {
+  "id": "b1-doubt",
+  "word": "doubt",
+  "pos": "noun",
+  "tr": "şüphe",
+  "en": "A feeling of not being sure about something.",
+  "ex": "I have some doubt about his story."
+ },
+ {
+  "id": "b1-drama",
+  "word": "drama",
+  "pos": "noun",
+  "tr": "drama",
+  "en": "A serious play for theater, television, or radio.",
+  "ex": "She loves watching emotional drama on TV."
+ },
+ {
+  "id": "b1-dramatic",
+  "word": "dramatic",
+  "pos": "adjective",
+  "tr": "çarpıcı",
+  "en": "Very sudden and noticeable, or full of excitement.",
+  "ex": "There was a dramatic change in the weather."
+ },
+ {
+  "id": "b1-due",
+  "word": "due",
+  "pos": "adjective",
+  "tr": "beklenen, vadesi gelmiş",
+  "en": "Expected to happen or arrive at a certain time.",
+  "ex": "The train is due in ten minutes."
+ },
+ {
+  "id": "b1-dull",
+  "word": "dull",
+  "pos": "adjective",
+  "tr": "sıkıcı",
+  "en": "Not interesting or boring.",
+  "ex": "I had a dull weekend at home."
+ },
+ {
+  "id": "b1-duty",
+  "word": "duty",
+  "pos": "noun",
+  "tr": "görev",
+  "en": "Something that you have to do because it is right.",
+  "ex": "It is my duty to protect my family."
+ },
+ {
+  "id": "b1-eager",
+  "word": "eager",
+  "pos": "adjective",
+  "tr": "istekli",
+  "en": "Very wanting to do or have something.",
+  "ex": "The students were eager to learn new things."
+ },
+ {
+  "id": "b1-economy",
+  "word": "economy",
+  "pos": "noun",
+  "tr": "ekonomi",
+  "en": "The system of how money and goods are made and used.",
+  "ex": "The country is trying to improve its economy."
+ },
+ {
+  "id": "b1-edge",
+  "word": "edge",
+  "pos": "noun",
+  "tr": "kenar",
+  "en": "The outside limit or border of an object.",
+  "ex": "He sat on the edge of the bed."
+ },
+ {
+  "id": "b1-edition",
+  "word": "edition",
+  "pos": "noun",
+  "tr": "baskı",
+  "en": "A particular version of a book or newspaper.",
+  "ex": "I bought the Sunday edition of the paper."
+ },
+ {
+  "id": "b1-effective",
+  "word": "effective",
+  "pos": "adjective",
+  "tr": "etkili",
+  "en": "Successful in producing the intended result.",
+  "ex": "This medicine is very effective for a headache."
+ },
+ {
+  "id": "b1-efficient",
+  "word": "efficient",
+  "pos": "adjective",
+  "tr": "verimli",
+  "en": "Working well without wasting time or energy.",
+  "ex": "She has a very efficient way of organizing work."
+ },
+ {
+  "id": "b1-effort",
+  "word": "effort",
+  "pos": "noun",
+  "tr": "çaba",
+  "en": "Physical or mental energy used to do something.",
+  "ex": "Passing the exam requires a lot of effort."
+ },
+ {
+  "id": "b1-elderly",
+  "word": "elderly",
+  "pos": "adjective",
+  "tr": "yaşlı",
+  "en": "Old or aging, usually used for polite description.",
+  "ex": "He helps his elderly neighbors with shopping."
+ },
+ {
+  "id": "b1-elect",
+  "word": "elect",
+  "pos": "verb",
+  "tr": "seçmek",
+  "en": "To choose someone for a political or official job by voting.",
+  "ex": "The citizens will elect a new president next year."
+ },
+ {
+  "id": "b1-election",
+  "word": "election",
+  "pos": "noun",
+  "tr": "seçim",
+  "en": "An event where people vote to choose a leader.",
+  "ex": "Everyone is talking about the upcoming election."
+ },
+ {
+  "id": "b1-element",
+  "word": "element",
+  "pos": "noun",
+  "tr": "unsur",
+  "en": "A necessary or typical part of something.",
+  "ex": "Trust is a key element in a good friendship."
+ },
+ {
+  "id": "b1-embarrassed",
+  "word": "embarrassed",
+  "pos": "adjective",
+  "tr": "utanmış",
+  "en": "Feeling ashamed or shy in front of others.",
+  "ex": "I was embarrassed when I forgot my lines on stage."
+ },
+ {
+  "id": "b1-emotion",
+  "word": "emotion",
+  "pos": "noun",
+  "tr": "duygu",
+  "en": "A strong feeling such as love, anger, or joy.",
+  "ex": "Crying can be a release of strong emotion."
+ },
+ {
+  "id": "b1-emphasise",
+  "word": "emphasise",
+  "pos": "verb",
+  "tr": "vurgulamak",
+  "en": "To show that something is very important.",
+  "ex": "The teacher tried to emphasise the main rule."
+ },
+ {
+  "id": "b1-employ",
+  "word": "employ",
+  "pos": "verb",
+  "tr": "istihdam etmek",
+  "en": "To pay someone to work for you.",
+  "ex": "The company plans to employ fifty more workers."
+ },
+ {
+  "id": "b1-employer",
+  "word": "employer",
+  "pos": "noun",
+  "tr": "işveren",
+  "en": "A person or company that pays people to work.",
+  "ex": "My employer offers good health insurance."
+ },
+ {
+  "id": "b1-empty",
+  "word": "empty",
+  "pos": "verb",
+  "tr": "boşaltmak",
+  "en": "To remove everything from inside a container.",
+  "ex": "Please empty the trash can before you leave."
+ },
+ {
+  "id": "b1-encourage",
+  "word": "encourage",
+  "pos": "verb",
+  "tr": "cesaretlendirmek",
+  "en": "To give someone confidence or hope to do something.",
+  "ex": "My parents always encourage me to try new sports."
+ },
+ {
+  "id": "b1-engaged",
+  "word": "engaged",
+  "pos": "adjective",
+  "tr": "nişanlı; meşgul",
+  "en": "Having promised to get married to someone.",
+  "ex": "They got engaged after dating for three years."
+ },
+ {
+  "id": "b1-enjoyable",
+  "word": "enjoyable",
+  "pos": "adjective",
+  "tr": "keyifli",
+  "en": "Giving pleasure or making you happy.",
+  "ex": "We had a very enjoyable dinner at the new restaurant."
+ },
+ {
+  "id": "b1-ensure",
+  "word": "ensure",
+  "pos": "verb",
+  "tr": "sağlamak, garanti etmek",
+  "en": "To make sure that something happens.",
+  "ex": "Please check the lock to ensure the door is secure."
+ },
+ {
+  "id": "b1-entertain",
+  "word": "entertain",
+  "pos": "verb",
+  "tr": "eğlendirmek",
+  "en": "To keep people interested and amused.",
+  "ex": "The clown tried to entertain the young children."
+ },
+ {
+  "id": "b1-entertainment",
+  "word": "entertainment",
+  "pos": "noun",
+  "tr": "eğlence",
+  "en": "Shows, films, or games that amuse people.",
+  "ex": "There is not much entertainment in this small town."
+ },
+ {
+  "id": "b1-enthusiastic",
+  "word": "enthusiastic",
+  "pos": "adjective",
+  "tr": "hevesli",
+  "en": "Showing a lot of excitement and interest.",
+  "ex": "The team was enthusiastic about the new project."
+ },
+ {
+  "id": "b1-entire",
+  "word": "entire",
+  "pos": "adjective",
+  "tr": "tüm",
+  "en": "Complete or whole, with nothing missing.",
+  "ex": "She read the entire book in one afternoon."
+ },
+ {
+  "id": "b1-equal",
+  "word": "equal",
+  "pos": "adjective",
+  "tr": "eşit",
+  "en": "Being the same in size, amount, value, or status.",
+  "ex": "All people should have equal rights."
+ },
+ {
+  "id": "b1-error",
+  "word": "error",
+  "pos": "noun",
+  "tr": "hata",
+  "en": "A mistake or something that is not correct.",
+  "ex": "There is a small error in this calculation."
+ },
+ {
+  "id": "b1-essay",
+  "word": "essay",
+  "pos": "noun",
+  "tr": "deneme, kompozisyon",
+  "en": "A short piece of writing about a particular subject.",
+  "ex": "We have to write an essay for homework."
+ },
+ {
+  "id": "b1-essential",
+  "word": "essential",
+  "pos": "adjective",
+  "tr": "gerekli",
+  "en": "Extremely important and necessary for something.",
+  "ex": "Water is essential for all living things."
+ },
+ {
+  "id": "b1-establish",
+  "word": "establish",
+  "pos": "verb",
+  "tr": "kurmak",
+  "en": "To start or create a company, system, or organization.",
+  "ex": "The company was established in 1995."
+ },
+ {
+  "id": "b1-estimate",
+  "word": "estimate",
+  "pos": "verb",
+  "tr": "tahmin etmek",
+  "en": "To guess the cost, size, or value of something.",
+  "ex": "Can you estimate how much time it will take?"
+ },
+ {
+  "id": "b1-evaluate",
+  "word": "evaluate",
+  "pos": "verb",
+  "tr": "değerlendirmek",
+  "en": "To judge or calculate the quality of something.",
+  "ex": "Teachers evaluate students at the end of the term."
+ },
+ {
+  "id": "b1-evidence",
+  "word": "evidence",
+  "pos": "noun",
+  "tr": "kanıt",
+  "en": "Facts or signs that show something is true.",
+  "ex": "The police found new evidence at the crime scene."
+ },
+ {
+  "id": "b1-evil",
+  "word": "evil",
+  "pos": "adjective",
+  "tr": "kötü",
+  "en": "Morally bad, cruel, or harmful.",
+  "ex": "In the story, the hero fights against evil forces."
+ },
+ {
+  "id": "b1-exact",
+  "word": "exact",
+  "pos": "adjective",
+  "tr": "tam",
+  "en": "Correct in every detail; completely accurate.",
+  "ex": "Do you know the exact time of the meeting?"
+ },
+ {
+  "id": "b1-examine",
+  "word": "examine",
+  "pos": "verb",
+  "tr": "incelemek",
+  "en": "To look at something very carefully.",
+  "ex": "The doctor will examine you in a moment."
+ },
+ {
+  "id": "b1-exception",
+  "word": "exception",
+  "pos": "noun",
+  "tr": "istisna",
+  "en": "Something that does not fit into a general rule.",
+  "ex": "Everyone passed the test with no exceptions."
+ },
+ {
+  "id": "b1-exhausted",
+  "word": "exhausted",
+  "pos": "adjective",
+  "tr": "bitkin",
+  "en": "Extremely tired, having no energy left.",
+  "ex": "I was completely exhausted after working all day."
+ },
+ {
+  "id": "b1-expand",
+  "word": "expand",
+  "pos": "verb",
+  "tr": "genişlemek",
+  "en": "To become larger in size, number, or scope.",
+  "ex": "The business decided to expand into foreign markets."
+ },
+ {
+  "id": "b1-expense",
+  "word": "expense",
+  "pos": "noun",
+  "tr": "gider",
+  "en": "The money that you spend on something.",
+  "ex": "We need to cut our monthly expenses."
+ },
+ {
+  "id": "b1-experiment",
+  "word": "experiment",
+  "pos": "noun",
+  "tr": "deney",
+  "en": "A scientific test to discover or prove something.",
+  "ex": "The students did an experiment in the chemistry lab."
+ },
+ {
+  "id": "b1-expert",
+  "word": "expert",
+  "pos": "noun",
+  "tr": "uzman",
+  "en": "A person with special skill or knowledge in a subject.",
+  "ex": "She is an expert in computer technology."
+ },
+ {
+  "id": "b1-explanation",
+  "word": "explanation",
+  "pos": "noun",
+  "tr": "açıklama",
+  "en": "Details or reasons that make something clear.",
+  "ex": "He gave a clear explanation of how the machine works."
+ },
+ {
+  "id": "b1-explode",
+  "word": "explode",
+  "pos": "verb",
+  "tr": "patlamak",
+  "en": "To burst loudly and violently with a lot of force.",
+  "ex": "The bomb could explode at any second."
+ },
+ {
+  "id": "b1-export",
+  "word": "export",
+  "pos": "verb",
+  "tr": "ihraç etmek",
+  "en": "To sell goods to another country.",
+  "ex": "Turkey exports textiles to many countries."
+ },
+ {
+  "id": "b1-express",
+  "word": "express",
+  "pos": "verb",
+  "tr": "ifade etmek",
+  "en": "To show or tell your thoughts and feelings.",
+  "ex": "It is hard to express my feelings in words."
+ },
+ {
+  "id": "b1-extreme",
+  "word": "extreme",
+  "pos": "adjective",
+  "tr": "aşırı",
+  "en": "Much greater than usual; very high in degree.",
+  "ex": "The region suffers from extreme weather conditions."
+ },
+ {
+  "id": "b1-facility",
+  "word": "facility",
+  "pos": "noun",
+  "tr": "tesis",
+  "en": "A place or building used for a particular activity.",
+  "ex": "The hotel has a great fitness facility."
+ },
+ {
+  "id": "b1-fact",
+  "word": "fact",
+  "pos": "noun",
+  "tr": "gerçek",
+  "en": "A piece of information that is known to be true.",
+  "ex": "It is a fact that the Earth orbits the sun."
+ },
+ {
+  "id": "b1-factor",
+  "word": "factor",
+  "pos": "noun",
+  "tr": "etken",
+  "en": "One of several things that cause a specific result.",
+  "ex": "Price is an important factor when buying a car."
+ },
+ {
+  "id": "b1-fairly",
+  "word": "fairly",
+  "pos": "adverb",
+  "tr": "oldukça",
+  "en": "More than a little, but not very.",
+  "ex": "The test was fairly easy for everyone."
+ },
+ {
+  "id": "b1-faith",
+  "word": "faith",
+  "pos": "noun",
+  "tr": "inanç",
+  "en": "Strong trust or confidence in someone or something.",
+  "ex": "I have great faith in your abilities."
+ },
+ {
+  "id": "b1-familiar",
+  "word": "familiar",
+  "pos": "adjective",
+  "tr": "tanıdık",
+  "en": "Well known to you because you have seen it before.",
+  "ex": "That man's face looks familiar to me."
+ },
+ {
+  "id": "b1-fancy",
+  "word": "fancy",
+  "pos": "adjective",
+  "tr": "canı istemek; süslü",
+  "en": "Expensive, decorative, or of high quality.",
+  "ex": "They went to a very fancy restaurant last night."
+ },
+ {
+  "id": "b1-fault",
+  "word": "fault",
+  "pos": "noun",
+  "tr": "kusur, suç",
+  "en": "Responsibility for a mistake or bad situation.",
+  "ex": "It was not my fault that we missed the train."
+ },
+ {
+  "id": "b1-favour",
+  "word": "favour",
+  "pos": "noun",
+  "tr": "iyilik",
+  "en": "A kind act that you do for someone.",
+  "ex": "Could you do me a huge favour?"
+ },
+ {
+  "id": "b1-feature",
+  "word": "feature",
+  "pos": "noun",
+  "tr": "özellik",
+  "en": "An important or noticeable part of something.",
+  "ex": "The new phone has a great camera feature."
+ },
+ {
+  "id": "b1-fee",
+  "word": "fee",
+  "pos": "noun",
+  "tr": "ücret",
+  "en": "Money you pay for a professional service.",
+  "ex": "The school charges a registration fee."
+ },
+ {
+  "id": "b1-female",
+  "word": "female",
+  "pos": "adjective",
+  "tr": "kadın, dişi",
+  "en": "Being a woman or a girl.",
+  "ex": "She is the first female president of the company."
+ },
+ {
+  "id": "b1-fiction",
+  "word": "fiction",
+  "pos": "noun",
+  "tr": "kurgu",
+  "en": "Stories about imaginary people and events.",
+  "ex": "I prefer reading science fiction books."
+ },
+ {
+  "id": "b1-figure",
+  "word": "figure",
+  "pos": "noun",
+  "tr": "rakam; şekil",
+  "en": "A number or an amount of money.",
+  "ex": "Sales figures are higher this month."
+ },
+ {
+  "id": "b1-file",
+  "word": "file",
+  "pos": "noun",
+  "tr": "dosya",
+  "en": "A folder or computer document for storing information.",
+  "ex": "Please save your work in this file."
+ },
+ {
+  "id": "b1-finance",
+  "word": "finance",
+  "pos": "noun",
+  "tr": "finans",
+  "en": "The management of money and funds.",
+  "ex": "He works in the finance department."
+ },
+ {
+  "id": "b1-firstly",
+  "word": "firstly",
+  "pos": "adverb",
+  "tr": "ilk olarak",
+  "en": "Used to introduce the first point in a discussion.",
+  "ex": "Firstly, we need to plan our budget."
+ },
+ {
+  "id": "b1-flavour",
+  "word": "flavour",
+  "pos": "noun",
+  "tr": "tat, aroma",
+  "en": "How food or drink tastes in your mouth.",
+  "ex": "My favourite ice cream flavour is chocolate."
+ },
+ {
+  "id": "b1-flexible",
+  "word": "flexible",
+  "pos": "adjective",
+  "tr": "esnek",
+  "en": "Able to change easily according to the situation.",
+  "ex": "My work hours are quite flexible."
+ },
+ {
+  "id": "b1-float",
+  "word": "float",
+  "pos": "verb",
+  "tr": "yüzmek (su üstünde)",
+  "en": "To stay on top of liquid without sinking.",
+  "ex": "Wood can float on water."
+ },
+ {
+  "id": "b1-focus",
+  "word": "focus",
+  "pos": "verb",
+  "tr": "odaklanmak",
+  "en": "To give all your attention to something.",
+  "ex": "Please try to focus on your studies."
+ },
+ {
+  "id": "b1-fold",
+  "word": "fold",
+  "pos": "verb",
+  "tr": "katlamak",
+  "en": "To bend something so one part lies on another.",
+  "ex": "Can you help me fold the laundry?"
+ },
+ {
+  "id": "b1-following",
+  "word": "following",
+  "pos": "adjective",
+  "tr": "aşağıdaki, takip eden",
+  "en": "Coming directly after something else.",
+  "ex": "She left the following day."
+ },
+ {
+  "id": "b1-force",
+  "word": "force",
+  "pos": "noun",
+  "tr": "zorlamak; güç",
+  "en": "Physical power or strength.",
+  "ex": "He opened the stuck door with force."
+ },
+ {
+  "id": "b1-forecast",
+  "word": "forecast",
+  "pos": "noun",
+  "tr": "tahmin, hava tahmini",
+  "en": "A statement about what will happen in the future.",
+  "ex": "The weather forecast says it will rain tomorrow."
+ },
+ {
+  "id": "b1-formal",
+  "word": "formal",
+  "pos": "adjective",
+  "tr": "resmi",
+  "en": "Suitable for serious or official occasions.",
+  "ex": "You need to wear a suit to this formal dinner."
+ },
+ {
+  "id": "b1-former",
+  "word": "former",
+  "pos": "adjective",
+  "tr": "eski, önceki",
+  "en": "Existing in the past but not now.",
+  "ex": "He is a former teacher at this school."
+ },
+ {
+  "id": "b1-fortune",
+  "word": "fortune",
+  "pos": "noun",
+  "tr": "servet; şans",
+  "en": "A very large amount of money or wealth.",
+  "ex": "That luxury car costs a fortune."
+ },
+ {
+  "id": "b1-forward",
+  "word": "forward",
+  "pos": "adverb",
+  "tr": "ileri",
+  "en": "Towards the front or in the direction you are facing.",
+  "ex": "Step forward, please."
+ },
+ {
+  "id": "b1-found",
+  "word": "found",
+  "pos": "verb",
+  "tr": "kurmak",
+  "en": "To start or establish an organization or company.",
+  "ex": "They founded the company ten years ago."
+ },
+ {
+  "id": "b1-frame",
+  "word": "frame",
+  "pos": "noun",
+  "tr": "çerçeve",
+  "en": "A border that surrounds a picture or window.",
+  "ex": "I put the family photo in a wooden frame."
+ },
+ {
+  "id": "b1-freedom",
+  "word": "freedom",
+  "pos": "noun",
+  "tr": "özgürlük",
+  "en": "The power to do what you want without limits.",
+  "ex": "Everyone should have the freedom of speech."
+ },
+ {
+  "id": "b1-frequent",
+  "word": "frequent",
+  "pos": "adjective",
+  "tr": "sık",
+  "en": "Happening often or regularly.",
+  "ex": "He is a frequent traveller to London."
+ },
+ {
+  "id": "b1-frightening",
+  "word": "frightening",
+  "pos": "adjective",
+  "tr": "korkutucu",
+  "en": "Making you feel afraid or scared.",
+  "ex": "The horror movie was really frightening."
+ },
+ {
+  "id": "b1-frozen",
+  "word": "frozen",
+  "pos": "adjective",
+  "tr": "donmuş",
+  "en": "Turned into ice because of extreme cold.",
+  "ex": "The lake is frozen in winter."
+ },
+ {
+  "id": "b1-function",
+  "word": "function",
+  "pos": "noun",
+  "tr": "işlev",
+  "en": "The special purpose or duty of something.",
+  "ex": "The main function of the heart is to pump blood."
+ },
+ {
+  "id": "b1-fund",
+  "word": "fund",
+  "pos": "noun",
+  "tr": "fon",
+  "en": "An amount of money saved for a specific purpose.",
+  "ex": "They raised a fund for the local hospital."
+ },
+ {
+  "id": "b1-funeral",
+  "word": "funeral",
+  "pos": "noun",
+  "tr": "cenaze",
+  "en": "A ceremony for burying or burning a dead person.",
+  "ex": "Many people attended his grandfather's funeral."
+ },
+ {
+  "id": "b1-furthermore",
+  "word": "furthermore",
+  "pos": "adverb",
+  "tr": "ayrıca",
+  "en": "In addition to what was just said.",
+  "ex": "The apartment is too small; furthermore, the rent is very high."
+ },
+ {
+  "id": "b1-gain",
+  "word": "gain",
+  "pos": "verb",
+  "tr": "kazanmak, elde etmek",
+  "en": "To get something useful or an advantage.",
+  "ex": "She studied hard to gain a good result in the exam."
+ },
+ {
+  "id": "b1-gap",
+  "word": "gap",
+  "pos": "noun",
+  "tr": "boşluk",
+  "en": "A space between two things or a difference.",
+  "ex": "There is a big gap between their opinions."
+ },
+ {
+  "id": "b1-gather",
+  "word": "gather",
+  "pos": "verb",
+  "tr": "toplamak",
+  "en": "To come together or collect things into one place.",
+  "ex": "The family will gather for dinner on Sunday."
+ },
+ {
+  "id": "b1-generation",
+  "word": "generation",
+  "pos": "noun",
+  "tr": "nesil",
+  "en": "People born around the same time.",
+  "ex": "Younger generations use smartphones for everything."
+ },
+ {
+  "id": "b1-genius",
+  "word": "genius",
+  "pos": "noun",
+  "tr": "dâhi",
+  "en": "A person who is extremely smart or talented.",
+  "ex": "Einstein was a scientific genius."
+ },
+ {
+  "id": "b1-genuine",
+  "word": "genuine",
+  "pos": "adjective",
+  "tr": "gerçek, samimi",
+  "en": "Real and exactly what it appears to be.",
+  "ex": "This bag is made of genuine leather."
+ },
+ {
+  "id": "b1-global",
+  "word": "global",
+  "pos": "adjective",
+  "tr": "küresel",
+  "en": "Affecting or including the whole world.",
+  "ex": "Climate change is a serious global problem."
+ },
+ {
+  "id": "b1-grab",
+  "word": "grab",
+  "pos": "verb",
+  "tr": "kapmak",
+  "en": "To take hold of something suddenly.",
+  "ex": "He grabbed his coat and ran out the door."
+ },
+ {
+  "id": "b1-gradually",
+  "word": "gradually",
+  "pos": "adverb",
+  "tr": "yavaş yavaş",
+  "en": "Happening slowly over a long period of time.",
+  "ex": "Her English is gradually getting better."
+ },
+ {
+  "id": "b1-grateful",
+  "word": "grateful",
+  "pos": "adjective",
+  "tr": "minnettar",
+  "en": "Feeling or showing thanks for something.",
+  "ex": "I am so grateful for your help."
+ },
+ {
+  "id": "b1-greet",
+  "word": "greet",
+  "pos": "verb",
+  "tr": "selamlamak",
+  "en": "To say hello or welcome someone.",
+  "ex": "The hotel manager stood at the door to greet guests."
+ },
+ {
+  "id": "b1-growth",
+  "word": "growth",
+  "pos": "noun",
+  "tr": "büyüme",
+  "en": "The process of increasing in size or development.",
+  "ex": "The company showed strong economic growth this year."
+ },
+ {
+  "id": "b1-guarantee",
+  "word": "guarantee",
+  "pos": "verb",
+  "tr": "garanti",
+  "en": "To promise that something will definitely happen.",
+  "ex": "I can guarantee you will love this movie."
+ },
+ {
+  "id": "b1-guilty",
+  "word": "guilty",
+  "pos": "adjective",
+  "tr": "suçlu",
+  "en": "Feeling bad because you did something wrong.",
+  "ex": "He felt guilty for eating the last piece of cake."
+ },
+ {
+  "id": "b1-handle",
+  "word": "handle",
+  "pos": "verb",
+  "tr": "başa çıkmak",
+  "en": "To deal with a situation or problem.",
+  "ex": "She knows how to handle difficult customers."
+ },
+ {
+  "id": "b1-hang-out",
+  "word": "hang out",
+  "pos": "phrasal verb",
+  "tr": "takılmak",
+  "en": "To spend time relaxing with friends.",
+  "ex": "We like to hang out at the local cafe after school."
+ },
+ {
+  "id": "b1-harmful",
+  "word": "harmful",
+  "pos": "adjective",
+  "tr": "zararlı",
+  "en": "Able to cause damage or injury.",
+  "ex": "Smoking is harmful to your health."
+ },
+ {
+  "id": "b1-headline",
+  "word": "headline",
+  "pos": "noun",
+  "tr": "manşet",
+  "en": "The main title of a newspaper story.",
+  "ex": "The news headline shocked everyone this morning."
+ },
+ {
+  "id": "b1-heating",
+  "word": "heating",
+  "pos": "noun",
+  "tr": "ısıtma",
+  "en": "The system used to warm a building.",
+  "ex": "Turn on the heating because it is cold inside."
+ },
+ {
+  "id": "b1-hesitate",
+  "word": "hesitate",
+  "pos": "verb",
+  "tr": "tereddüt etmek",
+  "en": "To pause before saying or doing something.",
+  "ex": "Do not hesitate to ask if you need help."
+ },
+ {
+  "id": "b1-highlight",
+  "word": "highlight",
+  "pos": "verb",
+  "tr": "vurgulamak",
+  "en": "To make something more noticeable or important.",
+  "ex": "The report highlights the need for better security."
+ },
+ {
+  "id": "b1-hire",
+  "word": "hire",
+  "pos": "noun",
+  "tr": "kiralama",
+  "en": "The act of employing someone for a job.",
+  "ex": "The new manager is a great hire for our team."
+ },
+ {
+  "id": "b1-honesty",
+  "word": "honesty",
+  "pos": "noun",
+  "tr": "dürüstlük",
+  "en": "The quality of always telling the truth.",
+  "ex": "I appreciate your honesty about the mistake."
+ },
+ {
+  "id": "b1-honour",
+  "word": "honour",
+  "pos": "noun",
+  "tr": "onur",
+  "en": "Great respect or public regard.",
+  "ex": "It is an honour to meet you."
+ },
+ {
+  "id": "b1-horror",
+  "word": "horror",
+  "pos": "noun",
+  "tr": "korku",
+  "en": "A strong feeling of fear or shock.",
+  "ex": "He watched in horror as the car crashed."
+ },
+ {
+  "id": "b1-household",
+  "word": "household",
+  "pos": "noun",
+  "tr": "ev halkı",
+  "en": "All the people living together in one house.",
+  "ex": "Every household in the street received a letter."
+ },
+ {
+  "id": "b1-identify",
+  "word": "identify",
+  "pos": "verb",
+  "tr": "tanımlamak",
+  "en": "To recognize and correctly name someone or something.",
+  "ex": "She could not identify the stranger in the dark."
+ },
+ {
+  "id": "b1-identity",
+  "word": "identity",
+  "pos": "noun",
+  "tr": "kimlik",
+  "en": "Who someone is or what something is.",
+  "ex": "The police are trying to confirm his identity."
+ },
+ {
+  "id": "b1-ignore",
+  "word": "ignore",
+  "pos": "verb",
+  "tr": "görmezden gelmek",
+  "en": "To pay no attention to someone or something.",
+  "ex": "Try to ignore the noise and focus on your work."
+ },
+ {
+  "id": "b1-illegal",
+  "word": "illegal",
+  "pos": "adjective",
+  "tr": "yasadışı",
+  "en": "Not allowed by the law.",
+  "ex": "Parking here is illegal."
+ },
+ {
+  "id": "b1-image",
+  "word": "image",
+  "pos": "noun",
+  "tr": "görüntü",
+  "en": "A picture or photograph of something or someone.",
+  "ex": "She saved the image on her computer."
+ },
+ {
+  "id": "b1-impact",
+  "word": "impact",
+  "pos": "noun",
+  "tr": "etki",
+  "en": "A strong effect or result on something.",
+  "ex": "Technology has a big impact on our lives."
+ },
+ {
+  "id": "b1-impatient",
+  "word": "impatient",
+  "pos": "adjective",
+  "tr": "sabırsız",
+  "en": "Not wanting to wait for things.",
+  "ex": "He is always impatient when driving in traffic."
+ },
+ {
+  "id": "b1-imply",
+  "word": "imply",
+  "pos": "verb",
+  "tr": "ima etmek",
+  "en": "To suggest something without saying it directly.",
+  "ex": "What are you trying to imply?"
+ },
+ {
+  "id": "b1-impolite",
+  "word": "impolite",
+  "pos": "adjective",
+  "tr": "kaba",
+  "en": "Not showing good manners to other people.",
+  "ex": "It is impolite to speak with your mouth full."
+ },
+ {
+  "id": "b1-import",
+  "word": "import",
+  "pos": "verb",
+  "tr": "ithal etmek",
+  "en": "To buy products from another country to sell at home.",
+  "ex": "We import coffee from South America."
+ },
+ {
+  "id": "b1-impress",
+  "word": "impress",
+  "pos": "verb",
+  "tr": "etkilemek",
+  "en": "To make someone feel admiration and respect.",
+  "ex": "He tried to impress her with his cooking skills."
+ },
+ {
+  "id": "b1-impression",
+  "word": "impression",
+  "pos": "noun",
+  "tr": "izlenim",
+  "en": "An idea or feeling about something or someone.",
+  "ex": "She made a great impression at the job interview."
+ },
+ {
+  "id": "b1-impressive",
+  "word": "impressive",
+  "pos": "adjective",
+  "tr": "etkileyici",
+  "en": "Making you admire or respect it very much.",
+  "ex": "The view from the mountain was truly impressive."
+ },
+ {
+  "id": "b1-improvement",
+  "word": "improvement",
+  "pos": "noun",
+  "tr": "gelişme",
+  "en": "When something becomes better than before.",
+  "ex": "There is a big improvement in your English."
+ },
+ {
+  "id": "b1-incident",
+  "word": "incident",
+  "pos": "noun",
+  "tr": "olay",
+  "en": "An event, especially one that is unusual or unpleasant.",
+  "ex": "Nobody was hurt in the minor traffic incident."
+ },
+ {
+  "id": "b1-income",
+  "word": "income",
+  "pos": "noun",
+  "tr": "gelir",
+  "en": "The money you earn from your job or business.",
+  "ex": "Their family has a low monthly income."
+ },
+ {
+  "id": "b1-incredible",
+  "word": "incredible",
+  "pos": "adjective",
+  "tr": "inanılmaz",
+  "en": "Difficult to believe or extremely good.",
+  "ex": "The sunset over the ocean was incredible."
+ },
+ {
+  "id": "b1-indeed",
+  "word": "indeed",
+  "pos": "adverb",
+  "tr": "gerçekten",
+  "en": "Used to emphasize a statement or answer 'yes'.",
+  "ex": "It was a cold winter, very cold indeed."
+ },
+ {
+  "id": "b1-indicate",
+  "word": "indicate",
+  "pos": "verb",
+  "tr": "göstermek",
+  "en": "To show or point to something.",
+  "ex": "The sign indicates that we should turn left."
+ },
+ {
+  "id": "b1-individual",
+  "word": "individual",
+  "pos": "noun",
+  "tr": "birey",
+  "en": "A single person, considered separate from the group.",
+  "ex": "Every individual has the right to speak freely."
+ },
+ {
+  "id": "b1-influence",
+  "word": "influence",
+  "pos": "verb",
+  "tr": "etkilemek",
+  "en": "To affect how someone thinks or behaves.",
+  "ex": "My grandfather influenced my choice of career."
+ },
+ {
+  "id": "b1-inform",
+  "word": "inform",
+  "pos": "verb",
+  "tr": "bilgilendirmek",
+  "en": "To give someone facts or information about something.",
+  "ex": "Please inform us if your address changes."
+ },
+ {
+  "id": "b1-initial",
+  "word": "initial",
+  "pos": "adjective",
+  "tr": "ilk",
+  "en": "Happening at the beginning.",
+  "ex": "My initial thought was to say no."
+ },
+ {
+  "id": "b1-injury",
+  "word": "injury",
+  "pos": "noun",
+  "tr": "yaralanma",
+  "en": "Physical harm or damage to your body.",
+  "ex": "He missed the game due to a knee injury."
+ },
+ {
+  "id": "b1-innocent",
+  "word": "innocent",
+  "pos": "adjective",
+  "tr": "masum",
+  "en": "Not guilty of a crime or wrongdoing.",
+  "ex": "The jury decided that he was innocent."
+ },
+ {
+  "id": "b1-insist",
+  "word": "insist",
+  "pos": "verb",
+  "tr": "ısrar etmek",
+  "en": "To demand something firmly and refuse to accept no.",
+  "ex": "She insisted on paying for the dinner."
+ },
+ {
+  "id": "b1-inspire",
+  "word": "inspire",
+  "pos": "verb",
+  "tr": "ilham vermek",
+  "en": "To make someone want to do something great.",
+  "ex": "The teacher inspired her students to read more."
+ },
+ {
+  "id": "b1-install",
+  "word": "install",
+  "pos": "verb",
+  "tr": "kurmak (program)",
+  "en": "To put a piece of equipment or software somewhere ready to use.",
+  "ex": "We need to install a new air conditioner."
+ },
+ {
+  "id": "b1-instance",
+  "word": "instance",
+  "pos": "noun",
+  "tr": "örnek",
+  "en": "An example of a particular situation.",
+  "ex": "This is a rare instance of an honest politician."
+ },
+ {
+  "id": "b1-institution",
+  "word": "institution",
+  "pos": "noun",
+  "tr": "kurum",
+  "en": "A large and important organization, like a bank or university.",
+  "ex": "Harvard is a famous educational institution."
+ },
+ {
+  "id": "b1-insurance",
+  "word": "insurance",
+  "pos": "noun",
+  "tr": "sigorta",
+  "en": "An agreement where you pay money to protect against loss.",
+  "ex": "Car insurance is mandatory in this country."
+ },
+ {
+  "id": "b1-intelligent",
+  "word": "intelligent",
+  "pos": "adjective",
+  "tr": "zeki",
+  "en": "Good at learning, thinking, and understanding things.",
+  "ex": "Dolphins are very intelligent animals."
+ },
+ {
+  "id": "b1-intend",
+  "word": "intend",
+  "pos": "verb",
+  "tr": "niyet etmek",
+  "en": "To have a plan or purpose in your mind.",
+  "ex": "I intend to finish this book by tonight."
+ },
+ {
+  "id": "b1-intention",
+  "word": "intention",
+  "pos": "noun",
+  "tr": "niyet",
+  "en": "what you plan or want to do",
+  "ex": "My intention is to finish university this year."
+ },
+ {
+  "id": "b1-interest",
+  "word": "interest",
+  "pos": "noun",
+  "tr": "ilgi; faiz",
+  "en": "a subject you enjoy learning or talking about",
+  "ex": "Photography is one of my main interests."
+ },
+ {
+  "id": "b1-internal",
+  "word": "internal",
+  "pos": "adjective",
+  "tr": "iç",
+  "en": "located on the inside of something",
+  "ex": "The company made some internal changes."
+ },
+ {
+  "id": "b1-international",
+  "word": "international",
+  "pos": "adjective",
+  "tr": "uluslararası",
+  "en": "involving more than one country",
+  "ex": "She works for an international bank."
+ },
+ {
+  "id": "b1-interrupt",
+  "word": "interrupt",
+  "pos": "verb",
+  "tr": "sözünü kesmek",
+  "en": "to stop someone while they are speaking or doing something",
+  "ex": "Please do not interrupt me while I am talking."
+ },
+ {
+  "id": "b1-investigate",
+  "word": "investigate",
+  "pos": "verb",
+  "tr": "araştırmak",
+  "en": "to try to find out the truth about something",
+  "ex": "Police are trying to investigate the accident."
+ },
+ {
+  "id": "b1-investment",
+  "word": "investment",
+  "pos": "noun",
+  "tr": "yatırım",
+  "en": "putting money into something to make a profit",
+  "ex": "Buying this house was a good financial investment."
+ },
+ {
+  "id": "b1-involve",
+  "word": "involve",
+  "pos": "verb",
+  "tr": "içermek, dahil etmek",
+  "en": "to include someone or something as a part",
+  "ex": "The job will involve traveling abroad."
+ },
+ {
+  "id": "b1-issue",
+  "word": "issue",
+  "pos": "noun",
+  "tr": "konu, sorun",
+  "en": "an important topic or problem to discuss",
+  "ex": "We need to talk about this important issue."
+ },
+ {
+  "id": "b1-judgement",
+  "word": "judgement",
+  "pos": "noun",
+  "tr": "yargı",
+  "en": "an opinion you form after thinking carefully",
+  "ex": "I trust his judgement in business matters."
+ },
+ {
+  "id": "b1-justify",
+  "word": "justify",
+  "pos": "verb",
+  "tr": "haklı çıkarmak",
+  "en": "to prove or show that something is right or reasonable",
+  "ex": "How can you justify spending so much money?"
+ },
+ {
+  "id": "b1-keen",
+  "word": "keen",
+  "pos": "adjective",
+  "tr": "hevesli",
+  "en": "very excited and interested in something",
+  "ex": "He is very keen to learn new languages."
+ },
+ {
+  "id": "b1-key",
+  "word": "key",
+  "pos": "adjective",
+  "tr": "önemli, temel",
+  "en": "very important or necessary",
+  "ex": "Communication is a key factor in any relationship."
+ },
+ {
+  "id": "b1-kindness",
+  "word": "kindness",
+  "pos": "noun",
+  "tr": "nezaket",
+  "en": "being nice, friendly, and generous to others",
+  "ex": "Thank you for your kindness and help."
+ },
+ {
+  "id": "b1-knowledge",
+  "word": "knowledge",
+  "pos": "noun",
+  "tr": "bilgi",
+  "en": "information and understanding that you have learned",
+  "ex": "Reading books helps to increase your knowledge."
+ },
+ {
+  "id": "b1-label",
+  "word": "label",
+  "pos": "noun",
+  "tr": "etiket",
+  "en": "a small piece of paper with information on an object",
+  "ex": "Read the label on the box before opening."
+ },
+ {
+  "id": "b1-lack",
+  "word": "lack",
+  "pos": "noun",
+  "tr": "eksiklik",
+  "en": "when you do not have enough of something",
+  "ex": "The plants died due to a lack of water."
+ },
+ {
+  "id": "b1-landscape",
+  "word": "landscape",
+  "pos": "noun",
+  "tr": "manzara",
+  "en": "everything you can see when you look across an area of land",
+  "ex": "The mountain landscape was breathtaking."
+ },
+ {
+  "id": "b1-largely",
+  "word": "largely",
+  "pos": "adverb",
+  "tr": "büyük ölçüde",
+  "en": "mostly or mainly",
+  "ex": "His success was largely due to hard work."
+ },
+ {
+  "id": "b1-latest",
+  "word": "latest",
+  "pos": "adjective",
+  "tr": "en son",
+  "en": "the most recent or newest thing",
+  "ex": "Have you seen her latest movie?"
+ },
+ {
+  "id": "b1-launch",
+  "word": "launch",
+  "pos": "verb",
+  "tr": "başlatmak",
+  "en": "to start a new activity or put a product on sale",
+  "ex": "The company will launch a new smartphone soon."
+ },
+ {
+  "id": "b1-layer",
+  "word": "layer",
+  "pos": "noun",
+  "tr": "katman",
+  "en": "a sheet of material covering a surface",
+  "ex": "You should wear a thick layer of clothes in winter."
+ },
+ {
+  "id": "b1-leader",
+  "word": "leader",
+  "pos": "noun",
+  "tr": "lider",
+  "en": "a person who rules, guides, or inspires a group",
+  "ex": "She is a natural leader in the office."
+ },
+ {
+  "id": "b1-league",
+  "word": "league",
+  "pos": "noun",
+  "tr": "lig",
+  "en": "a group of sports teams playing against each other",
+  "ex": "Their team is currently winning the football league."
+ },
+ {
+  "id": "b1-leather",
+  "word": "leather",
+  "pos": "noun",
+  "tr": "deri",
+  "en": "material made from animal skin used for clothes or shoes",
+  "ex": "He is wearing a black leather jacket."
+ },
+ {
+  "id": "b1-legal",
+  "word": "legal",
+  "pos": "adjective",
+  "tr": "yasal",
+  "en": "allowed by the law",
+  "ex": "You need legal advice before signing the contract."
+ },
+ {
+  "id": "b1-leisure",
+  "word": "leisure",
+  "pos": "noun",
+  "tr": "boş vakit",
+  "en": "free time when you are not working or studying",
+  "ex": "I like reading books in my leisure time."
+ },
+ {
+  "id": "b1-licence",
+  "word": "licence",
+  "pos": "noun",
+  "tr": "ehliyet, lisans",
+  "en": "an official document that shows you are allowed to do something",
+  "ex": "You must have a driving licence to drive a car."
+ },
+ {
+  "id": "b1-lifestyle",
+  "word": "lifestyle",
+  "pos": "noun",
+  "tr": "yaşam tarzı",
+  "en": "the way that you live your life",
+  "ex": "Eating healthy food is part of a good lifestyle."
+ },
+ {
+  "id": "b1-limited",
+  "word": "limited",
+  "pos": "adjective",
+  "tr": "sınırlı",
+  "en": "restricted in size, amount, or time",
+  "ex": "We have limited time to finish this project."
+ },
+ {
+  "id": "b1-literature",
+  "word": "literature",
+  "pos": "noun",
+  "tr": "edebiyat",
+  "en": "Books, poems, and plays written with artistic value.",
+  "ex": "She studies English literature at university."
+ },
+ {
+  "id": "b1-loan",
+  "word": "loan",
+  "pos": "noun",
+  "tr": "kredi, borç",
+  "en": "Money that you borrow from a bank.",
+  "ex": "He took a loan to buy a new car."
+ },
+ {
+  "id": "b1-location",
+  "word": "location",
+  "pos": "noun",
+  "tr": "konum",
+  "en": "A particular place or position.",
+  "ex": "The hotel is in a great location near the beach."
+ },
+ {
+  "id": "b1-logical",
+  "word": "logical",
+  "pos": "adjective",
+  "tr": "mantıklı",
+  "en": "Making sense and following clear reasoning.",
+  "ex": "That is a very logical way to solve the problem."
+ },
+ {
+  "id": "b1-loss",
+  "word": "loss",
+  "pos": "noun",
+  "tr": "kayıp",
+  "en": "The fact of no longer having something.",
+  "ex": "The company reported a big financial loss this year."
+ },
+ {
+  "id": "b1-loyal",
+  "word": "loyal",
+  "pos": "adjective",
+  "tr": "sadık",
+  "en": "Always supporting your friends or country.",
+  "ex": "Dogs are known for being very loyal pets."
+ },
+ {
+  "id": "b1-luxury",
+  "word": "luxury",
+  "pos": "noun",
+  "tr": "lüks",
+  "en": "Great comfort and expensive things.",
+  "ex": "Living in such a big house is a real luxury."
+ },
+ {
+  "id": "b1-mainly",
+  "word": "mainly",
+  "pos": "adverb",
+  "tr": "çoğunlukla",
+  "en": "More than anything else; mostly.",
+  "ex": "The museum is mainly visited by tourists."
+ },
+ {
+  "id": "b1-maintain",
+  "word": "maintain",
+  "pos": "verb",
+  "tr": "sürdürmek",
+  "en": "To keep something in good condition.",
+  "ex": "It costs a lot of money to maintain this old house."
+ },
+ {
+  "id": "b1-major",
+  "word": "major",
+  "pos": "adjective",
+  "tr": "büyük, önemli",
+  "en": "Very important or serious.",
+  "ex": "Traffic is a major problem in this city."
+ },
+ {
+  "id": "b1-majority",
+  "word": "majority",
+  "pos": "noun",
+  "tr": "çoğunluk",
+  "en": "Most of the people or things in a group.",
+  "ex": "The majority of students passed the difficult exam."
+ },
+ {
+  "id": "b1-male",
+  "word": "male",
+  "pos": "adjective",
+  "tr": "erkek",
+  "en": "Of or belonging to the sex that produces sperm.",
+  "ex": "The male lion has a large mane."
+ },
+ {
+  "id": "b1-manner",
+  "word": "manner",
+  "pos": "noun",
+  "tr": "tavır",
+  "en": "The way that something is done or happens.",
+  "ex": "She has a very polite manner of speaking."
+ },
+ {
+  "id": "b1-manufacture",
+  "word": "manufacture",
+  "pos": "verb",
+  "tr": "üretmek",
+  "en": "To make goods in large quantities using machines.",
+  "ex": "This factory manufactures electronic parts."
+ },
+ {
+  "id": "b1-margin",
+  "word": "margin",
+  "pos": "noun",
+  "tr": "kenar boşluğu",
+  "en": "The empty space at the side of a page.",
+  "ex": "Please write your notes in the margin."
+ },
+ {
+  "id": "b1-mark",
+  "word": "mark",
+  "pos": "noun",
+  "tr": "işaret; not",
+  "en": "A small spot or a score on a test.",
+  "ex": "He got a good mark on his history test."
+ },
+ {
+  "id": "b1-mass",
+  "word": "mass",
+  "pos": "noun",
+  "tr": "kütle",
+  "en": "A large number of people or things together.",
+  "ex": "Dark clouds gathered to form a massive storm."
+ },
+ {
+  "id": "b1-massive",
+  "word": "massive",
+  "pos": "adjective",
+  "tr": "devasa",
+  "en": "Very large and heavy.",
+  "ex": "They live in a massive house by the lake."
+ },
+ {
+  "id": "b1-master",
+  "word": "master",
+  "pos": "verb",
+  "tr": "ustalaşmak",
+  "en": "To learn or understand something completely.",
+  "ex": "It takes years to master a foreign language."
+ },
+ {
+  "id": "b1-mature",
+  "word": "mature",
+  "pos": "adjective",
+  "tr": "olgun",
+  "en": "Fully grown or behaving like an adult.",
+  "ex": "She is very mature for her age."
+ },
+ {
+  "id": "b1-maximum",
+  "word": "maximum",
+  "pos": "adjective",
+  "tr": "en fazla",
+  "en": "The highest possible amount or level.",
+  "ex": "The speed limit is a maximum of 50 miles per hour."
+ },
+ {
+  "id": "b1-meanwhile",
+  "word": "meanwhile",
+  "pos": "adverb",
+  "tr": "bu arada",
+  "en": "At the same time while something else is happening.",
+  "ex": "Dinner is in the oven; meanwhile, let's set the table."
+ },
+ {
+  "id": "b1-media",
+  "word": "media",
+  "pos": "noun",
+  "tr": "medya",
+  "en": "Television, radio, and newspapers that share news.",
+  "ex": "The story was all over the media yesterday."
+ },
+ {
+  "id": "b1-medical",
+  "word": "medical",
+  "pos": "adjective",
+  "tr": "tıbbi",
+  "en": "Related to medicine and the treatment of illness.",
+  "ex": "She needs immediate medical attention."
+ },
+ {
+  "id": "b1-mental",
+  "word": "mental",
+  "pos": "adjective",
+  "tr": "zihinsel",
+  "en": "Relating to the mind and thinking.",
+  "ex": "Reading every day is good for mental health."
+ },
+ {
+  "id": "b1-mess",
+  "word": "mess",
+  "pos": "noun",
+  "tr": "dağınıklık",
+  "en": "A dirty or untidy state of things.",
+  "ex": "The children left their bedroom in a complete mess."
+ },
+ {
+  "id": "b1-military",
+  "word": "military",
+  "pos": "adjective",
+  "tr": "askeri",
+  "en": "Relating to the armed forces of a country.",
+  "ex": "He served in the military for ten years."
+ },
+ {
+  "id": "b1-mineral",
+  "word": "mineral",
+  "pos": "noun",
+  "tr": "mineral",
+  "en": "A natural substance found in the earth.",
+  "ex": "Water contains important minerals for our bodies."
+ },
+ {
+  "id": "b1-minimum",
+  "word": "minimum",
+  "pos": "adjective",
+  "tr": "en az",
+  "en": "The smallest possible amount or level.",
+  "ex": "You need a minimum of 60 points to pass."
+ },
+ {
+  "id": "b1-minority",
+  "word": "minority",
+  "pos": "noun",
+  "tr": "azınlık",
+  "en": "A smaller number or part of a group.",
+  "ex": "Only a minority of students chose French."
+ },
+ {
+  "id": "b1-mission",
+  "word": "mission",
+  "pos": "noun",
+  "tr": "görev",
+  "en": "an important job or task that someone is given to do",
+  "ex": "The astronauts are ready for their space mission."
+ },
+ {
+  "id": "b1-mistake",
+  "word": "mistake",
+  "pos": "verb",
+  "tr": "karıştırmak",
+  "en": "to think wrongly that someone or something is someone or something else",
+  "ex": "I often mistake him for his twin brother."
+ },
+ {
+  "id": "b1-mixture",
+  "word": "mixture",
+  "pos": "noun",
+  "tr": "karışım",
+  "en": "something made by combining different substances or things together",
+  "ex": "The cake is a mixture of flour, sugar, and eggs."
+ },
+ {
+  "id": "b1-mobile",
+  "word": "mobile",
+  "pos": "adjective",
+  "tr": "mobil",
+  "en": "able to move or be moved freely and easily",
+  "ex": "She uses a mobile phone to talk while walking."
+ },
+ {
+  "id": "b1-moreover",
+  "word": "moreover",
+  "pos": "adverb",
+  "tr": "üstelik",
+  "en": "used to add more information to what you have just said",
+  "ex": "The apartment is too small; moreover, it is very expensive."
+ },
+ {
+  "id": "b1-motivate",
+  "word": "motivate",
+  "pos": "verb",
+  "tr": "motive etmek",
+  "en": "to give someone a reason to do something well",
+  "ex": "Good teachers try to motivate their students every day."
+ },
+ {
+  "id": "b1-mysterious",
+  "word": "mysterious",
+  "pos": "adjective",
+  "tr": "gizemli",
+  "en": "difficult or impossible to understand, explain, or identify",
+  "ex": "We heard a mysterious sound coming from the dark forest."
+ },
+ {
+  "id": "b1-narrow",
+  "word": "narrow",
+  "pos": "adjective",
+  "tr": "dar",
+  "en": "measuring a small distance from one side to the other",
+  "ex": "The car could not pass through the narrow street."
+ },
+ {
+  "id": "b1-native",
+  "word": "native",
+  "pos": "adjective",
+  "tr": "yerli, ana dil",
+  "en": "associated with the place where you were born",
+  "ex": "English is not my native language."
+ },
+ {
+  "id": "b1-nearby",
+  "word": "nearby",
+  "pos": "adjective",
+  "tr": "yakında",
+  "en": "not far away in distance",
+  "ex": "They live in a quiet neighborhood in a nearby town."
+ },
+ {
+  "id": "b1-negotiate",
+  "word": "negotiate",
+  "pos": "verb",
+  "tr": "pazarlık etmek",
+  "en": "to discuss something to reach an agreement",
+  "ex": "The company tried to negotiate a better price with the supplier."
+ },
+ {
+  "id": "b1-nevertheless",
+  "word": "nevertheless",
+  "pos": "adverb",
+  "tr": "yine de",
+  "en": "in spite of that; however",
+  "ex": "It was raining hard; nevertheless, they went for a walk."
+ },
+ {
+  "id": "b1-nightmare",
+  "word": "nightmare",
+  "pos": "noun",
+  "tr": "kâbus",
+  "en": "a very frightening and unpleasant dream",
+  "ex": "I woke up sweating after having a bad nightmare."
+ },
+ {
+  "id": "b1-nonsense",
+  "word": "nonsense",
+  "pos": "noun",
+  "tr": "saçmalık",
+  "en": "spoken or written words that have no meaning or make no sense",
+  "ex": "Don't listen to him; he is just talking nonsense."
+ },
+ {
+  "id": "b1-normally",
+  "word": "normally",
+  "pos": "adverb",
+  "tr": "normalde",
+  "en": "under normal conditions; usually",
+  "ex": "I normally drink coffee in the morning."
+ },
+ {
+  "id": "b1-novelist",
+  "word": "novelist",
+  "pos": "noun",
+  "tr": "romancı",
+  "en": "a person who writes long stories about imaginary people and events",
+  "ex": "Orhan Pamuk is a famous Turkish novelist."
+ },
+ {
+  "id": "b1-nowadays",
+  "word": "nowadays",
+  "pos": "adverb",
+  "tr": "bugünlerde",
+  "en": "at the present time, compared to the past",
+  "ex": "Nowadays, most people use smartphones instead of letters."
+ },
+ {
+  "id": "b1-nuclear",
+  "word": "nuclear",
+  "pos": "adjective",
+  "tr": "nükleer",
+  "en": "relating to the energy produced by splitting atoms",
+  "ex": "Some countries generate electricity using nuclear power plants."
+ },
+ {
+  "id": "b1-numerous",
+  "word": "numerous",
+  "pos": "adjective",
+  "tr": "çok sayıda",
+  "en": "great in number; many",
+  "ex": "She has made numerous attempts to pass the driving test."
+ },
+ {
+  "id": "b1-obey",
+  "word": "obey",
+  "pos": "verb",
+  "tr": "itaat etmek",
+  "en": "to do what you are told to do by someone in authority",
+  "ex": "Drivers must obey the speed limit on the highway."
+ },
+ {
+  "id": "b1-object",
+  "word": "object",
+  "pos": "noun",
+  "tr": "nesne; itiraz etmek",
+  "en": "a material thing that can be seen and touched",
+  "ex": "He found a strange metal object on the beach."
+ },
+ {
+  "id": "b1-observe",
+  "word": "observe",
+  "pos": "verb",
+  "tr": "gözlemlemek",
+  "en": "to watch carefully someone or something over a period of time",
+  "ex": "Scientists use telescopes to observe distant stars."
+ },
+ {
+  "id": "b1-obtain",
+  "word": "obtain",
+  "pos": "verb",
+  "tr": "elde etmek",
+  "en": "to get something, especially by asking, buying, or working for it",
+  "ex": "You need a visa to obtain entry into the country."
+ },
+ {
+  "id": "b1-occur",
+  "word": "occur",
+  "pos": "verb",
+  "tr": "meydana gelmek",
+  "en": "to happen or take place",
+  "ex": "The earthquake occurred in the middle of the night."
+ },
+ {
+  "id": "b1-odd",
+  "word": "odd",
+  "pos": "adjective",
+  "tr": "tuhaf; tek (sayı)",
+  "en": "different from what is normal or expected",
+  "ex": "He wore an odd pair of shoes to the party."
+ },
+ {
+  "id": "b1-offence",
+  "word": "offence",
+  "pos": "noun",
+  "tr": "suç; hakaret",
+  "en": "an illegal act; a crime",
+  "ex": "Stealing is a serious criminal offence."
+ },
+ {
+  "id": "b1-official",
+  "word": "official",
+  "pos": "adjective",
+  "tr": "resmi",
+  "en": "approved by someone in authority or by a government",
+  "ex": "This is the official website of the university."
+ },
+ {
+  "id": "b1-operate",
+  "word": "operate",
+  "pos": "verb",
+  "tr": "çalıştırmak; ameliyat etmek",
+  "en": "to control the working of a machine or system",
+  "ex": "Do you know how to operate this coffee machine?"
+ },
+ {
+  "id": "b1-oppose",
+  "word": "oppose",
+  "pos": "verb",
+  "tr": "karşı çıkmak",
+  "en": "to disagree with and try to prevent something",
+  "ex": "Many local residents oppose the plan to build a factory."
+ },
+ {
+  "id": "b1-opposite",
+  "word": "opposite",
+  "pos": "noun",
+  "tr": "zıt",
+  "en": "a person or thing that is totally different from another",
+  "ex": "Hot is the exact opposite of cold."
+ },
+ {
+  "id": "b1-option",
+  "word": "option",
+  "pos": "noun",
+  "tr": "seçenek",
+  "en": "a choice between two or more things",
+  "ex": "We have many options for our holiday."
+ },
+ {
+  "id": "b1-organisation",
+  "word": "organisation",
+  "pos": "noun",
+  "tr": "kuruluş",
+  "en": "a group of people joined together for a business or goal",
+  "ex": "She works for a large international organisation."
+ },
+ {
+  "id": "b1-otherwise",
+  "word": "otherwise",
+  "pos": "adverb",
+  "tr": "aksi takdirde",
+  "en": "if not, or in a different way",
+  "ex": "Hurry up, otherwise we will miss the train."
+ },
+ {
+  "id": "b1-outcome",
+  "word": "outcome",
+  "pos": "noun",
+  "tr": "sonuç",
+  "en": "the final result of an activity or process",
+  "ex": "We are waiting for the outcome of the meeting."
+ },
+ {
+  "id": "b1-outdoor",
+  "word": "outdoor",
+  "pos": "adjective",
+  "tr": "açık hava",
+  "en": "happening or used outside, not inside a building",
+  "ex": "I love outdoor activities like hiking and camping."
+ },
+ {
+  "id": "b1-overall",
+  "word": "overall",
+  "pos": "adjective",
+  "tr": "genel olarak",
+  "en": "including everything or everyone in total",
+  "ex": "The overall cost of the trip was quite high."
+ },
+ {
+  "id": "b1-overcome",
+  "word": "overcome",
+  "pos": "verb",
+  "tr": "üstesinden gelmek",
+  "en": "to successfully deal with a problem or difficulty",
+  "ex": "He managed to overcome his fear of public speaking."
+ },
+ {
+  "id": "b1-owe",
+  "word": "owe",
+  "pos": "verb",
+  "tr": "borçlu olmak",
+  "en": "to need to pay money back to someone",
+  "ex": "I owe you ten liras for lunch."
+ },
+ {
+  "id": "b1-owner",
+  "word": "owner",
+  "pos": "noun",
+  "tr": "sahip",
+  "en": "a person who legally possesses something",
+  "ex": "The car owner left the lights on."
+ },
+ {
+  "id": "b1-pace",
+  "word": "pace",
+  "pos": "noun",
+  "tr": "tempo",
+  "en": "the speed at which something happens or is done",
+  "ex": "She walked at a slow pace down the street."
+ },
+ {
+  "id": "b1-panic",
+  "word": "panic",
+  "pos": "noun",
+  "tr": "panik",
+  "en": "a sudden strong feeling of fear and confusion",
+  "ex": "There is no need to panic; we are safe."
+ },
+ {
+  "id": "b1-participate",
+  "word": "participate",
+  "pos": "verb",
+  "tr": "katılmak",
+  "en": "to take part in an activity or event",
+  "ex": "Many students participate in the sports competition."
+ },
+ {
+  "id": "b1-particular",
+  "word": "particular",
+  "pos": "adjective",
+  "tr": "belirli",
+  "en": "specific, or more than usual",
+  "ex": "Is there any particular movie you want to watch?"
+ },
+ {
+  "id": "b1-partly",
+  "word": "partly",
+  "pos": "adverb",
+  "tr": "kısmen",
+  "en": "to some degree, but not completely",
+  "ex": "The delay was partly due to bad weather."
+ },
+ {
+  "id": "b1-partner",
+  "word": "partner",
+  "pos": "noun",
+  "tr": "ortak, eş",
+  "en": "someone you do business or share your life with",
+  "ex": "They are business partners in a tech company."
+ },
+ {
+  "id": "b1-passion",
+  "word": "passion",
+  "pos": "noun",
+  "tr": "tutku",
+  "en": "a very strong feeling of love or enthusiasm for something",
+  "ex": "Cooking is her biggest passion in life."
+ },
+ {
+  "id": "b1-patience",
+  "word": "patience",
+  "pos": "noun",
+  "tr": "sabır",
+  "en": "the ability to wait or deal with problems calmly",
+  "ex": "Teaching young children requires a lot of patience."
+ },
+ {
+  "id": "b1-pattern",
+  "word": "pattern",
+  "pos": "noun",
+  "tr": "desen, kalıp",
+  "en": "a regular and repeated way something happens or is done",
+  "ex": "We can see a clear pattern in their behavior."
+ },
+ {
+  "id": "b1-payment",
+  "word": "payment",
+  "pos": "noun",
+  "tr": "ödeme",
+  "en": "an amount of money paid, or the act of paying",
+  "ex": "You can make your payment by credit card."
+ },
+ {
+  "id": "b1-peaceful",
+  "word": "peaceful",
+  "pos": "adjective",
+  "tr": "huzurlu",
+  "en": "quiet and calm, without noise or fighting",
+  "ex": "The countryside is very quiet and peaceful."
+ },
+ {
+  "id": "b1-penalty",
+  "word": "penalty",
+  "pos": "noun",
+  "tr": "ceza",
+  "en": "a punishment for breaking a rule or law",
+  "ex": "The football team scored from a penalty kick."
+ },
+ {
+  "id": "b1-pension",
+  "word": "pension",
+  "pos": "noun",
+  "tr": "emekli maaşı",
+  "en": "money paid regularly to a person who has stopped working",
+  "ex": "My grandfather lives on his pension now."
+ },
+ {
+  "id": "b1-percentage",
+  "word": "percentage",
+  "pos": "noun",
+  "tr": "yüzde oranı",
+  "en": "an amount expressed as if it is part of a hundred",
+  "ex": "A high percentage of students passed the exam."
+ },
+ {
+  "id": "b1-perfectly",
+  "word": "perfectly",
+  "pos": "adverb",
+  "tr": "mükemmel şekilde",
+  "en": "in a way that is completely correct or without flaws",
+  "ex": "She understood the instructions perfectly."
+ },
+ {
+  "id": "b1-performance",
+  "word": "performance",
+  "pos": "noun",
+  "tr": "performans",
+  "en": "how well someone does something, or a show for an audience",
+  "ex": "The musicians gave a wonderful performance last night."
+ },
+ {
+  "id": "b1-permanent",
+  "word": "permanent",
+  "pos": "adjective",
+  "tr": "kalıcı",
+  "en": "lasting forever or for a very long time",
+  "ex": "He finally found a permanent job in Istanbul."
+ },
+ {
+  "id": "b1-persuade",
+  "word": "persuade",
+  "pos": "verb",
+  "tr": "ikna etmek",
+  "en": "to make someone agree to do something by giving good reasons",
+  "ex": "I managed to persuade her to come with us."
+ },
+ {
+  "id": "b1-phenomenon",
+  "word": "phenomenon",
+  "pos": "noun",
+  "tr": "olgu",
+  "en": "something that happens or exists, often hard to explain",
+  "ex": "Gravity is a natural phenomenon."
+ },
+ {
+  "id": "b1-photography",
+  "word": "photography",
+  "pos": "noun",
+  "tr": "fotoğrafçılık",
+  "en": "the art or practice of taking pictures with a camera",
+  "ex": "He is studying photography at university."
+ },
+ {
+  "id": "b1-phrase",
+  "word": "phrase",
+  "pos": "noun",
+  "tr": "ifade",
+  "en": "a small group of words that express an idea",
+  "ex": "Learn useful phrases before you travel abroad."
+ },
+ {
+  "id": "b1-pile",
+  "word": "pile",
+  "pos": "noun",
+  "tr": "yığın",
+  "en": "Things stacked neatly or messily on top of each other.",
+  "ex": "There was a huge pile of clothes on the chair."
+ },
+ {
+  "id": "b1-pity",
+  "word": "pity",
+  "pos": "noun",
+  "tr": "acıma, yazık",
+  "en": "A feeling of sadness or sympathy for someone's problems.",
+  "ex": "It is a pity that you missed the party."
+ },
+ {
+  "id": "b1-plain",
+  "word": "plain",
+  "pos": "adjective",
+  "tr": "sade",
+  "en": "Simple, without any decoration or extra features.",
+  "ex": "She wore a plain black dress to the meeting."
+ },
+ {
+  "id": "b1-pleasure",
+  "word": "pleasure",
+  "pos": "noun",
+  "tr": "zevk",
+  "en": "A feeling of happiness, enjoyment, or satisfaction.",
+  "ex": "It was a great pleasure to meet you."
+ },
+ {
+  "id": "b1-plot",
+  "word": "plot",
+  "pos": "noun",
+  "tr": "olay örgüsü",
+  "en": "The main events of a story, movie, or book.",
+  "ex": "The movie had a very complicated plot."
+ },
+ {
+  "id": "b1-pointless",
+  "word": "pointless",
+  "pos": "adjective",
+  "tr": "anlamsız",
+  "en": "Having no purpose, meaning, or useful result.",
+  "ex": "It is pointless to argue about this anymore."
+ },
+ {
+  "id": "b1-policy",
+  "word": "policy",
+  "pos": "noun",
+  "tr": "politika",
+  "en": "A set of rules or plans adopted by a government or company.",
+  "ex": "The company has a strict policy against smoking."
+ },
+ {
+  "id": "b1-political",
+  "word": "political",
+  "pos": "adjective",
+  "tr": "siyasi",
+  "en": "Relating to the government or public affairs of a country.",
+  "ex": "They had a long discussion about political issues."
+ },
+ {
+  "id": "b1-pollute",
+  "word": "pollute",
+  "pos": "verb",
+  "tr": "kirletmek",
+  "en": "To make air, water, or land dirty and dangerous.",
+  "ex": "Factories should not pollute the river with chemicals."
+ },
+ {
+  "id": "b1-port",
+  "word": "port",
+  "pos": "noun",
+  "tr": "liman",
+  "en": "A town or city with a harbor where ships load and unload.",
+  "ex": "The ship arrived at the port early in the morning."
+ },
+ {
+  "id": "b1-portrait",
+  "word": "portrait",
+  "pos": "noun",
+  "tr": "portre",
+  "en": "A painting, drawing, or photograph of a person.",
+  "ex": "The museum has a famous portrait of the queen."
+ },
+ {
+  "id": "b1-position",
+  "word": "position",
+  "pos": "noun",
+  "tr": "konum",
+  "en": "A place where someone or something is located.",
+  "ex": "She applied for a new position at the bank."
+ },
+ {
+  "id": "b1-possess",
+  "word": "possess",
+  "pos": "verb",
+  "tr": "sahip olmak",
+  "en": "To have or own something.",
+  "ex": "He does not possess a car or a house."
+ },
+ {
+  "id": "b1-possibility",
+  "word": "possibility",
+  "pos": "noun",
+  "tr": "olasılık",
+  "en": "A chance that something may happen or be true.",
+  "ex": "There is a strong possibility of rain this afternoon."
+ },
+ {
+  "id": "b1-potential",
+  "word": "potential",
+  "pos": "noun",
+  "tr": "potansiyel",
+  "en": "Natural ability or capacity that can be developed.",
+  "ex": "She shows great potential as a musician."
+ },
+ {
+  "id": "b1-poverty",
+  "word": "poverty",
+  "pos": "noun",
+  "tr": "yoksulluk",
+  "en": "The state of being extremely poor.",
+  "ex": "Many families live in extreme poverty in this region."
+ },
+ {
+  "id": "b1-power",
+  "word": "power",
+  "pos": "noun",
+  "tr": "güç",
+  "en": "The ability or strength to do things or control others.",
+  "ex": "The storm cut off the power to the whole town."
+ },
+ {
+  "id": "b1-precise",
+  "word": "precise",
+  "pos": "adjective",
+  "tr": "kesin",
+  "en": "Exact and accurate in details.",
+  "ex": "Can you give me the precise time of the meeting?"
+ },
+ {
+  "id": "b1-predict",
+  "word": "predict",
+  "pos": "verb",
+  "tr": "tahmin etmek",
+  "en": "To say that something will happen in the future.",
+  "ex": "Experts predict that the weather will improve tomorrow."
+ },
+ {
+  "id": "b1-pregnant",
+  "word": "pregnant",
+  "pos": "adjective",
+  "tr": "hamile",
+  "en": "Having a baby developing inside the body.",
+  "ex": "She is six months pregnant and feeling great."
+ },
+ {
+  "id": "b1-preparation",
+  "word": "preparation",
+  "pos": "noun",
+  "tr": "hazırlık",
+  "en": "The process of making ready for something.",
+  "ex": "The team is in hard preparation for the match."
+ },
+ {
+  "id": "b1-presence",
+  "word": "presence",
+  "pos": "noun",
+  "tr": "varlık",
+  "en": "The state of being in a particular place.",
+  "ex": "Her presence at the meeting made everyone nervous."
+ },
+ {
+  "id": "b1-presentation",
+  "word": "presentation",
+  "pos": "noun",
+  "tr": "sunum",
+  "en": "A talk giving information about something to an audience.",
+  "ex": "He gave a brilliant presentation about the new project."
+ },
+ {
+  "id": "b1-preserve",
+  "word": "preserve",
+  "pos": "verb",
+  "tr": "korumak",
+  "en": "To keep something safe from harm or change.",
+  "ex": "We need to preserve old buildings in the city."
+ },
+ {
+  "id": "b1-pressure",
+  "word": "pressure",
+  "pos": "noun",
+  "tr": "baskı",
+  "en": "A difficult situation or force that causes worry.",
+  "ex": "He works well under pressure."
+ },
+ {
+  "id": "b1-previous",
+  "word": "previous",
+  "pos": "adjective",
+  "tr": "önceki",
+  "en": "Happening or existing before the one you are discussing.",
+  "ex": "I met him on a previous occasion."
+ },
+ {
+  "id": "b1-pride",
+  "word": "pride",
+  "pos": "noun",
+  "tr": "gurur",
+  "en": "A feeling of deep satisfaction in your achievements.",
+  "ex": "She looked at her graduation certificate with pride."
+ },
+ {
+  "id": "b1-primary",
+  "word": "primary",
+  "pos": "adjective",
+  "tr": "birincil",
+  "en": "Main, most important, or first in order.",
+  "ex": "My primary goal is to learn English fluently."
+ },
+ {
+  "id": "b1-principle",
+  "word": "principle",
+  "pos": "noun",
+  "tr": "ilke",
+  "en": "A basic moral rule or belief that guides your actions.",
+  "ex": "He refuses to lie because of his personal principles."
+ },
+ {
+  "id": "b1-prior",
+  "word": "prior",
+  "pos": "adjective",
+  "tr": "önceki",
+  "en": "Existing or coming before something else in time or order.",
+  "ex": "I cannot come because I have a prior engagement."
+ },
+ {
+  "id": "b1-priority",
+  "word": "priority",
+  "pos": "noun",
+  "tr": "öncelik",
+  "en": "Something that is more important than other things.",
+  "ex": "Finishing this report is my top priority today."
+ },
+ {
+  "id": "b1-private",
+  "word": "private",
+  "pos": "adjective",
+  "tr": "özel",
+  "en": "Not public or general; belonging to a specific person.",
+  "ex": "This is a private conversation, please leave."
+ },
+ {
+  "id": "b1-procedure",
+  "word": "procedure",
+  "pos": "noun",
+  "tr": "prosedür",
+  "en": "A correct way of doing something step by step.",
+  "ex": "You must follow the safety procedure in the lab."
+ },
+ {
+  "id": "b1-process",
+  "word": "process",
+  "pos": "noun",
+  "tr": "süreç",
+  "en": "A series of actions taken to achieve a result.",
+  "ex": "Learning a new language is a long process."
+ },
+ {
+  "id": "b1-profession",
+  "word": "profession",
+  "pos": "noun",
+  "tr": "meslek",
+  "en": "A job that needs special training and education.",
+  "ex": "Nursing is a very respected profession."
+ },
+ {
+  "id": "b1-profit",
+  "word": "profit",
+  "pos": "noun",
+  "tr": "kâr",
+  "en": "Money that you make in business after paying costs.",
+  "ex": "The company made a big profit this year."
+ },
+ {
+  "id": "b1-progress",
+  "word": "progress",
+  "pos": "noun",
+  "tr": "ilerleme",
+  "en": "Movement forward or improvement over time.",
+  "ex": "I am happy with your progress in English."
+ },
+ {
+  "id": "b1-prohibit",
+  "word": "prohibit",
+  "pos": "verb",
+  "tr": "yasaklamak",
+  "en": "To officially stop people from doing something.",
+  "ex": "The school rules prohibit smoking on campus."
+ },
+ {
+  "id": "b1-promote",
+  "word": "promote",
+  "pos": "verb",
+  "tr": "tanıtmak; terfi ettirmek",
+  "en": "To help something grow or give someone a higher job.",
+  "ex": "They decided to promote him to manager."
+ },
+ {
+  "id": "b1-proof",
+  "word": "proof",
+  "pos": "noun",
+  "tr": "kanıt",
+  "en": "Information or facts that show something is true.",
+  "ex": "Do you have proof that he stole the car?"
+ },
+ {
+  "id": "b1-proper",
+  "word": "proper",
+  "pos": "adjective",
+  "tr": "uygun",
+  "en": "Right, suitable, or correct for a situation.",
+  "ex": "Please wear proper shoes for the hike."
+ },
+ {
+  "id": "b1-property",
+  "word": "property",
+  "pos": "noun",
+  "tr": "mülk",
+  "en": "Something that belongs to someone, like land or a house.",
+  "ex": "You cannot walk here because it is private property."
+ },
+ {
+  "id": "b1-proportion",
+  "word": "proportion",
+  "pos": "noun",
+  "tr": "oran",
+  "en": "A part or share of a whole amount.",
+  "ex": "A large proportion of the students passed the test."
+ },
+ {
+  "id": "b1-proposal",
+  "word": "proposal",
+  "pos": "noun",
+  "tr": "öneri",
+  "en": "A formal plan or suggestion put forward for consideration.",
+  "ex": "The board accepted his business proposal."
+ },
+ {
+  "id": "b1-prospect",
+  "word": "prospect",
+  "pos": "noun",
+  "tr": "olasılık",
+  "en": "The possibility that something will happen in the future.",
+  "ex": "The prospect of finding a new job excited her."
+ },
+ {
+  "id": "b1-protest",
+  "word": "protest",
+  "pos": "noun",
+  "tr": "protesto",
+  "en": "An event where people show they strongly disagree with something.",
+  "ex": "Workers joined the protest against low wages."
+ },
+ {
+  "id": "b1-prove",
+  "word": "prove",
+  "pos": "verb",
+  "tr": "kanıtlamak",
+  "en": "To show that something is definitely true using facts.",
+  "ex": "The police need to prove that he is guilty."
+ },
+ {
+  "id": "b1-publish",
+  "word": "publish",
+  "pos": "verb",
+  "tr": "yayımlamak",
+  "en": "To prepare and print a book or article for sale.",
+  "ex": "She hopes to publish her novel next year."
+ },
+ {
+  "id": "b1-pure",
+  "word": "pure",
+  "pos": "adjective",
+  "tr": "saf",
+  "en": "Not mixed or dirty with anything else.",
+  "ex": "This ring is made of pure gold."
+ },
+ {
+  "id": "b1-pursue",
+  "word": "pursue",
+  "pos": "verb",
+  "tr": "peşinden gitmek",
+  "en": "To follow or try to achieve something over time.",
+  "ex": "He decided to pursue a career in medicine."
+ },
+ {
+  "id": "b1-qualification",
+  "word": "qualification",
+  "pos": "noun",
+  "tr": "yeterlilik, diploma",
+  "en": "An exam passed or skill gained for a job.",
+  "ex": "A university degree is a basic qualification for this job."
+ },
+ {
+  "id": "b1-qualify",
+  "word": "qualify",
+  "pos": "verb",
+  "tr": "hak kazanmak",
+  "en": "To reach the standard needed to do something.",
+  "ex": "She worked hard to qualify as a lawyer."
+ },
+ {
+  "id": "b1-quantity",
+  "word": "quantity",
+  "pos": "noun",
+  "tr": "miktar",
+  "en": "An amount or number of something.",
+  "ex": "We need to buy food in large quantity for the party."
+ },
+ {
+  "id": "b1-quit",
+  "word": "quit",
+  "pos": "verb",
+  "tr": "bırakmak",
+  "en": "To stop doing something or leave a job.",
+  "ex": "He decided to quit smoking for his health."
+ },
+ {
+  "id": "b1-quote",
+  "word": "quote",
+  "pos": "verb",
+  "tr": "alıntı yapmak",
+  "en": "To repeat the exact words that someone else said.",
+  "ex": "The teacher liked to quote famous writers."
+ },
+ {
+  "id": "b1-range",
+  "word": "range",
+  "pos": "noun",
+  "tr": "aralık, yelpaze",
+  "en": "A variety of different things within limits.",
+  "ex": "The store offers a wide range of products."
+ },
+ {
+  "id": "b1-rank",
+  "word": "rank",
+  "pos": "noun",
+  "tr": "sıralama",
+  "en": "A position in a list, group, or organization.",
+  "ex": "He rose to the rank of captain in the army."
+ },
+ {
+  "id": "b1-rapid",
+  "word": "rapid",
+  "pos": "adjective",
+  "tr": "hızlı",
+  "en": "Happening very quickly in a short time.",
+  "ex": "The city has seen rapid growth recently."
+ },
+ {
+  "id": "b1-rate",
+  "word": "rate",
+  "pos": "noun",
+  "tr": "oran",
+  "en": "The speed or number of times something happens.",
+  "ex": "The car was traveling at a high rate of speed."
+ },
+ {
+  "id": "b1-raw",
+  "word": "raw",
+  "pos": "adjective",
+  "tr": "çiğ",
+  "en": "Not cooked or in a natural, unprocessed state.",
+  "ex": "Sushi is made with raw fish and rice."
+ },
+ {
+  "id": "b1-reaction",
+  "word": "reaction",
+  "pos": "noun",
+  "tr": "tepki",
+  "en": "what you do or say because of something else",
+  "ex": "His reaction to the news was very surprising."
+ },
+ {
+  "id": "b1-reasonable",
+  "word": "reasonable",
+  "pos": "adjective",
+  "tr": "makul",
+  "en": "fair and based on good sense",
+  "ex": "The price of this computer is quite reasonable."
+ },
+ {
+  "id": "b1-recall",
+  "word": "recall",
+  "pos": "verb",
+  "tr": "hatırlamak",
+  "en": "to bring a fact back into your mind",
+  "ex": "I cannot recall where I left my keys."
+ },
+ {
+  "id": "b1-recognise",
+  "word": "recognise",
+  "pos": "verb",
+  "tr": "tanımak",
+  "en": "to know someone or something because you saw them before",
+  "ex": "I didn't recognise her because she changed her hair."
+ },
+ {
+  "id": "b1-recover",
+  "word": "recover",
+  "pos": "verb",
+  "tr": "iyileşmek",
+  "en": "to become well again after being sick or hurt",
+  "ex": "It took him two weeks to recover from the flu."
+ },
+ {
+  "id": "b1-refer",
+  "word": "refer",
+  "pos": "verb",
+  "tr": "atıfta bulunmak",
+  "en": "to look at something for information or mention someone",
+  "ex": "Please refer to the map if you get lost."
+ },
+ {
+  "id": "b1-reflect",
+  "word": "reflect",
+  "pos": "verb",
+  "tr": "yansıtmak",
+  "en": "to show an image in a mirror or water",
+  "ex": "The calm lake can reflect the mountains."
+ },
+ {
+  "id": "b1-reform",
+  "word": "reform",
+  "pos": "verb",
+  "tr": "reform",
+  "en": "to make changes to a system to improve it",
+  "ex": "The government plans to reform the education system."
+ },
+ {
+  "id": "b1-regard",
+  "word": "regard",
+  "pos": "verb",
+  "tr": "saymak, görmek",
+  "en": "to think of someone or something in a specific way",
+  "ex": "People regard him as one of the best doctors."
+ },
+ {
+  "id": "b1-regret",
+  "word": "regret",
+  "pos": "verb",
+  "tr": "pişman olmak",
+  "en": "to feel sorry about something you did",
+  "ex": "I regret saying those unkind words to her."
+ },
+ {
+  "id": "b1-regular",
+  "word": "regular",
+  "pos": "adjective",
+  "tr": "düzenli",
+  "en": "happening again and again at the same time",
+  "ex": "Try to get into a regular sleeping habit."
+ },
+ {
+  "id": "b1-reject",
+  "word": "reject",
+  "pos": "verb",
+  "tr": "reddetmek",
+  "en": "to refuse to accept or agree with something",
+  "ex": "The company decided to reject my job application."
+ },
+ {
+  "id": "b1-release",
+  "word": "release",
+  "pos": "verb",
+  "tr": "serbest bırakmak; yayınlamak",
+  "en": "to let someone or something go free",
+  "ex": "The band will release a new album next month."
+ },
+ {
+  "id": "b1-relevant",
+  "word": "relevant",
+  "pos": "adjective",
+  "tr": "ilgili",
+  "en": "directly connected to the subject you are discussing",
+  "ex": "Please give me only relevant information."
+ },
+ {
+  "id": "b1-reliable",
+  "word": "reliable",
+  "pos": "adjective",
+  "tr": "güvenilir",
+  "en": "able to be trusted or depended upon",
+  "ex": "My car is old, but it is still very reliable."
+ },
+ {
+  "id": "b1-relief",
+  "word": "relief",
+  "pos": "noun",
+  "tr": "rahatlama",
+  "en": "a happy feeling when something bad stops or does not happen",
+  "ex": "It was such a relief to finish the hard exam."
+ },
+ {
+  "id": "b1-rely-on",
+  "word": "rely on",
+  "pos": "phrasal verb",
+  "tr": "güvenmek",
+  "en": "to need someone or something for support or help",
+  "ex": "You can always rely on my help."
+ },
+ {
+  "id": "b1-remain",
+  "word": "remain",
+  "pos": "verb",
+  "tr": "kalmak",
+  "en": "to stay in the same place or condition",
+  "ex": "Please remain seated until the plane stops."
+ },
+ {
+  "id": "b1-remark",
+  "word": "remark",
+  "pos": "noun",
+  "tr": "söz, yorum",
+  "en": "something that you say to express an opinion",
+  "ex": "His rude remark made everyone quiet."
+ },
+ {
+  "id": "b1-remote",
+  "word": "remote",
+  "pos": "adjective",
+  "tr": "uzak",
+  "en": "far away from cities and places where people live",
+  "ex": "They live in a remote village in the mountains."
+ },
+ {
+  "id": "b1-replace",
+  "word": "replace",
+  "pos": "verb",
+  "tr": "yerine koymak",
+  "en": "to put a new thing in the place of an old one",
+  "ex": "I need to replace my broken phone."
+ },
+ {
+  "id": "b1-represent",
+  "word": "represent",
+  "pos": "verb",
+  "tr": "temsil etmek",
+  "en": "to speak or act officially for another person or group",
+  "ex": "She will represent our school at the meeting."
+ },
+ {
+  "id": "b1-reputation",
+  "word": "reputation",
+  "pos": "noun",
+  "tr": "itibar",
+  "en": "the opinion that people have about someone or something",
+  "ex": "The hotel has a bad reputation for service."
+ },
+ {
+  "id": "b1-request",
+  "word": "request",
+  "pos": "noun",
+  "tr": "rica, talep",
+  "en": "an polite act of asking for something",
+  "ex": "We received a special request for a table by the window."
+ },
+ {
+  "id": "b1-require",
+  "word": "require",
+  "pos": "verb",
+  "tr": "gerektirmek",
+  "en": "to need something for a specific purpose",
+  "ex": "This job requires good computer skills."
+ },
+ {
+  "id": "b1-resident",
+  "word": "resident",
+  "pos": "noun",
+  "tr": "sakin (kişi)",
+  "en": "a person who lives in a particular place",
+  "ex": "Local residents were unhappy about the new park rules."
+ },
+ {
+  "id": "b1-resolve",
+  "word": "resolve",
+  "pos": "verb",
+  "tr": "çözmek",
+  "en": "to find a solution to a problem",
+  "ex": "They managed to resolve their argument peacefully."
+ },
+ {
+  "id": "b1-resource",
+  "word": "resource",
+  "pos": "noun",
+  "tr": "kaynak",
+  "en": "something that a country or person has and can use",
+  "ex": "Water is a very important natural resource."
+ },
+ {
+  "id": "b1-respect",
+  "word": "respect",
+  "pos": "noun",
+  "tr": "saygı",
+  "en": "a good opinion of someone's character or ideas",
+  "ex": "Children should show respect to their elders."
+ },
+ {
+  "id": "b1-respond",
+  "word": "respond",
+  "pos": "verb",
+  "tr": "yanıt vermek",
+  "en": "to say or do something as an answer",
+  "ex": "Please respond to my email by tomorrow."
+ },
+ {
+  "id": "b1-responsible",
+  "word": "responsible",
+  "pos": "adjective",
+  "tr": "sorumlu",
+  "en": "Having the duty to take care of something or someone.",
+  "ex": "Parents are responsible for their children."
+ },
+ {
+  "id": "b1-restore",
+  "word": "restore",
+  "pos": "verb",
+  "tr": "onarmak",
+  "en": "To bring something back to its original good condition.",
+  "ex": "They want to restore the old historic building."
+ },
+ {
+  "id": "b1-restrict",
+  "word": "restrict",
+  "pos": "verb",
+  "tr": "kısıtlamak",
+  "en": "To put a limit on something so it cannot grow.",
+  "ex": "The new law will restrict the use of cars."
+ },
+ {
+  "id": "b1-retire",
+  "word": "retire",
+  "pos": "verb",
+  "tr": "emekli olmak",
+  "en": "To stop working permanently because you reached a certain age.",
+  "ex": "My father plans to retire next year."
+ },
+ {
+  "id": "b1-reveal",
+  "word": "reveal",
+  "pos": "verb",
+  "tr": "açığa çıkarmak",
+  "en": "To show something that was hidden or secret before.",
+  "ex": "She did not want to reveal her plans."
+ },
+ {
+  "id": "b1-revenue",
+  "word": "revenue",
+  "pos": "noun",
+  "tr": "gelir",
+  "en": "The money that a company or government receives regularly.",
+  "ex": "The small shop has high revenue during summer."
+ },
+ {
+  "id": "b1-reward",
+  "word": "reward",
+  "pos": "noun",
+  "tr": "ödül",
+  "en": "Something good given to you because you did something well.",
+  "ex": "The police offered a reward for finding the lost dog."
+ },
+ {
+  "id": "b1-rhythm",
+  "word": "rhythm",
+  "pos": "noun",
+  "tr": "ritim",
+  "en": "A strong regular repeated pattern of sounds or movements.",
+  "ex": "I love the upbeat rhythm of this song."
+ },
+ {
+  "id": "b1-rob",
+  "word": "rob",
+  "pos": "verb",
+  "tr": "soymak",
+  "en": "To steal money or property from a person or place.",
+  "ex": "Someone tried to rob the bank downtown."
+ },
+ {
+  "id": "b1-rough",
+  "word": "rough",
+  "pos": "adjective",
+  "tr": "pürüzlü; kaba",
+  "en": "Not smooth to touch or not gentle in actions.",
+  "ex": "The surface of the stone is very rough."
+ },
+ {
+  "id": "b1-royal",
+  "word": "royal",
+  "pos": "adjective",
+  "tr": "kraliyet",
+  "en": "Connected to a king or queen and their family.",
+  "ex": "The royal family lives in a large palace."
+ },
+ {
+  "id": "b1-rude",
+  "word": "rude",
+  "pos": "adjective",
+  "tr": "kaba",
+  "en": "Not polite and lacking respect for other people.",
+  "ex": "It is rude to speak loudly on the phone."
+ },
+ {
+  "id": "b1-ruin",
+  "word": "ruin",
+  "pos": "verb",
+  "tr": "mahvetmek",
+  "en": "To spoil or destroy something completely.",
+  "ex": "The heavy rain will ruin our picnic."
+ },
+ {
+  "id": "b1-rural",
+  "word": "rural",
+  "pos": "adjective",
+  "tr": "kırsal",
+  "en": "Connected to the countryside rather than the city.",
+  "ex": "They live in a quiet rural area."
+ },
+ {
+  "id": "b1-sacrifice",
+  "word": "sacrifice",
+  "pos": "verb",
+  "tr": "fedakârlık",
+  "en": "To give up something important for something else.",
+  "ex": "She had to sacrifice her free time to study."
+ },
+ {
+  "id": "b1-safety",
+  "word": "safety",
+  "pos": "noun",
+  "tr": "güvenlik",
+  "en": "The state of being protected from danger or harm.",
+  "ex": "Always check your seatbelt for your own safety."
+ },
+ {
+  "id": "b1-sample",
+  "word": "sample",
+  "pos": "noun",
+  "tr": "örnek",
+  "en": "A small amount of something given to try.",
+  "ex": "The shop gave me a free coffee sample."
+ },
+ {
+  "id": "b1-satisfy",
+  "word": "satisfy",
+  "pos": "verb",
+  "tr": "tatmin etmek",
+  "en": "To make someone happy by giving what they need.",
+  "ex": "This big meal will easily satisfy my hunger."
+ },
+ {
+  "id": "b1-scale",
+  "word": "scale",
+  "pos": "noun",
+  "tr": "ölçek",
+  "en": "The size or extent of something, or a device for weight.",
+  "ex": "The project is on a very large scale."
+ },
+ {
+  "id": "b1-scheme",
+  "word": "scheme",
+  "pos": "noun",
+  "tr": "plan, program",
+  "en": "An official plan or system for doing something.",
+  "ex": "The city introduced a new recycling scheme."
+ },
+ {
+  "id": "b1-scream",
+  "word": "scream",
+  "pos": "verb",
+  "tr": "çığlık atmak",
+  "en": "To cry out in a loud voice because of fear.",
+  "ex": "The children began to scream on the roller coaster."
+ },
+ {
+  "id": "b1-security",
+  "word": "security",
+  "pos": "noun",
+  "tr": "güvenlik",
+  "en": "The protection of a person, building, or country from danger.",
+  "ex": "Airport security checks every bag carefully."
+ },
+ {
+  "id": "b1-seek",
+  "word": "seek",
+  "pos": "verb",
+  "tr": "aramak",
+  "en": "To try to find or get something.",
+  "ex": "Many students seek advice from their teachers."
+ },
+ {
+  "id": "b1-select",
+  "word": "select",
+  "pos": "verb",
+  "tr": "seçmek",
+  "en": "To choose one or more things from a group.",
+  "ex": "Please select a color for your new car."
+ },
+ {
+  "id": "b1-senior",
+  "word": "senior",
+  "pos": "adjective",
+  "tr": "kıdemli",
+  "en": "Higher in rank or older in age than others.",
+  "ex": "She is a senior manager at the company."
+ },
+ {
+  "id": "b1-sense",
+  "word": "sense",
+  "pos": "noun",
+  "tr": "his; anlam",
+  "en": "A physical ability like sight, hearing, touch, taste, or smell.",
+  "ex": "Dogs have a very strong sense of smell."
+ },
+ {
+  "id": "b1-sensible",
+  "word": "sensible",
+  "pos": "adjective",
+  "tr": "mantıklı",
+  "en": "Showing good judgment and practical thinking.",
+  "ex": "Wearing a warm coat in winter is a sensible idea."
+ },
+ {
+  "id": "b1-sensitive",
+  "word": "sensitive",
+  "pos": "adjective",
+  "tr": "hassas",
+  "en": "Easily hurt or affected by things around you.",
+  "ex": "He has very sensitive skin and cannot stay in the sun."
+ },
+ {
+  "id": "b1-separate",
+  "word": "separate",
+  "pos": "adjective",
+  "tr": "ayrı; ayırmak",
+  "en": "Not joined or connected to anything else; apart.",
+  "ex": "They live in two separate houses."
+ },
+ {
+  "id": "b1-sequence",
+  "word": "sequence",
+  "pos": "noun",
+  "tr": "sıra",
+  "en": "A particular order in which events or things follow each other.",
+  "ex": "Follow the correct sequence to solve the puzzle."
+ },
+ {
+  "id": "b1-series",
+  "word": "series",
+  "pos": "noun",
+  "tr": "dizi",
+  "en": "Several similar events or things happening one after another.",
+  "ex": "She watched a whole series on TV last weekend."
+ },
+ {
+  "id": "b1-session",
+  "word": "session",
+  "pos": "noun",
+  "tr": "oturum",
+  "en": "A period of time used for a specific activity.",
+  "ex": "The therapy session lasted for one hour."
+ },
+ {
+  "id": "b1-settle",
+  "word": "settle",
+  "pos": "verb",
+  "tr": "yerleşmek",
+  "en": "To move to a place and live there permanently.",
+  "ex": "They decided to settle in a quiet coastal town."
+ },
+ {
+  "id": "b1-severe",
+  "word": "severe",
+  "pos": "adjective",
+  "tr": "şiddetli",
+  "en": "Very extreme, serious, or harmful.",
+  "ex": "The storm caused severe damage to many houses."
+ },
+ {
+  "id": "b1-shade",
+  "word": "shade",
+  "pos": "noun",
+  "tr": "gölge",
+  "en": "An area protected from direct bright sunlight.",
+  "ex": "We sat under the shade of a large tree."
+ },
+ {
+  "id": "b1-shelter",
+  "word": "shelter",
+  "pos": "noun",
+  "tr": "barınak",
+  "en": "A place that gives protection from bad weather or danger.",
+  "ex": "They found shelter from the heavy rain under a roof."
+ },
+ {
+  "id": "b1-shift",
+  "word": "shift",
+  "pos": "verb",
+  "tr": "vardiya; değişmek",
+  "en": "To move slightly or change position.",
+  "ex": "She tried to shift her weight to the other foot."
+ },
+ {
+  "id": "b1-shortage",
+  "word": "shortage",
+  "pos": "noun",
+  "tr": "kıtlık",
+  "en": "A situation when there is not enough of something.",
+  "ex": "There is a water shortage in the dry region."
+ },
+ {
+  "id": "b1-significant",
+  "word": "significant",
+  "pos": "adjective",
+  "tr": "önemli",
+  "en": "Important enough to be noticed or have an effect.",
+  "ex": "There was a significant increase in sales this month."
+ },
+ {
+  "id": "b1-silent",
+  "word": "silent",
+  "pos": "adjective",
+  "tr": "sessiz",
+  "en": "Making no sound or completely quiet.",
+  "ex": "The library must be kept silent during study hours."
+ },
+ {
+  "id": "b1-sincere",
+  "word": "sincere",
+  "pos": "adjective",
+  "tr": "içten",
+  "en": "Honest and expressing true feelings without pretending.",
+  "ex": "He gave a sincere apology for his mistake."
+ },
+ {
+  "id": "b1-site",
+  "word": "site",
+  "pos": "noun",
+  "tr": "alan, site",
+  "en": "A place where a building or event is located.",
+  "ex": "They visited the historical site of the ancient city."
+ },
+ {
+  "id": "b1-situation",
+  "word": "situation",
+  "pos": "noun",
+  "tr": "durum",
+  "en": "The set of conditions happening at a certain time.",
+  "ex": "We need to handle this difficult situation carefully."
+ },
+ {
+  "id": "b1-slight",
+  "word": "slight",
+  "pos": "adjective",
+  "tr": "hafif",
+  "en": "Small in degree, amount, or size.",
+  "ex": "I felt a slight pain in my left arm."
+ },
+ {
+  "id": "b1-smooth",
+  "word": "smooth",
+  "pos": "adjective",
+  "tr": "pürüzsüz",
+  "en": "Having a flat and even surface with no lumps.",
+  "ex": "The baby's skin is very soft and smooth."
+ },
+ {
+  "id": "b1-solid",
+  "word": "solid",
+  "pos": "adjective",
+  "tr": "katı, sağlam",
+  "en": "Firm and hard, not liquid or gas.",
+  "ex": "Ice is the solid form of water."
+ },
+ {
+  "id": "b1-somewhat",
+  "word": "somewhat",
+  "pos": "adverb",
+  "tr": "biraz",
+  "en": "To some degree or a little bit.",
+  "ex": "The weather today is somewhat colder than yesterday."
+ },
+ {
+  "id": "b1-source",
+  "word": "source",
+  "pos": "noun",
+  "tr": "kaynak",
+  "en": "Where something begins or comes from.",
+  "ex": "Sunlight is the main source of energy for plants."
+ },
+ {
+  "id": "b1-specific",
+  "word": "specific",
+  "pos": "adjective",
+  "tr": "belirli",
+  "en": "Clear, exact, and detailed.",
+  "ex": "Can you give me a specific example of your idea?"
+ },
+ {
+  "id": "b1-spread",
+  "word": "spread",
+  "pos": "verb",
+  "tr": "yaymak",
+  "en": "To cover a larger area or open wider.",
+  "ex": "Butter is easy to spread on warm toast."
+ },
+ {
+  "id": "b1-stable",
+  "word": "stable",
+  "pos": "adjective",
+  "tr": "istikrarlı",
+  "en": "Firmly fixed and not likely to move or change.",
+  "ex": "Make sure the ladder is stable before climbing."
+ },
+ {
+  "id": "b1-standard",
+  "word": "standard",
+  "pos": "noun",
+  "tr": "standart",
+  "en": "A level of quality used as a measure.",
+  "ex": "This hotel offers a high standard of service."
+ },
+ {
+  "id": "b1-statement",
+  "word": "statement",
+  "pos": "noun",
+  "tr": "açıklama, ifade",
+  "en": "Something that you say or write officially.",
+  "ex": "The police asked him to make a statement."
+ },
+ {
+  "id": "b1-statistics",
+  "word": "statistics",
+  "pos": "noun",
+  "tr": "istatistik",
+  "en": "Information shown in numbers about a subject.",
+  "ex": "The report includes useful statistics on tourism."
+ },
+ {
+  "id": "b1-status",
+  "word": "status",
+  "pos": "noun",
+  "tr": "statü",
+  "en": "The social or professional position of someone.",
+  "ex": "He worked hard to improve his status in the company."
+ },
+ {
+  "id": "b1-steady",
+  "word": "steady",
+  "pos": "adjective",
+  "tr": "istikrarlı",
+  "en": "Happening in a smooth, regular, and continuous way.",
+  "ex": "The car drove at a steady speed on the highway."
+ },
+ {
+  "id": "b1-stick",
+  "word": "stick",
+  "pos": "verb",
+  "tr": "yapıştırmak",
+  "en": "To attach something to a surface using glue.",
+  "ex": "She used tape to stick the poster to the wall."
+ },
+ {
+  "id": "b1-stock",
+  "word": "stock",
+  "pos": "noun",
+  "tr": "stok",
+  "en": "The amount of goods available in a shop.",
+  "ex": "The supermarket has run out of stock for that item."
+ },
+ {
+  "id": "b1-strategy",
+  "word": "strategy",
+  "pos": "noun",
+  "tr": "strateji",
+  "en": "A detailed plan for achieving success over time.",
+  "ex": "The company created a new marketing strategy."
+ },
+ {
+  "id": "b1-strength",
+  "word": "strength",
+  "pos": "noun",
+  "tr": "güç",
+  "en": "The physical or mental power that someone has.",
+  "ex": " Lifting heavy weights helps build muscle strength."
+ },
+ {
+  "id": "b1-stretch",
+  "word": "stretch",
+  "pos": "verb",
+  "tr": "germek",
+  "en": "to make your body or arms longer and straight.",
+  "ex": "I like to stretch every morning after waking up."
+ },
+ {
+  "id": "b1-structure",
+  "word": "structure",
+  "pos": "noun",
+  "tr": "yapı",
+  "en": "the way that something is built or organized.",
+  "ex": "The old bridge has a very strong metal structure."
+ },
+ {
+  "id": "b1-struggle",
+  "word": "struggle",
+  "pos": "verb",
+  "tr": "mücadele etmek",
+  "en": "to try very hard to do a difficult thing.",
+  "ex": "Many students struggle with English grammar rules."
+ },
+ {
+  "id": "b1-stuff",
+  "word": "stuff",
+  "pos": "noun",
+  "tr": "şey, eşya",
+  "en": "various objects or things without naming them directly.",
+  "ex": "Put your personal stuff in this box."
+ },
+ {
+  "id": "b1-style",
+  "word": "style",
+  "pos": "noun",
+  "tr": "tarz",
+  "en": "a particular way of doing, designing, or dressing.",
+  "ex": "I really like her modern fashion style."
+ },
+ {
+  "id": "b1-suffer",
+  "word": "suffer",
+  "pos": "verb",
+  "tr": "acı çekmek",
+  "en": "to feel pain or experience something very bad.",
+  "ex": "He suffers from bad headaches every winter."
+ },
+ {
+  "id": "b1-sufficient",
+  "word": "sufficient",
+  "pos": "adjective",
+  "tr": "yeterli",
+  "en": "enough for a particular purpose.",
+  "ex": "We have sufficient food for the weekend trip."
+ },
+ {
+  "id": "b1-suitable",
+  "word": "suitable",
+  "pos": "adjective",
+  "tr": "uygun",
+  "en": "right or acceptable for a specific purpose.",
+  "ex": "This movie is not suitable for young children."
+ },
+ {
+  "id": "b1-summary",
+  "word": "summary",
+  "pos": "noun",
+  "tr": "özet",
+  "en": "a short statement giving only the main points.",
+  "ex": "Can you write a brief summary of the book?"
+ },
+ {
+  "id": "b1-supply",
+  "word": "supply",
+  "pos": "verb",
+  "tr": "tedarik etmek",
+  "en": "to give or provide something that people need.",
+  "ex": "The company will supply all necessary equipment."
+ },
+ {
+  "id": "b1-surround",
+  "word": "surround",
+  "pos": "verb",
+  "tr": "çevrelemek",
+  "en": "to be all around something on every side.",
+  "ex": "Tall green trees surround our family house."
+ },
+ {
+  "id": "b1-survey",
+  "word": "survey",
+  "pos": "noun",
+  "tr": "anket",
+  "en": "a set of questions to find out people's opinions.",
+  "ex": "We conducted a customer survey about our service."
+ },
+ {
+  "id": "b1-suspect",
+  "word": "suspect",
+  "pos": "verb",
+  "tr": "şüphelenmek",
+  "en": "to think that someone has done something wrong.",
+  "ex": "Police suspect he took the money from the office."
+ },
+ {
+  "id": "b1-sustainable",
+  "word": "sustainable",
+  "pos": "adjective",
+  "tr": "sürdürülebilir",
+  "en": "causing little or no damage to the environment.",
+  "ex": "We must use sustainable energy sources like solar power."
+ },
+ {
+  "id": "b1-sympathy",
+  "word": "sympathy",
+  "pos": "noun",
+  "tr": "sempati, anlayış",
+  "en": "feeling sorry for someone who has problems.",
+  "ex": "She expressed deep sympathy for the grieving family."
+ },
+ {
+  "id": "b1-target",
+  "word": "target",
+  "pos": "noun",
+  "tr": "hedef",
+  "en": "a goal or result that you try to achieve.",
+  "ex": "Our main sales target is to sell fifty cars."
+ },
+ {
+  "id": "b1-task",
+  "word": "task",
+  "pos": "noun",
+  "tr": "görev",
+  "en": "a piece of work that you need to do.",
+  "ex": "Cleaning the kitchen is your task for today."
+ },
+ {
+  "id": "b1-technique",
+  "word": "technique",
+  "pos": "noun",
+  "tr": "teknik",
+  "en": "a special way of doing a difficult job.",
+  "ex": "He uses a unique painting technique for his art."
+ },
+ {
+  "id": "b1-technology",
+  "word": "technology",
+  "pos": "noun",
+  "tr": "teknoloji",
+  "en": "advanced scientific knowledge used in practical ways.",
+  "ex": "Modern technology makes communication much faster now."
+ },
+ {
+  "id": "b1-temporary",
+  "word": "temporary",
+  "pos": "adjective",
+  "tr": "geçici",
+  "en": "lasting for only a short time, not permanent.",
+  "ex": "This job is only temporary for the summer."
+ },
+ {
+  "id": "b1-tend",
+  "word": "tend",
+  "pos": "verb",
+  "tr": "eğiliminde olmak",
+  "en": "to usually do a particular thing or happen.",
+  "ex": "People tend to eat more when they are stressed."
+ },
+ {
+  "id": "b1-tension",
+  "word": "tension",
+  "pos": "noun",
+  "tr": "gerginlik",
+  "en": "a nervous worried feeling or a difficult situation.",
+  "ex": "There was a lot of tension in the meeting room."
+ },
+ {
+  "id": "b1-term",
+  "word": "term",
+  "pos": "noun",
+  "tr": "terim; dönem",
+  "en": "a word or expression with a specific meaning.",
+  "ex": "Medical terms can be very difficult to understand."
+ },
+ {
+  "id": "b1-terrify",
+  "word": "terrify",
+  "pos": "verb",
+  "tr": "dehşete düşürmek",
+  "en": "to make someone extremely frightened.",
+  "ex": "Big spiders terrify my younger sister."
+ },
+ {
+  "id": "b1-theme",
+  "word": "theme",
+  "pos": "noun",
+  "tr": "tema",
+  "en": "the main subject of a book, film, or talk.",
+  "ex": "The main theme of the novel is loneliness."
+ },
+ {
+  "id": "b1-theory",
+  "word": "theory",
+  "pos": "noun",
+  "tr": "teori",
+  "en": "an idea that explains how or why something happens.",
+  "ex": "Einstein is famous for his theory of relativity."
+ },
+ {
+  "id": "b1-therefore",
+  "word": "therefore",
+  "pos": "adverb",
+  "tr": "bu nedenle",
+  "en": "for that reason; as a result.",
+  "ex": "It started to rain; therefore, we cancelled the picnic."
+ },
+ {
+  "id": "b1-threat",
+  "word": "threat",
+  "pos": "noun",
+  "tr": "tehdit",
+  "en": "a statement that someone will cause harm or trouble.",
+  "ex": "Pollution is a major threat to our planet."
+ },
+ {
+  "id": "b1-tight",
+  "word": "tight",
+  "pos": "adjective",
+  "tr": "sıkı, dar",
+  "en": "fitting very closely or firmly around your body.",
+  "ex": "These new jeans are too tight for me."
+ },
+ {
+  "id": "b1-tolerate",
+  "word": "tolerate",
+  "pos": "verb",
+  "tr": "hoş görmek",
+  "en": "to accept unpleasant behavior or conditions without complaining.",
+  "ex": "I cannot tolerate loud noise when I study."
+ },
+ {
+  "id": "b1-tone",
+  "word": "tone",
+  "pos": "noun",
+  "tr": "ton",
+  "en": "The quality of a sound or how someone expresses feelings.",
+  "ex": "His serious tone showed that he was very angry."
+ },
+ {
+  "id": "b1-topic",
+  "word": "topic",
+  "pos": "noun",
+  "tr": "konu",
+  "en": "A subject that people talk or write about.",
+  "ex": "Education is an important topic for our meeting today."
+ },
+ {
+  "id": "b1-tough",
+  "word": "tough",
+  "pos": "adjective",
+  "tr": "zor, sert",
+  "en": "Difficult to do or strong enough to survive problems.",
+  "ex": "Learning a new language can be really tough at first."
+ },
+ {
+  "id": "b1-trade",
+  "word": "trade",
+  "pos": "noun",
+  "tr": "ticaret",
+  "en": "The activity of buying and selling goods and services.",
+  "ex": "International trade helps countries grow their economies."
+ },
+ {
+  "id": "b1-tradition",
+  "word": "tradition",
+  "pos": "noun",
+  "tr": "gelenek",
+  "en": "A custom or belief that people follow for a long time.",
+  "ex": "Having a big family dinner on holidays is our tradition."
+ },
+ {
+  "id": "b1-transfer",
+  "word": "transfer",
+  "pos": "verb",
+  "tr": "aktarmak",
+  "en": "To move something or someone from one place to another.",
+  "ex": "She wants to transfer money to her brother's bank account."
+ },
+ {
+  "id": "b1-transform",
+  "word": "transform",
+  "pos": "verb",
+  "tr": "dönüştürmek",
+  "en": "To change someone or something completely and greatly.",
+  "ex": "Regular exercise can transform your body and health."
+ },
+ {
+  "id": "b1-treat",
+  "word": "treat",
+  "pos": "verb",
+  "tr": "davranmak; tedavi etmek",
+  "en": "To behave toward someone or try to cure an illness.",
+  "ex": "Doctors work hard to treat sick patients every day."
+ },
+ {
+  "id": "b1-trend",
+  "word": "trend",
+  "pos": "noun",
+  "tr": "eğilim",
+  "en": "A general direction in which something is developing or changing.",
+  "ex": "Working from home is a growing trend nowadays."
+ },
+ {
+  "id": "b1-trial",
+  "word": "trial",
+  "pos": "noun",
+  "tr": "deneme; dava",
+  "en": "A legal process in court or a test of something.",
+  "ex": "The new software is available for a free trial."
+ },
+ {
+  "id": "b1-typical",
+  "word": "typical",
+  "pos": "adjective",
+  "tr": "tipik",
+  "en": "Having the usual qualities of a particular person or thing.",
+  "ex": "A typical working day starts at nine in the morning."
+ },
+ {
+  "id": "b1-ultimately",
+  "word": "ultimately",
+  "pos": "adverb",
+  "tr": "nihayetinde",
+  "en": "Finally, after a series of events or decisions.",
+  "ex": "Hard work will ultimately bring you success."
+ },
+ {
+  "id": "b1-unemployed",
+  "word": "unemployed",
+  "pos": "adjective",
+  "tr": "işsiz",
+  "en": "Without a job, even though you want to work.",
+  "ex": "He became unemployed after the factory closed down."
+ },
+ {
+  "id": "b1-unique",
+  "word": "unique",
+  "pos": "adjective",
+  "tr": "eşsiz",
+  "en": "Being the only one of its kind; special.",
+  "ex": "Every person has a unique set of fingerprints."
+ },
+ {
+  "id": "b1-unit",
+  "word": "unit",
+  "pos": "noun",
+  "tr": "birim, ünite",
+  "en": "A single person or thing that is part of a larger group.",
+  "ex": "We are going to study unit four in our English book."
+ },
+ {
+  "id": "b1-universe",
+  "word": "universe",
+  "pos": "noun",
+  "tr": "evren",
+  "en": "All of space and everything that exists in it.",
+  "ex": "Scientists are still trying to understand how the universe began."
+ },
+ {
+  "id": "b1-unless",
+  "word": "unless",
+  "pos": "conjunction",
+  "tr": "-mezse",
+  "en": "Used to say that something will happen only if another thing does not.",
+  "ex": "You will miss the train unless you hurry up."
+ },
+ {
+  "id": "b1-urban",
+  "word": "urban",
+  "pos": "adjective",
+  "tr": "kentsel",
+  "en": "Relating to towns and cities rather than the countryside.",
+  "ex": "Traffic jams are a major problem in urban areas."
+ },
+ {
+  "id": "b1-urgent",
+  "word": "urgent",
+  "pos": "adjective",
+  "tr": "acil",
+  "en": "Needing immediate attention or action.",
+  "ex": "She received an urgent phone call from the hospital."
+ },
+ {
+  "id": "b1-valid",
+  "word": "valid",
+  "pos": "adjective",
+  "tr": "geçerli",
+  "en": "Acceptable, legal, or based on truth and logic.",
+  "ex": "You need a valid passport to travel abroad."
+ },
+ {
+  "id": "b1-valuable",
+  "word": "valuable",
+  "pos": "adjective",
+  "tr": "değerli",
+  "en": "Worth a lot of money or very useful and important.",
+  "ex": "Time is our most valuable resource."
+ },
+ {
+  "id": "b1-variety",
+  "word": "variety",
+  "pos": "noun",
+  "tr": "çeşitlilik",
+  "en": "A number of different types of things or people.",
+  "ex": "Supermarkets offer a wide variety of fresh fruit."
+ },
+ {
+  "id": "b1-vehicle",
+  "word": "vehicle",
+  "pos": "noun",
+  "tr": "araç",
+  "en": "A machine like a car or bus used for transporting people or goods.",
+  "ex": "Bicycles and cars are both types of vehicles."
+ },
+ {
+  "id": "b1-version",
+  "word": "version",
+  "pos": "noun",
+  "tr": "sürüm",
+  "en": "A particular form of something that is slightly different from other forms.",
+  "ex": "I downloaded the latest version of the app."
+ },
+ {
+  "id": "b1-via",
+  "word": "via",
+  "pos": "preposition",
+  "tr": "aracılığıyla",
+  "en": "By going through a place or using a specific method.",
+  "ex": "They sent the message via email."
+ },
+ {
+  "id": "b1-virtual",
+  "word": "virtual",
+  "pos": "adjective",
+  "tr": "sanal",
+  "en": "Made or seen on a computer rather than in the real world.",
+  "ex": "We had a virtual meeting using video software."
+ },
+ {
+  "id": "b1-visible",
+  "word": "visible",
+  "pos": "adjective",
+  "tr": "görünür",
+  "en": "Able to be seen with your eyes.",
+  "ex": "The snowy mountains were clearly visible from the window."
+ },
+ {
+  "id": "b1-vision",
+  "word": "vision",
+  "pos": "noun",
+  "tr": "görme; vizyon",
+  "en": "The ability to see or a clear idea of what the future should be.",
+  "ex": "The company leader had a clear vision for growth."
+ },
+ {
+  "id": "b1-visual",
+  "word": "visual",
+  "pos": "adjective",
+  "tr": "görsel",
+  "en": "Relating to seeing or sight.",
+  "ex": "Charts and graphs are great visual aids for presentations."
+ },
+ {
+  "id": "b1-vital",
+  "word": "vital",
+  "pos": "adjective",
+  "tr": "hayati",
+  "en": "Extremely important or necessary for life or success.",
+  "ex": "Water is vital for all living things."
+ },
+ {
+  "id": "b1-volume",
+  "word": "volume",
+  "pos": "noun",
+  "tr": "ses düzeyi; hacim",
+  "en": "How loud a sound is, or an amount of something.",
+  "ex": "Please turn down the volume of the music."
+ },
+ {
+  "id": "b1-warning",
+  "word": "warning",
+  "pos": "noun",
+  "tr": "uyarı",
+  "en": "A statement telling you about a possible danger or problem.",
+  "ex": "The teacher gave us a warning about being late."
+ },
+ {
+  "id": "b1-wealth",
+  "word": "wealth",
+  "pos": "noun",
+  "tr": "servet",
+  "en": "Having a large amount of money and valuable possessions.",
+  "ex": "He used his wealth to help poor people."
+ },
+ {
+  "id": "b1-weapon",
+  "word": "weapon",
+  "pos": "noun",
+  "tr": "silah",
+  "en": "An object used to hurt or kill people in a fight.",
+  "ex": "The police found a hidden weapon in the car."
+ },
+ {
+  "id": "b1-welfare",
+  "word": "welfare",
+  "pos": "noun",
+  "tr": "refah",
+  "en": "The health, happiness, and well-being of people.",
+  "ex": "The government is responsible for the welfare of its citizens."
+ },
+ {
+  "id": "b1-whereas",
+  "word": "whereas",
+  "pos": "conjunction",
+  "tr": "oysa",
+  "en": "Used to compare two different facts or ideas.",
+  "ex": "My brother loves sports, whereas I prefer reading."
+ },
+ {
+  "id": "b1-widely",
+  "word": "widely",
+  "pos": "adverb",
+  "tr": "yaygın olarak",
+  "en": "In many places or by many people.",
+  "ex": "English is widely spoken around the world."
+ },
+ {
+  "id": "b1-willing",
+  "word": "willing",
+  "pos": "adjective",
+  "tr": "istekli",
+  "en": "Happy and ready to do something if needed.",
+  "ex": "She is always willing to help her friends."
+ },
+ {
+  "id": "b1-withdraw",
+  "word": "withdraw",
+  "pos": "verb",
+  "tr": "geri çekmek; para çekmek",
+  "en": "To take money out of a bank account.",
+  "ex": "I need to go to the ATM to withdraw some cash."
+ },
+ {
+  "id": "b1-witness",
+  "word": "witness",
+  "pos": "noun",
+  "tr": "tanık",
+  "en": "A person who sees something happen, like a crime.",
+  "ex": "The police asked the witness what she saw."
+ },
+ {
+  "id": "b1-wonder",
+  "word": "wonder",
+  "pos": "verb",
+  "tr": "merak etmek",
+  "en": "To want to know about something or ask yourself questions.",
+  "ex": "I wonder what we are having for dinner tonight."
+ },
+ {
+  "id": "b1-worldwide",
+  "word": "worldwide",
+  "pos": "adjective",
+  "tr": "dünya çapında",
+  "en": "Existing or happening all over the world.",
+  "ex": "The company has a worldwide network of stores."
+ },
+ {
+  "id": "b1-worship",
+  "word": "worship",
+  "pos": "verb",
+  "tr": "ibadet etmek",
+  "en": "To show respect and love for a god.",
+  "ex": "People go to the mosque to pray and worship."
+ },
+ {
+  "id": "b1-youngster",
+  "word": "youngster",
+  "pos": "noun",
+  "tr": "genç",
+  "en": "A young person or a child.",
+  "ex": "The park is a safe place for youngsters to play."
+ }
+]

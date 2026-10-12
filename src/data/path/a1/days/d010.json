@@ -1,0 +1,286 @@
+{
+  "level": "A1",
+  "day": 10,
+  "topic": "g02",
+  "theme": "Spor",
+  "grammar": {
+    "questions": [
+      {
+        "q": "____ you a member of this gym?",
+        "o": [
+          "Are",
+          "Is",
+          "Am",
+          "Do"
+        ],
+        "why": "You öznesi ile soru sorarken Are başa gelir."
+      },
+      {
+        "q": "The tennis court ____ open today. It is closed.",
+        "o": [
+          "isn't",
+          "aren't",
+          "am not",
+          "not"
+        ],
+        "why": "The tennis court (it) tekil olduğu için isn't kullanılır."
+      },
+      {
+        "q": "____ your brothers football players?",
+        "o": [
+          "Are",
+          "Is",
+          "Am",
+          "Be"
+        ],
+        "why": "Your brothers (they) çoğul olduğu için Are kullanılır."
+      },
+      {
+        "q": "Is she a professional runner? No, she ____.",
+        "o": [
+          "isn't",
+          "is",
+          "not",
+          "aren't"
+        ],
+        "why": "Olumsuz kısa cevapta No, she isn't yapısı kullanılır."
+      },
+      {
+        "q": "I ____ interested in basketball. I like volleyball.",
+        "o": [
+          "am not",
+          "isn't",
+          "aren't",
+          "not"
+        ],
+        "why": "I öznesi ile olumsuzluk am not ile yapılır."
+      },
+      {
+        "q": "Where ____ the swimming pool?",
+        "o": [
+          "is",
+          "are",
+          "am",
+          "be"
+        ],
+        "why": "The swimming pool (it) tektir, bu yüzden is kullanılır."
+      },
+      {
+        "q": "Are they at the stadium? Yes, they ____.",
+        "o": [
+          "are",
+          "is",
+          "am",
+          "be"
+        ],
+        "why": "They öznesi ile olumlu kısa cevapta are kullanılır."
+      },
+      {
+        "q": "My friends ____ at the match. They are at home.",
+        "o": [
+          "aren't",
+          "isn't",
+          "am not",
+          "not"
+        ],
+        "why": "My friends (they) çoğul olduğu için aren't kullanılır."
+      },
+      {
+        "q": "____ I late for the yoga class?",
+        "o": [
+          "Am",
+          "Is",
+          "Are",
+          "Be"
+        ],
+        "why": "I öznesi ile soru sorarken Am başa gelir."
+      },
+      {
+        "q": "Is your father a coach? ____, he is.",
+        "o": [
+          "Yes",
+          "No",
+          "Not",
+          "Is"
+        ],
+        "why": "Olumlu cevapta Yes kullanılır."
+      }
+    ]
+  },
+  "reading": {
+    "title": "A Day at the Sports Club",
+    "text": "My name is Selin. I am at the sports club with my friend, Pelin. We are not professional athletes, but we are very active. The club is big and modern. There is a gym, a swimming pool, and two tennis courts. Today, the swimming pool is not open because it is very cold. Are the tennis courts busy? No, they aren't. Many people are in the gym. My favorite sport is tennis, but Pelin's favorite sport is swimming. We are happy here because the atmosphere is very energetic.",
+    "questions": [
+      {
+        "q": "What is the main idea of the text?",
+        "o": [
+          "Selin and Pelin's activities at a sports club.",
+          "How to become a professional athlete.",
+          "The rules of playing tennis.",
+          "The weather in the city."
+        ],
+        "why": "Metin genel olarak Selin ve Pelin'in spor kulübündeki durumunu anlatmaktadır."
+      },
+      {
+        "q": "Are Selin and Pelin professional athletes?",
+        "o": [
+          "No, they aren't.",
+          "Yes, they are.",
+          "Only Selin is a professional.",
+          "The text doesn't say."
+        ],
+        "why": "Metinde profesyonel olmadıkları açıkça belirtilmiştir."
+      },
+      {
+        "q": "Why is the swimming pool closed?",
+        "o": [
+          "Because it is very cold.",
+          "Because it is very old.",
+          "Because it is busy.",
+          "Because it is Monday."
+        ],
+        "why": "Havuzun soğuk hava nedeniyle kapalı olduğu söyleniyor."
+      },
+      {
+        "q": "Are the tennis courts full of people?",
+        "o": [
+          "No, they are not busy.",
+          "Yes, they are very busy.",
+          "One court is busy.",
+          "They are closed today."
+        ],
+        "why": "Tenis kortlarının meşgul olup olmadığı sorusuna hayır cevabı veriliyor."
+      },
+      {
+        "q": "Where are most people today?",
+        "o": [
+          "In the gym.",
+          "In the swimming pool.",
+          "On the tennis courts.",
+          "In the cafe."
+        ],
+        "why": "Çoğu insanın spor salonunda olduğu belirtiliyor."
+      },
+      {
+        "q": "What does 'modern' mean in the text?",
+        "o": [
+          "New and advanced.",
+          "Old and broken.",
+          "Small and dark.",
+          "Very expensive."
+        ],
+        "why": "Modern kelimesi güncel ve yeni tesisler için kullanılır."
+      },
+      {
+        "q": "What is Pelin's favorite sport?",
+        "o": [
+          "Swimming",
+          "Tennis",
+          "Football",
+          "Yoga"
+        ],
+        "why": "Pelin'in en sevdiği sporun yüzme olduğu belirtiliyor."
+      }
+    ]
+  },
+  "listening": {
+    "video": {
+      "id": "T3AJ29_2IX8",
+      "title": "Let's Learn English Lesson 6 - Where Is the Gym",
+      "source": "VOA Learning English"
+    },
+    "intro": "Anna, spor salonunu (gym) bulmaya çalışırken Pete'ten yardım alıyor.",
+    "questions": [
+      {
+        "q": "Where does Anna live?",
+        "o": [
+          "Washington, D.C.",
+          "New York",
+          "A small town",
+          "London"
+        ],
+        "why": "Anna konuşmasının başında nerede yaşadığını söylüyor."
+      },
+      {
+        "q": "What do people in Washington like to do?",
+        "o": [
+          "Work out",
+          "Sleep",
+          "Eat fast food",
+          "Watch TV"
+        ],
+        "why": "Anna şehirdeki insanların spor yapmayı sevdiğini belirtiyor."
+      },
+      {
+        "q": "Where is the gym located according to Pete's first instruction?",
+        "o": [
+          "Across from the lounge",
+          "Behind the parking garage",
+          "In the mailroom",
+          "On the rooftop"
+        ],
+        "why": "Pete spor salonunun yerini ilk olarak bu şekilde tarif eder."
+      },
+      {
+        "q": "What is next to the mailroom?",
+        "o": [
+          "The gym",
+          "The lobby",
+          "The rooftop",
+          "The parking garage"
+        ],
+        "why": "Spor salonunun posta odasının yanında olduğu söyleniyor."
+      },
+      {
+        "q": "What is the first place Anna enters by mistake?",
+        "o": [
+          "The mailroom",
+          "The parking garage",
+          "The rooftop",
+          "The lobby"
+        ],
+        "why": "Anna ilk olarak yanlışlıkla posta odasına girer."
+      },
+      {
+        "q": "Is the parking garage the gym?",
+        "o": [
+          "No, it is not.",
+          "Yes, it is.",
+          "It is the new gym.",
+          "The text doesn't say."
+        ],
+        "why": "Anna otoparka girdiğinde oranın spor salonu olmadığını anlar."
+      },
+      {
+        "q": "What is the last place Anna goes to?",
+        "o": [
+          "The rooftop",
+          "The gym",
+          "The lounge",
+          "The lobby"
+        ],
+        "why": "Anna en son çatı katına çıkar."
+      }
+    ]
+  },
+  "writing": {
+    "prompt": "En sevdiğiniz spor veya fiziksel aktivite hakkında yazın. Nerede yapıyorsunuz? Tek başınıza mısınız? Spor salonu veya saha nasıl? (is/are ve olumsuz hallerini kullanın).",
+    "prompt_en": "Write about your favorite sport or physical activity. Where do you do it? Are you alone? What is the gym or field like? (Use is/are and negatives).",
+    "min": 25,
+    "max": 70,
+    "focus": "to be: negatives and questions",
+    "model": "My favorite sport is football. I am at the football field every Sunday. My friends are there too. We are not professional, but it is fun. The field is not very big, but it is clean. Are you a football fan? It is a great sport."
+  },
+  "speaking": {
+    "read": [
+      "Is the gym open on Sundays?",
+      "I am not a professional runner, but I am fast.",
+      "Are your friends at the basketball match?"
+    ],
+    "ask": {
+      "q": "Are you a sporty person? What is your favorite activity?",
+      "tr": "Spor yapmayı sever misiniz? En sevdiğiniz aktivite nedir? En az üç cümle ile anlatın.",
+      "min_words": 12
+    }
+  }
+}

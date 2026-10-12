@@ -1,0 +1,286 @@
+{
+  "level": "A1",
+  "day": 11,
+  "topic": "g03",
+  "theme": "Komşular",
+  "grammar": {
+    "questions": [
+      {
+        "q": "I have ____ new neighbor from Italy.",
+        "o": [
+          "a",
+          "an",
+          "two",
+          "the"
+        ],
+        "why": "Sessiz harf (n) ile başladığı için 'a' kullanılır."
+      },
+      {
+        "q": "There are three ____ in the garden.",
+        "o": [
+          "children",
+          "childs",
+          "child",
+          "a child"
+        ],
+        "why": "Child kelimesinin çoğul hali düzensizdir ve 'children' olur."
+      },
+      {
+        "q": "Is that ____ orange on the table?",
+        "o": [
+          "an",
+          "a",
+          "two",
+          "some"
+        ],
+        "why": "Sesli harf (o) ile başladığı için 'an' kullanılır."
+      },
+      {
+        "q": "My building has two ____.",
+        "o": [
+          "elevators",
+          "elevator",
+          "an elevator",
+          "elevatores"
+        ],
+        "why": "Çoğul yapmak için ismin sonuna -s takısı getirilir."
+      },
+      {
+        "q": "Many ____ live in this apartment.",
+        "o": [
+          "people",
+          "persons",
+          "person",
+          "a person"
+        ],
+        "why": "Person kelimesinin çoğul hali düzensizdir ve 'people' olur."
+      },
+      {
+        "q": "I need ____ umbrella today.",
+        "o": [
+          "an",
+          "a",
+          "two",
+          "is"
+        ],
+        "why": "Sesli harf (u) ile başladığı için 'an' kullanılır."
+      },
+      {
+        "q": "The ____ are very noisy tonight.",
+        "o": [
+          "buses",
+          "bus",
+          "a bus",
+          "buss"
+        ],
+        "why": "-s ile biten kelimeler çoğul yapılırken -es takısı alır."
+      },
+      {
+        "q": "There is ____ university near my house.",
+        "o": [
+          "a",
+          "an",
+          "two",
+          "are"
+        ],
+        "why": "University kelimesi 'y' sesiyle başladığı için 'a' kullanılır."
+      },
+      {
+        "q": "Are they ____?",
+        "o": [
+          "doctors",
+          "a doctor",
+          "an doctor",
+          "doctor"
+        ],
+        "why": "Özne 'they' (onlar) olduğu için isim de çoğul (doctors) olmalıdır."
+      },
+      {
+        "q": "He is ____ honest man.",
+        "o": [
+          "an",
+          "a",
+          "two",
+          "is"
+        ],
+        "why": "Honest kelimesinde 'h' okunmaz, sesli harf sesiyle başladığı için 'an' kullanılır."
+      }
+    ]
+  },
+  "reading": {
+    "title": "My New Neighbors",
+    "text": "I live in a small apartment in Istanbul. I have many neighbors. In flat number 5, there is a young man. He is an artist. He has a cat and two birds. The birds are very loud in the morning. In flat number 8, there are two women from Germany. They are teachers at a language school. They are very quiet and polite. My building is old, but the people are very friendly. There is a small park near the building. Many children play there every afternoon.",
+    "questions": [
+      {
+        "q": "What is the main idea of the text?",
+        "o": [
+          "The author's neighbors and building",
+          "The city of Istanbul",
+          "How to be a good teacher",
+          "Pets in small apartments"
+        ],
+        "why": "Metin yazarın komşularını ve yaşadığı binayı anlatmaktadır."
+      },
+      {
+        "q": "What is the job of the man in flat 5?",
+        "o": [
+          "An artist",
+          "A teacher",
+          "A doctor",
+          "A student"
+        ],
+        "why": "5 numaradaki adamın sanatçı olduğu belirtilmiştir."
+      },
+      {
+        "q": "How many pets does the artist have?",
+        "o": [
+          "Three",
+          "Two",
+          "One",
+          "None"
+        ],
+        "why": "Bir kedi ve iki kuş toplam üç evcil hayvan eder."
+      },
+      {
+        "q": "Where are the two women from?",
+        "o": [
+          "Germany",
+          "Turkey",
+          "Italy",
+          "England"
+        ],
+        "why": "Kadınların Almanyalı olduğu metinde yazmaktadır."
+      },
+      {
+        "q": "What can we say about the women in flat 8?",
+        "o": [
+          "They have good manners.",
+          "They are very noisy.",
+          "They are artists.",
+          "They are young men."
+        ],
+        "why": "Kibar (polite) oldukları belirtildiği için iyi huylu olduklarını çıkarabiliriz."
+      },
+      {
+        "q": "What does the word 'loud' mean in the text?",
+        "o": [
+          "Making a lot of noise",
+          "Very small",
+          "Beautiful",
+          "Expensive"
+        ],
+        "why": "Kuşların sabahları çok ses çıkardığını belirtmek için kullanılmıştır."
+      },
+      {
+        "q": "Who plays in the park?",
+        "o": [
+          "Children",
+          "The artist",
+          "The teachers",
+          "Cats and birds"
+        ],
+        "why": "Parkta çocukların oynadığı belirtilmiştir."
+      }
+    ]
+  },
+  "listening": {
+    "video": {
+      "id": "T3AJ29_2IX8",
+      "title": "Let's Learn English Lesson 6 - Where Is the Gym",
+      "source": "VOA Learning English"
+    },
+    "intro": "Anna, Washington D.C.'de spor salonunu (gym) ararken farklı odalara giriyor.",
+    "questions": [
+      {
+        "q": "Where does Anna live?",
+        "o": [
+          "Washington, D.C.",
+          "New York",
+          "London",
+          "Istanbul"
+        ],
+        "why": "Anna konuşmasının başında nerede yaşadığını söyler."
+      },
+      {
+        "q": "What does Anna want to do?",
+        "o": [
+          "Work out",
+          "Go to sleep",
+          "Check the mail",
+          "Park her car"
+        ],
+        "why": "Anna spor yapmak istediğini Pete'e söyler."
+      },
+      {
+        "q": "Where is the gym located?",
+        "o": [
+          "Across from the lounge",
+          "In the parking garage",
+          "On the rooftop",
+          "Inside the mailroom"
+        ],
+        "why": "Pete spor salonunun yerini tarif eder."
+      },
+      {
+        "q": "What is the first room Anna enters by mistake?",
+        "o": [
+          "The mailroom",
+          "The parking garage",
+          "The rooftop",
+          "The lobby"
+        ],
+        "why": "Anna ilk olarak posta odasına girer."
+      },
+      {
+        "q": "What is the second wrong place Anna finds?",
+        "o": [
+          "A parking garage",
+          "A kitchen",
+          "A park",
+          "A school"
+        ],
+        "why": "Anna daha sonra otoparka girer."
+      },
+      {
+        "q": "Where is Anna at the end of the video?",
+        "o": [
+          "On a rooftop",
+          "In the gym",
+          "At home",
+          "In the lounge"
+        ],
+        "why": "Anna en son çatı katına çıkar."
+      },
+      {
+        "q": "Does Pete want to work out?",
+        "o": [
+          "Yes, he does.",
+          "No, he is tired.",
+          "He is at work.",
+          "He is sleeping."
+        ],
+        "why": "Pete sonunda kendisinin de spor yapmak istediğini söyler."
+      }
+    ]
+  },
+  "writing": {
+    "prompt": "Evinizdeki veya çantanızdaki eşyaları anlatın. 'a / an' ve çoğul isimleri (s takısı veya düzensizler) kullanın.",
+    "prompt_en": "Describe the items in your house or in your bag. Use 'a / an' and plural nouns.",
+    "min": 30,
+    "max": 80,
+    "focus": "a / an and plural nouns",
+    "model": "In my living room, there is a large sofa and an old armchair. I have many books on the shelf. In my bag, I have a notebook, an apple, and two pens. There are also three keys and some photos of my family."
+  },
+  "speaking": {
+    "read": [
+      "I have an umbrella and two bags.",
+      "There are many people in the park.",
+      "My neighbor has a cat and three birds."
+    ],
+    "ask": {
+      "q": "What is in your bag right now?",
+      "tr": "Şu an çantanızda neler var? 'a/an' ve çoğul isimler kullanarak en az üç eşya söyleyin.",
+      "min_words": 10
+    }
+  }
+}

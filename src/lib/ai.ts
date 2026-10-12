@@ -12,7 +12,10 @@ export async function aiJson<T = any>(messages: Msg[], { maxTokens = 900, timeou
   const key = import.meta.env.LLM_API_KEY;
   if (!key) return null;
   const base = (import.meta.env.LLM_BASE_URL || 'https://opencode.ai/zen/go/v1').replace(/\/+$/, '');
-  const model = import.meta.env.LLM_MODEL_FAST || import.meta.env.LLM_MODEL || 'deepseek-v4.1-flash';
+  // the fast model first, then the main one: a renamed or retired model must not stop feedback
+  const models = [...new Set([import.meta.env.LLM_MODEL_FAST, import.meta.env.LLM_MODEL].filter(Boolean))] as string[];
+  if (!models.length) models.push('deepseek-v4.1-flash');
+  let model = models[0];
   const call = async (jsonMode: boolean) => {
     const res = await fetch(`${base}/chat/completions`, {
       method: 'POST',
@@ -26,8 +29,19 @@ export async function aiJson<T = any>(messages: Msg[], { maxTokens = 900, timeou
   };
   try {
     let data;
-    try { data = await call(true); } catch (e) {
-      if (e instanceof Error && /response_format|json_object/i.test(e.message)) data = await call(false); else throw e;
+    for (let i = 0; i < models.length; i++) {
+      model = models[i];
+      try {
+        try { data = await call(true); } catch (e) {
+          if (e instanceof Error && /response_format|json_object/i.test(e.message)) data = await call(false); else throw e;
+        }
+        break;
+      } catch (e) {
+        // only an unknown model moves on to the next one; other errors fail as before
+        const unknownModel = e instanceof Error && /^(404|400)\b/.test(e.message) && /model/i.test(e.message);
+        if (!unknownModel || i === models.length - 1) throw e;
+        console.warn('[ai] model unavailable, trying the next one:', model);
+      }
     }
     const content: string = data?.choices?.[0]?.message?.content || '';
     const m = content.match(/\{[\s\S]*\}/);
