@@ -2,23 +2,41 @@
 // /app/materyaller/uret: the AI material generator. The teacher picks a level
 // and a topic; the server drafts a lesson, checks it, and saves it here as
 // slides and a printable worksheet with an answer key. Up to 20 a day.
+// "Materyallerime ekle" files a material under a section (level or exam) and
+// a topic heading of the teacher's library (/app/materyaller).
 import AppShell from '../../../layouts/AppShell.astro';
 import '../../../styles/timetable.css';
 import { loadAppSession } from '../../../lib/app-session';
 import { createSupabaseClient, pageCookieSource } from '../../../lib/supabase';
 import { LEVELS, COUNTS } from '../../../lib/material-check.mjs';
+import { LEVEL_TRACKS, EXAM_TRACKS, TRACKS, trackLabel, allBuiltInTitles } from '../../../lib/library';
 
 export const prerender = false;
 const loaded = await loadAppSession(Astro);
 if ('redirect' in loaded) return Astro.redirect(loaded.redirect.replace('next=/app', 'next=/app/materyaller/uret'));
 const session = loaded;
 if (session.role !== 'teacher' && session.role !== 'admin') return Astro.redirect('/app');
-let mine: { id: string; level: string; title: string; created_at: string; request: any }[] = [];
+
+type Mine = { id: string; level: string; title: string; created_at: string; request: any; track?: string | null; topic?: string | null };
+let mine: Mine[] = [];
+let own: { track: string; title: string }[] = [];
 if (!session.demo) {
   const sb = createSupabaseClient(pageCookieSource(Astro));
-  const { data } = await sb.from('teacher_materials').select('id, level, title, created_at, request').eq('teacher_id', session.userId).order('created_at', { ascending: false }).limit(40);
-  mine = (data as any[]) || [];
+  const full = await sb.from('teacher_materials').select('id, level, title, created_at, request, track, topic').eq('teacher_id', session.userId).order('created_at', { ascending: false }).limit(40);
+  // before the library columns exist, fall back to the plain list
+  const res = full.error ? await sb.from('teacher_materials').select('id, level, title, created_at, request').eq('teacher_id', session.userId).order('created_at', { ascending: false }).limit(40) : full;
+  mine = (res.data as any[]) || [];
+  const t = await sb.from('teacher_topics').select('track, title').eq('teacher_id', session.userId).order('title');
+  own = (t.data as any[]) || [];
 }
+const builtIn = await allBuiltInTitles();
+const titles: Record<string, string[]> = {};
+for (const tr of TRACKS) titles[tr] = [...new Set([...(builtIn[tr] || []), ...own.filter((o) => o.track === tr).map((o) => o.title)])];
+
+const q = Astro.url.searchParams;
+const preLevel = LEVELS.includes(String(q.get('seviye') || '').toUpperCase()) ? String(q.get('seviye')).toUpperCase() : 'A1';
+const preTopic = (q.get('konu') || '').slice(0, 120);
+const preTrack = TRACKS.includes(String(q.get('bolum') || '')) ? String(q.get('bolum')) : '';
 const fmt = (s: string) => new Date(s).toLocaleDateString('tr-TR', { day: 'numeric', month: 'long', timeZone: 'Europe/Istanbul' });
 const ideas = ['Present simple: daily routines', 'Can / can’t for ability', 'Past simple: last weekend', 'Comparatives: city vs village', 'Going to: holiday plans', 'Present perfect: experiences'];
 ---
@@ -30,12 +48,12 @@ const ideas = ['Present simple: daily routines', 'Can / can’t for ability', 'P
   </div>
 
   <section class="panel">
-    <form class="gen" data-gen>
+    <form class="gen" data-gen data-track={preTrack}>
       <div class="form-grid">
-        <label class="fld">Seviye<select name="level">{LEVELS.map((l: string) => <option value={l}>{l}</option>)}</select></label>
+        <label class="fld">Seviye<select name="level">{LEVELS.map((l: string) => <option value={l} selected={l === preLevel}>{l}</option>)}</select></label>
         <label class="fld">Dil bilgisi sorusu<select name="count">{COUNTS.map((c: number) => <option value={c} selected={c === 8}>{c} soru</option>)}</select></label>
       </div>
-      <label class="fld">Konu (İngilizce ya da Türkçe)<input name="topic" maxlength="120" required placeholder="ör. Past simple: last weekend" list="gen-ideas" /></label>
+      <label class="fld">Konu (İngilizce ya da Türkçe)<input name="topic" maxlength="120" required placeholder="ör. Past simple: last weekend" list="gen-ideas" value={preTopic} /></label>
       <datalist id="gen-ideas">{ideas.map((i) => <option value={i} />)}</datalist>
       <label class="fld">Not (isteğe bağlı)<input name="focus" maxlength="200" placeholder="ör. Sınıfım futbolu seviyor; düzensiz fiillere ağırlık ver" /></label>
       <div class="gen-row">
@@ -50,19 +68,50 @@ const ideas = ['Present simple: daily routines', 'Can / can’t for ability', 'P
     <h2>Ürettikleriniz</h2>
     {!mine.length ? <p class="muted">Henüz materyal üretmediniz.</p> : (
       <div class="agenda">{mine.map((m) => (
-        <div class="lesson gen-item" data-item={m.id}>
-          <div><b>{m.title}</b><span class="muted" style="font-size:13.5px"> · {m.level} · {fmt(m.created_at)}</span></div>
-          <div class="gen-links">
-            <a class="btn btn-ghost btn-sm" href={`/app/materyaller/uret/${m.id}/sunum`} target="_blank" rel="noopener">Sunum</a>
-            <a class="btn btn-ghost btn-sm" href={`/app/materyaller/uret/${m.id}/yazdir`} target="_blank" rel="noopener">Çalışma kâğıdı</a>
-            <button class="link-del" type="button" data-del={m.id}>Sil</button>
+        <div class="lesson gen-item" data-item={m.id} data-level={m.level} data-topic={m.request?.topic || ''}>
+          <div class="gen-top">
+            <div><b>{m.title}</b><span class="muted" style="font-size:13.5px"> · {m.level} · {fmt(m.created_at)}</span>
+              {m.track && <span class="filed">Materyallerimde: {trackLabel(m.track)} · {m.topic}</span>}
+            </div>
+            <div class="gen-links">
+              <a class="btn btn-ghost btn-sm" href={`/app/materyaller/uret/${m.id}/sunum`} target="_blank" rel="noopener">Sunum</a>
+              <a class="btn btn-ghost btn-sm" href={`/app/materyaller/uret/${m.id}/yazdir`} target="_blank" rel="noopener">Çalışma kâğıdı</a>
+              <button class="btn btn-primary btn-sm" type="button" data-file-open>{m.track ? 'Yerini değiştir' : 'Materyallerime ekle'}</button>
+              <button class="link-del" type="button" data-del={m.id}>Sil</button>
+            </div>
           </div>
+          <form class="file-form" data-file-form hidden>
+            <p class="file-hint" data-fresh-hint hidden>Materyaliniz hazır. Materyallerinize eklemek için bir bölüm ve konu başlığı seçin.</p>
+            <div class="form-grid">
+              <label class="fld">Bölüm
+                <select name="track">
+                  <optgroup label="Seviye">{LEVEL_TRACKS.map((t: string) => <option value={t} selected={(m.track || m.level) === t}>{t}</option>)}</optgroup>
+                  <optgroup label="Sınav">{EXAM_TRACKS.map((e: any) => <option value={e.id} selected={m.track === e.id}>{e.label}</option>)}</optgroup>
+                </select>
+              </label>
+              <label class="fld">Konu başlığı
+                <input name="topic" maxlength="80" required list={`hd-${m.id}`} value={m.topic || ''} placeholder="Listeden seçin ya da yeni bir başlık yazın" />
+                <datalist id={`hd-${m.id}`}></datalist>
+                <small>Listede olmayan bir başlık yazarsanız kendi başlıklarınıza eklenir.</small>
+              </label>
+            </div>
+            <div class="gen-row">
+              <button class="btn btn-accent btn-sm" type="submit">Kaydet</button>
+              {m.track && <button class="btn btn-ghost btn-sm" type="button" data-unfile>Materyallerimden çıkar</button>}
+              <button class="link-del" type="button" data-file-close>Vazgeç</button>
+              <span class="muted file-msg" role="status" aria-live="polite"></span>
+            </div>
+          </form>
         </div>
       ))}</div>
     )}
   </section>
 
+  <script define:vars={{ titles }}>
+    window.__libTitles = titles;
+  </script>
   <script>
+    const titles: Record<string, string[]> = (window as any).__libTitles || {};
     const form = document.querySelector('[data-gen]') as HTMLFormElement;
     const msg = form.querySelector('.gen-msg') as HTMLElement;
     form.addEventListener('submit', async (e) => {
@@ -77,11 +126,64 @@ const ideas = ['Present simple: daily routines', 'Can / can’t for ability', 'P
       try { r = await (await fetch('/api/materials/create', { method: 'POST', headers: { 'content-type': 'application/json' }, body: JSON.stringify(body) })).json(); } catch {}
       clearInterval(tick);
       btn.disabled = false;
-      if (r?.ok) { location.href = `/app/materyaller/uret?yeni=${encodeURIComponent(r.id)}`; return; }
+      if (r?.ok) {
+        // remember where the teacher came from, so the new material is offered for that heading
+        try { sessionStorage.setItem('lg-file-' + r.id, JSON.stringify({ track: form.dataset.track || '', topic: String(body.topic || '') })); } catch {}
+        location.href = `/app/materyaller/uret?yeni=${encodeURIComponent(r.id)}`;
+        return;
+      }
       msg.textContent = r?.error || 'Üretilemedi. Bağlantınızı kontrol edip tekrar deneyin.';
     });
+
+    const fillList = (f: HTMLFormElement) => {
+      const track = (f.elements.namedItem('track') as HTMLSelectElement).value;
+      const dl = f.querySelector('datalist') as HTMLDataListElement;
+      dl.replaceChildren(...(titles[track] || []).map((t) => Object.assign(document.createElement('option'), { value: t })));
+    };
+    const openForm = (item: HTMLElement, fresh = false) => {
+      const f = item.querySelector('[data-file-form]') as HTMLFormElement;
+      f.hidden = false;
+      fillList(f);
+      if (fresh) (f.querySelector('[data-fresh-hint]') as HTMLElement).hidden = false;
+      (f.elements.namedItem('topic') as HTMLInputElement).focus();
+    };
+    document.querySelectorAll<HTMLElement>('[data-item]').forEach((item) => {
+      const f = item.querySelector('[data-file-form]') as HTMLFormElement;
+      const out = f.querySelector('.file-msg') as HTMLElement;
+      item.querySelector('[data-file-open]')?.addEventListener('click', () => openForm(item));
+      item.querySelector('[data-file-close]')?.addEventListener('click', () => { f.hidden = true; });
+      (f.elements.namedItem('track') as HTMLSelectElement).addEventListener('change', () => fillList(f));
+      const send = async (payload: any) => {
+        out.textContent = 'Kaydediliyor…';
+        const r = await fetch(`/api/materials/${encodeURIComponent(item.dataset.item!)}`, { method: 'PATCH', headers: { 'content-type': 'application/json' }, body: JSON.stringify(payload) }).then((x) => x.json()).catch(() => null);
+        if (r?.ok) location.reload(); else out.textContent = r?.error || 'Kaydedilemedi.';
+      };
+      f.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const track = (f.elements.namedItem('track') as HTMLSelectElement).value;
+        const topic = (f.elements.namedItem('topic') as HTMLInputElement).value.trim().replace(/\s+/g, ' ');
+        if (topic.length < 2) { out.textContent = 'Bir konu başlığı seçin ya da yazın.'; return; }
+        // a heading that is not in the list becomes one of the teacher's own
+        if (!(titles[track] || []).some((t) => t.toLocaleLowerCase('tr-TR') === topic.toLocaleLowerCase('tr-TR'))) {
+          await fetch('/api/materials/topics', { method: 'POST', headers: { 'content-type': 'application/json' }, body: JSON.stringify({ track, title: topic }) }).catch(() => null);
+        }
+        send({ track, topic });
+      });
+      f.querySelector('[data-unfile]')?.addEventListener('click', () => send({ track: null }));
+    });
+
     const fresh = new URLSearchParams(location.search).get('yeni');
-    if (fresh) document.querySelector(`[data-item="${CSS.escape(fresh)}"]`)?.classList.add('is-new');
+    const freshItem = fresh ? document.querySelector<HTMLElement>(`[data-item="${CSS.escape(fresh)}"]`) : null;
+    if (freshItem) {
+      freshItem.classList.add('is-new');
+      const f = freshItem.querySelector('[data-file-form]') as HTMLFormElement;
+      let pre: any = null;
+      try { pre = JSON.parse(sessionStorage.getItem('lg-file-' + fresh) || 'null'); } catch {}
+      if (pre?.track) (f.elements.namedItem('track') as HTMLSelectElement).value = pre.track;
+      if (pre?.topic && !(f.elements.namedItem('topic') as HTMLInputElement).value) (f.elements.namedItem('topic') as HTMLInputElement).value = pre.topic;
+      if (!freshItem.querySelector('.filed')) openForm(freshItem, true);
+    }
+
     document.querySelectorAll<HTMLButtonElement>('[data-del]').forEach((b) => b.addEventListener('click', async () => {
       if (!confirm('Bu materyal silinsin mi?')) return;
       const r = await fetch(`/api/materials/${encodeURIComponent(b.dataset.del!)}`, { method: 'DELETE' }).catch(() => null);
@@ -93,8 +195,12 @@ const ideas = ['Present simple: daily routines', 'Can / can’t for ability', 'P
 <style>
   .gen { display: grid; gap: 14px; }
   .gen-row { display: flex; align-items: center; gap: 14px; flex-wrap: wrap; }
-  .gen-item { display: flex !important; justify-content: space-between; align-items: center; gap: 12px; flex-wrap: wrap; }
+  .gen-item { display: grid !important; gap: 14px; }
+  .gen-top { display: flex; justify-content: space-between; align-items: center; gap: 12px; flex-wrap: wrap; }
   .gen-item.is-new { outline: 2px solid rgba(94, 234, 212, .6); }
   .gen-links { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; }
+  .filed { display: block; margin-top: 4px; font-size: 13px; font-weight: 700; color: #5eead4; }
+  .file-form { display: grid; gap: 12px; padding-top: 14px; border-top: 1px solid rgba(255, 255, 255, .08); }
+  .file-hint { margin: 0; font-weight: 700; color: #5eead4; }
   .link-del { background: none; border: 0; color: var(--muted); font: inherit; font-size: 13.5px; cursor: pointer; text-decoration: underline; }
 </style>

@@ -31,11 +31,15 @@ export const POST: APIRoute = async (ctx) => {
 
   const messages = [{ role: 'system' as const, content: systemPrompt() }, { role: 'user' as const, content: userPrompt({ level, topic, count, focus }) }];
   let res: any = null;
+  let answered = false;
   for (let attempt = 0; attempt < 2 && !res?.ok; attempt++) {
     const raw = await aiJson(messages, { maxTokens: 4000, timeoutMs: 120_000 });
+    if (raw) answered = true;
     res = checkDraft(raw, { level, count });
-    if (!res.ok) console.warn('[materials] draft rejected:', res.why);
+    if (!res.ok) console.warn('[materials] draft rejected:', raw ? res.why : 'no answer from the AI');
   }
+  // no answer at all is a service problem, not a bad draft: say so
+  if (!res?.ok && !answered) return json(503, { ok: false, error: 'Yapay zekâ şu anda yanıt vermiyor. Birkaç dakika sonra tekrar deneyin.' });
   if (!res?.ok) return json(502, { ok: false, error: 'Taslak kontrolden geçemedi. Lütfen tekrar deneyin ya da konuyu biraz değiştirin.' });
 
   const blind = await aiJson([{ role: 'user', content: blindPrompt(res.day) }], { maxTokens: 300, timeoutMs: 60_000 });

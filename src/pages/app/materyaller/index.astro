@@ -1,54 +1,166 @@
 ---
-// /app/materyaller: the teacher's library, built from the learning-path
-// content: every day can be shown as slides (for Meet screen share) or
-// printed as a worksheet with an answer key. Grows as content is written.
+// /app/materyaller: the teacher's library. Pick a section (a level or an
+// exam); its topic headings list the materials the teacher filed there
+// ("Materyallerime ekle" on the generator page). A1 headings are the learning
+// path's topics, so they also offer the ready-made days as slides or a
+// printable worksheet. Teachers can add their own headings.
 import AppShell from '../../../layouts/AppShell.astro';
 import '../../../styles/timetable.css';
 import { loadAppSession } from '../../../lib/app-session';
-import { getSyllabus, dayCount } from '../../../lib/path-content';
-import { LEVELS } from '../../../lib/path.mjs';
+import { createSupabaseClient, pageCookieSource } from '../../../lib/supabase';
+import { dayCount } from '../../../lib/path-content';
+import { LEVEL_TRACKS, EXAM_TRACKS, TRACKS, trackLabel, builtInHeadings, sameTitle, type Heading } from '../../../lib/library';
 
 export const prerender = false;
 const loaded = await loadAppSession(Astro);
 if ('redirect' in loaded) return Astro.redirect(loaded.redirect.replace('next=/app', 'next=/app/materyaller'));
 const session = loaded;
 if (session.role !== 'teacher' && session.role !== 'admin') return Astro.redirect('/app');
-const level = LEVELS.includes(String(Astro.url.searchParams.get('seviye') || '').toUpperCase()) ? String(Astro.url.searchParams.get('seviye')).toUpperCase() : 'A1';
-const topics = await getSyllabus(level);
-const ready = dayCount(level);
-const q = session.demo ? '&demo=ogretmen' : '';
+
+const asked = String(Astro.url.searchParams.get('bolum') || Astro.url.searchParams.get('seviye') || '').toUpperCase();
+const track = TRACKS.includes(asked) ? asked : 'A1';
+const isLevel = LEVEL_TRACKS.includes(track);
+
+type Mat = { id: string; title: string; level: string; topic: string | null; created_at: string };
+let mats: Mat[] = [];
+let own: { id: string; title: string }[] = [];
+if (!session.demo) {
+  const sb = createSupabaseClient(pageCookieSource(Astro));
+  const [m, t] = await Promise.all([
+    sb.from('teacher_materials').select('id, title, level, topic, created_at').eq('teacher_id', session.userId).eq('track', track).order('filed_at', { ascending: false }),
+    sb.from('teacher_topics').select('id, title').eq('teacher_id', session.userId).eq('track', track).order('created_at'),
+  ]);
+  mats = (m.data as any[]) || [];
+  own = (t.data as any[]) || [];
+}
+
+const builtIn = await builtInHeadings(track);
+const headings: Heading[] = [...builtIn, ...own.filter((o) => !builtIn.some((b) => sameTitle(b.title, o.title))).map((o) => ({ title: o.title, ownId: o.id }))];
+const under = (h: Heading) => mats.filter((m) => m.topic && sameTitle(m.topic, h.title));
+const loose = mats.filter((m) => !headings.some((h) => m.topic && sameTitle(m.topic, h.title)));
+const ready = isLevel ? dayCount(track) : 0;
+const demo = session.demo ? '&demo=ogretmen' : '';
+const genLink = (h: Heading) => `/app/materyaller/uret?bolum=${track}&seviye=${isLevel ? track : 'B1'}&konu=${encodeURIComponent(h.title)}${demo}`;
 ---
 
 <AppShell session={session} title="Materyaller — Languago" current="/app/materyaller">
   <div class="page-head">
-    <div><h1>Materyaller</h1><p>Öğrenme yolundaki her gün, derste ekran paylaşımı için sunum ya da yazdırılabilir çalışma kâğıdı olarak hazır. Cevap anahtarı yalnızca öğretmenlere görünür.</p></div>
+    <div><h1>Materyaller</h1><p>Bir seviye ya da sınav seçin; konu başlıklarının altında kaydettiğiniz materyaller durur. Derste ekran paylaşımı için sunum ya da cevap anahtarlı çalışma kâğıdı olarak açılır.</p></div>
     <div class="actions"><a class="btn btn-accent btn-sm" href={`/app/materyaller/uret${session.demo ? '?demo=ogretmen' : ''}`}>✨ Yapay zekâ ile üret</a></div>
   </div>
-  <div class="teacher-pick">{LEVELS.map((l: string) => <a href={`?seviye=${l}${q}`} aria-current={l === level ? 'true' : undefined}>{l}</a>)}</div>
-  {!topics.length ? (
-    <section class="panel"><p class="muted">{level} içeriği hazırlanıyor. Şu an A1 hazır.</p></section>
-  ) : (
-    <section class="panel">
-      <p class="muted" style="font-size:14px">{level}: {ready} gün hazır · 24 konu · her konu 5 gün</p>
-      <div class="agenda">{topics.map((t, i) => {
-        const days = [1, 2, 3, 4, 5].map((k) => i * 5 + k);
+
+  <nav class="lib-tracks" aria-label="Bölüm seçin">
+    <div><span>Seviye</span><div class="teacher-pick">{LEVEL_TRACKS.map((t: string) => <a href={`?bolum=${t}${demo}`} aria-current={t === track ? 'true' : undefined}>{t}</a>)}</div></div>
+    <div><span>Sınav</span><div class="teacher-pick">{EXAM_TRACKS.map((e: any) => <a href={`?bolum=${e.id}${demo}`} aria-current={e.id === track ? 'true' : undefined}>{e.label}</a>)}</div></div>
+  </nav>
+
+  <section class="panel">
+    <div class="panel-head"><h2>{trackLabel(track)} · konu başlıkları</h2><span class="muted lib-count">{mats.length} materyal</span></div>
+    {track === 'A1' && <p class="muted lib-note">A1 başlıkları öğrenme yolunun konularıdır; her konunun hazır günleri de burada ({ready} gün hazır).</p>}
+
+    <form class="lib-add" data-add-topic data-track={track}>
+      <label class="fld">Kendi konu başlığınızı ekleyin<input name="title" maxlength="80" required placeholder={isLevel ? 'ör. Ülkeler ve milliyetler' : 'ör. Writing Task 2: advantages and disadvantages'} /></label>
+      <button class="btn btn-ghost btn-sm" type="submit">+ Başlık ekle</button>
+      <span class="muted lib-msg" role="status" aria-live="polite"></span>
+    </form>
+
+    <div class="agenda">
+      {headings.map((h) => {
+        const list = under(h);
+        const days = h.pathIndex !== undefined ? [1, 2, 3, 4, 5].map((k) => h.pathIndex! * 5 + k) : [];
         return (
-          <details class="lesson" style="grid-template-columns:1fr;display:block">
-            <summary style="cursor:pointer;display:flex;gap:12px;align-items:baseline;flex-wrap:wrap"><b>{t.title}</b><span class="muted" style="font-size:13.5px">{t.tr} · Gün {days[0]}–{days[4]}</span></summary>
-            <div style="display:grid;gap:8px;margin-top:12px">{days.map((d, k) => (
-              <div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap">
-                <span style="min-width:120px;font-weight:700">Gün {d}{k === 0 ? ' · konu anlatımı' : k === 4 ? ' · tekrar' : ''}</span>
-                {d <= ready ? (
-                  <>
-                    <a class="btn btn-ghost btn-sm" href={`/app/materyaller/${level.toLowerCase()}/${d}/sunum`} target="_blank" rel="noopener">Sunum</a>
-                    <a class="btn btn-ghost btn-sm" href={`/app/materyaller/${level.toLowerCase()}/${d}/yazdir`} target="_blank" rel="noopener">Çalışma kâğıdı</a>
-                  </>
-                ) : <span class="muted" style="font-size:13.5px">hazırlanıyor</span>}
+          <details class="lesson lib-h" open={list.length > 0 ? true : undefined}>
+            <summary>
+              <b>{h.title}</b>
+              {h.tr && <span class="muted">{h.tr}</span>}
+              {h.ownId && <span class="lib-own">Sizin başlığınız</span>}
+              {list.length > 0 && <span class="lib-n">{list.length}</span>}
+            </summary>
+            <div class="lib-body">
+              {list.map((m) => (
+                <div class="lib-row" data-mat={m.id}>
+                  <span class="lib-title">{m.title}<small class="muted"> · {m.level}</small></span>
+                  <a class="btn btn-ghost btn-sm" href={`/app/materyaller/uret/${m.id}/sunum`} target="_blank" rel="noopener">Sunum</a>
+                  <a class="btn btn-ghost btn-sm" href={`/app/materyaller/uret/${m.id}/yazdir`} target="_blank" rel="noopener">Çalışma kâğıdı</a>
+                  <button class="link-del" type="button" data-unfile={m.id}>Çıkar</button>
+                </div>
+              ))}
+              {days.map((d, k) => (
+                <div class="lib-row">
+                  <span class="lib-title">Öğrenme yolu · Gün {d}{k === 0 ? ' · konu anlatımı' : k === 4 ? ' · tekrar' : ''}</span>
+                  {d <= ready ? (
+                    <>
+                      <a class="btn btn-ghost btn-sm" href={`/app/materyaller/${track.toLowerCase()}/${d}/sunum`} target="_blank" rel="noopener">Sunum</a>
+                      <a class="btn btn-ghost btn-sm" href={`/app/materyaller/${track.toLowerCase()}/${d}/yazdir`} target="_blank" rel="noopener">Çalışma kâğıdı</a>
+                    </>
+                  ) : <span class="muted lib-soon">hazırlanıyor</span>}
+                </div>
+              ))}
+              {!list.length && !days.length && <p class="muted lib-empty">Bu başlıkta henüz materyal yok.</p>}
+              <div class="lib-foot">
+                <a class="btn btn-primary btn-sm" href={genLink(h)}>✨ Bu konuda üret</a>
+                {h.ownId && <button class="link-del" type="button" data-del-topic={h.ownId}>Başlığı sil</button>}
               </div>
-            ))}</div>
+            </div>
           </details>
         );
-      })}</div>
-    </section>
-  )}
+      })}
+      {loose.length > 0 && (
+        <details class="lesson lib-h" open>
+          <summary><b>Diğer</b><span class="muted">Başlığı silinmiş materyaller</span><span class="lib-n">{loose.length}</span></summary>
+          <div class="lib-body">{loose.map((m) => (
+            <div class="lib-row" data-mat={m.id}>
+              <span class="lib-title">{m.title}<small class="muted"> · {m.topic}</small></span>
+              <a class="btn btn-ghost btn-sm" href={`/app/materyaller/uret/${m.id}/sunum`} target="_blank" rel="noopener">Sunum</a>
+              <a class="btn btn-ghost btn-sm" href={`/app/materyaller/uret/${m.id}/yazdir`} target="_blank" rel="noopener">Çalışma kâğıdı</a>
+              <button class="link-del" type="button" data-unfile={m.id}>Çıkar</button>
+            </div>
+          ))}</div>
+        </details>
+      )}
+    </div>
+  </section>
+
+  <script>
+    const add = document.querySelector('[data-add-topic]') as HTMLFormElement;
+    const out = add.querySelector('.lib-msg') as HTMLElement;
+    add.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const title = (add.elements.namedItem('title') as HTMLInputElement).value.trim();
+      out.textContent = 'Ekleniyor…';
+      const r = await fetch('/api/materials/topics', { method: 'POST', headers: { 'content-type': 'application/json' }, body: JSON.stringify({ track: add.dataset.track, title }) }).then((x) => x.json()).catch(() => null);
+      if (r?.ok) location.reload(); else out.textContent = r?.error || 'Eklenemedi.';
+    });
+    document.querySelectorAll<HTMLButtonElement>('[data-del-topic]').forEach((b) => b.addEventListener('click', async () => {
+      if (!confirm('Bu başlık silinsin mi? Altındaki materyaller silinmez; "Diğer" bölümüne geçer.')) return;
+      const r = await fetch('/api/materials/topics', { method: 'DELETE', headers: { 'content-type': 'application/json' }, body: JSON.stringify({ id: b.dataset.delTopic }) }).catch(() => null);
+      if (r?.ok) location.reload();
+    }));
+    document.querySelectorAll<HTMLButtonElement>('[data-unfile]').forEach((b) => b.addEventListener('click', async () => {
+      if (!confirm('Bu materyal Materyallerim’den çıkarılsın mı? Materyal silinmez; “Ürettikleriniz” listesinde kalır.')) return;
+      const r = await fetch(`/api/materials/${encodeURIComponent(b.dataset.unfile!)}`, { method: 'PATCH', headers: { 'content-type': 'application/json' }, body: JSON.stringify({ track: null }) }).catch(() => null);
+      if (r?.ok) b.closest('[data-mat]')?.remove();
+    }));
+  </script>
 </AppShell>
+
+<style>
+  .lib-tracks { display: grid; gap: 10px; }
+  .lib-tracks > div { display: flex; flex-wrap: wrap; align-items: center; gap: 10px 14px; }
+  .lib-tracks > div > span { min-width: 56px; font-size: 13px; font-weight: 800; letter-spacing: .06em; text-transform: uppercase; color: var(--muted); }
+  .lib-count, .lib-note { font-size: 14px; }
+  .lib-note { margin: 0; }
+  .lib-add { display: flex; flex-wrap: wrap; align-items: end; gap: 10px 12px; }
+  .lib-add .fld { flex: 1 1 320px; }
+  .lib-h { display: block !important; }
+  .lib-h summary { cursor: pointer; display: flex; gap: 10px; align-items: baseline; flex-wrap: wrap; }
+  .lib-h summary .muted { font-size: 13.5px; }
+  .lib-own { font-size: 12px; font-weight: 800; color: #fbbf24; background: rgba(245, 158, 11, .12); border-radius: 999px; padding: 2px 9px; }
+  .lib-n { margin-left: auto; font-size: 12.5px; font-weight: 800; color: #04201d; background: #5eead4; border-radius: 999px; padding: 2px 9px; }
+  .lib-body { display: grid; gap: 8px; margin-top: 12px; }
+  .lib-row { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 10px; }
+  .lib-title { flex: 1 1 260px; font-weight: 700; }
+  .lib-soon, .lib-empty { font-size: 13.5px; margin: 0; }
+  .lib-foot { display: flex; flex-wrap: wrap; align-items: center; gap: 12px; margin-top: 4px; }
+  .link-del { background: none; border: 0; color: var(--muted); font: inherit; font-size: 13.5px; cursor: pointer; text-decoration: underline; }
+</style>
