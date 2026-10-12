@@ -1,4 +1,5 @@
 -- Languago 2.0: the teacher's own library ("Materyallerim"). A teacher files
+-- Applied to production on 2026-10-12 (SQL editor, approved by the owner).
 -- an AI material under a section (a level such as B1, or an exam such as
 -- IELTS) and a topic heading. Headings are the built-in ones (in the app's
 -- code) or the teacher's own, stored here.

@@ -20,12 +20,14 @@ if (session.role !== 'teacher' && session.role !== 'admin') return Astro.redirec
 type Mine = { id: string; level: string; title: string; created_at: string; request: any; track?: string | null; topic?: string | null };
 let mine: Mine[] = [];
 let own: { track: string; title: string }[] = [];
+let libraryReady = !session.demo; // false until the 20261022 migration adds the library columns
 if (!session.demo) {
   const sb = createSupabaseClient(pageCookieSource(Astro));
   const full = await sb.from('teacher_materials').select('id, level, title, created_at, request, track, topic').eq('teacher_id', session.userId).order('created_at', { ascending: false }).limit(40);
   // before the library columns exist, fall back to the plain list
   const res = full.error ? await sb.from('teacher_materials').select('id, level, title, created_at, request').eq('teacher_id', session.userId).order('created_at', { ascending: false }).limit(40) : full;
   mine = (res.data as any[]) || [];
+  if (full.error) libraryReady = false;
   const t = await sb.from('teacher_topics').select('track, title').eq('teacher_id', session.userId).order('title');
   own = (t.data as any[]) || [];
 }
@@ -76,11 +78,11 @@ const ideas = ['Present simple: daily routines', 'Can / can’t for ability', 'P
             <div class="gen-links">
               <a class="btn btn-ghost btn-sm" href={`/app/materyaller/uret/${m.id}/sunum`} target="_blank" rel="noopener">Sunum</a>
               <a class="btn btn-ghost btn-sm" href={`/app/materyaller/uret/${m.id}/yazdir`} target="_blank" rel="noopener">Çalışma kâğıdı</a>
-              <button class="btn btn-primary btn-sm" type="button" data-file-open>{m.track ? 'Yerini değiştir' : 'Materyallerime ekle'}</button>
+              {libraryReady && <button class="btn btn-primary btn-sm" type="button" data-file-open>{m.track ? 'Yerini değiştir' : 'Materyallerime ekle'}</button>}
               <button class="link-del" type="button" data-del={m.id}>Sil</button>
             </div>
           </div>
-          <form class="file-form" data-file-form hidden>
+          {libraryReady && <form class="file-form" data-file-form hidden>
             <p class="file-hint" data-fresh-hint hidden>Materyaliniz hazır. Materyallerinize eklemek için bir bölüm ve konu başlığı seçin.</p>
             <div class="form-grid">
               <label class="fld">Bölüm
@@ -101,7 +103,7 @@ const ideas = ['Present simple: daily routines', 'Can / can’t for ability', 'P
               <button class="link-del" type="button" data-file-close>Vazgeç</button>
               <span class="muted file-msg" role="status" aria-live="polite"></span>
             </div>
-          </form>
+          </form>}
         </div>
       ))}</div>
     )}
@@ -148,7 +150,8 @@ const ideas = ['Present simple: daily routines', 'Can / can’t for ability', 'P
       (f.elements.namedItem('topic') as HTMLInputElement).focus();
     };
     document.querySelectorAll<HTMLElement>('[data-item]').forEach((item) => {
-      const f = item.querySelector('[data-file-form]') as HTMLFormElement;
+      const f = item.querySelector('[data-file-form]') as HTMLFormElement | null;
+      if (!f) return;
       const out = f.querySelector('.file-msg') as HTMLElement;
       item.querySelector('[data-file-open]')?.addEventListener('click', () => openForm(item));
       item.querySelector('[data-file-close]')?.addEventListener('click', () => { f.hidden = true; });
@@ -174,7 +177,7 @@ const ideas = ['Present simple: daily routines', 'Can / can’t for ability', 'P
 
     const fresh = new URLSearchParams(location.search).get('yeni');
     const freshItem = fresh ? document.querySelector<HTMLElement>(`[data-item="${CSS.escape(fresh)}"]`) : null;
-    if (freshItem) {
+    if (freshItem && freshItem.querySelector('[data-file-form]')) {
       freshItem.classList.add('is-new');
       const f = freshItem.querySelector('[data-file-form]') as HTMLFormElement;
       let pre: any = null;

@@ -24,6 +24,7 @@ const isLevel = LEVEL_TRACKS.includes(track);
 type Mat = { id: string; title: string; level: string; topic: string | null; created_at: string };
 let mats: Mat[] = [];
 let own: { id: string; title: string }[] = [];
+let libraryReady = !session.demo; // false until the 20261022 migration adds the library tables
 if (!session.demo) {
   const sb = createSupabaseClient(pageCookieSource(Astro));
   const [m, t] = await Promise.all([
@@ -31,6 +32,7 @@ if (!session.demo) {
     sb.from('teacher_topics').select('id, title').eq('teacher_id', session.userId).eq('track', track).order('created_at'),
   ]);
   mats = (m.data as any[]) || [];
+  if (m.error || t.error) libraryReady = false;
   own = (t.data as any[]) || [];
 }
 
@@ -58,11 +60,11 @@ const genLink = (h: Heading) => `/app/materyaller/uret?bolum=${track}&seviye=${i
     <div class="panel-head"><h2>{trackLabel(track)} · konu başlıkları</h2><span class="muted lib-count">{mats.length} materyal</span></div>
     {track === 'A1' && <p class="muted lib-note">A1 başlıkları öğrenme yolunun konularıdır; her konunun hazır günleri de burada ({ready} gün hazır).</p>}
 
-    <form class="lib-add" data-add-topic data-track={track}>
+    {libraryReady && <form class="lib-add" data-add-topic data-track={track}>
       <label class="fld">Kendi konu başlığınızı ekleyin<input name="title" maxlength="80" required placeholder={isLevel ? 'ör. Ülkeler ve milliyetler' : 'ör. Writing Task 2: advantages and disadvantages'} /></label>
       <button class="btn btn-ghost btn-sm" type="submit">+ Başlık ekle</button>
       <span class="muted lib-msg" role="status" aria-live="polite"></span>
-    </form>
+    </form>}
 
     <div class="agenda">
       {headings.map((h) => {
@@ -122,13 +124,13 @@ const genLink = (h: Heading) => `/app/materyaller/uret?bolum=${track}&seviye=${i
   </section>
 
   <script>
-    const add = document.querySelector('[data-add-topic]') as HTMLFormElement;
-    const out = add.querySelector('.lib-msg') as HTMLElement;
-    add.addEventListener('submit', async (e) => {
+    const add = document.querySelector('[data-add-topic]') as HTMLFormElement | null;
+    const out = add?.querySelector('.lib-msg') as HTMLElement;
+    add?.addEventListener('submit', async (e) => {
       e.preventDefault();
-      const title = (add.elements.namedItem('title') as HTMLInputElement).value.trim();
+      const title = (add!.elements.namedItem('title') as HTMLInputElement).value.trim();
       out.textContent = 'Ekleniyor…';
-      const r = await fetch('/api/materials/topics', { method: 'POST', headers: { 'content-type': 'application/json' }, body: JSON.stringify({ track: add.dataset.track, title }) }).then((x) => x.json()).catch(() => null);
+      const r = await fetch('/api/materials/topics', { method: 'POST', headers: { 'content-type': 'application/json' }, body: JSON.stringify({ track: add!.dataset.track, title }) }).then((x) => x.json()).catch(() => null);
       if (r?.ok) location.reload(); else out.textContent = r?.error || 'Eklenemedi.';
     });
     document.querySelectorAll<HTMLButtonElement>('[data-del-topic]').forEach((b) => b.addEventListener('click', async () => {
