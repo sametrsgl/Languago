@@ -192,7 +192,7 @@ const todayIso = new Date(fromLocal(today, 12 * 60)).toISOString().slice(0, 10);
             <p class="muted" style="font-size:14px">Öğrencileriniz bu kodla sınıfınıza katılır ve takviminizden ders isteyebilir.</p>
             <div class="chips">{d.classes.map((c) => <span class="chip-x" style="padding-right:12px"><b style="font-family:ui-monospace,monospace;letter-spacing:.08em">{c.code}</b> {c.name}</span>)}</div>
           </>
-        ) : <p class="muted" style="font-size:14px">Önce bir sınıf oluşturun; öğrencileriniz sınıf koduyla katılınca takviminizden ders isteyebilir. <a href="/teacher/siniflar" style="color:#5eead4">Sınıf oluştur →</a></p>}
+        ) : <p class="muted" style="font-size:14px">Önce bir sınıf oluşturun; öğrencileriniz sınıf koduyla katılınca takviminizden ders isteyebilir. <a href="/app/siniflar" style="color:#5eead4">Sınıf oluştur →</a></p>}
       </section>
     </div>
   </div>
