@@ -5,6 +5,7 @@
 import AppShell from '../../layouts/AppShell.astro';
 import { loadAppSession } from '../../lib/app-session';
 import { TASKS, TASK_LABELS, DAYS_PER_LEVEL } from '../../lib/path.mjs';
+import { createSupabaseClient, pageCookieSource } from '../../lib/supabase';
 
 export const prerender = false;
 const loaded = await loadAppSession(Astro);
@@ -31,6 +32,13 @@ const s = session.student;
 const path = s?.path;
 const t = session.teacher;
 const next = teacher ? t?.lessons[0] ?? null : s?.nextLesson ?? null;
+// open homework for students (0 until the 20261023 homework tables exist)
+let openHw = session.demo && !teacher ? 1 : 0;
+if (!teacher && !session.demo) {
+  const sb = createSupabaseClient(pageCookieSource(Astro));
+  const [a, d] = await Promise.all([sb.from('material_assignments').select('id').limit(100), sb.from('assignment_submissions').select('assignment_id').eq('student_id', session.userId)]);
+  if (!a.error) { const doneIds = new Set(((d.data as any[]) || []).map((x) => x.assignment_id)); openHw = ((a.data as any[]) || []).filter((x) => !doneIds.has(x.id)).length; }
+}
 const C = 188.5;
 // Skill tracking arrives with the learning path (Release 3). Until then real
 // accounts see empty rings; only the local demo shows sample values.
@@ -56,6 +64,7 @@ const ic = {
   </div>
   <div class="mobile-hello"><span class="muted">{greet},</span><h1>{session.firstName}</h1></div>
   {session.demo && <span class="demo-flag">Önizleme: örnek verilerle (yalnızca bu bilgisayarda)</span>}
+  {openHw > 0 && <a class="panel hw-banner" href={`/app/odevler${session.demo ? '?demo=ogrenci' : ''}`}><b>{openHw === 1 ? 'Bir ödeviniz var' : `${openHw} ödeviniz var`}</b><span>Öğretmeninizin gönderdiği ödevi açın →</span></a>}
 
   <div class="grid">
     {!teacher && (
@@ -184,6 +193,8 @@ const ic = {
 </AppShell>
 
 <style>
+  .hw-banner { display: flex !important; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 6px 14px; text-decoration: none; color: inherit; border-color: rgba(245, 158, 11, .45) !important; background: rgba(245, 158, 11, .08) !important; }
+  .hw-banner span { color: #fbbf24; font-weight: 700; }
   .mission-card { background: radial-gradient(520px circle at 100% 0%, rgba(245, 158, 11, .22), transparent 60%), linear-gradient(135deg, #10302c, #0a1f1d); border-color: rgba(251, 191, 36, .25); }
   .mission-card .when, .vocab-card .when { font-size: 13px; font-weight: 800; letter-spacing: .08em; text-transform: uppercase; color: #fbbf24; }
   .mission-steps { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 8px; }

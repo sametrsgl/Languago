@@ -10,6 +10,8 @@ import { loadAppSession } from '../../../lib/app-session';
 import { createSupabaseClient, pageCookieSource } from '../../../lib/supabase';
 import { LEVELS, COUNTS } from '../../../lib/material-check.mjs';
 import { LEVEL_TRACKS, EXAM_TRACKS, TRACKS, trackLabel, allBuiltInTitles } from '../../../lib/library';
+import AssignForm from '../../../components/AssignForm.astro';
+import { teacherClasses, type TargetClass } from '../../../lib/assignments';
 
 export const prerender = false;
 const loaded = await loadAppSession(Astro);
@@ -20,6 +22,8 @@ if (session.role !== 'teacher' && session.role !== 'admin') return Astro.redirec
 type Mine = { id: string; level: string; title: string; created_at: string; request: any; track?: string | null; topic?: string | null };
 let mine: Mine[] = [];
 let own: { track: string; title: string }[] = [];
+let classes: TargetClass[] = [];
+let hwReady = false; // true once the 20261023 homework tables exist
 let libraryReady = !session.demo; // false until the 20261022 migration adds the library columns
 if (!session.demo) {
   const sb = createSupabaseClient(pageCookieSource(Astro));
@@ -29,6 +33,8 @@ if (!session.demo) {
   mine = (res.data as any[]) || [];
   if (full.error) libraryReady = false;
   const t = await sb.from('teacher_topics').select('track, title').eq('teacher_id', session.userId).order('title');
+  hwReady = !(await sb.from('material_assignments').select('id', { head: true, count: 'exact' }).limit(1)).error;
+  if (hwReady) classes = await teacherClasses(sb, session.userId);
   own = (t.data as any[]) || [];
 }
 const builtIn = await allBuiltInTitles();
@@ -79,6 +85,7 @@ const ideas = ['Present simple: daily routines', 'Can / can’t for ability', 'P
               <a class="btn btn-ghost btn-sm" href={`/app/materyaller/uret/${m.id}/sunum`} target="_blank" rel="noopener">Sunum</a>
               <a class="btn btn-ghost btn-sm" href={`/app/materyaller/uret/${m.id}/yazdir`} target="_blank" rel="noopener">Çalışma kâğıdı</a>
               {libraryReady && <button class="btn btn-primary btn-sm" type="button" data-file-open>{m.track ? 'Yerini değiştir' : 'Materyallerime ekle'}</button>}
+              {hwReady && <AssignForm materialId={m.id} classes={classes} />}
               <button class="link-del" type="button" data-del={m.id}>Sil</button>
             </div>
           </div>

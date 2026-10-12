@@ -10,6 +10,8 @@ import { loadAppSession } from '../../../lib/app-session';
 import { createSupabaseClient, pageCookieSource } from '../../../lib/supabase';
 import { dayCount } from '../../../lib/path-content';
 import { LEVEL_TRACKS, EXAM_TRACKS, TRACKS, trackLabel, builtInHeadings, sameTitle, type Heading } from '../../../lib/library';
+import AssignForm from '../../../components/AssignForm.astro';
+import { teacherClasses, type TargetClass } from '../../../lib/assignments';
 
 export const prerender = false;
 const loaded = await loadAppSession(Astro);
@@ -24,6 +26,8 @@ const isLevel = LEVEL_TRACKS.includes(track);
 type Mat = { id: string; title: string; level: string; topic: string | null; created_at: string };
 let mats: Mat[] = [];
 let own: { id: string; title: string }[] = [];
+let classes: TargetClass[] = [];
+let hwReady = false; // true once the 20261023 homework tables exist
 let libraryReady = !session.demo; // false until the 20261022 migration adds the library tables
 if (!session.demo) {
   const sb = createSupabaseClient(pageCookieSource(Astro));
@@ -33,6 +37,8 @@ if (!session.demo) {
   ]);
   mats = (m.data as any[]) || [];
   if (m.error || t.error) libraryReady = false;
+  hwReady = !(await sb.from('material_assignments').select('id', { head: true, count: 'exact' }).limit(1)).error;
+  if (hwReady && mats.length) classes = await teacherClasses(sb, session.userId);
   own = (t.data as any[]) || [];
 }
 
@@ -84,6 +90,7 @@ const genLink = (h: Heading) => `/app/materyaller/uret?bolum=${track}&seviye=${i
                   <span class="lib-title">{m.title}<small class="muted"> · {m.level}</small></span>
                   <a class="btn btn-ghost btn-sm" href={`/app/materyaller/uret/${m.id}/sunum`} target="_blank" rel="noopener">Sunum</a>
                   <a class="btn btn-ghost btn-sm" href={`/app/materyaller/uret/${m.id}/yazdir`} target="_blank" rel="noopener">Çalışma kâğıdı</a>
+                  {hwReady && <AssignForm materialId={m.id} classes={classes} />}
                   <button class="link-del" type="button" data-unfile={m.id}>Çıkar</button>
                 </div>
               ))}
@@ -115,7 +122,8 @@ const genLink = (h: Heading) => `/app/materyaller/uret?bolum=${track}&seviye=${i
               <span class="lib-title">{m.title}<small class="muted"> · {m.topic}</small></span>
               <a class="btn btn-ghost btn-sm" href={`/app/materyaller/uret/${m.id}/sunum`} target="_blank" rel="noopener">Sunum</a>
               <a class="btn btn-ghost btn-sm" href={`/app/materyaller/uret/${m.id}/yazdir`} target="_blank" rel="noopener">Çalışma kâğıdı</a>
-              <button class="link-del" type="button" data-unfile={m.id}>Çıkar</button>
+              {hwReady && <AssignForm materialId={m.id} classes={classes} />}
+                  <button class="link-del" type="button" data-unfile={m.id}>Çıkar</button>
             </div>
           ))}</div>
         </details>

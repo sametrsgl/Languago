@@ -1,0 +1,164 @@
+---
+// /app/odevler: homework. Teachers see what they sent, who handed it in and
+// the scores (writing answers open per student). Students see what is open
+// and what they handed in.
+import AppShell from '../../../layouts/AppShell.astro';
+import '../../../styles/timetable.css';
+import { loadAppSession } from '../../../lib/app-session';
+import { createSupabaseClient, pageCookieSource } from '../../../lib/supabase';
+import { teacherClasses, dueLabel, todayTR, type TargetClass } from '../../../lib/assignments';
+
+export const prerender = false;
+const loaded = await loadAppSession(Astro);
+if ('redirect' in loaded) return Astro.redirect(loaded.redirect.replace('next=/app', 'next=/app/odevler'));
+const session = loaded;
+if (session.role === 'parent') return Astro.redirect('/app/veli');
+const teacher = session.role === 'teacher' || session.role === 'admin';
+const today = todayTR();
+
+type Sub = { assignment_id: string; student_id: string; score: number; correct: number; total: number; writing: string | null; submitted_at: string };
+type Asg = { id: string; title: string; level: string; due_on: string | null; created_at: string; class_id: string | null; student_id: string | null };
+let asgs: Asg[] = [];
+let subs: Sub[] = [];
+let classes: TargetClass[] = [];
+let ready = true;
+
+if (session.demo) {
+  classes = [{ id: 'c1', name: 'B1 Akşam grubu', members: [{ id: 's1', name: 'Elif Kaya' }, { id: 's2', name: 'Mert Demir' }, { id: 's3', name: 'Zeynep Aydın' }] }];
+  asgs = [
+    { id: 'a1', title: 'Passive Voice in Science', level: 'B1', due_on: today, created_at: new Date().toISOString(), class_id: 'c1', student_id: null },
+    { id: 'a2', title: 'Present Perfect: Experiences', level: 'A2', due_on: null, created_at: new Date(Date.now() - 864e5 * 3).toISOString(), class_id: null, student_id: 's2' },
+  ];
+  subs = [
+    { assignment_id: 'a1', student_id: 's1', score: 92, correct: 11, total: 12, writing: 'Many medicines are tested on volunteers before they are sold…', submitted_at: new Date().toISOString() },
+    { assignment_id: 'a1', student_id: 's3', score: 67, correct: 8, total: 12, writing: null, submitted_at: new Date().toISOString() },
+  ];
+} else {
+  const sb = createSupabaseClient(pageCookieSource(Astro));
+  const a = teacher
+    ? await sb.from('material_assignments').select('id, title, level, due_on, created_at, class_id, student_id').eq('teacher_id', session.userId).order('created_at', { ascending: false }).limit(60)
+    : await sb.from('material_assignments').select('id, title, level, due_on, created_at, class_id, student_id').order('created_at', { ascending: false }).limit(60);
+  if (a.error) ready = false;
+  asgs = (a.data as any[]) || [];
+  if (asgs.length) {
+    const s = await sb.from('assignment_submissions').select('assignment_id, student_id, score, correct, total, writing, submitted_at').in('assignment_id', asgs.map((x) => x.id));
+    subs = (s.data as any[]) || [];
+  }
+  if (teacher) classes = await teacherClasses(sb, session.userId);
+}
+
+const fmt = (s: string) => new Date(s).toLocaleDateString('tr-TR', { day: 'numeric', month: 'long', timeZone: 'Europe/Istanbul' });
+const studentName = (id: string) => classes.flatMap((c) => c.members).find((m) => m.id === id)?.name || 'Öğrenci';
+const recipients = (a: Asg) => (a.class_id ? classes.find((c) => c.id === a.class_id)?.members || [] : a.student_id ? [{ id: a.student_id, name: studentName(a.student_id) }] : []);
+const target = (a: Asg) => (a.class_id ? classes.find((c) => c.id === a.class_id)?.name || 'Sınıf' : studentName(a.student_id || ''));
+const subsOf = (id: string) => subs.filter((s) => s.assignment_id === id);
+const mine = (id: string) => subs.find((s) => s.assignment_id === id && (session.demo || s.student_id === session.userId));
+const open = teacher ? [] : asgs.filter((a) => !mine(a.id)).sort((x, y) => (x.due_on || '9999').localeCompare(y.due_on || '9999'));
+const done = teacher ? [] : asgs.filter((a) => mine(a.id));
+const demoQ = session.demo ? `?demo=${teacher ? 'ogretmen' : 'ogrenci'}` : '';
+---
+
+<AppShell session={session} title="Ödevler — Languago" current="/app/odevler">
+  <div class="page-head">
+    <div><h1>Ödevler</h1><p>{teacher ? 'Gönderdiğiniz ödevler, kimin teslim ettiği ve puanlar. Yeni ödev için Materyaller’de bir materyalin yanındaki “Ödev ver” düğmesini kullanın.' : 'Öğretmeninizin gönderdiği ödevler. Dil bilgisi ve okuma soruları teslim edince hemen puanlanır; yazma cevabınızı öğretmeniniz okur.'}</p></div>
+    {teacher && <div class="actions"><a class="btn btn-ghost btn-sm" href={`/app/materyaller${demoQ}`}>Materyaller</a></div>}
+  </div>
+  {session.demo && <span class="demo-flag">Önizleme: örnek ödevler (yalnızca bu bilgisayarda)</span>}
+  {!ready && <section class="panel"><p class="muted">Ödevler çok yakında burada olacak.</p></section>}
+
+  {ready && teacher && (
+    !asgs.length ? (
+      <section class="panel"><h2>Henüz ödev göndermediniz</h2><p class="muted">Materyaller sayfasında bir materyalin yanındaki “Ödev ver” düğmesiyle bir sınıfa ya da öğrenciye gönderin.</p></section>
+    ) : (
+      <section class="panel">
+        <div class="agenda">{asgs.map((a) => {
+          const people = recipients(a);
+          const got = subsOf(a.id);
+          const avg = got.length ? Math.round(got.reduce((t, s) => t + s.score, 0) / got.length) : null;
+          return (
+            <details class="lesson hw" data-asg={a.id}>
+              <summary>
+                <span class="hw-title"><b>{a.title}</b><small class="muted"> · {a.level} · {target(a)}</small></span>
+                <span class="hw-meta">
+                  {a.due_on && <span class={`badge ${a.due_on < today ? 'declined' : 'requested'}`}>Teslim: {dueLabel(a.due_on)}</span>}
+                  <span class="badge confirmed">{got.length} / {people.length || '?'} teslim</span>
+                  {avg !== null && <span class="hw-avg">ort. {avg}</span>}
+                </span>
+              </summary>
+              <div class="hw-body">
+                <table class="hw-table">
+                  <thead><tr><th>Öğrenci</th><th>Durum</th><th>Puan</th></tr></thead>
+                  <tbody>{people.map((p) => {
+                    const s = got.find((x) => x.student_id === p.id);
+                    return (
+                      <tr>
+                        <td>{p.name}</td>
+                        <td>{s ? `Teslim etti · ${fmt(s.submitted_at)}` : <span class="muted">Bekleniyor</span>}</td>
+                        <td>{s ? <><b>{s.score}</b> <small class="muted">({s.correct}/{s.total})</small>{s.writing && <details class="hw-writing"><summary>Yazma cevabı</summary><p>{s.writing}</p></details>}</> : '—'}</td>
+                      </tr>
+                    );
+                  })}</tbody>
+                </table>
+                <div class="hw-foot"><span class="muted">Gönderildi: {fmt(a.created_at)}</span><button class="link-del" type="button" data-del={a.id}>Ödevi geri al</button></div>
+              </div>
+            </details>
+          );
+        })}</div>
+      </section>
+    )
+  )}
+
+  {ready && !teacher && (
+    <>
+      <section class="panel">
+        <h2>Yapılacaklar</h2>
+        {!open.length ? <p class="muted">Bekleyen ödeviniz yok.</p> : (
+          <div class="agenda">{open.map((a) => (
+            <a class="lesson hw-link" href={`/app/odevler/${a.id}${demoQ}`}>
+              <span class="hw-title"><b>{a.title}</b><small class="muted"> · {a.level}</small></span>
+              <span class="hw-meta">{a.due_on && <span class={`badge ${a.due_on < today ? 'declined' : 'requested'}`}>{a.due_on < today ? 'Süresi geçti' : `Teslim: ${dueLabel(a.due_on)}`}</span>}<span class="hw-go">Başla →</span></span>
+            </a>
+          ))}</div>
+        )}
+      </section>
+      {done.length > 0 && (
+        <section class="panel">
+          <h2>Teslim ettikleriniz</h2>
+          <div class="agenda">{done.map((a) => { const s = mine(a.id)!; return (
+            <a class="lesson hw-link" href={`/app/odevler/${a.id}${demoQ}`}>
+              <span class="hw-title"><b>{a.title}</b><small class="muted"> · {a.level} · {fmt(s.submitted_at)}</small></span>
+              <span class="hw-meta"><b class="hw-score">{s.score}</b><small class="muted">({s.correct}/{s.total})</small><span class="hw-go">Cevaplar →</span></span>
+            </a>
+          ); })}</div>
+        </section>
+      )}
+    </>
+  )}
+
+  <script>
+    document.querySelectorAll<HTMLButtonElement>('[data-del]').forEach((b) => b.addEventListener('click', async () => {
+      if (b.dataset.sure !== '1') { b.dataset.sure = '1'; b.textContent = 'Emin misiniz? Teslimler de silinir — tekrar tıklayın'; return; }
+      const r = await fetch('/api/assignments', { method: 'DELETE', headers: { 'content-type': 'application/json' }, body: JSON.stringify({ id: b.dataset.del }) }).catch(() => null);
+      if (r?.ok) b.closest('[data-asg]')?.remove(); else b.textContent = 'Geri alınamadı';
+    }));
+  </script>
+</AppShell>
+
+<style>
+  .hw { display: block !important; }
+  .hw summary, .hw-link { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 8px 14px; cursor: pointer; }
+  .hw-link { text-decoration: none; color: inherit; }
+  .hw-title { min-width: 0; flex: 1 1 260px; }
+  .hw-meta { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; }
+  .hw-avg { font-weight: 800; color: #5eead4; font-variant-numeric: tabular-nums; }
+  .hw-go { font-weight: 800; color: #5eead4; }
+  .hw-score { font-size: 20px; color: #5eead4; font-variant-numeric: tabular-nums; }
+  .hw-body { display: grid; gap: 12px; margin-top: 14px; overflow-x: auto; }
+  .hw-table { width: 100%; border-collapse: collapse; font-size: 14.5px; min-width: 420px; }
+  .hw-table th, .hw-table td { text-align: left; padding: 8px 10px; border-bottom: 1px solid rgba(255, 255, 255, .08); vertical-align: top; }
+  .hw-table th { font-size: 12px; text-transform: uppercase; letter-spacing: .06em; color: var(--muted); }
+  .hw-writing summary { cursor: pointer; font-size: 13px; color: #5eead4; margin-top: 4px; }
+  .hw-writing p { margin: 6px 0 0; white-space: pre-wrap; color: var(--ink-2); }
+  .hw-foot { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 10px; font-size: 13.5px; }
+  .link-del { background: none; border: 0; color: var(--muted); font: inherit; font-size: 13.5px; cursor: pointer; text-decoration: underline; }
+</style>

@@ -1,0 +1,66 @@
+---
+// "Ödev ver": send one material as homework to a class or one student.
+// Renders a button and a hidden inline form; the script below is shared by
+// every instance on the page.
+import type { TargetClass } from '../lib/assignments';
+import { todayTR } from '../lib/assignments';
+
+interface Props { materialId: string; classes: TargetClass[] }
+const { materialId, classes } = Astro.props;
+const students = [...new Map(classes.flatMap((c) => c.members).map((m) => [m.id, m])).values()].sort((a, b) => a.name.localeCompare(b.name, 'tr'));
+const min = todayTR();
+---
+
+<div class="as-wrap" data-assign={materialId}>
+  <button class="btn btn-ghost btn-sm" type="button" data-assign-open>Ödev ver</button>
+  <form class="as-form" data-assign-form hidden>
+    {!classes.length ? (
+      <p class="muted as-empty">Ödev vermek için önce bir sınıf oluşturun; öğrencileriniz katılım koduyla katılsın. <a href="/app/siniflar">Sınıflar →</a></p>
+    ) : (
+      <>
+        <label class="fld">Kime
+          <select name="target" required>
+            <optgroup label="Sınıf">{classes.map((c) => <option value={`c:${c.id}`}>{c.name} ({c.members.length} öğrenci)</option>)}</optgroup>
+            {students.length > 0 && <optgroup label="Tek öğrenci">{students.map((s) => <option value={`s:${s.id}`}>{s.name}</option>)}</optgroup>}
+          </select>
+        </label>
+        <label class="fld">Teslim tarihi (isteğe bağlı)<input type="date" name="due" min={min} /></label>
+        <div class="as-row">
+          <button class="btn btn-accent btn-sm" type="submit">Gönder</button>
+          <button class="link-del" type="button" data-assign-close>Vazgeç</button>
+          <span class="muted as-msg" role="status" aria-live="polite"></span>
+        </div>
+      </>
+    )}
+  </form>
+</div>
+
+<script>
+  document.querySelectorAll<HTMLElement>('[data-assign]').forEach((box) => {
+    const form = box.querySelector('[data-assign-form]') as HTMLFormElement;
+    const msg = form.querySelector('.as-msg') as HTMLElement | null;
+    box.querySelector('[data-assign-open]')?.addEventListener('click', () => { form.hidden = !form.hidden; });
+    box.querySelector('[data-assign-close]')?.addEventListener('click', () => { form.hidden = true; });
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const target = (form.elements.namedItem('target') as HTMLSelectElement).value;
+      const due = (form.elements.namedItem('due') as HTMLInputElement).value || null;
+      const [kind, id] = target.split(':');
+      if (msg) msg.textContent = 'Gönderiliyor…';
+      const r = await fetch('/api/assignments', {
+        method: 'POST', headers: { 'content-type': 'application/json' },
+        body: JSON.stringify({ material: box.dataset.assign, classId: kind === 'c' ? id : null, studentId: kind === 's' ? id : null, due }),
+      }).then((x) => x.json()).catch(() => null);
+      if (r?.ok) { if (msg) msg.innerHTML = 'Gönderildi. <a href="/app/odevler">Ödevler →</a>'; }
+      else if (msg) msg.textContent = r?.error || 'Gönderilemedi.';
+    });
+  });
+</script>
+
+<style>
+  .as-wrap { display: contents; }
+  .as-form { flex-basis: 100%; display: grid; gap: 10px; grid-template-columns: repeat(auto-fit, minmax(min(100%, 220px), 1fr)); padding: 12px 0 4px; }
+  .as-row { display: flex; flex-wrap: wrap; align-items: center; gap: 10px 14px; grid-column: 1 / -1; }
+  .as-empty { grid-column: 1 / -1; margin: 0; font-size: 14px; }
+  .link-del { background: none; border: 0; color: var(--muted); font: inherit; font-size: 13.5px; cursor: pointer; text-decoration: underline; }
+</style>

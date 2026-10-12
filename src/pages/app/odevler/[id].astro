@@ -1,0 +1,166 @@
+---
+// /app/odevler/<id>: a student does one homework. The database sends the
+// questions without the key (options in alphabetical order) and scores the
+// answers on submit; afterwards this page shows the right answers.
+import AppShell from '../../../layouts/AppShell.astro';
+import '../../../styles/timetable.css';
+import { loadAppSession } from '../../../lib/app-session';
+import { createSupabaseClient, pageCookieSource } from '../../../lib/supabase';
+import { dueLabel } from '../../../lib/assignments';
+
+export const prerender = false;
+const id = String(Astro.params.id || '');
+const loaded = await loadAppSession(Astro);
+if ('redirect' in loaded) return Astro.redirect(loaded.redirect.replace('next=/app', `next=/app/odevler/${id}`));
+const session = loaded;
+if (session.role === 'teacher' || session.role === 'admin') return Astro.redirect('/app/odevler');
+
+type Q = { q: string; o: string[]; right?: string | null };
+let a: any = null;
+if (session.demo) {
+  a = {
+    id, title: 'Passive Voice in Science', level: 'B1', due_on: null, teacher: 'Samet',
+    topic: { title: 'Passive voice', tr: 'Edilgen yapı', explain: ['Eylemi **kimin** yaptığı önemli değilse edilgen yapı kullanırız: **be + V3**.', 'Yapanı söylemek istersek **by** ekleriz: The vaccine was developed **by** a team of scientists.'] },
+    grammar: [
+      { q: 'Water ___ at 100 degrees Celsius.', o: ['boiled', 'is boiled', 'is boiling', 'was boiling'] },
+      { q: 'The experiment ___ last week.', o: ['did', 'was done', 'has done', 'is doing'] },
+    ],
+    reading: { title: 'A New Telescope', text: 'A new space telescope was launched in 2021. It was built by engineers from many countries. Its pictures are studied by scientists around the world.', questions: [{ q: 'Who built the telescope?', o: ['Engineers from many countries', 'One scientist', 'Students', 'A private company'] }] },
+    writing: { prompt: 'Bilim alanında yapılan bir keşfi edilgen yapıyla anlatın.', prompt_en: 'Describe a scientific discovery using the passive voice.', min: 60, max: 120 },
+    submission: null,
+  };
+} else if (/^[0-9a-f-]{36}$/i.test(id)) {
+  const sb = createSupabaseClient(pageCookieSource(Astro));
+  const { data } = await sb.rpc('get_assignment', { p_id: id });
+  a = data;
+}
+if (!a) return Astro.redirect('/app/odevler');
+const sub = a.submission;
+const ans = sub?.answers || { g: [], r: [] };
+const esc = (s: string) => String(s || '').replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c] as string));
+const md = (s: string) => esc(s).replace(/\*\*(.+?)\*\*/g, '<b>$1</b>');
+const grammar: Q[] = a.grammar || [];
+const reading: Q[] = a.reading?.questions || [];
+const demoQ = session.demo ? '?demo=ogrenci' : '';
+---
+
+<AppShell session={session} title={`${a.title} — Ödev — Languago`} current="/app/odevler">
+  <div class="page-head">
+    <div><h1>{a.title}</h1><p>{a.level}{a.teacher ? ` · Öğretmeniniz: ${a.teacher}` : ''}{a.due_on ? ` · Teslim: ${dueLabel(a.due_on)}` : ''}</p></div>
+    <div class="actions"><a class="btn btn-ghost btn-sm" href={`/app/odevler${demoQ}`}>← Ödevler</a></div>
+  </div>
+
+  {sub && (
+    <section class="panel hw-result">
+      <span class="hw-big">{sub.score}</span>
+      <div><h2>Teslim edildi</h2><p class="muted">{sub.correct} / {sub.total} soru doğru. Aşağıda doğru cevapları görebilirsiniz.{sub.writing ? ' Yazma cevabınızı öğretmeniniz okuyacak.' : ''}</p></div>
+    </section>
+  )}
+
+  {a.topic?.explain?.length > 0 && (
+    <section class="panel">
+      <h2>{a.topic.title}{a.topic.tr && <small class="muted"> · {a.topic.tr}</small>}</h2>
+      {a.topic.explain.map((p: string) => <p class="hw-p" set:html={md(p)} />)}
+    </section>
+  )}
+
+  <form class="hw-form" data-hw={a.id} data-demo={session.demo ? '1' : undefined}>
+    {grammar.length > 0 && (
+      <section class="panel">
+        <h2>Dil bilgisi</h2>
+        <ol class="hw-qs">{grammar.map((q, i) => (
+          <li>
+            <p class="hw-q">{q.q}</p>
+            <div class="hw-opts">{q.o.map((o) => {
+              const picked = ans.g?.[i] === o;
+              const cls = sub ? (o === q.right ? 'ok' : picked ? 'bad' : '') : '';
+              return <label class={`hw-opt ${cls}`}><input type="radio" name={`g${i}`} value={o} checked={picked} disabled={!!sub} required /><span>{o}</span></label>;
+            })}</div>
+          </li>
+        ))}</ol>
+      </section>
+    )}
+
+    {reading.length > 0 && (
+      <section class="panel">
+        <h2>Okuma{a.reading?.title ? `: ${a.reading.title}` : ''}</h2>
+        <div class="hw-text">{String(a.reading?.text || '').split(/\n+/).map((p) => <p>{p}</p>)}</div>
+        <ol class="hw-qs">{reading.map((q, i) => (
+          <li>
+            <p class="hw-q">{q.q}</p>
+            <div class="hw-opts">{q.o.map((o) => {
+              const picked = ans.r?.[i] === o;
+              const cls = sub ? (o === q.right ? 'ok' : picked ? 'bad' : '') : '';
+              return <label class={`hw-opt ${cls}`}><input type="radio" name={`r${i}`} value={o} checked={picked} disabled={!!sub} required /><span>{o}</span></label>;
+            })}</div>
+          </li>
+        ))}</ol>
+      </section>
+    )}
+
+    {a.writing?.prompt && (
+      <section class="panel">
+        <h2>Yazma</h2>
+        <p class="hw-p">{a.writing.prompt}</p>
+        {a.writing.prompt_en && <p class="muted hw-en">{a.writing.prompt_en}</p>}
+        {sub ? (sub.writing ? <p class="hw-written">{sub.writing}</p> : <p class="muted">Yazma cevabı göndermediniz.</p>) : (
+          <label class="fld">Cevabınız (isteğe bağlı{a.writing.min ? `, ${a.writing.min}–${a.writing.max} kelime` : ''})<textarea name="writing" rows="7" maxlength="4000"></textarea></label>
+        )}
+      </section>
+    )}
+
+    {!sub && (
+      <div class="hw-submit">
+        <button class="btn btn-accent" type="submit">Ödevi teslim et</button>
+        <span class="muted hw-msg" role="status" aria-live="polite">Teslim ettikten sonra cevaplar değiştirilemez.</span>
+      </div>
+    )}
+  </form>
+
+  <script>
+    const form = document.querySelector<HTMLFormElement>('[data-hw]');
+    form?.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const msg = form.querySelector('.hw-msg') as HTMLElement;
+      const btn = form.querySelector('button[type=submit]') as HTMLButtonElement;
+      const pick = (prefix: string) => {
+        const out: (string | null)[] = [];
+        for (let i = 0; ; i++) {
+          const group = form.querySelectorAll<HTMLInputElement>(`input[name="${prefix}${i}"]`);
+          if (!group.length) break;
+          out.push([...group].find((x) => x.checked)?.value ?? null);
+        }
+        return out;
+      };
+      if (form.dataset.demo) { msg.textContent = 'Önizlemede teslim edilmez.'; return; }
+      btn.disabled = true;
+      msg.textContent = 'Gönderiliyor…';
+      const body = { g: pick('g'), r: pick('r'), writing: (form.elements.namedItem('writing') as HTMLTextAreaElement | null)?.value || '' };
+      const r = await fetch(`/api/assignments/${encodeURIComponent(form.dataset.hw!)}`, { method: 'POST', headers: { 'content-type': 'application/json' }, body: JSON.stringify(body) }).then((x) => x.json()).catch(() => null);
+      if (r?.ok) { location.reload(); return; }
+      btn.disabled = false;
+      msg.textContent = r?.error || 'Gönderilemedi. Bağlantınızı kontrol edip tekrar deneyin.';
+    });
+  </script>
+</AppShell>
+
+<style>
+  .hw-form { display: grid; gap: 16px; }
+  .hw-p { margin: 0; line-height: 1.6; }
+  .hw-en { margin: 0; font-style: italic; }
+  .hw-qs { margin: 0; padding-left: 22px; display: grid; gap: 16px; }
+  .hw-q { margin: 0 0 8px; font-weight: 700; }
+  .hw-opts { display: grid; gap: 8px; grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  @media (max-width: 560px) { .hw-opts { grid-template-columns: 1fr; } }
+  .hw-opt { display: flex; gap: 10px; align-items: center; padding: 10px 12px; border-radius: 12px; border: 1px solid rgba(255, 255, 255, .12); cursor: pointer; }
+  .hw-opt input { width: 18px; height: 18px; accent-color: #14b8a6; flex: none; }
+  .hw-opt:has(input:checked) { border-color: rgba(94, 234, 212, .6); background: rgba(45, 212, 191, .08); }
+  .hw-opt.ok { border-color: rgba(94, 234, 212, .8); background: rgba(45, 212, 191, .14); }
+  .hw-opt.bad { border-color: rgba(248, 113, 113, .7); background: rgba(248, 113, 113, .1); }
+  .hw-text { display: grid; gap: 10px; padding: 16px; border-radius: 14px; background: rgba(0, 0, 0, .2); line-height: 1.7; }
+  .hw-text p { margin: 0; }
+  .hw-written { white-space: pre-wrap; margin: 0; padding: 14px; border-radius: 12px; background: rgba(0, 0, 0, .2); }
+  .hw-submit { display: flex; flex-wrap: wrap; align-items: center; gap: 14px; }
+  .hw-result { display: flex !important; align-items: center; gap: 18px; flex-wrap: wrap; }
+  .hw-big { font-size: 44px; font-weight: 800; color: #5eead4; font-variant-numeric: tabular-nums; }
+</style>
