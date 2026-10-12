@@ -1,0 +1,286 @@
+{
+  "level": "A1",
+  "day": 7,
+  "topic": "g02",
+  "theme": "Müzik ve film",
+  "grammar": {
+    "questions": [
+      {
+        "q": "____ you a fan of rock music?",
+        "o": [
+          "Are",
+          "Is",
+          "Am",
+          "Do"
+        ],
+        "why": "Özne 'you' olduğu için soru cümlesinde başa 'Are' gelir."
+      },
+      {
+        "q": "This film ____ interesting. It is very boring.",
+        "o": [
+          "isn't",
+          "aren't",
+          "am not",
+          "not is"
+        ],
+        "why": "'This film' tekildir (it), olumsuz yapmak için 'isn't' kullanılır."
+      },
+      {
+        "q": "“Is Tarkan a famous singer?” “Yes, he ____.”",
+        "o": [
+          "is",
+          "is not",
+          "are",
+          "isn't"
+        ],
+        "why": "'Yes' ile başlayan olumlu kısa cevapta 'he is' kullanılır."
+      },
+      {
+        "q": "We ____ at the cinema right now. We are at home.",
+        "o": [
+          "aren't",
+          "isn't",
+          "am not",
+          "not are"
+        ],
+        "why": "'We' öznesi ile olumsuzluk eki 'aren't' şeklinde kullanılır."
+      },
+      {
+        "q": "____ your favorite actor in this movie?",
+        "o": [
+          "Is",
+          "Are",
+          "Am",
+          "Be"
+        ],
+        "why": "'Your favorite actor' tekil bir öznedir (he/she); soru 'Is' ile başlar."
+      },
+      {
+        "q": "I ____ interested in horror movies.",
+        "o": [
+          "am not",
+          "isn't",
+          "aren't",
+          "not am"
+        ],
+        "why": "'I' öznesi için olumsuz yapı 'am not' şeklindedir."
+      },
+      {
+        "q": "“Are the tickets expensive?” “No, they ____.”",
+        "o": [
+          "aren't",
+          "are",
+          "isn't",
+          "not"
+        ],
+        "why": "'No' ve 'they' ile verilen kısa olumsuz cevap 'No, they aren't' olur."
+      },
+      {
+        "q": "Murat ____ a pop music fan; he loves jazz.",
+        "o": [
+          "is",
+          "are",
+          "am",
+          "be"
+        ],
+        "why": "Önceki konu tekrarı: Murat (he) için olumlu cümlede 'is' kullanılır."
+      },
+      {
+        "q": "The concert hall ____ very big.",
+        "o": [
+          "is",
+          "are",
+          "am",
+          "be"
+        ],
+        "why": "Önceki konu tekrarı: 'The concert hall' tekil (it) bir isimdir, 'is' alır."
+      },
+      {
+        "q": "My friends ____ at the jazz festival today.",
+        "o": [
+          "are",
+          "is",
+          "am",
+          "be"
+        ],
+        "why": "Önceki konu tekrarı: 'My friends' çoğul (they) olduğu için 'are' gelir."
+      }
+    ]
+  },
+  "reading": {
+    "title": "Movie Night with Can",
+    "text": "Tonight is movie night for Can and his sister, Elif. They are in the living room with popcorn. Can loves science fiction movies, but Elif is not a fan of this genre. She says, “These films are not realistic!” Her favorite movies are comedies. The new film on television is not very long; it is only eighty minutes. Is Can happy with the comedy? Yes, he is! The actors are very talented and the story is hilarious. They are not tired after the film.",
+    "questions": [
+      {
+        "q": "What is the text mainly about?",
+        "o": [
+          "A brother and sister watching a film",
+          "A famous cinema in Istanbul",
+          "How to make popcorn at home",
+          "An interview with funny actors"
+        ],
+        "why": "Metin genel olarak Can ve kız kardeşinin evde film izleme gecesini anlatmaktadır."
+      },
+      {
+        "q": "Where are Can and Elif?",
+        "o": [
+          "In the living room",
+          "At the cinema",
+          "In the kitchen",
+          "At school"
+        ],
+        "why": "Metinde Can ve Elif'in oturma odasında oldukları belirtilmiştir."
+      },
+      {
+        "q": "Why does Elif dislike science fiction films?",
+        "o": [
+          "She thinks they are not realistic.",
+          "She thinks they are too long.",
+          "They are very boring.",
+          "The actors are bad."
+        ],
+        "why": "Elif bu filmlerin gerçekçi olmadığını söylemektedir."
+      },
+      {
+        "q": "What kind of movies are Elif’s favorite?",
+        "o": [
+          "Comedies",
+          "Science fiction",
+          "Horror films",
+          "Action films"
+        ],
+        "why": "Elif'in en sevdiği film türü komedidir."
+      },
+      {
+        "q": "How long is the film on television?",
+        "o": [
+          "Eighty minutes",
+          "Fifty minutes",
+          "Two hours",
+          "One hundred minutes"
+        ],
+        "why": "Filmin süresi 80 dakikadır."
+      },
+      {
+        "q": "What can we infer about Can’s reaction to the comedy?",
+        "o": [
+          "He enjoys the movie.",
+          "He falls asleep immediately.",
+          "He is angry with Elif.",
+          "He turns off the television."
+        ],
+        "why": "Can komedi filminden memnundur ve eğlenmektedir."
+      },
+      {
+        "q": "What does the word “hilarious” mean in this text?",
+        "o": [
+          "Very funny",
+          "Very sad",
+          "Too long",
+          "Quite boring"
+        ],
+        "why": "'Hilarious', çok komik ve eğlenceli anlamına gelir."
+      }
+    ]
+  },
+  "listening": {
+    "video": {
+      "id": "lDaZB5BBw7M",
+      "title": "Let's Learn English Lesson 5: Where Are You?",
+      "source": "VOA Learning English"
+    },
+    "intro": "Anna, arkadaşı Marsha'nın evini geziyor ve odaların ne için olduğunu konuşuyorlar.",
+    "questions": [
+      {
+        "q": "Whose house is Anna visiting?",
+        "o": [
+          "Her friend's friend's house",
+          "Marsha's own house",
+          "Pete's apartment",
+          "Anna's mother's house"
+        ],
+        "why": "Anna arkadaşı Marsha'nın bir arkadaşının evinde olduğunu söyler."
+      },
+      {
+        "q": "Where is Anna when she first talks to Marsha in the house?",
+        "o": [
+          "In the kitchen",
+          "In the bedroom",
+          "In the garden",
+          "In the bathroom"
+        ],
+        "why": "Anna ilk olarak mutfakta olduğunu söyler."
+      },
+      {
+        "q": "What does Marsha say they do in the kitchen?",
+        "o": [
+          "Cook",
+          "Eat",
+          "Sleep",
+          "Wash"
+        ],
+        "why": "Marsha mutfakta yemek pişirdiklerini ifade eder."
+      },
+      {
+        "q": "What do they do in the living room?",
+        "o": [
+          "Relax",
+          "Cook",
+          "Wash",
+          "Sleep"
+        ],
+        "why": "Marsha oturma odasında dinlendiklerini söyler."
+      },
+      {
+        "q": "Where does Anna go after the living room?",
+        "o": [
+          "Upstairs",
+          "Outside",
+          "To the basement",
+          "To the balcony"
+        ],
+        "why": "Anna üst kata çıkmayı teklif eder."
+      },
+      {
+        "q": "What does Anna do in the bathroom?",
+        "o": [
+          "Wash",
+          "Eat",
+          "Relax",
+          "Cook"
+        ],
+        "why": "Anna banyoda yıkandığını söyler."
+      },
+      {
+        "q": "Where is Marsha at the end of the conversation?",
+        "o": [
+          "In the bedroom",
+          "In the bathroom",
+          "In the kitchen",
+          "In the living room"
+        ],
+        "why": "Marsha yatak odasında olduğunu belirtir."
+      }
+    ]
+  },
+  "writing": {
+    "prompt": "Sevdiğiniz veya sevmediğiniz müzik türleri ve filmler hakkında yazın. Nelerden hoşlanırsınız, nelerden hoşlanmazsınız? 'to be' olumsuz ve soru/cevap kalıplarını (isn't, aren't, I'm not) kullanın.",
+    "prompt_en": "Write about music and movies you like or dislike. Use negative forms of 'to be' (isn't, aren't, I'm not).",
+    "min": 25,
+    "max": 70,
+    "focus": "to be: negatives and questions",
+    "model": "I am a big fan of classical music, but rock music isn't my favorite. Heavy metal concerts are not for me; they are too loud! My favorite actor is Haluk Bilginer. Are horror films good? No, they aren't. They are very scary, so I am not interested in them."
+  },
+  "speaking": {
+    "read": [
+      "This action film isn't very realistic.",
+      "Are you a fan of classical music?",
+      "They aren't at the concert tonight."
+    ],
+    "ask": {
+      "q": "What kind of music or films are you not interested in? Why?",
+      "tr": "Hangi müzik veya film türleriyle ilgilenmiyorsunuz ve neden? Olumsuz cümleler kurarak en az üç cümleyle anlatın.",
+      "min_words": 12
+    }
+  }
+}

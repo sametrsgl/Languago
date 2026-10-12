@@ -1,0 +1,286 @@
+{
+  "level": "A1",
+  "day": 8,
+  "topic": "g02",
+  "theme": "Kitaplar",
+  "grammar": {
+    "questions": [
+      {
+        "q": "____ this book interesting?",
+        "o": [
+          "Is",
+          "Are",
+          "Am",
+          "Be"
+        ],
+        "why": "This book tekildir (it), soru sorarken başa 'is' gelir."
+      },
+      {
+        "q": "The library ____ open on Sundays.",
+        "o": [
+          "isn't",
+          "aren't",
+          "am not",
+          "not is"
+        ],
+        "why": "The library tekildir (it), olumsuz yapmak için 'isn't' kullanılır."
+      },
+      {
+        "q": "____ you a member of the book club?",
+        "o": [
+          "Are",
+          "Is",
+          "Am",
+          "Do"
+        ],
+        "why": "'You' öznesiyle to be sorusu 'are' ile başlar."
+      },
+      {
+        "q": "These books ____ very expensive.",
+        "o": [
+          "aren't",
+          "isn't",
+          "not are",
+          "am not"
+        ],
+        "why": "'These books' çoğul bir öznedir (they), bu yüzden 'aren't' kullanılır."
+      },
+      {
+        "q": "Are you at the bookstore now? — No, ____.",
+        "o": [
+          "I'm not",
+          "I isn't",
+          "I aren't",
+          "I not"
+        ],
+        "why": "'Are you' sorusuna birinci tekil şahısta olumsuz kısa cevap 'No, I'm not' şeklindedir."
+      },
+      {
+        "q": "____ he a famous writer?",
+        "o": [
+          "Is",
+          "Are",
+          "Am",
+          "Does"
+        ],
+        "why": "'He' öznesi için to be soru formu 'Is'tir."
+      },
+      {
+        "q": "I ____ interested in history books.",
+        "o": [
+          "am not",
+          "isn't",
+          "aren't",
+          "not am"
+        ],
+        "why": "'I' öznesi için olumsuz yapı 'am not'tır."
+      },
+      {
+        "q": "The novel and the magazine ____ on the desk.",
+        "o": [
+          "are",
+          "is",
+          "am",
+          "be"
+        ],
+        "why": "İki nesne çoğul özne oluşturur (they), bu yüzden 'are' kullanılır."
+      },
+      {
+        "q": "Is your father a teacher? — Yes, ____.",
+        "o": [
+          "he is",
+          "is he",
+          "he isn't",
+          "he are"
+        ],
+        "why": "Olumlu kısa cevapta özne ve 'is' kullanılır: 'Yes, he is.'"
+      },
+      {
+        "q": "My new flat ____ very big, but it is quiet.",
+        "o": [
+          "is",
+          "are",
+          "am",
+          "be"
+        ],
+        "why": "'My new flat' tekildir (it), olumlu cümlede 'is' kullanılır."
+      }
+    ]
+  },
+  "reading": {
+    "title": "A Day at the City Library",
+    "text": "Murat is a teacher in Bursa. He loves reading books in his free time. Today is Saturday, but he is not at work. He is at the central library. The library is not noisy today; it is very quiet and peaceful. There are many old and new novels on the shelves. The historical books are not on the first floor. They are upstairs in room B. Murat is interested in history. His friend Aylin is not with him today because she is busy at home. Murat is happy with his books.",
+    "questions": [
+      {
+        "q": "What is the text mainly about?",
+        "o": [
+          "Murat's visit to the library",
+          "Murat's school and students",
+          "Aylin's busy weekend",
+          "Buying books in Bursa"
+        ],
+        "why": "Metin Murat'ın cumartesi günü kütüphanede geçirdiği zamanı anlatmaktadır."
+      },
+      {
+        "q": "Where is Murat on Saturday?",
+        "o": [
+          "At the central library",
+          "At school",
+          "At work",
+          "At Aylin's house"
+        ],
+        "why": "Metinde Murat'ın cumartesi günü kütüphanede olduğu açıkça yazmaktadır."
+      },
+      {
+        "q": "How is the library today?",
+        "o": [
+          "Quiet and peaceful",
+          "Very noisy",
+          "Crowded and hot",
+          "Closed for visitors"
+        ],
+        "why": "Kütüphanenin sessiz ve huzurlu olduğu belirtilmiştir."
+      },
+      {
+        "q": "Where are the historical books?",
+        "o": [
+          "Upstairs in room B",
+          "On the first floor",
+          "In the café",
+          "Near the entrance"
+        ],
+        "why": "Tarih kitaplarının üst katta, B odasında olduğu belirtilmektedir."
+      },
+      {
+        "q": "Why is Aylin not with Murat?",
+        "o": [
+          "She is busy at home.",
+          "She is at school.",
+          "She does not like books.",
+          "She is at work."
+        ],
+        "why": "Aylin'in evde meşgul olduğu ifade edilmiştir."
+      },
+      {
+        "q": "What can we infer about Murat?",
+        "o": [
+          "He prefers quiet places to read.",
+          "He dislikes reading history.",
+          "He is an English student.",
+          "He works on Saturdays."
+        ],
+        "why": "Murat'ın sessiz kütüphanede mutlu olması ve boş vaktinde okumayı sevmesi bunu gösterir."
+      },
+      {
+        "q": "What does the word 'noisy' mean in the text?",
+        "o": [
+          "Full of loud sounds",
+          "Very clean",
+          "Cold and dark",
+          "Old and small"
+        ],
+        "why": "'Noisy' kelimesi gürültülü, yüksek sesli anlamına gelir."
+      }
+    ]
+  },
+  "listening": {
+    "video": {
+      "id": "lDaZB5BBw7M",
+      "title": "Let's Learn English Lesson 5: Where Are You?",
+      "source": "VOA Learning English"
+    },
+    "intro": "Anna arkadaşı Marsha'nın ziyaret ettiği evi geziyor ve evin farklı odalarında Marsha ile konuşuyor.",
+    "questions": [
+      {
+        "q": "Where is Marsha today?",
+        "o": [
+          "At her friend's house",
+          "At her own house",
+          "At a supermarket",
+          "At work"
+        ],
+        "why": "Marsha'nın arkadaşının evinde olduğu ilk cümlede belirtilmektedir."
+      },
+      {
+        "q": "What does Anna say about the kitchen?",
+        "o": [
+          "It is beautiful.",
+          "It is very small.",
+          "It is noisy.",
+          "It is old."
+        ],
+        "why": "Anna mutfağın güzel olduğunu söylemektedir."
+      },
+      {
+        "q": "What does Marsha do in the kitchen?",
+        "o": [
+          "Cook",
+          "Sleep",
+          "Wash",
+          "Relax"
+        ],
+        "why": "Marsha mutfakta yemek pişirdiklerini söyler."
+      },
+      {
+        "q": "What do they do in the living room?",
+        "o": [
+          "Relax",
+          "Cook",
+          "Wash",
+          "Sleep"
+        ],
+        "why": "Marsha oturma odasında dinlendiklerini söyler."
+      },
+      {
+        "q": "Where does Anna wash?",
+        "o": [
+          "In the bathroom",
+          "In the kitchen",
+          "In the bedroom",
+          "Upstairs"
+        ],
+        "why": "Anna banyoda yıkandığını söyler."
+      },
+      {
+        "q": "Where is Marsha when Anna is in the bathroom?",
+        "o": [
+          "In the bedroom",
+          "In the kitchen",
+          "In the living room",
+          "Outside"
+        ],
+        "why": "Marsha yatak odasında olduğunu ifade eder."
+      },
+      {
+        "q": "What happens right after they talk about the living room?",
+        "o": [
+          "Anna suggests going upstairs.",
+          "Anna washes her hands.",
+          "Marsha cooks food.",
+          "Anna leaves the house."
+        ],
+        "why": "Oturma odasından sonra Anna üst kata çıkmayı teklif eder."
+      }
+    ]
+  },
+  "writing": {
+    "prompt": "Kitaplar ve okuma alışkanlıklarınız hakkında yazın: Çok kitap okur musunuz, en sevdiğiniz kitap türü nedir, kitaplar pahalı mı? to be fiilinin olumsuz ve soru biçimlerini (isn't, aren't, is it...?) veya düz hallerini kullanın.",
+    "prompt_en": "Write about books and your reading habits: Do you read many books, what is your favourite type, are books expensive? Use negative and question forms of 'to be'.",
+    "min": 30,
+    "max": 80,
+    "focus": "to be: negatives and questions",
+    "model": "I love books. Reading is my favourite hobby. My favourite books are not history novels; they are detective stories. Is my city library good? Yes, it is. The books there are not old. New books aren't cheap in the shops, but the library is free."
+  },
+  "speaking": {
+    "read": [
+      "Is this book interesting?",
+      "The library isn't noisy today.",
+      "These novels aren't expensive."
+    ],
+    "ask": {
+      "q": "Is your favourite book at home right now? What kind of book is it?",
+      "tr": "En sevdiğiniz kitap şu an evde mi? Ne tür bir kitap? En az üç cümleyle anlatın.",
+      "min_words": 12
+    }
+  }
+}

@@ -1,41 +1,5226 @@
 [
-  { "id": "a1-hello", "word": "hello", "pos": "exclamation", "tr": "merhaba", "en": "a word you say when you meet someone", "ex": "Hello! Nice to meet you." },
-  { "id": "a1-name", "word": "name", "pos": "noun", "tr": "isim, ad", "en": "the word that people call you", "ex": "My name is Ayşe." },
-  { "id": "a1-friend", "word": "friend", "pos": "noun", "tr": "arkadaş", "en": "a person you know well and like", "ex": "Burak is my best friend." },
-  { "id": "a1-family", "word": "family", "pos": "noun", "tr": "aile", "en": "a group of people like parents, children, brothers and sisters", "ex": "My family lives in Bursa." },
-  { "id": "a1-mother", "word": "mother", "pos": "noun", "tr": "anne", "en": "your female parent", "ex": "My mother is a teacher." },
-  { "id": "a1-father", "word": "father", "pos": "noun", "tr": "baba", "en": "your male parent", "ex": "His father works in a bank." },
-  { "id": "a1-brother", "word": "brother", "pos": "noun", "tr": "erkek kardeş, ağabey", "en": "a boy or man who has the same parents as you", "ex": "I have one brother." },
-  { "id": "a1-sister", "word": "sister", "pos": "noun", "tr": "kız kardeş, abla", "en": "a girl or woman who has the same parents as you", "ex": "My sister is ten years old." },
-  { "id": "a1-student", "word": "student", "pos": "noun", "tr": "öğrenci", "en": "a person who studies at a school or university", "ex": "She is a student in Ankara." },
-  { "id": "a1-teacher", "word": "teacher", "pos": "noun", "tr": "öğretmen", "en": "a person whose job is to teach", "ex": "Our teacher is very kind." },
-  { "id": "a1-city", "word": "city", "pos": "noun", "tr": "şehir", "en": "a big and important town", "ex": "İstanbul is a very big city." },
-  { "id": "a1-country", "word": "country", "pos": "noun", "tr": "ülke", "en": "an area of land with its own government", "ex": "Which country are you from?" },
-  { "id": "a1-happy", "word": "happy", "pos": "adjective", "tr": "mutlu", "en": "feeling good and pleased", "ex": "I am very happy today." },
-  { "id": "a1-tired", "word": "tired", "pos": "adjective", "tr": "yorgun", "en": "needing to rest or sleep", "ex": "He is tired after work." },
-  { "id": "a1-hungry", "word": "hungry", "pos": "adjective", "tr": "aç", "en": "wanting or needing food", "ex": "Are you hungry? Let’s eat." },
-  { "id": "a1-old", "word": "old", "pos": "adjective", "tr": "yaşlı; eski", "en": "having lived or existed for a long time", "ex": "This is an old house." },
-  { "id": "a1-young", "word": "young", "pos": "adjective", "tr": "genç", "en": "not old; in the early part of life", "ex": "My parents are still young." },
-  { "id": "a1-big", "word": "big", "pos": "adjective", "tr": "büyük", "en": "large in size", "ex": "They live in a big flat." },
-  { "id": "a1-small", "word": "small", "pos": "adjective", "tr": "küçük", "en": "little in size", "ex": "My room is small but nice." },
-  { "id": "a1-house", "word": "house", "pos": "noun", "tr": "ev", "en": "a building where people live", "ex": "Their house has a garden." },
-  { "id": "a1-flat", "word": "flat", "pos": "noun", "tr": "daire, apartman dairesi", "en": "a home on one floor of a building", "ex": "My flat is on the second floor." },
-  { "id": "a1-job", "word": "job", "pos": "noun", "tr": "iş, meslek", "en": "the work you do to get money", "ex": "What is your job?" },
-  { "id": "a1-work", "word": "work", "pos": "verb", "tr": "çalışmak", "en": "to do a job", "ex": "I work in a hotel." },
-  { "id": "a1-live", "word": "live", "pos": "verb", "tr": "yaşamak, oturmak", "en": "to have your home in a place", "ex": "We live in Konya." },
-  { "id": "a1-near", "word": "near", "pos": "preposition", "tr": "yakın, yakınında", "en": "not far from", "ex": "The bank is near the station." },
-  { "id": "a1-busy", "word": "busy", "pos": "adjective", "tr": "meşgul; kalabalık", "en": "having a lot to do; full of people", "ex": "The market is very busy on Saturdays." },
-  { "id": "a1-cold", "word": "cold", "pos": "adjective", "tr": "soğuk", "en": "having a low temperature", "ex": "It is cold today. Take a coat." },
-  { "id": "a1-hot", "word": "hot", "pos": "adjective", "tr": "sıcak", "en": "having a high temperature", "ex": "The tea is very hot." },
-  { "id": "a1-street", "word": "street", "pos": "noun", "tr": "sokak, cadde", "en": "a road in a town with buildings on it", "ex": "The café is on this street." },
-  { "id": "a1-shop", "word": "shop", "pos": "noun", "tr": "dükkân, mağaza", "en": "a place where you buy things", "ex": "The shop opens at nine." },
-  { "id": "a1-food", "word": "food", "pos": "noun", "tr": "yemek, yiyecek", "en": "things that people eat", "ex": "The food here is great." },
-  { "id": "a1-water", "word": "water", "pos": "noun", "tr": "su", "en": "the clear liquid that we drink", "ex": "Can I have some water, please?" },
-  { "id": "a1-morning", "word": "morning", "pos": "noun", "tr": "sabah", "en": "the early part of the day", "ex": "I drink tea in the morning." },
-  { "id": "a1-evening", "word": "evening", "pos": "noun", "tr": "akşam", "en": "the part of the day after the afternoon", "ex": "We eat dinner in the evening." },
-  { "id": "a1-today", "word": "today", "pos": "adverb", "tr": "bugün", "en": "on this day", "ex": "I am not at work today." },
-  { "id": "a1-tomorrow", "word": "tomorrow", "pos": "adverb", "tr": "yarın", "en": "on the day after today", "ex": "See you tomorrow!" },
-  { "id": "a1-new", "word": "new", "pos": "adjective", "tr": "yeni", "en": "recently made, bought or started", "ex": "I have a new phone." },
-  { "id": "a1-nice", "word": "nice", "pos": "adjective", "tr": "hoş, güzel, iyi", "en": "pleasant or kind", "ex": "Your neighbours are very nice." },
-  { "id": "a1-speak", "word": "speak", "pos": "verb", "tr": "konuşmak", "en": "to say words; to use a language", "ex": "Do you speak English?" }
+ {
+  "id": "a1-hello",
+  "word": "hello",
+  "pos": "exclamation",
+  "tr": "merhaba",
+  "en": "a word you say when you meet someone",
+  "ex": "Hello! Nice to meet you."
+ },
+ {
+  "id": "a1-name",
+  "word": "name",
+  "pos": "noun",
+  "tr": "isim, ad",
+  "en": "the word that people call you",
+  "ex": "My name is Ayşe."
+ },
+ {
+  "id": "a1-friend",
+  "word": "friend",
+  "pos": "noun",
+  "tr": "arkadaş",
+  "en": "a person you know well and like",
+  "ex": "Burak is my best friend."
+ },
+ {
+  "id": "a1-family",
+  "word": "family",
+  "pos": "noun",
+  "tr": "aile",
+  "en": "a group of people like parents, children, brothers and sisters",
+  "ex": "My family lives in Bursa."
+ },
+ {
+  "id": "a1-mother",
+  "word": "mother",
+  "pos": "noun",
+  "tr": "anne",
+  "en": "your female parent",
+  "ex": "My mother is a teacher."
+ },
+ {
+  "id": "a1-father",
+  "word": "father",
+  "pos": "noun",
+  "tr": "baba",
+  "en": "your male parent",
+  "ex": "His father works in a bank."
+ },
+ {
+  "id": "a1-brother",
+  "word": "brother",
+  "pos": "noun",
+  "tr": "erkek kardeş, ağabey",
+  "en": "a boy or man who has the same parents as you",
+  "ex": "I have one brother."
+ },
+ {
+  "id": "a1-sister",
+  "word": "sister",
+  "pos": "noun",
+  "tr": "kız kardeş, abla",
+  "en": "a girl or woman who has the same parents as you",
+  "ex": "My sister is ten years old."
+ },
+ {
+  "id": "a1-student",
+  "word": "student",
+  "pos": "noun",
+  "tr": "öğrenci",
+  "en": "a person who studies at a school or university",
+  "ex": "She is a student in Ankara."
+ },
+ {
+  "id": "a1-teacher",
+  "word": "teacher",
+  "pos": "noun",
+  "tr": "öğretmen",
+  "en": "a person whose job is to teach",
+  "ex": "Our teacher is very kind."
+ },
+ {
+  "id": "a1-city",
+  "word": "city",
+  "pos": "noun",
+  "tr": "şehir",
+  "en": "a big and important town",
+  "ex": "İstanbul is a very big city."
+ },
+ {
+  "id": "a1-country",
+  "word": "country",
+  "pos": "noun",
+  "tr": "ülke",
+  "en": "an area of land with its own government",
+  "ex": "Which country are you from?"
+ },
+ {
+  "id": "a1-happy",
+  "word": "happy",
+  "pos": "adjective",
+  "tr": "mutlu",
+  "en": "feeling good and pleased",
+  "ex": "I am very happy today."
+ },
+ {
+  "id": "a1-tired",
+  "word": "tired",
+  "pos": "adjective",
+  "tr": "yorgun",
+  "en": "needing to rest or sleep",
+  "ex": "He is tired after work."
+ },
+ {
+  "id": "a1-hungry",
+  "word": "hungry",
+  "pos": "adjective",
+  "tr": "aç",
+  "en": "wanting or needing food",
+  "ex": "Are you hungry? Let’s eat."
+ },
+ {
+  "id": "a1-old",
+  "word": "old",
+  "pos": "adjective",
+  "tr": "yaşlı; eski",
+  "en": "having lived or existed for a long time",
+  "ex": "This is an old house."
+ },
+ {
+  "id": "a1-young",
+  "word": "young",
+  "pos": "adjective",
+  "tr": "genç",
+  "en": "not old; in the early part of life",
+  "ex": "My parents are still young."
+ },
+ {
+  "id": "a1-big",
+  "word": "big",
+  "pos": "adjective",
+  "tr": "büyük",
+  "en": "large in size",
+  "ex": "They live in a big flat."
+ },
+ {
+  "id": "a1-small",
+  "word": "small",
+  "pos": "adjective",
+  "tr": "küçük",
+  "en": "little in size",
+  "ex": "My room is small but nice."
+ },
+ {
+  "id": "a1-house",
+  "word": "house",
+  "pos": "noun",
+  "tr": "ev",
+  "en": "a building where people live",
+  "ex": "Their house has a garden."
+ },
+ {
+  "id": "a1-flat",
+  "word": "flat",
+  "pos": "noun",
+  "tr": "daire, apartman dairesi",
+  "en": "a home on one floor of a building",
+  "ex": "My flat is on the second floor."
+ },
+ {
+  "id": "a1-job",
+  "word": "job",
+  "pos": "noun",
+  "tr": "iş, meslek",
+  "en": "the work you do to get money",
+  "ex": "What is your job?"
+ },
+ {
+  "id": "a1-work",
+  "word": "work",
+  "pos": "verb",
+  "tr": "çalışmak",
+  "en": "to do a job",
+  "ex": "I work in a hotel."
+ },
+ {
+  "id": "a1-live",
+  "word": "live",
+  "pos": "verb",
+  "tr": "yaşamak, oturmak",
+  "en": "to have your home in a place",
+  "ex": "We live in Konya."
+ },
+ {
+  "id": "a1-near",
+  "word": "near",
+  "pos": "preposition",
+  "tr": "yakın, yakınında",
+  "en": "not far from",
+  "ex": "The bank is near the station."
+ },
+ {
+  "id": "a1-busy",
+  "word": "busy",
+  "pos": "adjective",
+  "tr": "meşgul; kalabalık",
+  "en": "having a lot to do; full of people",
+  "ex": "The market is very busy on Saturdays."
+ },
+ {
+  "id": "a1-cold",
+  "word": "cold",
+  "pos": "adjective",
+  "tr": "soğuk",
+  "en": "having a low temperature",
+  "ex": "It is cold today. Take a coat."
+ },
+ {
+  "id": "a1-hot",
+  "word": "hot",
+  "pos": "adjective",
+  "tr": "sıcak",
+  "en": "having a high temperature",
+  "ex": "The tea is very hot."
+ },
+ {
+  "id": "a1-street",
+  "word": "street",
+  "pos": "noun",
+  "tr": "sokak, cadde",
+  "en": "a road in a town with buildings on it",
+  "ex": "The café is on this street."
+ },
+ {
+  "id": "a1-shop",
+  "word": "shop",
+  "pos": "noun",
+  "tr": "dükkân, mağaza",
+  "en": "a place where you buy things",
+  "ex": "The shop opens at nine."
+ },
+ {
+  "id": "a1-food",
+  "word": "food",
+  "pos": "noun",
+  "tr": "yemek, yiyecek",
+  "en": "things that people eat",
+  "ex": "The food here is great."
+ },
+ {
+  "id": "a1-water",
+  "word": "water",
+  "pos": "noun",
+  "tr": "su",
+  "en": "the clear liquid that we drink",
+  "ex": "Can I have some water, please?"
+ },
+ {
+  "id": "a1-morning",
+  "word": "morning",
+  "pos": "noun",
+  "tr": "sabah",
+  "en": "the early part of the day",
+  "ex": "I drink tea in the morning."
+ },
+ {
+  "id": "a1-evening",
+  "word": "evening",
+  "pos": "noun",
+  "tr": "akşam",
+  "en": "the part of the day after the afternoon",
+  "ex": "We eat dinner in the evening."
+ },
+ {
+  "id": "a1-today",
+  "word": "today",
+  "pos": "adverb",
+  "tr": "bugün",
+  "en": "on this day",
+  "ex": "I am not at work today."
+ },
+ {
+  "id": "a1-tomorrow",
+  "word": "tomorrow",
+  "pos": "adverb",
+  "tr": "yarın",
+  "en": "on the day after today",
+  "ex": "See you tomorrow!"
+ },
+ {
+  "id": "a1-new",
+  "word": "new",
+  "pos": "adjective",
+  "tr": "yeni",
+  "en": "recently made, bought or started",
+  "ex": "I have a new phone."
+ },
+ {
+  "id": "a1-nice",
+  "word": "nice",
+  "pos": "adjective",
+  "tr": "hoş, güzel, iyi",
+  "en": "pleasant or kind",
+  "ex": "Your neighbours are very nice."
+ },
+ {
+  "id": "a1-speak",
+  "word": "speak",
+  "pos": "verb",
+  "tr": "konuşmak",
+  "en": "to say words; to use a language",
+  "ex": "Do you speak English?"
+ },
+ {
+  "id": "a1-goodbye",
+  "word": "goodbye",
+  "pos": "exclamation",
+  "tr": "hoşça kal, güle güle",
+  "en": "What you say when you leave someone.",
+  "ex": "Goodbye, see you tomorrow."
+ },
+ {
+  "id": "a1-please",
+  "word": "please",
+  "pos": "adverb",
+  "tr": "lütfen",
+  "en": "A polite word you use when asking for something.",
+  "ex": "Water, please."
+ },
+ {
+  "id": "a1-thank-you",
+  "word": "thank you",
+  "pos": "phrase",
+  "tr": "teşekkür ederim, sağ ol",
+  "en": "What you say when someone helps you.",
+  "ex": "Thank you for the coffee."
+ },
+ {
+  "id": "a1-sorry",
+  "word": "sorry",
+  "pos": "adjective",
+  "tr": "özür dilerim, üzgünüm",
+  "en": "What you say when you make a mistake.",
+  "ex": "I am sorry I am late."
+ },
+ {
+  "id": "a1-yes",
+  "word": "yes",
+  "pos": "adverb",
+  "tr": "evet",
+  "en": "An answer that means it is true or correct.",
+  "ex": "Yes, I like tea."
+ },
+ {
+  "id": "a1-no",
+  "word": "no",
+  "pos": "adverb",
+  "tr": "hayır",
+  "en": "An answer that means it is not true.",
+  "ex": "No, I am not tired."
+ },
+ {
+  "id": "a1-man",
+  "word": "man",
+  "pos": "noun",
+  "tr": "adam, erkek",
+  "en": "An adult human male.",
+  "ex": "The man is reading a book."
+ },
+ {
+  "id": "a1-woman",
+  "word": "woman",
+  "pos": "noun",
+  "tr": "kadın",
+  "en": "An adult human female.",
+  "ex": "The woman works in an office."
+ },
+ {
+  "id": "a1-child",
+  "word": "child",
+  "pos": "noun",
+  "tr": "çocuk",
+  "en": "A young human who is not an adult.",
+  "ex": "The child is playing in the park."
+ },
+ {
+  "id": "a1-baby",
+  "word": "baby",
+  "pos": "noun",
+  "tr": "bebek",
+  "en": "A very young child who cannot walk yet.",
+  "ex": "The baby is sleeping."
+ },
+ {
+  "id": "a1-husband",
+  "word": "husband",
+  "pos": "noun",
+  "tr": "koca, eş",
+  "en": "A married man.",
+  "ex": "My husband likes cooking."
+ },
+ {
+  "id": "a1-wife",
+  "word": "wife",
+  "pos": "noun",
+  "tr": "karı, eş",
+  "en": "A married woman.",
+  "ex": "His wife is a doctor."
+ },
+ {
+  "id": "a1-son",
+  "word": "son",
+  "pos": "noun",
+  "tr": "oğul",
+  "en": "A boy or man in relation to his parents.",
+  "ex": "Their son is ten years old."
+ },
+ {
+  "id": "a1-daughter",
+  "word": "daughter",
+  "pos": "noun",
+  "tr": "kız evlat",
+  "en": "A girl or woman in relation to her parents.",
+  "ex": "She has one daughter."
+ },
+ {
+  "id": "a1-parent",
+  "word": "parent",
+  "pos": "noun",
+  "tr": "ebeveyn, anne baba",
+  "en": "A mother or a father.",
+  "ex": "Every parent loves their children."
+ },
+ {
+  "id": "a1-grandmother",
+  "word": "grandmother",
+  "pos": "noun",
+  "tr": "büyükanne, nine",
+  "en": "The mother of your mother or father.",
+  "ex": "My grandmother makes great cake."
+ },
+ {
+  "id": "a1-grandfather",
+  "word": "grandfather",
+  "pos": "noun",
+  "tr": "büyükbaba, dede",
+  "en": "The father of your mother or father.",
+  "ex": "My grandfather reads the newspaper every morning."
+ },
+ {
+  "id": "a1-aunt",
+  "word": "aunt",
+  "pos": "noun",
+  "tr": "hala, teyze",
+  "en": "The sister of your mother or father.",
+  "ex": "My aunt lives in Izmir."
+ },
+ {
+  "id": "a1-uncle",
+  "word": "uncle",
+  "pos": "noun",
+  "tr": "amca, dayı",
+  "en": "The brother of your mother or father.",
+  "ex": "My uncle has a red car."
+ },
+ {
+  "id": "a1-cousin",
+  "word": "cousin",
+  "pos": "noun",
+  "tr": "kuzen",
+  "en": "The child of your aunt or uncle.",
+  "ex": "I play football with my cousin."
+ },
+ {
+  "id": "a1-people",
+  "word": "people",
+  "pos": "noun",
+  "tr": "insanlar",
+  "en": "More than one person.",
+  "ex": "There are many people in the street."
+ },
+ {
+  "id": "a1-boy",
+  "word": "boy",
+  "pos": "noun",
+  "tr": "erkek çocuk",
+  "en": "A young male human.",
+  "ex": "The boy has a blue bicycle."
+ },
+ {
+  "id": "a1-girl",
+  "word": "girl",
+  "pos": "noun",
+  "tr": "kız çocuk",
+  "en": "A young female human.",
+  "ex": "The girl is drawing a picture."
+ },
+ {
+  "id": "a1-age",
+  "word": "age",
+  "pos": "noun",
+  "tr": "yaş",
+  "en": "How long a person or thing has lived.",
+  "ex": "What is your age?"
+ },
+ {
+  "id": "a1-birthday",
+  "word": "birthday",
+  "pos": "noun",
+  "tr": "doğum günü",
+  "en": "The day when you were born.",
+  "ex": "Today is my birthday."
+ },
+ {
+  "id": "a1-year",
+  "word": "year",
+  "pos": "noun",
+  "tr": "yıl, sene",
+  "en": "A time of twelve months.",
+  "ex": "There are twelve months in a year."
+ },
+ {
+  "id": "a1-month",
+  "word": "month",
+  "pos": "noun",
+  "tr": "ay",
+  "en": "One of the twelve parts of a year.",
+  "ex": "February is the shortest month."
+ },
+ {
+  "id": "a1-week",
+  "word": "week",
+  "pos": "noun",
+  "tr": "hafta",
+  "en": "A period of seven days.",
+  "ex": "There are seven days in a week."
+ },
+ {
+  "id": "a1-day",
+  "word": "day",
+  "pos": "noun",
+  "tr": "gün",
+  "en": "A time of twenty-four hours.",
+  "ex": "Monday is the first day of the work week."
+ },
+ {
+  "id": "a1-hour",
+  "word": "hour",
+  "pos": "noun",
+  "tr": "saat",
+  "en": "A time period of sixty minutes.",
+  "ex": "I wait for the bus for one hour."
+ },
+ {
+  "id": "a1-minute",
+  "word": "minute",
+  "pos": "noun",
+  "tr": "dakika",
+  "en": "sixty seconds make this short period of time.",
+  "ex": "Wait a minute, please."
+ },
+ {
+  "id": "a1-time",
+  "word": "time",
+  "pos": "noun",
+  "tr": "zaman, vakit",
+  "en": "measured in hours, days, and years.",
+  "ex": "What time is it?"
+ },
+ {
+  "id": "a1-night",
+  "word": "night",
+  "pos": "noun",
+  "tr": "gece",
+  "en": "the dark time when you sleep.",
+  "ex": "I sleep at night."
+ },
+ {
+  "id": "a1-afternoon",
+  "word": "afternoon",
+  "pos": "noun",
+  "tr": "öğleden sonra",
+  "en": "the time between midday and evening.",
+  "ex": "We have classes in the afternoon."
+ },
+ {
+  "id": "a1-yesterday",
+  "word": "yesterday",
+  "pos": "adverb",
+  "tr": "dün",
+  "en": "the day before today.",
+  "ex": "I was at home yesterday."
+ },
+ {
+  "id": "a1-now",
+  "word": "now",
+  "pos": "adverb",
+  "tr": "şimdi",
+  "en": "at this very moment.",
+  "ex": "I am studying English now."
+ },
+ {
+  "id": "a1-always",
+  "word": "always",
+  "pos": "adverb",
+  "tr": "her zaman, daima",
+  "en": "at all times, every time.",
+  "ex": "She always drinks tea in the morning."
+ },
+ {
+  "id": "a1-usually",
+  "word": "usually",
+  "pos": "adverb",
+  "tr": "genellikle",
+  "en": "most of the time, normally.",
+  "ex": "I usually go to bed early."
+ },
+ {
+  "id": "a1-often",
+  "word": "often",
+  "pos": "adverb",
+  "tr": "sık sık",
+  "en": "many times, regularly.",
+  "ex": "He often plays football on Sundays."
+ },
+ {
+  "id": "a1-sometimes",
+  "word": "sometimes",
+  "pos": "adverb",
+  "tr": "bazen",
+  "en": "not always, on some occasions.",
+  "ex": "We sometimes eat fish."
+ },
+ {
+  "id": "a1-never",
+  "word": "never",
+  "pos": "adverb",
+  "tr": "asla, hiç",
+  "en": "not at any time, not ever.",
+  "ex": "I never drink coffee at night."
+ },
+ {
+  "id": "a1-early",
+  "word": "early",
+  "pos": "adjective",
+  "tr": "erken",
+  "en": "before the usual time.",
+  "ex": "He wakes up early every day."
+ },
+ {
+  "id": "a1-late",
+  "word": "late",
+  "pos": "adjective",
+  "tr": "geç",
+  "en": "after the usual time.",
+  "ex": "Do not be late for school."
+ },
+ {
+  "id": "a1-get-up",
+  "word": "get up",
+  "pos": "phrasal verb",
+  "tr": "kalkmak",
+  "en": "stand up after sleeping in bed.",
+  "ex": "I get up at seven o'clock."
+ },
+ {
+  "id": "a1-go-to-bed",
+  "word": "go to bed",
+  "pos": "phrase",
+  "tr": "yatağa gitmek, uyumaya gitmek",
+  "en": "lie down to sleep for the night.",
+  "ex": "Children go to bed early."
+ },
+ {
+  "id": "a1-wake-up",
+  "word": "wake up",
+  "pos": "phrasal verb",
+  "tr": "uymaktan uyanmak",
+  "en": "stop sleeping and open your eyes.",
+  "ex": "I wake up at six."
+ },
+ {
+  "id": "a1-breakfast",
+  "word": "breakfast",
+  "pos": "noun",
+  "tr": "kahvaltı",
+  "en": "the first meal of the day.",
+  "ex": "We eat breakfast in the morning."
+ },
+ {
+  "id": "a1-lunch",
+  "word": "lunch",
+  "pos": "noun",
+  "tr": "öğle yemeği",
+  "en": "the meal you eat in the middle of the day.",
+  "ex": "I eat lunch at work."
+ },
+ {
+  "id": "a1-dinner",
+  "word": "dinner",
+  "pos": "noun",
+  "tr": "akşam yemeği",
+  "en": "the main meal you eat in the evening.",
+  "ex": "They have dinner together."
+ },
+ {
+  "id": "a1-eat",
+  "word": "eat",
+  "pos": "verb",
+  "tr": "yemek",
+  "en": "put food in your mouth and swallow it.",
+  "ex": "I want to eat an apple."
+ },
+ {
+  "id": "a1-drink",
+  "word": "drink",
+  "pos": "verb",
+  "tr": "içmek",
+  "en": "take a liquid into your mouth.",
+  "ex": "Please drink some water."
+ },
+ {
+  "id": "a1-cook-verb",
+  "word": "cook",
+  "pos": "verb",
+  "tr": "pişirmek, yemek yapmak",
+  "en": "prepare food using heat.",
+  "ex": "My father likes to cook."
+ },
+ {
+  "id": "a1-cook-noun",
+  "word": "cook",
+  "pos": "noun",
+  "tr": "aşçı",
+  "en": "A person who prepares and makes food.",
+  "ex": "He is a good cook and makes delicious soup."
+ },
+ {
+  "id": "a1-bread",
+  "word": "bread",
+  "pos": "noun",
+  "tr": "ekmek",
+  "en": "baked food made from flour and water.",
+  "ex": "I buy fresh bread every morning."
+ },
+ {
+  "id": "a1-egg",
+  "word": "egg",
+  "pos": "noun",
+  "tr": "yumurta",
+  "en": "oval food from a bird, good for breakfast.",
+  "ex": "I eat a boiled egg for breakfast."
+ },
+ {
+  "id": "a1-cheese",
+  "word": "cheese",
+  "pos": "noun",
+  "tr": "peynir",
+  "en": "yellow or white food made from milk.",
+  "ex": "I like white cheese with my bread."
+ },
+ {
+  "id": "a1-tea",
+  "word": "tea",
+  "pos": "noun",
+  "tr": "çay",
+  "en": "hot brown drink made from leaves.",
+  "ex": "Turkish people drink a lot of tea."
+ },
+ {
+  "id": "a1-coffee",
+  "word": "coffee",
+  "pos": "noun",
+  "tr": "kahve",
+  "en": "hot dark drink that wakes you up.",
+  "ex": "She drinks coffee in the afternoon."
+ },
+ {
+  "id": "a1-milk",
+  "word": "milk",
+  "pos": "noun",
+  "tr": "süt",
+  "en": "white liquid from cows.",
+  "ex": "Cats like to drink milk."
+ },
+ {
+  "id": "a1-sugar",
+  "word": "sugar",
+  "pos": "noun",
+  "tr": "şeker",
+  "en": "sweet white crystals for food and drinks.",
+  "ex": "I do not put sugar in my tea."
+ },
+ {
+  "id": "a1-salt",
+  "word": "salt",
+  "pos": "noun",
+  "tr": "tuz",
+  "en": "white powder that makes food taste strong.",
+  "ex": "Add some salt to the soup."
+ },
+ {
+  "id": "a1-fruit",
+  "word": "fruit",
+  "pos": "noun",
+  "tr": "meyve",
+  "en": "Sweet food that grows on trees and plants.",
+  "ex": "I eat a piece of fruit every morning."
+ },
+ {
+  "id": "a1-apple",
+  "word": "apple",
+  "pos": "noun",
+  "tr": "elma",
+  "en": "A round red or green sweet food.",
+  "ex": "She has a red apple in her bag."
+ },
+ {
+  "id": "a1-orange",
+  "word": "orange",
+  "pos": "noun",
+  "tr": "portakal",
+  "en": "A round sweet citrus fruit with a tough bright skin.",
+  "ex": "I like to eat an orange for breakfast."
+ },
+ {
+  "id": "a1-banana",
+  "word": "banana",
+  "pos": "noun",
+  "tr": "muz",
+  "en": "A long curved yellow fruit with soft sweet flesh.",
+  "ex": "She wants to eat a banana now."
+ },
+ {
+  "id": "a1-vegetable",
+  "word": "vegetable",
+  "pos": "noun",
+  "tr": "sebze",
+  "en": "A plant or part of a plant used as food.",
+  "ex": "Carrot is a healthy vegetable."
+ },
+ {
+  "id": "a1-tomato",
+  "word": "tomato",
+  "pos": "noun",
+  "tr": "domates",
+  "en": "A soft red food we use in salads.",
+  "ex": "I put a red tomato in my salad."
+ },
+ {
+  "id": "a1-potato",
+  "word": "potato",
+  "pos": "noun",
+  "tr": "patates",
+  "en": "A round brown root vegetable that grows underground.",
+  "ex": "I want a baked potato for lunch."
+ },
+ {
+  "id": "a1-rice",
+  "word": "rice",
+  "pos": "noun",
+  "tr": "pirinç, pilav",
+  "en": "Small white or brown grains that people like to cook.",
+  "ex": "We eat rice with chicken."
+ },
+ {
+  "id": "a1-meat",
+  "word": "meat",
+  "pos": "noun",
+  "tr": "et",
+  "en": "The soft part of an animal that people eat.",
+  "ex": "He does not eat red meat."
+ },
+ {
+  "id": "a1-chicken",
+  "word": "chicken",
+  "pos": "noun",
+  "tr": "tavuk",
+  "en": "A common farm bird that people keep for meat and eggs.",
+  "ex": "We are having chicken for dinner."
+ },
+ {
+  "id": "a1-fish",
+  "word": "fish",
+  "pos": "noun",
+  "tr": "balık",
+  "en": "An animal that lives in water and swims.",
+  "ex": "I eat fish every Friday."
+ },
+ {
+  "id": "a1-soup",
+  "word": "soup",
+  "pos": "noun",
+  "tr": "çorba",
+  "en": "A hot liquid food made with meat, fish, or vegetables.",
+  "ex": "This tomato soup is very hot."
+ },
+ {
+  "id": "a1-cake",
+  "word": "cake",
+  "pos": "noun",
+  "tr": "kek, pasta",
+  "en": "A sweet baked food often eaten at birthdays.",
+  "ex": "She made a chocolate cake for the party."
+ },
+ {
+  "id": "a1-juice",
+  "word": "juice",
+  "pos": "noun",
+  "tr": "meyve suyu",
+  "en": "The liquid that comes from fresh fruit.",
+  "ex": "He drinks orange juice in the morning."
+ },
+ {
+  "id": "a1-restaurant",
+  "word": "restaurant",
+  "pos": "noun",
+  "tr": "restoran, lokanta",
+  "en": "A place where people pay to sit and eat meals.",
+  "ex": "Let us go to an Italian restaurant tonight."
+ },
+ {
+  "id": "a1-caf",
+  "word": "café",
+  "pos": "noun",
+  "tr": "kafe",
+  "en": "A small shop where you can buy coffee and snacks.",
+  "ex": "They are sitting at a small street café."
+ },
+ {
+  "id": "a1-menu",
+  "word": "menu",
+  "pos": "noun",
+  "tr": "menü",
+  "en": "A list of food and drinks you can buy.",
+  "ex": "Can I see the menu, please?"
+ },
+ {
+  "id": "a1-waiter",
+  "word": "waiter",
+  "pos": "noun",
+  "tr": "garson",
+  "en": "A man who brings food and drinks to your table.",
+  "ex": "The waiter brings our food very fast."
+ },
+ {
+  "id": "a1-bill",
+  "word": "bill",
+  "pos": "noun",
+  "tr": "hesap",
+  "en": "A paper that shows how much money you must pay.",
+  "ex": "Excuse me, can we have the bill?"
+ },
+ {
+  "id": "a1-order",
+  "word": "order",
+  "pos": "verb",
+  "tr": "sipariş vermek",
+  "en": "To ask a waiter for food or drinks.",
+  "ex": "Are you ready to order now?"
+ },
+ {
+  "id": "a1-table",
+  "word": "table",
+  "pos": "noun",
+  "tr": "masa",
+  "en": "A piece of furniture with a flat top and legs.",
+  "ex": "Please put the food on the table."
+ },
+ {
+  "id": "a1-chair",
+  "word": "chair",
+  "pos": "noun",
+  "tr": "sandalye",
+  "en": "A piece of furniture for one person to sit on.",
+  "ex": "Pull your chair close to the desk."
+ },
+ {
+  "id": "a1-glass",
+  "word": "glass",
+  "pos": "noun",
+  "tr": "bardak",
+  "en": "A clear container that you drink water from.",
+  "ex": "He wants a glass of cold water."
+ },
+ {
+  "id": "a1-cup",
+  "word": "cup",
+  "pos": "noun",
+  "tr": "fincan, kupa",
+  "en": "A small round container with a handle for hot drinks.",
+  "ex": "She drinks a cup of tea every afternoon."
+ },
+ {
+  "id": "a1-plate",
+  "word": "plate",
+  "pos": "noun",
+  "tr": "tabak",
+  "en": "A flat round dish that you put food on.",
+  "ex": "Put the sandwich on a clean plate."
+ },
+ {
+  "id": "a1-knife",
+  "word": "knife",
+  "pos": "noun",
+  "tr": "bıçak",
+  "en": "A sharp tool used for cutting food.",
+  "ex": "Use a knife to cut the meat."
+ },
+ {
+  "id": "a1-fork",
+  "word": "fork",
+  "pos": "noun",
+  "tr": "çatal",
+  "en": "A tool with small points used for eating food.",
+  "ex": "Eat your salad with a fork."
+ },
+ {
+  "id": "a1-spoon",
+  "word": "spoon",
+  "pos": "noun",
+  "tr": "kaşık",
+  "en": "A tool with a small bowl shape used for soup.",
+  "ex": "She eats her soup with a spoon."
+ },
+ {
+  "id": "a1-kitchen",
+  "word": "kitchen",
+  "pos": "noun",
+  "tr": "mutfak",
+  "en": "A room in a house where people cook food.",
+  "ex": "My mother is cooking in the kitchen."
+ },
+ {
+  "id": "a1-bedroom",
+  "word": "bedroom",
+  "pos": "noun",
+  "tr": "yatak odası",
+  "en": "A room in a house where you sleep.",
+  "ex": "My bed is in the bedroom."
+ },
+ {
+  "id": "a1-bathroom",
+  "word": "bathroom",
+  "pos": "noun",
+  "tr": "banyo, tuvalet",
+  "en": "The place in a house with a shower and toilet.",
+  "ex": "He is in the bathroom now."
+ },
+ {
+  "id": "a1-living-room",
+  "word": "living room",
+  "pos": "noun",
+  "tr": "oturma odası, salon",
+  "en": "The big room in a house to sit and relax.",
+  "ex": "We watch TV in the living room."
+ },
+ {
+  "id": "a1-garden",
+  "word": "garden",
+  "pos": "noun",
+  "tr": "bahçe",
+  "en": "The green area outside a house with grass and plants.",
+  "ex": "The children are playing in the garden."
+ },
+ {
+  "id": "a1-door",
+  "word": "door",
+  "pos": "noun",
+  "tr": "kapı",
+  "en": "You open this to go into a room or house.",
+  "ex": "Please close the door."
+ },
+ {
+  "id": "a1-window",
+  "word": "window",
+  "pos": "noun",
+  "tr": "pencere",
+  "en": "The glass part in a wall to look outside.",
+  "ex": "Open the window, please."
+ },
+ {
+  "id": "a1-wall",
+  "word": "wall",
+  "pos": "noun",
+  "tr": "duvar",
+  "en": "The flat vertical surface inside or outside a room.",
+  "ex": "The wall is painted white."
+ },
+ {
+  "id": "a1-floor",
+  "word": "floor",
+  "pos": "noun",
+  "tr": "zemin, yer, kat",
+  "en": "The flat surface that you walk on inside.",
+  "ex": "Do not drop food on the floor."
+ },
+ {
+  "id": "a1-bed",
+  "word": "bed",
+  "pos": "noun",
+  "tr": "yatak",
+  "en": "The furniture where you sleep at night.",
+  "ex": "I go to bed at eleven."
+ },
+ {
+  "id": "a1-sofa",
+  "word": "sofa",
+  "pos": "noun",
+  "tr": "kanepe, koltuk, çekyat",
+  "en": "A comfortable seat for two or more people.",
+  "ex": "She is sitting on the sofa."
+ },
+ {
+  "id": "a1-lamp",
+  "word": "lamp",
+  "pos": "noun",
+  "tr": "lamba",
+  "en": "An object that gives light in a room.",
+  "ex": "Turn on the lamp, it is dark."
+ },
+ {
+  "id": "a1-fridge",
+  "word": "fridge",
+  "pos": "noun",
+  "tr": "buzdolabı",
+  "en": "A cold machine to keep food fresh.",
+  "ex": "There is some milk in the fridge."
+ },
+ {
+  "id": "a1-key",
+  "word": "key",
+  "pos": "noun",
+  "tr": "anahtar",
+  "en": "A small metal piece to open a lock.",
+  "ex": "I cannot find my car key."
+ },
+ {
+  "id": "a1-room",
+  "word": "room",
+  "pos": "noun",
+  "tr": "oda",
+  "en": "A space inside a house with walls and a door.",
+  "ex": "My bedroom is a small room."
+ },
+ {
+  "id": "a1-home",
+  "word": "home",
+  "pos": "noun",
+  "tr": "ev, yuvası",
+  "en": "The place where you live with your family.",
+  "ex": "I want to go home now."
+ },
+ {
+  "id": "a1-building",
+  "word": "building",
+  "pos": "noun",
+  "tr": "bina, yapı",
+  "en": "A large structure with walls and a roof like a office.",
+  "ex": "That tall building is a hotel."
+ },
+ {
+  "id": "a1-neighbour",
+  "word": "neighbour",
+  "pos": "noun",
+  "tr": "komşu",
+  "en": "A person who lives near your house.",
+  "ex": "My neighbour is very friendly."
+ },
+ {
+  "id": "a1-quiet",
+  "word": "quiet",
+  "pos": "adjective",
+  "tr": "sessiz, sakin",
+  "en": "Making very little or no sound.",
+  "ex": "The library is a quiet place."
+ },
+ {
+  "id": "a1-noisy",
+  "word": "noisy",
+  "pos": "adjective",
+  "tr": "gürültülü",
+  "en": "Making a lot of loud sounds.",
+  "ex": "The street is very noisy today."
+ },
+ {
+  "id": "a1-clean-adje",
+  "word": "clean",
+  "pos": "adjective",
+  "tr": "temiz",
+  "en": "Not dirty, washed or free from dirt.",
+  "ex": "Put on a clean shirt."
+ },
+ {
+  "id": "a1-dirty",
+  "word": "dirty",
+  "pos": "adjective",
+  "tr": "kirli",
+  "en": "Not clean, marked with dirt or spots.",
+  "ex": "Your shoes are very dirty."
+ },
+ {
+  "id": "a1-cheap",
+  "word": "cheap",
+  "pos": "adjective",
+  "tr": "ucuz",
+  "en": "Costing very little money, not expensive.",
+  "ex": "I bought a cheap ticket."
+ },
+ {
+  "id": "a1-expensive",
+  "word": "expensive",
+  "pos": "adjective",
+  "tr": "pahalı",
+  "en": "Costing a lot of money.",
+  "ex": "That new phone is too expensive."
+ },
+ {
+  "id": "a1-beautiful",
+  "word": "beautiful",
+  "pos": "adjective",
+  "tr": "güzel",
+  "en": "Very pleasant to look at or listen to.",
+  "ex": "She has a beautiful voice."
+ },
+ {
+  "id": "a1-ugly",
+  "word": "ugly",
+  "pos": "adjective",
+  "tr": "çirkin",
+  "en": "Not pretty or pleasant to look at.",
+  "ex": "He thinks that old building is ugly."
+ },
+ {
+  "id": "a1-good",
+  "word": "good",
+  "pos": "adjective",
+  "tr": "iyi",
+  "en": "Of high quality or nice.",
+  "ex": "This is a good book."
+ },
+ {
+  "id": "a1-bad",
+  "word": "bad",
+  "pos": "adjective",
+  "tr": "kötü",
+  "en": "Not good, of poor quality or unpleasant.",
+  "ex": "The weather is very bad today."
+ },
+ {
+  "id": "a1-easy",
+  "word": "easy",
+  "pos": "adjective",
+  "tr": "kolay, basit",
+  "en": "Not hard to do, requiring little work.",
+  "ex": "This test is very easy."
+ },
+ {
+  "id": "a1-difficult",
+  "word": "difficult",
+  "pos": "adjective",
+  "tr": "zor, güç",
+  "en": "Hard to do, understand, or solve.",
+  "ex": "Chinese is a difficult language."
+ },
+ {
+  "id": "a1-long",
+  "word": "long",
+  "pos": "adjective",
+  "tr": "uzun",
+  "en": "Measuring a large distance from one end to another.",
+  "ex": "She has very long hair."
+ },
+ {
+  "id": "a1-short",
+  "word": "short",
+  "pos": "adjective",
+  "tr": "kısa",
+  "en": "Measuring a small distance from end to end.",
+  "ex": "He wears short pants in summer."
+ },
+ {
+  "id": "a1-tall",
+  "word": "tall",
+  "pos": "adjective",
+  "tr": "uzun",
+  "en": "having a great height from bottom to top",
+  "ex": "He is a tall man."
+ },
+ {
+  "id": "a1-fast",
+  "word": "fast",
+  "pos": "adjective",
+  "tr": "hızlı",
+  "en": "moving very quickly",
+  "ex": "This car is very fast."
+ },
+ {
+  "id": "a1-slow",
+  "word": "slow",
+  "pos": "adjective",
+  "tr": "yavaş",
+  "en": "moving at a low speed",
+  "ex": "The turtle is a slow animal."
+ },
+ {
+  "id": "a1-open-adje",
+  "word": "open",
+  "pos": "adjective",
+  "tr": "açık",
+  "en": "not closed or locked",
+  "ex": "The door is open."
+ },
+ {
+  "id": "a1-closed",
+  "word": "closed",
+  "pos": "adjective",
+  "tr": "kapalı",
+  "en": "shut or not open",
+  "ex": "The shop is closed on Sundays."
+ },
+ {
+  "id": "a1-free",
+  "word": "free",
+  "pos": "adjective",
+  "tr": "ücretsiz, özgür",
+  "en": "costing no money",
+  "ex": "Water is free here."
+ },
+ {
+  "id": "a1-full",
+  "word": "full",
+  "pos": "adjective",
+  "tr": "dolu",
+  "en": "holding as much as possible",
+  "ex": "My glass is full of water."
+ },
+ {
+  "id": "a1-empty",
+  "word": "empty",
+  "pos": "adjective",
+  "tr": "boş",
+  "en": "containing nothing",
+  "ex": "The box is empty."
+ },
+ {
+  "id": "a1-right-adje",
+  "word": "right",
+  "pos": "adjective",
+  "tr": "doğru, haklı",
+  "en": "correct or true",
+  "ex": "Your answer is right."
+ },
+ {
+  "id": "a1-wrong",
+  "word": "wrong",
+  "pos": "adjective",
+  "tr": "yanlış",
+  "en": "not correct or not true",
+  "ex": "That is the wrong number."
+ },
+ {
+  "id": "a1-true",
+  "word": "true",
+  "pos": "adjective",
+  "tr": "gerçek, doğru",
+  "en": "matching real facts",
+  "ex": "This story is true."
+ },
+ {
+  "id": "a1-favourite",
+  "word": "favourite",
+  "pos": "adjective",
+  "tr": "favori, en sevilen",
+  "en": "liked more than any other",
+  "ex": "Blue is my favourite color."
+ },
+ {
+  "id": "a1-different",
+  "word": "different",
+  "pos": "adjective",
+  "tr": "farklı",
+  "en": "not the same",
+  "ex": "We have different ideas."
+ },
+ {
+  "id": "a1-same",
+  "word": "same",
+  "pos": "adjective",
+  "tr": "aynı",
+  "en": "identical, not different",
+  "ex": "We wear the same shoes."
+ },
+ {
+  "id": "a1-important",
+  "word": "important",
+  "pos": "adjective",
+  "tr": "önemli",
+  "en": "having great value or need",
+  "ex": "English is an important language."
+ },
+ {
+  "id": "a1-interesting",
+  "word": "interesting",
+  "pos": "adjective",
+  "tr": "ilginç",
+  "en": "holding your attention",
+  "ex": "This book is very interesting."
+ },
+ {
+  "id": "a1-boring",
+  "word": "boring",
+  "pos": "adjective",
+  "tr": "sıkıcı",
+  "en": "not interesting at all",
+  "ex": "The movie was long and boring."
+ },
+ {
+  "id": "a1-funny",
+  "word": "funny",
+  "pos": "adjective",
+  "tr": "komik, eğlenceli",
+  "en": "making you laugh",
+  "ex": "He tells funny jokes."
+ },
+ {
+  "id": "a1-kind",
+  "word": "kind",
+  "pos": "adjective",
+  "tr": "nazik, kibar",
+  "en": "nice and helpful to others",
+  "ex": "She is a kind teacher."
+ },
+ {
+  "id": "a1-friendly",
+  "word": "friendly",
+  "pos": "adjective",
+  "tr": "arkadaş canlısı, dost",
+  "en": "kind and pleasant to people",
+  "ex": "The people here are very friendly."
+ },
+ {
+  "id": "a1-angry",
+  "word": "angry",
+  "pos": "adjective",
+  "tr": "kızgın, öfkeli",
+  "en": "feeling mad about something",
+  "ex": "The boss is angry today."
+ },
+ {
+  "id": "a1-sad",
+  "word": "sad",
+  "pos": "adjective",
+  "tr": "üzgün",
+  "en": "feeling unhappy",
+  "ex": "He is sad because he lost his pen."
+ },
+ {
+  "id": "a1-afraid",
+  "word": "afraid",
+  "pos": "adjective",
+  "tr": "korkmuş",
+  "en": "feeling fear",
+  "ex": "She is afraid of dogs."
+ },
+ {
+  "id": "a1-ill",
+  "word": "ill",
+  "pos": "adjective",
+  "tr": "hasta",
+  "en": "not healthy",
+  "ex": "He is in bed because he is ill."
+ },
+ {
+  "id": "a1-well",
+  "word": "well",
+  "pos": "adjective",
+  "tr": "iyi, sağlıklı",
+  "en": "in good health",
+  "ex": "I feel much better and well today."
+ },
+ {
+  "id": "a1-hospital",
+  "word": "hospital",
+  "pos": "noun",
+  "tr": "hastane",
+  "en": "a place where sick people get help",
+  "ex": "Doctors work at the hospital."
+ },
+ {
+  "id": "a1-doctor",
+  "word": "doctor",
+  "pos": "noun",
+  "tr": "doktor",
+  "en": "a person who helps sick people",
+  "ex": "The doctor gave me some medicine."
+ },
+ {
+  "id": "a1-nurse",
+  "word": "nurse",
+  "pos": "noun",
+  "tr": "hemşire",
+  "en": "a person who helps doctors and sick people",
+  "ex": "The nurse checked my temperature."
+ },
+ {
+  "id": "a1-medicine",
+  "word": "medicine",
+  "pos": "noun",
+  "tr": "ilaç",
+  "en": "something you take when you are sick",
+  "ex": "Take this medicine twice a day."
+ },
+ {
+  "id": "a1-headache",
+  "word": "headache",
+  "pos": "noun",
+  "tr": "baş ağrısı",
+  "en": "a pain in your head",
+  "ex": "I have a bad headache today."
+ },
+ {
+  "id": "a1-pharmacy",
+  "word": "pharmacy",
+  "pos": "noun",
+  "tr": "eczane",
+  "en": "A shop where you buy medicine and health products.",
+  "ex": "I need to go to the pharmacy to buy medicine."
+ },
+ {
+  "id": "a1-office",
+  "word": "office",
+  "pos": "noun",
+  "tr": "ofis, büro",
+  "en": "A place where people work at desks with computers.",
+  "ex": "My father works in a big office in the city."
+ },
+ {
+  "id": "a1-company",
+  "word": "company",
+  "pos": "noun",
+  "tr": "şirket, firma",
+  "en": "A business organization that sells goods or services.",
+  "ex": "She works for an international technology company."
+ },
+ {
+  "id": "a1-manager",
+  "word": "manager",
+  "pos": "noun",
+  "tr": "müdür, yönetici",
+  "en": "The person who is in charge of a business or team.",
+  "ex": "I want to speak to the manager about this problem."
+ },
+ {
+  "id": "a1-engineer",
+  "word": "engineer",
+  "pos": "noun",
+  "tr": "mühendis",
+  "en": "A person who designs and builds machines or roads.",
+  "ex": "My brother is a mechanical engineer."
+ },
+ {
+  "id": "a1-driver",
+  "word": "driver",
+  "pos": "noun",
+  "tr": "sürücü, şoför",
+  "en": "A person who operates a car, bus, or train.",
+  "ex": "The bus driver stopped at the red light."
+ },
+ {
+  "id": "a1-police-officer",
+  "word": "police officer",
+  "pos": "noun",
+  "tr": "polis memuru",
+  "en": "A person whose job is to keep people safe and obey laws.",
+  "ex": "The police officer helped me find the street."
+ },
+ {
+  "id": "a1-farmer",
+  "word": "farmer",
+  "pos": "noun",
+  "tr": "çiftçi",
+  "en": "A person who grows crops and keeps animals on land.",
+  "ex": "The farmer has many cows and sheep."
+ },
+ {
+  "id": "a1-shop-assistant",
+  "word": "shop assistant",
+  "pos": "noun",
+  "tr": "tezgahtar, satış elemanı",
+  "en": "A person who helps customers in a store.",
+  "ex": "The shop assistant showed me a blue shirt."
+ },
+ {
+  "id": "a1-lawyer",
+  "word": "lawyer",
+  "pos": "noun",
+  "tr": "avukat",
+  "en": "A person who helps people with the law and court.",
+  "ex": "She is a lawyer and works in a courthouse."
+ },
+ {
+  "id": "a1-artist",
+  "word": "artist",
+  "pos": "noun",
+  "tr": "sanatçı, ressam",
+  "en": "A person who creates paintings, drawings, or sculptures.",
+  "ex": "The artist paints beautiful pictures of nature."
+ },
+ {
+  "id": "a1-waitress",
+  "word": "waitress",
+  "pos": "noun",
+  "tr": "kadın garson",
+  "en": "A woman who serves food and drinks at tables.",
+  "ex": "The waitress brought our menus and water."
+ },
+ {
+  "id": "a1-meeting",
+  "word": "meeting",
+  "pos": "noun",
+  "tr": "toplantı",
+  "en": "When people come together to talk about work.",
+  "ex": "We have a team meeting at ten o'clock."
+ },
+ {
+  "id": "a1-computer",
+  "word": "computer",
+  "pos": "noun",
+  "tr": "bilgisayar",
+  "en": "An electronic machine used for work, games, and internet.",
+  "ex": "I write my emails on my laptop computer."
+ },
+ {
+  "id": "a1-phone",
+  "word": "phone",
+  "pos": "noun",
+  "tr": "telefon",
+  "en": "A device used to talk to people far away.",
+  "ex": "My phone is ringing, can you answer it?"
+ },
+ {
+  "id": "a1-email",
+  "word": "email",
+  "pos": "noun",
+  "tr": "e-posta",
+  "en": "A message sent from one computer to another.",
+  "ex": "I sent an email to my teacher this morning."
+ },
+ {
+  "id": "a1-message",
+  "word": "message",
+  "pos": "noun",
+  "tr": "mesaj",
+  "en": "A short written text sent to someone.",
+  "ex": "She sent me a text message about the party."
+ },
+ {
+  "id": "a1-internet",
+  "word": "internet",
+  "pos": "noun",
+  "tr": "internet",
+  "en": "A global network connecting computers around the world.",
+  "ex": "I use the internet to watch videos."
+ },
+ {
+  "id": "a1-website",
+  "word": "website",
+  "pos": "noun",
+  "tr": "internet sitesi",
+  "en": "Pages on the internet with information about something.",
+  "ex": "You can buy tickets on their official website."
+ },
+ {
+  "id": "a1-photo",
+  "word": "photo",
+  "pos": "noun",
+  "tr": "fotoğraf",
+  "en": "An image captured by a camera.",
+  "ex": "I took a nice photo of the sunset."
+ },
+ {
+  "id": "a1-camera",
+  "word": "camera",
+  "pos": "noun",
+  "tr": "kamera, fotoğraf makinesi",
+  "en": "A device used to take pictures or record videos.",
+  "ex": "He bought a new camera for his holiday."
+ },
+ {
+  "id": "a1-television",
+  "word": "television",
+  "pos": "noun",
+  "tr": "televizyon",
+  "en": "A box that shows moving pictures and sound.",
+  "ex": "We like to watch the news on television."
+ },
+ {
+  "id": "a1-music",
+  "word": "music",
+  "pos": "noun",
+  "tr": "müzik",
+  "en": "Pleasant sounds made by instruments or voices.",
+  "ex": "I listen to pop music when I clean my room."
+ },
+ {
+  "id": "a1-song",
+  "word": "song",
+  "pos": "noun",
+  "tr": "şarkı",
+  "en": "A short piece of music with words.",
+  "ex": "This is my favorite song on the radio."
+ },
+ {
+  "id": "a1-film",
+  "word": "film",
+  "pos": "noun",
+  "tr": "film",
+  "en": "A movie or moving story shown in cinemas.",
+  "ex": "We watched a funny comedy film last night."
+ },
+ {
+  "id": "a1-book",
+  "word": "book",
+  "pos": "noun",
+  "tr": "kitap",
+  "en": "Pages fastened together with a cover to read.",
+  "ex": "I am reading an interesting history book."
+ },
+ {
+  "id": "a1-newspaper",
+  "word": "newspaper",
+  "pos": "noun",
+  "tr": "gazete",
+  "en": "Large folded paper with daily news and stories.",
+  "ex": "My grandfather reads the newspaper every morning."
+ },
+ {
+  "id": "a1-magazine",
+  "word": "magazine",
+  "pos": "noun",
+  "tr": "dergi",
+  "en": "A thin book with pictures and articles published regularly.",
+  "ex": "She bought a fashion magazine at the shop."
+ },
+ {
+  "id": "a1-story",
+  "word": "story",
+  "pos": "noun",
+  "tr": "hikaye, öykü",
+  "en": "An account of imaginary or real events.",
+  "ex": "The teacher read a nice story to the children."
+ },
+ {
+  "id": "a1-game",
+  "word": "game",
+  "pos": "noun",
+  "tr": "oyun",
+  "en": "an activity you play for fun",
+  "ex": "We play a fun game together."
+ },
+ {
+  "id": "a1-sport",
+  "word": "sport",
+  "pos": "noun",
+  "tr": "spor",
+  "en": "physical exercise and competitions like football",
+  "ex": "My favorite sport is tennis."
+ },
+ {
+  "id": "a1-football",
+  "word": "football",
+  "pos": "noun",
+  "tr": "futbol",
+  "en": "a popular outdoor team sport with a round ball",
+  "ex": "He likes to watch football on TV."
+ },
+ {
+  "id": "a1-basketball",
+  "word": "basketball",
+  "pos": "noun",
+  "tr": "basketbol",
+  "en": "a sport where players throw a orange ball into a hoop",
+  "ex": "They play basketball after school."
+ },
+ {
+  "id": "a1-swimming",
+  "word": "swimming",
+  "pos": "noun",
+  "tr": "yüzme",
+  "en": "moving through water using your arms and legs",
+  "ex": "Swimming is good exercise in summer."
+ },
+ {
+  "id": "a1-tennis",
+  "word": "tennis",
+  "pos": "noun",
+  "tr": "tenis",
+  "en": "a sport for two or four people with rackets and a net",
+  "ex": "She has a tennis lesson today."
+ },
+ {
+  "id": "a1-team",
+  "word": "team",
+  "pos": "noun",
+  "tr": "takım",
+  "en": "a group of people who play a sport together",
+  "ex": "Our team won the match."
+ },
+ {
+  "id": "a1-ball",
+  "word": "ball",
+  "pos": "noun",
+  "tr": "top",
+  "en": "a round object used in many sports",
+  "ex": "The dog runs after the red ball."
+ },
+ {
+  "id": "a1-win",
+  "word": "win",
+  "pos": "verb",
+  "tr": "kazanmak",
+  "en": "to be the best in a competition or game",
+  "ex": "We want to win this game."
+ },
+ {
+  "id": "a1-play",
+  "word": "play",
+  "pos": "verb",
+  "tr": "oynamak",
+  "en": "to take part in a sport or game",
+  "ex": "Children play in the park."
+ },
+ {
+  "id": "a1-watch-verb",
+  "word": "watch",
+  "pos": "verb",
+  "tr": "izlemek, seyretmek",
+  "en": "to look at something for some time",
+  "ex": "I watch a movie every Friday."
+ },
+ {
+  "id": "a1-watch-noun",
+  "word": "watch",
+  "pos": "noun",
+  "tr": "kol saati",
+  "en": "A small clock you wear on your arm.",
+  "ex": "I got a new watch for my birthday."
+ },
+ {
+  "id": "a1-listen",
+  "word": "listen",
+  "pos": "verb",
+  "tr": "dinlemek",
+  "en": "to pay attention to sounds with your ears",
+  "ex": "I listen to music in the morning."
+ },
+ {
+  "id": "a1-read",
+  "word": "read",
+  "pos": "verb",
+  "tr": "okumak",
+  "en": "to look at words and understand them",
+  "ex": "She likes to read books at night."
+ },
+ {
+  "id": "a1-write",
+  "word": "write",
+  "pos": "verb",
+  "tr": "yazmak",
+  "en": "to put words on paper with a pen",
+  "ex": "Please write your name here."
+ },
+ {
+  "id": "a1-sing",
+  "word": "sing",
+  "pos": "verb",
+  "tr": "şarkı söylemek",
+  "en": "to make musical sounds with your voice",
+  "ex": "Birds sing in the trees."
+ },
+ {
+  "id": "a1-dance",
+  "word": "dance",
+  "pos": "verb",
+  "tr": "dans etmek",
+  "en": "to move your body to music",
+  "ex": "They dance at the wedding."
+ },
+ {
+  "id": "a1-draw",
+  "word": "draw",
+  "pos": "verb",
+  "tr": "çizmek",
+  "en": "to make pictures with a pencil or pen",
+  "ex": "He can draw a cat very well."
+ },
+ {
+  "id": "a1-run",
+  "word": "run",
+  "pos": "verb",
+  "tr": "koşmak",
+  "en": "to move on your feet very fast",
+  "ex": "Cats can run very fast."
+ },
+ {
+  "id": "a1-walk",
+  "word": "walk",
+  "pos": "verb",
+  "tr": "yürümek",
+  "en": "to move forward on your feet at normal speed",
+  "ex": "I walk to work every day."
+ },
+ {
+  "id": "a1-swim",
+  "word": "swim",
+  "pos": "verb",
+  "tr": "yüzmek",
+  "en": "to move through water",
+  "ex": "Can you swim in the sea?"
+ },
+ {
+  "id": "a1-ride",
+  "word": "ride",
+  "pos": "verb",
+  "tr": "binmek",
+  "en": "to sit on a horse or bicycle and control it",
+  "ex": "He learns to ride a bike."
+ },
+ {
+  "id": "a1-drive",
+  "word": "drive",
+  "pos": "verb",
+  "tr": "araba kullanmak",
+  "en": "to operate a car and make it move",
+  "ex": "My father drives to work."
+ },
+ {
+  "id": "a1-travel",
+  "word": "travel",
+  "pos": "verb",
+  "tr": "seyahat etmek, gezmek",
+  "en": "to go to different places in the world",
+  "ex": "We travel to Antalya in summer."
+ },
+ {
+  "id": "a1-visit",
+  "word": "visit",
+  "pos": "verb",
+  "tr": "ziyaret etmek",
+  "en": "to go to see a person or place",
+  "ex": "I visit my grandparents on Sunday."
+ },
+ {
+  "id": "a1-meet",
+  "word": "meet",
+  "pos": "verb",
+  "tr": "buluşmak, tanışmak",
+  "en": "to see and talk to someone for the first time or by arrangement",
+  "ex": "Let us meet at the cafe."
+ },
+ {
+  "id": "a1-know",
+  "word": "know",
+  "pos": "verb",
+  "tr": "bilmek, tanımak",
+  "en": "to have information in your mind",
+  "ex": "I know the answer to this question."
+ },
+ {
+  "id": "a1-think",
+  "word": "think",
+  "pos": "verb",
+  "tr": "düşünmek",
+  "en": "to use your brain to have ideas",
+  "ex": "What do you think about this plan?"
+ },
+ {
+  "id": "a1-want",
+  "word": "want",
+  "pos": "verb",
+  "tr": "istemek",
+  "en": "to wish to have or do something",
+  "ex": "I want an apple, please."
+ },
+ {
+  "id": "a1-need",
+  "word": "need",
+  "pos": "verb",
+  "tr": "ihtiyacı olmak",
+  "en": "to require something because it is very important",
+  "ex": "Plants need water and sun."
+ },
+ {
+  "id": "a1-like",
+  "word": "like",
+  "pos": "verb",
+  "tr": "sevmek, beğenmek",
+  "en": "to find something good or enjoyable",
+  "ex": "I like drinking coffee in the morning."
+ },
+ {
+  "id": "a1-love",
+  "word": "love",
+  "pos": "verb",
+  "tr": "sevmek, aşık olmak",
+  "en": "to like someone or something very much",
+  "ex": "I love my family."
+ },
+ {
+  "id": "a1-hate",
+  "word": "hate",
+  "pos": "verb",
+  "tr": "nefret etmek",
+  "en": "to dislike someone or something very much",
+  "ex": "I hate cold weather."
+ },
+ {
+  "id": "a1-help",
+  "word": "help",
+  "pos": "verb",
+  "tr": "yardım etmek",
+  "en": "to give assistance to someone",
+  "ex": "Can you help me with this bag?"
+ },
+ {
+  "id": "a1-start",
+  "word": "start",
+  "pos": "verb",
+  "tr": "başlamak",
+  "en": "to begin something",
+  "ex": "The lesson starts at nine o'clock."
+ },
+ {
+  "id": "a1-finish",
+  "word": "finish",
+  "pos": "verb",
+  "tr": "bitirmek",
+  "en": "to come to the end of an action",
+  "ex": "I finish work at five pm."
+ },
+ {
+  "id": "a1-stop",
+  "word": "stop",
+  "pos": "verb",
+  "tr": "durmak",
+  "en": "to not move or continue anymore",
+  "ex": "Please stop at the red light."
+ },
+ {
+  "id": "a1-wait",
+  "word": "wait",
+  "pos": "verb",
+  "tr": "beklemek",
+  "en": "to stay in one place until something happens",
+  "ex": "Please wait for me here."
+ },
+ {
+  "id": "a1-open-verb",
+  "word": "open",
+  "pos": "verb",
+  "tr": "açmak",
+  "en": "to move something so people can go in or see inside",
+  "ex": "Please open the window."
+ },
+ {
+  "id": "a1-close",
+  "word": "close",
+  "pos": "verb",
+  "tr": "kapatmak",
+  "en": "to shut something",
+  "ex": "Please close the door."
+ },
+ {
+  "id": "a1-come",
+  "word": "come",
+  "pos": "verb",
+  "tr": "gelmek",
+  "en": "to move toward this place",
+  "ex": "Come here, please."
+ },
+ {
+  "id": "a1-go",
+  "word": "go",
+  "pos": "verb",
+  "tr": "gitmek",
+  "en": "to move to another place",
+  "ex": "I go to work by bus."
+ },
+ {
+  "id": "a1-leave",
+  "word": "leave",
+  "pos": "verb",
+  "tr": "ayrılmak, terk etmek",
+  "en": "to go away from a place",
+  "ex": "I leave home at eight o'clock."
+ },
+ {
+  "id": "a1-arrive",
+  "word": "arrive",
+  "pos": "verb",
+  "tr": "varmak, ulaşmak",
+  "en": "to reach a place",
+  "ex": "We arrive at the airport soon."
+ },
+ {
+  "id": "a1-stay",
+  "word": "stay",
+  "pos": "verb",
+  "tr": "kalmak",
+  "en": "to continue in the same place",
+  "ex": "I stay at a hotel."
+ },
+ {
+  "id": "a1-sit",
+  "word": "sit",
+  "pos": "verb",
+  "tr": "oturmak",
+  "en": "to rest your body on a chair",
+  "ex": "Please sit down on the sofa."
+ },
+ {
+  "id": "a1-stand",
+  "word": "stand",
+  "pos": "verb",
+  "tr": "ayakta durmak",
+  "en": "to be on your feet",
+  "ex": "Please stand up."
+ },
+ {
+  "id": "a1-sleep",
+  "word": "sleep",
+  "pos": "verb",
+  "tr": "uyumak",
+  "en": "to rest with your eyes closed at night",
+  "ex": "I sleep for eight hours every night."
+ },
+ {
+  "id": "a1-study",
+  "word": "study",
+  "pos": "verb",
+  "tr": "ders çalışmak, okumak",
+  "en": "to learn about a subject",
+  "ex": "I study English every day."
+ },
+ {
+  "id": "a1-learn",
+  "word": "learn",
+  "pos": "verb",
+  "tr": "öğrenmek",
+  "en": "to get new knowledge or a skill",
+  "ex": "I want to learn Spanish."
+ },
+ {
+  "id": "a1-teach",
+  "word": "teach",
+  "pos": "verb",
+  "tr": "öğretmek",
+  "en": "to give knowledge to a student",
+  "ex": "My mother teaches math."
+ },
+ {
+  "id": "a1-understand",
+  "word": "understand",
+  "pos": "verb",
+  "tr": "anlamak",
+  "en": "to know the meaning of something",
+  "ex": "I understand your problem."
+ },
+ {
+  "id": "a1-remember",
+  "word": "remember",
+  "pos": "verb",
+  "tr": "hatırlamak",
+  "en": "to keep a fact in your mind",
+  "ex": "I remember your name."
+ },
+ {
+  "id": "a1-forget",
+  "word": "forget",
+  "pos": "verb",
+  "tr": "unutmak",
+  "en": "to not remember something",
+  "ex": "I forget my keys at home."
+ },
+ {
+  "id": "a1-ask",
+  "word": "ask",
+  "pos": "verb",
+  "tr": "sormak",
+  "en": "to say something to get an answer",
+  "ex": "May I ask a question?"
+ },
+ {
+  "id": "a1-answer",
+  "word": "answer",
+  "pos": "verb",
+  "tr": "cevap vermek",
+  "en": "to reply to a question",
+  "ex": "Please answer the phone."
+ },
+ {
+  "id": "a1-say",
+  "word": "say",
+  "pos": "verb",
+  "tr": "söylemek",
+  "en": "to use words to express something",
+  "ex": "Say hello to your mother."
+ },
+ {
+  "id": "a1-tell",
+  "word": "tell",
+  "pos": "verb",
+  "tr": "anlatmak, söylemek",
+  "en": "to give information to someone",
+  "ex": "Tell me a story."
+ },
+ {
+  "id": "a1-talk",
+  "word": "talk",
+  "pos": "verb",
+  "tr": "konuşmak",
+  "en": "to speak with someone",
+  "ex": "We talk on the phone."
+ },
+ {
+  "id": "a1-call",
+  "word": "call",
+  "pos": "verb",
+  "tr": "aramak, telefon etmek",
+  "en": "to use a phone to speak to someone",
+  "ex": "I call my parents every Sunday."
+ },
+ {
+  "id": "a1-buy",
+  "word": "buy",
+  "pos": "verb",
+  "tr": "satın almak",
+  "en": "to get something by paying money",
+  "ex": "I want to buy a new car."
+ },
+ {
+  "id": "a1-sell",
+  "word": "sell",
+  "pos": "verb",
+  "tr": "satmak",
+  "en": "to give something to someone in exchange for money",
+  "ex": "They sell fresh fruit at this market."
+ },
+ {
+  "id": "a1-pay",
+  "word": "pay",
+  "pos": "verb",
+  "tr": "ödeme yapmak, ödemek",
+  "en": "to give money for goods or services",
+  "ex": "I need to pay for the coffee."
+ },
+ {
+  "id": "a1-cost",
+  "word": "cost",
+  "pos": "verb",
+  "tr": "fiyatında olmak, mal olmak",
+  "en": "to have a specific price in money",
+  "ex": "How much does this shirt cost?"
+ },
+ {
+  "id": "a1-spend",
+  "word": "spend",
+  "pos": "verb",
+  "tr": "harcamak, geçirmek",
+  "en": "to use money or time for something",
+  "ex": "I don't want to spend too much money."
+ },
+ {
+  "id": "a1-find",
+  "word": "find",
+  "pos": "verb",
+  "tr": "bulmak",
+  "en": "to discover something you were looking for",
+  "ex": "I cannot find my keys anywhere."
+ },
+ {
+  "id": "a1-look-for",
+  "word": "look for",
+  "pos": "phrasal verb",
+  "tr": "aramak",
+  "en": "to try to find someone or something",
+  "ex": "She is looking for her red bag."
+ },
+ {
+  "id": "a1-see",
+  "word": "see",
+  "pos": "verb",
+  "tr": "görmek",
+  "en": "to perceive with your eyes",
+  "ex": "I can see the mountains from here."
+ },
+ {
+  "id": "a1-hear",
+  "word": "hear",
+  "pos": "verb",
+  "tr": "duymak",
+  "en": "to perceive sounds with your ears",
+  "ex": "Can you hear that strange noise?"
+ },
+ {
+  "id": "a1-feel",
+  "word": "feel",
+  "pos": "verb",
+  "tr": "hissetmek",
+  "en": "to experience an emotion or physical sensation",
+  "ex": "I feel very tired today."
+ },
+ {
+  "id": "a1-give",
+  "word": "give",
+  "pos": "verb",
+  "tr": "vermek",
+  "en": "to hand something to someone",
+  "ex": "Please give me that pen."
+ },
+ {
+  "id": "a1-take",
+  "word": "take",
+  "pos": "verb",
+  "tr": "almak, götürmek",
+  "en": "to get something into your hands",
+  "ex": "Take an umbrella because it is raining."
+ },
+ {
+  "id": "a1-bring",
+  "word": "bring",
+  "pos": "verb",
+  "tr": "getirmek",
+  "en": "to take something with you to a place",
+  "ex": "Can you bring some water, please?"
+ },
+ {
+  "id": "a1-carry",
+  "word": "carry",
+  "pos": "verb",
+  "tr": "taşımak",
+  "en": "to hold something while moving it somewhere",
+  "ex": "This box is too heavy to carry."
+ },
+ {
+  "id": "a1-put",
+  "word": "put",
+  "pos": "verb",
+  "tr": "koymak",
+  "en": "to place something in a specific position",
+  "ex": "Put your books on the desk."
+ },
+ {
+  "id": "a1-make",
+  "word": "make",
+  "pos": "verb",
+  "tr": "yapmak, oluşturmak",
+  "en": "to create or build something",
+  "ex": "I want to make a cake for dinner."
+ },
+ {
+  "id": "a1-do",
+  "word": "do",
+  "pos": "verb",
+  "tr": "yapmak, etmek",
+  "en": "to perform an action or task",
+  "ex": "I need to do my homework now."
+ },
+ {
+  "id": "a1-have",
+  "word": "have",
+  "pos": "verb",
+  "tr": "sahip olmak, var olmak",
+  "en": "to possess something",
+  "ex": "We have a nice house in the city."
+ },
+ {
+  "id": "a1-use",
+  "word": "use",
+  "pos": "verb",
+  "tr": "kullanmak",
+  "en": "to employ something for a purpose",
+  "ex": "Can I use your phone, please?"
+ },
+ {
+  "id": "a1-try",
+  "word": "try",
+  "pos": "verb",
+  "tr": "denemek, çabalamak",
+  "en": "to attempt to do something",
+  "ex": "You should try this delicious food."
+ },
+ {
+  "id": "a1-wash",
+  "word": "wash",
+  "pos": "verb",
+  "tr": "yıkamak",
+  "en": "to clean something using water and soap",
+  "ex": "I wash my car every weekend."
+ },
+ {
+  "id": "a1-clean-verb",
+  "word": "clean",
+  "pos": "verb",
+  "tr": "temizlemek",
+  "en": "to make something free from dirt",
+  "ex": "She likes to clean her room on Saturdays."
+ },
+ {
+  "id": "a1-wear",
+  "word": "wear",
+  "pos": "verb",
+  "tr": "giymek, takmak",
+  "en": "to have clothing or accessories on your body",
+  "ex": "He always wears a blue jacket."
+ },
+ {
+  "id": "a1-change",
+  "word": "change",
+  "pos": "verb",
+  "tr": "değiştirmek",
+  "en": "to make something different",
+  "ex": "I need to change my clothes."
+ },
+ {
+  "id": "a1-car",
+  "word": "car",
+  "pos": "noun",
+  "tr": "araba, otomobil",
+  "en": "a road vehicle with four wheels for transport",
+  "ex": "They bought a new red car."
+ },
+ {
+  "id": "a1-bus",
+  "word": "bus",
+  "pos": "noun",
+  "tr": "otobüs",
+  "en": "a large motor vehicle carrying passengers",
+  "ex": "I go to work by bus."
+ },
+ {
+  "id": "a1-train",
+  "word": "train",
+  "pos": "noun",
+  "tr": "tren",
+  "en": "a line of connected railway cars",
+  "ex": "The train leaves at nine o'clock."
+ },
+ {
+  "id": "a1-plane",
+  "word": "plane",
+  "pos": "noun",
+  "tr": "uçak",
+  "en": "a flying vehicle with wings",
+  "ex": "We are traveling by plane to London."
+ },
+ {
+  "id": "a1-bike",
+  "word": "bike",
+  "pos": "noun",
+  "tr": "bisiklet",
+  "en": "a two-wheeled vehicle you ride with pedals",
+  "ex": "My son rides his bike in the park."
+ },
+ {
+  "id": "a1-taxi",
+  "word": "taxi",
+  "pos": "noun",
+  "tr": "taksi",
+  "en": "a car with a driver that you pay to take you somewhere",
+  "ex": "Let us take a taxi to the hotel."
+ },
+ {
+  "id": "a1-ticket",
+  "word": "ticket",
+  "pos": "noun",
+  "tr": "bilet",
+  "en": "a small piece of paper for travel or events",
+  "ex": "I bought a train ticket online."
+ },
+ {
+  "id": "a1-station",
+  "word": "station",
+  "pos": "noun",
+  "tr": "istasyon, gar",
+  "en": "A place where trains stop for people to travel.",
+  "ex": "I am waiting for the train at the station."
+ },
+ {
+  "id": "a1-airport",
+  "word": "airport",
+  "pos": "noun",
+  "tr": "havalimanı, havaalanı",
+  "en": "A place where airplanes take off and land.",
+  "ex": "We are going to the airport to catch a flight."
+ },
+ {
+  "id": "a1-bus-stop",
+  "word": "bus stop",
+  "pos": "noun",
+  "tr": "otobüs durağı",
+  "en": "A place on the street where buses wait for passengers.",
+  "ex": "She is standing at the bus stop in the rain."
+ },
+ {
+  "id": "a1-road",
+  "word": "road",
+  "pos": "noun",
+  "tr": "yol",
+  "en": "A long hard surface where cars and buses drive.",
+  "ex": "Please look both ways before crossing the road."
+ },
+ {
+  "id": "a1-bridge",
+  "word": "bridge",
+  "pos": "noun",
+  "tr": "köprü",
+  "en": "A structure built over water or a road to cross it.",
+  "ex": "We walked across the bridge to see the river."
+ },
+ {
+  "id": "a1-map",
+  "word": "map",
+  "pos": "noun",
+  "tr": "harita",
+  "en": "A drawing of a city or country that shows streets and places.",
+  "ex": "Let us look at the map to find the hotel."
+ },
+ {
+  "id": "a1-left",
+  "word": "left",
+  "pos": "adverb",
+  "tr": "sol, sola",
+  "en": "On or toward the side that is opposite to right.",
+  "ex": "Turn left at the next street."
+ },
+ {
+  "id": "a1-right-adve",
+  "word": "right",
+  "pos": "adverb",
+  "tr": "sağ, sağa",
+  "en": "On or toward the side that is opposite to left.",
+  "ex": "Turn right after the traffic lights."
+ },
+ {
+  "id": "a1-straight-on",
+  "word": "straight on",
+  "pos": "phrase",
+  "tr": "dosdoğru, düz",
+  "en": "Moving forward without turning left or right.",
+  "ex": "Go straight on until you see the park."
+ },
+ {
+  "id": "a1-corner",
+  "word": "corner",
+  "pos": "noun",
+  "tr": "köşe",
+  "en": "The place where two streets meet each other.",
+  "ex": "The small shop is on the corner."
+ },
+ {
+  "id": "a1-traffic-lights",
+  "word": "traffic lights",
+  "pos": "noun",
+  "tr": "trafik ışıkları",
+  "en": "Red, yellow, and green lights that control cars on the road.",
+  "ex": "Stop your car when the traffic lights are red."
+ },
+ {
+  "id": "a1-north",
+  "word": "north",
+  "pos": "noun",
+  "tr": "kuzey",
+  "en": "The direction that is opposite to south.",
+  "ex": "Birds fly to the north in the summer."
+ },
+ {
+  "id": "a1-south",
+  "word": "south",
+  "pos": "noun",
+  "tr": "güney",
+  "en": "The direction that is opposite to north.",
+  "ex": "They live in a warm city in the south."
+ },
+ {
+  "id": "a1-east",
+  "word": "east",
+  "pos": "noun",
+  "tr": "doğu",
+  "en": "The direction where the sun comes up in the morning.",
+  "ex": "The sun rises in the east every day."
+ },
+ {
+  "id": "a1-west",
+  "word": "west",
+  "pos": "noun",
+  "tr": "batı",
+  "en": "The direction where the sun goes down in the evening.",
+  "ex": "The sun sets in the west."
+ },
+ {
+  "id": "a1-holiday",
+  "word": "holiday",
+  "pos": "noun",
+  "tr": "tatil",
+  "en": "A time when you relax and do not go to work.",
+  "ex": "We are going to Italy for our summer holiday."
+ },
+ {
+  "id": "a1-hotel",
+  "word": "hotel",
+  "pos": "noun",
+  "tr": "otel",
+  "en": "A building where people pay to sleep when traveling.",
+  "ex": "Our room in the hotel is very big and clean."
+ },
+ {
+  "id": "a1-beach",
+  "word": "beach",
+  "pos": "noun",
+  "tr": "plaj, kumsal",
+  "en": "An area of sand or small stones next to the sea.",
+  "ex": "The children love playing with sand on the beach."
+ },
+ {
+  "id": "a1-sea",
+  "word": "sea",
+  "pos": "noun",
+  "tr": "deniz",
+  "en": "A large area of salty water that covers most of Earth.",
+  "ex": "I like to swim in the sea when it is hot."
+ },
+ {
+  "id": "a1-mountain",
+  "word": "mountain",
+  "pos": "noun",
+  "tr": "dağ",
+  "en": "A very high piece of land, much higher than a hill.",
+  "ex": "We can see the snow on top of the mountain."
+ },
+ {
+  "id": "a1-river",
+  "word": "river",
+  "pos": "noun",
+  "tr": "nehir, ırmak",
+  "en": "A long line of water that flows across the land.",
+  "ex": "There is a long river near our village."
+ },
+ {
+  "id": "a1-lake",
+  "word": "lake",
+  "pos": "noun",
+  "tr": "göl",
+  "en": "A large area of water with land all around it.",
+  "ex": "People like to fish in the blue lake."
+ },
+ {
+  "id": "a1-forest",
+  "word": "forest",
+  "pos": "noun",
+  "tr": "orman",
+  "en": "A large area of land covered with many trees.",
+  "ex": "Many wild animals live in the green forest."
+ },
+ {
+  "id": "a1-village",
+  "word": "village",
+  "pos": "noun",
+  "tr": "köy",
+  "en": "A very small town in the countryside.",
+  "ex": "My grandparents live in a quiet little village."
+ },
+ {
+  "id": "a1-town",
+  "word": "town",
+  "pos": "noun",
+  "tr": "kasaba, şehir",
+  "en": "A place with many houses and shops, smaller than a city.",
+  "ex": "I go to the town to buy food every Saturday."
+ },
+ {
+  "id": "a1-park",
+  "word": "park",
+  "pos": "noun",
+  "tr": "park",
+  "en": "An open area with grass and trees for walking and playing.",
+  "ex": "Let us walk the dog in the park."
+ },
+ {
+  "id": "a1-museum",
+  "word": "museum",
+  "pos": "noun",
+  "tr": "müze",
+  "en": "A building where old and interesting things are shown to people.",
+  "ex": "We saw old paintings in the art museum."
+ },
+ {
+  "id": "a1-cinema",
+  "word": "cinema",
+  "pos": "noun",
+  "tr": "sinema",
+  "en": "A building where you go to watch movies on a big screen.",
+  "ex": "Would you like to go to the cinema tonight?"
+ },
+ {
+  "id": "a1-theatre",
+  "word": "theatre",
+  "pos": "noun",
+  "tr": "tiyatro",
+  "en": "A building where people act in plays on a stage.",
+  "ex": "We watched a great comedy at the theatre."
+ },
+ {
+  "id": "a1-library",
+  "word": "library",
+  "pos": "noun",
+  "tr": "kütüphane",
+  "en": "A room or building with many books to read and borrow.",
+  "ex": "I need to study quietly in the library."
+ },
+ {
+  "id": "a1-bank",
+  "word": "bank",
+  "pos": "noun",
+  "tr": "banka",
+  "en": "A place where you keep your money safely.",
+  "ex": "I need to go to the bank today."
+ },
+ {
+  "id": "a1-post-office",
+  "word": "post office",
+  "pos": "noun",
+  "tr": "postahane",
+  "en": "A place where you send letters and packages.",
+  "ex": "She is sending a letter at the post office."
+ },
+ {
+  "id": "a1-supermarket",
+  "word": "supermarket",
+  "pos": "noun",
+  "tr": "süpermarket, büyük market",
+  "en": "A very large shop that sells food and things for home.",
+  "ex": "We buy fruit and vegetables at the supermarket."
+ },
+ {
+  "id": "a1-market",
+  "word": "market",
+  "pos": "noun",
+  "tr": "pazar, market",
+  "en": "A place where people buy and sell fresh food.",
+  "ex": "He buys fresh tomatoes from the market."
+ },
+ {
+  "id": "a1-church",
+  "word": "church",
+  "pos": "noun",
+  "tr": "kilise",
+  "en": "A building where Christians go to pray.",
+  "ex": "There is an old church in our town."
+ },
+ {
+  "id": "a1-mosque",
+  "word": "mosque",
+  "pos": "noun",
+  "tr": "cami",
+  "en": "A building where Muslims go to pray.",
+  "ex": "We visit the big mosque on Fridays."
+ },
+ {
+  "id": "a1-school",
+  "word": "school",
+  "pos": "noun",
+  "tr": "okul",
+  "en": "A place where children go to learn.",
+  "ex": "My children go to school every morning."
+ },
+ {
+  "id": "a1-university",
+  "word": "university",
+  "pos": "noun",
+  "tr": "üniversite",
+  "en": "A place where adults study after finishing high school.",
+  "ex": "She studies English at the university."
+ },
+ {
+  "id": "a1-class",
+  "word": "class",
+  "pos": "noun",
+  "tr": "sınıf, ders",
+  "en": "A group of students learning together with a teacher.",
+  "ex": "There are twenty students in my class."
+ },
+ {
+  "id": "a1-lesson",
+  "word": "lesson",
+  "pos": "noun",
+  "tr": "ders",
+  "en": "A period of time when you learn something.",
+  "ex": "Our English lesson starts at nine o'clock."
+ },
+ {
+  "id": "a1-homework",
+  "word": "homework",
+  "pos": "noun",
+  "tr": "ev ödevi",
+  "en": "Work that teachers give you to do at home.",
+  "ex": "I always do my homework after dinner."
+ },
+ {
+  "id": "a1-exam",
+  "word": "exam",
+  "pos": "noun",
+  "tr": "sınav",
+  "en": "A big test to see what you know.",
+  "ex": "We have a difficult math exam tomorrow."
+ },
+ {
+  "id": "a1-question",
+  "word": "question",
+  "pos": "noun",
+  "tr": "soru",
+  "en": "Something you ask when you want to know something.",
+  "ex": "The teacher asks a question, and I know the answer."
+ },
+ {
+  "id": "a1-word",
+  "word": "word",
+  "pos": "noun",
+  "tr": "kelime, sözcük",
+  "en": "A single piece of language with a meaning.",
+  "ex": "I do not know this English word."
+ },
+ {
+  "id": "a1-sentence",
+  "word": "sentence",
+  "pos": "noun",
+  "tr": "cümle",
+  "en": "A group of words that makes complete sense.",
+  "ex": "Please write a short sentence on the board."
+ },
+ {
+  "id": "a1-page",
+  "word": "page",
+  "pos": "noun",
+  "tr": "sayfa",
+  "en": "One side of a piece of paper in a book.",
+  "ex": "Open your books to page ten, please."
+ },
+ {
+  "id": "a1-pen",
+  "word": "pen",
+  "pos": "noun",
+  "tr": "tükenmez kalem",
+  "en": "Something you use to write with ink on paper.",
+  "ex": "Can I borrow your blue pen, please?"
+ },
+ {
+  "id": "a1-pencil",
+  "word": "pencil",
+  "pos": "noun",
+  "tr": "kurşun kalem",
+  "en": "Something you use to write that you can erase.",
+  "ex": "Draw a small house with your pencil."
+ },
+ {
+  "id": "a1-bag",
+  "word": "bag",
+  "pos": "noun",
+  "tr": "çanta",
+  "en": "Something you use to carry your things around.",
+  "ex": "My books are inside my school bag."
+ },
+ {
+  "id": "a1-notebook",
+  "word": "notebook",
+  "pos": "noun",
+  "tr": "defter",
+  "en": "A book with blank pages for writing notes.",
+  "ex": "I write new words in my notebook."
+ },
+ {
+  "id": "a1-dictionary",
+  "word": "dictionary",
+  "pos": "noun",
+  "tr": "sözlük",
+  "en": "A book that tells you what words mean.",
+  "ex": "I look up new words in my pocket dictionary."
+ },
+ {
+  "id": "a1-weather",
+  "word": "weather",
+  "pos": "noun",
+  "tr": "hava, hava durumu",
+  "en": "What it is like outside, like hot or cold.",
+  "ex": "The weather is very nice and warm today."
+ },
+ {
+  "id": "a1-sun",
+  "word": "sun",
+  "pos": "noun",
+  "tr": "güneş",
+  "en": "The big bright star in the sky during day.",
+  "ex": "The sun is shining brightly in the blue sky."
+ },
+ {
+  "id": "a1-rain",
+  "word": "rain",
+  "pos": "noun",
+  "tr": "yağmur",
+  "en": "Water that falls from the clouds in drops.",
+  "ex": "Take your umbrella because there is heavy rain."
+ },
+ {
+  "id": "a1-snow",
+  "word": "snow",
+  "pos": "noun",
+  "tr": "kar",
+  "en": "Cold white frozen water that falls from the sky.",
+  "ex": "Children love to play outside when there is snow."
+ },
+ {
+  "id": "a1-wind",
+  "word": "wind",
+  "pos": "noun",
+  "tr": "rüzgar",
+  "en": "Air that moves fast outside.",
+  "ex": "The wind is blowing my hair around."
+ },
+ {
+  "id": "a1-cloud",
+  "word": "cloud",
+  "pos": "noun",
+  "tr": "bulut",
+  "en": "A white or grey mass up in the sky.",
+  "ex": "I see a big dark cloud coming."
+ },
+ {
+  "id": "a1-sunny",
+  "word": "sunny",
+  "pos": "adjective",
+  "tr": "güneşli",
+  "en": "Having a lot of light from the sun.",
+  "ex": "It is a warm and sunny day at the beach."
+ },
+ {
+  "id": "a1-rainy",
+  "word": "rainy",
+  "pos": "adjective",
+  "tr": "yağmurlu",
+  "en": "Having a lot of water falling from clouds.",
+  "ex": "I like to stay at home on a rainy afternoon."
+ },
+ {
+  "id": "a1-cloudy",
+  "word": "cloudy",
+  "pos": "adjective",
+  "tr": "bulutlu",
+  "en": "When the sky is full of grey or white masses.",
+  "ex": "We cannot see the sun because it is very cloudy."
+ },
+ {
+  "id": "a1-windy",
+  "word": "windy",
+  "pos": "adjective",
+  "tr": "rüzgarlı",
+  "en": "having a lot of moving air outside",
+  "ex": "It is very windy today."
+ },
+ {
+  "id": "a1-warm",
+  "word": "warm",
+  "pos": "adjective",
+  "tr": "ılık, sıcak",
+  "en": "a little hot, not cold",
+  "ex": "I like warm weather."
+ },
+ {
+  "id": "a1-cool",
+  "word": "cool",
+  "pos": "adjective",
+  "tr": "serin",
+  "en": "a little cold, not hot",
+  "ex": "The evening is nice and cool."
+ },
+ {
+  "id": "a1-spring",
+  "word": "spring",
+  "pos": "noun",
+  "tr": "ilkbahar",
+  "en": "the season between winter and summer",
+  "ex": "Flowers grow in spring."
+ },
+ {
+  "id": "a1-summer",
+  "word": "summer",
+  "pos": "noun",
+  "tr": "yaz",
+  "en": "the hottest season of the year",
+  "ex": "We go to the beach in summer."
+ },
+ {
+  "id": "a1-autumn",
+  "word": "autumn",
+  "pos": "noun",
+  "tr": "sonbahar, güz",
+  "en": "the season when leaves fall from trees",
+  "ex": "Trees are red and yellow in autumn."
+ },
+ {
+  "id": "a1-winter",
+  "word": "winter",
+  "pos": "noun",
+  "tr": "kış",
+  "en": "the coldest season of the year",
+  "ex": "It snows in winter."
+ },
+ {
+  "id": "a1-season",
+  "word": "season",
+  "pos": "noun",
+  "tr": "mevsim",
+  "en": "one of four parts of the year",
+  "ex": "My favorite season is summer."
+ },
+ {
+  "id": "a1-clothes",
+  "word": "clothes",
+  "pos": "noun",
+  "tr": "giysiler, kıyafetler",
+  "en": "things you wear on your body",
+  "ex": "I need new clothes for work."
+ },
+ {
+  "id": "a1-shirt",
+  "word": "shirt",
+  "pos": "noun",
+  "tr": "gömlek",
+  "en": "something you wear on the top half of your body with buttons",
+  "ex": "He wears a white shirt."
+ },
+ {
+  "id": "a1-t-shirt",
+  "word": "T-shirt",
+  "pos": "noun",
+  "tr": "tişört",
+  "en": "casual cotton shirt with short sleeves",
+  "ex": "I wear a T-shirt at home."
+ },
+ {
+  "id": "a1-trousers",
+  "word": "trousers",
+  "pos": "noun",
+  "tr": "pantolon",
+  "en": "clothes that cover your legs",
+  "ex": "He is wearing black trousers."
+ },
+ {
+  "id": "a1-jeans",
+  "word": "jeans",
+  "pos": "noun",
+  "tr": "kot pantolon",
+  "en": "blue trousers made of denim",
+  "ex": "I like wearing comfortable jeans."
+ },
+ {
+  "id": "a1-dress",
+  "word": "dress",
+  "pos": "noun",
+  "tr": "elbise",
+  "en": "one-piece clothing for women covering body and legs",
+  "ex": "She has a beautiful red dress."
+ },
+ {
+  "id": "a1-skirt",
+  "word": "skirt",
+  "pos": "noun",
+  "tr": "etek",
+  "en": "clothing that hangs from the waist for women",
+  "ex": "She is wearing a long skirt."
+ },
+ {
+  "id": "a1-jacket",
+  "word": "jacket",
+  "pos": "noun",
+  "tr": "ceket",
+  "en": "short coat worn over a shirt",
+  "ex": "Put on your jacket, it is cold."
+ },
+ {
+  "id": "a1-coat",
+  "word": "coat",
+  "pos": "noun",
+  "tr": "mont, kaban",
+  "en": "warm clothing you wear outside in winter",
+  "ex": "I need my heavy winter coat."
+ },
+ {
+  "id": "a1-shoes",
+  "word": "shoes",
+  "pos": "noun",
+  "tr": "ayakkabı",
+  "en": "things you wear on your feet",
+  "ex": "Take off your shoes before entering."
+ },
+ {
+  "id": "a1-boots",
+  "word": "boots",
+  "pos": "noun",
+  "tr": "bot, ç çizme",
+  "en": "strong shoes that cover your ankles or legs",
+  "ex": "I wear boots when it rains."
+ },
+ {
+  "id": "a1-hat",
+  "word": "hat",
+  "pos": "noun",
+  "tr": "şapka",
+  "en": "something you wear on your head",
+  "ex": "Wear a hat in the sun."
+ },
+ {
+  "id": "a1-socks",
+  "word": "socks",
+  "pos": "noun",
+  "tr": "çorap",
+  "en": "soft things you put on your feet inside shoes",
+  "ex": "My feet are cold, I need socks."
+ },
+ {
+  "id": "a1-size",
+  "word": "size",
+  "pos": "noun",
+  "tr": "beden, numara, boyut",
+  "en": "how big or small an item is",
+  "ex": "What size do you wear?"
+ },
+ {
+  "id": "a1-colour",
+  "word": "colour",
+  "pos": "noun",
+  "tr": "renk",
+  "en": "red, blue, green or yellow for example",
+  "ex": "What is your favourite colour?"
+ },
+ {
+  "id": "a1-red",
+  "word": "red",
+  "pos": "adjective",
+  "tr": "kırmızı",
+  "en": "the colour of blood or strawberries",
+  "ex": "She has a red car."
+ },
+ {
+  "id": "a1-blue",
+  "word": "blue",
+  "pos": "adjective",
+  "tr": "mavi",
+  "en": "the colour of the clear sky",
+  "ex": "The ocean is blue."
+ },
+ {
+  "id": "a1-green",
+  "word": "green",
+  "pos": "adjective",
+  "tr": "yeşil",
+  "en": "the colour of grass and leaves",
+  "ex": "Trees have green leaves."
+ },
+ {
+  "id": "a1-yellow",
+  "word": "yellow",
+  "pos": "adjective",
+  "tr": "sarı",
+  "en": "the colour of the sun or a lemon",
+  "ex": "The sun is yellow."
+ },
+ {
+  "id": "a1-black",
+  "word": "black",
+  "pos": "adjective",
+  "tr": "siyah, kara",
+  "en": "the darkest colour, like the night sky",
+  "ex": "He has a black cat."
+ },
+ {
+  "id": "a1-white",
+  "word": "white",
+  "pos": "adjective",
+  "tr": "beyaz, ak",
+  "en": "the colour of milk or snow",
+  "ex": "Snow is white."
+ },
+ {
+  "id": "a1-brown",
+  "word": "brown",
+  "pos": "adjective",
+  "tr": "kahverengi",
+  "en": "the colour of chocolate or wood",
+  "ex": "The table is brown."
+ },
+ {
+  "id": "a1-grey",
+  "word": "grey",
+  "pos": "adjective",
+  "tr": "gri",
+  "en": "The color between black and white.",
+  "ex": "I have a grey coat."
+ },
+ {
+  "id": "a1-pink",
+  "word": "pink",
+  "pos": "adjective",
+  "tr": "pembe",
+  "en": "A light red color like a rose.",
+  "ex": "She likes the pink flower."
+ },
+ {
+  "id": "a1-purple",
+  "word": "purple",
+  "pos": "adjective",
+  "tr": "mor",
+  "en": "A color made by mixing red and blue.",
+  "ex": "He wears a purple shirt."
+ },
+ {
+  "id": "a1-money",
+  "word": "money",
+  "pos": "noun",
+  "tr": "para",
+  "en": "Coins and paper notes you use to buy things.",
+  "ex": "I do not have much money."
+ },
+ {
+  "id": "a1-price",
+  "word": "price",
+  "pos": "noun",
+  "tr": "fiyat",
+  "en": "How much money you pay for something.",
+  "ex": "What is the price of this bag?"
+ },
+ {
+  "id": "a1-cash",
+  "word": "cash",
+  "pos": "noun",
+  "tr": "nakit para",
+  "en": "Money in coins and paper, not cards.",
+  "ex": "Can I pay with cash?"
+ },
+ {
+  "id": "a1-card",
+  "word": "card",
+  "pos": "noun",
+  "tr": "kart, banka kartı",
+  "en": "A small plastic piece used to buy things.",
+  "ex": "I pay with my credit card."
+ },
+ {
+  "id": "a1-shopping",
+  "word": "shopping",
+  "pos": "noun",
+  "tr": "alışveriş",
+  "en": "Going to stores to buy food or clothes.",
+  "ex": "I go shopping on Saturday."
+ },
+ {
+  "id": "a1-present",
+  "word": "present",
+  "pos": "noun",
+  "tr": "hediye",
+  "en": "Something you give to someone on a birthday.",
+  "ex": "Thank you for the nice present."
+ },
+ {
+  "id": "a1-party",
+  "word": "party",
+  "pos": "noun",
+  "tr": "parti, eğlence",
+  "en": "A fun event with music, food, and friends.",
+  "ex": "We are going to a birthday party."
+ },
+ {
+  "id": "a1-dog",
+  "word": "dog",
+  "pos": "noun",
+  "tr": "köpek",
+  "en": "A common pet that barks and loves people.",
+  "ex": "The black dog runs in the park."
+ },
+ {
+  "id": "a1-cat",
+  "word": "cat",
+  "pos": "noun",
+  "tr": "kedi",
+  "en": "A small furry pet that says meow.",
+  "ex": "My cat sleeps on the sofa."
+ },
+ {
+  "id": "a1-bird",
+  "word": "bird",
+  "pos": "noun",
+  "tr": "kuş",
+  "en": "An animal with wings and feathers that flies.",
+  "ex": "A small bird sings in the tree."
+ },
+ {
+  "id": "a1-horse",
+  "word": "horse",
+  "pos": "noun",
+  "tr": "at",
+  "en": "A large animal that people can ride.",
+  "ex": "The brown horse runs very fast."
+ },
+ {
+  "id": "a1-animal",
+  "word": "animal",
+  "pos": "noun",
+  "tr": "hayvan",
+  "en": "A living thing like a dog, cat, or bird.",
+  "ex": "The elephant is a big animal."
+ },
+ {
+  "id": "a1-tree",
+  "word": "tree",
+  "pos": "noun",
+  "tr": "ağaç",
+  "en": "A tall plant with a trunk, branches, and leaves.",
+  "ex": "There is a big green tree."
+ },
+ {
+  "id": "a1-flower",
+  "word": "flower",
+  "pos": "noun",
+  "tr": "çiçek",
+  "en": "The colorful part of a plant that smells nice.",
+  "ex": "She puts a red flower on the table."
+ },
+ {
+  "id": "a1-head",
+  "word": "head",
+  "pos": "noun",
+  "tr": "kafa, baş",
+  "en": "The top part of your body with your face.",
+  "ex": "I have a hat on my head."
+ },
+ {
+  "id": "a1-face",
+  "word": "face",
+  "pos": "noun",
+  "tr": "yüz",
+  "en": "The front part of your head with eyes and nose.",
+  "ex": "Wash your face with water."
+ },
+ {
+  "id": "a1-eye",
+  "word": "eye",
+  "pos": "noun",
+  "tr": "göz",
+  "en": "The part of your body you use to see.",
+  "ex": "She has big blue eyes."
+ },
+ {
+  "id": "a1-ear",
+  "word": "ear",
+  "pos": "noun",
+  "tr": "kulak",
+  "en": "The part of your body you use to hear.",
+  "ex": "He listens with his ears."
+ },
+ {
+  "id": "a1-nose",
+  "word": "nose",
+  "pos": "noun",
+  "tr": "burun",
+  "en": "The part of your face you use to smell.",
+  "ex": "Smell the nice flower with your nose."
+ },
+ {
+  "id": "a1-mouth",
+  "word": "mouth",
+  "pos": "noun",
+  "tr": "ağız",
+  "en": "The part of your face you use to eat.",
+  "ex": "Open your mouth and eat this apple."
+ },
+ {
+  "id": "a1-hair",
+  "word": "hair",
+  "pos": "noun",
+  "tr": "saç",
+  "en": "The long threads growing on your head.",
+  "ex": "She has long brown hair."
+ },
+ {
+  "id": "a1-hand",
+  "word": "hand",
+  "pos": "noun",
+  "tr": "el",
+  "en": "The part at the end of your arm with fingers.",
+  "ex": "Wash your hands before eating."
+ },
+ {
+  "id": "a1-arm",
+  "word": "arm",
+  "pos": "noun",
+  "tr": "kol",
+  "en": "The long part of your body between hand and shoulder.",
+  "ex": "He carries the bag in his arm."
+ },
+ {
+  "id": "a1-leg",
+  "word": "leg",
+  "pos": "noun",
+  "tr": "bacak",
+  "en": "The long part of your body you use to walk.",
+  "ex": "My leg hurts when I run."
+ },
+ {
+  "id": "a1-foot",
+  "word": "foot",
+  "pos": "noun",
+  "tr": "ayak",
+  "en": "The bottom part of your leg you stand on.",
+  "ex": "Put your shoe on your foot."
+ },
+ {
+  "id": "a1-back",
+  "word": "back",
+  "pos": "noun",
+  "tr": "sırt, arka",
+  "en": "The rear part of your body, opposite your chest.",
+  "ex": "My back hurts from sitting too long."
+ },
+ {
+  "id": "a1-body",
+  "word": "body",
+  "pos": "noun",
+  "tr": "vücut",
+  "en": "The whole physical person, including head, arms, and legs.",
+  "ex": "Swimming is good for your body."
+ },
+ {
+  "id": "a1-thirsty",
+  "word": "thirsty",
+  "pos": "adjective",
+  "tr": "susamış",
+  "en": "feeling that you need to drink something",
+  "ex": "I am very thirsty after the long walk."
+ },
+ {
+  "id": "a1-fine",
+  "word": "fine",
+  "pos": "adjective",
+  "tr": "iyi, güzel",
+  "en": "good or well enough",
+  "ex": "I am fine, thank you."
+ },
+ {
+  "id": "a1-great",
+  "word": "great",
+  "pos": "adjective",
+  "tr": "harika, müthiş",
+  "en": "very good or wonderful",
+  "ex": "We had a great time at the party."
+ },
+ {
+  "id": "a1-wonderful",
+  "word": "wonderful",
+  "pos": "adjective",
+  "tr": "şahane, harika",
+  "en": "extremely good and making you happy",
+  "ex": "This is a wonderful city."
+ },
+ {
+  "id": "a1-terrible",
+  "word": "terrible",
+  "pos": "adjective",
+  "tr": "korkunç, çok kötü",
+  "en": "very bad or unpleasant",
+  "ex": "The weather today is terrible."
+ },
+ {
+  "id": "a1-excellent",
+  "word": "excellent",
+  "pos": "adjective",
+  "tr": "mükemmel",
+  "en": "extremely good of its type",
+  "ex": "She is an excellent student."
+ },
+ {
+  "id": "a1-perfect",
+  "word": "perfect",
+  "pos": "adjective",
+  "tr": "mükemmel, kusursuz",
+  "en": "having no mistakes or problems at all",
+  "ex": "Today is a perfect day for a picnic."
+ },
+ {
+  "id": "a1-really",
+  "word": "really",
+  "pos": "adverb",
+  "tr": "gerçekten",
+  "en": "very or truly",
+  "ex": "I really like this song."
+ },
+ {
+  "id": "a1-very",
+  "word": "very",
+  "pos": "adverb",
+  "tr": "çok",
+  "en": "to a high degree",
+  "ex": "This car is very fast."
+ },
+ {
+  "id": "a1-too",
+  "word": "too",
+  "pos": "adverb",
+  "tr": "de, da, çok",
+  "en": "more than enough, or also",
+  "ex": "This coffee is too hot to drink."
+ },
+ {
+  "id": "a1-also",
+  "word": "also",
+  "pos": "adverb",
+  "tr": "ayrıca, de, da",
+  "en": "in addition, too",
+  "ex": "She speaks English and she also speaks Spanish."
+ },
+ {
+  "id": "a1-only",
+  "word": "only",
+  "pos": "adverb",
+  "tr": "sadece, yalnız",
+  "en": "just this and nothing more",
+  "ex": "I have only one apple."
+ },
+ {
+  "id": "a1-again",
+  "word": "again",
+  "pos": "adverb",
+  "tr": "tekrar, gene",
+  "en": "one more time",
+  "ex": "Please say that again."
+ },
+ {
+  "id": "a1-here",
+  "word": "here",
+  "pos": "adverb",
+  "tr": "burada, buraya",
+  "en": "in or to this place",
+  "ex": "Come here, please."
+ },
+ {
+  "id": "a1-there",
+  "word": "there",
+  "pos": "adverb",
+  "tr": "orada, oraya",
+  "en": "in or to that place",
+  "ex": "My book is on the table over there."
+ },
+ {
+  "id": "a1-everywhere",
+  "word": "everywhere",
+  "pos": "adverb",
+  "tr": "her yer, her yerde",
+  "en": "in all places",
+  "ex": "I looked everywhere for my keys."
+ },
+ {
+  "id": "a1-somewhere",
+  "word": "somewhere",
+  "pos": "adverb",
+  "tr": "bir yerlerde, bir yere",
+  "en": "in or to an unspecified place",
+  "ex": "Let's go somewhere nice today."
+ },
+ {
+  "id": "a1-together",
+  "word": "together",
+  "pos": "adverb",
+  "tr": "birlikte",
+  "en": "with each other",
+  "ex": "We study English together."
+ },
+ {
+  "id": "a1-alone",
+  "word": "alone",
+  "pos": "adjective",
+  "tr": "yalnız",
+  "en": "without other people",
+  "ex": "I live alone in a small house."
+ },
+ {
+  "id": "a1-inside",
+  "word": "inside",
+  "pos": "adverb",
+  "tr": "içeride, içeri",
+  "en": "in or into a building or room",
+  "ex": "It is cold outside, let's go inside."
+ },
+ {
+  "id": "a1-outside",
+  "word": "outside",
+  "pos": "adverb",
+  "tr": "dışarıda, dışarı",
+  "en": "not in a building, in the open air",
+  "ex": "The children are playing outside."
+ },
+ {
+  "id": "a1-upstairs",
+  "word": "upstairs",
+  "pos": "adverb",
+  "tr": "üst kat, üst kata",
+  "en": "on or to a higher floor",
+  "ex": "My bedroom is upstairs."
+ },
+ {
+  "id": "a1-downstairs",
+  "word": "downstairs",
+  "pos": "adverb",
+  "tr": "alt kat, alt kata",
+  "en": "on or to a lower floor",
+  "ex": "He is waiting for you downstairs."
+ },
+ {
+  "id": "a1-first",
+  "word": "first",
+  "pos": "adjective",
+  "tr": "ilk, birinci",
+  "en": "coming before all others in time or order",
+  "ex": "Monday is the first day of the work week."
+ },
+ {
+  "id": "a1-last",
+  "word": "last",
+  "pos": "adjective",
+  "tr": "son, geçen",
+  "en": "coming after all others in time or order",
+  "ex": "December is the last month of the year."
+ },
+ {
+  "id": "a1-next",
+  "word": "next",
+  "pos": "adjective",
+  "tr": "sonraki, sıradaki",
+  "en": "coming immediately after the present one",
+  "ex": "See you next week."
+ },
+ {
+  "id": "a1-before",
+  "word": "before",
+  "pos": "preposition",
+  "tr": "önce",
+  "en": "at an earlier time than",
+  "ex": "Wash your hands before dinner."
+ },
+ {
+  "id": "a1-after",
+  "word": "after",
+  "pos": "preposition",
+  "tr": "sonra",
+  "en": "later than something else",
+  "ex": "We will watch a film after class."
+ },
+ {
+  "id": "a1-between",
+  "word": "between",
+  "pos": "preposition",
+  "tr": "arasında",
+  "en": "in the middle of two things or people",
+  "ex": "The bank is between the cafe and the shop."
+ },
+ {
+  "id": "a1-behind",
+  "word": "behind",
+  "pos": "preposition",
+  "tr": "arkasında",
+  "en": "at the back of something",
+  "ex": "The cat is behind the door."
+ },
+ {
+  "id": "a1-in-front-of",
+  "word": "in front of",
+  "pos": "preposition",
+  "tr": "önünde",
+  "en": "at the forward part of something",
+  "ex": "The car is in front of the house."
+ },
+ {
+  "id": "a1-next-to",
+  "word": "next to",
+  "pos": "preposition",
+  "tr": "yanında",
+  "en": "very close to something with nothing between",
+  "ex": "She sits next to me in class."
+ },
+ {
+  "id": "a1-opposite",
+  "word": "opposite",
+  "pos": "preposition",
+  "tr": "karşısında",
+  "en": "on the other side facing someone or something",
+  "ex": "The bank is opposite the post office."
+ },
+ {
+  "id": "a1-under",
+  "word": "under",
+  "pos": "preposition",
+  "tr": "altında",
+  "en": "lower than something else",
+  "ex": "The cat is under the table."
+ },
+ {
+  "id": "a1-above",
+  "word": "above",
+  "pos": "preposition",
+  "tr": "üzerinde, yukarısında",
+  "en": "higher than something else",
+  "ex": "The lamp is above the desk."
+ },
+ {
+  "id": "a1-about",
+  "word": "about",
+  "pos": "preposition",
+  "tr": "hakkında",
+  "en": "connected to a subject or topic",
+  "ex": "This book is about animals."
+ },
+ {
+  "id": "a1-with",
+  "word": "with",
+  "pos": "preposition",
+  "tr": "ile, beraber",
+  "en": "Together in company or using something as a tool.",
+  "ex": "I drink coffee with milk every morning."
+ },
+ {
+  "id": "a1-without",
+  "word": "without",
+  "pos": "preposition",
+  "tr": "olmadan",
+  "en": "not having something",
+  "ex": "I drink tea without sugar."
+ },
+ {
+  "id": "a1-for",
+  "word": "for",
+  "pos": "preposition",
+  "tr": "için",
+  "en": "intended to go to or be used by",
+  "ex": "This gift is for you."
+ },
+ {
+  "id": "a1-from",
+  "word": "from",
+  "pos": "preposition",
+  "tr": "-den, -dan",
+  "en": "starting point of a journey or origin",
+  "ex": "I am from Turkey."
+ },
+ {
+  "id": "a1-to",
+  "word": "to",
+  "pos": "preposition",
+  "tr": "-e, -a",
+  "en": "moving toward a place or person",
+  "ex": "I go to work every day."
+ },
+ {
+  "id": "a1-and",
+  "word": "and",
+  "pos": "conjunction",
+  "tr": "ve",
+  "en": "used to connect words or ideas together",
+  "ex": "I like apples and bananas."
+ },
+ {
+  "id": "a1-but",
+  "word": "but",
+  "pos": "conjunction",
+  "tr": "ama, fakat",
+  "en": "used to introduce a contrasting idea",
+  "ex": "I want to come, but I am tired."
+ },
+ {
+  "id": "a1-or",
+  "word": "or",
+  "pos": "conjunction",
+  "tr": "veya, ya da",
+  "en": "used to show an alternative choice",
+  "ex": "Do you want tea or coffee?"
+ },
+ {
+  "id": "a1-because",
+  "word": "because",
+  "pos": "conjunction",
+  "tr": "çünkü",
+  "en": "giving the reason for something",
+  "ex": "I wear a coat because it is cold."
+ },
+ {
+  "id": "a1-so",
+  "word": "so",
+  "pos": "conjunction",
+  "tr": "bu yüzden, böylece",
+  "en": "as a result of something",
+  "ex": "I was tired, so I went to sleep."
+ },
+ {
+  "id": "a1-when",
+  "word": "when",
+  "pos": "conjunction",
+  "tr": "ne zaman, -dığında",
+  "en": "at what time or during the time that",
+  "ex": "Call me when you arrive."
+ },
+ {
+  "id": "a1-where",
+  "word": "where",
+  "pos": "adverb",
+  "tr": "nerede, nereye",
+  "en": "in or to what place",
+  "ex": "Where do you live?"
+ },
+ {
+  "id": "a1-what",
+  "word": "what",
+  "pos": "pronoun",
+  "tr": "ne",
+  "en": "asking for information about something",
+  "ex": "What is your name?"
+ },
+ {
+  "id": "a1-who",
+  "word": "who",
+  "pos": "pronoun",
+  "tr": "kim",
+  "en": "asking which person",
+  "ex": "Who is that man?"
+ },
+ {
+  "id": "a1-why",
+  "word": "why",
+  "pos": "adverb",
+  "tr": "neden, niçin",
+  "en": "for what reason",
+  "ex": "Why are you happy?"
+ },
+ {
+  "id": "a1-how",
+  "word": "how",
+  "pos": "adverb",
+  "tr": "nasıl",
+  "en": "in what way or manner",
+  "ex": "How do you make this cake?"
+ },
+ {
+  "id": "a1-how-much",
+  "word": "how much",
+  "pos": "phrase",
+  "tr": "ne kadar",
+  "en": "asking about the price or uncountable amount",
+  "ex": "How much is this shirt?"
+ },
+ {
+  "id": "a1-how-many",
+  "word": "how many",
+  "pos": "phrase",
+  "tr": "kaç tane",
+  "en": "asking about the quantity of countable things",
+  "ex": "How many brothers do you have?"
+ },
+ {
+  "id": "a1-which",
+  "word": "which",
+  "pos": "determiner",
+  "tr": "hangi",
+  "en": "asking to specify one or more options",
+  "ex": "Which car is yours?"
+ },
+ {
+  "id": "a1-this",
+  "word": "this",
+  "pos": "determiner",
+  "tr": "bu",
+  "en": "pointing to a nearby person or thing",
+  "ex": "This is my new phone."
+ },
+ {
+  "id": "a1-that",
+  "word": "that",
+  "pos": "determiner",
+  "tr": "şu, o",
+  "en": "pointing to a distant person or thing",
+  "ex": "That house is very big."
+ },
+ {
+  "id": "a1-these",
+  "word": "these",
+  "pos": "determiner",
+  "tr": "bunlar",
+  "en": "plural of this, pointing to nearby things",
+  "ex": "These shoes are comfortable."
+ },
+ {
+  "id": "a1-those",
+  "word": "those",
+  "pos": "determiner",
+  "tr": "şunlar, onlar",
+  "en": "plural of that, pointing to distant things",
+  "ex": "Those birds are flying high."
+ },
+ {
+  "id": "a1-some",
+  "word": "some",
+  "pos": "determiner",
+  "tr": "biraz, bazı",
+  "en": "an unspecified amount or number of something",
+  "ex": "Can I have some water, please?"
+ },
+ {
+  "id": "a1-any",
+  "word": "any",
+  "pos": "determiner",
+  "tr": "hiç, herhangi",
+  "en": "used in questions or negatives to talk about some amount",
+  "ex": "Do you have any questions?"
+ },
+ {
+  "id": "a1-many",
+  "word": "many",
+  "pos": "determiner",
+  "tr": "birçok, çok",
+  "en": "a large number of countable things",
+  "ex": "There are many people in the park."
+ },
+ {
+  "id": "a1-much",
+  "word": "much",
+  "pos": "determiner",
+  "tr": "çok, ne kadar",
+  "en": "a large amount of something you cannot count",
+  "ex": "I don't have much time."
+ },
+ {
+  "id": "a1-every",
+  "word": "every",
+  "pos": "determiner",
+  "tr": "her",
+  "en": "each one in a group of people or things",
+  "ex": "I drink coffee every morning."
+ },
+ {
+  "id": "a1-all",
+  "word": "all",
+  "pos": "determiner",
+  "tr": "tüm, bütün, hep",
+  "en": "the complete number or amount of something",
+  "ex": "All students must do the homework."
+ },
+ {
+  "id": "a1-one",
+  "word": "one",
+  "pos": "number",
+  "tr": "bir",
+  "en": "the number 1",
+  "ex": "I have one brother."
+ },
+ {
+  "id": "a1-two",
+  "word": "two",
+  "pos": "number",
+  "tr": "iki",
+  "en": "the number 2",
+  "ex": "She has two cats."
+ },
+ {
+  "id": "a1-three",
+  "word": "three",
+  "pos": "number",
+  "tr": "üç",
+  "en": "the number 3",
+  "ex": "We need three apples."
+ },
+ {
+  "id": "a1-four",
+  "word": "four",
+  "pos": "number",
+  "tr": "dört",
+  "en": "the number 4",
+  "ex": "A dog has four legs."
+ },
+ {
+  "id": "a1-five",
+  "word": "five",
+  "pos": "number",
+  "tr": "beş",
+  "en": "the number 5",
+  "ex": "There are five days in the work week."
+ },
+ {
+  "id": "a1-six",
+  "word": "six",
+  "pos": "number",
+  "tr": "altı",
+  "en": "the number 6",
+  "ex": "He wakes up at six o'clock."
+ },
+ {
+  "id": "a1-seven",
+  "word": "seven",
+  "pos": "number",
+  "tr": "yedi",
+  "en": "the number 7",
+  "ex": "There are seven days in a week."
+ },
+ {
+  "id": "a1-eight",
+  "word": "eight",
+  "pos": "number",
+  "tr": "sekiz",
+  "en": "the number 8",
+  "ex": "The shop opens at eight."
+ },
+ {
+  "id": "a1-nine",
+  "word": "nine",
+  "pos": "number",
+  "tr": "dokuz",
+  "en": "the number 9",
+  "ex": "My child is nine years old."
+ },
+ {
+  "id": "a1-ten",
+  "word": "ten",
+  "pos": "number",
+  "tr": "on",
+  "en": "the number 10",
+  "ex": "I have ten dollars in my bag."
+ },
+ {
+  "id": "a1-eleven",
+  "word": "eleven",
+  "pos": "number",
+  "tr": "on bir",
+  "en": "the number 11",
+  "ex": "There are eleven players in a football team."
+ },
+ {
+  "id": "a1-twelve",
+  "word": "twelve",
+  "pos": "number",
+  "tr": "on iki",
+  "en": "the number 12",
+  "ex": "There are twelve months in a year."
+ },
+ {
+  "id": "a1-twenty",
+  "word": "twenty",
+  "pos": "number",
+  "tr": "yirmi",
+  "en": "the number 20",
+  "ex": "The book costs twenty pounds."
+ },
+ {
+  "id": "a1-thirty",
+  "word": "thirty",
+  "pos": "number",
+  "tr": "otuz",
+  "en": "the number 30",
+  "ex": "There are thirty days in this month."
+ },
+ {
+  "id": "a1-hundred",
+  "word": "hundred",
+  "pos": "number",
+  "tr": "yüz",
+  "en": "the number 100",
+  "ex": "This jacket costs one hundred liras."
+ },
+ {
+  "id": "a1-thousand",
+  "word": "thousand",
+  "pos": "number",
+  "tr": "bin",
+  "en": "the number 1000",
+  "ex": "That car is very expensive, it costs twenty thousand dollars."
+ },
+ {
+  "id": "a1-monday",
+  "word": "Monday",
+  "pos": "noun",
+  "tr": "Pazartesi",
+  "en": "the first day of the working week",
+  "ex": "I start work early on Monday."
+ },
+ {
+  "id": "a1-tuesday",
+  "word": "Tuesday",
+  "pos": "noun",
+  "tr": "Salı",
+  "en": "the day after Monday",
+  "ex": "We have an English lesson on Tuesday."
+ },
+ {
+  "id": "a1-wednesday",
+  "word": "Wednesday",
+  "pos": "noun",
+  "tr": "Çarşamba",
+  "en": "the middle day of the working week",
+  "ex": "My birthday is this Wednesday."
+ },
+ {
+  "id": "a1-thursday",
+  "word": "Thursday",
+  "pos": "noun",
+  "tr": "Perşembe",
+  "en": "the day before Friday",
+  "ex": "Let's meet on Thursday."
+ },
+ {
+  "id": "a1-friday",
+  "word": "Friday",
+  "pos": "noun",
+  "tr": "Cuma",
+  "en": "the day of the week before Saturday",
+  "ex": "We finish work early on Friday."
+ },
+ {
+  "id": "a1-saturday",
+  "word": "Saturday",
+  "pos": "noun",
+  "tr": "Cumartesi",
+  "en": "the first day of the weekend",
+  "ex": "I sleep late on Saturday."
+ },
+ {
+  "id": "a1-sunday",
+  "word": "Sunday",
+  "pos": "noun",
+  "tr": "Pazar",
+  "en": "the second day of the weekend",
+  "ex": "We usually visit our parents on Sunday."
+ },
+ {
+  "id": "a1-weekend",
+  "word": "weekend",
+  "pos": "noun",
+  "tr": "hafta sonu",
+  "en": "Saturday and Sunday when people do not work",
+  "ex": "What are you doing this weekend?"
+ },
+ {
+  "id": "a1-january",
+  "word": "January",
+  "pos": "noun",
+  "tr": "Ocak",
+  "en": "The first month of the year.",
+  "ex": "My birthday is in January."
+ },
+ {
+  "id": "a1-february",
+  "word": "February",
+  "pos": "noun",
+  "tr": "Şubat",
+  "en": "The second month of the year.",
+  "ex": "February is a short month."
+ },
+ {
+  "id": "a1-march",
+  "word": "March",
+  "pos": "noun",
+  "tr": "Mart",
+  "en": "The third month of the year.",
+  "ex": "Spring starts in March."
+ },
+ {
+  "id": "a1-april",
+  "word": "April",
+  "pos": "noun",
+  "tr": "Nisan",
+  "en": "The fourth month of the year.",
+  "ex": "It often rains in April."
+ },
+ {
+  "id": "a1-may",
+  "word": "May",
+  "pos": "noun",
+  "tr": "Mayıs",
+  "en": "The fifth month of the year.",
+  "ex": "The weather is warm in May."
+ },
+ {
+  "id": "a1-june",
+  "word": "June",
+  "pos": "noun",
+  "tr": "Haziran",
+  "en": "The sixth month of the year.",
+  "ex": "School finishes in June."
+ },
+ {
+  "id": "a1-july",
+  "word": "July",
+  "pos": "noun",
+  "tr": "Temmuz",
+  "en": "The seventh month of the year.",
+  "ex": "We go on holiday in July."
+ },
+ {
+  "id": "a1-august",
+  "word": "August",
+  "pos": "noun",
+  "tr": "Ağustos",
+  "en": "The eighth month of the year.",
+  "ex": "August is usually very hot."
+ },
+ {
+  "id": "a1-september",
+  "word": "September",
+  "pos": "noun",
+  "tr": "Eylül",
+  "en": "The ninth month of the year.",
+  "ex": "Children go back to school in September."
+ },
+ {
+  "id": "a1-october",
+  "word": "October",
+  "pos": "noun",
+  "tr": "Ekim",
+  "en": "The tenth month of the year.",
+  "ex": "Leaves fall from trees in October."
+ },
+ {
+  "id": "a1-november",
+  "word": "November",
+  "pos": "noun",
+  "tr": "Kasım",
+  "en": "The eleventh month of the year.",
+  "ex": "It gets cold in November."
+ },
+ {
+  "id": "a1-december",
+  "word": "December",
+  "pos": "noun",
+  "tr": "Aralık",
+  "en": "The twelfth and last month of the year.",
+  "ex": "Christmas is in December."
+ },
+ {
+  "id": "a1-o-clock",
+  "word": "o'clock",
+  "pos": "adverb",
+  "tr": "saat",
+  "en": "Used to say the exact hour.",
+  "ex": "The meeting starts at three o'clock."
+ },
+ {
+  "id": "a1-half-past",
+  "word": "half past",
+  "pos": "phrase",
+  "tr": "buçuk",
+  "en": "Thirty minutes after the hour.",
+  "ex": "We eat lunch at half past twelve."
+ },
+ {
+  "id": "a1-quarter",
+  "word": "quarter",
+  "pos": "noun",
+  "tr": "çeyrek",
+  "en": "Fifteen minutes of time.",
+  "ex": "The train leaves in a quarter of an hour."
+ },
+ {
+  "id": "a1-clock",
+  "word": "clock",
+  "pos": "noun",
+  "tr": "duvar saati",
+  "en": "An object on the wall that shows the time.",
+  "ex": "Look at the clock on the wall."
+ },
+ {
+  "id": "a1-calendar",
+  "word": "calendar",
+  "pos": "noun",
+  "tr": "takvim",
+  "en": "Shows the days, weeks, and months of the year.",
+  "ex": "Check the calendar for the date."
+ },
+ {
+  "id": "a1-plan",
+  "word": "plan",
+  "pos": "noun",
+  "tr": "plan, proje",
+  "en": "An idea about what you want to do.",
+  "ex": "What is your plan for the weekend?"
+ },
+ {
+  "id": "a1-idea",
+  "word": "idea",
+  "pos": "noun",
+  "tr": "fikir, düşünce",
+  "en": "A thought or suggestion in your mind.",
+  "ex": "That is a very good idea."
+ },
+ {
+  "id": "a1-problem",
+  "word": "problem",
+  "pos": "noun",
+  "tr": "sorun, problem",
+  "en": "A difficult situation that needs fixing.",
+  "ex": "I have a small problem with my car."
+ },
+ {
+  "id": "a1-mistake",
+  "word": "mistake",
+  "pos": "noun",
+  "tr": "hata, yanılma",
+  "en": "Something you do wrong.",
+  "ex": "Making mistakes helps you learn."
+ },
+ {
+  "id": "a1-example",
+  "word": "example",
+  "pos": "noun",
+  "tr": "örnek",
+  "en": "Something that shows how something works.",
+  "ex": "Can you give me an example?"
+ },
+ {
+  "id": "a1-information",
+  "word": "information",
+  "pos": "noun",
+  "tr": "bilgi",
+  "en": "Facts and details about something.",
+  "ex": "I need more information about the hotel."
+ },
+ {
+  "id": "a1-number",
+  "word": "number",
+  "pos": "noun",
+  "tr": "sayı, numara",
+  "en": "A mathematical value or phone digit.",
+  "ex": "What is your telephone number?"
+ },
+ {
+  "id": "a1-address",
+  "word": "address",
+  "pos": "noun",
+  "tr": "adres",
+  "en": "The details of where a building is.",
+  "ex": "Please write your address here."
+ },
+ {
+  "id": "a1-language",
+  "word": "language",
+  "pos": "noun",
+  "tr": "dil",
+  "en": "Words used by people to speak and write.",
+  "ex": "How many languages do you speak?"
+ },
+ {
+  "id": "a1-english",
+  "word": "English",
+  "pos": "noun",
+  "tr": "İngilizce",
+  "en": "The language spoken in the UK and USA.",
+  "ex": "We are learning English today."
+ },
+ {
+  "id": "a1-turkish",
+  "word": "Turkish",
+  "pos": "noun",
+  "tr": "Türkçe, Türkiyeli",
+  "en": "The language spoken in Turkey.",
+  "ex": "Turkish is a very nice language."
+ },
+ {
+  "id": "a1-world",
+  "word": "world",
+  "pos": "noun",
+  "tr": "dünya",
+  "en": "The earth and all the people on it.",
+  "ex": "There are many countries in the world."
+ },
+ {
+  "id": "a1-life",
+  "word": "life",
+  "pos": "noun",
+  "tr": "yaşam, hayat",
+  "en": "The time when a person is alive.",
+  "ex": "Life is beautiful."
+ },
+ {
+  "id": "a1-thing",
+  "word": "thing",
+  "pos": "noun",
+  "tr": "şey",
+  "en": "An object, idea, or situation.",
+  "ex": "I need one more thing from the shop."
+ },
+ {
+  "id": "a1-place",
+  "word": "place",
+  "pos": "noun",
+  "tr": "yer, mekan",
+  "en": "A particular area or building.",
+  "ex": "This is a nice place."
+ },
+ {
+  "id": "a1-way",
+  "word": "way",
+  "pos": "noun",
+  "tr": "yol, tarz",
+  "en": "A method or road to go somewhere.",
+  "ex": "This is the way to the station."
+ },
+ {
+  "id": "a1-part",
+  "word": "part",
+  "pos": "noun",
+  "tr": "parça, kısım",
+  "en": "Some of something, not all of it.",
+  "ex": "I like this part of the movie."
+ },
+ {
+  "id": "a1-end",
+  "word": "end",
+  "pos": "noun",
+  "tr": "son, bitiş",
+  "en": "The final part of something.",
+  "ex": "Read to the end of the page."
+ },
+ {
+  "id": "a1-beginning",
+  "word": "beginning",
+  "pos": "noun",
+  "tr": "başlangıç",
+  "en": "The start of something.",
+  "ex": "This is the beginning of the book."
+ },
+ {
+  "id": "a1-fun",
+  "word": "fun",
+  "pos": "noun",
+  "tr": "eğlence",
+  "en": "Something that makes you happy and gives pleasure.",
+  "ex": "Playing games is fun."
+ },
+ {
+  "id": "a1-picture",
+  "word": "picture",
+  "pos": "noun",
+  "tr": "resim, fotoğraf",
+  "en": "A drawing or photo on paper or screen.",
+  "ex": "Look at this picture of my family."
+ },
+ {
+  "id": "a1-letter",
+  "word": "letter",
+  "pos": "noun",
+  "tr": "mektup, harf",
+  "en": "A written message you send to someone.",
+  "ex": "I got a letter from my friend."
+ },
+ {
+  "id": "a1-box",
+  "word": "box",
+  "pos": "noun",
+  "tr": "kutu",
+  "en": "A container with four straight sides.",
+  "ex": "Put the shoes in the box."
+ },
+ {
+  "id": "a1-bottle",
+  "word": "bottle",
+  "pos": "noun",
+  "tr": "şişe",
+  "en": "A glass or plastic container for liquids.",
+  "ex": "Can I have a bottle of water?"
+ },
+ {
+  "id": "a1-light",
+  "word": "light",
+  "pos": "noun",
+  "tr": "ışık",
+  "en": "Something that makes things visible so you can see.",
+  "ex": "Turn on the light, please."
+ },
+ {
+  "id": "a1-chocolate",
+  "word": "chocolate",
+  "pos": "noun",
+  "tr": "çikolata",
+  "en": "A sweet brown food made from cacao.",
+  "ex": "I love eating dark chocolate."
+ },
+ {
+  "id": "a1-pizza",
+  "word": "pizza",
+  "pos": "noun",
+  "tr": "pizza",
+  "en": "Round bread with cheese and tomato sauce on top.",
+  "ex": "Let's order a large pizza tonight."
+ },
+ {
+  "id": "a1-sandwich",
+  "word": "sandwich",
+  "pos": "noun",
+  "tr": "sandviç",
+  "en": "Food with meat or cheese between two pieces of bread.",
+  "ex": "I eat a cheese sandwich for lunch."
+ },
+ {
+  "id": "a1-salad",
+  "word": "salad",
+  "pos": "noun",
+  "tr": "salata",
+  "en": "A cold dish of mixed green vegetables and fruit.",
+  "ex": "I want a green salad with my meal."
+ },
+ {
+  "id": "a1-pasta",
+  "word": "pasta",
+  "pos": "noun",
+  "tr": "makarna",
+  "en": "An Italian food made from flour and water, cooked in shapes.",
+  "ex": "We are having pasta for dinner."
+ },
+ {
+  "id": "a1-butter",
+  "word": "butter",
+  "pos": "noun",
+  "tr": "tereyağı",
+  "en": "A yellow food made from milk, used for spreading on bread.",
+  "ex": "I like butter and honey on my toast."
+ },
+ {
+  "id": "a1-oil",
+  "word": "oil",
+  "pos": "noun",
+  "tr": "sıvı yağ",
+  "en": "A liquid used for cooking food.",
+  "ex": "Use some oil to fry the fish."
+ },
+ {
+  "id": "a1-pepper",
+  "word": "pepper",
+  "pos": "noun",
+  "tr": "biber, karabiber",
+  "en": "A hot vegetable or a spicy powder for food.",
+  "ex": "Add some salt and pepper to the soup."
+ },
+ {
+  "id": "a1-lemon",
+  "word": "lemon",
+  "pos": "noun",
+  "tr": "limon",
+  "en": "A sour yellow citrus fruit.",
+  "ex": "I like lemon in my tea."
+ },
+ {
+  "id": "a1-grape",
+  "word": "grape",
+  "pos": "noun",
+  "tr": "üzüm",
+  "en": "A small green or purple fruit that grows in bunches.",
+  "ex": "Do you want a green grape?"
+ },
+ {
+  "id": "a1-strawberry",
+  "word": "strawberry",
+  "pos": "noun",
+  "tr": "çilek",
+  "en": "A sweet red fruit with small seeds on the outside.",
+  "ex": "Strawberries are my favorite fruit."
+ },
+ {
+  "id": "a1-onion",
+  "word": "onion",
+  "pos": "noun",
+  "tr": "soğan",
+  "en": "A round vegetable with layers that makes you cry when cut.",
+  "ex": "Cut the onion into small pieces."
+ },
+ {
+  "id": "a1-carrot",
+  "word": "carrot",
+  "pos": "noun",
+  "tr": "havuç",
+  "en": "A long orange vegetable that grows under the ground.",
+  "ex": "Rabbits like to eat a crunchy carrot."
+ },
+ {
+  "id": "a1-hairdresser",
+  "word": "hairdresser",
+  "pos": "noun",
+  "tr": "kuaför",
+  "en": "A person who cuts and styles hair.",
+  "ex": "I need to visit the hairdresser today."
+ },
+ {
+  "id": "a1-dentist",
+  "word": "dentist",
+  "pos": "noun",
+  "tr": "diş hekimi",
+  "en": "A doctor who checks and fixes teeth.",
+  "ex": "You should see a dentist twice a year."
+ },
+ {
+  "id": "a1-pilot",
+  "word": "pilot",
+  "pos": "noun",
+  "tr": "pilot",
+  "en": "A person who flies an airplane.",
+  "ex": "The pilot wears a smart uniform."
+ },
+ {
+  "id": "a1-singer",
+  "word": "singer",
+  "pos": "noun",
+  "tr": "şarkıcı",
+  "en": "A person who sings songs as a job.",
+  "ex": "She is a very famous pop singer."
+ },
+ {
+  "id": "a1-actor",
+  "word": "actor",
+  "pos": "noun",
+  "tr": "aktör, erkek oyuncu",
+  "en": "A man who acts in films and plays.",
+  "ex": "He is a famous actor in Hollywood."
+ },
+ {
+  "id": "a1-writer",
+  "word": "writer",
+  "pos": "noun",
+  "tr": "yazar",
+  "en": "A person who creates books and stories.",
+  "ex": "She is a writer of children's books."
+ },
+ {
+  "id": "a1-journalist",
+  "word": "journalist",
+  "pos": "noun",
+  "tr": "gazeteci",
+  "en": "A person who writes news for newspapers.",
+  "ex": "The journalist asks questions to the mayor."
+ },
+ {
+  "id": "a1-receptionist",
+  "word": "receptionist",
+  "pos": "noun",
+  "tr": "resepsiyonist, danışma görevlisi",
+  "en": "A person who welcomes guests at a hotel desk.",
+  "ex": "The receptionist gives me my room key."
+ },
+ {
+  "id": "a1-secretary",
+  "word": "secretary",
+  "pos": "noun",
+  "tr": "sekreter",
+  "en": "A person who helps with office work and calls.",
+  "ex": "My secretary manages my daily schedule."
+ },
+ {
+  "id": "a1-student-card",
+  "word": "student card",
+  "pos": "noun",
+  "tr": "öğrenci kimliği",
+  "en": "An ID showing you go to school or university.",
+  "ex": "Show your student card for a cheap ticket."
+ },
+ {
+  "id": "a1-passport",
+  "word": "passport",
+  "pos": "noun",
+  "tr": "pasaport",
+  "en": "An official document for travel to other countries.",
+  "ex": "You need a passport to fly abroad."
+ },
+ {
+  "id": "a1-suitcase",
+  "word": "suitcase",
+  "pos": "noun",
+  "tr": "bavul, valiz",
+  "en": "A large bag for carrying clothes on trips.",
+  "ex": "I put all my clothes in a big suitcase."
+ },
+ {
+  "id": "a1-backpack",
+  "word": "backpack",
+  "pos": "noun",
+  "tr": "sırt çantası",
+  "en": "A bag you carry on your back at school.",
+  "ex": "He puts his books inside his backpack."
+ },
+ {
+  "id": "a1-umbrella",
+  "word": "umbrella",
+  "pos": "noun",
+  "tr": "şemsiye",
+  "en": "A tool you hold above to block rain.",
+  "ex": "Take an umbrella because it is raining."
+ },
+ {
+  "id": "a1-sunglasses",
+  "word": "sunglasses",
+  "pos": "noun",
+  "tr": "güneş gözlüğü",
+  "en": "Dark glasses to protect eyes from bright light.",
+  "ex": "Wear your sunglasses on a sunny day."
+ },
+ {
+  "id": "a1-towel",
+  "word": "towel",
+  "pos": "noun",
+  "tr": "havlu",
+  "en": "A soft cloth used to dry your body.",
+  "ex": "Use this clean towel after swimming."
+ },
+ {
+  "id": "a1-soap",
+  "word": "soap",
+  "pos": "noun",
+  "tr": "sabun",
+  "en": "A substance used with water to wash hands.",
+  "ex": "Wash your hands with soap and water."
+ },
+ {
+  "id": "a1-toothbrush",
+  "word": "toothbrush",
+  "pos": "noun",
+  "tr": "diş fırçası",
+  "en": "A small brush used to clean your teeth.",
+  "ex": "I buy a new toothbrush every three months."
+ },
+ {
+  "id": "a1-shower",
+  "word": "shower",
+  "pos": "noun",
+  "tr": "duş",
+  "en": "A device that sprays water to wash standing up.",
+  "ex": "I take a quick shower every morning."
+ },
+ {
+  "id": "a1-bath",
+  "word": "bath",
+  "pos": "noun",
+  "tr": "banyo, küvet",
+  "en": "A large tub filled with water for washing.",
+  "ex": "The baby loves to play in the bath."
+ },
+ {
+  "id": "a1-toilet",
+  "word": "toilet",
+  "pos": "noun",
+  "tr": "tuvalet",
+  "en": "A bathroom fixture used for bodily waste.",
+  "ex": "Excuse me, where is the toilet?"
+ },
+ {
+  "id": "a1-mirror",
+  "word": "mirror",
+  "pos": "noun",
+  "tr": "ayna",
+  "en": "Glass that reflects your image back to you.",
+  "ex": "She looks at herself in the mirror."
+ },
+ {
+  "id": "a1-cupboard",
+  "word": "cupboard",
+  "pos": "noun",
+  "tr": "dolap, mutfak dolabı",
+  "en": "A piece of furniture with shelves for plates.",
+  "ex": "Put the coffee cups in the cupboard."
+ },
+ {
+  "id": "a1-shelf",
+  "word": "shelf",
+  "pos": "noun",
+  "tr": "raf",
+  "en": "A flat board on a wall to hold books.",
+  "ex": "The red book is on the top shelf."
+ },
+ {
+  "id": "a1-desk",
+  "word": "desk",
+  "pos": "noun",
+  "tr": "sıra, çalışma masası",
+  "en": "A table used for reading and writing work.",
+  "ex": "My laptop is on the wooden desk."
+ },
+ {
+  "id": "a1-stairs",
+  "word": "stairs",
+  "pos": "noun",
+  "tr": "merdiven",
+  "en": "Steps used to go up or down floors.",
+  "ex": "Walk up the stairs to reach the second floor."
+ },
+ {
+  "id": "a1-lift",
+  "word": "lift",
+  "pos": "noun",
+  "tr": "asansör",
+  "en": "A small room that moves people between floors.",
+  "ex": "Let's take the lift instead of walking."
+ },
+ {
+  "id": "a1-garage",
+  "word": "garage",
+  "pos": "noun",
+  "tr": "garaj",
+  "en": "A building next to a house to park cars.",
+  "ex": "He parks his family car in the garage."
+ },
+ {
+  "id": "a1-balcony",
+  "word": "balcony",
+  "pos": "noun",
+  "tr": "balkon",
+  "en": "An outdoor platform attached to an upper floor.",
+  "ex": "We drink tea on the balcony every evening."
+ },
+ {
+  "id": "a1-roof",
+  "word": "roof",
+  "pos": "noun",
+  "tr": "çatı",
+  "en": "The top structure covering a whole building.",
+  "ex": "The cat is sitting on the red roof."
+ },
+ {
+  "id": "a1-neighbourhood",
+  "word": "neighbourhood",
+  "pos": "noun",
+  "tr": "mahalle",
+  "en": "The local area where people live near each other.",
+  "ex": "This is a quiet and safe neighbourhood."
+ },
+ {
+  "id": "a1-centre",
+  "word": "centre",
+  "pos": "noun",
+  "tr": "merkez",
+  "en": "The middle part of a town or city.",
+  "ex": "We go to the city centre to shop."
+ },
+ {
+  "id": "a1-corner-shop",
+  "word": "corner shop",
+  "pos": "noun",
+  "tr": "bakkal, köşe başındaki dükkan",
+  "en": "A small local store near your house selling food.",
+  "ex": "I need to buy some milk from the corner shop."
+ },
+ {
+  "id": "a1-square",
+  "word": "square",
+  "pos": "noun",
+  "tr": "meydan",
+  "en": "An open public area in the middle of town.",
+  "ex": "People meet in the main town square."
+ },
+ {
+  "id": "a1-bakery",
+  "word": "bakery",
+  "pos": "noun",
+  "tr": "fırın, pastane",
+  "en": "A shop where you can buy fresh bread and cake.",
+  "ex": "I buy fresh bread from the bakery every morning."
+ },
+ {
+  "id": "a1-butcher",
+  "word": "butcher",
+  "pos": "noun",
+  "tr": "kasap",
+  "en": "A person who cuts and sells meat.",
+  "ex": "We buy chicken from the local butcher."
+ },
+ {
+  "id": "a1-pharmacist",
+  "word": "pharmacist",
+  "pos": "noun",
+  "tr": "eczacı",
+  "en": "A person who prepares and sells medicine.",
+  "ex": "The pharmacist gave me medicine for my cold."
+ },
+ {
+  "id": "a1-relax",
+  "word": "relax",
+  "pos": "verb",
+  "tr": "dinlenmek, rahatlamak",
+  "en": "To rest and feel calm after work.",
+  "ex": "I like to listen to music and relax."
+ },
+ {
+  "id": "a1-enjoy",
+  "word": "enjoy",
+  "pos": "verb",
+  "tr": "tadını çıkarmak, hoşlanmak",
+  "en": "To like doing something and feel happy.",
+  "ex": "I enjoy reading books in the evening."
+ },
+ {
+  "id": "a1-hope",
+  "word": "hope",
+  "pos": "verb",
+  "tr": "umut etmek",
+  "en": "To want something good to happen in the future.",
+  "ex": "I hope the weather is nice tomorrow."
+ },
+ {
+  "id": "a1-wish",
+  "word": "wish",
+  "pos": "verb",
+  "tr": "dilemek, istemek",
+  "en": "To want something very much.",
+  "ex": "I wish I had a new car."
+ },
+ {
+  "id": "a1-believe",
+  "word": "believe",
+  "pos": "verb",
+  "tr": "inanmak",
+  "en": "To think that something is true.",
+  "ex": "I believe you are a good person."
+ },
+ {
+  "id": "a1-agree",
+  "word": "agree",
+  "pos": "verb",
+  "tr": "aynı fikirde olmak, kabul etmek",
+  "en": "To have the same idea as someone else.",
+  "ex": "I agree with your opinion."
+ },
+ {
+  "id": "a1-decide",
+  "word": "decide",
+  "pos": "verb",
+  "tr": "karar vermek",
+  "en": "To choose what you are going to do.",
+  "ex": "We need to decide where to go."
+ },
+ {
+  "id": "a1-choose",
+  "word": "choose",
+  "pos": "verb",
+  "tr": "seçmek",
+  "en": "To pick one thing from many options.",
+  "ex": "Please choose a red dress."
+ },
+ {
+  "id": "a1-borrow",
+  "word": "borrow",
+  "pos": "verb",
+  "tr": "ödünç almak",
+  "en": "To take something from someone with plans to return it.",
+  "ex": "Can I borrow your pen, please?"
+ },
+ {
+  "id": "a1-lend",
+  "word": "lend",
+  "pos": "verb",
+  "tr": "ödünç vermek",
+  "en": "To give something to someone for a short time.",
+  "ex": "Can you lend me some money?"
+ },
+ {
+  "id": "a1-send",
+  "word": "send",
+  "pos": "verb",
+  "tr": "gndermek",
+  "en": "To make something go to another place.",
+  "ex": "I will send a letter to my friend."
+ },
+ {
+  "id": "a1-receive",
+  "word": "receive",
+  "pos": "verb",
+  "tr": "almak",
+  "en": "To get something that someone gives or sends you.",
+  "ex": "Did you receive my email yesterday?"
+ },
+ {
+  "id": "a1-check",
+  "word": "check",
+  "pos": "verb",
+  "tr": "kontrol etmek",
+  "en": "To look at something to see if it is correct.",
+  "ex": "Please check your answers before submitting."
+ },
+ {
+  "id": "a1-fix",
+  "word": "fix",
+  "pos": "verb",
+  "tr": "tamir etmek",
+  "en": "To make something broken work again.",
+  "ex": "My father can fix my bicycle."
+ },
+ {
+  "id": "a1-build",
+  "word": "build",
+  "pos": "verb",
+  "tr": "inşa etmek, yapmak",
+  "en": "To make something by putting parts together.",
+  "ex": "They want to build a new house."
+ },
+ {
+  "id": "a1-grow",
+  "word": "grow",
+  "pos": "verb",
+  "tr": "büyümek, yetiştirmek",
+  "en": "To get bigger or taller over time.",
+  "ex": "Plants need water to grow."
+ },
+ {
+  "id": "a1-fly",
+  "word": "fly",
+  "pos": "verb",
+  "tr": "uçmak",
+  "en": "To move through the air like a bird.",
+  "ex": "Birds can fly high in the sky."
+ },
+ {
+  "id": "a1-fall",
+  "word": "fall",
+  "pos": "verb",
+  "tr": "düşmek",
+  "en": "To go down quickly to the ground.",
+  "ex": "Leaves fall from trees in autumn."
+ },
+ {
+  "id": "a1-climb",
+  "word": "climb",
+  "pos": "verb",
+  "tr": "tırmanmak",
+  "en": "To go up something using your hands and feet.",
+  "ex": "The cat likes to climb the tree."
+ },
+ {
+  "id": "a1-jump",
+  "word": "jump",
+  "pos": "verb",
+  "tr": "zıplamak, atlamak",
+  "en": "To push yourself up into the air.",
+  "ex": "The children love to jump on the bed."
+ },
+ {
+  "id": "a1-laugh",
+  "word": "laugh",
+  "pos": "verb",
+  "tr": "gülmek",
+  "en": "To make sounds because something is funny.",
+  "ex": "The funny movie made everyone laugh."
+ },
+ {
+  "id": "a1-smile",
+  "word": "smile",
+  "pos": "verb",
+  "tr": "gülümsemek",
+  "en": "To make your mouth happy when you are pleased.",
+  "ex": "She always smiles when she sees me."
+ },
+ {
+  "id": "a1-cry",
+  "word": "cry",
+  "pos": "verb",
+  "tr": "ağlamak",
+  "en": "To produce tears from your eyes when sad.",
+  "ex": "The baby started to cry."
+ },
+ {
+  "id": "a1-shout",
+  "word": "shout",
+  "pos": "verb",
+  "tr": "bağırmak",
+  "en": "To speak in a very loud voice.",
+  "ex": "Do not shout in the library."
+ },
+ {
+  "id": "a1-kiss",
+  "word": "kiss",
+  "pos": "verb",
+  "tr": "öpmek",
+  "en": "To touch someone with your lips to show love.",
+  "ex": "She gave her mother a kiss."
+ },
+ {
+  "id": "a1-hug",
+  "word": "hug",
+  "pos": "verb",
+  "tr": "sarılmak",
+  "en": "To put your arms around someone.",
+  "ex": "I like to hug my friends."
+ },
+ {
+  "id": "a1-miss",
+  "word": "miss",
+  "pos": "verb",
+  "tr": "özlemek, kaçırmak",
+  "en": "To feel sad because someone is not with you.",
+  "ex": "I miss my family when I travel."
+ },
+ {
+  "id": "a1-lose",
+  "word": "lose",
+  "pos": "verb",
+  "tr": "kaybetmek",
+  "en": "to not be able to find something you had",
+  "ex": "I always lose my keys."
+ },
+ {
+  "id": "a1-throw",
+  "word": "throw",
+  "pos": "verb",
+  "tr": "fırlatmak, atmak",
+  "en": "to send something through the air with your hand",
+  "ex": "Please throw the ball to me."
+ },
+ {
+  "id": "a1-catch",
+  "word": "catch",
+  "pos": "verb",
+  "tr": "yakalamak",
+  "en": "to take something that is moving through the air",
+  "ex": "He can catch the ball easily."
+ },
+ {
+  "id": "a1-push",
+  "word": "push",
+  "pos": "verb",
+  "tr": "itmek",
+  "en": "to press something away from you with your hands",
+  "ex": "Push the door to open it."
+ },
+ {
+  "id": "a1-pull",
+  "word": "pull",
+  "pos": "verb",
+  "tr": "çekmek",
+  "en": "to move something towards you",
+  "ex": "Pull the chair closer to the table."
+ },
+ {
+  "id": "a1-turn",
+  "word": "turn",
+  "pos": "verb",
+  "tr": "dönmek, çevirmek",
+  "en": "to move in a circle or change direction",
+  "ex": "Turn left at the next corner."
+ },
+ {
+  "id": "a1-show",
+  "word": "show",
+  "pos": "verb",
+  "tr": "göstermek",
+  "en": "to let someone see something",
+  "ex": "Can you show me your new phone?"
+ },
+ {
+  "id": "a1-move",
+  "word": "move",
+  "pos": "verb",
+  "tr": "taşınmak, hareket etmek",
+  "en": "to go to a different place or change position",
+  "ex": "We will move to a new house tomorrow."
+ },
+ {
+  "id": "a1-follow",
+  "word": "follow",
+  "pos": "verb",
+  "tr": "takip etmek",
+  "en": "to go behind someone and go where they go",
+  "ex": "Please follow me to the office."
+ },
+ {
+  "id": "a1-guess",
+  "word": "guess",
+  "pos": "verb",
+  "tr": "tahmin etmek",
+  "en": "to give an answer without knowing if it is correct",
+  "ex": "Can you guess my age?"
+ },
+ {
+  "id": "a1-count",
+  "word": "count",
+  "pos": "verb",
+  "tr": "saymak",
+  "en": "to say numbers one after another",
+  "ex": "Children learn to count from one to ten."
+ },
+ {
+  "id": "a1-spell",
+  "word": "spell",
+  "pos": "verb",
+  "tr": "hecelemek",
+  "en": "to say or write the letters of a word in order",
+  "ex": "How do you spell your name?"
+ },
+ {
+  "id": "a1-repeat",
+  "word": "repeat",
+  "pos": "verb",
+  "tr": "tekrar etmek",
+  "en": "to say or do something again",
+  "ex": "Could you repeat that, please?"
+ },
+ {
+  "id": "a1-practise",
+  "word": "practise",
+  "pos": "verb",
+  "tr": "pratik yapmak, alıştırma yapmak",
+  "en": "to do something again and again to get better",
+  "ex": "You must practise English every day."
+ },
+ {
+  "id": "a1-improve",
+  "word": "improve",
+  "pos": "verb",
+  "tr": "geliştirmek, iyileştirmek",
+  "en": "to make something better than before",
+  "ex": "I want to improve my speaking skills."
+ }
 ]

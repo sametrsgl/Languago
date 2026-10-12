@@ -1,0 +1,286 @@
+{
+  "level": "A1",
+  "day": 9,
+  "topic": "g02",
+  "theme": "İş ve meslekler",
+  "grammar": {
+    "questions": [
+      {
+        "q": "____ he an engineer?",
+        "o": [
+          "Is",
+          "Are",
+          "Am",
+          "Be"
+        ],
+        "why": "Özne he olduğu için soru cümlesinde başa Is gelir."
+      },
+      {
+        "q": "No, I ____ a doctor. I am a nurse.",
+        "o": [
+          "am not",
+          "isn't",
+          "aren't",
+          "not am"
+        ],
+        "why": "I öznesi ile olumsuz form am not şeklindedir."
+      },
+      {
+        "q": "____ you a manager at this company?",
+        "o": [
+          "Are",
+          "Is",
+          "Am",
+          "Do"
+        ],
+        "why": "You öznesi ile 'to be' soru formu Are you şeklindedir."
+      },
+      {
+        "q": "They ____ at the office today. It is Sunday.",
+        "o": [
+          "aren't",
+          "isn't",
+          "not are",
+          "am not"
+        ],
+        "why": "They öznesi için olumsuz form aren't (are not) olur."
+      },
+      {
+        "q": "A: Is Aylin a teacher? B: Yes, she ____.",
+        "o": [
+          "is",
+          "isn't",
+          "are",
+          "am"
+        ],
+        "why": "Olumlu kısa cevapta Yes, she is denir."
+      },
+      {
+        "q": "Which sentence is correct?",
+        "o": [
+          "He isn't a pilot.",
+          "He not is a pilot.",
+          "He aren't a pilot.",
+          "He am not a pilot."
+        ],
+        "why": "He öznesi ile olumsuz yapı isn't (is not) kullanılır."
+      },
+      {
+        "q": "A: Are they busy now? B: No, they ____.",
+        "o": [
+          "aren't",
+          "isn't",
+          "are",
+          "not"
+        ],
+        "why": "They için olumsuz kısa cevap No, they aren't şeklindedir."
+      },
+      {
+        "q": "My brother ____ an accountant in İzmir.",
+        "o": [
+          "is",
+          "am",
+          "are",
+          "be"
+        ],
+        "why": "My brother tekil üçüncü şahıstır (he), bu yüzden is kullanılır."
+      },
+      {
+        "q": "We ____ very tired after work.",
+        "o": [
+          "are",
+          "is",
+          "am",
+          "be"
+        ],
+        "why": "We öznesi ile to be fiilinin olumlu hali are olur."
+      },
+      {
+        "q": "____ your job stressful?",
+        "o": [
+          "Is",
+          "Are",
+          "Am",
+          "Be"
+        ],
+        "why": "Your job tekil bir isimdir (it), bu yüzden soru Is ile başlar."
+      }
+    ]
+  },
+  "reading": {
+    "title": "A Day at the Tech Office",
+    "text": "Murat is a software developer at a tech company in Ankara. Is he happy with his job? Yes, he is. His office is modern, but it is not quiet. Many people work there. Murat's manager is Meltem. She isn't in the office today; she is at a meeting in İstanbul. Murat says, 'My job is difficult, but it isn't boring.' At noon, he is at the company cafeteria with his colleagues. They are tired, but the food is good.",
+    "questions": [
+      {
+        "q": "What is Murat's job?",
+        "o": [
+          "He is a software developer.",
+          "He is a manager.",
+          "He is a waiter.",
+          "He is a doctor."
+        ],
+        "why": "Metinde Murat'ın mesleği doğrudan belirtilmiştir."
+      },
+      {
+        "q": "Is Murat happy with his job?",
+        "o": [
+          "Yes, he is.",
+          "No, he isn't.",
+          "He is bored.",
+          "We don't know."
+        ],
+        "why": "Metinde Murat'ın işinden memnun olduğu ifade edilmektedir."
+      },
+      {
+        "q": "What is true about the office?",
+        "o": [
+          "It is not quiet.",
+          "It is quiet.",
+          "It is in İstanbul.",
+          "It is very small."
+        ],
+        "why": "Ofisin sessiz olmadığı açıkça yazmaktadır."
+      },
+      {
+        "q": "Where is Meltem today?",
+        "o": [
+          "At a meeting in İstanbul",
+          "In the office in Ankara",
+          "At the cafeteria",
+          "At home"
+        ],
+        "why": "Meltem'in İstanbul'da bir toplantıda olduğu belirtilmiştir."
+      },
+      {
+        "q": "How does Murat describe his job?",
+        "o": [
+          "Difficult, but not boring",
+          "Easy and quiet",
+          "Boring and stressful",
+          "Simple and slow"
+        ],
+        "why": "Murat işinin zor olduğunu ama sıkıcı olmadığını söyler."
+      },
+      {
+        "q": "Where is Murat at noon?",
+        "o": [
+          "At the company cafeteria",
+          "In his car",
+          "In İstanbul",
+          "At home"
+        ],
+        "why": "Öğle vakti şirketin kafeteryasındadır."
+      },
+      {
+        "q": "What does 'colleagues' mean in this text?",
+        "o": [
+          "Work friends",
+          "Family members",
+          "Doctors",
+          "Students"
+        ],
+        "why": "İş ortamında beraber olunan iş arkadaşları kastedilmektedir."
+      }
+    ]
+  },
+  "listening": {
+    "video": {
+      "id": "lDaZB5BBw7M",
+      "title": "Let's Learn English Lesson 5: Where Are You?",
+      "source": "VOA Learning English"
+    },
+    "intro": "Anna, arkadaşı Marsha'nın evine gidiyor ve evin farklı odalarını geziyorlar.",
+    "questions": [
+      {
+        "q": "Where is Anna at the beginning?",
+        "o": [
+          "In the kitchen",
+          "In the living room",
+          "In the bedroom",
+          "In the garden"
+        ],
+        "why": "Anna ilk olarak mutfakta olduğunu söyler."
+      },
+      {
+        "q": "How is the kitchen described?",
+        "o": [
+          "Beautiful",
+          "Small",
+          "Dark",
+          "Cold"
+        ],
+        "why": "Mutfak güzel olarak nitelenmiştir."
+      },
+      {
+        "q": "What do people do in the living room?",
+        "o": [
+          "Relax",
+          "Cook",
+          "Wash",
+          "Sleep"
+        ],
+        "why": "Oturma odasında dinlenildiği söylenmektedir."
+      },
+      {
+        "q": "Where does Anna say she washes?",
+        "o": [
+          "In the bathroom",
+          "In the kitchen",
+          "In the bedroom",
+          "In the living room"
+        ],
+        "why": "Banyoda yıkandığını söyler."
+      },
+      {
+        "q": "Where is Marsha when Anna is in the bathroom?",
+        "o": [
+          "In the bedroom",
+          "In the kitchen",
+          "In the living room",
+          "Outside"
+        ],
+        "why": "Marsha yatak odasındadır."
+      },
+      {
+        "q": "What do they do in the bedroom?",
+        "o": [
+          "Sleep",
+          "Cook",
+          "Work",
+          "Eat"
+        ],
+        "why": "Yatak odasında uyunur."
+      },
+      {
+        "q": "What does Anna want to do before going to the bathroom?",
+        "o": [
+          "Go upstairs",
+          "Eat dinner",
+          "Leave the house",
+          "Call a friend"
+        ],
+        "why": "Anna yukarı kata çıkmak istediğini söyler."
+      }
+    ]
+  },
+  "writing": {
+    "prompt": "Kendi mesleğinizi veya bir yakınınızın mesleğini anlatın. İş yeriniz nerede, işiniz zor mu, sıkıcı mı? 'to be' fiilinin olumlu, olumsuz ve soru hallerini kullanın.",
+    "prompt_en": "Describe your job or a friend's job. Where is the workplace? Is it difficult or boring? Use positive, negative, and question forms of 'to be'.",
+    "min": 25,
+    "max": 70,
+    "focus": "to be: negatives and questions",
+    "model": "I am an office worker in Ankara. Is my job easy? No, it isn't. It is very busy, but it isn't boring. My friend Can is not an office worker. He is a teacher. We are happy with our jobs."
+  },
+  "speaking": {
+    "read": [
+      "Is your manager in the office today?",
+      "No, she isn't. She is at a meeting.",
+      "My job is not boring, but it is hard."
+    ],
+    "ask": {
+      "q": "What is your job, and is it difficult?",
+      "tr": "Mesleğiniz nedir ve işiniz zor mu? Kısa cümlelerle cevap verin.",
+      "min_words": 8
+    }
+  }
+}

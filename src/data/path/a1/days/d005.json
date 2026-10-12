@@ -1,0 +1,286 @@
+{
+  "level": "A1",
+  "day": 5,
+  "topic": "g01",
+  "theme": "Hobiler",
+  "grammar": {
+    "questions": [
+      {
+        "q": "Photography ____ my favourite hobby.",
+        "o": [
+          "is",
+          "are",
+          "am",
+          "be"
+        ],
+        "why": "Photography tekil bir kavramdır (it), bu yüzden 'is' kullanılır."
+      },
+      {
+        "q": "My friends and I ____ in a chess club.",
+        "o": [
+          "are",
+          "is",
+          "am",
+          "be"
+        ],
+        "why": "'My friends and I' öznesi 'we' (biz) anlamına gelir, bu yüzden 'are' kullanılır."
+      },
+      {
+        "q": "I ____ very interested in cooking.",
+        "o": [
+          "am",
+          "is",
+          "are",
+          "be"
+        ],
+        "why": "'I' öznesi için 'to be' fiili 'am' şeklindedir."
+      },
+      {
+        "q": "Which sentence is correct?",
+        "o": [
+          "Guitar lessons are fun.",
+          "Guitar lessons is fun.",
+          "Guitar lessons am fun.",
+          "Guitar lessons be fun."
+        ],
+        "why": "'Guitar lessons' çoğul bir öznedir (they), bu yüzden 'are' kullanılır."
+      },
+      {
+        "q": "A: Are you a runner? B: Yes, I ____.",
+        "o": [
+          "am",
+          "is",
+          "are",
+          "'m"
+        ],
+        "why": "Kısa olumlu yanıtlarda özne ve fiil birleştirilmez; 'Yes, I am' doğrudur."
+      },
+      {
+        "q": "These books ____ very interesting.",
+        "o": [
+          "are",
+          "is",
+          "am",
+          "be"
+        ],
+        "why": "'These books' çoğul öznedir (they), bu yüzden 'are' kullanılır."
+      },
+      {
+        "q": "Swimming ____ good for your health.",
+        "o": [
+          "is",
+          "are",
+          "am",
+          "be"
+        ],
+        "why": "Eylemler isimleştiğinde (swimming) tekil kabul edilir (it), bu yüzden 'is' gelir."
+      },
+      {
+        "q": "____ very happy with our new bicycles.",
+        "o": [
+          "We’re",
+          "We’s",
+          "We am",
+          "We"
+        ],
+        "why": "'We are' yapısının kısaltılmış ve doğru hali 'We're'dir."
+      },
+      {
+        "q": "His hobby ____ gardening.",
+        "o": [
+          "is",
+          "are",
+          "am",
+          "be"
+        ],
+        "why": "'His hobby' tekil bir isimdir (it), bu nedenle 'is' kullanılır."
+      },
+      {
+        "q": "You ____ a very good painter!",
+        "o": [
+          "are",
+          "is",
+          "am",
+          "be"
+        ],
+        "why": "'You' öznesi her zaman 'are' fiili ile kullanılır."
+      }
+    ]
+  },
+  "reading": {
+    "title": "Weekend Hobbies",
+    "text": "My name is Can and I work in a bank in Bursa. On weekdays, my life is busy. But the weekends are great because my hobbies are fun. My main hobby is gardening. My balcony is full of green plants and red flowers. It is a relaxing activity after work. My wife, Elif, is fond of painting. Her pictures are colourful and modern. On Sunday mornings, we are in the park for a brisk walk. Fresh air is important for us. Hobbies are the best way to rest.",
+    "questions": [
+      {
+        "q": "What is the main topic of the text?",
+        "o": [
+          "Can and his wife's weekend hobbies",
+          "Can's busy job at the bank",
+          "The city of Bursa in winter",
+          "Different types of garden plants"
+        ],
+        "why": "Metin genel olarak Can ve eşinin hafta sonu hobilerini anlatmaktadır."
+      },
+      {
+        "q": "What is Can's main hobby?",
+        "o": [
+          "Gardening",
+          "Painting",
+          "Walking in the park",
+          "Cooking"
+        ],
+        "why": "Can ana hobisinin bahçe işleri olduğunu söylemektedir."
+      },
+      {
+        "q": "What is on Can's balcony?",
+        "o": [
+          "Green plants and red flowers",
+          "Modern paintings",
+          "Old furniture",
+          "Office documents"
+        ],
+        "why": "Balkonda yeşil bitkiler ve kırmızı çiçekler vardır."
+      },
+      {
+        "q": "What is Elif's hobby?",
+        "o": [
+          "Painting",
+          "Gardening",
+          "Running",
+          "Reading"
+        ],
+        "why": "Elif'in hobisi resim yapmaktır."
+      },
+      {
+        "q": "Where are Can and Elif on Sunday mornings?",
+        "o": [
+          "In the park",
+          "At the bank",
+          "On the balcony",
+          "In an art class"
+        ],
+        "why": "Pazar sabahları yürüyüş için parktadırlar."
+      },
+      {
+        "q": "How does gardening make Can feel?",
+        "o": [
+          "Relaxed",
+          "Tired",
+          "Bored",
+          "Stressed"
+        ],
+        "why": "Metinde bu aktivitenin rahatlatıcı olduğu açıkça belirtilmiştir."
+      },
+      {
+        "q": "In the text, what does the word 'colourful' describe?",
+        "o": [
+          "Elif's pictures",
+          "The balcony",
+          "The bank in Bursa",
+          "Sunday mornings"
+        ],
+        "why": "'colourful' kelimesi Elif'in yaptığı resimleri nitelemektedir."
+      }
+    ]
+  },
+  "listening": {
+    "video": {
+      "id": "Z5PF-vJdUdc",
+      "title": "Let's Learn English Lesson 4: What is it?",
+      "source": "VOA Learning English"
+    },
+    "intro": "Anna, Pete ve Marsha buluşuyor ve Anna çantasında kalem ararken birçok ilginç eşya çıkarıyor.",
+    "questions": [
+      {
+        "q": "How does Marsha feel when they meet?",
+        "o": [
+          "Great",
+          "Tired",
+          "Busy",
+          "Cold"
+        ],
+        "why": "Marsha nasıl olduğu sorusuna 'great' yanıtını verir."
+      },
+      {
+        "q": "What does Anna think about the city?",
+        "o": [
+          "It is big.",
+          "It is quiet.",
+          "It is old.",
+          "It is small."
+        ],
+        "why": "Anna şehrin büyük olduğunu ifade eder."
+      },
+      {
+        "q": "What does Anna want to get with Pete and Marsha?",
+        "o": [
+          "Coffee",
+          "Dinner",
+          "Tea",
+          "Breakfast"
+        ],
+        "why": "Anna kahve almayı önerir."
+      },
+      {
+        "q": "What object is Anna looking for in her bag?",
+        "o": [
+          "A pen",
+          "A book",
+          "A map",
+          "A key"
+        ],
+        "why": "Anna çantasında bir kalem aradığını söyler."
+      },
+      {
+        "q": "What is the first object Anna takes out of her bag?",
+        "o": [
+          "A big book",
+          "A pillow",
+          "A toy",
+          "A lamp"
+        ],
+        "why": "Pete, Anna'nın çıkardığı ilk eşyanın büyük bir kitap olduğunu söyler."
+      },
+      {
+        "q": "What kind of map does Anna have in her bag?",
+        "o": [
+          "A map of the world",
+          "A map of D.C.",
+          "A metro map",
+          "A map of the park"
+        ],
+        "why": "Pete dünya haritası gördüğünü belirtir."
+      },
+      {
+        "q": "What object does Pete notice just before Anna finds the pen?",
+        "o": [
+          "A lamp",
+          "A pillow",
+          "A toy",
+          "A book"
+        ],
+        "why": "Pete en son bir lamba görür."
+      }
+    ]
+  },
+  "writing": {
+    "prompt": "Hobilerinizi anlatın: boş zamanlarınızda ne yaparsınız, hobileriniz nelerdir, nerede yaparsınız ve neden seversiniz? 'am / is / are' kullanarak yazın.",
+    "prompt_en": "Describe your hobbies: what are your hobbies, where do you do them, and why do you like them? Use 'am / is / are'.",
+    "min": 30,
+    "max": 80,
+    "focus": "to be: am / is / are",
+    "model": "My free time is very important to me. My favourite hobby is photography. The old streets in my town are beautiful for photos. My camera is small but good. Also, my friends and I are in a swimming club. Swimming is great exercise and it is fun."
+  },
+  "speaking": {
+    "read": [
+      "Photography is my favourite hobby.",
+      "The weekends are great because my hobbies are fun.",
+      "My friends and I are in a sports club."
+    ],
+    "ask": {
+      "q": "What is your favourite hobby and why is it good?",
+      "tr": "En sevdiğiniz hobi nedir ve neden güzeldir? 'am / is / are' kullanarak en az üç cümle kurun.",
+      "min_words": 12
+    }
+  }
+}

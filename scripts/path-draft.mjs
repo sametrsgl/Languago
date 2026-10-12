@@ -16,7 +16,7 @@ const [envPath, level = 'A1', fromArg = '4', toArg = '120'] = process.argv.slice
 const opt = (k) => { const i = process.argv.indexOf(k); return i > 0 ? process.argv[i + 1] : null; };
 if (!envPath || !existsSync(envPath)) { console.error('Usage: node scripts/path-draft.mjs <env file> <level> <from> <to> --voa t.json --map m.json'); process.exit(1); }
 const env = Object.fromEntries(readFileSync(envPath, 'utf8').split(/\r?\n/).map((l) => l.match(/^\s*(LLM_[A-Z_]+)\s*=\s*"?([^"\r\n]*)"?\s*$/)).filter(Boolean).map((m) => [m[1], m[2]]));
-const KEY = env.LLM_API_KEY, BASE = (env.LLM_BASE_URL || 'https://opencode.ai/zen/go/v1').replace(/\/+$/, ''), MODEL = env.LLM_MODEL || env.LLM_MODEL_FAST;
+const KEY = env.LLM_API_KEY, BASE = (env.LLM_BASE_URL || 'https://opencode.ai/zen/go/v1').replace(/\/+$/, ''), MODEL = (process.argv.includes('--model') ? process.argv[process.argv.indexOf('--model') + 1] : null) || env.LLM_MODEL || env.LLM_MODEL_FAST, REASONING = env.LLM_REASONING;
 if (!KEY || !MODEL) { console.error('LLM_API_KEY / LLM_MODEL missing in the env file.'); process.exit(1); }
 
 const lv = level.toLowerCase();
@@ -41,15 +41,22 @@ function planDay(d) {
 }
 
 async function chat(messages, maxTokens = 6000) {
-  const body = { model: MODEL, messages, temperature: 0.5, max_tokens: maxTokens, response_format: { type: 'json_object' } };
-  for (let attempt = 0; attempt < 3; attempt++) {
+  const body = { model: MODEL, messages, temperature: 0.5, max_tokens: maxTokens, response_format: { type: 'json_object' }, ...(REASONING ? { reasoning_effort: REASONING } : {}) };
+  for (let attempt = 0; attempt < 6; attempt++) {
+    let wait = 3000 * (attempt + 1);
     try {
-      const r = await fetch(`${BASE}/chat/completions`, { method: 'POST', headers: { Authorization: `Bearer ${KEY}`, 'Content-Type': 'application/json' }, body: JSON.stringify(body), signal: AbortSignal.timeout(180000) });
+      const r = await fetch(`${BASE}/chat/completions`, { method: 'POST', headers: { Authorization: `Bearer ${KEY}`, 'Content-Type': 'application/json' }, body: JSON.stringify(body), signal: AbortSignal.timeout(300000) });
       const t = await r.text();
-      if (!r.ok) { if (/response_format/i.test(t)) delete body.response_format; throw new Error(`HTTP ${r.status}`); }
+      if (!r.ok) {
+        // free tiers: a daily cap means stop for today; a per-minute cap means wait a minute
+        if (r.status === 429 && /PerDay/i.test(t)) { console.log(`daily quota reached for ${MODEL}; run again later to continue`); process.exit(3); }
+        if (r.status === 429 || r.status === 503) wait = 65000;
+        if (/response_format/i.test(t)) delete body.response_format;
+        throw new Error(`HTTP ${r.status}`);
+      }
       const c = JSON.parse(t).choices?.[0]?.message?.content || '';
       return JSON.parse(c.slice(c.indexOf('{'), c.lastIndexOf('}') + 1));
-    } catch (e) { if (attempt === 2) throw e; await new Promise((s) => setTimeout(s, 3000 * (attempt + 1))); }
+    } catch (e) { if (attempt === 5) throw e; await new Promise((s) => setTimeout(s, wait)); }
   }
 }
 

@@ -1,0 +1,286 @@
+{
+  "level": "A1",
+  "day": 4,
+  "topic": "g01",
+  "theme": "Otel",
+  "grammar": {
+    "questions": [
+      {
+        "q": "The hotel room ____ very clean.",
+        "o": [
+          "is",
+          "are",
+          "am",
+          "be"
+        ],
+        "why": "The hotel room = it olduğu için 'is' kullanılır."
+      },
+      {
+        "q": "The receptionist ____ very polite.",
+        "o": [
+          "is",
+          "are",
+          "am",
+          "be"
+        ],
+        "why": "The receptionist = he/she (tekil şahıs) olduğu için 'is' kullanılır."
+      },
+      {
+        "q": "Our bags ____ in the lobby.",
+        "o": [
+          "are",
+          "is",
+          "am",
+          "be"
+        ],
+        "why": "Our bags = they (çoğul) olduğu için 'are' kullanılır."
+      },
+      {
+        "q": "I ____ a guest at this hotel.",
+        "o": [
+          "am",
+          "is",
+          "are",
+          "be"
+        ],
+        "why": "Özne I olduğunda 'am' kullanılır."
+      },
+      {
+        "q": "The manager and the chef ____ in the kitchen.",
+        "o": [
+          "are",
+          "is",
+          "am",
+          "be"
+        ],
+        "why": "İki kişi (they) söz konusu olduğu için çoğul fiil 'are' gelir."
+      },
+      {
+        "q": "You ____ in room 204.",
+        "o": [
+          "are",
+          "is",
+          "am",
+          "be"
+        ],
+        "why": "You öznesiyle her zaman 'are' kullanılır."
+      },
+      {
+        "q": "Which sentence is correct?",
+        "o": [
+          "The swimming pool is open today.",
+          "The swimming pool are open today.",
+          "The swimming pool am open today.",
+          "The swimming pool be open today."
+        ],
+        "why": "The swimming pool tekil bir nesnedir (it), bu yüzden 'is' doğrudur."
+      },
+      {
+        "q": "We ____ ready for check-in.",
+        "o": [
+          "are",
+          "is",
+          "am",
+          "be"
+        ],
+        "why": "We öznesiyle 'are' kullanılır."
+      },
+      {
+        "q": "A: Where is Mr. Kaya? B: He ____ on the terrace.",
+        "o": [
+          "is",
+          "are",
+          "am",
+          "be"
+        ],
+        "why": "He öznesi ile 'is' kullanılır."
+      },
+      {
+        "q": "The key ____ on the desk.",
+        "o": [
+          "is",
+          "are",
+          "am",
+          "be"
+        ],
+        "why": "The key tekil bir nesnedir (it), bu yüzden 'is' kullanılır."
+      }
+    ]
+  },
+  "reading": {
+    "title": "A Small Hotel in Antalya",
+    "text": "Grand Kale is a small hotel in the old city of Antalya. The building is old, but the rooms are modern and comfortable. Tolga is the manager. He is friendly and helpful. His wife, Selin, is the head chef at the hotel restaurant. The breakfast is delicious, and the coffee is fresh every morning. Many tourists are here from Germany and England. The hotel garden is peaceful with lemon trees and flowers. The sea is only five minutes away on foot. The guests are very happy with their holiday.",
+    "questions": [
+      {
+        "q": "What is Grand Kale?",
+        "o": [
+          "A small hotel in Antalya",
+          "A big restaurant in Germany",
+          "A modern shop",
+          "A travel agency"
+        ],
+        "why": "Metinde Grand Kale'nin Antalya'da küçük bir otel olduğu belirtilmektedir."
+      },
+      {
+        "q": "What are the rooms like?",
+        "o": [
+          "Modern and comfortable",
+          "Old and dirty",
+          "Very small and dark",
+          "Noisy"
+        ],
+        "why": "Odaların modern ve rahat olduğu ifade edilmiştir."
+      },
+      {
+        "q": "Who is Selin?",
+        "o": [
+          "The head chef",
+          "The hotel manager",
+          "A tourist from England",
+          "A receptionist"
+        ],
+        "why": "Selin otel restoranının baş aşçısıdır."
+      },
+      {
+        "q": "What is in the hotel garden?",
+        "o": [
+          "Lemon trees and flowers",
+          "A big swimming pool",
+          "Cars and buses",
+          "A tennis court"
+        ],
+        "why": "Bahçede limon ağaçları ve çiçekler bulunmaktadır."
+      },
+      {
+        "q": "How far is the sea from the hotel?",
+        "o": [
+          "Five minutes on foot",
+          "One hour by car",
+          "Ten minutes by bus",
+          "Two hours away"
+        ],
+        "why": "Denizin yürüyerek beş dakika mesafede olduğu yazmaktadır."
+      },
+      {
+        "q": "Why are the guests happy?",
+        "o": [
+          "The hotel is peaceful and comfortable.",
+          "The hotel is very cheap.",
+          "The hotel is in Germany.",
+          "There are no trees."
+        ],
+        "why": "Metindeki konforlu, lezzetli ve huzurlu ortamdan konukların memnun kaldığı anlaşılır."
+      },
+      {
+        "q": "In the text, what does the word 'delicious' mean?",
+        "o": [
+          "Tasting very good",
+          "Very cold",
+          "Difficult to eat",
+          "Expensive"
+        ],
+        "why": "Kahvaltı için kullanılan 'delicious', lezzetli ve tadı çok güzel anlamına gelir."
+      }
+    ]
+  },
+  "listening": {
+    "video": {
+      "id": "Z5PF-vJdUdc",
+      "title": "Let's Learn English Lesson 4: What is it?",
+      "source": "VOA Learning English"
+    },
+    "intro": "Anna, arkadaşları Pete ve Marsha ile çantasındaki eşyalar hakkında konuşuyor.",
+    "questions": [
+      {
+        "q": "How does Marsha feel?",
+        "o": [
+          "Great",
+          "Tired",
+          "Bored",
+          "Angry"
+        ],
+        "why": "Pete nasıl olduklarını sorduğunda Marsha harika olduğunu söyler."
+      },
+      {
+        "q": "What does Anna say about Washington, D.C.?",
+        "o": [
+          "The city is big.",
+          "The city is small.",
+          "The city is old.",
+          "The city is noisy."
+        ],
+        "why": "Anna kentin büyük olduğunu ifade eder."
+      },
+      {
+        "q": "How is Anna's new apartment?",
+        "o": [
+          "Great",
+          "Small",
+          "Expensive",
+          "Dark"
+        ],
+        "why": "Anna yeni dairesinin harika olduğunu söyler."
+      },
+      {
+        "q": "What item does Anna look for in her bag?",
+        "o": [
+          "A pen",
+          "A coffee",
+          "A key",
+          "A ticket"
+        ],
+        "why": "Anna çantasında bir tükenmez kalem aramaktadır."
+      },
+      {
+        "q": "What is the first item Pete sees instead of a pen?",
+        "o": [
+          "A big book",
+          "A toy",
+          "A pillow",
+          "A lamp"
+        ],
+        "why": "Pete çantadan ilk olarak büyük bir kitap çıktığını görür."
+      },
+      {
+        "q": "What kind of map is in Anna's bag?",
+        "o": [
+          "A map of the world",
+          "A map of D.C.",
+          "A subway map",
+          "A hotel map"
+        ],
+        "why": "Pete dünya haritasını görünce neden dünya haritası olduğunu sorar."
+      },
+      {
+        "q": "What do Anna, Pete, and Marsha plan to do at the end?",
+        "o": [
+          "Get coffee",
+          "Go to the apartment",
+          "Read a book",
+          "Buy a pen"
+        ],
+        "why": "Anna kalemi bulunca kahve almaya gitmeyi teklif eder."
+      }
+    ]
+  },
+  "writing": {
+    "prompt": "Kaldığınız veya bildiğiniz bir oteli anlatın: otelin adı, nerede olduğu, odanızın nasıl olduğu ve çalışanlar hakkında bilgi verin. 'am / is / are' kullanın.",
+    "prompt_en": "Describe a hotel you know or stay at: its name, location, what the room is like, and how the staff are. Use 'am / is / are'.",
+    "min": 25,
+    "max": 70,
+    "focus": "to be: am / is / are",
+    "model": "I am in Bodrum at Hotel Deniz. The hotel is small and very quiet. My room is clean, and the bed is comfortable. The staff are friendly and helpful. The breakfast is delicious every morning. We are very happy here."
+  },
+  "speaking": {
+    "read": [
+      "The hotel room is modern and comfortable.",
+      "The receptionist is friendly and helpful.",
+      "We are very happy with our holiday."
+    ],
+    "ask": {
+      "q": "What is your hotel or room like?",
+      "tr": "Oteliniz veya odanız nasıl? 'is' veya 'are' kullanarak en az üç cümleyle anlatın.",
+      "min_words": 12
+    }
+  }
+}

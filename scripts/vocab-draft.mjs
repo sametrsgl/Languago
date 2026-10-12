@@ -14,7 +14,7 @@ import { wordId } from '../src/lib/word-id.mjs';
 const [envPath, level = 'A1'] = process.argv.slice(2);
 if (!envPath || !existsSync(envPath)) { console.error('Usage: node scripts/vocab-draft.mjs <env file> <level>'); process.exit(1); }
 const env = Object.fromEntries(readFileSync(envPath, 'utf8').split(/\r?\n/).map((l) => l.match(/^\s*(LLM_[A-Z_]+)\s*=\s*"?([^"\r\n]*)"?\s*$/)).filter(Boolean).map((m) => [m[1], m[2]]));
-const KEY = env.LLM_API_KEY, BASE = (env.LLM_BASE_URL || 'https://opencode.ai/zen/go/v1').replace(/\/+$/, ''), MODEL = env.LLM_MODEL || env.LLM_MODEL_FAST;
+const KEY = env.LLM_API_KEY, BASE = (env.LLM_BASE_URL || 'https://opencode.ai/zen/go/v1').replace(/\/+$/, ''), MODEL = (process.argv.includes('--model') ? process.argv[process.argv.indexOf('--model') + 1] : null) || env.LLM_MODEL || env.LLM_MODEL_FAST, REASONING = env.LLM_REASONING;
 if (!KEY || !MODEL) { console.error('LLM_API_KEY / LLM_MODEL missing in the env file.'); process.exit(1); }
 
 const lv = level.toLowerCase();
@@ -31,14 +31,21 @@ const byWord = new Map(have.map((e) => [`${e.word.toLowerCase()}|${e.pos}`, e]))
 const dupWords = new Set(wanted.filter((w, i) => wanted.findIndex((x) => x.word.toLowerCase() === w.word.toLowerCase()) !== i).map((w) => w.word.toLowerCase()));
 
 async function chat(messages) {
-  for (let a = 0; a < 3; a++) {
+  for (let a = 0; a < 6; a++) {
+    let wait = 3000;
     try {
       const r = await fetch(`${BASE}/chat/completions`, { method: 'POST', headers: { Authorization: `Bearer ${KEY}`, 'Content-Type': 'application/json' },
-        body: JSON.stringify({ model: MODEL, messages, temperature: 0.3, max_tokens: 6000, response_format: { type: 'json_object' } }), signal: AbortSignal.timeout(120000) });
-      if (!r.ok) throw new Error(`HTTP ${r.status}`);
+        body: JSON.stringify({ model: MODEL, messages, temperature: 0.3, max_tokens: 6000, response_format: { type: 'json_object' }, ...(REASONING ? { reasoning_effort: REASONING } : {}) }), signal: AbortSignal.timeout(300000) });
+      if (!r.ok) {
+        const t = await r.text();
+        // free tiers: a daily cap means stop for today; a per-minute cap means wait a minute
+        if (r.status === 429 && /PerDay/i.test(t)) { console.log(`daily quota reached for ${MODEL}; run again later to continue`); process.exit(3); }
+        if (r.status === 429 || r.status === 503) wait = 65000;
+        throw new Error(`HTTP ${r.status}`);
+      }
       const c = (await r.json()).choices?.[0]?.message?.content || '';
       return JSON.parse(c.slice(c.indexOf('{'), c.lastIndexOf('}') + 1));
-    } catch (e) { if (a === 2) throw e; await new Promise((s) => setTimeout(s, 3000)); }
+    } catch (e) { if (a === 5) throw e; await new Promise((s) => setTimeout(s, wait)); }
   }
 }
 
@@ -73,11 +80,14 @@ for (let i = 0; i < todo.length; i += 30) {
     const pos = e.pos;
     out.push({ id: wordId(lv, want.word, want.hint, dupWords.has(want.word.toLowerCase())), word: want.word, pos, tr: want.tr || e.tr, en: e.en, ex: e.ex });
   });
-  for (const { want, errs } of retry) {
-    r = await chat([{ role: 'system', content: SYSTEM }, { role: 'user', content: `Fix this card (problems: ${errs.join('; ')}):\n${JSON.stringify([{ word: want.word, hint: want.hint }])}` }]);
-    const e = r.cards?.[0];
-    if (e && !check(e, want).length) out.push({ id: wordId(lv, want.word, want.hint, dupWords.has(want.word.toLowerCase())), word: want.word, pos: e.pos, tr: want.tr || e.tr, en: e.en, ex: e.ex });
-    else console.log(`  needs a hand check: ${want.word} (${errs.join('; ')})`);
+  // one request fixes every card of the batch that failed its checks
+  if (retry.length) {
+    r = await chat([{ role: 'system', content: SYSTEM }, { role: 'user', content: `Fix these cards (problems in brackets):\n${JSON.stringify(retry.map(({ want, errs }) => ({ word: want.word, hint: want.hint, problems: errs.join('; ') })))}` }]);
+    for (const { want, errs } of retry) {
+      const e = (r.cards || []).find((c) => c.word?.toLowerCase() === want.word.toLowerCase());
+      if (e && !check(e, want).length) out.push({ id: wordId(lv, want.word, want.hint, dupWords.has(want.word.toLowerCase())), word: want.word, pos: e.pos, tr: want.tr || e.tr, en: e.en, ex: e.ex });
+      else console.log(`  needs a hand check: ${want.word} (${errs.join('; ')})`);
+    }
   }
   // keep teaching order
   const order = new Map(wanted.map((w, idx) => [w.word.toLowerCase() + '|' + (w.hint || ''), idx]));

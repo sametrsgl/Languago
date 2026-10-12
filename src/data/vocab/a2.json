@@ -1,0 +1,5506 @@
+[
+ {
+  "id": "a2-accident",
+  "word": "accident",
+  "pos": "noun",
+  "tr": "kaza",
+  "en": "a bad event that happens suddenly and causes damage or injury",
+  "ex": "He had a car accident on his way to work."
+ },
+ {
+  "id": "a2-actually",
+  "word": "actually",
+  "pos": "adverb",
+  "tr": "aslında",
+  "en": "used to show the real fact or truth about something",
+  "ex": "I thought it was expensive, but it is actually quite cheap."
+ },
+ {
+  "id": "a2-adult",
+  "word": "adult",
+  "pos": "noun",
+  "tr": "yetişkin",
+  "en": "a person who is fully grown and not a child",
+  "ex": "The movie is not suitable for children, only for adults."
+ },
+ {
+  "id": "a2-advice",
+  "word": "advice",
+  "pos": "noun",
+  "tr": "tavsiye",
+  "en": "suggestions or ideas given to help someone make a decision",
+  "ex": "My father gave me some good advice about my career."
+ },
+ {
+  "id": "a2-afford",
+  "word": "afford",
+  "pos": "verb",
+  "tr": "(parası) yetmek",
+  "en": "to have enough money to buy or pay for something",
+  "ex": "I cannot afford to buy a new car right now."
+ },
+ {
+  "id": "a2-against",
+  "word": "against",
+  "pos": "preposition",
+  "tr": "karşı",
+  "en": "in opposition to or touching something for support",
+  "ex": "It is against the rules to use your phone in class."
+ },
+ {
+  "id": "a2-ago",
+  "word": "ago",
+  "pos": "adverb",
+  "tr": "önce (zaman)",
+  "en": "used to show how much time has passed since something happened",
+  "ex": "I finished university five years ago."
+ },
+ {
+  "id": "a2-agree-with",
+  "word": "agree with",
+  "pos": "phrasal verb",
+  "tr": "(biriyle) aynı fikirde olmak",
+  "en": "to have the same opinion as someone else",
+  "ex": "I agree with you; that restaurant is the best in town."
+ },
+ {
+  "id": "a2-air",
+  "word": "air",
+  "pos": "noun",
+  "tr": "hava",
+  "en": "the invisible gas that we breathe all around us",
+  "ex": "Let's open the window to get some fresh air."
+ },
+ {
+  "id": "a2-alarm-clock",
+  "word": "alarm clock",
+  "pos": "noun",
+  "tr": "çalar saat",
+  "en": "a clock that makes a loud noise to wake you up",
+  "ex": "My alarm clock didn't ring, so I was late for work."
+ },
+ {
+  "id": "a2-allow",
+  "word": "allow",
+  "pos": "verb",
+  "tr": "izin vermek",
+  "en": "to let someone do something or give permission",
+  "ex": "My boss does not allow us to eat at our desks."
+ },
+ {
+  "id": "a2-almost",
+  "word": "almost",
+  "pos": "adverb",
+  "tr": "neredeyse",
+  "en": "very close to, but not completely or exactly",
+  "ex": "I have almost finished reading this book."
+ },
+ {
+  "id": "a2-already",
+  "word": "already",
+  "pos": "adverb",
+  "tr": "zaten, çoktan",
+  "en": "happened before now or earlier than expected",
+  "ex": "Don't worry about dinner; I have already cooked it."
+ },
+ {
+  "id": "a2-although",
+  "word": "although",
+  "pos": "conjunction",
+  "tr": "-e rağmen",
+  "en": "used to show that something is true despite another fact",
+  "ex": "Although it was raining, we went for a walk."
+ },
+ {
+  "id": "a2-amazing",
+  "word": "amazing",
+  "pos": "adjective",
+  "tr": "şaşırtıcı, harika",
+  "en": "very good, impressive, or surprising",
+  "ex": "The view from the top of the mountain was amazing."
+ },
+ {
+  "id": "a2-ambulance",
+  "word": "ambulance",
+  "pos": "noun",
+  "tr": "ambulans",
+  "en": "a vehicle used to take sick or injured people to hospital",
+  "ex": "We called an ambulance when he fell down the stairs."
+ },
+ {
+  "id": "a2-among",
+  "word": "among",
+  "pos": "preposition",
+  "tr": "arasında (çok şey)",
+  "en": "in the middle of a group of people or things",
+  "ex": "She was sitting among her friends in the garden."
+ },
+ {
+  "id": "a2-ancient",
+  "word": "ancient",
+  "pos": "adjective",
+  "tr": "antik",
+  "en": "from a very long time ago in history",
+  "ex": "We visited some ancient ruins during our holiday in Greece."
+ },
+ {
+  "id": "a2-angry-with",
+  "word": "angry with",
+  "pos": "adjective",
+  "tr": "-e kızgın",
+  "en": "feeling strong dislike or annoyance towards someone",
+  "ex": "My teacher was angry with me because I forgot my homework."
+ },
+ {
+  "id": "a2-announce",
+  "word": "announce",
+  "pos": "verb",
+  "tr": "duyurmak",
+  "en": "to tell people something officially or publicly",
+  "ex": "The company will announce the new manager tomorrow."
+ },
+ {
+  "id": "a2-annual",
+  "word": "annual",
+  "pos": "adjective",
+  "tr": "yıllık",
+  "en": "happening once every year",
+  "ex": "We are planning our annual family holiday for next summer."
+ },
+ {
+  "id": "a2-another",
+  "word": "another",
+  "pos": "determiner",
+  "tr": "başka bir",
+  "en": "one more or a different one",
+  "ex": "I am still hungry, can I have another sandwich?"
+ },
+ {
+  "id": "a2-anybody",
+  "word": "anybody",
+  "pos": "pronoun",
+  "tr": "herhangi biri",
+  "en": "any person at all",
+  "ex": "Is there anybody here who speaks English?"
+ },
+ {
+  "id": "a2-anyway",
+  "word": "anyway",
+  "pos": "adverb",
+  "tr": "neyse, yine de",
+  "en": "used to change the subject or return to a previous topic",
+  "ex": "I didn't want to go to the party anyway."
+ },
+ {
+  "id": "a2-apartment",
+  "word": "apartment",
+  "pos": "noun",
+  "tr": "daire",
+  "en": "a set of rooms for living in, usually on one floor",
+  "ex": "They live in a small apartment in the city center."
+ },
+ {
+  "id": "a2-appear",
+  "word": "appear",
+  "pos": "verb",
+  "tr": "görünmek, ortaya çıkmak",
+  "en": "to come into sight or seem to be a certain way",
+  "ex": "A strange light appeared in the sky last night."
+ },
+ {
+  "id": "a2-appointment",
+  "word": "appointment",
+  "pos": "noun",
+  "tr": "randevu",
+  "en": "a formal arrangement to meet someone at a specific time",
+  "ex": "I have a doctor's appointment at three o'clock."
+ },
+ {
+  "id": "a2-area",
+  "word": "area",
+  "pos": "noun",
+  "tr": "bölge, alan",
+  "en": "a particular part of a place, city, or country",
+  "ex": "This is a very quiet area to live in."
+ },
+ {
+  "id": "a2-argue",
+  "word": "argue",
+  "pos": "verb",
+  "tr": "tartışmak",
+  "en": "to speak angrily to someone because you disagree with them",
+  "ex": "My parents often argue about money."
+ },
+ {
+  "id": "a2-arrange",
+  "word": "arrange",
+  "pos": "verb",
+  "tr": "düzenlemek",
+  "en": "to plan or organize something for a future time",
+  "ex": "Can you arrange a meeting for next Monday?"
+ },
+ {
+  "id": "a2-arrival",
+  "word": "arrival",
+  "pos": "noun",
+  "tr": "varış",
+  "en": "the act of coming to a place",
+  "ex": "The arrival time of the train is 5 PM."
+ },
+ {
+  "id": "a2-article",
+  "word": "article",
+  "pos": "noun",
+  "tr": "makale",
+  "en": "a piece of writing in a newspaper or magazine",
+  "ex": "I read an interesting article about healthy food."
+ },
+ {
+  "id": "a2-attack",
+  "word": "attack",
+  "pos": "verb",
+  "tr": "saldırmak",
+  "en": "to try to hurt someone or something",
+  "ex": "The dog will not attack you if you stay calm."
+ },
+ {
+  "id": "a2-attend",
+  "word": "attend",
+  "pos": "verb",
+  "tr": "katılmak",
+  "en": "to go to an event or a meeting",
+  "ex": "I need to attend a meeting this afternoon."
+ },
+ {
+  "id": "a2-attention",
+  "word": "attention",
+  "pos": "noun",
+  "tr": "dikkat",
+  "en": "looking or listening carefully to someone or something",
+  "ex": "Please pay attention to the teacher."
+ },
+ {
+  "id": "a2-available",
+  "word": "available",
+  "pos": "adjective",
+  "tr": "müsait, mevcut",
+  "en": "free to be used or seen by you",
+  "ex": "Are you available for a coffee tomorrow?"
+ },
+ {
+  "id": "a2-average",
+  "word": "average",
+  "pos": "adjective",
+  "tr": "ortalama",
+  "en": "not very good and not very bad, just normal",
+  "ex": "The average temperature here is twenty degrees."
+ },
+ {
+  "id": "a2-avoid",
+  "word": "avoid",
+  "pos": "verb",
+  "tr": "kaçınmak",
+  "en": "to stay away from someone or something",
+  "ex": "Try to avoid eating too much sugar."
+ },
+ {
+  "id": "a2-awake",
+  "word": "awake",
+  "pos": "adjective",
+  "tr": "uyanık",
+  "en": "not sleeping",
+  "ex": "I was awake all night because of the noise."
+ },
+ {
+  "id": "a2-award",
+  "word": "award",
+  "pos": "noun",
+  "tr": "ödül",
+  "en": "a prize given for doing something well",
+  "ex": "She won an award for her great performance."
+ },
+ {
+  "id": "a2-background",
+  "word": "background",
+  "pos": "noun",
+  "tr": "arka plan, geçmiş",
+  "en": "the part of a picture or scene behind the main objects",
+  "ex": "The photo has a beautiful mountain in the background."
+ },
+ {
+  "id": "a2-bake",
+  "word": "bake",
+  "pos": "verb",
+  "tr": "(fırında) pişirmek",
+  "en": "to cook food in an oven",
+  "ex": "I want to bake a cake for your birthday."
+ },
+ {
+  "id": "a2-band",
+  "word": "band",
+  "pos": "noun",
+  "tr": "müzik grubu",
+  "en": "a group of people who play music together",
+  "ex": "My brother plays the guitar in a rock band."
+ },
+ {
+  "id": "a2-bar",
+  "word": "bar",
+  "pos": "noun",
+  "tr": "bar; kalıp",
+  "en": "a place where you can buy and drink alcohol",
+  "ex": "We met at a small bar near the hotel."
+ },
+ {
+  "id": "a2-battery",
+  "word": "battery",
+  "pos": "noun",
+  "tr": "pil",
+  "en": "an object that provides electricity for things like phones",
+  "ex": "My phone battery is low, do you have a charger?"
+ },
+ {
+  "id": "a2-bean",
+  "word": "bean",
+  "pos": "noun",
+  "tr": "fasulye",
+  "en": "a seed from a plant that you can eat",
+  "ex": "I like to put green beans in my salad."
+ },
+ {
+  "id": "a2-beard",
+  "word": "beard",
+  "pos": "noun",
+  "tr": "sakal",
+  "en": "hair that grows on a man's chin and cheeks",
+  "ex": "He decided to grow a beard this winter."
+ },
+ {
+  "id": "a2-beat",
+  "word": "beat",
+  "pos": "verb",
+  "tr": "yenmek",
+  "en": "to win against someone in a game or competition",
+  "ex": "Our team managed to beat them in the final match."
+ },
+ {
+  "id": "a2-become",
+  "word": "become",
+  "pos": "verb",
+  "tr": "olmak, haline gelmek",
+  "en": "to start to be something different",
+  "ex": "It is starting to become cold outside."
+ },
+ {
+  "id": "a2-behave",
+  "word": "behave",
+  "pos": "verb",
+  "tr": "davranmak",
+  "en": "to act in a particular way",
+  "ex": "The children behave very well at school."
+ },
+ {
+  "id": "a2-belong",
+  "word": "belong",
+  "pos": "verb",
+  "tr": "ait olmak",
+  "en": "to be owned by someone",
+  "ex": "Does this umbrella belong to you?"
+ },
+ {
+  "id": "a2-belt",
+  "word": "belt",
+  "pos": "noun",
+  "tr": "kemer",
+  "en": "a strip of leather or cloth worn around the waist",
+  "ex": "My pants are too big, I need a belt."
+ },
+ {
+  "id": "a2-bin",
+  "word": "bin",
+  "pos": "noun",
+  "tr": "çöp kutusu",
+  "en": "a container for putting rubbish in",
+  "ex": "Please put your empty bottle in the bin."
+ },
+ {
+  "id": "a2-blanket",
+  "word": "blanket",
+  "pos": "noun",
+  "tr": "battaniye",
+  "en": "a warm cover used on a bed",
+  "ex": "It is cold, can I have another blanket?"
+ },
+ {
+  "id": "a2-blood",
+  "word": "blood",
+  "pos": "noun",
+  "tr": "kan",
+  "en": "the red liquid inside your body",
+  "ex": "She cut her finger and there was a little blood."
+ },
+ {
+  "id": "a2-boat",
+  "word": "boat",
+  "pos": "noun",
+  "tr": "tekne",
+  "en": "a small vehicle for traveling on water",
+  "ex": "We took a boat to cross the lake."
+ },
+ {
+  "id": "a2-boil",
+  "word": "boil",
+  "pos": "verb",
+  "tr": "kaynatmak",
+  "en": "to heat water until it bubbles",
+  "ex": "Can you boil some water for tea?"
+ },
+ {
+  "id": "a2-bone",
+  "word": "bone",
+  "pos": "noun",
+  "tr": "kemik",
+  "en": "one of the hard parts that form the body's skeleton",
+  "ex": "The dog is chewing on a bone."
+ },
+ {
+  "id": "a2-border",
+  "word": "border",
+  "pos": "noun",
+  "tr": "sınır",
+  "en": "the line between two countries",
+  "ex": "We had to show our passports at the border."
+ },
+ {
+  "id": "a2-bored",
+  "word": "bored",
+  "pos": "adjective",
+  "tr": "sıkılmış",
+  "en": "feeling tired because you have nothing to do",
+  "ex": "I am bored, let's go for a walk."
+ },
+ {
+  "id": "a2-boss",
+  "word": "boss",
+  "pos": "noun",
+  "tr": "patron",
+  "en": "the person who tells you what to do at work",
+  "ex": "My boss is very kind and helpful."
+ },
+ {
+  "id": "a2-both",
+  "word": "both",
+  "pos": "determiner",
+  "tr": "her ikisi",
+  "en": "two people or things together",
+  "ex": "Both of my sisters live in Istanbul."
+ },
+ {
+  "id": "a2-bottom",
+  "word": "bottom",
+  "pos": "noun",
+  "tr": "alt, dip",
+  "en": "the lowest part of something",
+  "ex": "Please sign your name at the bottom of the page."
+ },
+ {
+  "id": "a2-bowl",
+  "word": "bowl",
+  "pos": "noun",
+  "tr": "kâse",
+  "en": "a round, deep dish used for food or soup",
+  "ex": "I ate a bowl of cereal for breakfast."
+ },
+ {
+  "id": "a2-brain",
+  "word": "brain",
+  "pos": "noun",
+  "tr": "beyin",
+  "en": "the organ inside your head that helps you think",
+  "ex": "Reading books is good exercise for your brain."
+ },
+ {
+  "id": "a2-brave",
+  "word": "brave",
+  "pos": "adjective",
+  "tr": "cesur",
+  "en": "not afraid of danger or difficult situations",
+  "ex": "It was very brave of her to help the injured dog."
+ },
+ {
+  "id": "a2-break",
+  "word": "break",
+  "pos": "verb",
+  "tr": "kırmak",
+  "en": "to damage something so it separates into pieces",
+  "ex": "Be careful not to break that expensive glass."
+ },
+ {
+  "id": "a2-breath",
+  "word": "breath",
+  "pos": "noun",
+  "tr": "nefes",
+  "en": "the air you take into your lungs",
+  "ex": "Take a deep breath and try to relax."
+ },
+ {
+  "id": "a2-bright",
+  "word": "bright",
+  "pos": "adjective",
+  "tr": "parlak",
+  "en": "full of light or very intelligent",
+  "ex": "The sun is very bright today."
+ },
+ {
+  "id": "a2-brilliant",
+  "word": "brilliant",
+  "pos": "adjective",
+  "tr": "mükemmel, parlak",
+  "en": "very good, clever, or impressive",
+  "ex": "That is a brilliant idea for our project!"
+ },
+ {
+  "id": "a2-broken",
+  "word": "broken",
+  "pos": "adjective",
+  "tr": "kırık",
+  "en": "damaged and not working correctly",
+  "ex": "I cannot use my phone because the screen is broken."
+ },
+ {
+  "id": "a2-brush",
+  "word": "brush",
+  "pos": "verb",
+  "tr": "fırçalamak",
+  "en": "to clean or tidy something using a special tool",
+  "ex": "You should brush your teeth twice a day."
+ },
+ {
+  "id": "a2-burn",
+  "word": "burn",
+  "pos": "verb",
+  "tr": "yakmak, yanmak",
+  "en": "to be damaged or destroyed by fire or heat",
+  "ex": "Be careful, or you will burn your hand on the stove."
+ },
+ {
+  "id": "a2-business",
+  "word": "business",
+  "pos": "noun",
+  "tr": "iş, ticaret",
+  "en": "the activity of buying and selling things",
+  "ex": "She started her own business last year."
+ },
+ {
+  "id": "a2-button",
+  "word": "button",
+  "pos": "noun",
+  "tr": "düğme",
+  "en": "a small object you press to make a machine work",
+  "ex": "Press the red button to turn off the machine."
+ },
+ {
+  "id": "a2-calm",
+  "word": "calm",
+  "pos": "adjective",
+  "tr": "sakin",
+  "en": "relaxed and not angry or worried",
+  "ex": "Please stay calm while we wait for the doctor."
+ },
+ {
+  "id": "a2-campsite",
+  "word": "campsite",
+  "pos": "noun",
+  "tr": "kamp alanı",
+  "en": "a place where people can put up tents",
+  "ex": "We found a beautiful campsite near the lake."
+ },
+ {
+  "id": "a2-cancel",
+  "word": "cancel",
+  "pos": "verb",
+  "tr": "iptal etmek",
+  "en": "to say that a planned event will not happen",
+  "ex": "They had to cancel the meeting because of the rain."
+ },
+ {
+  "id": "a2-candle",
+  "word": "candle",
+  "pos": "noun",
+  "tr": "mum",
+  "en": "a stick of wax that gives light when burned",
+  "ex": "We lit a candle when the electricity went out."
+ },
+ {
+  "id": "a2-capital",
+  "word": "capital",
+  "pos": "noun",
+  "tr": "başkent",
+  "en": "the most important city in a country",
+  "ex": "Ankara is the capital city of Turkey."
+ },
+ {
+  "id": "a2-care-about",
+  "word": "care about",
+  "pos": "phrase",
+  "tr": "önemsemek",
+  "en": "to think that someone or something is important",
+  "ex": "I really care about my family's health."
+ },
+ {
+  "id": "a2-careful",
+  "word": "careful",
+  "pos": "adjective",
+  "tr": "dikkatli",
+  "en": "giving a lot of attention to avoid mistakes",
+  "ex": "Please be careful when you walk on the ice."
+ },
+ {
+  "id": "a2-careless",
+  "word": "careless",
+  "pos": "adjective",
+  "tr": "dikkatsiz",
+  "en": "not paying enough attention to what you are doing",
+  "ex": "It was careless of him to lose his keys again."
+ },
+ {
+  "id": "a2-carpet",
+  "word": "carpet",
+  "pos": "noun",
+  "tr": "halı",
+  "en": "a thick material used to cover the floor",
+  "ex": "We bought a new carpet for the living room."
+ },
+ {
+  "id": "a2-cartoon",
+  "word": "cartoon",
+  "pos": "noun",
+  "tr": "çizgi film",
+  "en": "a movie or show made with drawings",
+  "ex": "My little brother loves watching cartoons on TV."
+ },
+ {
+  "id": "a2-castle",
+  "word": "castle",
+  "pos": "noun",
+  "tr": "kale",
+  "en": "a very large, strong building from the past",
+  "ex": "We visited an old castle on the hill."
+ },
+ {
+  "id": "a2-celebrate",
+  "word": "celebrate",
+  "pos": "verb",
+  "tr": "kutlamak",
+  "en": "to do something special for a happy event",
+  "ex": "We are going to celebrate my birthday on Saturday."
+ },
+ {
+  "id": "a2-celebrity",
+  "word": "celebrity",
+  "pos": "noun",
+  "tr": "ünlü",
+  "en": "a very famous person",
+  "ex": "I saw a famous celebrity at the airport today."
+ },
+ {
+  "id": "a2-certainly",
+  "word": "certainly",
+  "pos": "adverb",
+  "tr": "kesinlikle",
+  "en": "used to say yes or to show you are sure",
+  "ex": "Certainly, I can help you with your homework."
+ },
+ {
+  "id": "a2-chance",
+  "word": "chance",
+  "pos": "noun",
+  "tr": "şans, fırsat",
+  "en": "a possibility that something will happen",
+  "ex": "This is a great chance to learn something new."
+ },
+ {
+  "id": "a2-character",
+  "word": "character",
+  "pos": "noun",
+  "tr": "karakter",
+  "en": "The qualities that make a person or thing different from others.",
+  "ex": "He is a man of strong character."
+ },
+ {
+  "id": "a2-charity",
+  "word": "charity",
+  "pos": "noun",
+  "tr": "hayır kurumu",
+  "en": "An organization that helps people who are poor or sick.",
+  "ex": "She gives money to charity every month."
+ },
+ {
+  "id": "a2-chat",
+  "word": "chat",
+  "pos": "verb",
+  "tr": "sohbet etmek",
+  "en": "To talk with someone in a friendly and informal way.",
+  "ex": "I like to chat with my friends after work."
+ },
+ {
+  "id": "a2-cheerful",
+  "word": "cheerful",
+  "pos": "adjective",
+  "tr": "neşeli",
+  "en": "Feeling happy and showing it in your behavior.",
+  "ex": "She has a cheerful smile every morning."
+ },
+ {
+  "id": "a2-chef",
+  "word": "chef",
+  "pos": "noun",
+  "tr": "şef",
+  "en": "A professional cook who works in a restaurant.",
+  "ex": "The chef prepared a delicious meal for us."
+ },
+ {
+  "id": "a2-chemistry",
+  "word": "chemistry",
+  "pos": "noun",
+  "tr": "kimya",
+  "en": "The science that studies what things are made of.",
+  "ex": "I have a chemistry exam tomorrow."
+ },
+ {
+  "id": "a2-choice",
+  "word": "choice",
+  "pos": "noun",
+  "tr": "seçim",
+  "en": "The act of picking between two or more things.",
+  "ex": "It was a difficult choice to make."
+ },
+ {
+  "id": "a2-citizen",
+  "word": "citizen",
+  "pos": "noun",
+  "tr": "vatandaş",
+  "en": "A person who legally belongs to a specific country.",
+  "ex": "He is a citizen of Turkey."
+ },
+ {
+  "id": "a2-climate",
+  "word": "climate",
+  "pos": "noun",
+  "tr": "iklim",
+  "en": "The usual weather conditions in a specific place.",
+  "ex": "The climate here is very hot in summer."
+ },
+ {
+  "id": "a2-coach",
+  "word": "coach",
+  "pos": "noun",
+  "tr": "antrenör; otobüs",
+  "en": "A person who trains a sports team or athlete.",
+  "ex": "Our basketball coach is very strict."
+ },
+ {
+  "id": "a2-coast",
+  "word": "coast",
+  "pos": "noun",
+  "tr": "kıyı",
+  "en": "The land next to the sea or ocean.",
+  "ex": "We drove along the coast to see the view."
+ },
+ {
+  "id": "a2-collect",
+  "word": "collect",
+  "pos": "verb",
+  "tr": "toplamak",
+  "en": "To get things from different places and keep them together.",
+  "ex": "My brother likes to collect old coins."
+ },
+ {
+  "id": "a2-college",
+  "word": "college",
+  "pos": "noun",
+  "tr": "yüksekokul",
+  "en": "A place where you study after finishing high school.",
+  "ex": "She is studying medicine at college."
+ },
+ {
+  "id": "a2-comfortable",
+  "word": "comfortable",
+  "pos": "adjective",
+  "tr": "rahat",
+  "en": "Feeling relaxed and having no physical pain.",
+  "ex": "This sofa is very comfortable."
+ },
+ {
+  "id": "a2-common",
+  "word": "common",
+  "pos": "adjective",
+  "tr": "yaygın",
+  "en": "Happening often or found in many places.",
+  "ex": "English is a very common language."
+ },
+ {
+  "id": "a2-communicate",
+  "word": "communicate",
+  "pos": "verb",
+  "tr": "iletişim kurmak",
+  "en": "To share information or ideas with other people.",
+  "ex": "We use email to communicate with our team."
+ },
+ {
+  "id": "a2-competition",
+  "word": "competition",
+  "pos": "noun",
+  "tr": "yarışma",
+  "en": "An event where people try to win a prize.",
+  "ex": "She won first place in the swimming competition."
+ },
+ {
+  "id": "a2-complain",
+  "word": "complain",
+  "pos": "verb",
+  "tr": "şikâyet etmek",
+  "en": "To say that you are unhappy about something.",
+  "ex": "He likes to complain about the cold weather."
+ },
+ {
+  "id": "a2-complete",
+  "word": "complete",
+  "pos": "verb",
+  "tr": "tamamlamak",
+  "en": "To finish doing something.",
+  "ex": "Please complete the form before you leave."
+ },
+ {
+  "id": "a2-concert",
+  "word": "concert",
+  "pos": "noun",
+  "tr": "konser",
+  "en": "A public performance of music.",
+  "ex": "We went to a rock concert last night."
+ },
+ {
+  "id": "a2-condition",
+  "word": "condition",
+  "pos": "noun",
+  "tr": "durum, koşul",
+  "en": "The state of something or how it is.",
+  "ex": "The car is in very good condition."
+ },
+ {
+  "id": "a2-confident",
+  "word": "confident",
+  "pos": "adjective",
+  "tr": "kendine güvenen",
+  "en": "Feeling sure about your own abilities.",
+  "ex": "She feels confident about her exam results."
+ },
+ {
+  "id": "a2-confused",
+  "word": "confused",
+  "pos": "adjective",
+  "tr": "kafası karışık",
+  "en": "Not able to understand something clearly.",
+  "ex": "I am confused by these new instructions."
+ },
+ {
+  "id": "a2-contact",
+  "word": "contact",
+  "pos": "verb",
+  "tr": "iletişime geçmek",
+  "en": "To call or write to someone.",
+  "ex": "Please contact me if you have any questions."
+ },
+ {
+  "id": "a2-contain",
+  "word": "contain",
+  "pos": "verb",
+  "tr": "içermek",
+  "en": "To have something inside.",
+  "ex": "This box contains many old photos."
+ },
+ {
+  "id": "a2-continue",
+  "word": "continue",
+  "pos": "verb",
+  "tr": "devam etmek",
+  "en": "To keep doing something without stopping.",
+  "ex": "The rain will continue all day."
+ },
+ {
+  "id": "a2-conversation",
+  "word": "conversation",
+  "pos": "noun",
+  "tr": "sohbet",
+  "en": "A talk between two or more people.",
+  "ex": "We had a long conversation about our plans."
+ },
+ {
+  "id": "a2-copy",
+  "word": "copy",
+  "pos": "verb",
+  "tr": "kopyalamak",
+  "en": "To make something exactly like another thing.",
+  "ex": "Please copy these notes into your notebook."
+ },
+ {
+  "id": "a2-correct",
+  "word": "correct",
+  "pos": "adjective",
+  "tr": "doğru; düzeltmek",
+  "en": "Without any mistakes.",
+  "ex": "That is the correct answer."
+ },
+ {
+  "id": "a2-cough",
+  "word": "cough",
+  "pos": "verb",
+  "tr": "öksürmek",
+  "en": "To force air out of your throat with a noise.",
+  "ex": "He started to cough because of the dust."
+ },
+ {
+  "id": "a2-count-on",
+  "word": "count on",
+  "pos": "phrasal verb",
+  "tr": "güvenmek",
+  "en": "to trust someone to help you or do something",
+  "ex": "You can count on me to finish the report on time."
+ },
+ {
+  "id": "a2-couple",
+  "word": "couple",
+  "pos": "noun",
+  "tr": "çift",
+  "en": "two people who are together or married",
+  "ex": "The young couple is walking in the park."
+ },
+ {
+  "id": "a2-course",
+  "word": "course",
+  "pos": "noun",
+  "tr": "kurs, ders",
+  "en": "a series of lessons or a part of a meal",
+  "ex": "I am taking a cooking course every Saturday morning."
+ },
+ {
+  "id": "a2-crazy",
+  "word": "crazy",
+  "pos": "adjective",
+  "tr": "çılgın",
+  "en": "acting in a strange or very silly way",
+  "ex": "That was a crazy idea, but it actually worked!"
+ },
+ {
+  "id": "a2-create",
+  "word": "create",
+  "pos": "verb",
+  "tr": "yaratmak",
+  "en": "to make something new exist",
+  "ex": "She wants to create a beautiful garden behind her house."
+ },
+ {
+  "id": "a2-crime",
+  "word": "crime",
+  "pos": "noun",
+  "tr": "suç",
+  "en": "an illegal action that is against the law",
+  "ex": "Stealing a car is a serious crime."
+ },
+ {
+  "id": "a2-crowd",
+  "word": "crowd",
+  "pos": "noun",
+  "tr": "kalabalık",
+  "en": "a large group of people in one place",
+  "ex": "There was a huge crowd waiting for the concert to start."
+ },
+ {
+  "id": "a2-crowded",
+  "word": "crowded",
+  "pos": "adjective",
+  "tr": "kalabalık",
+  "en": "full of people, having no space",
+  "ex": "The bus was very crowded this morning."
+ },
+ {
+  "id": "a2-culture",
+  "word": "culture",
+  "pos": "noun",
+  "tr": "kültür",
+  "en": "the habits, traditions, and beliefs of a society",
+  "ex": "I love learning about the Japanese culture."
+ },
+ {
+  "id": "a2-curious",
+  "word": "curious",
+  "pos": "adjective",
+  "tr": "meraklı",
+  "en": "wanting to know or learn about something",
+  "ex": "My son is very curious about how the computer works."
+ },
+ {
+  "id": "a2-customer",
+  "word": "customer",
+  "pos": "noun",
+  "tr": "müşteri",
+  "en": "a person who buys goods or services from a shop",
+  "ex": "The shop assistant is helping a customer."
+ },
+ {
+  "id": "a2-cut",
+  "word": "cut",
+  "pos": "verb",
+  "tr": "kesmek",
+  "en": "to divide something with a knife or scissors",
+  "ex": "Please cut the bread into small pieces."
+ },
+ {
+  "id": "a2-damage",
+  "word": "damage",
+  "pos": "verb",
+  "tr": "zarar",
+  "en": "to break or harm something",
+  "ex": "The storm did not damage our house."
+ },
+ {
+  "id": "a2-danger",
+  "word": "danger",
+  "pos": "noun",
+  "tr": "tehlike",
+  "en": "the possibility of being hurt or killed",
+  "ex": "The sign says there is danger ahead."
+ },
+ {
+  "id": "a2-dangerous",
+  "word": "dangerous",
+  "pos": "adjective",
+  "tr": "tehlikeli",
+  "en": "not safe, likely to cause harm",
+  "ex": "It is dangerous to drive fast on this road."
+ },
+ {
+  "id": "a2-dark",
+  "word": "dark",
+  "pos": "adjective",
+  "tr": "karanlık",
+  "en": "having very little or no light",
+  "ex": "It gets dark very early in the winter."
+ },
+ {
+  "id": "a2-date",
+  "word": "date",
+  "pos": "noun",
+  "tr": "tarih; randevu",
+  "en": "a specific day of the month or a romantic meeting",
+  "ex": "What is the date today?"
+ },
+ {
+  "id": "a2-dead",
+  "word": "dead",
+  "pos": "adjective",
+  "tr": "ölü",
+  "en": "no longer living",
+  "ex": "The flowers in the vase are dead."
+ },
+ {
+  "id": "a2-deal-with",
+  "word": "deal with",
+  "pos": "phrasal verb",
+  "tr": "ilgilenmek, halletmek",
+  "en": "to handle a problem or a task",
+  "ex": "I have to deal with many emails every morning."
+ },
+ {
+  "id": "a2-decision",
+  "word": "decision",
+  "pos": "noun",
+  "tr": "karar",
+  "en": "a choice you make after thinking about something",
+  "ex": "It was a difficult decision, but I think it is right."
+ },
+ {
+  "id": "a2-deep",
+  "word": "deep",
+  "pos": "adjective",
+  "tr": "derin",
+  "en": "going far down from the top or surface",
+  "ex": "The water in the lake is very deep here."
+ },
+ {
+  "id": "a2-delicious",
+  "word": "delicious",
+  "pos": "adjective",
+  "tr": "lezzetli",
+  "en": "having a very good taste",
+  "ex": "This cake is absolutely delicious!"
+ },
+ {
+  "id": "a2-deliver",
+  "word": "deliver",
+  "pos": "verb",
+  "tr": "teslim etmek",
+  "en": "to bring goods or letters to a person or place",
+  "ex": "They deliver pizza to our house every Friday."
+ },
+ {
+  "id": "a2-department",
+  "word": "department",
+  "pos": "noun",
+  "tr": "bölüm",
+  "en": "a specific part of a company or store",
+  "ex": "I work in the sales department."
+ },
+ {
+  "id": "a2-depend-on",
+  "word": "depend on",
+  "pos": "phrasal verb",
+  "tr": "-e bağlı olmak",
+  "en": "to be decided by something else",
+  "ex": "Whether we go to the beach depends on the weather."
+ },
+ {
+  "id": "a2-describe",
+  "word": "describe",
+  "pos": "verb",
+  "tr": "tarif etmek",
+  "en": "to say what someone or something is like",
+  "ex": "Can you describe the man you saw yesterday?"
+ },
+ {
+  "id": "a2-desert",
+  "word": "desert",
+  "pos": "noun",
+  "tr": "çöl",
+  "en": "a dry, hot area with very little rain",
+  "ex": "It is very hot in the desert during the day."
+ },
+ {
+  "id": "a2-design",
+  "word": "design",
+  "pos": "verb",
+  "tr": "tasarım",
+  "en": "to draw or plan how something will be made",
+  "ex": "She wants to design her own clothes."
+ },
+ {
+  "id": "a2-dessert",
+  "word": "dessert",
+  "pos": "noun",
+  "tr": "tatlı",
+  "en": "sweet food eaten at the end of a meal",
+  "ex": "We had ice cream for dessert."
+ },
+ {
+  "id": "a2-destroy",
+  "word": "destroy",
+  "pos": "verb",
+  "tr": "yok etmek",
+  "en": "to break something so it cannot be used again",
+  "ex": "The fire did not destroy the whole building."
+ },
+ {
+  "id": "a2-detail",
+  "word": "detail",
+  "pos": "noun",
+  "tr": "ayrıntı",
+  "en": "a small piece of information about something",
+  "ex": "Please tell me every detail about your trip."
+ },
+ {
+  "id": "a2-diet",
+  "word": "diet",
+  "pos": "noun",
+  "tr": "diyet",
+  "en": "the food that a person usually eats",
+  "ex": "I am trying to have a healthy diet with more vegetables."
+ },
+ {
+  "id": "a2-difference",
+  "word": "difference",
+  "pos": "noun",
+  "tr": "fark",
+  "en": "the way things are not the same",
+  "ex": "What is the difference between these two phones?"
+ },
+ {
+  "id": "a2-direction",
+  "word": "direction",
+  "pos": "noun",
+  "tr": "yön",
+  "en": "the way to go to reach a place",
+  "ex": "Can you give me the right direction to the station?"
+ },
+ {
+  "id": "a2-disappear",
+  "word": "disappear",
+  "pos": "verb",
+  "tr": "kaybolmak",
+  "en": "to stop being visible or present",
+  "ex": "The sun will disappear behind the clouds soon."
+ },
+ {
+  "id": "a2-discover",
+  "word": "discover",
+  "pos": "verb",
+  "tr": "keşfetmek",
+  "en": "to find something for the first time",
+  "ex": "Scientists want to discover new planets in space."
+ },
+ {
+  "id": "a2-discuss",
+  "word": "discuss",
+  "pos": "verb",
+  "tr": "tartışmak, görüşmek",
+  "en": "to talk about a subject with other people",
+  "ex": "We need to discuss our plans for the weekend."
+ },
+ {
+  "id": "a2-disease",
+  "word": "disease",
+  "pos": "noun",
+  "tr": "hastalık",
+  "en": "an illness that affects a person, animal, or plant",
+  "ex": "He is studying how to stop this dangerous disease."
+ },
+ {
+  "id": "a2-distance",
+  "word": "distance",
+  "pos": "noun",
+  "tr": "mesafe",
+  "en": "the amount of space between two places",
+  "ex": "The distance between my house and work is five kilometers."
+ },
+ {
+  "id": "a2-divorced",
+  "word": "divorced",
+  "pos": "adjective",
+  "tr": "boşanmış",
+  "en": "no longer married to your husband or wife",
+  "ex": "My parents are divorced, but they are still friends."
+ },
+ {
+  "id": "a2-document",
+  "word": "document",
+  "pos": "noun",
+  "tr": "belge",
+  "en": "a paper or computer file with important information",
+  "ex": "Please sign this document before you leave."
+ },
+ {
+  "id": "a2-download",
+  "word": "download",
+  "pos": "verb",
+  "tr": "indirmek",
+  "en": "to copy data from the internet to your computer",
+  "ex": "I want to download a new movie for tonight."
+ },
+ {
+  "id": "a2-downtown",
+  "word": "downtown",
+  "pos": "noun",
+  "tr": "şehir merkezi",
+  "en": "the main business area of a city",
+  "ex": "We went shopping in the downtown area yesterday."
+ },
+ {
+  "id": "a2-dream",
+  "word": "dream",
+  "pos": "noun",
+  "tr": "rüya, hayal",
+  "en": "pictures or stories in your mind while sleeping",
+  "ex": "I had a strange dream about flying last night."
+ },
+ {
+  "id": "a2-drop",
+  "word": "drop",
+  "pos": "verb",
+  "tr": "düşürmek",
+  "en": "to let something fall from your hand",
+  "ex": "Be careful not to drop that glass cup."
+ },
+ {
+  "id": "a2-dry",
+  "word": "dry",
+  "pos": "adjective",
+  "tr": "kuru",
+  "en": "not wet or having no water",
+  "ex": "The clothes are dry now, you can wear them."
+ },
+ {
+  "id": "a2-during",
+  "word": "during",
+  "pos": "preposition",
+  "tr": "sırasında",
+  "en": "at some time between the beginning and end of something",
+  "ex": "I fell asleep during the long movie."
+ },
+ {
+  "id": "a2-earn",
+  "word": "earn",
+  "pos": "verb",
+  "tr": "kazanmak (para)",
+  "en": "to get money for the work you do",
+  "ex": "She works hard to earn enough money for her family."
+ },
+ {
+  "id": "a2-earth",
+  "word": "earth",
+  "pos": "noun",
+  "tr": "dünya, toprak",
+  "en": "the planet where we live",
+  "ex": "We must protect the earth for our children."
+ },
+ {
+  "id": "a2-easily",
+  "word": "easily",
+  "pos": "adverb",
+  "tr": "kolayca",
+  "en": "without any difficulty",
+  "ex": "He can easily speak three different languages."
+ },
+ {
+  "id": "a2-education",
+  "word": "education",
+  "pos": "noun",
+  "tr": "eğitim",
+  "en": "the process of learning and teaching in schools",
+  "ex": "Good education is very important for a successful future."
+ },
+ {
+  "id": "a2-effect",
+  "word": "effect",
+  "pos": "noun",
+  "tr": "etki",
+  "en": "a change that happens because of something else",
+  "ex": "The medicine had a good effect on my headache."
+ },
+ {
+  "id": "a2-either",
+  "word": "either",
+  "pos": "conjunction",
+  "tr": "ikisinden biri",
+  "en": "used to show a choice between two things",
+  "ex": "You can either walk or take the bus to school."
+ },
+ {
+  "id": "a2-electricity",
+  "word": "electricity",
+  "pos": "noun",
+  "tr": "elektrik",
+  "en": "power used to make machines and lights work",
+  "ex": "The electricity went out during the storm."
+ },
+ {
+  "id": "a2-else",
+  "word": "else",
+  "pos": "adverb",
+  "tr": "başka",
+  "en": "in addition or different from what is already known",
+  "ex": "Do you want anything else to eat?"
+ },
+ {
+  "id": "a2-emergency",
+  "word": "emergency",
+  "pos": "noun",
+  "tr": "acil durum",
+  "en": "a serious situation that needs help immediately",
+  "ex": "Call the police if there is an emergency."
+ },
+ {
+  "id": "a2-employee",
+  "word": "employee",
+  "pos": "noun",
+  "tr": "çalışan",
+  "en": "a person who works for a company or boss",
+  "ex": "The company has over one hundred employees."
+ },
+ {
+  "id": "a2-energy",
+  "word": "energy",
+  "pos": "noun",
+  "tr": "enerji",
+  "en": "the power to do physical or mental activities",
+  "ex": "I don't have enough energy to go running today."
+ },
+ {
+  "id": "a2-engine",
+  "word": "engine",
+  "pos": "noun",
+  "tr": "motor",
+  "en": "the part of a machine that makes it move",
+  "ex": "The car engine stopped working suddenly."
+ },
+ {
+  "id": "a2-enormous",
+  "word": "enormous",
+  "pos": "adjective",
+  "tr": "kocaman",
+  "en": "very, very large",
+  "ex": "They live in an enormous house with ten rooms."
+ },
+ {
+  "id": "a2-enough",
+  "word": "enough",
+  "pos": "determiner",
+  "tr": "yeterli",
+  "en": "as much as you need, not too little or too much",
+  "ex": "I have enough money to buy a coffee."
+ },
+ {
+  "id": "a2-enter",
+  "word": "enter",
+  "pos": "verb",
+  "tr": "girmek",
+  "en": "to go or come inside a place",
+  "ex": "Please knock before you enter the room."
+ },
+ {
+  "id": "a2-entrance",
+  "word": "entrance",
+  "pos": "noun",
+  "tr": "giriş",
+  "en": "a door or gate where you go into a building",
+  "ex": "Meet me at the main entrance of the cinema."
+ },
+ {
+  "id": "a2-environment",
+  "word": "environment",
+  "pos": "noun",
+  "tr": "çevre",
+  "en": "the natural world around us, like air, water, and land",
+  "ex": "We should protect our environment from pollution."
+ },
+ {
+  "id": "a2-equipment",
+  "word": "equipment",
+  "pos": "noun",
+  "tr": "ekipman",
+  "en": "the tools or machines needed for a specific activity",
+  "ex": "The gym has new equipment for lifting weights."
+ },
+ {
+  "id": "a2-escape",
+  "word": "escape",
+  "pos": "verb",
+  "tr": "kaçmak",
+  "en": "to get away from a place where you are kept",
+  "ex": "The cat managed to escape from the garden."
+ },
+ {
+  "id": "a2-especially",
+  "word": "especially",
+  "pos": "adverb",
+  "tr": "özellikle",
+  "en": "more than usual or more than others",
+  "ex": "I like all fruits, especially strawberries."
+ },
+ {
+  "id": "a2-event",
+  "word": "event",
+  "pos": "noun",
+  "tr": "etkinlik",
+  "en": "something important or planned that happens",
+  "ex": "The concert is the biggest event of the year."
+ },
+ {
+  "id": "a2-eventually",
+  "word": "eventually",
+  "pos": "adverb",
+  "tr": "sonunda",
+  "en": "after a long time or after many problems",
+  "ex": "He practiced hard and eventually learned to play guitar."
+ },
+ {
+  "id": "a2-exactly",
+  "word": "exactly",
+  "pos": "adverb",
+  "tr": "tam olarak",
+  "en": "with no mistake, completely correct",
+  "ex": "That is exactly what I wanted to say."
+ },
+ {
+  "id": "a2-except",
+  "word": "except",
+  "pos": "preposition",
+  "tr": "hariç",
+  "en": "not including someone or something",
+  "ex": "Everyone was there except for John."
+ },
+ {
+  "id": "a2-exchange",
+  "word": "exchange",
+  "pos": "verb",
+  "tr": "değiştirmek, takas",
+  "en": "to give something and receive something else in return",
+  "ex": "Can I exchange this shirt for a larger size?"
+ },
+ {
+  "id": "a2-excited",
+  "word": "excited",
+  "pos": "adjective",
+  "tr": "heyecanlı",
+  "en": "feeling very happy and enthusiastic about something",
+  "ex": "The children are excited about their school trip."
+ },
+ {
+  "id": "a2-exciting",
+  "word": "exciting",
+  "pos": "adjective",
+  "tr": "heyecan verici",
+  "en": "making you feel very happy and enthusiastic",
+  "ex": "It was an exciting football match."
+ },
+ {
+  "id": "a2-excuse",
+  "word": "excuse",
+  "pos": "noun",
+  "tr": "bahane",
+  "en": "a reason you give to explain why you did something wrong",
+  "ex": "He had no excuse for being late again."
+ },
+ {
+  "id": "a2-exercise",
+  "word": "exercise",
+  "pos": "noun",
+  "tr": "egzersiz",
+  "en": "physical activity to stay healthy or school work to learn",
+  "ex": "I do exercise every morning to stay fit."
+ },
+ {
+  "id": "a2-exhibition",
+  "word": "exhibition",
+  "pos": "noun",
+  "tr": "sergi",
+  "en": "a public show of art, objects, or skills",
+  "ex": "We went to an art exhibition at the museum."
+ },
+ {
+  "id": "a2-exist",
+  "word": "exist",
+  "pos": "verb",
+  "tr": "var olmak",
+  "en": "to be real or to be alive",
+  "ex": "Do you believe that ghosts really exist?"
+ },
+ {
+  "id": "a2-exit",
+  "word": "exit",
+  "pos": "noun",
+  "tr": "çıkış",
+  "en": "a door or way out of a building or road",
+  "ex": "Look for the emergency exit sign."
+ },
+ {
+  "id": "a2-expect",
+  "word": "expect",
+  "pos": "verb",
+  "tr": "beklemek (umut)",
+  "en": "to think that something will probably happen",
+  "ex": "I expect it will rain later today."
+ },
+ {
+  "id": "a2-experience",
+  "word": "experience",
+  "pos": "noun",
+  "tr": "deneyim",
+  "en": "knowledge or skill you get from doing something",
+  "ex": "She has a lot of experience in teaching."
+ },
+ {
+  "id": "a2-explain",
+  "word": "explain",
+  "pos": "verb",
+  "tr": "açıklamak",
+  "en": "to tell someone how something works or why it happened",
+  "ex": "Can you explain this math problem to me?"
+ },
+ {
+  "id": "a2-explore",
+  "word": "explore",
+  "pos": "verb",
+  "tr": "keşfetmek",
+  "en": "to travel around a new place to learn about it",
+  "ex": "We spent the day exploring the old city."
+ },
+ {
+  "id": "a2-extra",
+  "word": "extra",
+  "pos": "adjective",
+  "tr": "ekstra",
+  "en": "more than what is usual or necessary",
+  "ex": "I need some extra time to finish my work."
+ },
+ {
+  "id": "a2-factory",
+  "word": "factory",
+  "pos": "noun",
+  "tr": "fabrika",
+  "en": "a building where people use machines to make products",
+  "ex": "My father works in a car factory."
+ },
+ {
+  "id": "a2-fail",
+  "word": "fail",
+  "pos": "verb",
+  "tr": "başarısız olmak",
+  "en": "to not be successful at something",
+  "ex": "If you don't study, you might fail the exam."
+ },
+ {
+  "id": "a2-fair",
+  "word": "fair",
+  "pos": "adjective",
+  "tr": "adil",
+  "en": "treating everyone in the same way, right and honest",
+  "ex": "It is not fair to blame him for your mistake."
+ },
+ {
+  "id": "a2-fall-asleep",
+  "word": "fall asleep",
+  "pos": "phrasal verb",
+  "tr": "uykuya dalmak",
+  "en": "to start sleeping, usually without planning to do it.",
+  "ex": "I often fall asleep while reading a book in bed."
+ },
+ {
+  "id": "a2-false",
+  "word": "false",
+  "pos": "adjective",
+  "tr": "yanlış",
+  "en": "not true or not correct",
+  "ex": "The information in that article is false."
+ },
+ {
+  "id": "a2-famous",
+  "word": "famous",
+  "pos": "adjective",
+  "tr": "ünlü",
+  "en": "known by many people",
+  "ex": "He is a famous singer in my country."
+ },
+ {
+  "id": "a2-fan",
+  "word": "fan",
+  "pos": "noun",
+  "tr": "hayran; vantilatör",
+  "en": "someone who really likes a person, sport, or group",
+  "ex": "She is a big fan of that rock band."
+ },
+ {
+  "id": "a2-fantastic",
+  "word": "fantastic",
+  "pos": "adjective",
+  "tr": "harika",
+  "en": "very good or excellent",
+  "ex": "We had a fantastic time at the party last night."
+ },
+ {
+  "id": "a2-fashion",
+  "word": "fashion",
+  "pos": "noun",
+  "tr": "moda",
+  "en": "the popular style of clothes or behavior at a time",
+  "ex": "She works in the fashion industry in Paris."
+ },
+ {
+  "id": "a2-fat",
+  "word": "fat",
+  "pos": "adjective",
+  "tr": "şişman; yağ",
+  "en": "having a lot of weight on the body",
+  "ex": "The cat is a little fat because it eats too much."
+ },
+ {
+  "id": "a2-fear",
+  "word": "fear",
+  "pos": "noun",
+  "tr": "korku",
+  "en": "the feeling you have when you are in danger",
+  "ex": "He has a great fear of spiders."
+ },
+ {
+  "id": "a2-feeling",
+  "word": "feeling",
+  "pos": "noun",
+  "tr": "duygu",
+  "en": "an emotion like happiness, sadness, or anger",
+  "ex": "I have a good feeling about this new job."
+ },
+ {
+  "id": "a2-festival",
+  "word": "festival",
+  "pos": "noun",
+  "tr": "festival",
+  "en": "a special time for celebration, music, or food",
+  "ex": "We go to the jazz festival every summer."
+ },
+ {
+  "id": "a2-fever",
+  "word": "fever",
+  "pos": "noun",
+  "tr": "ateş (hastalık)",
+  "en": "when your body temperature is higher than normal because of illness",
+  "ex": "The child has a fever, so he should stay in bed."
+ },
+ {
+  "id": "a2-field",
+  "word": "field",
+  "pos": "noun",
+  "tr": "tarla, alan",
+  "en": "a large area of open land with grass or crops",
+  "ex": "The cows are eating grass in the green field."
+ },
+ {
+  "id": "a2-fight",
+  "word": "fight",
+  "pos": "verb",
+  "tr": "kavga etmek",
+  "en": "to use physical force to hurt someone or win something",
+  "ex": "The two boys started to fight in the playground."
+ },
+ {
+  "id": "a2-fill",
+  "word": "fill",
+  "pos": "verb",
+  "tr": "doldurmak",
+  "en": "to make something full",
+  "ex": "Please fill this glass with cold water."
+ },
+ {
+  "id": "a2-final",
+  "word": "final",
+  "pos": "adjective",
+  "tr": "son, final",
+  "en": "happening at the very end",
+  "ex": "This is my final decision about the project."
+ },
+ {
+  "id": "a2-finally",
+  "word": "finally",
+  "pos": "adverb",
+  "tr": "sonunda",
+  "en": "after a long time or at the end",
+  "ex": "We finally arrived at the hotel after a long drive."
+ },
+ {
+  "id": "a2-fire",
+  "word": "fire",
+  "pos": "noun",
+  "tr": "ateş, yangın",
+  "en": "hot, bright light and heat from something burning",
+  "ex": "We sat by the fire to keep warm."
+ },
+ {
+  "id": "a2-firm",
+  "word": "firm",
+  "pos": "noun",
+  "tr": "sağlam; firma",
+  "en": "a business or company",
+  "ex": "He works for a law firm in the city center."
+ },
+ {
+  "id": "a2-fit",
+  "word": "fit",
+  "pos": "verb",
+  "tr": "uymak; formda",
+  "en": "to be the right size or shape for something",
+  "ex": "These shoes do not fit me; they are too small."
+ },
+ {
+  "id": "a2-flat",
+  "word": "flat",
+  "pos": "adjective",
+  "tr": "düz",
+  "en": "smooth and level, without curves or bumps",
+  "ex": "The land here is very flat, with no mountains."
+ },
+ {
+  "id": "a2-flight",
+  "word": "flight",
+  "pos": "noun",
+  "tr": "uçuş",
+  "en": "a journey made by an airplane",
+  "ex": "My flight to London leaves at six in the morning."
+ },
+ {
+  "id": "a2-flood",
+  "word": "flood",
+  "pos": "noun",
+  "tr": "sel",
+  "en": "when too much water covers land that is usually dry",
+  "ex": "The heavy rain caused a flood in the village."
+ },
+ {
+  "id": "a2-fly",
+  "word": "fly",
+  "pos": "noun",
+  "tr": "sinek",
+  "en": "a small insect with two wings",
+  "ex": "There is a fly in my soup."
+ },
+ {
+  "id": "a2-foggy",
+  "word": "foggy",
+  "pos": "adjective",
+  "tr": "sisli",
+  "en": "when it is hard to see because of thick clouds near ground",
+  "ex": "It is very foggy today, so drive carefully."
+ },
+ {
+  "id": "a2-foreign",
+  "word": "foreign",
+  "pos": "adjective",
+  "tr": "yabancı",
+  "en": "from or relating to a different country",
+  "ex": "I want to learn a foreign language like Spanish."
+ },
+ {
+  "id": "a2-forever",
+  "word": "forever",
+  "pos": "adverb",
+  "tr": "sonsuza dek",
+  "en": "for all time, without an end",
+  "ex": "I will remember this day forever."
+ },
+ {
+  "id": "a2-forgive",
+  "word": "forgive",
+  "pos": "verb",
+  "tr": "affetmek",
+  "en": "to stop being angry with someone for a mistake",
+  "ex": "It is hard to forgive him after what he said."
+ },
+ {
+  "id": "a2-form",
+  "word": "form",
+  "pos": "noun",
+  "tr": "form",
+  "en": "a document with spaces to write information",
+  "ex": "Please fill out this form to join the library."
+ },
+ {
+  "id": "a2-fortunately",
+  "word": "fortunately",
+  "pos": "adverb",
+  "tr": "neyse ki",
+  "en": "happily, by good luck",
+  "ex": "Fortunately, I had an umbrella when it started raining."
+ },
+ {
+  "id": "a2-free-time",
+  "word": "free time",
+  "pos": "phrase",
+  "tr": "boş zaman",
+  "en": "time when you do not have to work or study",
+  "ex": "I like to read books in my free time."
+ },
+ {
+  "id": "a2-freezing",
+  "word": "freezing",
+  "pos": "adjective",
+  "tr": "buz gibi",
+  "en": "extremely cold",
+  "ex": "It is freezing outside, so wear your heavy coat."
+ },
+ {
+  "id": "a2-fresh",
+  "word": "fresh",
+  "pos": "adjective",
+  "tr": "taze",
+  "en": "newly made or picked, not old",
+  "ex": "I love the smell of fresh bread in the morning."
+ },
+ {
+  "id": "a2-friendship",
+  "word": "friendship",
+  "pos": "noun",
+  "tr": "arkadaşlık",
+  "en": "the relationship between two people who like each other",
+  "ex": "Their friendship has lasted for over twenty years."
+ },
+ {
+  "id": "a2-frightened",
+  "word": "frightened",
+  "pos": "adjective",
+  "tr": "korkmuş",
+  "en": "feeling fear because something dangerous or bad might happen.",
+  "ex": "The little boy was frightened by the loud thunder."
+ },
+ {
+  "id": "a2-front",
+  "word": "front",
+  "pos": "noun",
+  "tr": "ön",
+  "en": "the part of something that faces forward.",
+  "ex": "Please wait in the front of the building."
+ },
+ {
+  "id": "a2-fry",
+  "word": "fry",
+  "pos": "verb",
+  "tr": "kızartmak",
+  "en": "to cook food in hot oil or fat.",
+  "ex": "I like to fry eggs for my breakfast."
+ },
+ {
+  "id": "a2-fuel",
+  "word": "fuel",
+  "pos": "noun",
+  "tr": "yakıt",
+  "en": "a substance like petrol or gas used to create energy.",
+  "ex": "We need to stop for fuel before the long drive."
+ },
+ {
+  "id": "a2-furniture",
+  "word": "furniture",
+  "pos": "noun",
+  "tr": "mobilya",
+  "en": "things like chairs, tables, and beds in a house.",
+  "ex": "We bought some new furniture for our living room."
+ },
+ {
+  "id": "a2-future",
+  "word": "future",
+  "pos": "noun",
+  "tr": "gelecek",
+  "en": "the time that will come after now.",
+  "ex": "I want to travel around the world in the future."
+ },
+ {
+  "id": "a2-gallery",
+  "word": "gallery",
+  "pos": "noun",
+  "tr": "galeri",
+  "en": "a room or building where people look at art.",
+  "ex": "We visited an art gallery in the city center."
+ },
+ {
+  "id": "a2-gate",
+  "word": "gate",
+  "pos": "noun",
+  "tr": "kapı (bahçe), geçit",
+  "en": "a door in a fence or outside wall.",
+  "ex": "Please close the garden gate so the dog stays inside."
+ },
+ {
+  "id": "a2-general",
+  "word": "general",
+  "pos": "adjective",
+  "tr": "genel",
+  "en": "relating to most people or things, not specific.",
+  "ex": "I have a general idea of how the machine works."
+ },
+ {
+  "id": "a2-generous",
+  "word": "generous",
+  "pos": "adjective",
+  "tr": "cömert",
+  "en": "happy to give money, help, or time to others.",
+  "ex": "She is very generous and always shares her lunch."
+ },
+ {
+  "id": "a2-gentle",
+  "word": "gentle",
+  "pos": "adjective",
+  "tr": "nazik, yumuşak",
+  "en": "kind, calm, and not rough or violent.",
+  "ex": "Be gentle with the baby when you hold her."
+ },
+ {
+  "id": "a2-gift",
+  "word": "gift",
+  "pos": "noun",
+  "tr": "hediye",
+  "en": "something you give to someone to make them happy.",
+  "ex": "I bought a small gift for my friend's birthday."
+ },
+ {
+  "id": "a2-glad",
+  "word": "glad",
+  "pos": "adjective",
+  "tr": "memnun",
+  "en": "feeling happy and pleased about something.",
+  "ex": "I am so glad you could come to the party."
+ },
+ {
+  "id": "a2-goal",
+  "word": "goal",
+  "pos": "noun",
+  "tr": "hedef; gol",
+  "en": "something you want to achieve in the future.",
+  "ex": "My main goal this year is to learn English."
+ },
+ {
+  "id": "a2-gold",
+  "word": "gold",
+  "pos": "noun",
+  "tr": "altın",
+  "en": "a valuable yellow metal used for jewelry.",
+  "ex": "She wears a beautiful gold ring on her finger."
+ },
+ {
+  "id": "a2-government",
+  "word": "government",
+  "pos": "noun",
+  "tr": "hükümet",
+  "en": "the group of people who control and lead a country.",
+  "ex": "The government is building new schools in our city."
+ },
+ {
+  "id": "a2-grade",
+  "word": "grade",
+  "pos": "noun",
+  "tr": "not",
+  "en": "a number or letter that shows how well you did.",
+  "ex": "I got a good grade on my math test."
+ },
+ {
+  "id": "a2-grass",
+  "word": "grass",
+  "pos": "noun",
+  "tr": "çimen",
+  "en": "the green plants that cover the ground in gardens.",
+  "ex": "We sat on the grass to have a picnic."
+ },
+ {
+  "id": "a2-ground",
+  "word": "ground",
+  "pos": "noun",
+  "tr": "yer, zemin",
+  "en": "the solid surface of the earth.",
+  "ex": "I dropped my keys on the ground."
+ },
+ {
+  "id": "a2-grow-up",
+  "word": "grow up",
+  "pos": "phrasal verb",
+  "tr": "büyümek",
+  "en": "to change from being a child to an adult.",
+  "ex": "I want to be a doctor when I grow up."
+ },
+ {
+  "id": "a2-guest",
+  "word": "guest",
+  "pos": "noun",
+  "tr": "misafir",
+  "en": "someone you invite to your home or a hotel.",
+  "ex": "We are having guests for dinner tonight."
+ },
+ {
+  "id": "a2-guide",
+  "word": "guide",
+  "pos": "noun",
+  "tr": "rehber",
+  "en": "a person who shows tourists around a place.",
+  "ex": "The tour guide explained the history of the museum."
+ },
+ {
+  "id": "a2-guitar",
+  "word": "guitar",
+  "pos": "noun",
+  "tr": "gitar",
+  "en": "a musical instrument with strings that you play with fingers.",
+  "ex": "He plays the guitar very well."
+ },
+ {
+  "id": "a2-gym",
+  "word": "gym",
+  "pos": "noun",
+  "tr": "spor salonu",
+  "en": "a place with equipment for exercise and sports.",
+  "ex": "I go to the gym three times a week."
+ },
+ {
+  "id": "a2-habit",
+  "word": "habit",
+  "pos": "noun",
+  "tr": "alışkanlık",
+  "en": "something you do regularly without thinking about it.",
+  "ex": "Reading before bed is a good habit."
+ },
+ {
+  "id": "a2-hang",
+  "word": "hang",
+  "pos": "verb",
+  "tr": "asmak",
+  "en": "to attach something to a wall or hook.",
+  "ex": "Please hang your coat in the closet."
+ },
+ {
+  "id": "a2-happen",
+  "word": "happen",
+  "pos": "verb",
+  "tr": "olmak, meydana gelmek",
+  "en": "when something takes place or occurs.",
+  "ex": "What will happen if we are late?"
+ },
+ {
+  "id": "a2-hard-working",
+  "word": "hard-working",
+  "pos": "adjective",
+  "tr": "çalışkan",
+  "en": "someone who puts a lot of effort into their work.",
+  "ex": "She is a hard-working student who always studies."
+ },
+ {
+  "id": "a2-harm",
+  "word": "harm",
+  "pos": "verb",
+  "tr": "zarar",
+  "en": "to hurt or damage someone or something.",
+  "ex": "Be careful not to harm the flowers in the garden."
+ },
+ {
+  "id": "a2-health",
+  "word": "health",
+  "pos": "noun",
+  "tr": "sağlık",
+  "en": "the condition of your body and mind.",
+  "ex": "Eating vegetables is important for your health."
+ },
+ {
+  "id": "a2-healthy",
+  "word": "healthy",
+  "pos": "adjective",
+  "tr": "sağlıklı",
+  "en": "feeling well and not sick, or good for your body",
+  "ex": "Eating fruit and vegetables makes you feel healthy."
+ },
+ {
+  "id": "a2-heart",
+  "word": "heart",
+  "pos": "noun",
+  "tr": "kalp",
+  "en": "the organ inside your chest that pumps blood around your body",
+  "ex": "Running is very good for your heart."
+ },
+ {
+  "id": "a2-heat",
+  "word": "heat",
+  "pos": "noun",
+  "tr": "ısı",
+  "en": "the quality of being hot",
+  "ex": "The heat from the sun is very strong today."
+ },
+ {
+  "id": "a2-heavy",
+  "word": "heavy",
+  "pos": "adjective",
+  "tr": "ağır",
+  "en": "weighing a lot and difficult to lift or carry",
+  "ex": "This suitcase is too heavy for me to carry."
+ },
+ {
+  "id": "a2-height",
+  "word": "height",
+  "pos": "noun",
+  "tr": "boy, yükseklik",
+  "en": "how tall a person or thing is",
+  "ex": "What is your height in centimeters?"
+ },
+ {
+  "id": "a2-hide",
+  "word": "hide",
+  "pos": "verb",
+  "tr": "saklanmak",
+  "en": "to put something where others cannot see or find it",
+  "ex": "The children like to hide behind the big tree."
+ },
+ {
+  "id": "a2-hill",
+  "word": "hill",
+  "pos": "noun",
+  "tr": "tepe",
+  "en": "a high area of land, but not as high as a mountain",
+  "ex": "We walked up the hill to see the city view."
+ },
+ {
+  "id": "a2-hire",
+  "word": "hire",
+  "pos": "verb",
+  "tr": "kiralamak; işe almak",
+  "en": "to pay money to use something for a short time",
+  "ex": "We decided to hire a car for our holiday."
+ },
+ {
+  "id": "a2-history",
+  "word": "history",
+  "pos": "noun",
+  "tr": "tarih",
+  "en": "the study of past events and people",
+  "ex": "I love reading books about world history."
+ },
+ {
+  "id": "a2-hobby",
+  "word": "hobby",
+  "pos": "noun",
+  "tr": "hobi",
+  "en": "an activity you enjoy doing in your free time",
+  "ex": "My favorite hobby is painting pictures."
+ },
+ {
+  "id": "a2-hole",
+  "word": "hole",
+  "pos": "noun",
+  "tr": "delik",
+  "en": "an empty space in something solid",
+  "ex": "There is a hole in my favorite socks."
+ },
+ {
+  "id": "a2-honest",
+  "word": "honest",
+  "pos": "adjective",
+  "tr": "dürüst",
+  "en": "always telling the truth and not cheating",
+  "ex": "It is important to be honest with your friends."
+ },
+ {
+  "id": "a2-hope",
+  "word": "hope",
+  "pos": "noun",
+  "tr": "umut",
+  "en": "a feeling that you want something good to happen",
+  "ex": "There is always hope for a better future."
+ },
+ {
+  "id": "a2-horrible",
+  "word": "horrible",
+  "pos": "adjective",
+  "tr": "korkunç",
+  "en": "very bad, unpleasant, or making you feel sick",
+  "ex": "The weather was horrible yesterday, so we stayed inside."
+ },
+ {
+  "id": "a2-host",
+  "word": "host",
+  "pos": "noun",
+  "tr": "ev sahibi",
+  "en": "a person who invites guests to their home or event",
+  "ex": "Our host made a delicious dinner for everyone."
+ },
+ {
+  "id": "a2-however",
+  "word": "however",
+  "pos": "adverb",
+  "tr": "ancak",
+  "en": "used to introduce a statement that contrasts with something before",
+  "ex": "I wanted to go out; however, it started to rain."
+ },
+ {
+  "id": "a2-huge",
+  "word": "huge",
+  "pos": "adjective",
+  "tr": "devasa",
+  "en": "extremely large in size or amount",
+  "ex": "They live in a huge house with ten rooms."
+ },
+ {
+  "id": "a2-human",
+  "word": "human",
+  "pos": "noun",
+  "tr": "insan",
+  "en": "a person, not an animal or machine",
+  "ex": "Every human needs water to survive."
+ },
+ {
+  "id": "a2-humour",
+  "word": "humour",
+  "pos": "noun",
+  "tr": "mizah",
+  "en": "the ability to find things funny or make people laugh",
+  "ex": "He has a great sense of humour and makes me laugh."
+ },
+ {
+  "id": "a2-hunt",
+  "word": "hunt",
+  "pos": "verb",
+  "tr": "avlamak",
+  "en": "to chase and kill animals for food or sport",
+  "ex": "Some wild animals hunt at night to find food."
+ },
+ {
+  "id": "a2-hurry",
+  "word": "hurry",
+  "pos": "verb",
+  "tr": "acele etmek",
+  "en": "to move or do something quickly because you are late",
+  "ex": "Please hurry, or we will miss the bus!"
+ },
+ {
+  "id": "a2-hurt",
+  "word": "hurt",
+  "pos": "verb",
+  "tr": "incitmek, acımak",
+  "en": "to cause pain or injury to a part of the body",
+  "ex": "My leg started to hurt after the long walk."
+ },
+ {
+  "id": "a2-ice",
+  "word": "ice",
+  "pos": "noun",
+  "tr": "buz",
+  "en": "frozen water that is very cold and hard",
+  "ex": "I would like some ice in my cold drink."
+ },
+ {
+  "id": "a2-illness",
+  "word": "illness",
+  "pos": "noun",
+  "tr": "hastalık",
+  "en": "the state of being sick or not feeling well",
+  "ex": "She stayed home because of a sudden illness."
+ },
+ {
+  "id": "a2-imagine",
+  "word": "imagine",
+  "pos": "verb",
+  "tr": "hayal etmek",
+  "en": "to create a picture or idea in your mind",
+  "ex": "Can you imagine living on the moon?"
+ },
+ {
+  "id": "a2-immediately",
+  "word": "immediately",
+  "pos": "adverb",
+  "tr": "hemen",
+  "en": "right now, without any delay",
+  "ex": "Please call the doctor immediately."
+ },
+ {
+  "id": "a2-include",
+  "word": "include",
+  "pos": "verb",
+  "tr": "içermek",
+  "en": "to have something as a part of a group or total",
+  "ex": "Does the price include breakfast and dinner?"
+ },
+ {
+  "id": "a2-increase",
+  "word": "increase",
+  "pos": "verb",
+  "tr": "artmak",
+  "en": "to make something larger in number or amount",
+  "ex": "They plan to increase the price of tickets next month."
+ },
+ {
+  "id": "a2-independent",
+  "word": "independent",
+  "pos": "adjective",
+  "tr": "bağımsız",
+  "en": "not needing help or money from other people",
+  "ex": "She is very independent and lives in her own apartment."
+ },
+ {
+  "id": "a2-industry",
+  "word": "industry",
+  "pos": "noun",
+  "tr": "sanayi",
+  "en": "the production of goods in factories or businesses",
+  "ex": "The car industry is very important for this city."
+ },
+ {
+  "id": "a2-injured",
+  "word": "injured",
+  "pos": "adjective",
+  "tr": "yaralı",
+  "en": "hurt or having a physical problem because of an accident.",
+  "ex": "The injured player left the football field."
+ },
+ {
+  "id": "a2-insect",
+  "word": "insect",
+  "pos": "noun",
+  "tr": "böcek",
+  "en": "a small animal with six legs like a fly or ant.",
+  "ex": "There is a strange insect on the wall."
+ },
+ {
+  "id": "a2-instead",
+  "word": "instead",
+  "pos": "adverb",
+  "tr": "yerine",
+  "en": "in the place of someone or something else.",
+  "ex": "I didn't have coffee, so I drank tea instead."
+ },
+ {
+  "id": "a2-instructions",
+  "word": "instructions",
+  "pos": "noun",
+  "tr": "talimatlar",
+  "en": "information about how to do or make something.",
+  "ex": "Please read the instructions before you start the machine."
+ },
+ {
+  "id": "a2-instrument",
+  "word": "instrument",
+  "pos": "noun",
+  "tr": "enstrüman",
+  "en": "an object used for making music or doing technical work.",
+  "ex": "She plays a musical instrument very well."
+ },
+ {
+  "id": "a2-interview",
+  "word": "interview",
+  "pos": "noun",
+  "tr": "mülakat, röportaj",
+  "en": "a formal meeting where someone answers questions for a job.",
+  "ex": "I have a job interview tomorrow morning."
+ },
+ {
+  "id": "a2-introduce",
+  "word": "introduce",
+  "pos": "verb",
+  "tr": "tanıtmak",
+  "en": "to tell people each other's names for the first time.",
+  "ex": "Let me introduce you to my brother, Ahmet."
+ },
+ {
+  "id": "a2-invent",
+  "word": "invent",
+  "pos": "verb",
+  "tr": "icat etmek",
+  "en": "to create something that has never existed before.",
+  "ex": "Who did invent the telephone?"
+ },
+ {
+  "id": "a2-invitation",
+  "word": "invitation",
+  "pos": "noun",
+  "tr": "davet",
+  "en": "a written or spoken request to come to an event.",
+  "ex": "I received an invitation to her wedding."
+ },
+ {
+  "id": "a2-invite",
+  "word": "invite",
+  "pos": "verb",
+  "tr": "davet etmek",
+  "en": "to ask someone to come to an event or place.",
+  "ex": "We want to invite our neighbors to dinner."
+ },
+ {
+  "id": "a2-island",
+  "word": "island",
+  "pos": "noun",
+  "tr": "ada",
+  "en": "a piece of land completely surrounded by water.",
+  "ex": "We spent our summer holiday on a small island."
+ },
+ {
+  "id": "a2-item",
+  "word": "item",
+  "pos": "noun",
+  "tr": "öğe, ürün",
+  "en": "a single thing in a group or list.",
+  "ex": "There are many items on the shopping list."
+ },
+ {
+  "id": "a2-jewellery",
+  "word": "jewellery",
+  "pos": "noun",
+  "tr": "mücevher",
+  "en": "objects like rings or necklaces worn for decoration.",
+  "ex": "She wears beautiful gold jewellery."
+ },
+ {
+  "id": "a2-join",
+  "word": "join",
+  "pos": "verb",
+  "tr": "katılmak",
+  "en": "to become a member of a group or go with others.",
+  "ex": "Would you like to join us for lunch?"
+ },
+ {
+  "id": "a2-joke",
+  "word": "joke",
+  "pos": "noun",
+  "tr": "şaka",
+  "en": "something said to make people laugh.",
+  "ex": "He told a funny joke and everyone laughed."
+ },
+ {
+  "id": "a2-journey",
+  "word": "journey",
+  "pos": "noun",
+  "tr": "yolculuk",
+  "en": "the act of traveling from one place to another.",
+  "ex": "The train journey took five hours."
+ },
+ {
+  "id": "a2-judge",
+  "word": "judge",
+  "pos": "noun",
+  "tr": "yargıç; yargılamak",
+  "en": "a person who decides cases in a court of law.",
+  "ex": "The judge listened to both sides of the story."
+ },
+ {
+  "id": "a2-keep",
+  "word": "keep",
+  "pos": "verb",
+  "tr": "tutmak, saklamak",
+  "en": "to continue to have or hold something.",
+  "ex": "You can keep the change."
+ },
+ {
+  "id": "a2-kid",
+  "word": "kid",
+  "pos": "noun",
+  "tr": "çocuk",
+  "en": "an informal word for a child.",
+  "ex": "The kids are playing in the park."
+ },
+ {
+  "id": "a2-kill",
+  "word": "kill",
+  "pos": "verb",
+  "tr": "öldürmek",
+  "en": "to cause a person, animal, or plant to die.",
+  "ex": "The cold weather can kill these flowers."
+ },
+ {
+  "id": "a2-kilometre",
+  "word": "kilometre",
+  "pos": "noun",
+  "tr": "kilometre",
+  "en": "a unit of distance equal to 1000 meters.",
+  "ex": "The city is fifty kilometres away."
+ },
+ {
+  "id": "a2-knock",
+  "word": "knock",
+  "pos": "verb",
+  "tr": "vurmak, çalmak (kapı)",
+  "en": "to hit a door with your hand to ask for entry.",
+  "ex": "Please knock before you enter the room."
+ },
+ {
+  "id": "a2-land",
+  "word": "land",
+  "pos": "noun",
+  "tr": "kara, arazi",
+  "en": "the solid surface of the earth, not water.",
+  "ex": "After a long flight, the plane finally touched land."
+ },
+ {
+  "id": "a2-laptop",
+  "word": "laptop",
+  "pos": "noun",
+  "tr": "dizüstü bilgisayar",
+  "en": "a portable computer that you can carry easily.",
+  "ex": "I do all my work on my laptop."
+ },
+ {
+  "id": "a2-laugh-at",
+  "word": "laugh at",
+  "pos": "phrasal verb",
+  "tr": "-e gülmek",
+  "en": "to show that you think someone or something is funny.",
+  "ex": "It is not nice to laugh at other people."
+ },
+ {
+  "id": "a2-law",
+  "word": "law",
+  "pos": "noun",
+  "tr": "kanun",
+  "en": "the rules of a country that everyone must follow.",
+  "ex": "It is against the law to drive without a license."
+ },
+ {
+  "id": "a2-lazy",
+  "word": "lazy",
+  "pos": "adjective",
+  "tr": "tembel",
+  "en": "not wanting to work or do any activity.",
+  "ex": "Don't be lazy, let's clean the house together."
+ },
+ {
+  "id": "a2-lead",
+  "word": "lead",
+  "pos": "verb",
+  "tr": "yönetmek, liderlik etmek",
+  "en": "to show the way or be the first person in a group.",
+  "ex": "She will lead the team during the project."
+ },
+ {
+  "id": "a2-leaf",
+  "word": "leaf",
+  "pos": "noun",
+  "tr": "yaprak",
+  "en": "the green part of a plant or tree.",
+  "ex": "The leaf fell from the tree to the ground."
+ },
+ {
+  "id": "a2-lecture",
+  "word": "lecture",
+  "pos": "noun",
+  "tr": "ders, konferans",
+  "en": "a formal talk given to a group of students.",
+  "ex": "I have a history lecture at ten o'clock."
+ },
+ {
+  "id": "a2-less",
+  "word": "less",
+  "pos": "determiner",
+  "tr": "daha az",
+  "en": "a smaller amount of something",
+  "ex": "I drink less coffee now than before."
+ },
+ {
+  "id": "a2-level",
+  "word": "level",
+  "pos": "noun",
+  "tr": "seviye",
+  "en": "a position on a scale of amount or quality",
+  "ex": "My English level is getting better every day."
+ },
+ {
+  "id": "a2-lie",
+  "word": "lie",
+  "pos": "verb",
+  "tr": "yalan söylemek; uzanmak",
+  "en": "to say something that is not true",
+  "ex": "It is not good to lie to your friends."
+ },
+ {
+  "id": "a2-lift",
+  "word": "lift",
+  "pos": "verb",
+  "tr": "kaldırmak",
+  "en": "to move something to a higher position",
+  "ex": "Can you help me lift this heavy box?"
+ },
+ {
+  "id": "a2-likely",
+  "word": "likely",
+  "pos": "adjective",
+  "tr": "muhtemel",
+  "en": "probably going to happen",
+  "ex": "It is likely to rain this afternoon."
+ },
+ {
+  "id": "a2-limit",
+  "word": "limit",
+  "pos": "noun",
+  "tr": "sınır",
+  "en": "the greatest amount that is allowed",
+  "ex": "There is a speed limit on this road."
+ },
+ {
+  "id": "a2-link",
+  "word": "link",
+  "pos": "noun",
+  "tr": "bağlantı",
+  "en": "a connection between two things",
+  "ex": "Click the link to open the website."
+ },
+ {
+  "id": "a2-local",
+  "word": "local",
+  "pos": "adjective",
+  "tr": "yerel",
+  "en": "related to the area where you live",
+  "ex": "I buy fresh vegetables at the local market."
+ },
+ {
+  "id": "a2-lock",
+  "word": "lock",
+  "pos": "verb",
+  "tr": "kilitlemek",
+  "en": "to close something with a key",
+  "ex": "Did you lock the front door before leaving?"
+ },
+ {
+  "id": "a2-lonely",
+  "word": "lonely",
+  "pos": "adjective",
+  "tr": "yalnız (duygu)",
+  "en": "feeling sad because you are by yourself",
+  "ex": "He felt lonely when he moved to a new city."
+ },
+ {
+  "id": "a2-look-after",
+  "word": "look after",
+  "pos": "phrasal verb",
+  "tr": "bakmak (birine)",
+  "en": "to take care of someone or something",
+  "ex": "Can you look after my cat while I am away?"
+ },
+ {
+  "id": "a2-look-forward-to",
+  "word": "look forward to",
+  "pos": "phrasal verb",
+  "tr": "dört gözle beklemek",
+  "en": "to feel happy and excited about a future event",
+  "ex": "I look forward to seeing you next week."
+ },
+ {
+  "id": "a2-loud",
+  "word": "loud",
+  "pos": "adjective",
+  "tr": "gürültülü, yüksek sesli",
+  "en": "making a lot of noise",
+  "ex": "The music is too loud, please turn it down."
+ },
+ {
+  "id": "a2-lovely",
+  "word": "lovely",
+  "pos": "adjective",
+  "tr": "hoş, sevimli",
+  "en": "very beautiful or pleasant",
+  "ex": "We had a lovely time at the park yesterday."
+ },
+ {
+  "id": "a2-low",
+  "word": "low",
+  "pos": "adjective",
+  "tr": "alçak, düşük",
+  "en": "not high or tall",
+  "ex": "The price of this shirt is very low."
+ },
+ {
+  "id": "a2-luck",
+  "word": "luck",
+  "pos": "noun",
+  "tr": "şans",
+  "en": "good or bad things that happen by chance",
+  "ex": "Good luck with your exam tomorrow!"
+ },
+ {
+  "id": "a2-lucky",
+  "word": "lucky",
+  "pos": "adjective",
+  "tr": "şanslı",
+  "en": "having good things happen to you",
+  "ex": "You are lucky to have such a nice family."
+ },
+ {
+  "id": "a2-luggage",
+  "word": "luggage",
+  "pos": "noun",
+  "tr": "bagaj",
+  "en": "the bags you take when you travel",
+  "ex": "I have too much luggage for this small car."
+ },
+ {
+  "id": "a2-machine",
+  "word": "machine",
+  "pos": "noun",
+  "tr": "makine",
+  "en": "a piece of equipment with moving parts",
+  "ex": "The washing machine is broken again."
+ },
+ {
+  "id": "a2-magic",
+  "word": "magic",
+  "pos": "noun",
+  "tr": "sihir",
+  "en": "special powers that make impossible things happen",
+  "ex": "The children enjoyed the magic show."
+ },
+ {
+  "id": "a2-mail",
+  "word": "mail",
+  "pos": "noun",
+  "tr": "posta",
+  "en": "letters and packages sent through the post",
+  "ex": "Did you check the mail today?"
+ },
+ {
+  "id": "a2-main",
+  "word": "main",
+  "pos": "adjective",
+  "tr": "ana",
+  "en": "the most important or largest",
+  "ex": "The main reason I study is to get a job."
+ },
+ {
+  "id": "a2-manage",
+  "word": "manage",
+  "pos": "verb",
+  "tr": "yönetmek, başarmak",
+  "en": "to succeed in doing something difficult",
+  "ex": "I managed to finish all my work on time."
+ },
+ {
+  "id": "a2-married",
+  "word": "married",
+  "pos": "adjective",
+  "tr": "evli",
+  "en": "having a husband or wife",
+  "ex": "They have been married for ten years."
+ },
+ {
+  "id": "a2-match",
+  "word": "match",
+  "pos": "noun",
+  "tr": "maç; eşleşmek",
+  "en": "a sports game or two things that look good together",
+  "ex": "Are you going to watch the football match tonight?"
+ },
+ {
+  "id": "a2-material",
+  "word": "material",
+  "pos": "noun",
+  "tr": "malzeme",
+  "en": "the stuff used to make things like clothes or buildings",
+  "ex": "This shirt is made of soft cotton material."
+ },
+ {
+  "id": "a2-matter",
+  "word": "matter",
+  "pos": "noun",
+  "tr": "önemli olmak",
+  "en": "a situation or subject that is important",
+  "ex": "It does not matter if you are late."
+ },
+ {
+  "id": "a2-meal",
+  "word": "meal",
+  "pos": "noun",
+  "tr": "yemek, öğün",
+  "en": "food eaten at a specific time, like lunch or dinner",
+  "ex": "Breakfast is my favorite meal of the day."
+ },
+ {
+  "id": "a2-mean",
+  "word": "mean",
+  "pos": "verb",
+  "tr": "anlamına gelmek",
+  "en": "to have a specific definition or purpose",
+  "ex": "What does this word mean in Turkish?"
+ },
+ {
+  "id": "a2-meaning",
+  "word": "meaning",
+  "pos": "noun",
+  "tr": "anlam",
+  "en": "the definition or idea of a word",
+  "ex": "I do not know the meaning of this sentence."
+ },
+ {
+  "id": "a2-measure",
+  "word": "measure",
+  "pos": "verb",
+  "tr": "ölçmek",
+  "en": "to find the size, weight, or amount of something.",
+  "ex": "Can you measure the length of this table?"
+ },
+ {
+  "id": "a2-member",
+  "word": "member",
+  "pos": "noun",
+  "tr": "üye",
+  "en": "a person who belongs to a group or club.",
+  "ex": "He is a member of the local tennis club."
+ },
+ {
+  "id": "a2-memory",
+  "word": "memory",
+  "pos": "noun",
+  "tr": "hafıza, anı",
+  "en": "the ability to remember things or a past event.",
+  "ex": "I have a good memory for names."
+ },
+ {
+  "id": "a2-mention",
+  "word": "mention",
+  "pos": "verb",
+  "tr": "bahsetmek",
+  "en": "to talk about something briefly.",
+  "ex": "Did she mention the meeting to you?"
+ },
+ {
+  "id": "a2-method",
+  "word": "method",
+  "pos": "noun",
+  "tr": "yöntem",
+  "en": "a particular way of doing something.",
+  "ex": "This is a very effective method for learning languages."
+ },
+ {
+  "id": "a2-middle",
+  "word": "middle",
+  "pos": "noun",
+  "tr": "orta",
+  "en": "the point that is equal distance from the edges.",
+  "ex": "She sat in the middle of the room."
+ },
+ {
+  "id": "a2-mind",
+  "word": "mind",
+  "pos": "noun",
+  "tr": "akıl; sakıncası olmak",
+  "en": "the part of a person that thinks and feels.",
+  "ex": "I have a lot on my mind today."
+ },
+ {
+  "id": "a2-modern",
+  "word": "modern",
+  "pos": "adjective",
+  "tr": "modern",
+  "en": "relating to the present time or recent past.",
+  "ex": "They live in a very modern apartment."
+ },
+ {
+  "id": "a2-moment",
+  "word": "moment",
+  "pos": "noun",
+  "tr": "an",
+  "en": "a very short period of time.",
+  "ex": "Wait a moment, I will be right back."
+ },
+ {
+  "id": "a2-moon",
+  "word": "moon",
+  "pos": "noun",
+  "tr": "ay (gök)",
+  "en": "the object that shines in the sky at night.",
+  "ex": "The moon is very bright tonight."
+ },
+ {
+  "id": "a2-mostly",
+  "word": "mostly",
+  "pos": "adverb",
+  "tr": "çoğunlukla",
+  "en": "mainly or for the most part.",
+  "ex": "It is mostly sunny in this city."
+ },
+ {
+  "id": "a2-motorbike",
+  "word": "motorbike",
+  "pos": "noun",
+  "tr": "motosiklet",
+  "en": "a vehicle with two wheels and an engine.",
+  "ex": "He rides his motorbike to work every day."
+ },
+ {
+  "id": "a2-movement",
+  "word": "movement",
+  "pos": "noun",
+  "tr": "hareket",
+  "en": "the act of changing position or place.",
+  "ex": "I saw a sudden movement in the bushes."
+ },
+ {
+  "id": "a2-musician",
+  "word": "musician",
+  "pos": "noun",
+  "tr": "müzisyen",
+  "en": "someone who plays a musical instrument or sings.",
+  "ex": "My brother is a professional musician."
+ },
+ {
+  "id": "a2-nation",
+  "word": "nation",
+  "pos": "noun",
+  "tr": "ulus",
+  "en": "a large group of people living in one country.",
+  "ex": "The whole nation watched the football game."
+ },
+ {
+  "id": "a2-natural",
+  "word": "natural",
+  "pos": "adjective",
+  "tr": "doğal",
+  "en": "not made by people; existing in the world.",
+  "ex": "She prefers natural food without chemicals."
+ },
+ {
+  "id": "a2-nature",
+  "word": "nature",
+  "pos": "noun",
+  "tr": "doğa",
+  "en": "the physical world, including plants, animals, and landscapes.",
+  "ex": "I love spending time in nature on weekends."
+ },
+ {
+  "id": "a2-nearly",
+  "word": "nearly",
+  "pos": "adverb",
+  "tr": "neredeyse",
+  "en": "almost, but not quite.",
+  "ex": "It is nearly time to go home."
+ },
+ {
+  "id": "a2-necessary",
+  "word": "necessary",
+  "pos": "adjective",
+  "tr": "gerekli",
+  "en": "needed to be done or to happen.",
+  "ex": "Is it necessary to bring a gift?"
+ },
+ {
+  "id": "a2-neck",
+  "word": "neck",
+  "pos": "noun",
+  "tr": "boyun",
+  "en": "the part of the body between the head and shoulders.",
+  "ex": "I have a pain in my neck."
+ },
+ {
+  "id": "a2-negative",
+  "word": "negative",
+  "pos": "adjective",
+  "tr": "olumsuz",
+  "en": "bad, not good, or expressing disagreement.",
+  "ex": "Don't have such a negative attitude."
+ },
+ {
+  "id": "a2-nervous",
+  "word": "nervous",
+  "pos": "adjective",
+  "tr": "gergin",
+  "en": "feeling worried or afraid about something.",
+  "ex": "I always feel nervous before a big exam."
+ },
+ {
+  "id": "a2-net",
+  "word": "net",
+  "pos": "noun",
+  "tr": "ağ",
+  "en": "a material made of threads used to catch things.",
+  "ex": "The fisherman threw his net into the sea."
+ },
+ {
+  "id": "a2-noise",
+  "word": "noise",
+  "pos": "noun",
+  "tr": "gürültü",
+  "en": "a sound, often one that is loud or unpleasant.",
+  "ex": "There is too much noise in this street."
+ },
+ {
+  "id": "a2-normal",
+  "word": "normal",
+  "pos": "adjective",
+  "tr": "normal",
+  "en": "usual, typical, or expected.",
+  "ex": "It is normal to feel tired after work."
+ },
+ {
+  "id": "a2-note",
+  "word": "note",
+  "pos": "noun",
+  "tr": "not",
+  "en": "a short piece of writing to help you remember.",
+  "ex": "I left a note on the fridge for him."
+ },
+ {
+  "id": "a2-notice",
+  "word": "notice",
+  "pos": "verb",
+  "tr": "fark etmek",
+  "en": "to see or become aware of something.",
+  "ex": "Did you notice his new haircut?"
+ },
+ {
+  "id": "a2-novel",
+  "word": "novel",
+  "pos": "noun",
+  "tr": "roman",
+  "en": "a long book that tells a fictional story.",
+  "ex": "She is reading a very interesting novel."
+ },
+ {
+  "id": "a2-obvious",
+  "word": "obvious",
+  "pos": "adjective",
+  "tr": "açık, belli",
+  "en": "easy to see or understand.",
+  "ex": "It is obvious that he is tired."
+ },
+ {
+  "id": "a2-occasion",
+  "word": "occasion",
+  "pos": "noun",
+  "tr": "vesile, durum",
+  "en": "a special event or time when something happens.",
+  "ex": "A wedding is a very special occasion."
+ },
+ {
+  "id": "a2-ocean",
+  "word": "ocean",
+  "pos": "noun",
+  "tr": "okyanus",
+  "en": "A very large area of salt water covering the Earth.",
+  "ex": "We swam in the ocean during our summer holiday."
+ },
+ {
+  "id": "a2-offer",
+  "word": "offer",
+  "pos": "verb",
+  "tr": "teklif etmek",
+  "en": "To ask someone if they want something or want to do something.",
+  "ex": "He decided to offer her a job at his company."
+ },
+ {
+  "id": "a2-officer",
+  "word": "officer",
+  "pos": "noun",
+  "tr": "memur, subay",
+  "en": "A person who has an important position in the police or army.",
+  "ex": "The police officer stopped the car to check the license."
+ },
+ {
+  "id": "a2-online",
+  "word": "online",
+  "pos": "adjective",
+  "tr": "çevrimiçi",
+  "en": "Connected to the internet or available on the internet.",
+  "ex": "I prefer to do my grocery shopping online."
+ },
+ {
+  "id": "a2-operation",
+  "word": "operation",
+  "pos": "noun",
+  "tr": "ameliyat; işlem",
+  "en": "A medical procedure where a doctor cuts into the body to fix something.",
+  "ex": "She had an operation on her knee last week."
+ },
+ {
+  "id": "a2-opinion",
+  "word": "opinion",
+  "pos": "noun",
+  "tr": "fikir",
+  "en": "What you think or believe about a specific subject.",
+  "ex": "In my opinion, this is the best restaurant in the city."
+ },
+ {
+  "id": "a2-opportunity",
+  "word": "opportunity",
+  "pos": "noun",
+  "tr": "fırsat",
+  "en": "A good chance to do something you want to do.",
+  "ex": "This job is a great opportunity for my career."
+ },
+ {
+  "id": "a2-order",
+  "word": "order",
+  "pos": "noun",
+  "tr": "sipariş; düzen",
+  "en": "A request for food or goods to be made or delivered.",
+  "ex": "I would like to place an order for two pizzas."
+ },
+ {
+  "id": "a2-ordinary",
+  "word": "ordinary",
+  "pos": "adjective",
+  "tr": "sıradan",
+  "en": "Not special, different, or unusual; normal.",
+  "ex": "It was just an ordinary day at the office."
+ },
+ {
+  "id": "a2-organise",
+  "word": "organise",
+  "pos": "verb",
+  "tr": "düzenlemek",
+  "en": "To plan or arrange an event or activity.",
+  "ex": "We need to organise a party for his birthday."
+ },
+ {
+  "id": "a2-original",
+  "word": "original",
+  "pos": "adjective",
+  "tr": "orijinal",
+  "en": "Existing from the beginning; not a copy.",
+  "ex": "The original painting is in a museum in Paris."
+ },
+ {
+  "id": "a2-own",
+  "word": "own",
+  "pos": "verb",
+  "tr": "kendi; sahip olmak",
+  "en": "To have something that belongs to you.",
+  "ex": "They own a small house near the beach."
+ },
+ {
+  "id": "a2-pack",
+  "word": "pack",
+  "pos": "verb",
+  "tr": "paketlemek, bavul hazırlamak",
+  "en": "To put things into a bag or box for traveling or moving.",
+  "ex": "I need to pack my suitcase before the flight tomorrow."
+ },
+ {
+  "id": "a2-pain",
+  "word": "pain",
+  "pos": "noun",
+  "tr": "acı",
+  "en": "A physical feeling when you are hurt or sick.",
+  "ex": "I felt a sharp pain in my back after lifting the box."
+ },
+ {
+  "id": "a2-paint",
+  "word": "paint",
+  "pos": "verb",
+  "tr": "boyamak",
+  "en": "To cover a surface with a liquid color.",
+  "ex": "We are going to paint the kitchen walls white."
+ },
+ {
+  "id": "a2-pair",
+  "word": "pair",
+  "pos": "noun",
+  "tr": "çift",
+  "en": "Two things that are the same and used together.",
+  "ex": "I bought a new pair of shoes for the wedding."
+ },
+ {
+  "id": "a2-pale",
+  "word": "pale",
+  "pos": "adjective",
+  "tr": "solgun",
+  "en": "Having a light color or skin that is not dark.",
+  "ex": "She looked very pale because she was feeling ill."
+ },
+ {
+  "id": "a2-pass",
+  "word": "pass",
+  "pos": "verb",
+  "tr": "geçmek",
+  "en": "To go past something or succeed in a test.",
+  "ex": "I hope I pass my English exam next week."
+ },
+ {
+  "id": "a2-passenger",
+  "word": "passenger",
+  "pos": "noun",
+  "tr": "yolcu",
+  "en": "A person traveling in a vehicle but not driving it.",
+  "ex": "The passenger sat in the back seat of the taxi."
+ },
+ {
+  "id": "a2-past",
+  "word": "past",
+  "pos": "noun",
+  "tr": "geçmiş",
+  "en": "The time before now.",
+  "ex": "We should learn from the mistakes of the past."
+ },
+ {
+  "id": "a2-path",
+  "word": "path",
+  "pos": "noun",
+  "tr": "patika",
+  "en": "A track or way for walking in a park or garden.",
+  "ex": "We walked along the path through the forest."
+ },
+ {
+  "id": "a2-patient",
+  "word": "patient",
+  "pos": "adjective",
+  "tr": "sabırlı; hasta",
+  "en": "Able to wait calmly without getting angry.",
+  "ex": "Please be patient while I finish this report."
+ },
+ {
+  "id": "a2-pay-attention",
+  "word": "pay attention",
+  "pos": "phrase",
+  "tr": "dikkat etmek",
+  "en": "To watch or listen carefully to someone or something.",
+  "ex": "You need to pay attention to the teacher in class."
+ },
+ {
+  "id": "a2-peace",
+  "word": "peace",
+  "pos": "noun",
+  "tr": "barış",
+  "en": "A situation where there is no war or fighting.",
+  "ex": "Everyone wants to live in peace and happiness."
+ },
+ {
+  "id": "a2-per-cent",
+  "word": "per cent",
+  "pos": "noun",
+  "tr": "yüzde",
+  "en": "A part of a total number out of one hundred.",
+  "ex": "Fifty per cent of the students passed the test."
+ },
+ {
+  "id": "a2-perform",
+  "word": "perform",
+  "pos": "verb",
+  "tr": "sahnelemek, yapmak",
+  "en": "To do a job or entertain people by acting or singing.",
+  "ex": "The band will perform at the concert tonight."
+ },
+ {
+  "id": "a2-perhaps",
+  "word": "perhaps",
+  "pos": "adverb",
+  "tr": "belki",
+  "en": "Used to show that something is possible but not certain.",
+  "ex": "Perhaps we can go to the cinema tomorrow."
+ },
+ {
+  "id": "a2-period",
+  "word": "period",
+  "pos": "noun",
+  "tr": "dönem",
+  "en": "A length of time with a beginning and an end.",
+  "ex": "He lived in London for a short period of time."
+ },
+ {
+  "id": "a2-permission",
+  "word": "permission",
+  "pos": "noun",
+  "tr": "izin",
+  "en": "The act of allowing someone to do something.",
+  "ex": "You need permission from your boss to leave early."
+ },
+ {
+  "id": "a2-personal",
+  "word": "personal",
+  "pos": "adjective",
+  "tr": "kişisel",
+  "en": "Belonging to one person and not for everyone to see.",
+  "ex": "I do not want to discuss my personal life at work."
+ },
+ {
+  "id": "a2-pet",
+  "word": "pet",
+  "pos": "noun",
+  "tr": "evcil hayvan",
+  "en": "an animal that you keep at home for company",
+  "ex": "My daughter wants a pet like a cat or a dog."
+ },
+ {
+  "id": "a2-physical",
+  "word": "physical",
+  "pos": "adjective",
+  "tr": "fiziksel",
+  "en": "relating to the body instead of the mind",
+  "ex": "He needs more physical exercise to stay healthy."
+ },
+ {
+  "id": "a2-pick-up",
+  "word": "pick up",
+  "pos": "phrasal verb",
+  "tr": "almak (birini)",
+  "en": "to lift something from the ground or collect someone",
+  "ex": "Can you pick up the kids from school today?"
+ },
+ {
+  "id": "a2-piece",
+  "word": "piece",
+  "pos": "noun",
+  "tr": "parça",
+  "en": "a small part of something larger",
+  "ex": "Would you like a piece of cake?"
+ },
+ {
+  "id": "a2-planet",
+  "word": "planet",
+  "pos": "noun",
+  "tr": "gezegen",
+  "en": "a large round object in space that moves around a star",
+  "ex": "Earth is the only planet we know with life."
+ },
+ {
+  "id": "a2-plant",
+  "word": "plant",
+  "pos": "noun",
+  "tr": "bitki",
+  "en": "a living thing that grows in the ground with leaves",
+  "ex": "She waters her plants every morning."
+ },
+ {
+  "id": "a2-plastic",
+  "word": "plastic",
+  "pos": "noun",
+  "tr": "plastik",
+  "en": "a light, strong material used to make bottles and bags",
+  "ex": "Try not to use too much plastic in your daily life."
+ },
+ {
+  "id": "a2-platform",
+  "word": "platform",
+  "pos": "noun",
+  "tr": "peron",
+  "en": "the area at a train station where passengers wait",
+  "ex": "The train to London leaves from platform four."
+ },
+ {
+  "id": "a2-pleasant",
+  "word": "pleasant",
+  "pos": "adjective",
+  "tr": "hoş",
+  "en": "nice, enjoyable, or friendly",
+  "ex": "We had a very pleasant evening at the restaurant."
+ },
+ {
+  "id": "a2-pleased",
+  "word": "pleased",
+  "pos": "adjective",
+  "tr": "memnun",
+  "en": "feeling happy and satisfied about something",
+  "ex": "I am very pleased with your exam results."
+ },
+ {
+  "id": "a2-plenty",
+  "word": "plenty",
+  "pos": "noun",
+  "tr": "bol",
+  "en": "more than enough of something",
+  "ex": "Don't worry, we have plenty of food for everyone."
+ },
+ {
+  "id": "a2-pocket",
+  "word": "pocket",
+  "pos": "noun",
+  "tr": "cep",
+  "en": "a small bag sewn into clothes to carry things",
+  "ex": "I have some coins in my pocket."
+ },
+ {
+  "id": "a2-poem",
+  "word": "poem",
+  "pos": "noun",
+  "tr": "şiir",
+  "en": "a piece of writing with short lines and often rhymes",
+  "ex": "He wrote a beautiful poem for his wife."
+ },
+ {
+  "id": "a2-point",
+  "word": "point",
+  "pos": "noun",
+  "tr": "nokta; göstermek",
+  "en": "a specific idea or the purpose of something",
+  "ex": "I don't see the point of waiting here any longer."
+ },
+ {
+  "id": "a2-poison",
+  "word": "poison",
+  "pos": "noun",
+  "tr": "zehir",
+  "en": "a substance that can make you sick or kill you",
+  "ex": "Keep the cleaning chemicals away because they are poison."
+ },
+ {
+  "id": "a2-polite",
+  "word": "polite",
+  "pos": "adjective",
+  "tr": "kibar",
+  "en": "having good manners and being respectful to others",
+  "ex": "It is polite to say thank you when someone helps you."
+ },
+ {
+  "id": "a2-pollution",
+  "word": "pollution",
+  "pos": "noun",
+  "tr": "kirlilik",
+  "en": "dirty air, water, or land caused by waste",
+  "ex": "Air pollution is a big problem in large cities."
+ },
+ {
+  "id": "a2-pool",
+  "word": "pool",
+  "pos": "noun",
+  "tr": "havuz",
+  "en": "a structure filled with water for swimming",
+  "ex": "Let's go to the swimming pool this afternoon."
+ },
+ {
+  "id": "a2-poor",
+  "word": "poor",
+  "pos": "adjective",
+  "tr": "fakir",
+  "en": "having very little money or of low quality",
+  "ex": "The poor family lived in a very small house."
+ },
+ {
+  "id": "a2-popular",
+  "word": "popular",
+  "pos": "adjective",
+  "tr": "popüler",
+  "en": "liked or enjoyed by many people",
+  "ex": "That new song is very popular right now."
+ },
+ {
+  "id": "a2-population",
+  "word": "population",
+  "pos": "noun",
+  "tr": "nüfus",
+  "en": "the number of people living in a specific place",
+  "ex": "The population of this city is growing very fast."
+ },
+ {
+  "id": "a2-positive",
+  "word": "positive",
+  "pos": "adjective",
+  "tr": "olumlu",
+  "en": "thinking about the good things in a situation",
+  "ex": "Try to keep a positive attitude about your new job."
+ },
+ {
+  "id": "a2-possible",
+  "word": "possible",
+  "pos": "adjective",
+  "tr": "mümkün",
+  "en": "able to be done or achieved",
+  "ex": "Is it possible to finish this work by tomorrow?"
+ },
+ {
+  "id": "a2-post",
+  "word": "post",
+  "pos": "noun",
+  "tr": "göndermek (posta)",
+  "en": "letters and packages delivered to your home",
+  "ex": "Did you check the post this morning?"
+ },
+ {
+  "id": "a2-pound",
+  "word": "pound",
+  "pos": "noun",
+  "tr": "sterlin",
+  "en": "the money used in the United Kingdom",
+  "ex": "This book costs ten pounds."
+ },
+ {
+  "id": "a2-powerful",
+  "word": "powerful",
+  "pos": "adjective",
+  "tr": "güçlü",
+  "en": "having a lot of strength or control",
+  "ex": "The company has a very powerful leader."
+ },
+ {
+  "id": "a2-practical",
+  "word": "practical",
+  "pos": "adjective",
+  "tr": "pratik",
+  "en": "useful and sensible for real situations",
+  "ex": "A backpack is more practical than a handbag for hiking."
+ },
+ {
+  "id": "a2-prefer",
+  "word": "prefer",
+  "pos": "verb",
+  "tr": "tercih etmek",
+  "en": "to like one thing more than another",
+  "ex": "I prefer tea to coffee in the morning."
+ },
+ {
+  "id": "a2-prepare",
+  "word": "prepare",
+  "pos": "verb",
+  "tr": "hazırlamak",
+  "en": "to make something ready",
+  "ex": "She is in the kitchen to prepare dinner."
+ },
+ {
+  "id": "a2-present",
+  "word": "present",
+  "pos": "adjective",
+  "tr": "mevcut",
+  "en": "being in a specific place at this time",
+  "ex": "All the students were present in class today."
+ },
+ {
+  "id": "a2-president",
+  "word": "president",
+  "pos": "noun",
+  "tr": "başkan",
+  "en": "the leader of a country or an organization",
+  "ex": "The president will give a speech tonight."
+ },
+ {
+  "id": "a2-press",
+  "word": "press",
+  "pos": "verb",
+  "tr": "basmak",
+  "en": "to push something with your hand or finger",
+  "ex": "Press the red button to start the machine."
+ },
+ {
+  "id": "a2-pretty",
+  "word": "pretty",
+  "pos": "adjective",
+  "tr": "güzel; oldukça",
+  "en": "looking nice or attractive",
+  "ex": "She is wearing a very pretty dress today."
+ },
+ {
+  "id": "a2-prevent",
+  "word": "prevent",
+  "pos": "verb",
+  "tr": "önlemek",
+  "en": "to stop something from happening",
+  "ex": "Good food helps to prevent many illnesses."
+ },
+ {
+  "id": "a2-prince",
+  "word": "prince",
+  "pos": "noun",
+  "tr": "prens",
+  "en": "the son of a king or queen",
+  "ex": "The prince lives in a large castle."
+ },
+ {
+  "id": "a2-print",
+  "word": "print",
+  "pos": "verb",
+  "tr": "yazdırmak",
+  "en": "to put words or pictures on paper using a machine",
+  "ex": "Can you print this document for me?"
+ },
+ {
+  "id": "a2-prison",
+  "word": "prison",
+  "pos": "noun",
+  "tr": "hapishane",
+  "en": "a building where people stay when they break the law",
+  "ex": "The thief was sent to prison for two years."
+ },
+ {
+  "id": "a2-prize",
+  "word": "prize",
+  "pos": "noun",
+  "tr": "ödül",
+  "en": "something you win for being the best in a competition",
+  "ex": "She won first prize in the painting contest."
+ },
+ {
+  "id": "a2-probably",
+  "word": "probably",
+  "pos": "adverb",
+  "tr": "muhtemelen",
+  "en": "likely to happen or be true",
+  "ex": "I will probably go to the cinema tomorrow."
+ },
+ {
+  "id": "a2-produce",
+  "word": "produce",
+  "pos": "verb",
+  "tr": "üretmek",
+  "en": "to make or create something",
+  "ex": "This factory will produce many new cars."
+ },
+ {
+  "id": "a2-product",
+  "word": "product",
+  "pos": "noun",
+  "tr": "ürün",
+  "en": "something that is made to be sold",
+  "ex": "This company sells many healthy food products."
+ },
+ {
+  "id": "a2-professional",
+  "word": "professional",
+  "pos": "adjective",
+  "tr": "profesyonel",
+  "en": "doing a job as a paid career, not for fun",
+  "ex": "He is a professional photographer."
+ },
+ {
+  "id": "a2-programme",
+  "word": "programme",
+  "pos": "noun",
+  "tr": "program",
+  "en": "a show on television or radio",
+  "ex": "I watched an interesting nature programme last night."
+ },
+ {
+  "id": "a2-project",
+  "word": "project",
+  "pos": "noun",
+  "tr": "proje",
+  "en": "a planned piece of work that takes time",
+  "ex": "We are working on a school project together."
+ },
+ {
+  "id": "a2-promise",
+  "word": "promise",
+  "pos": "verb",
+  "tr": "söz vermek",
+  "en": "to say that you will definitely do something",
+  "ex": "I promise to call you when I arrive."
+ },
+ {
+  "id": "a2-pronounce",
+  "word": "pronounce",
+  "pos": "verb",
+  "tr": "telaffuz etmek",
+  "en": "to say a word in a particular way",
+  "ex": "How do you pronounce this difficult word?"
+ },
+ {
+  "id": "a2-protect",
+  "word": "protect",
+  "pos": "verb",
+  "tr": "korumak",
+  "en": "to keep someone or something safe from harm",
+  "ex": "We should protect our environment from pollution."
+ },
+ {
+  "id": "a2-proud",
+  "word": "proud",
+  "pos": "adjective",
+  "tr": "gururlu",
+  "en": "feeling happy about something you or others have done",
+  "ex": "My parents are very proud of my success."
+ },
+ {
+  "id": "a2-provide",
+  "word": "provide",
+  "pos": "verb",
+  "tr": "sağlamak",
+  "en": "to give something that is needed",
+  "ex": "The hotel will provide breakfast for all guests."
+ },
+ {
+  "id": "a2-public",
+  "word": "public",
+  "pos": "adjective",
+  "tr": "halka açık",
+  "en": "for everyone to use, not private",
+  "ex": "Smoking is not allowed in public places."
+ },
+ {
+  "id": "a2-pull",
+  "word": "pull",
+  "pos": "noun",
+  "tr": "çekme",
+  "en": "the act of moving something towards you",
+  "ex": "Give the door a strong pull to open it."
+ },
+ {
+  "id": "a2-punish",
+  "word": "punish",
+  "pos": "verb",
+  "tr": "cezalandırmak",
+  "en": "to make someone suffer for doing something wrong",
+  "ex": "The teacher did not punish the student for being late."
+ },
+ {
+  "id": "a2-purpose",
+  "word": "purpose",
+  "pos": "noun",
+  "tr": "amaç",
+  "en": "the reason why you do something",
+  "ex": "What is the purpose of this meeting?"
+ },
+ {
+  "id": "a2-quality",
+  "word": "quality",
+  "pos": "noun",
+  "tr": "kalite",
+  "en": "how good or bad something is",
+  "ex": "This shop sells high quality clothes."
+ },
+ {
+  "id": "a2-queen",
+  "word": "queen",
+  "pos": "noun",
+  "tr": "kraliçe",
+  "en": "a woman who rules a country",
+  "ex": "The queen lives in a very large palace."
+ },
+ {
+  "id": "a2-quickly",
+  "word": "quickly",
+  "pos": "adverb",
+  "tr": "hızlıca",
+  "en": "at a fast speed",
+  "ex": "Please finish your homework quickly."
+ },
+ {
+  "id": "a2-race",
+  "word": "race",
+  "pos": "noun",
+  "tr": "yarış",
+  "en": "a competition to see who is the fastest",
+  "ex": "He won the running race at school."
+ },
+ {
+  "id": "a2-railway",
+  "word": "railway",
+  "pos": "noun",
+  "tr": "demiryolu",
+  "en": "the tracks that trains travel on",
+  "ex": "The railway station is near the city center."
+ },
+ {
+  "id": "a2-raise",
+  "word": "raise",
+  "pos": "verb",
+  "tr": "yükseltmek",
+  "en": "to move something to a higher position",
+  "ex": "Please raise your hand if you have a question."
+ },
+ {
+  "id": "a2-rarely",
+  "word": "rarely",
+  "pos": "adverb",
+  "tr": "nadiren",
+  "en": "not often",
+  "ex": "I rarely eat meat because I prefer vegetables."
+ },
+ {
+  "id": "a2-rather",
+  "word": "rather",
+  "pos": "adverb",
+  "tr": "oldukça; tercihen",
+  "en": "To a certain degree or more than a little bit.",
+  "ex": "It is rather cold outside today, so wear a coat."
+ },
+ {
+  "id": "a2-reach",
+  "word": "reach",
+  "pos": "verb",
+  "tr": "ulaşmak",
+  "en": "To arrive at a place or touch something by stretching.",
+  "ex": "We will reach the city center in ten minutes."
+ },
+ {
+  "id": "a2-react",
+  "word": "react",
+  "pos": "verb",
+  "tr": "tepki vermek",
+  "en": "To do something because of something that happened to you.",
+  "ex": "How did your boss react to the bad news?"
+ },
+ {
+  "id": "a2-ready",
+  "word": "ready",
+  "pos": "adjective",
+  "tr": "hazır",
+  "en": "Prepared to do something or use something now.",
+  "ex": "Are you ready to leave for the airport?"
+ },
+ {
+  "id": "a2-real",
+  "word": "real",
+  "pos": "adjective",
+  "tr": "gerçek",
+  "en": "Actually existing and not fake or imagined.",
+  "ex": "Is that a real diamond or is it fake?"
+ },
+ {
+  "id": "a2-realise",
+  "word": "realise",
+  "pos": "verb",
+  "tr": "farkına varmak",
+  "en": "To suddenly understand or become aware of a fact.",
+  "ex": "I didn't realise that you were waiting for me."
+ },
+ {
+  "id": "a2-reason",
+  "word": "reason",
+  "pos": "noun",
+  "tr": "sebep",
+  "en": "The cause or explanation for why something happens.",
+  "ex": "The reason I was late is that the bus broke down."
+ },
+ {
+  "id": "a2-receipt",
+  "word": "receipt",
+  "pos": "noun",
+  "tr": "fiş",
+  "en": "A piece of paper showing you paid for something.",
+  "ex": "Please keep the receipt in case you want to return it."
+ },
+ {
+  "id": "a2-recently",
+  "word": "recently",
+  "pos": "adverb",
+  "tr": "son zamanlarda",
+  "en": "Not long ago or a short time in the past.",
+  "ex": "I have recently started learning how to play guitar."
+ },
+ {
+  "id": "a2-recipe",
+  "word": "recipe",
+  "pos": "noun",
+  "tr": "tarif",
+  "en": "Instructions for how to cook a specific meal.",
+  "ex": "My grandmother gave me her secret cake recipe."
+ },
+ {
+  "id": "a2-recommend",
+  "word": "recommend",
+  "pos": "verb",
+  "tr": "önermek",
+  "en": "To suggest that someone should do or buy something.",
+  "ex": "Can you recommend a good restaurant in this area?"
+ },
+ {
+  "id": "a2-record",
+  "word": "record",
+  "pos": "verb",
+  "tr": "kaydetmek",
+  "en": "To store sounds or images on a device.",
+  "ex": "I want to record the meeting so I can listen later."
+ },
+ {
+  "id": "a2-recycle",
+  "word": "recycle",
+  "pos": "verb",
+  "tr": "geri dönüştürmek",
+  "en": "To process used items so they can be used again.",
+  "ex": "We should recycle our plastic bottles and paper."
+ },
+ {
+  "id": "a2-reduce",
+  "word": "reduce",
+  "pos": "verb",
+  "tr": "azaltmak",
+  "en": "To make something smaller in size, amount, or price.",
+  "ex": "The shop will reduce the prices during the sale."
+ },
+ {
+  "id": "a2-refuse",
+  "word": "refuse",
+  "pos": "verb",
+  "tr": "reddetmek",
+  "en": "To say that you will not accept or do something.",
+  "ex": "He decided to refuse the job offer."
+ },
+ {
+  "id": "a2-region",
+  "word": "region",
+  "pos": "noun",
+  "tr": "bölge",
+  "en": "A large area of land or a country.",
+  "ex": "This region is famous for its beautiful mountains."
+ },
+ {
+  "id": "a2-relationship",
+  "word": "relationship",
+  "pos": "noun",
+  "tr": "ilişki",
+  "en": "The way two people or groups feel and behave toward each other.",
+  "ex": "They have a very good relationship with their neighbors."
+ },
+ {
+  "id": "a2-relative",
+  "word": "relative",
+  "pos": "noun",
+  "tr": "akraba",
+  "en": "A member of your family.",
+  "ex": "All my relatives are coming to the wedding."
+ },
+ {
+  "id": "a2-remove",
+  "word": "remove",
+  "pos": "verb",
+  "tr": "kaldırmak",
+  "en": "To take something away from a place.",
+  "ex": "Please remove your shoes before entering the house."
+ },
+ {
+  "id": "a2-rent",
+  "word": "rent",
+  "pos": "verb",
+  "tr": "kiralamak",
+  "en": "To pay money to use something that belongs to someone else.",
+  "ex": "We want to rent a car for our holiday."
+ },
+ {
+  "id": "a2-repair",
+  "word": "repair",
+  "pos": "verb",
+  "tr": "tamir etmek",
+  "en": "To fix something that is broken or damaged.",
+  "ex": "He needs to repair his computer because it is slow."
+ },
+ {
+  "id": "a2-reply",
+  "word": "reply",
+  "pos": "verb",
+  "tr": "cevap vermek",
+  "en": "To answer someone by speaking or writing.",
+  "ex": "Please reply to my email as soon as possible."
+ },
+ {
+  "id": "a2-report",
+  "word": "report",
+  "pos": "noun",
+  "tr": "rapor",
+  "en": "A document or speech giving information about a topic.",
+  "ex": "I have to write a report about the project."
+ },
+ {
+  "id": "a2-rescue",
+  "word": "rescue",
+  "pos": "verb",
+  "tr": "kurtarmak",
+  "en": "To save someone or something from a dangerous situation.",
+  "ex": "The firefighters were able to rescue the cat from the tree."
+ },
+ {
+  "id": "a2-research",
+  "word": "research",
+  "pos": "noun",
+  "tr": "araştırma",
+  "en": "The study of a subject to find new information.",
+  "ex": "She is doing research on how plants grow."
+ },
+ {
+  "id": "a2-reserve",
+  "word": "reserve",
+  "pos": "verb",
+  "tr": "ayırtmak",
+  "en": "To arrange to have a seat or room kept for you.",
+  "ex": "I would like to reserve a table for two people."
+ },
+ {
+  "id": "a2-rest",
+  "word": "rest",
+  "pos": "noun",
+  "tr": "dinlenmek",
+  "en": "A period of time when you relax or do not work.",
+  "ex": "You look tired, you should get some rest."
+ },
+ {
+  "id": "a2-result",
+  "word": "result",
+  "pos": "noun",
+  "tr": "sonuç",
+  "en": "Something that happens because of an action or event.",
+  "ex": "The result of the exam will be announced tomorrow."
+ },
+ {
+  "id": "a2-return",
+  "word": "return",
+  "pos": "verb",
+  "tr": "geri dönmek",
+  "en": "To go back to a place or give something back.",
+  "ex": "I need to return these books to the library."
+ },
+ {
+  "id": "a2-review",
+  "word": "review",
+  "pos": "noun",
+  "tr": "gözden geçirmek",
+  "en": "A report that gives an opinion about a book or movie.",
+  "ex": "I read a good review of that new film online."
+ },
+ {
+  "id": "a2-rich",
+  "word": "rich",
+  "pos": "adjective",
+  "tr": "zengin",
+  "en": "having a lot of money or valuable things.",
+  "ex": "He is a very rich businessman."
+ },
+ {
+  "id": "a2-rise",
+  "word": "rise",
+  "pos": "verb",
+  "tr": "yükselmek",
+  "en": "to go up or become higher.",
+  "ex": "The sun will rise at six o'clock tomorrow."
+ },
+ {
+  "id": "a2-risk",
+  "word": "risk",
+  "pos": "noun",
+  "tr": "risk",
+  "en": "the possibility that something bad might happen.",
+  "ex": "Smoking is a big risk to your health."
+ },
+ {
+  "id": "a2-rock",
+  "word": "rock",
+  "pos": "noun",
+  "tr": "kaya",
+  "en": "a hard, solid material found in the ground.",
+  "ex": "He sat on a large rock by the river."
+ },
+ {
+  "id": "a2-role",
+  "word": "role",
+  "pos": "noun",
+  "tr": "rol",
+  "en": "the job or function someone has in a situation.",
+  "ex": "What is your role in this project?"
+ },
+ {
+  "id": "a2-romantic",
+  "word": "romantic",
+  "pos": "adjective",
+  "tr": "romantik",
+  "en": "showing strong feelings of love.",
+  "ex": "They had a romantic dinner for their anniversary."
+ },
+ {
+  "id": "a2-round",
+  "word": "round",
+  "pos": "adjective",
+  "tr": "yuvarlak",
+  "en": "shaped like a circle or a ball.",
+  "ex": "The earth is round like a ball."
+ },
+ {
+  "id": "a2-route",
+  "word": "route",
+  "pos": "noun",
+  "tr": "güzergâh",
+  "en": "the way you take to get from one place to another.",
+  "ex": "This is the fastest route to the city center."
+ },
+ {
+  "id": "a2-rubbish",
+  "word": "rubbish",
+  "pos": "noun",
+  "tr": "çöp",
+  "en": "things that you throw away because you do not want them.",
+  "ex": "Please put your rubbish in the bin."
+ },
+ {
+  "id": "a2-rule",
+  "word": "rule",
+  "pos": "noun",
+  "tr": "kural",
+  "en": "an instruction that says what you must or must not do.",
+  "ex": "It is a rule to wear a seatbelt in the car."
+ },
+ {
+  "id": "a2-rush",
+  "word": "rush",
+  "pos": "verb",
+  "tr": "acele etmek",
+  "en": "to move or do something very quickly.",
+  "ex": "I have to rush because I am late for work."
+ },
+ {
+  "id": "a2-safe",
+  "word": "safe",
+  "pos": "adjective",
+  "tr": "güvenli",
+  "en": "not in danger or not likely to be hurt.",
+  "ex": "Is it safe to swim in this lake?"
+ },
+ {
+  "id": "a2-sail",
+  "word": "sail",
+  "pos": "verb",
+  "tr": "yelken açmak",
+  "en": "to travel on water in a boat or ship.",
+  "ex": "They want to sail across the ocean next summer."
+ },
+ {
+  "id": "a2-salary",
+  "word": "salary",
+  "pos": "noun",
+  "tr": "maaş",
+  "en": "money that you receive every month for your work.",
+  "ex": "She gets a good salary at her new job."
+ },
+ {
+  "id": "a2-sale",
+  "word": "sale",
+  "pos": "noun",
+  "tr": "satış, indirim",
+  "en": "a period when shops sell things at lower prices.",
+  "ex": "I bought this coat in the winter sale."
+ },
+ {
+  "id": "a2-satisfied",
+  "word": "satisfied",
+  "pos": "adjective",
+  "tr": "memnun",
+  "en": "feeling happy because you have what you wanted.",
+  "ex": "Are you satisfied with the service at this hotel?"
+ },
+ {
+  "id": "a2-save",
+  "word": "save",
+  "pos": "verb",
+  "tr": "kurtarmak; biriktirmek",
+  "en": "to keep money for later or to rescue someone.",
+  "ex": "I am trying to save money for a holiday."
+ },
+ {
+  "id": "a2-scared",
+  "word": "scared",
+  "pos": "adjective",
+  "tr": "korkmuş",
+  "en": "feeling afraid or worried.",
+  "ex": "The little boy was scared of the big dog."
+ },
+ {
+  "id": "a2-scene",
+  "word": "scene",
+  "pos": "noun",
+  "tr": "sahne",
+  "en": "a part of a movie or a view of a place.",
+  "ex": "That was my favorite scene in the movie."
+ },
+ {
+  "id": "a2-schedule",
+  "word": "schedule",
+  "pos": "noun",
+  "tr": "program",
+  "en": "a plan that lists the times when things will happen.",
+  "ex": "I have a very busy schedule today."
+ },
+ {
+  "id": "a2-science",
+  "word": "science",
+  "pos": "noun",
+  "tr": "bilim",
+  "en": "the study of the physical world through experiments.",
+  "ex": "Science is my favorite subject at school."
+ },
+ {
+  "id": "a2-scientist",
+  "word": "scientist",
+  "pos": "noun",
+  "tr": "bilim insanı",
+  "en": "a person who studies or works in science.",
+  "ex": "The scientist is working on a new medicine."
+ },
+ {
+  "id": "a2-score",
+  "word": "score",
+  "pos": "noun",
+  "tr": "skor",
+  "en": "the number of points someone gets in a game.",
+  "ex": "What is the score of the football match?"
+ },
+ {
+  "id": "a2-screen",
+  "word": "screen",
+  "pos": "noun",
+  "tr": "ekran",
+  "en": "the flat part of a television or computer that shows pictures.",
+  "ex": "My phone screen is broken."
+ },
+ {
+  "id": "a2-search",
+  "word": "search",
+  "pos": "verb",
+  "tr": "aramak",
+  "en": "to look carefully for something or someone.",
+  "ex": "I need to search for my keys; I cannot find them."
+ },
+ {
+  "id": "a2-seat",
+  "word": "seat",
+  "pos": "noun",
+  "tr": "koltuk",
+  "en": "a place where you can sit.",
+  "ex": "Please take a seat and wait for a moment."
+ },
+ {
+  "id": "a2-secret",
+  "word": "secret",
+  "pos": "noun",
+  "tr": "sır",
+  "en": "something that you do not tell other people.",
+  "ex": "Can you keep a secret?"
+ },
+ {
+  "id": "a2-section",
+  "word": "section",
+  "pos": "noun",
+  "tr": "bölüm",
+  "en": "one of the parts that something is divided into.",
+  "ex": "I work in the sports section of the newspaper."
+ },
+ {
+  "id": "a2-seem",
+  "word": "seem",
+  "pos": "verb",
+  "tr": "görünmek",
+  "en": "to appear to be something.",
+  "ex": "You seem tired today."
+ },
+ {
+  "id": "a2-serious",
+  "word": "serious",
+  "pos": "adjective",
+  "tr": "ciddi",
+  "en": "not joking; thinking about important things.",
+  "ex": "He is a very serious person; he rarely laughs."
+ },
+ {
+  "id": "a2-serve",
+  "word": "serve",
+  "pos": "verb",
+  "tr": "servis yapmak",
+  "en": "To give food or drink to someone at a table.",
+  "ex": "The waiter will serve our dinner in ten minutes."
+ },
+ {
+  "id": "a2-service",
+  "word": "service",
+  "pos": "noun",
+  "tr": "hizmet",
+  "en": "Help or work that a business provides for customers.",
+  "ex": "The service at this restaurant is very fast."
+ },
+ {
+  "id": "a2-set",
+  "word": "set",
+  "pos": "verb",
+  "tr": "kurmak, ayarlamak",
+  "en": "To put something in a specific place or time.",
+  "ex": "Please set your alarm for seven o'clock tomorrow."
+ },
+ {
+  "id": "a2-several",
+  "word": "several",
+  "pos": "determiner",
+  "tr": "birkaç",
+  "en": "More than two, but not a very large number.",
+  "ex": "I have visited several countries in Europe."
+ },
+ {
+  "id": "a2-shake",
+  "word": "shake",
+  "pos": "verb",
+  "tr": "sallamak",
+  "en": "To move something quickly up and down or side to side.",
+  "ex": "Please shake the bottle before you drink the juice."
+ },
+ {
+  "id": "a2-shape",
+  "word": "shape",
+  "pos": "noun",
+  "tr": "şekil",
+  "en": "The form of an object, like a circle or square.",
+  "ex": "The cake was in the shape of a heart."
+ },
+ {
+  "id": "a2-share",
+  "word": "share",
+  "pos": "verb",
+  "tr": "paylaşmak",
+  "en": "To give a part of something to another person.",
+  "ex": "I will share my sandwich with you."
+ },
+ {
+  "id": "a2-sharp",
+  "word": "sharp",
+  "pos": "adjective",
+  "tr": "keskin",
+  "en": "Having a thin edge that can cut things easily.",
+  "ex": "Be careful with that knife, it is very sharp."
+ },
+ {
+  "id": "a2-shine",
+  "word": "shine",
+  "pos": "verb",
+  "tr": "parlamak",
+  "en": "To produce or reflect bright light.",
+  "ex": "The sun will shine brightly all day tomorrow."
+ },
+ {
+  "id": "a2-shock",
+  "word": "shock",
+  "pos": "noun",
+  "tr": "şok",
+  "en": "A sudden, unpleasant surprise or feeling.",
+  "ex": "It was a big shock to hear the bad news."
+ },
+ {
+  "id": "a2-shout-at",
+  "word": "shout at",
+  "pos": "phrasal verb",
+  "tr": "-e bağırmak",
+  "en": "To speak very loudly to someone because you are angry.",
+  "ex": "It is not nice to shout at your friends."
+ },
+ {
+  "id": "a2-shy",
+  "word": "shy",
+  "pos": "adjective",
+  "tr": "utangaç",
+  "en": "Feeling nervous or uncomfortable with other people.",
+  "ex": "The little boy is too shy to talk to strangers."
+ },
+ {
+  "id": "a2-sick",
+  "word": "sick",
+  "pos": "adjective",
+  "tr": "hasta",
+  "en": "Not feeling well or having an illness.",
+  "ex": "I cannot go to work because I feel sick."
+ },
+ {
+  "id": "a2-sign",
+  "word": "sign",
+  "pos": "noun",
+  "tr": "işaret; imzalamak",
+  "en": "A board or notice that gives information or instructions.",
+  "ex": "Look at the sign; it says we cannot park here."
+ },
+ {
+  "id": "a2-signal",
+  "word": "signal",
+  "pos": "noun",
+  "tr": "sinyal",
+  "en": "A sound or action that gives information or a warning.",
+  "ex": "I have no phone signal in this part of the building."
+ },
+ {
+  "id": "a2-silence",
+  "word": "silence",
+  "pos": "noun",
+  "tr": "sessizlik",
+  "en": "A complete lack of any sound or noise.",
+  "ex": "There was silence in the library while everyone studied."
+ },
+ {
+  "id": "a2-silly",
+  "word": "silly",
+  "pos": "adjective",
+  "tr": "aptalca",
+  "en": "Not serious; behaving in a funny or foolish way.",
+  "ex": "Stop making silly faces, we need to be serious."
+ },
+ {
+  "id": "a2-silver",
+  "word": "silver",
+  "pos": "noun",
+  "tr": "gümüş",
+  "en": "A shiny, expensive grey metal used for jewelry.",
+  "ex": "She wears a beautiful silver ring on her finger."
+ },
+ {
+  "id": "a2-similar",
+  "word": "similar",
+  "pos": "adjective",
+  "tr": "benzer",
+  "en": "Almost the same, but not exactly the same.",
+  "ex": "My brother and I have similar interests."
+ },
+ {
+  "id": "a2-simple",
+  "word": "simple",
+  "pos": "adjective",
+  "tr": "basit",
+  "en": "Easy to understand or do; not complicated.",
+  "ex": "This is a simple recipe that anyone can make."
+ },
+ {
+  "id": "a2-since",
+  "word": "since",
+  "pos": "conjunction",
+  "tr": "-den beri",
+  "en": "From a time in the past until now.",
+  "ex": "I have lived in this city since 2015."
+ },
+ {
+  "id": "a2-single",
+  "word": "single",
+  "pos": "adjective",
+  "tr": "bekâr; tek",
+  "en": "Only one; not married or in a relationship.",
+  "ex": "Is there a single ticket left for the concert?"
+ },
+ {
+  "id": "a2-skill",
+  "word": "skill",
+  "pos": "noun",
+  "tr": "beceri",
+  "en": "The ability to do something well because of practice.",
+  "ex": "Driving a car is an important life skill."
+ },
+ {
+  "id": "a2-skin",
+  "word": "skin",
+  "pos": "noun",
+  "tr": "cilt",
+  "en": "The natural outer layer of a person or animal's body.",
+  "ex": "You should use cream to protect your skin from the sun."
+ },
+ {
+  "id": "a2-sky",
+  "word": "sky",
+  "pos": "noun",
+  "tr": "gökyüzü",
+  "en": "The space above the earth where clouds and sun appear.",
+  "ex": "The sky is very blue and clear today."
+ },
+ {
+  "id": "a2-smart",
+  "word": "smart",
+  "pos": "adjective",
+  "tr": "akıllı; şık",
+  "en": "Quick to learn and understand things; intelligent.",
+  "ex": "She is a very smart student who gets good grades."
+ },
+ {
+  "id": "a2-smell",
+  "word": "smell",
+  "pos": "verb",
+  "tr": "koklamak, kokmak",
+  "en": "To notice something using your nose.",
+  "ex": "I can smell fresh coffee in the kitchen."
+ },
+ {
+  "id": "a2-smoke",
+  "word": "smoke",
+  "pos": "verb",
+  "tr": "sigara içmek; duman",
+  "en": "To breathe in and out the gas from a cigarette.",
+  "ex": "You are not allowed to smoke inside this building."
+ },
+ {
+  "id": "a2-social",
+  "word": "social",
+  "pos": "adjective",
+  "tr": "sosyal",
+  "en": "Relating to meeting and spending time with other people.",
+  "ex": "I enjoy social events like parties and dinners."
+ },
+ {
+  "id": "a2-society",
+  "word": "society",
+  "pos": "noun",
+  "tr": "toplum",
+  "en": "People living together in a community or country.",
+  "ex": "It is important to follow the rules of our society."
+ },
+ {
+  "id": "a2-soft",
+  "word": "soft",
+  "pos": "adjective",
+  "tr": "yumuşak",
+  "en": "not hard; feels nice and gentle when you touch it.",
+  "ex": "This pillow is very soft."
+ },
+ {
+  "id": "a2-soldier",
+  "word": "soldier",
+  "pos": "noun",
+  "tr": "asker",
+  "en": "a person who works in the army.",
+  "ex": "The soldier wore a green uniform."
+ },
+ {
+  "id": "a2-solution",
+  "word": "solution",
+  "pos": "noun",
+  "tr": "çözüm",
+  "en": "the answer to a problem or a difficult situation.",
+  "ex": "We need to find a solution to this problem quickly."
+ },
+ {
+  "id": "a2-solve",
+  "word": "solve",
+  "pos": "verb",
+  "tr": "çözmek",
+  "en": "to find the answer to a problem or puzzle.",
+  "ex": "Can you solve this math question?"
+ },
+ {
+  "id": "a2-soon",
+  "word": "soon",
+  "pos": "adverb",
+  "tr": "yakında",
+  "en": "in a short time from now.",
+  "ex": "I will see you soon."
+ },
+ {
+  "id": "a2-sound",
+  "word": "sound",
+  "pos": "noun",
+  "tr": "ses; gibi gelmek",
+  "en": "something that you can hear with your ears.",
+  "ex": "I heard a strange sound outside."
+ },
+ {
+  "id": "a2-space",
+  "word": "space",
+  "pos": "noun",
+  "tr": "uzay, alan",
+  "en": "the area outside the Earth where the stars and planets are.",
+  "ex": "Astronauts travel into space in rockets."
+ },
+ {
+  "id": "a2-speech",
+  "word": "speech",
+  "pos": "noun",
+  "tr": "konuşma",
+  "en": "a formal talk given to a group of people.",
+  "ex": "The manager gave a short speech at the meeting."
+ },
+ {
+  "id": "a2-speed",
+  "word": "speed",
+  "pos": "noun",
+  "tr": "hız",
+  "en": "how fast something or someone is moving.",
+  "ex": "The car was driving at a high speed."
+ },
+ {
+  "id": "a2-spirit",
+  "word": "spirit",
+  "pos": "noun",
+  "tr": "ruh",
+  "en": "the part of a person that is not their body.",
+  "ex": "He has a very kind spirit."
+ },
+ {
+  "id": "a2-spot",
+  "word": "spot",
+  "pos": "noun",
+  "tr": "yer, leke",
+  "en": "a specific place or a small round mark.",
+  "ex": "This is a great spot for a picnic."
+ },
+ {
+  "id": "a2-square",
+  "word": "square",
+  "pos": "adjective",
+  "tr": "kare",
+  "en": "having four equal sides and four corners.",
+  "ex": "Draw a square box on the paper."
+ },
+ {
+  "id": "a2-staff",
+  "word": "staff",
+  "pos": "noun",
+  "tr": "personel",
+  "en": "the group of people who work for an organization.",
+  "ex": "The hotel staff is very helpful."
+ },
+ {
+  "id": "a2-stage",
+  "word": "stage",
+  "pos": "noun",
+  "tr": "sahne",
+  "en": "the raised floor where actors perform in a theater.",
+  "ex": "The band walked onto the stage."
+ },
+ {
+  "id": "a2-stamp",
+  "word": "stamp",
+  "pos": "noun",
+  "tr": "pul",
+  "en": "a small piece of paper you put on a letter to mail it.",
+  "ex": "I need to buy a stamp for this envelope."
+ },
+ {
+  "id": "a2-state",
+  "word": "state",
+  "pos": "noun",
+  "tr": "durum; eyalet",
+  "en": "a country or a part of a large country.",
+  "ex": "He lives in the state of California."
+ },
+ {
+  "id": "a2-statue",
+  "word": "statue",
+  "pos": "noun",
+  "tr": "heykel",
+  "en": "a figure of a person or animal made from stone or metal.",
+  "ex": "There is a large statue in the city center."
+ },
+ {
+  "id": "a2-steal",
+  "word": "steal",
+  "pos": "verb",
+  "tr": "çalmak (hırsızlık)",
+  "en": "to take something that does not belong to you.",
+  "ex": "Someone tried to steal his wallet."
+ },
+ {
+  "id": "a2-step",
+  "word": "step",
+  "pos": "noun",
+  "tr": "adım",
+  "en": "one movement of your foot when you walk.",
+  "ex": "Please watch your step on the stairs."
+ },
+ {
+  "id": "a2-stomach",
+  "word": "stomach",
+  "pos": "noun",
+  "tr": "mide",
+  "en": "the part of your body where food goes after you eat.",
+  "ex": "My stomach hurts because I ate too much."
+ },
+ {
+  "id": "a2-storm",
+  "word": "storm",
+  "pos": "noun",
+  "tr": "fırtına",
+  "en": "very bad weather with strong wind and heavy rain.",
+  "ex": "We stayed inside during the storm."
+ },
+ {
+  "id": "a2-strange",
+  "word": "strange",
+  "pos": "adjective",
+  "tr": "garip",
+  "en": "not normal; unusual or difficult to understand.",
+  "ex": "I heard a strange noise in the kitchen."
+ },
+ {
+  "id": "a2-stranger",
+  "word": "stranger",
+  "pos": "noun",
+  "tr": "yabancı (kişi)",
+  "en": "someone you do not know.",
+  "ex": "Don't talk to a stranger on the street."
+ },
+ {
+  "id": "a2-stress",
+  "word": "stress",
+  "pos": "noun",
+  "tr": "stres",
+  "en": "a feeling of worry caused by difficult situations.",
+  "ex": "Work gives me a lot of stress."
+ },
+ {
+  "id": "a2-strict",
+  "word": "strict",
+  "pos": "adjective",
+  "tr": "katı, sıkı",
+  "en": "having rules that must be followed exactly.",
+  "ex": "My teacher is very strict about homework."
+ },
+ {
+  "id": "a2-strong",
+  "word": "strong",
+  "pos": "adjective",
+  "tr": "güçlü",
+  "en": "having a lot of physical power.",
+  "ex": "He is strong enough to lift that heavy box."
+ },
+ {
+  "id": "a2-subject",
+  "word": "subject",
+  "pos": "noun",
+  "tr": "konu, ders",
+  "en": "a topic that you learn about at school or talk about.",
+  "ex": "My favorite school subject is history."
+ },
+ {
+  "id": "a2-succeed",
+  "word": "succeed",
+  "pos": "verb",
+  "tr": "başarmak",
+  "en": "to do something well and get the result you wanted.",
+  "ex": "If you study hard, you will succeed."
+ },
+ {
+  "id": "a2-success",
+  "word": "success",
+  "pos": "noun",
+  "tr": "başarı",
+  "en": "the result of doing something well.",
+  "ex": "Hard work is the key to success."
+ },
+ {
+  "id": "a2-successful",
+  "word": "successful",
+  "pos": "adjective",
+  "tr": "başarılı",
+  "en": "achieving what you wanted to do.",
+  "ex": "She is a very successful businesswoman."
+ },
+ {
+  "id": "a2-suddenly",
+  "word": "suddenly",
+  "pos": "adverb",
+  "tr": "aniden",
+  "en": "happening very quickly and without warning",
+  "ex": "Suddenly, the lights went out."
+ },
+ {
+  "id": "a2-suggest",
+  "word": "suggest",
+  "pos": "verb",
+  "tr": "önermek",
+  "en": "to give an idea or plan for someone to consider",
+  "ex": "Can you suggest a good restaurant for dinner?"
+ },
+ {
+  "id": "a2-suit",
+  "word": "suit",
+  "pos": "noun",
+  "tr": "takım elbise; yakışmak",
+  "en": "a set of clothes with a jacket and trousers",
+  "ex": "He wore a black suit for the wedding."
+ },
+ {
+  "id": "a2-support",
+  "word": "support",
+  "pos": "verb",
+  "tr": "desteklemek",
+  "en": "to help someone or agree with an idea",
+  "ex": "My family always supports my career choices."
+ },
+ {
+  "id": "a2-suppose",
+  "word": "suppose",
+  "pos": "verb",
+  "tr": "sanmak",
+  "en": "to think that something is probably true",
+  "ex": "I suppose it will rain later today."
+ },
+ {
+  "id": "a2-sure",
+  "word": "sure",
+  "pos": "adjective",
+  "tr": "emin",
+  "en": "feeling certain that something is true",
+  "ex": "Are you sure you locked the door?"
+ },
+ {
+  "id": "a2-surface",
+  "word": "surface",
+  "pos": "noun",
+  "tr": "yüzey",
+  "en": "the outside or top layer of an object",
+  "ex": "The table has a smooth, wooden surface."
+ },
+ {
+  "id": "a2-surprise",
+  "word": "surprise",
+  "pos": "noun",
+  "tr": "sürpriz",
+  "en": "an unexpected event that makes you feel happy or shocked",
+  "ex": "The party was a big surprise for her."
+ },
+ {
+  "id": "a2-surprised",
+  "word": "surprised",
+  "pos": "adjective",
+  "tr": "şaşırmış",
+  "en": "feeling shock because something unexpected happened",
+  "ex": "I was surprised to see him at the office."
+ },
+ {
+  "id": "a2-survive",
+  "word": "survive",
+  "pos": "verb",
+  "tr": "hayatta kalmak",
+  "en": "to continue to live after a dangerous event",
+  "ex": "The small plant managed to survive the cold winter."
+ },
+ {
+  "id": "a2-sweet",
+  "word": "sweet",
+  "pos": "adjective",
+  "tr": "tatlı",
+  "en": "having a taste like sugar or honey",
+  "ex": "This tea is too sweet for me."
+ },
+ {
+  "id": "a2-symbol",
+  "word": "symbol",
+  "pos": "noun",
+  "tr": "sembol",
+  "en": "a sign or object that represents an idea",
+  "ex": "The dove is a symbol of peace."
+ },
+ {
+  "id": "a2-system",
+  "word": "system",
+  "pos": "noun",
+  "tr": "sistem",
+  "en": "a group of parts that work together as a whole",
+  "ex": "The computer system is very slow today."
+ },
+ {
+  "id": "a2-taste",
+  "word": "taste",
+  "pos": "verb",
+  "tr": "tatmak, tat",
+  "en": "to have a specific flavor in your mouth",
+  "ex": "Can you taste the salt in this soup?"
+ },
+ {
+  "id": "a2-teenager",
+  "word": "teenager",
+  "pos": "noun",
+  "tr": "genç (13-19)",
+  "en": "a person between thirteen and nineteen years old",
+  "ex": "My teenager spends all day on the phone."
+ },
+ {
+  "id": "a2-temperature",
+  "word": "temperature",
+  "pos": "noun",
+  "tr": "sıcaklık",
+  "en": "how hot or cold something is",
+  "ex": "The temperature is rising today."
+ },
+ {
+  "id": "a2-tent",
+  "word": "tent",
+  "pos": "noun",
+  "tr": "çadır",
+  "en": "a shelter made of cloth supported by poles",
+  "ex": "We slept in a tent during our camping trip."
+ },
+ {
+  "id": "a2-text",
+  "word": "text",
+  "pos": "noun",
+  "tr": "metin; mesaj atmak",
+  "en": "written words or a message sent on a phone",
+  "ex": "Please read the text on page five."
+ },
+ {
+  "id": "a2-thick",
+  "word": "thick",
+  "pos": "adjective",
+  "tr": "kalın",
+  "en": "having a large distance between opposite sides",
+  "ex": "I need a thick coat for the winter."
+ },
+ {
+  "id": "a2-thin",
+  "word": "thin",
+  "pos": "adjective",
+  "tr": "ince, zayıf",
+  "en": "having a small distance between opposite sides",
+  "ex": "This paper is very thin and tears easily."
+ },
+ {
+  "id": "a2-thought",
+  "word": "thought",
+  "pos": "noun",
+  "tr": "düşünce",
+  "en": "an idea or opinion produced by thinking",
+  "ex": "The thought of traveling makes me happy."
+ },
+ {
+  "id": "a2-through",
+  "word": "through",
+  "pos": "preposition",
+  "tr": "içinden, boyunca",
+  "en": "moving from one side of something to the other",
+  "ex": "We walked through the park to get home."
+ },
+ {
+  "id": "a2-throw-away",
+  "word": "throw away",
+  "pos": "phrasal verb",
+  "tr": "atmak (çöpe)",
+  "en": "to put something in the trash because you do not want it",
+  "ex": "Don't throw away those old magazines."
+ },
+ {
+  "id": "a2-tidy",
+  "word": "tidy",
+  "pos": "adjective",
+  "tr": "düzenli",
+  "en": "neat and organized",
+  "ex": "She keeps her room very tidy."
+ },
+ {
+  "id": "a2-tiny",
+  "word": "tiny",
+  "pos": "adjective",
+  "tr": "minicik",
+  "en": "extremely small",
+  "ex": "The baby has tiny hands."
+ },
+ {
+  "id": "a2-tip",
+  "word": "tip",
+  "pos": "noun",
+  "tr": "bahşiş; ipucu",
+  "en": "a useful piece of advice or extra money for service",
+  "ex": "Can you give me a tip on how to learn English?"
+ },
+ {
+  "id": "a2-tired-of",
+  "word": "tired of",
+  "pos": "phrase",
+  "tr": "-den bıkmış",
+  "en": "bored with or annoyed by something",
+  "ex": "I am tired of eating the same food every day."
+ },
+ {
+  "id": "a2-title",
+  "word": "title",
+  "pos": "noun",
+  "tr": "başlık",
+  "en": "the name of a book, movie, or article",
+  "ex": "What is the title of that new movie?"
+ },
+ {
+  "id": "a2-tool",
+  "word": "tool",
+  "pos": "noun",
+  "tr": "alet",
+  "en": "an object used to do a specific job",
+  "ex": "He used a hammer as a tool to fix the shelf."
+ },
+ {
+  "id": "a2-top",
+  "word": "top",
+  "pos": "noun",
+  "tr": "üst, tepe",
+  "en": "the highest part or surface of something",
+  "ex": "Put the book on top of the desk."
+ },
+ {
+  "id": "a2-total",
+  "word": "total",
+  "pos": "adjective",
+  "tr": "toplam",
+  "en": "The complete amount of something when you add everything together.",
+  "ex": "The total cost of the dinner was fifty dollars."
+ },
+ {
+  "id": "a2-tour",
+  "word": "tour",
+  "pos": "noun",
+  "tr": "tur",
+  "en": "A journey to see several different places in an area.",
+  "ex": "We went on a guided tour of the old castle."
+ },
+ {
+  "id": "a2-tourist",
+  "word": "tourist",
+  "pos": "noun",
+  "tr": "turist",
+  "en": "A person who visits a place for fun and holidays.",
+  "ex": "The city is full of tourists in the summer."
+ },
+ {
+  "id": "a2-towards",
+  "word": "towards",
+  "pos": "preposition",
+  "tr": "-e doğru",
+  "en": "In the direction of someone or something.",
+  "ex": "She walked towards the station to catch her train."
+ },
+ {
+  "id": "a2-tower",
+  "word": "tower",
+  "pos": "noun",
+  "tr": "kule",
+  "en": "A very tall, narrow building or structure.",
+  "ex": "We climbed to the top of the clock tower."
+ },
+ {
+  "id": "a2-traditional",
+  "word": "traditional",
+  "pos": "adjective",
+  "tr": "geleneksel",
+  "en": "Following the ways of doing things that people have done for years.",
+  "ex": "We ate a traditional meal with my family."
+ },
+ {
+  "id": "a2-traffic",
+  "word": "traffic",
+  "pos": "noun",
+  "tr": "trafik",
+  "en": "All the cars, trucks, and buses moving on the road.",
+  "ex": "There is a lot of traffic on the road this morning."
+ },
+ {
+  "id": "a2-translate",
+  "word": "translate",
+  "pos": "verb",
+  "tr": "çevirmek",
+  "en": "To change words from one language into another language.",
+  "ex": "Can you translate this sentence into Turkish for me?"
+ },
+ {
+  "id": "a2-transport",
+  "word": "transport",
+  "pos": "noun",
+  "tr": "ulaşım",
+  "en": "Ways to move people or things from one place to another.",
+  "ex": "Public transport in this city is very cheap and fast."
+ },
+ {
+  "id": "a2-trip",
+  "word": "trip",
+  "pos": "noun",
+  "tr": "gezi",
+  "en": "A journey to a place and back again.",
+  "ex": "We are planning a short trip to the mountains next week."
+ },
+ {
+  "id": "a2-trouble",
+  "word": "trouble",
+  "pos": "noun",
+  "tr": "sorun, dert",
+  "en": "A problem or a difficult situation.",
+  "ex": "I had some trouble starting my car this morning."
+ },
+ {
+  "id": "a2-trust",
+  "word": "trust",
+  "pos": "verb",
+  "tr": "güvenmek",
+  "en": "To believe that someone is good and will not hurt you.",
+  "ex": "I trust my best friend with all my secrets."
+ },
+ {
+  "id": "a2-truth",
+  "word": "truth",
+  "pos": "noun",
+  "tr": "gerçek",
+  "en": "The actual facts about something, not a lie.",
+  "ex": "It is important to tell the truth to your parents."
+ },
+ {
+  "id": "a2-type",
+  "word": "type",
+  "pos": "noun",
+  "tr": "tür; yazmak",
+  "en": "A group of things that are similar in some way.",
+  "ex": "What type of music do you like to listen to?"
+ },
+ {
+  "id": "a2-unfortunately",
+  "word": "unfortunately",
+  "pos": "adverb",
+  "tr": "maalesef",
+  "en": "Used to say that something is sad or bad news.",
+  "ex": "Unfortunately, the shop is closed today."
+ },
+ {
+  "id": "a2-uniform",
+  "word": "uniform",
+  "pos": "noun",
+  "tr": "üniforma",
+  "en": "Special clothes that a group of people wear at work or school.",
+  "ex": "All the students at my school wear a blue uniform."
+ },
+ {
+  "id": "a2-unusual",
+  "word": "unusual",
+  "pos": "adjective",
+  "tr": "olağandışı",
+  "en": "Different from what is normal or common.",
+  "ex": "It is unusual to see snow in this city."
+ },
+ {
+  "id": "a2-upset",
+  "word": "upset",
+  "pos": "adjective",
+  "tr": "üzgün",
+  "en": "Feeling sad, worried, or unhappy about something.",
+  "ex": "She was very upset because she lost her phone."
+ },
+ {
+  "id": "a2-useful",
+  "word": "useful",
+  "pos": "adjective",
+  "tr": "faydalı",
+  "en": "Helping you to do something or solve a problem.",
+  "ex": "This dictionary is very useful for learning English."
+ },
+ {
+  "id": "a2-useless",
+  "word": "useless",
+  "pos": "adjective",
+  "tr": "işe yaramaz",
+  "en": "Not helpful or not working for what you need.",
+  "ex": "This umbrella is useless because it has a big hole."
+ },
+ {
+  "id": "a2-usual",
+  "word": "usual",
+  "pos": "adjective",
+  "tr": "olağan",
+  "en": "Happening or done in the normal way.",
+  "ex": "I finished my work at the usual time, at five o'clock."
+ },
+ {
+  "id": "a2-valley",
+  "word": "valley",
+  "pos": "noun",
+  "tr": "vadi",
+  "en": "An area of low land between two mountains or hills.",
+  "ex": "There is a beautiful river in the middle of the valley."
+ },
+ {
+  "id": "a2-value",
+  "word": "value",
+  "pos": "noun",
+  "tr": "değer",
+  "en": "How much something is worth or how important it is.",
+  "ex": "This old watch has a lot of value to my family."
+ },
+ {
+  "id": "a2-various",
+  "word": "various",
+  "pos": "adjective",
+  "tr": "çeşitli",
+  "en": "Many different types of things.",
+  "ex": "I have various hobbies, like swimming and reading."
+ },
+ {
+  "id": "a2-victim",
+  "word": "victim",
+  "pos": "noun",
+  "tr": "kurban",
+  "en": "A person who has been hurt or suffered because of something.",
+  "ex": "The police helped the victim of the accident."
+ },
+ {
+  "id": "a2-view",
+  "word": "view",
+  "pos": "noun",
+  "tr": "manzara; görüş",
+  "en": "What you can see from a particular place.",
+  "ex": "The view from our hotel window was amazing."
+ },
+ {
+  "id": "a2-violent",
+  "word": "violent",
+  "pos": "adjective",
+  "tr": "şiddetli",
+  "en": "Using physical force to hurt or damage something.",
+  "ex": "The movie was too violent for the young children."
+ },
+ {
+  "id": "a2-voice",
+  "word": "voice",
+  "pos": "noun",
+  "tr": "ses",
+  "en": "The sound you make when you speak or sing.",
+  "ex": "She has a very soft and quiet voice."
+ },
+ {
+  "id": "a2-volunteer",
+  "word": "volunteer",
+  "pos": "noun",
+  "tr": "gönüllü",
+  "en": "A person who does work without getting paid for it.",
+  "ex": "He is a volunteer at the local animal shelter."
+ },
+ {
+  "id": "a2-vote",
+  "word": "vote",
+  "pos": "verb",
+  "tr": "oy vermek",
+  "en": "To choose someone or something in an election.",
+  "ex": "You must be eighteen years old to vote in this country."
+ },
+ {
+  "id": "a2-wage",
+  "word": "wage",
+  "pos": "noun",
+  "tr": "ücret",
+  "en": "money you earn for your work, usually paid every week.",
+  "ex": "He earns a good wage at the factory."
+ },
+ {
+  "id": "a2-wake",
+  "word": "wake",
+  "pos": "verb",
+  "tr": "uyandırmak",
+  "en": "to stop sleeping and open your eyes.",
+  "ex": "I usually wake up at seven o'clock."
+ },
+ {
+  "id": "a2-war",
+  "word": "war",
+  "pos": "noun",
+  "tr": "savaş",
+  "en": "a long fight between two or more countries.",
+  "ex": "Many people suffered during the war."
+ },
+ {
+  "id": "a2-warn",
+  "word": "warn",
+  "pos": "verb",
+  "tr": "uyarmak",
+  "en": "to tell someone about a possible danger or problem.",
+  "ex": "The police warned us about the heavy traffic."
+ },
+ {
+  "id": "a2-waste",
+  "word": "waste",
+  "pos": "verb",
+  "tr": "israf etmek",
+  "en": "to use something badly or without a good reason.",
+  "ex": "Don't waste your time on video games."
+ },
+ {
+  "id": "a2-wave",
+  "word": "wave",
+  "pos": "verb",
+  "tr": "dalga",
+  "en": "to move your hand to say hello or goodbye.",
+  "ex": "She waved at me from the train window."
+ },
+ {
+  "id": "a2-weak",
+  "word": "weak",
+  "pos": "adjective",
+  "tr": "zayıf",
+  "en": "not having much physical power or strength.",
+  "ex": "He felt weak after being sick for a week."
+ },
+ {
+  "id": "a2-wealthy",
+  "word": "wealthy",
+  "pos": "adjective",
+  "tr": "varlıklı",
+  "en": "having a lot of money or property.",
+  "ex": "They live in a wealthy neighborhood."
+ },
+ {
+  "id": "a2-wedding",
+  "word": "wedding",
+  "pos": "noun",
+  "tr": "düğün",
+  "en": "a ceremony where two people get married.",
+  "ex": "We are going to a wedding this Saturday."
+ },
+ {
+  "id": "a2-weight",
+  "word": "weight",
+  "pos": "noun",
+  "tr": "ağırlık",
+  "en": "how heavy a person or thing is.",
+  "ex": "I need to lose some weight before summer."
+ },
+ {
+  "id": "a2-welcome",
+  "word": "welcome",
+  "pos": "verb",
+  "tr": "hoş geldiniz; karşılamak",
+  "en": "to greet someone in a friendly way when they arrive.",
+  "ex": "They welcomed us into their home with tea."
+ },
+ {
+  "id": "a2-wet",
+  "word": "wet",
+  "pos": "adjective",
+  "tr": "ıslak",
+  "en": "covered in or containing liquid, like water.",
+  "ex": "My clothes are wet because of the rain."
+ },
+ {
+  "id": "a2-whole",
+  "word": "whole",
+  "pos": "adjective",
+  "tr": "bütün",
+  "en": "complete; including everything or everyone.",
+  "ex": "I spent the whole day cleaning the house."
+ },
+ {
+  "id": "a2-wide",
+  "word": "wide",
+  "pos": "adjective",
+  "tr": "geniş",
+  "en": "measuring a large distance from one side to the other.",
+  "ex": "The river is very wide here."
+ },
+ {
+  "id": "a2-wild",
+  "word": "wild",
+  "pos": "adjective",
+  "tr": "vahşi",
+  "en": "living in nature, not controlled by humans.",
+  "ex": "We saw many wild animals in the forest."
+ },
+ {
+  "id": "a2-win",
+  "word": "win",
+  "pos": "noun",
+  "tr": "galibiyet",
+  "en": "a success in a game or competition.",
+  "ex": "That was a great win for our team."
+ },
+ {
+  "id": "a2-wing",
+  "word": "wing",
+  "pos": "noun",
+  "tr": "kanat",
+  "en": "the part of a bird or plane used for flying.",
+  "ex": "The bird hurt its wing and couldn't fly."
+ },
+ {
+  "id": "a2-winner",
+  "word": "winner",
+  "pos": "noun",
+  "tr": "kazanan",
+  "en": "the person who finishes first in a competition.",
+  "ex": "Who was the winner of the race?"
+ },
+ {
+  "id": "a2-wise",
+  "word": "wise",
+  "pos": "adjective",
+  "tr": "bilge",
+  "en": "having good sense and knowledge from experience.",
+  "ex": "It was a wise decision to save some money."
+ },
+ {
+  "id": "a2-wood",
+  "word": "wood",
+  "pos": "noun",
+  "tr": "tahta; orman",
+  "en": "the hard material that comes from trees.",
+  "ex": "He built a small table out of wood."
+ },
+ {
+  "id": "a2-wool",
+  "word": "wool",
+  "pos": "noun",
+  "tr": "yün",
+  "en": "soft hair from sheep used to make clothes.",
+  "ex": "This sweater is made of warm wool."
+ },
+ {
+  "id": "a2-worried",
+  "word": "worried",
+  "pos": "adjective",
+  "tr": "endişeli",
+  "en": "feeling unhappy because you think something bad might happen.",
+  "ex": "I am worried about my exam results."
+ },
+ {
+  "id": "a2-worse",
+  "word": "worse",
+  "pos": "adjective",
+  "tr": "daha kötü",
+  "en": "not as good as something else.",
+  "ex": "My cold is worse today than it was yesterday."
+ },
+ {
+  "id": "a2-worth",
+  "word": "worth",
+  "pos": "adjective",
+  "tr": "değer",
+  "en": "having a value of a certain amount of money.",
+  "ex": "This old car is not worth much money."
+ },
+ {
+  "id": "a2-yet",
+  "word": "yet",
+  "pos": "adverb",
+  "tr": "henüz",
+  "en": "used to say something has not happened before now.",
+  "ex": "I haven't finished my homework yet."
+ },
+ {
+  "id": "a2-youth",
+  "word": "youth",
+  "pos": "noun",
+  "tr": "gençlik",
+  "en": "the time of life when someone is young.",
+  "ex": "He spent his youth traveling around the world."
+ },
+ {
+  "id": "a2-zero",
+  "word": "zero",
+  "pos": "number",
+  "tr": "sıfır",
+  "en": "the number between minus one and one.",
+  "ex": "The temperature is zero degrees today."
+ },
+ {
+  "id": "a2-zone",
+  "word": "zone",
+  "pos": "noun",
+  "tr": "bölge",
+  "en": "a specific area with particular rules or features.",
+  "ex": "This is a quiet zone, so please be silent."
+ }
+]

@@ -1,0 +1,286 @@
+{
+  "level": "A1",
+  "day": 65,
+  "topic": "g13",
+  "theme": "Hobiler",
+  "grammar": {
+    "questions": [
+      {
+        "q": "I usually go swimming ____ Saturday mornings.",
+        "o": [
+          "on",
+          "in",
+          "at",
+          "to"
+        ],
+        "why": "Günler ve günlerin sabah/akşam kısımları ile 'on' kullanılır (on Saturday mornings)."
+      },
+      {
+        "q": "My painting class starts ____ 7 o'clock.",
+        "o": [
+          "at",
+          "in",
+          "on",
+          "for"
+        ],
+        "why": "Saatler ile her zaman 'at' kullanılır."
+      },
+      {
+        "q": "We usually play tennis ____ summer.",
+        "o": [
+          "in",
+          "on",
+          "at",
+          "by"
+        ],
+        "why": "Mevsimler ile 'in' kullanılır."
+      },
+      {
+        "q": "She ____ like playing chess in her free time.",
+        "o": [
+          "doesn't",
+          "don't",
+          "isn't",
+          "aren't"
+        ],
+        "why": "Geniş zamanda 'she' öznesiyle olumsuz cümle yapmak için 'doesn't' kullanılır."
+      },
+      {
+        "q": "____ there any football matches on Sunday?",
+        "o": [
+          "Are",
+          "Is",
+          "Do",
+          "Have"
+        ],
+        "why": "Çoğul isim (matches) ile soru sorarken 'Are there' kalıbı kullanılır."
+      },
+      {
+        "q": "They always read books ____ night.",
+        "o": [
+          "at",
+          "in",
+          "on",
+          "to"
+        ],
+        "why": "'Night' kelimesi ile 'at' edatı kullanılır (at night)."
+      },
+      {
+        "q": "My birthday is ____ October.",
+        "o": [
+          "in",
+          "on",
+          "at",
+          "by"
+        ],
+        "why": "Sadece ay isimleri ile 'in' edatı kullanılır."
+      },
+      {
+        "q": "____ books are about photography.",
+        "o": [
+          "These",
+          "This",
+          "That",
+          "There"
+        ],
+        "why": "Çoğul isim 'books' yakın konumda gösterilirken 'these' kullanılır."
+      },
+      {
+        "q": "I often go cycling ____ the weekend.",
+        "o": [
+          "at",
+          "in",
+          "to",
+          "for"
+        ],
+        "why": "Hafta sonu derken 'at the weekend' (veya on the weekend) kullanılır."
+      },
+      {
+        "q": "He meets his friends ____ 15 May.",
+        "o": [
+          "on",
+          "in",
+          "at",
+          "from"
+        ],
+        "why": "Tam tarihler belirtilirken 'on' kullanılır."
+      }
+    ]
+  },
+  "reading": {
+    "title": "My Weekend Hobbies",
+    "text": "My name is Murat and I work in a bank. I am very busy on weekdays, but I have many hobbies at the weekend. On Saturday morning, I get up early and go to my photography course in Kadıköy. The course starts at 9 o'clock. In the afternoon, I take photos in the streets. On Sundays, I stay at home and play the guitar. I started learning the guitar in 2023. Music makes me very relaxed after a busy week.",
+    "questions": [
+      {
+        "q": "What is Murat's job?",
+        "o": [
+          "Bank worker",
+          "Photographer",
+          "Guitar teacher",
+          "Driver"
+        ],
+        "why": "Metinde Murat'ın bir bankada çalıştığı belirtiliyor."
+      },
+      {
+        "q": "When does Murat go to his photography course?",
+        "o": [
+          "On Saturday morning",
+          "On Sunday morning",
+          "In the evening",
+          "On weekdays"
+        ],
+        "why": "Cumartesi sabahı kursa gittiğini açıkça söylüyor."
+      },
+      {
+        "q": "What time does the course start?",
+        "o": [
+          "At 9 o'clock",
+          "At 8 o'clock",
+          "At 10 o'clock",
+          "At 7 o'clock"
+        ],
+        "why": "Kursun başlama saati 9 olarak verilmiştir."
+      },
+      {
+        "q": "Where does Murat take photos in the afternoon?",
+        "o": [
+          "In the streets",
+          "At home",
+          "In a park",
+          "In the bank"
+        ],
+        "why": "Öğleden sonra sokaklarda fotoğraf çektiğini ifade ediyor."
+      },
+      {
+        "q": "What does Murat do on Sundays?",
+        "o": [
+          "He plays the guitar at home.",
+          "He goes to Kadıköy.",
+          "He works in the bank.",
+          "He takes photos."
+        ],
+        "why": "Pazar günleri evde kalıp gitar çaldığını söylüyor."
+      },
+      {
+        "q": "When did Murat start learning the guitar?",
+        "o": [
+          "In 2023",
+          "In 2022",
+          "Last month",
+          "This year"
+        ],
+        "why": "Gitar öğrenmeye 2023 yılında başladığını belirtiyor."
+      },
+      {
+        "q": "How does music make Murat feel?",
+        "o": [
+          "Relaxed",
+          "Busy",
+          "Tired",
+          "Nervous"
+        ],
+        "why": "Müziğin onu rahatlattığını dile getiriyor."
+      }
+    ]
+  },
+  "listening": {
+    "video": {
+      "id": "rn7kmGroxKs",
+      "title": "Let's Learn English Lesson 28: I Passed It!",
+      "source": "VOA Learning English"
+    },
+    "intro": "Anna, direksiyon sınavını ikinci denemesinde kazandığını Marsha'ya anlatıyor.",
+    "questions": [
+      {
+        "q": "What document did Anna get?",
+        "o": [
+          "Her driver’s license",
+          "Her passport",
+          "Her ID card",
+          "Her student card"
+        ],
+        "why": "Anna sürücü ehliyetini aldığını belirtiyor."
+      },
+      {
+        "q": "Did Anna pass the driving test the first time?",
+        "o": [
+          "No, she passed the second time.",
+          "Yes, she passed the first time.",
+          "No, she failed twice.",
+          "She didn't take the test."
+        ],
+        "why": "İlk seferde geçemediğini, ikinci denemesinde geçtiğini söylüyor."
+      },
+      {
+        "q": "Why was Anna talking to herself during the test?",
+        "o": [
+          "She was nervous.",
+          "She was angry.",
+          "She was tired.",
+          "She was happy."
+        ],
+        "why": "Heyecanlı/gergin olduğunda kendi kendine konuştuğunu açıklıyor."
+      },
+      {
+        "q": "Why did John get afraid during the first test?",
+        "o": [
+          "Anna almost hit another car.",
+          "Anna drove too fast.",
+          "The car was broken.",
+          "A dog ran onto the road."
+        ],
+        "why": "Anna az kalsın başka bir araca çarpacağı için John korkuyor."
+      },
+      {
+        "q": "Why was everyone honking at them?",
+        "o": [
+          "Anna was driving too slow.",
+          "Anna was driving too fast.",
+          "The car broke down.",
+          "They were in the wrong lane."
+        ],
+        "why": "Herkesin korna çalma nedeni Anna'nın çok yavaş sürmesidir."
+      },
+      {
+        "q": "Who came behind them during the driving test?",
+        "o": [
+          "The police",
+          "Anna's friend",
+          "A bus driver",
+          "Marsha"
+        ],
+        "why": "Siren sesinin polise ait olduğu ifade ediliyor."
+      },
+      {
+        "q": "How will Anna and Marsha get close to the White House?",
+        "o": [
+          "They will walk.",
+          "They will drive.",
+          "They will take a bus.",
+          "They will ride bicycles."
+        ],
+        "why": "Beyaz Saray'ın yanına kadar arabayla gidilemeyeceği için yürümeleri gerekiyor."
+      }
+    ]
+  },
+  "writing": {
+    "prompt": "Boş zamanlarınızda ve hafta sonlarında ne zaman, hangi hobileri yaptığınızı yazın. Gün, saat ve zaman kavramları için 'at', 'on', 'in' edatlarını kullanın.",
+    "prompt_en": "Write about your hobbies and when you do them in your free time or at the weekend. Use prepositions of time (at, on, in).",
+    "min": 30,
+    "max": 80,
+    "focus": "prepositions of time: at / on / in",
+    "model": "I have many hobbies in my free time. On Saturday mornings, I go swimming at 10 o'clock. In the afternoon, I read books in a park. On Sunday evenings, I listen to music at home. In summer, I also like walking near the sea with my friends."
+  },
+  "speaking": {
+    "read": [
+      "I go to my photography course on Saturdays.",
+      "The guitar lesson starts at nine o'clock.",
+      "We usually go on vacation in summer."
+    ],
+    "ask": {
+      "q": "When do you practice your hobbies? What do you do at the weekend?",
+      "tr": "Hobilerinizi ne zaman yapıyorsunuz? Hafta sonu ne yaparsınız? at/on/in kullanarak en az üç cümle kurun.",
+      "min_words": 12
+    }
+  }
+}
