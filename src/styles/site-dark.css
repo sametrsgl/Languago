@@ -54,3 +54,10 @@ body.lg.dark { --sunk: #132624; }
 .dark .shape.s3 { border-color: rgba(94, 234, 212, .25); }
 .dark .step-big { -webkit-text-stroke-color: #5eead4; }
 .dark .card:hover .step-big { color: rgba(45, 212, 191, .18); }
+
+/* Native dropdown lists: the browser paints the open list itself; give its
+   options the theme's colours instead of the system's light grey. */
+.dark select { color-scheme: dark; }
+.dark select option, .dark select optgroup { background-color: #0e1c1a; color: #eaf3f1; }
+.dark select option:checked { background-color: #134e48; color: #ffffff; }
+.dark select option:disabled { color: #86a09a; }
