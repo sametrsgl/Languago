@@ -151,7 +151,7 @@ export function mountKelimeSehri(root, { dataBase = '/sinif-oyunlari/paket', mas
   const setupUi = createSetup(root, {
     gameId: 'kelime-sehri',
     title: 'Kelime Şehri',
-    lead: 'Monopoly tarzı şehir oyunu: takımlar zar atar, durdukları yerin sorusunu bilip yeri alır, rakibin yerinde kira sorusu gelir. Bütün takımlar her soruya kartla cevap verir. Çocuk görünümünde kimse puan kaybetmez.',
+    lead: 'Şehir kurma ve kira oyunu: takımlar zar atar, durdukları yerin sorusunu bilip yeri alır, rakibin yerinde kira sorusu gelir. Bütün takımlar her soruya kartla cevap verir. Çocuk görünümünde kimse puan kaybetmez.',
     mascot,
     dataBase,
     minTeams: 2,

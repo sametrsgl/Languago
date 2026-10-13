@@ -14,7 +14,7 @@ const AI_DRAFT_KEY = 'lg:classroom:ai-draft';
 const AI_CLIENT_TIMEOUT_MS = 90_000;
 const clampSeats = (n) => Math.max(1, Math.min(8, Math.round(Number(n)) || 1));
 // Speaking card modes as the teacher sees them in the AI preview.
-const SPEAK_MODE_TR = { talk: 'Anlat', describe: 'Betimle', opinion: 'Fikir', hypothetical: 'Hayal et', ask: 'Soru sor', wyr: 'Would You Rather' };
+const SPEAK_MODE_TR = { talk: 'Anlat', describe: 'Betimle', opinion: 'Fikir', hypothetical: 'Hayal et', ask: 'Soru sor', wyr: 'Hangisini seçerdin?' };
 // Why a saved pack cannot be played here (see packMisfit): list note and Başlat hint.
 const MISFIT_NOTE = { adult: 'Yetişkin grubu için hazırlandı', speaking: 'Konuşma oyunları için hazırlandı', quiz: 'Soru oyunları için hazırlandı' };
 const MISFIT_HINT = { adult: 'Bu paket yetişkin grubu için hazırlandı', speaking: 'Bu paket konuşma oyunları için hazırlandı', quiz: 'Bu paket soru oyunları için hazırlandı' };
@@ -316,7 +316,7 @@ export function createSetup(root, o) {
       <div class="cr-row" style="margin-top:12px">
         <button class="cr-btn cr-btn--go" style="min-width:0" data-act="aigo" ${ai.busy || ai.auth === false ? 'disabled' : ''}>${ai.busy ? `Hazırlanıyor… <span data-ai-secs>${secs}</span> sn` : 'Paketi hazırla'}</button>
         ${ai.busy ? '<button class="cr-btn" style="min-width:0" data-act="aicancel">Vazgeç</button>' : ''}
-        <span class="cr-note" style="margin:0">Seviye: <b>${esc(g.long)}</b>. ${speaking ? 'Yaklaşık 30–50 saniye sürer; kartların yaklaşık dörtte biri "Would You Rather" olur ve oynamadan önce hepsini görürsünüz.' : 'Yaklaşık 30–50 saniye sürer; her sorunun cevabı ayrıca kontrol edilir ve oynamadan önce hepsini görürsünüz.'}</span>
+        <span class="cr-note" style="margin:0">Seviye: <b>${esc(g.long)}</b>. ${speaking ? 'Yaklaşık 30–50 saniye sürer; kartların yaklaşık dörtte biri "Hangisini seçerdin?" sorusu olur ve oynamadan önce hepsini görürsünüz.' : 'Yaklaşık 30–50 saniye sürer; her sorunun cevabı ayrıca kontrol edilir ve oynamadan önce hepsini görürsünüz.'}</span>
       </div>
       ${ai.error ? `<p class="cr-err" role="alert">${esc(ai.error)}${ai.needLogin ? ` <a href="${signin}">Giriş yapın</a>` : ''}</p>${ai.detail ? `<p class="cr-note" style="margin:4px 0 0">${speaking ? 'Elenen kartlar' : 'Elenen sorular'}: ${esc(ai.detail)}</p>` : ''}` : ''}
       ${draft ? `<div class="cr-preview" aria-label="Paket önizleme">

@@ -92,7 +92,7 @@ try { const sb = createSupabaseClient(pageCookieSource(Astro)); if (sb) signedIn
       { key: 'reading', count: 2, title: 'Okuma', tip: 'Metni oku, soruları cevapla.' },
       { key: 'listening', count: 2, title: 'Dinleme', tip: 'Dinle, sonra soruları cevapla. 3 kez dinleyebilirsin.' },
     ];
-    const LV_NAMES: Record<string, string> = { 'Pre-A1': 'Starters', A1: 'Movers', A2: 'Flyers' };
+    const LV_NAMES: Record<string, string> = { 'Pre-A1': 'Minik adımlar', A1: 'İlk cümleler', A2: 'Kendi başına' };
     let bank: any = null, age = 10, sec = 0, answers: { id: string; choice: number; skill: string; b: number; correct: boolean }[] = [];
     const usedUnits = new Set<string>(); let skipListening = false;
 
@@ -245,7 +245,7 @@ try { const sb = createSupabaseClient(pageCookieSource(Astro)); if (sb) signedIn
       const o = r.result.overall;
       box.innerHTML = `<span class="kt-big">🎉</span><h1>Harika iş çıkardın!</h1><div class="kt-badge"><b>${o.level}</b><small>${LV_NAMES[o.level]}</small></div>
         <div class="kt-skills">${Object.entries(r.result.skills).map(([k, v]: any) => `<div>${names[k]}<span>${stars(v.level)}</span></div>`).join('')}</div>
-        <p class="kt-small">Anne-baba için: Çocuğunuzun İngilizcesi Cambridge ${LV_NAMES[o.level]} (${o.level}) düzeyine yakın. Languago’da bu seviyeye uygun günlük görevler ve kelime kartlarıyla devam edebilir.</p>
+        <p class="kt-small">Anne-baba için: Çocuğunuzun İngilizcesi ${o.level} (${LV_NAMES[o.level]}) düzeyine yakın. Languago’da bu seviyeye uygun günlük görevler ve kelime kartlarıyla devam edebilir.</p>
         <div class="kt-row">${r.saved ? '<a class="kt-btn" href="/app" style="display:inline-flex;align-items:center;text-decoration:none">Uygulamaya git</a>' : '<a class="kt-btn" href="/signup" style="display:inline-flex;align-items:center;text-decoration:none">Sonucu kaydet: ücretsiz kayıt</a>'}</div>`;
       $('[data-dots]').hidden = true;
     }

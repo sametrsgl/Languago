@@ -4,7 +4,7 @@ import { words, hear, grammar, reading, listening } from '../data/level-test/kid
 import { estimate, hash, optionOrder } from './level-test.mjs';
 
 export const KID_LEVELS = ['Pre-A1', 'A1', 'A2'] as const;
-export const KID_NAMES: Record<string, string> = { 'Pre-A1': 'Starters', A1: 'Movers', A2: 'Flyers' };
+export const KID_NAMES: Record<string, string> = { 'Pre-A1': 'Minik adımlar', A1: 'İlk cümleler', A2: 'Kendi başına' };
 const B: Record<string, number> = { P: 1, '1': 2, '2': 3 };
 export const KID_SECTIONS = [
   { key: 'words', label: 'Kelimeler', kind: 'item', count: 10 },
