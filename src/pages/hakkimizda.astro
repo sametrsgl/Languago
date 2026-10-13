@@ -1,56 +1,88 @@
 ---
+// /hakkimizda: what Languago is today, for learners, parents and teachers.
 import SiteLayout from '../layouts/SiteLayout.astro';
 export const prerender = true;
+
+const learner = [
+  ['Ücretsiz seviye testi', 'Kelime ve dilbilgisi seviyenizi 15 dakikada öğrenin; öğrenme yolunuz bu sonuçla başlar.'],
+  ['Her gün kişisel görev', 'Dil bilgisi, okuma, dinleme, yazma ve konuşma: her gün kısa ve size göre bir görev.'],
+  ['Kelime yolu', 'Önce bildiğiniz kelimeleri ayırırız, sonra her gün 13 yeni kelimeyi kartlarla ve tekrarla öğretiriz.'],
+  ['Hata defteri', 'Yaptığınız hatalar kaybolmaz; birkaç gün sonra kısa tekrarlar olarak karşınıza çıkar.'],
+  ['Canlı dersler', 'Öğretmeninizin takviminden size uygun bir saat isteyin; dersleriniz ve bağlantıları Derslerim sayfanızda durur.'],
+];
+const teacher = [
+  ['Takvim ve ders istekleri', 'Haftalık saatlerinizi açın, öğrencileriniz boş saatlerden ders istesin; siz onaylayın.'],
+  ['Materyal üretici', 'Bir konudan ya da yapıştırdığınız bir metinden, seviyeye uygun sunum ve cevap anahtarlı çalışma kâğıdı.'],
+  ['Materyallerim ve ödevler', 'Materyallerinizi seviye ve sınav başlıklarında saklayın, sınıfınıza ödev olarak gönderin, sonuçları görün.'],
+  ['Sınıf oyunları', 'Projeksiyonda oynanan takım oyunları; öğrencilerin telefona ihtiyacı yok.'],
+];
 ---
 
 <SiteLayout
   title="Hakkımızda — Languago"
-  description="Languago'nun hikayesi: oyun temelli İngilizce öğrenme platformu."
+  description="Languago, her öğrenciye özel bir İngilizce öğrenme sistemi: öğretmeninizle canlı dersler, kişisel öğrenme yolu ve öğretmenler için ders araçları."
 >
-  <div class="doc">
-    <h1>Hakkımızda</h1>
-    <div class="barline"></div>
+  <div class="ab">
+    <header class="ab-head">
+      <span class="ab-eyebrow">Hakkımızda</span>
+      <h1>Doğru yöntemlerle İngilizce öğrenmek <span class="serif">hayal değil.</span></h1>
+      <p>Languago, her öğrenci için özel oluşturulan bir dil öğrenme sistemidir. Öğretmeninizle canlı dersleri, size göre hazırlanan günlük bir öğrenme yolunu ve öğretmenlerin derse hazırlanmasını kolaylaştıran araçları tek bir yerde toplar.</p>
+    </header>
 
-    <section class="panel">
-      <h2>Languago Nedir?</h2>
-      <p>
-        Languago; kelime, dilbilgisi, okuma ve sınıf içi oyunları tek çatı altında
-        toplayan bir İngilizce öğrenme platformudur. Öğrenciler kendi hızlarında
-        çalışır, öğretmenler sınıflarını ve öğrencilerinin ilerlemesini tek panelden
-        takip eder.
-      </p>
-      <p>
-        Uygulamanın temel fikri basittir: <strong>oyunlu ve sürekli pratik</strong>.
-        Sıkıcı ezber yerine etkileşimli alıştırmalar, seviyenize uygun okuma metinleri
-        ve sınıfta birlikte oynanan yarışmalar.
-      </p>
+    <section class="ab-sec">
+      <h2>Neden Languago?</h2>
+      <p>İngilizce öğrenmek isteyen çoğu kişi aynı sorunla karşılaşır: ya herkese aynı içeriği veren uygulamalar ya da derslerin arasında ne çalışacağını bilmemek. Languago bu ikisini birleştirir. Seviyeniz ölçülür, eksikleriniz belirlenir ve her gün tam o noktada çalışırsınız; öğretmeniniz de nerede olduğunuzu görür.</p>
     </section>
 
-    <section class="panel" style="margin-top:20px;">
-      <h2>Hikayemiz</h2>
-      <p>
-        Languago; sınıftaki her öğrenciye ulaşabilecek, teknolojiyi pedagojiyle
-        birleştiren bir İngilizce öğrenme platformu olarak geliştirilmiştir.
-      </p>
-      <p>
-        Derslerimizde öğrencilerin öğrenirken eğlenmesinin kalıcı öğrenmenin
-        anahtarı olduğuna inanıyoruz. Languago bu inancın meyvesidir.
-      </p>
+    <section class="ab-sec">
+      <h2>Öğrenciler için</h2>
+      <ul class="ab-list">{learner.map(([t, d]) => <li><b>{t}</b><span>{d}</span></li>)}</ul>
     </section>
 
-    <section class="panel" style="margin-top:20px;">
+    <section class="ab-sec">
+      <h2>Öğretmenler için</h2>
+      <ul class="ab-list">{teacher.map(([t, d]) => <li><b>{t}</b><span>{d}</span></li>)}</ul>
+    </section>
+
+    <section class="ab-sec">
       <h2>Yöntemimiz</h2>
-      <ul>
-        <li><strong>Seviye bazlı içerik:</strong> A1'den C2'ye, sonra IELTS, YDS, YÖKDİL gibi sınav seviyelerine.</li>
-        <li><strong>Kendi hızında çalışma:</strong> Öğrenci nerede takılırsa kalsın, kaldığı yerden devam eder.</li>
-        <li><strong>Öğretmen gözlemi:</strong> Öğretmen sınıfındaki her öğrencinin modül bazında ilerlemesini görür.</li>
-        <li><strong>Oyunlarla pekiştirme:</strong> Sınıf içi kelime yarışmaları motivasyonu canlı tutar.</li>
+      <ul class="ab-points">
+        <li><b>Seviyeye göre ilerleme.</b> İçerik A1’den C2’ye ilerler; her görev 85 puanla geçilir, seviye sonu sınavıyla bir üst seviyeye geçilir.</li>
+        <li><b>Az ama her gün.</b> Kısa günlük görevler ve kelime tekrarı, uzun ama seyrek çalışmadan daha kalıcıdır.</li>
+        <li><b>Öğretmen her zaman işin içinde.</b> Yapay zekâ geri bildirim verir ve hazırlığı hızlandırır; dersi ve kararı öğretmen verir.</li>
+        <li><b>Gizliliğe saygı.</b> Yapay zekâ ve konuşma tanıma yalnızca izninizle çalışır. Ayrıntılar <a href="/kvkk">KVKK metninde</a>.</li>
       </ul>
     </section>
 
-    <p class="muted" style="margin-top:24px;">
-      Sorularınız için{' '}
-      <a href="/iletisim">İletişim sayfamızı</a> ziyaret edebilirsiniz.
-    </p>
+    <aside class="ab-cta">
+      <div><h2>Hemen başlayın</h2><p>Hesap açmak ücretsiz. Önce seviyenizi öğrenmek isterseniz testi hemen çözebilirsiniz.</p></div>
+      <div class="ab-btns">
+        <a class="btn btn-accent" href="/signup">Ücretsiz başla <span class="arrow">→</span></a>
+        <a class="btn btn-ghost" href="/seviye-testi">Seviye testi</a>
+      </div>
+    </aside>
+
+    <p class="ab-contact">Sorularınız ve önerileriniz için <a href="/iletisim">bize yazın</a>.</p>
   </div>
 </SiteLayout>
+
+<style>
+  .ab { width: min(860px, calc(100% - 32px)); margin: 0 auto; padding: clamp(32px, 6vw, 72px) 0 80px; display: grid; gap: clamp(26px, 4vw, 40px); }
+  .ab-head { display: grid; gap: 14px; }
+  .ab-eyebrow { font-weight: 800; font-size: 13px; letter-spacing: .08em; text-transform: uppercase; color: var(--teal-deep); }
+  .ab-head h1 { margin: 0; font-size: clamp(32px, 5vw, 52px); line-height: 1.08; letter-spacing: -.025em; text-wrap: balance; }
+  .ab-head .serif { color: var(--teal-deep); }
+  .ab-head p { margin: 0; font-size: 18px; line-height: 1.6; color: var(--muted); }
+  .ab-sec { display: grid; gap: 12px; }
+  .ab-sec h2 { margin: 0; font-size: 24px; }
+  .ab-sec p { margin: 0; line-height: 1.7; }
+  .ab-list { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 340px), 1fr)); gap: 12px; }
+  .ab-list li { display: grid; gap: 4px; padding: 16px 18px; border-radius: var(--r); background: var(--surface); border: 1px solid var(--line); }
+  .ab-list span { color: var(--muted); line-height: 1.55; font-size: 15px; }
+  .ab-points { margin: 0; padding-left: 20px; display: grid; gap: 10px; line-height: 1.6; }
+  .ab-cta { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 16px; padding: 24px; border-radius: var(--r-lg); background: var(--surface); border: 1.5px solid var(--teal); }
+  .ab-cta h2 { margin: 0 0 6px; font-size: 22px; }
+  .ab-cta p { margin: 0; color: var(--muted); }
+  .ab-btns { display: flex; flex-wrap: wrap; gap: 10px; }
+  .ab-contact { margin: 0; color: var(--muted); }
+</style>
