@@ -1,6 +1,7 @@
 import type { APIRoute } from 'astro';
 import { apiUser, json } from '../../../lib/lessons-server';
-import { getDay, todaysDay, scoreTask } from '../../../lib/path-content';
+import { getDay, todaysDay, scoreTask, taskKey } from '../../../lib/path-content';
+import { recordMistakes, grammarMistakes } from '../../../lib/mistakes';
 
 export const prerender = false;
 
@@ -27,5 +28,7 @@ export const POST: APIRoute = async (ctx) => {
   const r = scoreTask(d, task, choices);
   const { data, error } = await u.sb.rpc('submit_mission_task', { p_task: task, p_score: r.score, p_payload: { choices, correct: r.correct } });
   if (error) return json(400, { ok: false, error: saveError(error.message) });
+  // wrong grammar answers go to the mistakes notebook (reading/listening need their text, so they stay out)
+  if (task === 'grammar') await recordMistakes(u.sb, grammarMistakes(d, r.review, taskKey(d.level, d.day, 'grammar')));
   return json(200, { ok: true, ...r, xp: data?.xp ?? 0, dayDone: !!data?.day_done });
 };

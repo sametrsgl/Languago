@@ -3,6 +3,7 @@ import { apiUser, json } from '../../../lib/lessons-server';
 import { getDay, todaysDay } from '../../../lib/path-content';
 import { scoreWriting } from '../../../lib/ai';
 import { countWords, PASS } from '../../../lib/path.mjs';
+import { recordMistakes } from '../../../lib/mistakes';
 
 export const prerender = false;
 
@@ -34,5 +35,7 @@ export const POST: APIRoute = async (ctx) => {
   if (demo) return json(200, { ...result, xp: result.passed ? 25 : 0 });
   const { data, error } = await u.sb.rpc('submit_mission_task', { p_task: 'writing', p_score: score, p_payload: { text, feedback: fb, aiMissing: !fb } });
   if (error) return json(400, { ok: false, error: /not_open_yet/.test(error.message) ? 'Yeni görev yarın açılacak.' : 'Kaydedilemedi.' });
+  // the AI's corrections go to the mistakes notebook
+  if (fb?.corrections?.length) await recordMistakes(u.sb, fb.corrections.map((c: any) => ({ source: 'writing' as const, level: d.level, wrong: c.wrong, right: c.right, why: c.why })));
   return json(200, { ...result, xp: data?.xp ?? 0, dayDone: !!data?.day_done });
 };

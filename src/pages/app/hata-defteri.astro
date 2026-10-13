@@ -1,0 +1,152 @@
+---
+// /app/hata-defteri: the student's mistakes notebook. Due notes come back as
+// "which one is right?" between the student's version and the correct one;
+// the full list sits below.
+import AppShell from '../../layouts/AppShell.astro';
+import '../../styles/timetable.css';
+import { loadAppSession } from '../../lib/app-session';
+import { createSupabaseClient, pageCookieSource } from '../../lib/supabase';
+import { todayTR } from '../../lib/assignments';
+
+export const prerender = false;
+const loaded = await loadAppSession(Astro);
+if ('redirect' in loaded) return Astro.redirect(loaded.redirect.replace('next=/app', 'next=/app/hata-defteri'));
+const session = loaded;
+if (session.role !== 'student' && !session.demo) return Astro.redirect('/app');
+
+type Note = { id: number; source: string; prompt: string | null; wrong: string; right_text: string; why: string | null; box: number; due_on: string; learned_at: string | null };
+let notes: Note[] = [];
+let ready = true;
+const today = todayTR();
+if (session.demo) {
+  notes = [
+    { id: 1, source: 'mission', prompt: 'The receptionist ___ very polite.', wrong: 'are', right_text: 'is', why: 'The receptionist = he/she (tekil) olduğu için “is” kullanılır.', box: 0, due_on: today, learned_at: null },
+    { id: 2, source: 'writing', prompt: null, wrong: 'I am live in Ankara', right_text: 'I live in Ankara', why: 'Geniş zamanda “am” kullanılmaz; fiil tek başına gelir.', box: 1, due_on: today, learned_at: null },
+    { id: 3, source: 'homework', prompt: 'Penicillin ___ in 1928.', wrong: 'is discovered', right_text: 'was discovered', why: null, box: 2, due_on: '2026-10-20', learned_at: null },
+  ];
+} else {
+  const sb = createSupabaseClient(pageCookieSource(Astro));
+  const r = await sb.from('mistake_notes').select('id, source, prompt, wrong, right_text, why, box, due_on, learned_at').eq('student_id', session.userId).order('created_at', { ascending: false }).limit(500);
+  if (r.error) ready = false;
+  notes = (r.data as any[]) || [];
+}
+const active = notes.filter((n) => !n.learned_at);
+const due = active.filter((n) => n.due_on <= today);
+const learned = notes.filter((n) => n.learned_at).length;
+const SRC: Record<string, string> = { mission: 'Günün görevi', homework: 'Ödev', writing: 'Yazma' };
+const fmt = (d: string) => new Date(`${d}T12:00:00Z`).toLocaleDateString('tr-TR', { day: 'numeric', month: 'long', timeZone: 'Europe/Istanbul' });
+// the review deck: each card offers both versions in a fixed but mixed order
+const deck = due.slice(0, 20).map((n) => ({ id: n.id, prompt: n.prompt, right: n.right_text, why: n.why, options: (n.id % 2 ? [n.wrong, n.right_text] : [n.right_text, n.wrong]) }));
+---
+
+<AppShell session={session} title="Hata defteri — Languago" current="/app/hata-defteri">
+  <div class="page-head"><div><h1>Hata defteri</h1><p>Görevlerde, ödevlerde ve yazmada yaptığınız hatalar burada toplanır ve arada bir karşınıza çıkar. Bir hatayı art arda doğru cevaplayınca “öğrenildi” olur.</p></div></div>
+  {session.demo && <span class="demo-flag">Önizleme: örnek hatalar (yalnızca bu bilgisayarda)</span>}
+
+  {!ready ? <section class="panel"><p class="muted">Hata defteri çok yakında burada olacak.</p></section> : (
+    <>
+      <div class="md-stats">
+        <div class="panel md-stat"><b>{due.length}</b><span>bugün tekrar</span></div>
+        <div class="panel md-stat"><b>{active.length}</b><span>defterde</span></div>
+        <div class="panel md-stat"><b>{learned}</b><span>öğrenildi</span></div>
+      </div>
+
+      <section class="panel" data-deck={JSON.stringify(deck)} data-demo={session.demo ? '1' : undefined}>
+        {deck.length ? (
+          <>
+            <div class="panel-head"><h2>Tekrar</h2><span class="muted md-progress" data-progress>1 / {deck.length}</span></div>
+            <div class="md-card" data-card>
+              <p class="md-prompt" data-prompt></p>
+              <p class="md-ask">Hangisi doğru?</p>
+              <div class="md-opts" data-opts></div>
+              <p class="md-why" data-why hidden></p>
+              <button class="btn btn-primary btn-sm" type="button" data-next hidden>Sonraki</button>
+            </div>
+            <p class="md-done" data-done hidden>Bugünkü tekrarlar bitti. Yarın yeni tekrarlar gelebilir.</p>
+          </>
+        ) : <p class="muted">{active.length ? 'Bugün tekrar edilecek hata yok. Sıradaki tekrarlar aşağıda.' : 'Defteriniz boş. Görevlerde ve ödevlerde yaptığınız hatalar buraya gelecek.'}</p>}
+      </section>
+
+      {active.length > 0 && (
+        <section class="panel">
+          <h2>Defterdekiler</h2>
+          <ul class="md-list">{active.map((n) => (
+            <li>
+              <div class="md-li-main">
+                {n.prompt && <span class="md-li-prompt">{n.prompt}</span>}
+                <span><s class="md-wrong">{n.wrong}</s> → <b class="md-right">{n.right_text}</b></span>
+                {n.why && <small class="muted">{n.why}</small>}
+              </div>
+              <div class="md-li-meta"><span class="badge">{SRC[n.source] || n.source}</span><small class="muted">{n.due_on <= today ? 'bugün' : fmt(n.due_on)}</small></div>
+            </li>
+          ))}</ul>
+        </section>
+      )}
+    </>
+  )}
+
+  <script>
+    const box = document.querySelector<HTMLElement>('[data-deck]');
+    const deck: { id: number; prompt: string | null; right: string; why: string | null; options: string[] }[] = box ? JSON.parse(box.dataset.deck || '[]') : [];
+    if (box && deck.length) {
+      let i = 0;
+      const $ = (s: string) => box.querySelector(s) as HTMLElement;
+      const show = () => {
+        const c = deck[i];
+        $('[data-progress]').textContent = `${i + 1} / ${deck.length}`;
+        $('[data-prompt]').textContent = c.prompt || 'Yazdığınız metinden:';
+        $('[data-why]').hidden = true;
+        $('[data-next]').hidden = true;
+        const opts = $('[data-opts]');
+        opts.replaceChildren(...c.options.map((o) => {
+          const b = document.createElement('button');
+          b.type = 'button'; b.className = 'md-opt'; b.textContent = o;
+          b.addEventListener('click', () => answer(b, o === c.right));
+          return b;
+        }));
+      };
+      const answer = (b: HTMLButtonElement, ok: boolean) => {
+        const c = deck[i];
+        box.querySelectorAll<HTMLButtonElement>('.md-opt').forEach((x) => { x.disabled = true; if (x.textContent === c.right) x.classList.add('ok'); });
+        if (!ok) b.classList.add('bad');
+        const why = $('[data-why]');
+        why.textContent = (ok ? 'Doğru! ' : `Doğrusu: ${c.right}. `) + (c.why || '');
+        why.hidden = false;
+        $('[data-next]').hidden = false;
+        if (!box.dataset.demo) fetch('/api/mistakes', { method: 'POST', headers: { 'content-type': 'application/json' }, body: JSON.stringify({ id: c.id, ok }) }).catch(() => {});
+      };
+      $('[data-next]').addEventListener('click', () => {
+        i++;
+        if (i < deck.length) show();
+        else { $('[data-card]').hidden = true; $('[data-done]').hidden = false; $('[data-progress]').textContent = ''; }
+      });
+      show();
+    }
+  </script>
+</AppShell>
+
+<style is:global>
+  .md-stats { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; }
+  .md-stat { text-align: center; gap: 2px !important; }
+  .md-stat b { font-size: 30px; color: #5eead4; font-variant-numeric: tabular-nums; }
+  .md-stat span { color: var(--muted); font-size: 13.5px; }
+  .md-card { display: grid; gap: 12px; }
+  .md-card [hidden], [data-done][hidden] { display: none !important; }
+  .md-prompt { margin: 0; font-size: 20px; font-weight: 700; }
+  .md-ask { margin: 0; color: var(--muted); font-size: 14px; }
+  .md-opts { display: grid; gap: 10px; grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .md-opt { min-height: 54px; padding: 12px 14px; border-radius: 14px; border: 1px solid rgba(255, 255, 255, .14); background: rgba(0, 0, 0, .2); color: var(--ink); font: inherit; font-size: 16px; font-weight: 700; cursor: pointer; text-align: left; }
+  .md-opt:hover:not(:disabled) { border-color: rgba(94, 234, 212, .6); }
+  .md-opt.ok { border-color: rgba(94, 234, 212, .9); background: rgba(45, 212, 191, .16); }
+  .md-opt.bad { border-color: rgba(248, 113, 113, .8); background: rgba(248, 113, 113, .12); }
+  .md-why { margin: 0; line-height: 1.55; }
+  .md-done { margin: 0; font-weight: 700; color: #5eead4; }
+  .md-list { list-style: none; margin: 0; padding: 0; display: grid; gap: 10px; }
+  .md-list li { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 8px 14px; padding: 12px 14px; border-radius: 14px; border: 1px solid rgba(255, 255, 255, .08); background: rgba(0, 0, 0, .15); }
+  .md-li-main { display: grid; gap: 4px; min-width: 0; flex: 1 1 280px; }
+  .md-li-prompt { color: var(--ink-2); }
+  .md-wrong { color: #fca5a5; }
+  .md-right { color: #5eead4; }
+  .md-li-meta { display: flex; flex-direction: column; align-items: flex-end; gap: 4px; }
+  @media (max-width: 560px) { .md-opts { grid-template-columns: 1fr; } .md-li-meta { align-items: flex-start; } }
+</style>

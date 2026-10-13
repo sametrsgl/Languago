@@ -34,9 +34,13 @@ const t = session.teacher;
 const next = teacher ? t?.lessons[0] ?? null : s?.nextLesson ?? null;
 // open homework for students (0 until the 20261023 homework tables exist)
 let openHw = session.demo && !teacher ? 1 : 0;
+let dueNotes = session.demo && !teacher ? 2 : 0;
 if (!teacher && !session.demo) {
   const sb = createSupabaseClient(pageCookieSource(Astro));
   const [a, d] = await Promise.all([sb.from('material_assignments').select('id').limit(100), sb.from('assignment_submissions').select('assignment_id').eq('student_id', session.userId)]);
+  const today = new Date().toLocaleDateString('en-CA', { timeZone: 'Europe/Istanbul' });
+  const mn = await sb.from('mistake_notes').select('id', { head: true, count: 'exact' }).eq('student_id', session.userId).is('learned_at', null).lte('due_on', today);
+  if (!mn.error) dueNotes = mn.count || 0;
   if (!a.error) { const doneIds = new Set(((d.data as any[]) || []).map((x) => x.assignment_id)); openHw = ((a.data as any[]) || []).filter((x) => !doneIds.has(x.id)).length; }
 }
 const C = 188.5;
@@ -65,6 +69,7 @@ const ic = {
   <div class="mobile-hello"><span class="muted">{greet},</span><h1>{session.firstName}</h1></div>
   {session.demo && <span class="demo-flag">Önizleme: örnek verilerle (yalnızca bu bilgisayarda)</span>}
   {openHw > 0 && <a class="panel hw-banner" href={`/app/odevler${session.demo ? '?demo=ogrenci' : ''}`}><b>{openHw === 1 ? 'Bir ödeviniz var' : `${openHw} ödeviniz var`}</b><span>Öğretmeninizin gönderdiği ödevi açın →</span></a>}
+  {dueNotes > 0 && <a class="panel hw-banner md-banner" href={`/app/hata-defteri${session.demo ? '?demo=ogrenci' : ''}`}><b>Hata defterinde {dueNotes} tekrar</b><span>İki dakikada tekrar edin →</span></a>}
 
   <div class="grid">
     {!teacher && (
@@ -195,6 +200,8 @@ const ic = {
 <style>
   .hw-banner { display: flex !important; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 6px 14px; text-decoration: none; color: inherit; border-color: rgba(245, 158, 11, .45) !important; background: rgba(245, 158, 11, .08) !important; }
   .hw-banner span { color: #fbbf24; font-weight: 700; }
+  .md-banner { border-color: rgba(45, 212, 191, .45) !important; background: rgba(45, 212, 191, .07) !important; }
+  .md-banner span { color: #5eead4; }
   .mission-card { background: radial-gradient(520px circle at 100% 0%, rgba(245, 158, 11, .22), transparent 60%), linear-gradient(135deg, #10302c, #0a1f1d); border-color: rgba(251, 191, 36, .25); }
   .mission-card .when, .vocab-card .when { font-size: 13px; font-weight: 800; letter-spacing: .08em; text-transform: uppercase; color: #fbbf24; }
   .mission-steps { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 8px; }
