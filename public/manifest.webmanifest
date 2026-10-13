@@ -1,34 +1,19 @@
 {
   "name": "Languago",
   "short_name": "Languago",
-  "description": "İngilizce öğrenmenin eğlenceli yolu",
+  "description": "Her öğrenciye özel İngilizce öğrenme sistemi: canlı dersler, kişisel öğrenme yolu ve günlük pratik.",
   "id": "/",
-  "start_url": "/",
+  "start_url": "/app",
   "scope": "/",
   "display": "standalone",
-  "background_color": "#ffffff",
-  "theme_color": "#0d9488",
+  "background_color": "#071110",
+  "theme_color": "#071110",
   "lang": "tr",
   "dir": "ltr",
-  "categories": ["education", "productivity"],
+  "categories": ["education"],
   "icons": [
-    {
-      "src": "/icons/icon-192.png",
-      "sizes": "192x192",
-      "type": "image/png",
-      "purpose": "any"
-    },
-    {
-      "src": "/icons/icon-512.png",
-      "sizes": "512x512",
-      "type": "image/png",
-      "purpose": "any"
-    },
-    {
-      "src": "/icons/icon-512.png",
-      "sizes": "512x512",
-      "type": "image/png",
-      "purpose": "maskable"
-    }
+    { "src": "/brand/icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any" },
+    { "src": "/brand/icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any" },
+    { "src": "/brand/icon-maskable-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" }
   ]
 }

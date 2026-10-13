@@ -18,7 +18,7 @@ interface Props {
 
 const {
   title,
-  description = 'Languago: öğretmeninizle canlı İngilizce dersleri, kişisel öğrenme yolu ve her gün kısa pratik.',
+  description = 'Her öğrenciye özel İngilizce öğrenme sistemi: öğretmeninizle canlı dersler, her gün kişisel görev, kelime kartları ve ücretsiz seviye testi.',
   canonical,
   image,
   bare = false,
@@ -53,6 +53,15 @@ const current = (href: string) => (href !== '/' && path.startsWith(href) ? 'page
     <meta name="theme-color" content={dark ? "#071110" : "#f6f8f7"} />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <link rel="icon" type="image/png" sizes="32x32" href="/brand/mark-32.png" />
+    <link rel="icon" type="image/png" sizes="48x48" href="/brand/mark-48.png" />
+    <link rel="icon" href="/favicon.ico" sizes="16x16 32x32 48x48" />
+    <script type="application/ld+json" set:html={JSON.stringify({
+      '@context': 'https://schema.org',
+      '@graph': [
+        { '@type': 'Organization', '@id': `${siteUrl}/#org`, name: 'Languago', url: siteUrl, logo: `${siteUrl}/brand/icon-512.png` },
+        { '@type': 'WebSite', '@id': `${siteUrl}/#website`, name: 'Languago', url: siteUrl, inLanguage: 'tr-TR', publisher: { '@id': `${siteUrl}/#org` } },
+      ],
+    })} />
     <link rel="apple-touch-icon" href="/brand/apple-touch-icon.png" />
     <link rel="manifest" href="/manifest.webmanifest" />
     <meta name="apple-mobile-web-app-title" content="Languago" />
