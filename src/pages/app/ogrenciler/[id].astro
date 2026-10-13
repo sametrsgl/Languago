@@ -18,6 +18,8 @@ const id = String(Astro.params.id || '');
 
 let name = 'Öğrenci', email = '', test: any = null, st: any = null;
 let results: any[] = [], exams: any[] = [], lessons: any[] = [];
+let notes: { prompt: string | null; wrong: string; right_text: string; why: string | null; source: string; reviews: number }[] = [];
+let notesLearned = 0;
 const monthKey = new Date(Date.now() + 3 * 3600_000).toISOString().slice(0, 7);
 let pkg = { total: null as number | null, used: 0, planned: 0 };
 if (session.demo) {
@@ -48,9 +50,20 @@ if (session.demo) {
   const row = Array.isArray(u.data) ? u.data[0] : u.data;
   if (row) pkg = { total: row.total, used: row.used, planned: row.planned };
   lessons = (l.data as any[]) || [];
+  // the student's open mistakes (teachers of the student may read them)
+  const [mn, ml] = await Promise.all([
+    sb.from('mistake_notes').select('prompt, wrong, right_text, why, source, reviews').eq('student_id', id).is('learned_at', null).order('reviews', { ascending: false }).order('created_at', { ascending: false }).limit(8),
+    sb.from('mistake_notes').select('id', { head: true, count: 'exact' }).eq('student_id', id).not('learned_at', 'is', null),
+  ]);
+  notes = (mn.data as any[]) || []; notesLearned = ml.count || 0;
 }
 if (session.demo) {
   pkg = { total: 16, used: 7, planned: 3 };
+  notes = [
+    { prompt: 'She ___ to work by bus every day.', wrong: 'go', right_text: 'goes', why: 'He/she/it ile geniş zamanda fiile -s gelir.', source: 'mission', reviews: 3 },
+    { prompt: null, wrong: 'we watched a old film', right_text: 'we watched an old film', why: 'Sesli harften önce an.', source: 'writing', reviews: 1 },
+  ];
+  notesLearned = 4;
   lessons = [{ id: 'x1', starts_at: new Date(Date.now() - 2 * 86_400_000).toISOString(), status: 'confirmed', attendance: 'present', report: 'Past simple düzensiz fiiller ve tatil anlatımı çalıştık. Ödev: 10 cümlelik bir tatil yazısı.' }];
 }
 const ATT: Record<string, string> = { present: 'Geldi', late: 'Geç geldi', absent: 'Gelmedi' };
@@ -109,6 +122,19 @@ const q = session.demo ? '?demo=ogretmen' : '';
   </div>
 
   <section class="panel">
+    <div class="panel-head"><h2>Hata defteri</h2><span class="muted" style="font-size:13.5px">{notes.length ? `${notes.length} açık hata gösteriliyor` : ''}{notesLearned ? ` · ${notesLearned} öğrenildi` : ''}</span></div>
+    {notes.length ? (
+      <ul class="tn-list">{notes.map((n) => (
+        <li>
+          {n.prompt && <span class="muted">{n.prompt}</span>}
+          <span><s class="tn-wrong">{n.wrong}</s> → <b class="tn-right">{n.right_text}</b>{n.reviews > 0 && <small class="muted"> · {n.reviews} tekrar</small>}</span>
+          {n.why && <small class="muted">{n.why}</small>}
+        </li>
+      ))}</ul>
+    ) : <p class="muted">Henüz açık hata yok. Görevlerde, ödevlerde ve yazmada yapılan hatalar burada görünür; derste üzerinden geçebilirsiniz.</p>}
+  </section>
+
+  <section class="panel">
     <h2>Yazma</h2>
     {writings.length ? writings.map((w) => (
       <div style="display:grid;gap:8px;padding:14px 0;border-top:1px solid rgba(255,255,255,.07)">
@@ -142,3 +168,10 @@ const q = session.demo ? '?demo=ogretmen' : '';
     });
   </script>
 </AppShell>
+
+<style>
+  .tn-list { list-style: none; margin: 0; padding: 0; display: grid; gap: 8px; }
+  .tn-list li { display: grid; gap: 3px; padding: 10px 12px; border-radius: 12px; border: 1px solid rgba(255, 255, 255, .08); background: rgba(0, 0, 0, .15); }
+  .tn-wrong { color: #fca5a5; }
+  .tn-right { color: #5eead4; }
+</style>
