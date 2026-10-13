@@ -61,7 +61,16 @@ const ideas = ['Present simple: daily routines', 'Can / can’t for ability', 'P
         <label class="fld">Seviye<select name="level">{LEVELS.map((l: string) => <option value={l} selected={l === preLevel}>{l}</option>)}</select></label>
         <label class="fld">Dil bilgisi sorusu<select name="count">{COUNTS.map((c: number) => <option value={c} selected={c === 8}>{c} soru</option>)}</select></label>
       </div>
-      <label class="fld">Konu (İngilizce ya da Türkçe)<input name="topic" maxlength="120" required placeholder="ör. Past simple: last weekend" list="gen-ideas" value={preTopic} /></label>
+      <div class="gen-mode" role="radiogroup" aria-label="Nasıl üretilsin?">
+        <label><input type="radio" name="source" value="topic" checked data-mode /><span>Konudan üret</span></label>
+        <label><input type="radio" name="source" value="text" data-mode /><span>Metinden üret</span></label>
+      </div>
+      <label class="fld" data-topic-field>Konu (İngilizce ya da Türkçe)<input name="topic" maxlength="120" required placeholder="ör. Past simple: last weekend" list="gen-ideas" value={preTopic} /></label>
+      <label class="fld" data-text-field hidden>Metin (İngilizce, en az 40 kelime)
+        <textarea name="text" rows="9" maxlength="6000" placeholder="Bir haber, hikâye ya da ders kitabı metnini buraya yapıştırın. Seçtiğiniz seviyeye uyarlanır; dil bilgisi konusu metinden seçilir."></textarea>
+        <small data-text-count>0 kelime</small>
+        <small>Yalnızca kullanma hakkınız olan metinleri yapıştırın. Metin, materyal üretmek için yapay zekâ hizmetine gönderilir.</small>
+      </label>
       <datalist id="gen-ideas">{ideas.map((i) => <option value={i} />)}</datalist>
       <label class="fld">Not (isteğe bağlı)<input name="focus" maxlength="200" placeholder="ör. Sınıfım futbolu seviyor; düzensiz fiillere ağırlık ver" /></label>
       <div class="gen-row">
@@ -123,10 +132,28 @@ const ideas = ['Present simple: daily routines', 'Can / can’t for ability', 'P
     const titles: Record<string, string[]> = (window as any).__libTitles || {};
     const form = document.querySelector('[data-gen]') as HTMLFormElement;
     const msg = form.querySelector('.gen-msg') as HTMLElement;
+    // "Konudan üret" / "Metinden üret"
+    const topicField = form.querySelector('[data-topic-field]') as HTMLElement;
+    const textField = form.querySelector('[data-text-field]') as HTMLElement;
+    const topicInput = form.elements.namedItem('topic') as HTMLInputElement;
+    const textInput = form.elements.namedItem('text') as HTMLTextAreaElement;
+    const textCount = form.querySelector('[data-text-count]') as HTMLElement;
+    const setMode = () => {
+      const fromText = (form.querySelector('[data-mode]:checked') as HTMLInputElement)?.value === 'text';
+      topicField.hidden = fromText; textField.hidden = !fromText;
+      topicInput.required = !fromText; textInput.required = fromText;
+    };
+    form.querySelectorAll('[data-mode]').forEach((r) => r.addEventListener('change', setMode));
+    textInput.addEventListener('input', () => {
+      const n = textInput.value.split(/\s+/).filter(Boolean).length;
+      textCount.textContent = `${n} kelime${n < 40 ? ' (en az 40)' : ''}`;
+    });
+    setMode();
     form.addEventListener('submit', async (e) => {
       e.preventDefault();
       const btn = form.querySelector('button[type=submit]') as HTMLButtonElement;
-      const body = Object.fromEntries(new FormData(form).entries());
+      const body: Record<string, any> = Object.fromEntries(new FormData(form).entries());
+      if (body.source === 'text') delete body.topic; else delete body.text;
       btn.disabled = true;
       let dots = 0;
       msg.textContent = 'Hazırlanıyor…';
@@ -204,6 +231,13 @@ const ideas = ['Present simple: daily routines', 'Can / can’t for ability', 'P
 
 <style>
   .gen { display: grid; gap: 14px; }
+  .gen-mode { display: inline-flex; gap: 4px; padding: 4px; border-radius: 14px; background: rgba(0, 0, 0, .25); border: 1px solid rgba(255, 255, 255, .1); width: fit-content; }
+  .gen-mode label { cursor: pointer; }
+  .gen-mode input { position: absolute; opacity: 0; pointer-events: none; }
+  .gen-mode span { display: block; padding: 8px 16px; border-radius: 10px; font-weight: 700; font-size: 14.5px; color: var(--muted); }
+  .gen-mode input:checked + span { background: rgba(45, 212, 191, .16); color: #5eead4; }
+  .gen-mode input:focus-visible + span { outline: 2px solid #5eead4; outline-offset: 2px; }
+  [data-text-field][hidden], [data-topic-field][hidden] { display: none !important; }
   .gen-row { display: flex; align-items: center; gap: 14px; flex-wrap: wrap; }
   .gen-item { display: grid !important; gap: 14px; }
   .gen-top { display: flex; justify-content: space-between; align-items: center; gap: 12px; flex-wrap: wrap; }

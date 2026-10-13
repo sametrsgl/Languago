@@ -19,7 +19,9 @@ test('AI material generator is teacher-only and authorizes before any AI call', 
   const aiIdx = post.indexOf('aiJson(');
   assert.ok(authIdx > -1 && aiIdx > -1 && authIdx < aiIdx, 'auth must come before the AI call');
   assert.match(post, /u\.role !== 'teacher' && u\.role !== 'admin'/, 'teachers only');
-  assert.match(post, /\.slice\(0, 2000\)/, 'request body is bounded');
+  // bounded body: room for a pasted text ("Metinden üret", 6000 characters) but no more
+  const bound = Number((post.match(/request\.text\(\)\)\.slice\(0, (\d+)\)/) || [])[1]);
+  assert.ok(bound > 0 && bound <= 16000, 'request body is bounded');
   assert.match(post, />= 20/, 'daily limit before spending AI time');
   assert.ok(!existsSync(new URL('../src/pages/api/materials/generate.ts', import.meta.url)), 'the old public generator is gone');
 });
