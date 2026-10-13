@@ -9,6 +9,8 @@ import { createSupabaseClient, pageCookieSource } from '../../lib/supabase';
 import { getSyllabus, loadPathState } from '../../lib/path-content';
 import { DAYS_PER_LEVEL, nextLevel } from '../../lib/path.mjs';
 import { topicStatus } from '../../lib/level-test-bank';
+import WeeklyBars from '../../components/WeeklyBars.astro';
+import { lastWeeks, countByWeek } from '../../lib/weekly-activity';
 
 export const prerender = false;
 const loaded = await loadAppSession(Astro);
@@ -20,6 +22,12 @@ let level = 'A1', day = 1, xp = 0;
 const passedByDay = new Map<number, number>();
 let exams: { score: number; passed: boolean; taken_at: string }[] = [];
 let grammarTopics: Record<string, { asked: number; correct: number }> | undefined;
+// the last 8 weeks of activity: completed tasks, new words, mistakes learned
+const weeks = lastWeeks(8);
+let wTasks = weeks.map(() => 0), wWords = weeks.map(() => 0), wNotes = weeks.map(() => 0);
+if (session.demo) {
+  wTasks = [6, 12, 9, 15, 18, 14, 21, 11]; wWords = [26, 52, 39, 65, 78, 52, 91, 39]; wNotes = [0, 1, 2, 2, 4, 3, 5, 2];
+}
 if (session.demo) {
   day = 38; xp = 4120;
   for (let d = 1; d < 38; d++) passedByDay.set(d, 5);
@@ -34,6 +42,16 @@ if (session.demo) {
   exams = (ex as any[]) || [];
   const { data: pt } = await sb.from('student_progress').select('payload').eq('student_id', session.userId).eq('module', 'placement-test').maybeSingle();
   grammarTopics = (pt?.payload as any)?.grammarTopics;
+  const since = weeks[0].start;
+  const [mr, vc, mn] = await Promise.all([
+    sb.from('mission_results').select('updated_at').eq('student_id', session.userId).eq('passed', true).gte('updated_at', since),
+    // cards the path taught (words marked as known in the vocabulary analysis do not count)
+    sb.from('vocab_cards').select('first_seen_on, last_rating, reps').eq('student_id', session.userId).gte('first_seen_on', since),
+    sb.from('mistake_notes').select('learned_at').eq('student_id', session.userId).gte('learned_at', since),
+  ]);
+  wTasks = countByWeek(weeks, ((mr.data as any[]) || []).map((r) => r.updated_at));
+  wWords = countByWeek(weeks, ((vc.data as any[]) || []).filter((r) => !(r.last_rating === 'learned' && r.reps <= 1)).map((r) => r.first_seen_on));
+  wNotes = countByWeek(weeks, ((mn.data as any[]) || []).map((r) => r.learned_at));
 }
 const topics = await getSyllabus(level);
 const daysDone = [...passedByDay.values()].filter((n) => n >= 5).length;
@@ -48,6 +66,15 @@ const months = [0, 1, 2, 3].map((m) => Array.from({ length: 30 }, (_, i) => m * 
     <div class="xp"><div class="bar"><b style={`width:${Math.round((daysDone / DAYS_PER_LEVEL) * 100)}%`}></b></div><span><em style="font-style:normal">4 aylık program</em><em style="font-style:normal">%{Math.round((daysDone / DAYS_PER_LEVEL) * 100)}</em></span></div>
   </div>
   {session.demo && <span class="demo-flag">Önizleme: örnek ilerleme (yalnızca bu bilgisayarda)</span>}
+
+  <section class="panel" aria-labelledby="act-title">
+    <h2 id="act-title">Son 8 hafta</h2>
+    <div class="act-grid">
+      <WeeklyBars title="Tamamlanan görev" unit="görev" weeks={weeks} values={wTasks} />
+      <WeeklyBars title="Yeni kelime" unit="kelime" weeks={weeks} values={wWords} />
+      <WeeklyBars title="Öğrenilen hata" unit="hata" weeks={weeks} values={wNotes} />
+    </div>
+  </section>
 
   <section class="panel" aria-labelledby="map-title">
     <div class="panel-head"><h2 id="map-title">4 aylık harita</h2><a href="/app/gorev">Bugünün görevi →</a></div>
@@ -142,3 +169,8 @@ const months = [0, 1, 2, 3].map((m) => Array.from({ length: 30 }, (_, i) => m * 
     });
   </script>
 </AppShell>
+
+<style>
+  .act-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 22px 28px; }
+  @media (max-width: 720px) { .act-grid { grid-template-columns: 1fr; } }
+</style>
