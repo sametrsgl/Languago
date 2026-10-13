@@ -240,8 +240,12 @@ const todayIso = new Date(fromLocal(today, 12 * 60)).toISOString().slice(0, 10);
       <p class="muted" data-f="note" style="font-style:italic"></p>
       <div data-report hidden style="display:grid;gap:10px">
         <label class="fld">Katılım<select data-att><option value="">Seçin</option><option value="present">Derse geldi</option><option value="late">Geç geldi</option><option value="absent">Gelmedi (ders hakkı düşer)</option></select></label>
-        <label class="fld">Ders raporu <small>(öğrenci görür)</small><textarea data-rep maxlength="2000" placeholder="Bugün neler çalıştık, ödev, notlar…"></textarea></label>
-        <button class="btn btn-primary btn-sm" type="button" data-save-rep style="justify-self:start">Raporu kaydet</button>
+        <label class="fld">Ders raporu <small>(öğrenci görür)</small><textarea data-rep maxlength="2000" placeholder="Bugün neler çalıştık, ödev, notlar… Kısa notlar yazıp “Notlarımı rapora çevir”e de basabilirsiniz."></textarea></label>
+        <div style="display:flex;gap:10px;flex-wrap:wrap;align-items:center">
+          <button class="btn btn-ghost btn-sm" type="button" data-draft-rep>✨ Notlarımı rapora çevir</button>
+          <button class="btn btn-primary btn-sm" type="button" data-save-rep>Raporu kaydet</button>
+        </div>
+        <small class="muted" style="font-size:12.5px">Notlarınız, öğrenci izin verdiyse yapay zekâyla düzenli bir rapora çevrilir; kaydetmeden önce okuyup düzeltebilirsiniz.</small>
       </div>
       <span class="msg" data-msg aria-live="polite"></span>
       <div class="row">
@@ -369,6 +373,17 @@ const todayIso = new Date(fromLocal(today, 12 * 60)).toISOString().slice(0, 10);
         if (!current) return;
         post('/api/timetable/report', { id: current.id, attendance: ev.querySelector('[data-att]').value, report: ev.querySelector('[data-rep]').value })
           .then(function (r) { if (r.ok) { say(ev, 'Kaydedildi.', true); reload(); } else say(ev, r.error || 'Kaydedilemedi.'); });
+      });
+      ev.querySelector('[data-draft-rep]').addEventListener('click', function () {
+        if (!current) return;
+        var box = ev.querySelector('[data-rep]'), btn = ev.querySelector('[data-draft-rep]');
+        btn.disabled = true; say(ev, 'Rapor hazırlanıyor…', true);
+        post('/api/timetable/report-draft', { id: current.id, notes: box.value })
+          .then(function (r) {
+            btn.disabled = false;
+            if (r.ok) { box.value = r.report; say(ev, 'Taslak hazır. Okuyup gerekirse düzeltin, sonra kaydedin.', true); }
+            else say(ev, r.error || 'Rapor hazırlanamadı.');
+          });
       });
       ev.querySelector('[data-cancel-ev]').addEventListener('click', function () {
         if (!current || !confirm('Bu ders iptal edilsin mi? Öğrenciye haber verilir.')) return;
