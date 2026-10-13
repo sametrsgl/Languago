@@ -12,6 +12,8 @@ interface Props {
   image?: string;
   /** Hide the header actions (the auth pages show their own). */
   bare?: boolean;
+  /** Keep the page out of search results (e.g. personal share pages). */
+  noindex?: boolean;
 }
 
 const {
@@ -20,6 +22,7 @@ const {
   canonical,
   image,
   bare = false,
+  noindex = false,
 } = Astro.props;
 
 const siteUrl = Astro.site?.origin || 'https://www.languago.site';
@@ -45,7 +48,7 @@ const current = (href: string) => (href !== '/' && path.startsWith(href) ? 'page
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>{title}</title>
     <meta name="description" content={description} />
-    <meta name="robots" content="index, follow" />
+    <meta name="robots" content={noindex ? 'noindex, follow' : 'index, follow'} />
     <link rel="canonical" href={pageUrl} />
     <meta name="theme-color" content={dark ? "#071110" : "#f6f8f7"} />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />

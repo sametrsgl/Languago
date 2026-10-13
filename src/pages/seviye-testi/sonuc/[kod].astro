@@ -1,0 +1,73 @@
+---
+// /seviye-testi/sonuc/<code>: a shared level-test result. The code holds only
+// the levels (see src/lib/level-share.mjs); the page invites the visitor to
+// take the test too. Kept out of search results.
+import SiteLayout from '../../../layouts/SiteLayout.astro';
+import { readShareCode, levelIndex, LEVEL_NAMES } from '../../../lib/level-share.mjs';
+
+export const prerender = false;
+const r = readShareCode(Astro.params.kod);
+if (!r) return Astro.redirect('/seviye-testi', 302);
+const name = (LEVEL_NAMES as Record<string, string>)[r.level];
+const site = Astro.site?.origin || 'https://www.languago.site';
+---
+
+<SiteLayout
+  title={`İngilizce seviyem: ${r.level} (${name}) | Languago Seviye Testi`}
+  description={`İngilizce seviye testini çözdüm ve ${r.level} (${name}) çıktım. Siz de ücretsiz testle kelime, dilbilgisi, okuma ve dinleme seviyenizi öğrenin.`}
+  canonical={`${site}/seviye-testi/sonuc/${r.level}-${r.skills.map((s) => s.level || '--').join('')}`}
+  noindex
+>
+  <div class="sh">
+    <article class="sh-card">
+      <span class="sh-eyebrow">Languago İngilizce seviye testi</span>
+      <div class="sh-top">
+        <div class="sh-badge"><b>{r.level}</b><small>{name}</small></div>
+        <div>
+          <h1>İngilizce seviyem: {r.level}</h1>
+          <p>Kelime, dilbilgisi, okuma ve dinleme bölümlerinden oluşan testi çözdüm.</p>
+        </div>
+      </div>
+      <ul class="sh-skills">
+        {r.skills.map((s) => (
+          <li>
+            <span>{s.label}</span>
+            <span class="sh-ladder" aria-hidden="true">{['A1', 'A2', 'B1', 'B2', 'C1', 'C2'].map((l) => <i class={s.level && levelIndex(l) <= levelIndex(s.level) ? 'on' : ''}></i>)}</span>
+            <b>{s.level || 'atlandı'}</b>
+          </li>
+        ))}
+      </ul>
+    </article>
+
+    <section class="sh-cta">
+      <h2>Sizin seviyeniz ne?</h2>
+      <p>Ücretsiz, 25–30 dakika. Sonuçta her beceride seviyenizi ve önce neye çalışmanız gerektiğini görürsünüz.</p>
+      <div class="sh-btns">
+        <a class="btn btn-accent" href="/seviye-testi">Seviyemi öğren <span class="arrow">→</span></a>
+        <a class="btn btn-ghost" href="/seviye-testi/cocuk">7–13 yaş çocuk testi</a>
+      </div>
+    </section>
+  </div>
+</SiteLayout>
+
+<style>
+  .sh { width: min(760px, calc(100% - 32px)); margin: 0 auto; padding: clamp(32px, 6vw, 72px) 0 80px; display: grid; gap: 22px; }
+  .sh-card { display: grid; gap: 20px; padding: clamp(22px, 4vw, 34px); border-radius: var(--r-lg); background: var(--surface); border: 1.5px solid var(--teal); box-shadow: var(--shadow-lg); }
+  .sh-eyebrow { font-weight: 800; font-size: 12.5px; letter-spacing: .08em; text-transform: uppercase; color: var(--teal-deep); }
+  .sh-top { display: flex; flex-wrap: wrap; align-items: center; gap: 18px 22px; }
+  .sh-badge { display: grid; place-items: center; width: 108px; height: 108px; border-radius: 28px; background: linear-gradient(135deg, var(--teal), var(--teal-deep)); color: #04201d; }
+  .sh-badge b { font-size: 42px; line-height: 1; letter-spacing: -.03em; }
+  .sh-badge small { font-weight: 800; font-size: 13px; }
+  .sh-top h1 { margin: 0 0 6px; font-size: clamp(28px, 4.5vw, 40px); letter-spacing: -.02em; }
+  .sh-top p { margin: 0; color: var(--muted); }
+  .sh-skills { list-style: none; margin: 0; padding: 0; display: grid; gap: 10px; }
+  .sh-skills li { display: grid; grid-template-columns: 100px minmax(0, 1fr) 70px; align-items: center; gap: 12px; font-weight: 700; }
+  .sh-skills b { text-align: right; color: var(--teal-deep); font-variant-numeric: tabular-nums; }
+  .sh-ladder { display: grid; grid-template-columns: repeat(6, 1fr); gap: 4px; }
+  .sh-ladder i { height: 8px; border-radius: 4px; background: var(--sunk); border: 1px solid var(--line); }
+  .sh-ladder i.on { background: var(--teal); border-color: var(--teal); }
+  .sh-cta { display: grid; gap: 10px; padding: 24px; border-radius: var(--r-lg); background: var(--sunk); border: 1px solid var(--line); }
+  .sh-cta h2 { margin: 0; font-size: 24px; }
+  .sh-cta p { margin: 0; color: var(--muted); }
+  .sh-btns { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 6px; }
+</style>

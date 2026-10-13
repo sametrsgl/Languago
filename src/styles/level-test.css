@@ -102,3 +102,6 @@
 body:has(.lt) .site-head, body:has(.lt) .site-foot { display: none; }
 .passage { font-family: var(--font); font-size: 17px; line-height: 1.75; font-style: normal; }
 .passage p { margin: 0 0 .8em; }
+
+.res-share { display: flex; flex-wrap: wrap; align-items: center; gap: 10px 14px; margin-top: 14px; padding-top: 14px; border-top: 1px solid rgba(255, 255, 255, .08); }
+.res-share .muted { font-size: 13.5px; overflow-wrap: anywhere; }

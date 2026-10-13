@@ -84,6 +84,7 @@ try {
 
 <script>
   import { SECTIONS, createSession, nextStep, recordAnswer, levelB } from '../lib/level-test.mjs';
+  import { shareCode } from '../lib/level-share.mjs';
 
   type Q = { id: string; skill: string; level: string; stem: string; options: string[] };
   type U = { id: string; skill: string; level: string; title: string; kind?: string; text?: string; audio?: string; lines?: [string, string][]; speakers?: Record<string, string>; questions: Q[] };
@@ -438,8 +439,21 @@ try {
         <div style="display:grid;gap:12px"><span class="eyebrow">Genel seviyeniz</span><h1>${o.level === 'C2' ? 'İngilizceniz uzman düzeyinde.' : `${o.level} seviyesindesiniz, ${NEXT[o.level]} yolunda.`}</h1>
         ${o.level === 'C2' ? '' : `<div class="to-next"><div class="bar"><b style="width:0" data-fill="${Math.round(o.progress * 100)}"></b></div><span class="muted" style="font-size:13.5px">${o.progress < 0.1 ? `${NEXT[o.level]} yolunun başındasınız.` : `${NEXT[o.level]} seviyesine yaklaşık %${Math.round(o.progress * 100)} yoldasınız.`}</span></div>`}</div></div>
       <div class="skills">${skills}</div>${topicsHtml}
-      <div class="res-cta">${cta}</div></div>`;
+      <div class="res-cta">${cta}</div>
+      ${shareCode(r) ? `<div class="res-share"><button class="btn btn-ghost" type="button" data-share>Sonucumu paylaş</button><span class="muted" data-share-msg>Bağlantıda yalnızca seviyeleriniz olur; adınız ya da cevaplarınız olmaz.</span></div>` : ''}</div>`;
     show('result');
+    const code = shareCode(r);
+    const shareBtn = $('[data-share]') as HTMLButtonElement | null;
+    shareBtn?.addEventListener('click', async () => {
+      const url = `${location.origin}/seviye-testi/sonuc/${code}`;
+      const text = `İngilizce seviye testinde ${o.level} çıktım. Sen de seviyeni öğren:`;
+      const msg = $('[data-share-msg]');
+      try {
+        if (navigator.share) { await navigator.share({ title: 'İngilizce seviyem', text, url }); return; }
+        await navigator.clipboard.writeText(`${text} ${url}`);
+        msg.textContent = 'Bağlantı kopyalandı. İstediğiniz yere yapıştırabilirsiniz.';
+      } catch { msg.textContent = url; }
+    });
     requestAnimationFrame(() => requestAnimationFrame(() => {
       const f = $('[data-fill]'); if (f) f.style.width = f.dataset.fill + '%';
     }));
