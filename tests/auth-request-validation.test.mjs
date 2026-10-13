@@ -37,7 +37,7 @@ for (const route of ['signin', 'signup']) {
       const response = await invoke(handler, body);
       assert.equal(response.status, 400, body);
       assert.match(response.headers.get('content-type'), /application\/json/);
-      assert.equal((await response.json()).error.message, 'Geçersiz istek. Lütfen tekrar dene.');
+      assert.equal((await response.json()).error.message, 'Geçersiz istek. Lütfen tekrar deneyin.');
     }
     assert.deepEqual(calls, []);
   });

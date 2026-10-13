@@ -19,10 +19,10 @@ function meaningFor(word) {
 const STEP_META = [
   ['Ön izleme', 'Kısa bağlamı oku ve kelimeleri fark et.', 'Bir günün planını ve hedef kelimeleri birlikte gör.'],
   ['Eşleştir', 'İngilizce kelimeleri anlamlarıyla eşleştir.', 'Bir kafede sipariş verirken doğru ifadeyi bul.'],
-  ['Anlam seç', 'Anlamı bağlamdan seç; sadece ezberleme.', 'Yeni bir iş arkadaşına kendini tanıtırken doğru kelimeyi seç.'],
+  ['Anlam seç', 'Anlamı bağlamdan seç; sadece ezberleme.', 'Yeni bir iş arkadaşına kendini tanıtırken doğru kelimeyi seçin.'],
   ['Boşluğu doldur', 'Kelimeyi cümlenin içine geri çağır.', 'Bir seyahat rezervasyonunu tamamla.'],
   ['Birlikte kullan', 'Doğal eşdizimleri ve kelime ortaklarını fark et.', 'İş e-postasında doğal ifadeleri birleştir.'],
-  ['Diyalog', 'Gerçek konuşmada en uygun cevabı seç.', 'Restoranda bir sorun yaşadığında konuşmayı sürdür.'],
+  ['Diyalog', 'Gerçek konuşmada en uygun cevabı seçin.', 'Restoranda bir sorun yaşadığında konuşmayı sürdür.'],
   ['Sırala', 'Kelimeleri anlam alanlarına ve görevlere ayır.', 'Havalimanında bilgi, hareket ve sorun kelimelerini ayır.'],
   ['Hatırla', 'İpucundan İngilizce kelimeyi üret.', 'Günlük hayatından bir mesaj yazarken kelimeyi kullan.'],
   ['Okuma', 'Kısa, anlaşılır bir metinde kelimeleri çöz.', 'Bir ev ilanını ve mahalle duyurusunu oku.'],

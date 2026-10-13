@@ -32,7 +32,7 @@ export const POST: APIRoute = async ({ request, cookies }) => {
   const starts_raw = typeof body.starts_at === 'string' ? body.starts_at.trim() : '';
   const starts = new Date(starts_raw);
   if (!starts_raw || Number.isNaN(starts.getTime())) {
-    return respond(400, { ok: false, error: { fields: { starts_at: ['Geçerli bir başlangıç zamanı seç.'] } } });
+    return respond(400, { ok: false, error: { fields: { starts_at: ['Geçerli bir başlangıç zamanı seçin.'] } } });
   }
   if (starts.getTime() <= Date.now()) {
     return respond(400, { ok: false, error: { fields: { starts_at: ['Başlangıç zamanı gelecekte olmalı.'] } } });

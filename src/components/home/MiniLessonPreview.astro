@@ -1,12 +1,12 @@
 <section class="mini-lesson" aria-labelledby="mini-lesson-title">
   <div class="mini-lesson__header">
     <div>
-      <p class="eyebrow">Şimdi dene</p>
+      <p class="eyebrow">Hemen deneyin</p>
       <h2 id="mini-lesson-title">Kısa bir ders önizlemesi</h2>
     </div>
     <span class="lesson-status" id="lesson-status">3 dakikalık pratik</span>
   </div>
-  <div class="lesson-tabs" role="tablist" aria-label="Ders türü seç">
+  <div class="lesson-tabs" role="tablist" aria-label="Ders türünü seçin">
     <button class="lesson-tab is-active" type="button" role="tab" aria-selected="true" aria-controls="lesson-panel-grammar" data-lesson-tab="grammar">Dil bilgisi</button>
     <button class="lesson-tab" type="button" role="tab" aria-selected="false" aria-controls="lesson-panel-word" data-lesson-tab="word">Kelime</button>
     <button class="lesson-tab" type="button" role="tab" aria-selected="false" aria-controls="lesson-panel-reading" data-lesson-tab="reading">Okuma</button>
@@ -17,7 +17,7 @@
     <div class="lesson-options" data-lesson-options>
       <button type="button" data-answer="wrong">saw</button><button type="button" data-answer="correct">have seen</button><button type="button" data-answer="wrong">see</button>
     </div>
-    <p class="lesson-feedback" data-lesson-feedback aria-live="polite">Bir seçenek seç.</p>
+    <p class="lesson-feedback" data-lesson-feedback aria-live="polite">Bir seçenek seçin.</p>
   </div>
   <div class="lesson-panel" id="lesson-panel-word" role="tabpanel" data-lesson-panel="word" hidden>
     <span class="lesson-label">B1 · Kelimeyi bağlamda kullan</span>
@@ -25,7 +25,7 @@
     <div class="lesson-options" data-lesson-options>
       <button type="button" data-answer="correct">güvenilir</button><button type="button" data-answer="wrong">geçici</button><button type="button" data-answer="wrong">karmaşık</button>
     </div>
-    <p class="lesson-feedback" data-lesson-feedback aria-live="polite">Bir seçenek seç.</p>
+    <p class="lesson-feedback" data-lesson-feedback aria-live="polite">Bir seçenek seçin.</p>
   </div>
   <div class="lesson-panel" id="lesson-panel-reading" role="tabpanel" data-lesson-panel="reading" hidden>
     <span class="lesson-label">B2 · Kısa okuma</span>
@@ -33,7 +33,7 @@
     <div class="lesson-options" data-lesson-options>
       <button type="button" data-answer="correct">Tren gecikti.</button><button type="button" data-answer="wrong">Otobüs daha hızlıydı.</button><button type="button" data-answer="wrong">Treni kaçırdı.</button>
     </div>
-    <p class="lesson-feedback" data-lesson-feedback aria-live="polite">Bir seçenek seç.</p>
+    <p class="lesson-feedback" data-lesson-feedback aria-live="polite">Bir seçenek seçin.</p>
   </div>
   <button class="lesson-reset" type="button" data-lesson-reset>Yanıtı sıfırla</button>
 </section>
@@ -68,12 +68,12 @@
         const correct = button.dataset.answer === 'correct';
         button.classList.add(correct ? 'is-correct' : 'is-wrong');
         if (!correct) options.querySelector('[data-answer="correct"]')?.classList.add('is-correct');
-        if (feedback) feedback.textContent = correct ? 'Doğru — kısa açıklamayı görüp devam edebilirsin.' : 'Henüz değil — doğru seçeneği işaretledik.';
+        if (feedback) feedback.textContent = correct ? 'Doğru — kısa açıklamayı görüp devam edebilirsiniz.' : 'Henüz değil — doğru seçeneği işaretledik.';
       }));
     });
     lesson.querySelector('[data-lesson-reset]')?.addEventListener('click', () => {
       lesson.querySelectorAll('[data-lesson-options] button').forEach((button) => { button.disabled = false; button.classList.remove('is-correct', 'is-wrong'); });
-      lesson.querySelectorAll('[data-lesson-feedback]').forEach((feedback) => { feedback.textContent = 'Bir seçenek seç.'; });
+      lesson.querySelectorAll('[data-lesson-feedback]').forEach((feedback) => { feedback.textContent = 'Bir seçenek seçin.'; });
     });
   }
 </script>

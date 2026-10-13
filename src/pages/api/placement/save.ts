@@ -27,12 +27,12 @@ export const POST: APIRoute = async ({ request, cookies }) => {
 
   const { data: authData, error: authError } = await supabase.auth.getUser();
   const user = authData.user;
-  if (authError || !user) return json({ error: 'Oturum açman gerekiyor.' }, 401);
+  if (authError || !user) return json({ error: 'Oturum açmanız gerekiyor.' }, 401);
 
   // Kids test drafts (taken before signing up).
   if (body?.format === 'kids') {
     const scored = scoreKids(body.answers, Number(body.age) || 10, { skipListening: body.skipListening === true });
-    if (!scored) return json({ error: 'Seviye testini tamamlaman gerekiyor.' }, 400);
+    if (!scored) return json({ error: 'Seviye testini tamamlamanız gerekiyor.' }, 400);
     const ok = await saveKids(supabase, user.id, scored);
     return ok ? json({ ok: true, level: scored.result.overall.level }, 200) : json({ error: 'Seviye sonucu kaydedilemedi.' }, 500);
   }
@@ -40,7 +40,7 @@ export const POST: APIRoute = async ({ request, cookies }) => {
   // Level test v2 drafts (taken before signing up) are scored from their answers.
   if (body?.format === 'lt2') {
     const scored = scoreTest(body.answers, Number(body.selfReport) || 0, { skipListening: body.skipListening === true });
-    if (!scored) return json({ error: 'Seviye testini tamamlaman gerekiyor.' }, 400);
+    if (!scored) return json({ error: 'Seviye testini tamamlamanız gerekiyor.' }, 400);
     const ok = await saveLevelTest(supabase, user.id, scored, String(body.goal || 'general'));
     return ok ? json({ ok: true, level: scored.result.overall.level }, 200) : json({ error: 'Seviye sonucu kaydedilemedi.' }, 500);
   }
@@ -51,7 +51,7 @@ export const POST: APIRoute = async ({ request, cookies }) => {
   state.learnerName = requestedName;
   state.goal = requestedGoal;
   const result = placementResult(state);
-  if (!state.completed) return json({ error: 'Seviye testini tamamlaman gerekiyor.' }, 400);
+  if (!state.completed) return json({ error: 'Seviye testini tamamlamanız gerekiyor.' }, 400);
 
   const payload = {
     version: 2,

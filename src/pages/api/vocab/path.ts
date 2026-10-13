@@ -9,7 +9,7 @@ export const GET: APIRoute = async ({ request, cookies }) => {
   const supabase = createSupabaseClient(pageCookieSource({ request, cookies }));
   if (!supabase) return json({ error: 'Supabase ayarlanmamış.' }, 503);
   const { data: authData } = await supabase.auth.getUser();
-  if (!authData.user) return json({ error: 'Oturum açman gerekiyor.' }, 401);
+  if (!authData.user) return json({ error: 'Oturum açmanız gerekiyor.' }, 401);
 
   const requestedLevel = new URL(request.url).searchParams.get('level')?.toUpperCase() || '';
   let profileLevel = '';

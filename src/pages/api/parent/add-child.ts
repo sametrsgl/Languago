@@ -33,7 +33,7 @@ export const POST: APIRoute = async ({ request, cookies }) => {
   if (!email) {
     return respond(400, {
       ok: false,
-      error: { fields: { email: ['Çocuğun e-posta adresini gir.'] } },
+      error: { fields: { email: ['Çocuğunuzun e-posta adresini girin.'] } },
     });
   }
   // Light format sanity-check (block simple junk input; real validation is
@@ -41,7 +41,7 @@ export const POST: APIRoute = async ({ request, cookies }) => {
   if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
     return respond(400, {
       ok: false,
-      error: { fields: { email: ['Geçerli bir e-posta adresi gir.'] } },
+      error: { fields: { email: ['Geçerli bir e-posta adresi girin.'] } },
     });
   }
 

@@ -54,7 +54,7 @@ export const POST: APIRoute = async ({ request, cookies }) => {
   if (options.length !== 4) {
     return respond(400, {
       ok: false,
-      error: { fields: { options: ['Tam olarak 4 seçenek gir.'] } },
+      error: { fields: { options: ['Tam olarak 4 seçenek girin.'] } },
     });
   }
 
@@ -62,7 +62,7 @@ export const POST: APIRoute = async ({ request, cookies }) => {
   if (!Number.isInteger(answer_index) || answer_index < 0 || answer_index > 3) {
     return respond(400, {
       ok: false,
-      error: { fields: { answer_index: ['Doğru cevabı seç.'] } },
+      error: { fields: { answer_index: ['Doğru cevabı seçin.'] } },
     });
   }
 

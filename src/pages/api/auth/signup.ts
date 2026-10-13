@@ -27,7 +27,7 @@ export const POST: APIRoute = async ({ request, cookies }) => {
       return json({ error: { message: error.message } }, 413);
     }
     return json(
-      { error: { message: 'Geçersiz istek. Lütfen tekrar dene.' } },
+      { error: { message: 'Geçersiz istek. Lütfen tekrar deneyin.' } },
       400
     );
   }
@@ -84,7 +84,7 @@ export const POST: APIRoute = async ({ request, cookies }) => {
     return json({ ok: true, hasSession: Boolean(data.session) }, 200);
   } catch {
     return json(
-      { error: { message: 'Kayıt sırasında bir hata oluştu. Lütfen tekrar dene.' } },
+      { error: { message: 'Kayıt sırasında bir hata oluştu. Lütfen tekrar deneyin.' } },
       500
     );
   }

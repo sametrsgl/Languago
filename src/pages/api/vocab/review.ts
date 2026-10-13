@@ -10,7 +10,7 @@ export const POST: APIRoute = async ({ request, cookies }) => {
   const supabase = createSupabaseClient(pageCookieSource({ request, cookies }));
   if (!supabase) return json({ error: 'Supabase ayarlanmamış.' }, 503);
   const { data: auth } = await supabase.auth.getUser();
-  if (!auth.user) return json({ error: 'Oturum açman gerekiyor.' }, 401);
+  if (!auth.user) return json({ error: 'Oturum açmanız gerekiyor.' }, 401);
   let body: any;
   try { body = await readJsonBody<unknown>(request, 32_768); }
   catch (error) {

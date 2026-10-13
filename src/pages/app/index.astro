@@ -94,7 +94,7 @@ const ic = {
         <section class="panel col-4 vocab-card" aria-labelledby="vocab-title">
           <span class="when" style="color:#fbbf24">Kelime yolu · {path?.vocabLevel || 'A1'}</span>
           <h2 id="vocab-title" style="font-size:22px">{path?.vocabDoneToday ? 'Bugünün kelimeleri tamam' : `13 yeni kelime${path?.vocabDue ? ` + ${path.vocabDue} tekrar` : ''}`}</h2>
-          <p class="muted" style="font-size:14px">Dinle, seç, kartlarla öğren. 🔥 {path?.vocabStreak ?? 0} gün üst üste</p>
+          <p class="muted" style="font-size:14px">Dinleyin, seçin, kartlarla öğrenin. 🔥 {path?.vocabStreak ?? 0} gün üst üste</p>
           <a class="btn btn-ghost" href="/app/kelime">{path?.vocabDoneToday ? 'Kartlara bak' : 'Kelimelere başla'}</a>
         </section>
       </>

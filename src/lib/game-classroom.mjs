@@ -14,7 +14,7 @@ export function buildCuratedClassTopics({ level, levelLabel, grammar, mcqGroups 
       id: unit.id,
       title: unit.title || unit.short || unit.id,
       short: unit.short || unit.title || unit.id,
-      objective: unit.objective || unit.summary_note || unit.short || 'Doğru seçeneği açıklamasıyla seç.',
+      objective: unit.objective || unit.summary_note || unit.short || 'Doğru seçeneği açıklamasıyla seçin.',
       qs,
     });
   }

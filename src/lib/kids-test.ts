@@ -26,7 +26,7 @@ export function kidsBank() {
   if (cache) return cache;
   const items: Item[] = [
     ...(words as any[]).map(([lv, pic, q, o]) => mk('words', B[lv], 'pic', q, o, `w|${pic}|${q}`, { picture: pic })),
-    ...(hear as any[]).map(([lv, w, o]) => mk('words', B[lv], 'hear', 'Dinle ve doğru resmi seç.', o, `h|${w}`, { say: w })),
+    ...(hear as any[]).map(([lv, w, o]) => mk('words', B[lv], 'hear', 'Dinle ve doğru resmi seçin.', o, `h|${w}`, { say: w })),
     ...(grammar as any[]).map(([lv, s, o]) => mk('grammar', B[lv], 'text', s, o, `g|${s}`)),
   ];
   const units: Unit[] = [

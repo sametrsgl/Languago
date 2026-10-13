@@ -12,7 +12,7 @@ export const POST: APIRoute = async ({ request, cookies }) => {
   const supabase = createSupabaseClient(pageCookieSource({ request, cookies }));
   if (!supabase) return json({ error: 'Supabase ayarlanmamış.' }, 503);
   const { data: authData } = await supabase.auth.getUser();
-  if (!authData.user) return json({ error: 'Oturum açman gerekiyor.' }, 401);
+  if (!authData.user) return json({ error: 'Oturum açmanız gerekiyor.' }, 401);
 
   const raw = await request.text();
   if (new TextEncoder().encode(raw).byteLength > 16_384) return json({ error: 'İstek gövdesi çok büyük.' }, 413);

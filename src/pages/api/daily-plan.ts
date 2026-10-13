@@ -47,7 +47,7 @@ export const GET: APIRoute = async ({ request, cookies }) => {
   const supabase = createSupabaseClient(pageCookieSource({ request, cookies }));
   if (!supabase) return json({ error: 'Supabase ayarlanmamış.' }, 503);
   const { data: authData, error: authError } = await supabase.auth.getUser();
-  if (authError || !authData.user) return json({ error: 'Oturum açman gerekiyor.' }, 401);
+  if (authError || !authData.user) return json({ error: 'Oturum açmanız gerekiyor.' }, 401);
 
   try {
     const rows = await readStudentState(supabase, authData.user.id);
@@ -73,7 +73,7 @@ export const POST: APIRoute = async ({ request, cookies }) => {
   const supabase = createSupabaseClient(pageCookieSource({ request, cookies }));
   if (!supabase) return json({ error: 'Supabase ayarlanmamış.' }, 503);
   const { data: authData, error: authError } = await supabase.auth.getUser();
-  if (authError || !authData.user) return json({ error: 'Oturum açman gerekiyor.' }, 401);
+  if (authError || !authData.user) return json({ error: 'Oturum açmanız gerekiyor.' }, 401);
 
   let body: Record<string, unknown>;
   try {

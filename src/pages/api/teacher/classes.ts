@@ -79,6 +79,6 @@ export const POST: APIRoute = async ({ request, cookies }) => {
 
   return respond(500, {
     ok: false,
-    error: { message: 'Katılım kodu üretilemedi. Lütfen tekrar dene.' },
+    error: { message: 'Katılım kodu üretilemedi. Lütfen tekrar deneyin.' },
   });
 };
