@@ -1,4 +1,5 @@
 -- Languago 2.0: the mistakes notebook ("Hata defteri"). Wrong answers to
+-- Applied to production on 2026-10-14 (SQL editor, approved by the owner).
 -- grammar questions (daily mission, homework) and the AI's writing
 -- corrections are kept per student and come back as short reviews:
 -- right again → after 3, 7, 14, 30 days, then learned; wrong → tomorrow.
