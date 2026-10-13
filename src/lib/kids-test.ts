@@ -7,10 +7,9 @@ export const KID_LEVELS = ['Pre-A1', 'A1', 'A2'] as const;
 export const KID_NAMES: Record<string, string> = { 'Pre-A1': 'Minik adımlar', A1: 'İlk cümleler', A2: 'Kendi başına' };
 const B: Record<string, number> = { P: 1, '1': 2, '2': 3 };
 export const KID_SECTIONS = [
-  { key: 'words', label: 'Kelimeler', kind: 'item', count: 10 },
-  { key: 'grammar', label: 'Cümleler', kind: 'item', count: 8 },
-  { key: 'reading', label: 'Okuma', kind: 'unit', count: 2 },
-  { key: 'listening', label: 'Dinleme', kind: 'unit', count: 2 },
+  { key: 'words', label: 'Kelimeler', kind: 'item', count: 12 },
+  { key: 'grammar', label: 'Cümleler', kind: 'item', count: 10 },
+  // Reading and listening were taken out (2026-10-14); their units stay in the bank.
 ] as const;
 
 type Item = { id: string; skill: string; b: number; type: 'pic' | 'hear' | 'text'; picture?: string; say?: string; stem: string; options: string[]; answer: number };
@@ -68,7 +67,7 @@ export function scoreKids(answers: { id: string; choice: number }[], age: number
     seen.add(it.id);
     scored.push({ id: it.id, skill: it.skill, b: it.b, correct: it.answer === Number(a.choice) });
   }
-  const need: Record<string, number> = { words: 6, grammar: 5, reading: 3, listening: opts.skipListening ? 0 : 3 };
+  const need: Record<string, number> = { words: 6, grammar: 5 };
   for (const k of Object.keys(need)) if (scored.filter((s) => s.skill === k).length < need[k]) return null;
   const prior = kidPrior(age);
   const skills: Record<string, { level: string; theta: number; correct: number; answered: number }> = {};

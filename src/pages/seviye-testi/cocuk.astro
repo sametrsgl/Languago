@@ -10,7 +10,7 @@ let signedIn = false;
 try { const sb = createSupabaseClient(pageCookieSource(Astro)); if (sb) signedIn = Boolean((await sb.auth.getUser()).data.user); } catch { /* visitor */ }
 ---
 
-<SiteLayout title="Çocuklar için seviye testi — Languago" description="7–13 yaş için 12–15 dakikalık İngilizce seviye testi: kelimeler, cümleler, okuma ve dinleme. Starters, Movers, Flyers seviyeleri." bare>
+<SiteLayout title="Çocuklar için seviye testi — Languago" description="7–13 yaş için 8–10 dakikalık İngilizce seviye testi: resimli ve sesli kelime soruları ve cümleler. Pre-A1, A1 ve A2 seviyeleri." bare>
   <div class="kt" data-signed-in={signedIn ? '1' : '0'}>
     <header class="kt-top"><a href="/" class="kt-brand"><img src="/brand/logo-mark.svg" alt="" width="34" height="34" />languago</a><div class="kt-dots" data-dots hidden></div><a href="/" class="kt-exit">Çık</a></header>
     <div class="kt-main">
@@ -20,7 +20,7 @@ try { const sb = createSupabaseClient(pageCookieSource(Astro)); if (sb) signedIn
         <p>Resimlere bak, dinle ve seç. Bilmediğin soru olursa sorun değil, “Bilmiyorum”a bas.</p>
         <p class="kt-q">Kaç yaşındasın?</p>
         <div class="kt-ages">{[7, 8, 9, 10, 11, 12, 13].map((a) => <button type="button" data-age={a}>{a}</button>)}</div>
-        <p class="kt-note">Anne-baba notu: Test yaklaşık 12–15 dakika sürer. Sesli bölümler için hoparlör ya da kulaklık gerekir.</p>
+        <p class="kt-note">Anne-baba notu: Test yaklaşık 8–10 dakika sürer. Bazı kelime soruları sesli; hoparlör ya da kulaklık açık olsun.</p>
       </section>
       <section data-v="q" class="kt-card" hidden></section>
       <section data-v="result" class="kt-card" hidden></section>
@@ -87,10 +87,8 @@ try { const sb = createSupabaseClient(pageCookieSource(Astro)); if (sb) signedIn
     const view = (v: string) => root.querySelectorAll<HTMLElement>('[data-v]').forEach((x) => (x.hidden = x.dataset.v !== v));
     const esc = (s: string) => String(s).replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c] as string));
     const SECTIONS = [
-      { key: 'words', count: 10, title: 'Kelimeler', tip: 'Resme bak ya da dinle, doğru olanı seç.' },
-      { key: 'grammar', count: 8, title: 'Cümleler', tip: 'Boşluğa hangisi gelir?' },
-      { key: 'reading', count: 2, title: 'Okuma', tip: 'Metni oku, soruları cevapla.' },
-      { key: 'listening', count: 2, title: 'Dinleme', tip: 'Dinle, sonra soruları cevapla. 3 kez dinleyebilirsin.' },
+      { key: 'words', count: 12, title: 'Kelimeler', tip: 'Resme bak ya da dinle, doğru olanı seç.' },
+      { key: 'grammar', count: 10, title: 'Cümleler', tip: 'Boşluğa hangisi gelir?' },
     ];
     const LV_NAMES: Record<string, string> = { 'Pre-A1': 'Minik adımlar', A1: 'İlk cümleler', A2: 'Kendi başına' };
     let bank: any = null, age = 10, sec = 0, answers: { id: string; choice: number; skill: string; b: number; correct: boolean }[] = [];
