@@ -54,6 +54,10 @@ const items: Item[] = parent
       { href: `/app/hata-defteri${demo}`, label: 'Hata defteri', icon: I.notebook },
     ];
 const isCurrent = (href: string) => (href.split('?')[0] === current ? 'page' : undefined);
+// Phones show a bottom bar of five: with more items, four of them plus "Diğer" (the rest, the account and help).
+const tabItems = items.length > 5 ? items.slice(0, 4) : items.slice(0, 5);
+const moreItems = items.length > 5 ? items.slice(4) : [];
+const moreCurrent = moreItems.some((it) => isCurrent(it.href)) || current === '/app/hesap' || current === '/app/bildirimler';
 const initial = (session.firstName || '?').charAt(0).toLocaleUpperCase('tr-TR');
 ---
 
@@ -90,10 +94,31 @@ const initial = (session.firstName || '?').charAt(0).toLocaleUpperCase('tr-TR');
         <slot />
       </main>
       <nav class="tabbar" aria-label="Alt menü">
-        {items.slice(0, 5).map((it) => <a href={it.href} aria-current={isCurrent(it.href)}><Fragment set:html={it.icon} />{it.label}</a>)}
+        {tabItems.map((it) => <a href={it.href} aria-current={isCurrent(it.href)}><Fragment set:html={it.icon} />{it.label}</a>)}
+        {moreItems.length > 0 && <button type="button" class="tab-more" data-more aria-expanded="false" aria-controls="more-sheet" aria-current={moreCurrent ? 'page' : undefined}><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><circle cx="5" cy="12" r="2"/><circle cx="12" cy="12" r="2"/><circle cx="19" cy="12" r="2"/></svg>Diğer</button>}
       </nav>
+      {moreItems.length > 0 && (
+        <div class="more-sheet" id="more-sheet" data-more-sheet hidden>
+          <nav class="more-panel" aria-label="Diğer bölümler">
+            {moreItems.map((it) => <a href={it.href} aria-current={isCurrent(it.href)}><Fragment set:html={it.icon} />{it.label}</a>)}
+            <a href="/app/bildirimler" aria-current={isCurrent('/app/bildirimler')}><Fragment set:html={I.bell} />Bildirimler</a>
+            <a href="/app/hesap" aria-current={isCurrent('/app/hesap')}><Fragment set:html={I.me} />Hesabım</a>
+            <a href="/iletisim">💬 Bize yazın</a>
+            <a href="/api/auth/signout" data-signout>Çıkış</a>
+          </nav>
+        </div>
+      )}
     </div>
     <script is:inline>
+      (function () {
+        var btn = document.querySelector('[data-more]');
+        var sheet = document.querySelector('[data-more-sheet]');
+        if (!btn || !sheet) return;
+        var set = function (open) { sheet.hidden = !open; btn.setAttribute('aria-expanded', open ? 'true' : 'false'); };
+        btn.addEventListener('click', function (e) { e.stopPropagation(); set(sheet.hidden); });
+        sheet.addEventListener('click', function (e) { if (e.target === sheet) set(false); });
+        document.addEventListener('keydown', function (e) { if (e.key === 'Escape') set(false); });
+      })();
       (function () {
         document.querySelectorAll('[data-signout]').forEach(function (a) {
           a.addEventListener('click', function (e) {

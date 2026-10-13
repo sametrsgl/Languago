@@ -105,3 +105,18 @@
 /* keyboard users: jump past the menu */
 .skip-link { position: absolute; left: 12px; top: -60px; z-index: 100; padding: 10px 16px; border-radius: 12px; background: #14b8a6; color: #04201d; font-weight: 800; text-decoration: none; transition: top .15s; }
 .skip-link:focus { top: 12px; }
+
+/* Phones: "Diğer" tab and its sheet (sections that do not fit in the bottom bar, account, help) */
+.tab-more, .more-sheet { display: none; }
+@media (max-width: 960px) {
+  .tab-more { display: grid; justify-items: center; gap: 3px; padding: 6px 2px; border: 0; border-radius: 12px; background: none; color: var(--muted); font: inherit; font-size: 11.5px; font-weight: 700; cursor: pointer; }
+  .tab-more svg { width: 22px; height: 22px; }
+  .tab-more[aria-current="page"], .tab-more[aria-expanded="true"] { color: #5eead4; background: rgba(45, 212, 191, .1); }
+  .more-sheet { display: block; position: fixed; inset: 0; z-index: 39; background: rgba(0, 0, 0, .45); }
+  .more-sheet[hidden] { display: none; }
+  .more-panel { position: absolute; left: 10px; right: 10px; bottom: calc(76px + env(safe-area-inset-bottom, 0px)); display: grid; gap: 4px; padding: 10px; border-radius: 20px; background: #0e1c1a; border: 1px solid rgba(255, 255, 255, .1); box-shadow: 0 20px 50px rgba(0, 0, 0, .5); }
+  .more-panel a { display: flex; align-items: center; gap: 12px; padding: 12px 14px; border-radius: 12px; color: var(--ink); text-decoration: none; font-weight: 700; }
+  .more-panel a svg { width: 20px; height: 20px; color: var(--muted); }
+  .more-panel a[aria-current="page"] { color: #5eead4; background: rgba(45, 212, 191, .1); }
+  .more-panel a:hover { background: rgba(255, 255, 255, .05); }
+}
