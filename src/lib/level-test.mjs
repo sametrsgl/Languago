@@ -9,10 +9,10 @@
 
 export const LEVELS = ['A1', 'A2', 'B1', 'B2', 'C1', 'C2'];
 export const SECTIONS = Object.freeze([
-  { key: 'vocab', label: 'Kelime', kind: 'item', count: 12 },
-  { key: 'grammar', label: 'Dilbilgisi', kind: 'item', count: 12 },
-  { key: 'reading', label: 'Okuma', kind: 'unit', count: 3 },
-  { key: 'listening', label: 'Dinleme', kind: 'unit', count: 4 },
+  { key: 'vocab', label: 'Kelime', kind: 'item', count: 15 },
+  { key: 'grammar', label: 'Dilbilgisi', kind: 'item', count: 15 },
+  // Reading and listening were taken out of the test (2026-10-14); their
+  // units stay in the bank for later use.
 ]);
 export const SKILL_LABELS = { vocab: 'Kelime', grammar: 'Dilbilgisi', reading: 'Okuma', listening: 'Dinleme' };
 

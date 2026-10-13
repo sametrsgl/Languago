@@ -1,6 +1,6 @@
 ---
-// /seviye-testi: Languago level test v2. Four adaptive sections (vocabulary,
-// grammar, reading, listening), about 25–30 minutes. Open to everyone; the
+// /seviye-testi: Languago level test v2. Two adaptive sections (vocabulary,
+// grammar), about 10–15 minutes. Open to everyone; the
 // result is saved for signed-in learners, and visitors can save it by signing up.
 import SiteLayout from '../layouts/SiteLayout.astro';
 import '../styles/level-test.css';
@@ -14,15 +14,13 @@ try {
 } catch { /* visitor */ }
 ---
 
-<SiteLayout title="Seviye testi — Languago" description="25–30 dakikalık uyarlanabilir İngilizce seviye testi: kelime, dilbilgisi, okuma ve dinleme. Her beceri için ayrı CEFR seviyesi." bare>
+<SiteLayout title="Seviye testi — Languago" description="10–15 dakikalık uyarlanabilir İngilizce seviye testi: kelime ve dilbilgisi. Genel CEFR seviyeniz ve iki beceri için ayrı seviye." bare>
   <div class="lt" data-signed-in={signedIn ? '1' : '0'}>
     <div class="lt-top">
       <a class="brand" href="/"><img src="/brand/logo-mark.svg" alt="" width="30" height="30" /><span>languago</span></a>
       <div class="lt-steps" aria-hidden="true" hidden data-steps>
         <span data-step="vocab"><i><b></b></i><em>Kelime</em></span>
         <span data-step="grammar"><i><b></b></i><em>Dilbilgisi</em></span>
-        <span data-step="reading"><i><b></b></i><em>Okuma</em></span>
-        <span data-step="listening"><i><b></b></i><em>Dinleme</em></span>
       </div>
       <a class="exit" href={signedIn ? '/app' : '/'}>Testten çık</a>
     </div>
@@ -32,16 +30,13 @@ try {
       <section class="lt-intro" data-view="intro">
         <div>
           <span class="eyebrow">Ücretsiz seviye testi</span>
-          <h1>İngilizce seviyenizi her beceri için ayrı ayrı öğrenin.</h1>
-          <p class="lede">Test, verdiğiniz cevaplara göre zorlaşır ya da kolaylaşır. Sonunda genel CEFR seviyenizi ve kelime, dilbilgisi, okuma, dinleme için ayrı seviyelerinizi görürsünüz.</p>
+          <h1>İngilizce seviyenizi 15 dakikada öğrenin.</h1>
+          <p class="lede">Test, verdiğiniz cevaplara göre zorlaşır ya da kolaylaşır. Sonunda genel CEFR seviyenizi, kelime ve dilbilgisi için ayrı seviyelerinizi ve çalışmanız gereken konuları görürsünüz.</p>
           <div class="lt-parts">
-            <div><b>Kelime</b><small>12 soru · ~5 dk</small></div>
-            <div><b>Dilbilgisi</b><small>12 soru · ~6 dk</small></div>
-            <div><b>Okuma</b><small>3 metin · ~10 dk</small></div>
-            <div><b>Dinleme</b><small>4 kayıt · ~7 dk</small></div>
+            <div><b>Kelime</b><small>15 soru · ~6 dk</small></div>
+            <div><b>Dilbilgisi</b><small>15 soru · ~7 dk</small></div>
           </div>
           <ul class="lt-notes">
-            <li>Dinleme bölümü için kulaklık ya da sessiz bir ortam önerilir.</li>
             <li>Bilmediğiniz soruda “Bilmiyorum”u seçin; tahmin etmek sonucu bozar.</li>
             <li>Sayfayı kapatırsanız kaldığınız yerden devam edebilirsiniz.</li>
             <li>7–13 yaş arası çocuğunuz için: <a href="/seviye-testi/cocuk" style="color:#5eead4;font-weight:700">çocuklar için seviye testi →</a></li>
@@ -163,7 +158,7 @@ try {
 
   function sectionBreak(i: number) {
     const sec = SECTIONS[i];
-    $('.brk').innerHTML = `<span class="num">${i + 1}. bölüm / 4</span><h1>${esc(sec.label)}</h1><p class="lede">${esc(SECTION_INTRO[sec.key])}</p><button class="btn btn-accent" type="button" data-go>Başla</button>`;
+    $('.brk').innerHTML = `<span class="num">${i + 1}. bölüm / ${SECTIONS.length}</span><h1>${esc(sec.label)}</h1><p class="lede">${esc(SECTION_INTRO[sec.key])}</p><button class="btn btn-accent" type="button" data-go>Başla</button>`;
     show('break');
     ($('[data-go]') as HTMLButtonElement).focus();
     $('[data-go]').addEventListener('click', () => advance());

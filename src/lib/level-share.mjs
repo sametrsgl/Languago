@@ -1,6 +1,6 @@
 // Shareable level-test results. The link carries only the levels, e.g.
-// /seviye-testi/sonuc/B1-B1A2B1B2 (overall, then kelime, dilbilgisi, okuma,
-// dinleme; "--" when a skill was skipped). Nothing personal, nothing stored.
+// /seviye-testi/sonuc/B1-B1A2---- (overall, then kelime, dilbilgisi, okuma,
+// dinleme; "--" when a skill was not tested). Nothing personal, nothing stored.
 
 const LV = ['A1', 'A2', 'B1', 'B2', 'C1', 'C2'];
 export const SHARE_SKILLS = [

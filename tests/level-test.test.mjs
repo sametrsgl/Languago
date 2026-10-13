@@ -46,10 +46,10 @@ test('estimate moves with answers and stays finite when all right or all wrong',
 test('a full test has the planned length and ends', () => {
   const { s } = simulate(3.5, 11);
   const by = (k) => s.answers.filter((a) => a.skill === k).length;
-  assert.equal(by('vocab'), 12);
-  assert.equal(by('grammar'), 12);
-  assert.equal(by('reading'), 12); // 3 units x 4
-  assert.equal(by('listening'), 16); // 4 units x 4 in the fake bank
+  assert.equal(by('vocab'), 15);
+  assert.equal(by('grammar'), 15);
+  assert.equal(by('reading'), 0); // taken out of the test on 2026-10-14
+  assert.equal(by('listening'), 0);
   assert.equal(new Set(s.answers.map((a) => a.id)).size, s.answers.length, 'no item twice');
 });
 
@@ -88,6 +88,6 @@ test('option order is fixed per item and is a permutation', () => {
   assert.ok(firsts.size >= 3);
 });
 
-test('sections are the agreed four', () => {
-  assert.deepEqual(SECTIONS.map((s) => s.key), ['vocab', 'grammar', 'reading', 'listening']);
+test('sections are vocabulary and grammar only', () => {
+  assert.deepEqual(SECTIONS.map((s) => s.key), ['vocab', 'grammar']);
 });

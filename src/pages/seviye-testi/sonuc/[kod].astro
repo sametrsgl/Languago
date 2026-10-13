@@ -14,7 +14,7 @@ const site = Astro.site?.origin || 'https://www.languago.site';
 
 <SiteLayout
   title={`İngilizce seviyem: ${r.level} (${name}) | Languago Seviye Testi`}
-  description={`İngilizce seviye testini çözdüm ve ${r.level} (${name}) çıktım. Siz de ücretsiz testle kelime, dilbilgisi, okuma ve dinleme seviyenizi öğrenin.`}
+  description={`İngilizce seviye testini çözdüm ve ${r.level} (${name}) çıktım. Siz de ücretsiz testle kelime ve dilbilgisi seviyenizi öğrenin.`}
   canonical={`${site}/seviye-testi/sonuc/${r.level}-${r.skills.map((s) => s.level || '--').join('')}`}
   noindex
 >
@@ -25,15 +25,15 @@ const site = Astro.site?.origin || 'https://www.languago.site';
         <div class="sh-badge"><b>{r.level}</b><small>{name}</small></div>
         <div>
           <h1>İngilizce seviyem: {r.level}</h1>
-          <p>Kelime, dilbilgisi, okuma ve dinleme bölümlerinden oluşan testi çözdüm.</p>
+          <p>Uyarlanabilir İngilizce seviye testini çözdüm.</p>
         </div>
       </div>
       <ul class="sh-skills">
-        {r.skills.map((s) => (
+        {r.skills.filter((s) => s.level).map((s) => (
           <li>
             <span>{s.label}</span>
             <span class="sh-ladder" aria-hidden="true">{['A1', 'A2', 'B1', 'B2', 'C1', 'C2'].map((l) => <i class={s.level && levelIndex(l) <= levelIndex(s.level) ? 'on' : ''}></i>)}</span>
-            <b>{s.level || 'atlandı'}</b>
+            <b>{s.level}</b>
           </li>
         ))}
       </ul>
@@ -41,7 +41,7 @@ const site = Astro.site?.origin || 'https://www.languago.site';
 
     <section class="sh-cta">
       <h2>Sizin seviyeniz ne?</h2>
-      <p>Ücretsiz, 25–30 dakika. Sonuçta her beceride seviyenizi ve önce neye çalışmanız gerektiğini görürsünüz.</p>
+      <p>Ücretsiz, 10–15 dakika. Sonuçta her beceride seviyenizi ve önce neye çalışmanız gerektiğini görürsünüz.</p>
       <div class="sh-btns">
         <a class="btn btn-accent" href="/seviye-testi">Seviyemi öğren <span class="arrow">→</span></a>
         <a class="btn btn-ghost" href="/seviye-testi/cocuk">7–13 yaş çocuk testi</a>
