@@ -1,0 +1,286 @@
+{
+  "level": "A1",
+  "day": 96,
+  "topic": "g20",
+  "theme": "Arkadaşlar",
+  "grammar": {
+    "questions": [
+      {
+        "q": "I love ____ basketball with my friends at the weekend.",
+        "o": [
+          "playing",
+          "play",
+          "to playing",
+          "plays"
+        ],
+        "why": "Love fiilinden sonra gelen eylem -ing takısı alır."
+      },
+      {
+        "q": "My best friend hates ____ in the morning.",
+        "o": [
+          "getting up",
+          "get up",
+          "gets up",
+          "to getting up"
+        ],
+        "why": "Hate fiilinden sonra gelen eylem -ing takısı alır."
+      },
+      {
+        "q": "Do you enjoy ____ to pop music?",
+        "o": [
+          "listening",
+          "listen",
+          "listens",
+          "to listening"
+        ],
+        "why": "Enjoy fiilinden sonra gelen eylem -ing takısı alır."
+      },
+      {
+        "q": "We don't like ____ horror films.",
+        "o": [
+          "watching",
+          "watch",
+          "watches",
+          "to watching"
+        ],
+        "why": "Like/don't like yapısından sonra fiile -ing eklenir."
+      },
+      {
+        "q": "Does she like ____ Turkish food?",
+        "o": [
+          "cooking",
+          "cook",
+          "cooks",
+          "to cooking"
+        ],
+        "why": "Soru cümlelerinde de like + -ing kuralı değişmez."
+      },
+      {
+        "q": "I ____ going to the cinema alone.",
+        "o": [
+          "don't like",
+          "not like",
+          "am not like",
+          "doesn't like"
+        ],
+        "why": "Geniş zamanda 'I' öznesi ile olumsuzluk 'don't' ile yapılır."
+      },
+      {
+        "q": "They enjoy ____ in the sea in summer.",
+        "o": [
+          "swimming",
+          "swim",
+          "swiming",
+          "swimes"
+        ],
+        "why": "Swim fiili -ing alırken sondaki sessiz harf çift yazılır: swimming."
+      },
+      {
+        "q": "My father ____ reading the newspaper every day.",
+        "o": [
+          "likes",
+          "like",
+          "is like",
+          "liking"
+        ],
+        "why": "He/she/it özneleriyle geniş zamanda fiile -s takısı gelir: likes."
+      },
+      {
+        "q": "Which sentence is correct?",
+        "o": [
+          "I hate washing the dishes.",
+          "I hate wash the dishes.",
+          "I hate to washing the dishes.",
+          "I hating washing the dishes."
+        ],
+        "why": "Hate + fiil-ing yapısı dilbilgisi açısından doğrudur."
+      },
+      {
+        "q": "We love ____ time together.",
+        "o": [
+          "spending",
+          "spend",
+          "spends",
+          "to spending"
+        ],
+        "why": "Love fiilinden sonra gelen eylem -ing takısı alır."
+      }
+    ]
+  },
+  "reading": {
+    "title": "My Best Friend",
+    "text": "My best friend's name is Mert. We are colleagues in an office in Ankara. We spend a lot of time together after work. We both love doing sports. On Saturdays, we enjoy running in the park. Mert likes playing football, but I hate playing it because I am not very good at it. We also like going to the cinema. Mert loves watching action movies, but I prefer comedies. We don't like staying at home at the weekend. We enjoy meeting new people and talking about our hobbies. It is great to have a good friend.",
+    "questions": [
+      {
+        "q": "What is the main idea of the text?",
+        "o": [
+          "The hobbies and activities of two friends",
+          "The office life in Ankara",
+          "How to play football",
+          "The best cinema in the city"
+        ],
+        "why": "Metin genel olarak iki arkadaşın birlikte neler yapmaktan hoşlandığını anlatmaktadır."
+      },
+      {
+        "q": "Where do Mert and his friend work?",
+        "o": [
+          "In an office",
+          "In a park",
+          "In a cinema",
+          "In a gym"
+        ],
+        "why": "Mert ve arkadaşı bir ofiste meslektaştır."
+      },
+      {
+        "q": "What do they do on Saturdays?",
+        "o": [
+          "They go running",
+          "They play football",
+          "They stay at home",
+          "They work in the office"
+        ],
+        "why": "Cumartesi günleri parkta koşmaktan keyif alırlar."
+      },
+      {
+        "q": "Why does the writer hate playing football?",
+        "o": [
+          "He is not good at it",
+          "He is very tired",
+          "He doesn't like Mert",
+          "He likes comedies"
+        ],
+        "why": "Yazar futbolda iyi olmadığı için oynamaktan nefret eder."
+      },
+      {
+        "q": "What kind of movies does Mert love?",
+        "o": [
+          "Action movies",
+          "Comedies",
+          "Horror films",
+          "Documentaries"
+        ],
+        "why": "Mert aksiyon filmlerini sever."
+      },
+      {
+        "q": "What do they dislike doing at the weekend?",
+        "o": [
+          "Staying at home",
+          "Meeting people",
+          "Going to the cinema",
+          "Talking about hobbies"
+        ],
+        "why": "Hafta sonu evde kalmayı sevmezler."
+      },
+      {
+        "q": "What does the word 'colleagues' mean in the text?",
+        "o": [
+          "People who work together",
+          "People who play football",
+          "Family members",
+          "New people"
+        ],
+        "why": "Colleagues, aynı iş yerinde çalışan kişiler (meslektaşlar) demektir."
+      }
+    ]
+  },
+  "listening": {
+    "video": {
+      "id": "jCSHkjcmZvs",
+      "title": "Let's Learn English Lesson 41: Teamwork Works Best With a Team",
+      "source": "VOA Learning English"
+    },
+    "intro": "Anna, ofiste patronuyla yaptığı performans görüşmesinden sonra ekibiyle yeni bir plan paylaşıyor.",
+    "questions": [
+      {
+        "q": "What is Anna doing at the beginning of the video?",
+        "o": [
+          "Walking to work",
+          "Playing with cats",
+          "Eating lunch",
+          "Sleeping"
+        ],
+        "why": "Anna videonun başında işe yürüdüğünü söyler."
+      },
+      {
+        "q": "What does Ms. Weaver like on the posters?",
+        "o": [
+          "The cute cats",
+          "The colors",
+          "The numbers",
+          "The office"
+        ],
+        "why": "Posterlerde sevimli kediler vardır ve Anna bunu fark eder."
+      },
+      {
+        "q": "What is the problem with Anna's show audience?",
+        "o": [
+          "It is not big enough",
+          "It is too big",
+          "There is no audience",
+          "The audience is angry"
+        ],
+        "why": "İzleyici kitlesi büyüktür ama yeterince büyük değildir."
+      },
+      {
+        "q": "Which poster is Ms. Weaver's favorite?",
+        "o": [
+          "The one about teamwork",
+          "The one about success",
+          "The one about working hard",
+          "The one about dogs"
+        ],
+        "why": "Favori posteri takım çalışması hakkındadır."
+      },
+      {
+        "q": "What does Anna show her team at the end?",
+        "o": [
+          "A show about cats",
+          "A new office",
+          "A new chart",
+          "A picture of the boss"
+        ],
+        "why": "Anna sonunda kediler hakkında bir program yapar."
+      },
+      {
+        "q": "Who is Mindy?",
+        "o": [
+          "The person who gave the cats",
+          "Anna's boss",
+          "A new student",
+          "A cat"
+        ],
+        "why": "Mindy, Anna'ya kedileri sağlayan kişidir."
+      },
+      {
+        "q": "What does Anna think they need more of?",
+        "o": [
+          "Cats",
+          "Posters",
+          "Time",
+          "Money"
+        ],
+        "why": "Anna daha fazla kediye ihtiyaçları olduğunu düşünür."
+      }
+    ]
+  },
+  "writing": {
+    "prompt": "Arkadaşlarınızla yapmayı sevdiğiniz ve sevmediğiniz aktiviteleri yazın. 'like', 'love' ve 'hate' fiillerini -ing takısı ile kullanın.",
+    "prompt_en": "Write about the activities you like and hate doing with your friends. Use 'like', 'love' and 'hate' with the -ing form.",
+    "min": 30,
+    "max": 80,
+    "focus": "like / love / hate + -ing",
+    "model": "I have two close friends, Can and Elif. We love spending time in Kadıköy. We like drinking coffee and talking. Can and I love playing video games, but Elif hates playing them. She likes listening to music. At the weekend, we enjoy walking by the sea. We don't like staying at home because it is boring."
+  },
+  "speaking": {
+    "read": [
+      "I love meeting my friends at the weekend.",
+      "My brother hates washing his car.",
+      "Do you enjoy cooking for your family?"
+    ],
+    "ask": {
+      "q": "What do you like doing with your friends in your free time?",
+      "tr": "Boş zamanlarınızda arkadaşlarınızla neler yapmaktan hoşlanırsınız? En az iki cümleyle cevap verin.",
+      "min_words": 10
+    }
+  }
+}

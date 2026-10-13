@@ -1,0 +1,286 @@
+{
+  "level": "A1",
+  "day": 66,
+  "topic": "g14",
+  "theme": "Arkadaşlar",
+  "grammar": {
+    "questions": [
+      {
+        "q": "My friend Ahmet ____ play the guitar very well.",
+        "o": [
+          "can",
+          "cans",
+          "is can",
+          "can to"
+        ],
+        "why": "Can modal fiili her özne ile aynı kalır ve yalın fiil alır."
+      },
+      {
+        "q": "I ____ speak English, but I can't speak French.",
+        "o": [
+          "can",
+          "can't",
+          "am",
+          "could"
+        ],
+        "why": "Olumlu beceri ifadesi için 'can' kullanılır."
+      },
+      {
+        "q": "She ____ drive a car because she doesn't have a license.",
+        "o": [
+          "can't",
+          "can",
+          "is",
+          "don't"
+        ],
+        "why": "Yapılamayan eylemler için 'can't' kullanılır."
+      },
+      {
+        "q": "____ you help me with my homework, please?",
+        "o": [
+          "Can",
+          "Are",
+          "Do",
+          "Is"
+        ],
+        "why": "Rica cümlelerinde cümlenin başında 'Can' kullanılır."
+      },
+      {
+        "q": "He can ____ fast, but he can't swim.",
+        "o": [
+          "run",
+          "runs",
+          "running",
+          "to run"
+        ],
+        "why": "Can modal fiilinden sonra gelen fiil yalın hâlde olmalıdır."
+      },
+      {
+        "q": "We ____ come to your party tonight; we are very busy.",
+        "o": [
+          "can't",
+          "can",
+          "are",
+          "not"
+        ],
+        "why": "Geleceğe yönelik yetersizlik veya imkânsızlık 'can't' ile belirtilir."
+      },
+      {
+        "q": "Which sentence is correct?",
+        "o": [
+          "She can swim very fast.",
+          "She can swims very fast.",
+          "She can to swim very fast.",
+          "She is can swim very fast."
+        ],
+        "why": "'Can' sonrasındaki fiil ek almaz ve 'to' ile kullanılmaz."
+      },
+      {
+        "q": "Can your best friend speak German?",
+        "o": [
+          "Yes, he can.",
+          "Yes, he is.",
+          "Yes, he does.",
+          "Yes, he can't."
+        ],
+        "why": "Can ile sorulan sorulara kısa olumlu cevap 'Yes, [özne] can' şeklinde verilir."
+      },
+      {
+        "q": "They ____ play football, but they can play basketball.",
+        "o": [
+          "can't",
+          "can",
+          "don't",
+          "aren't"
+        ],
+        "why": "Cümlenin devamındaki tezatlık 'can't' gerektirir."
+      },
+      {
+        "q": "Can I ____ the window? It is very hot inside.",
+        "o": [
+          "open",
+          "opens",
+          "opening",
+          "to open"
+        ],
+        "why": "Can kalıbından sonra fiil yalın kullanılır."
+      }
+    ]
+  },
+  "reading": {
+    "title": "My Talented Friends",
+    "text": "I have two very good friends, Murat and Elif. We spend a lot of time together. Murat is very artistic. He can play the guitar and he can paint beautiful pictures. However, he can't swim at all. Elif is very energetic and sporty. She can run very fast and she can swim like a fish. But she can't play any musical instruments. I am different from them. I can cook amazing Turkish food for us. We can always help each other when we need something.",
+    "questions": [
+      {
+        "q": "What can Murat do?",
+        "o": [
+          "Play the guitar and paint",
+          "Swim very fast",
+          "Cook Turkish food",
+          "Run very fast"
+        ],
+        "why": "Murat'ın gitar çalıp resim yapabildiği metinde açıkça belirtilmiştir."
+      },
+      {
+        "q": "What is something Murat cannot do?",
+        "o": [
+          "Swim",
+          "Play the guitar",
+          "Paint",
+          "Help his friends"
+        ],
+        "why": "Murat'ın hiç yüzemediği ifade edilmiştir."
+      },
+      {
+        "q": "How is Elif described?",
+        "o": [
+          "Energetic and sporty",
+          "Artistic and quiet",
+          "A great cook",
+          "Very shy"
+        ],
+        "why": "Elif enerjik ve sportif olarak tanımlanmıştır."
+      },
+      {
+        "q": "What can Elif do very well?",
+        "o": [
+          "Run and swim",
+          "Play the guitar",
+          "Cook food",
+          "Paint pictures"
+        ],
+        "why": "Elif çok hızlı koşabilir ve iyi yüzebilir."
+      },
+      {
+        "q": "What can't Elif do?",
+        "o": [
+          "Play any musical instruments",
+          "Swim in the sea",
+          "Run fast",
+          "Help Murat"
+        ],
+        "why": "Elif müzik aleti çalamaz."
+      },
+      {
+        "q": "What is the writer's skill?",
+        "o": [
+          "Cooking amazing Turkish food",
+          "Playing the guitar",
+          "Running very fast",
+          "Painting pictures"
+        ],
+        "why": "Yazar lezzetli Türk yemekleri pişirebildiğini söyler."
+      },
+      {
+        "q": "What can the friends do together?",
+        "o": [
+          "Help each other",
+          "Teach music",
+          "Play in a team",
+          "Travel abroad"
+        ],
+        "why": "İhtiyaç duyduklarında birbirlerine her zaman yardım edebilirler."
+      }
+    ]
+  },
+  "listening": {
+    "video": {
+      "id": "rn7kmGroxKs",
+      "title": "Let's Learn English Lesson 28: I Passed It!",
+      "source": "VOA Learning English"
+    },
+    "intro": "Anna, yeni aldığı sürücü ehliyeti ve yaşadığı komik sınav deneyimi hakkında arkadaşı Marsha ile konuşuyor.",
+    "questions": [
+      {
+        "q": "What did Anna get?",
+        "o": [
+          "Her driver's license",
+          "A new car",
+          "A new job",
+          "A bicycle"
+        ],
+        "why": "Anna sürücü ehliyetini almıştır."
+      },
+      {
+        "q": "What can Anna drive really well?",
+        "o": [
+          "Farm equipment",
+          "A big truck",
+          "A sports car",
+          "A bus"
+        ],
+        "why": "Anna tarım araçlarını çok iyi kullanabildiğini söyler."
+      },
+      {
+        "q": "Did Anna pass her driving test the first time?",
+        "o": [
+          "No",
+          "Yes",
+          "She didn't try",
+          "Only the written test"
+        ],
+        "why": "İlk denemesinde geçemediğini açıkça söyler."
+      },
+      {
+        "q": "Why does Anna talk to herself when driving?",
+        "o": [
+          "She is a little nervous.",
+          "She is bored.",
+          "She is tired.",
+          "She is listening to music."
+        ],
+        "why": "Heyecanlı olduğunda kendi kendine konuştuğunu belirtir."
+      },
+      {
+        "q": "Why was the instructor John afraid during the test?",
+        "o": [
+          "Anna almost hit a car.",
+          "The engine stopped.",
+          "It was raining hard.",
+          "The car was too old."
+        ],
+        "why": "Anna neredeyse başka bir arabaya çarpacağı için korkmuştur."
+      },
+      {
+        "q": "Why were people honking at them?",
+        "o": [
+          "Anna was driving too slow.",
+          "The light was red.",
+          "Anna was speeding.",
+          "The car was broken."
+        ],
+        "why": "Çok yavaş sürdüğü için arkadakiler korna çalmıştır."
+      },
+      {
+        "q": "What can't you do at the White House according to Marsha?",
+        "o": [
+          "Drive up to it",
+          "Walk near it",
+          "Take photos",
+          "Talk to police"
+        ],
+        "why": "Beyaz Saray'a arabayla yanaşılamayacağını söyler."
+      }
+    ]
+  },
+  "writing": {
+    "prompt": "En yakın arkadaşınızı ve onun yeteneklerini anlatan kısa bir yazı yazın. Neleri yapabilir, neleri yapamaz? 'can' ve 'can't' yapılarını kullanın.",
+    "prompt_en": "Write a short text about your best friend and their talents. What can they do, and what can't they do? Use 'can' and 'can't'.",
+    "min": 25,
+    "max": 70,
+    "focus": "can / can't",
+    "model": "My best friend is Caner. He is thirty years old. He is very smart and talented. He can speak English and German fluently. He can also play basketball very well. But he can't swim and he can't cook. I like spending time with him."
+  },
+  "speaking": {
+    "read": [
+      "My best friend can play the piano very well.",
+      "I can drive a car, but I can't ride a motorcycle.",
+      "Can you help me with this heavy box?"
+    ],
+    "ask": {
+      "q": "What can your best friend do, and what can't they do?",
+      "tr": "En yakın arkadaşınız ne yapabilir ve ne yapamaz? En az iki cümleyle anlatın.",
+      "min_words": 8
+    }
+  }
+}

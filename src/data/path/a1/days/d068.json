@@ -1,0 +1,286 @@
+{
+  "level": "A1",
+  "day": 68,
+  "topic": "g14",
+  "theme": "Kitaplar",
+  "grammar": {
+    "questions": [
+      {
+        "q": "I ____ read 100 pages of this book in one hour.",
+        "o": [
+          "can",
+          "cans",
+          "am can",
+          "can to"
+        ],
+        "why": "can Modal fiilinden sonra fiilin yalın hâli gelir, -s takısı almaz."
+      },
+      {
+        "q": "____ you lend me that book for a week?",
+        "o": [
+          "Can",
+          "Are",
+          "Do",
+          "Is"
+        ],
+        "why": "Rica bildirmek için Can kullanılır."
+      },
+      {
+        "q": "My brother ____ read English books without a dictionary.",
+        "o": [
+          "can",
+          "can reads",
+          "is can",
+          "cans"
+        ],
+        "why": "Yetenek bildirmek için tüm öznelerde can kullanılır ve ana fiil yalın kalır."
+      },
+      {
+        "q": "She ____ find her library card, so she can't borrow books.",
+        "o": [
+          "can't",
+          "can",
+          "isn't",
+          "doesn't"
+        ],
+        "why": "Cümlenin devamındaki olumsuzluk nedeniyle can't (bulamıyor) uygun seçenektir."
+      },
+      {
+        "q": "____ I read your magazine for a moment?",
+        "o": [
+          "Can",
+          "Do",
+          "Am",
+          "Is"
+        ],
+        "why": "İzin istemek için Can I ...? yapısı kullanılır."
+      },
+      {
+        "q": "Which sentence is correct?",
+        "o": [
+          "He can read very fast.",
+          "He cans read very fast.",
+          "He can reads very fast.",
+          "He can to read very fast."
+        ],
+        "why": "can her zaman yalın fiille kullanılır (-s almaz)."
+      },
+      {
+        "q": "There ____ two new novels on my desk.",
+        "o": [
+          "are",
+          "is",
+          "am",
+          "can"
+        ],
+        "why": "Çoğul isimler için 'there are' kullanılır."
+      },
+      {
+        "q": "____ she like reading historical books?",
+        "o": [
+          "Does",
+          "Is",
+          "Can",
+          "Do"
+        ],
+        "why": "Geniş zamanda he/she/it için soru 'Does' ile sorulur."
+      },
+      {
+        "q": "The library ____ open on Sundays.",
+        "o": [
+          "isn't",
+          "doesn't",
+          "aren't",
+          "can't"
+        ],
+        "why": "Library = it olduğu için ve sıfat/durum bildirdiği için 'isn't' kullanılır."
+      },
+      {
+        "q": "Where ____ you usually buy your books?",
+        "o": [
+          "do",
+          "are",
+          "can",
+          "is"
+        ],
+        "why": "Alışkanlık sorarken geniş zaman yardımcı fiili 'do' kullanılır."
+      }
+    ]
+  },
+  "reading": {
+    "title": "My Reading Habits",
+    "text": "My name is Selin and I love books. I can read everywhere, on the bus, at home, or in the park. I usually read fiction books because they are interesting. I can't read very fast, but I finish two books every month. My local library is very near my house. It is open every day except Sunday. I can borrow three books at a time from there. Reading helps me relax after a long day at work.",
+    "questions": [
+      {
+        "q": "What kind of books does Selin usually read?",
+        "o": [
+          "Fiction books",
+          "History books",
+          "Dictionaries",
+          "Magazines"
+        ],
+        "why": "Metinde 'I usually read fiction books...' ifadesi geçer."
+      },
+      {
+        "q": "How many books does she finish in a month?",
+        "o": [
+          "Two books",
+          "Three books",
+          "One book",
+          "Four books"
+        ],
+        "why": "Metinde 'I finish two books every month' yazmaktadır."
+      },
+      {
+        "q": "Where can Selin read books?",
+        "o": [
+          "Everywhere",
+          "Only at home",
+          "Only in the library",
+          "Only on the bus"
+        ],
+        "why": "Metinde her yerde okuyabildiği belirtilmiştir."
+      },
+      {
+        "q": "How fast can she read?",
+        "o": [
+          "Not very fast",
+          "Extremely fast",
+          "She cannot read at all",
+          "Very fast"
+        ],
+        "why": "Çok hızlı okuyamadığını belirtiyor."
+      },
+      {
+        "q": "When is the library closed?",
+        "o": [
+          "On Sunday",
+          "On Monday",
+          "Every day",
+          "On Saturday"
+        ],
+        "why": "Pazar günleri hariç açık olduğunu söylüyor."
+      },
+      {
+        "q": "How many books can she borrow at once?",
+        "o": [
+          "Three books",
+          "Two books",
+          "One book",
+          "Five books"
+        ],
+        "why": "Bir seferde üç kitap ödünç alabildiğini yazmaktadır."
+      },
+      {
+        "q": "Why does she read books?",
+        "o": [
+          "To relax after work",
+          "To learn history",
+          "To sleep quickly",
+          "To pass an exam"
+        ],
+        "why": "İşten sonra rahatlamasına yardımcı olduğunu ifade eder."
+      }
+    ]
+  },
+  "listening": {
+    "video": {
+      "id": "_demyJmMyCo",
+      "title": "Let's Learn English Lesson 29: A Long Time Ago",
+      "source": "VOA Learning English"
+    },
+    "intro": "Anna ve Marsha dışarıda çalışırken çocukluk hayallerinden ve okuma alışkanlıklarından bahsediyorlar.",
+    "questions": [
+      {
+        "q": "What did Anna love to do as a little girl?",
+        "o": [
+          "Read serious books about U.S. presidents",
+          "Play silly games",
+          "Play on the swings",
+          "Play with dart guns"
+        ],
+        "why": "Anna çocukken ABD başkanları hakkında ciddi kitaplar okumayı sevdiğini söyler."
+      },
+      {
+        "q": "What did Anna want to be when she was young?",
+        "o": [
+          "President of the United States",
+          "An astronaut",
+          "A teacher",
+          "An actor"
+        ],
+        "why": "Anna büyüyünce ABD Başkanı olmak istediğini belirtir."
+      },
+      {
+        "q": "What was Marsha's childhood dream?",
+        "o": [
+          "To be an astronaut",
+          "To be President",
+          "To be a writer",
+          "To be a pilot"
+        ],
+        "why": "Marsha çocukken astronot olmak istediğini söyler."
+      },
+      {
+        "q": "What did Marsha study when she was a kid?",
+        "o": [
+          "Stars and planets",
+          "U.S. history",
+          "Serious books",
+          "Silly games"
+        ],
+        "why": "Marsha çocukken yıldızları ve gezegenleri incelediğini söyler."
+      },
+      {
+        "q": "Where are they going tonight?",
+        "o": [
+          "Ford’s Theatre",
+          "Air & Space Museum",
+          "A park",
+          "The playground"
+        ],
+        "why": "Anna bu gece Ford's Theatre'a gideceklerini söyler."
+      },
+      {
+        "q": "When will they go to the Air & Space Museum?",
+        "o": [
+          "Next week",
+          "Tonight",
+          "Tomorrow",
+          "Next month"
+        ],
+        "why": "Anna gelecek hafta oraya gideceklerini söyler."
+      },
+      {
+        "q": "How does Anna describe herself as a child?",
+        "o": [
+          "A tall, serious child",
+          "A funny child",
+          "A quiet girl",
+          "A silly child"
+        ],
+        "why": "Anna kendini uzun boylu ve ciddi bir çocuk olarak tanımlar."
+      }
+    ]
+  },
+  "writing": {
+    "prompt": "Kitap okuma alışkanlıklarınızı ve neler yapabildiğinizi yazın: Ne tür kitaplar okursunuz, nerede okursunuz, ne kadar hızlı okuyabilirsiniz? 'can' ve 'can't' yapılarını kullanın.",
+    "prompt_en": "Write about your reading habits and abilities: What kinds of books do you read, where do you read, and how fast can you read? Use 'can' and 'can't'.",
+    "min": 30,
+    "max": 80,
+    "focus": "can / can't",
+    "model": "I like reading novels and history books. I can read at home in the evenings. I can finish a book in one week, but I can't read fast on the bus. My friend can read two books every week. I can borrow books from the library near my house."
+  },
+  "speaking": {
+    "read": [
+      "I can read English books with a dictionary.",
+      "She can't read on the bus because it is noisy.",
+      "Can I borrow your book for two days?"
+    ],
+    "ask": {
+      "q": "What kind of books can you read, and where do you usually read them?",
+      "tr": "Hangi tür kitapları okuyabilirsiniz ve genellikle nerede okursunuz? En az üç cümle ile yanıtlayın.",
+      "min_words": 12
+    }
+  }
+}

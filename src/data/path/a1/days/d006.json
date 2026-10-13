@@ -1,0 +1,286 @@
+{
+  "level": "A1",
+  "day": 6,
+  "topic": "g02",
+  "theme": "Arkadaşlar",
+  "grammar": {
+    "questions": [
+      {
+        "q": "They ____ at the cafe today.",
+        "o": [
+          "aren't",
+          "isn't",
+          "am not",
+          "not are"
+        ],
+        "why": "They öznesi ile olumsuz cümlede 'aren't' (are not) kullanılır."
+      },
+      {
+        "q": "____ your best friend a teacher?",
+        "o": [
+          "Is",
+          "Are",
+          "Am",
+          "Be"
+        ],
+        "why": "Your best friend tekil bir kişidir (he/she); soru cümlesinde başa 'Is' gelir."
+      },
+      {
+        "q": "I ____ tired, but I am hungry.",
+        "o": [
+          "am not",
+          "aren't",
+          "isn't",
+          "not am"
+        ],
+        "why": "I öznesi ile olumsuz yaparken 'am not' kullanılır."
+      },
+      {
+        "q": "____ you ready to go out?",
+        "o": [
+          "Are",
+          "Is",
+          "Am",
+          "Do"
+        ],
+        "why": "You öznesi ile 'to be' soru cümlesi 'Are' ile başlar."
+      },
+      {
+        "q": "Ahmet and Murat ____ at home right now.",
+        "o": [
+          "aren't",
+          "isn't",
+          "am not",
+          "not be"
+        ],
+        "why": "İki kişi çoğuldur (they); olumsuz biçimi 'aren't' olur."
+      },
+      {
+        "q": "Is your sister at university? — No, she ____.",
+        "o": [
+          "isn't",
+          "aren't",
+          "am not",
+          "is"
+        ],
+        "why": "She için olumsuz kısa cevap 'No, she isn't' şeklindedir."
+      },
+      {
+        "q": "Choose the correct question.",
+        "o": [
+          "Are they your friends?",
+          "They are your friends?",
+          "Is they your friends?",
+          "Are your friends they?"
+        ],
+        "why": "İngilizce soru cümlelerinde fiil özneden önce gelir: 'Are they...'."
+      },
+      {
+        "q": "This bag ____ heavy; it is very light.",
+        "o": [
+          "isn't",
+          "aren't",
+          "am not",
+          "not is"
+        ],
+        "why": "This bag tekil bir nesnedir (it); olumsuzu 'isn't' olur."
+      },
+      {
+        "q": "____ we late for the meeting?",
+        "o": [
+          "Are",
+          "Is",
+          "Am",
+          "Do"
+        ],
+        "why": "We öznesi ile soru sorarken cümlenin başına 'Are' gelir."
+      },
+      {
+        "q": "Which sentence is correct?",
+        "o": [
+          "He is not from Ankara.",
+          "He not is from Ankara.",
+          "He are not from Ankara.",
+          "He isn't from Ankara not."
+        ],
+        "why": "Olumsuzluk eki 'not', 'is' yardımcı fiilinden hemen sonra gelir."
+      }
+    ]
+  },
+  "reading": {
+    "title": "Two Friends in İzmir",
+    "text": "Burak and Cem are close friends from university. They are in İzmir now. Burak is an office worker, but Cem is not in an office; he is a tourist guide. Today is Saturday, so they are not busy. The weather is not cold today; it is warm and sunny. Are they at home? No, they aren't. They are at a seaside cafe with some friends. The cafe is not quiet, but they are very happy together.",
+    "questions": [
+      {
+        "q": "What is the main idea of the text?",
+        "o": [
+          "Two friends spend a pleasant weekend together.",
+          "Burak wants to change his job.",
+          "İzmir is too crowded on weekends.",
+          "Cem is looking for a new apartment."
+        ],
+        "why": "Metin genel olarak iki yakın arkadaşın İzmir'de hafta sonunu keyifle geçirmesini anlatır."
+      },
+      {
+        "q": "What is Cem's job?",
+        "o": [
+          "A tourist guide",
+          "An office worker",
+          "A teacher",
+          "A waiter"
+        ],
+        "why": "Metinde Cem'in turist rehberi olduğu açıkça belirtilmiştir."
+      },
+      {
+        "q": "Why are the friends free today?",
+        "o": [
+          "Because it is Saturday.",
+          "Because they don't have jobs.",
+          "Because the office is closed for holidays.",
+          "Because it is very cold."
+        ],
+        "why": "Bugün cumartesi olduğu için meşgul değillerdir."
+      },
+      {
+        "q": "What is the weather like?",
+        "o": [
+          "Warm and sunny",
+          "Cold and rainy",
+          "Very windy",
+          "Dark and cloudy"
+        ],
+        "why": "Havanın soğuk olmadığı, ılık ve güneşli olduğu yazılmıştır."
+      },
+      {
+        "q": "Where are Burak and Cem now?",
+        "o": [
+          "At a seaside cafe",
+          "At home",
+          "In their office",
+          "At the university"
+        ],
+        "why": "Arkadaşlarıyla deniz kenarındaki bir kafede oldukları belirtilmiştir."
+      },
+      {
+        "q": "What can we infer about the cafe?",
+        "o": [
+          "It has lots of people and noise.",
+          "It is closed on Saturdays.",
+          "It is very small and empty.",
+          "The drinks are very cheap."
+        ],
+        "why": "Kafenin sessiz olmaması (not quiet) içeride insan ve gürültü olduğunu gösterir."
+      },
+      {
+        "q": "What does 'quiet' mean in the text?",
+        "o": [
+          "Sessiz",
+          "Pahalı",
+          "Kalabalık",
+          "Uzak"
+        ],
+        "why": "'Quiet' kelimesi metin bağlamında sakin, gürültüsüz veya sessiz anlamına gelir."
+      }
+    ]
+  },
+  "listening": {
+    "video": {
+      "id": "Z5PF-vJdUdc",
+      "title": "Let's Learn English Lesson 4: What is it?",
+      "source": "VOA Learning English"
+    },
+    "intro": "Anna, Pete ve Marsha buluşuyor ve Anna çantasında kahve için bir kalem arıyor.",
+    "questions": [
+      {
+        "q": "Who is with Anna and Pete?",
+        "o": [
+          "Marsha",
+          "Ashley",
+          "Jonathan",
+          "Lucía"
+        ],
+        "why": "Pete, Anna ve Marsha'ya selam verir."
+      },
+      {
+        "q": "How is Marsha feeling?",
+        "o": [
+          "Great",
+          "Tired",
+          "Bored",
+          "Busy"
+        ],
+        "why": "Pete nasıl olduklarını sorduğunda Marsha harika olduğunu söyler."
+      },
+      {
+        "q": "What does Anna say about the city of D.C.?",
+        "o": [
+          "The city is big.",
+          "The city is small.",
+          "The city is quiet.",
+          "The city is cold."
+        ],
+        "why": "Anna şehre yeni olduğunu ve şehrin büyük olduğunu söyler."
+      },
+      {
+        "q": "What is Anna looking for in her bag?",
+        "o": [
+          "A pen",
+          "A book",
+          "A map",
+          "A lamp"
+        ],
+        "why": "Marsha kalem sorar, Anna da çantasında kalem olduğunu belirtir."
+      },
+      {
+        "q": "What is the first big item Pete pulls out or sees?",
+        "o": [
+          "A big book",
+          "A toy",
+          "A pillow",
+          "A lamp"
+        ],
+        "why": "Pete çantadaki ilk nesnenin kalem değil, büyük bir kitap olduğunu belirtir."
+      },
+      {
+        "q": "Which object belongs to the world?",
+        "o": [
+          "A map",
+          "A book",
+          "A pillow",
+          "A lamp"
+        ],
+        "why": "Pete, Anna'ya neden bir dünya haritası taşıdığını sorar."
+      },
+      {
+        "q": "What do they plan to do at the end?",
+        "o": [
+          "Get coffee",
+          "Go to sleep",
+          "Read books",
+          "Buy a pen"
+        ],
+        "why": "Anna kalemi bulunca kahve almaya gidelim der."
+      }
+    ]
+  },
+  "writing": {
+    "prompt": "Bir arkadaşınızı tanıtın. O kimdir, nerelidir ve ne iş yapar? Cümlelerinizde en az iki olumsuz cümle ('isn't' / 'aren't') ve bir soru cümlesi kullanın.",
+    "prompt_en": "Introduce a friend. Who are they, where are they from, and what is their job? Include at least two negative sentences ('isn't' / 'aren't') and one question.",
+    "min": 25,
+    "max": 65,
+    "focus": "to be: negatives and questions",
+    "model": "This is my friend, Kerem. He is 28 years old. Is he from İstanbul? No, he isn't; he is from Bursa. Kerem is not a doctor; he is a designer. We aren't in the same office, but we are great friends."
+  },
+  "speaking": {
+    "read": [
+      "They aren't at the office today.",
+      "Are you ready for coffee with friends?",
+      "My best friend isn't from Ankara; she is from İzmir."
+    ],
+    "ask": {
+      "q": "Is your friend a student, and are you together today?",
+      "tr": "Arkadaşınız öğrenci mi ve bugün birlikte misiniz? 'To be' yapısını kullanarak en az iki cümleyle cevap verin.",
+      "min_words": 8
+    }
+  }
+}
