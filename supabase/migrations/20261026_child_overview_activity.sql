@@ -1,4 +1,5 @@
 -- Languago 2.0: the parent panel also shows the last 8 weeks of activity,
+-- Applied to production on 2026-10-14 (SQL editor, approved by the owner).
 -- homework with scores and the number of open mistakes. Same function as in
 -- 20261017_parents (linked parents only), with four more fields.
 
