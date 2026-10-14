@@ -1,4 +1,5 @@
 -- Languago 2.0: the lesson-report helper turns a teacher's notes into a
+-- Applied to production on 2026-10-14 (SQL editor, approved by the owner).
 -- report with AI. Notes are about a student, so (as /kvkk promises) the AI is
 -- used only when that student has given AI consent. Teachers cannot read the
 -- consents table; this answers yes/no for a student they teach.
