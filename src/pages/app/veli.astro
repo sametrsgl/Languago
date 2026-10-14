@@ -7,6 +7,9 @@ import '../../styles/mission.css';
 import { loadAppSession } from '../../lib/app-session';
 import { createSupabaseClient, pageCookieSource } from '../../lib/supabase';
 import { DAYS_PER_LEVEL, TASK_LABELS } from '../../lib/path.mjs';
+import { KID_NAMES } from '../../lib/kids-test';
+import WeeklyBars from '../../components/WeeklyBars.astro';
+import { lastWeeks, countByWeek } from '../../lib/weekly-activity';
 
 export const prerender = false;
 const loaded = await loadAppSession(Astro);
@@ -18,11 +21,17 @@ type Child = { id: string; name: string; o: any };
 let children: Child[] = [];
 if (session.demo) {
   children = [{ id: 'c1', name: 'Arda', o: {
-    test: { kidLevel: 'A1', kidName: 'Movers', level: 'A1', skills: { words: { level: 'A1' }, grammar: { level: 'Pre-A1' }, reading: { level: 'A1' }, listening: { level: 'A1' } } },
+    test: { kidLevel: 'A1', level: 'A1', skills: { words: { level: 'A1' }, grammar: { level: 'Pre-A1' }, reading: { level: 'A1' }, listening: { level: 'A1' } } },
     path: { mission_level: 'A1', mission_day: 23, mission_xp: 2410, vocab_level: 'A1', vocab_streak: 5, last_vocab_on: new Date().toISOString().slice(0, 10) },
     recent: [{ day: 23, task: 'grammar', best_score: 90, passed: true, updated_at: new Date().toISOString() }, { day: 23, task: 'reading', best_score: 86, passed: true, updated_at: new Date().toISOString() }],
     lessons: [{ starts_at: new Date(Date.now() - 2 * 86_400_000).toISOString(), status: 'confirmed', attendance: 'present', report: 'Hayvanlar ve “can / can’t” çalıştık. Çok istekliydi. Ödev: 5 cümle.' }],
     exams: [],
+    demoWeeks: { tasks: [8, 10, 12, 9, 15, 14, 18, 7], words: [26, 39, 52, 39, 65, 52, 78, 26], learned: [0, 1, 1, 2, 3, 2, 4, 1] },
+    openNotes: 6,
+    homework: [
+      { title: 'Animals: can and can’t', due_on: null, created_at: new Date(Date.now() - 3 * 86_400_000).toISOString(), score: 83, submitted_at: new Date(Date.now() - 2 * 86_400_000).toISOString() },
+      { title: 'My Family', due_on: null, created_at: new Date().toISOString(), score: null, submitted_at: null },
+    ],
   } }];
 } else {
   const sb = createSupabaseClient(pageCookieSource(Astro));
@@ -35,6 +44,12 @@ if (session.demo) {
 const date = (s: string) => new Date(s).toLocaleDateString('tr-TR', { day: 'numeric', month: 'short', timeZone: 'Europe/Istanbul' });
 const ATT: Record<string, string> = { present: 'Katıldı', late: 'Geç katıldı', absent: 'Katılmadı' };
 const today = new Date(Date.now() + 3 * 3600_000).toISOString().slice(0, 10);
+const weeks = lastWeeks(8);
+const weekly = (o: any) => o.demoWeeks || {
+  tasks: countByWeek(weeks, o.activity?.tasks || []),
+  words: countByWeek(weeks, o.activity?.words || []),
+  learned: countByWeek(weeks, o.activity?.learned || []),
+};
 ---
 
 <AppShell session={session} title="Çocuklarım — Languago" current="/app/veli">
@@ -63,7 +78,7 @@ const today = new Date(Date.now() + 3 * 3600_000).toISOString().slice(0, 10);
         <div class="grid">
           <div class="col-4" style="display:grid;gap:8px">
             <h3 style="font-size:16px">Seviye testi</h3>
-            {t ? <p><b style="font-size:22px">{t.kidLevel ? `${t.kidLevel} · ${t.kidName}` : t.level}</b></p> : <p class="muted">Henüz seviye testine girmedi. <a href={t?.kidLevel ? '/seviye-testi/cocuk' : '/seviye-testi/cocuk'} style="color:#5eead4">Çocuklar için seviye testi →</a></p>}
+            {t ? <p><b style="font-size:22px">{t.kidLevel ? `${t.kidLevel} · ${KID_NAMES[t.kidLevel] || ''}` : t.level}</b></p> : <p class="muted">Henüz seviye testine girmedi. <a href={t?.kidLevel ? '/seviye-testi/cocuk' : '/seviye-testi/cocuk'} style="color:#5eead4">Çocuklar için seviye testi →</a></p>}
           </div>
           <div class="col-8" style="display:grid;gap:8px">
             <h3 style="font-size:16px">Bugün</h3>
@@ -71,6 +86,17 @@ const today = new Date(Date.now() + 3 * 3600_000).toISOString().slice(0, 10);
             {(c.o.recent || []).length > 0 && <div class="chips">{c.o.recent.slice(0, 6).map((r: any) => <span class="chip-x" style="padding-right:12px">{TASK_LABELS[r.task]} · {r.best_score}</span>)}</div>}
           </div>
         </div>
+        <h3 style="font-size:16px">Son 8 hafta</h3>
+        <div class="vp-grid">
+          <WeeklyBars title="Tamamlanan görev" unit="görev" weeks={weeks} values={weekly(c.o).tasks} />
+          <WeeklyBars title="Yeni kelime" unit="kelime" weeks={weeks} values={weekly(c.o).words} />
+          <WeeklyBars title="Öğrenilen hata" unit="hata" weeks={weeks} values={weekly(c.o).learned} />
+        </div>
+        {(c.o.openNotes || 0) > 0 && <p class="muted" style="font-size:14px">Hata defterinde tekrar edilecek {c.o.openNotes} hata var; uygulamada kısa tekrarlarla çalışıyor.</p>}
+        <h3 style="font-size:16px">Ödevler</h3>
+        {(c.o.homework || []).length ? <div class="agenda">{c.o.homework.map((h: any) => (
+          <div class="lesson" style="grid-template-columns:84px minmax(0,1fr) auto"><time>{date(h.created_at)}</time><b>{h.title}</b>{h.submitted_at ? <span class="badge confirmed">{h.score} puan</span> : <span class="badge requested">{h.due_on && h.due_on < today ? 'Süresi geçti' : 'Bekliyor'}</span>}</div>
+        ))}</div> : <p class="muted">Henüz ödev verilmedi.</p>}
         <h3 style="font-size:16px">Dersler ve öğretmen raporları</h3>
         {(c.o.lessons || []).length ? <div class="agenda">{c.o.lessons.map((l: any) => (
           <div class="lesson" style="grid-template-columns:84px minmax(0,1fr)"><time>{date(l.starts_at)}</time><div><div class="meta"><span class={`badge ${l.status === 'confirmed' ? 'confirmed' : 'cancelled'}`}>{l.status === 'confirmed' ? (Date.parse(l.starts_at) > Date.now() ? 'Planlandı' : ATT[l.attendance] || 'Yapıldı') : 'İptal'}</span></div>{l.report && <p style="margin-top:6px">📝 {l.report}</p>}</div></div>
@@ -96,3 +122,8 @@ const today = new Date(Date.now() + 3 * 3600_000).toISOString().slice(0, 10);
     });
   </script>
 </AppShell>
+
+<style>
+  .vp-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 22px 28px; }
+  @media (max-width: 720px) { .vp-grid { grid-template-columns: 1fr; } }
+</style>
